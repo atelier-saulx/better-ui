@@ -1,0 +1,8 @@
+/* TODO come up with a sytem and use current colors from theme */
+
+:root {
+  --content-primary: #000000;
+  --interactive-primary: #000000;
+  --interactive-accent: #a338a3;
+  --background-screen: #ffffff;
+}

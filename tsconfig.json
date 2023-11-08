@@ -1,0 +1,12 @@
+{
+  "exclude": ["**/*.stories.tsx"],
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node"
+  }
+}
