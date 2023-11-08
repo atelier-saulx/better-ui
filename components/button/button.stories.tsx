@@ -10,8 +10,9 @@ export default meta;
 
 export const Default: StoryObj<typeof Button> = {
   args: {
-    children: "Hello wolrd",
+    children: "Click me",
     type: "primary",
+    size: "medium",
     onClick: () => {
       alert("hello");
     },

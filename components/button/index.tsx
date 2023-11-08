@@ -3,27 +3,78 @@ import { styled } from "inlines";
 
 export type ButtonProps = {
   children: React.ReactNode;
-  type?: "primary" | "secondary" | "tertiary" | "error";
+  type?: "primary" | "secondary" | "error";
+  size?: "large" | "medium" | "small";
+  buttonType?: "button" | "submit";
   onClick?: () => void;
 };
 
-export function Button({ children, onClick, type = "primary" }: ButtonProps) {
-  return (
-    <styled.button
-      type="button"
-      style={{
-        color: "var(--interactive-primary)",
-        background: "var(--interactive-accent)",
-        border: 0,
-        borderRadius: 4,
-        padding: "6px 12px",
-        "&:hover": {
-          padding: "24px 24px",
-        },
-      }}
-      onClick={onClick}
-    >
-      {children}({type})
-    </styled.button>
-  );
-}
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      children,
+      onClick,
+      type = "primary",
+      size = "medium",
+      buttonType = "button",
+    },
+    ref
+  ) => {
+    return (
+      <styled.button
+        ref={ref}
+        type={buttonType}
+        style={{
+          borderRadius: "var(--radius-small)",
+          fontWeight: 600,
+          cursor: "pointer",
+          ...(size === "large" && {
+            padding: "10px 16px",
+            fontSize: 16,
+            lineHeight: "28px",
+          }),
+          ...(size === "medium" && {
+            padding: "6px 16px",
+            fontSize: 16,
+            lineHeight: "28px",
+          }),
+          ...(size === "small" && {
+            padding: "4px 12px",
+            fontSize: 14,
+            lineHeight: "24px",
+          }),
+          ...(type === "primary" && {
+            color: "var(--content-inverted)",
+            background: "var(--interactive-primary)",
+            border: "1px solid var(--interactive-primary)",
+            "&:hover": {
+              background: "var(--interactive-primary-hover)",
+              border: "1px solid var(--interactive-primary-hover)",
+            },
+          }),
+          ...(type === "secondary" && {
+            color: "var(--content-primary)",
+            background: "transparent",
+            border: "1px solid var(--interactive-secondary)",
+            "&:hover": {
+              background: "var(--background-neutral)",
+              border: "1px solid var(--interactive-secondary-hover)",
+            },
+          }),
+          ...(type === "error" && {
+            color: "var(--content-inverted)",
+            background: "var(--sentiment-negative)",
+            border: "1px solid var(--sentiment-negative)",
+            "&:hover": {
+              background: "var(--sentiment-negative-hover)",
+              border: "1px solid var(--sentiment-negative-hover)",
+            },
+          }),
+        }}
+        onClick={onClick}
+      >
+        {children}
+      </styled.button>
+    );
+  }
+);

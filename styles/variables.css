@@ -1,8 +1,23 @@
-/* TODO come up with a sytem and use current colors from theme */
-
 :root {
+  /* content colors */
   --content-primary: #000000;
-  --interactive-primary: #000000;
-  --interactive-accent: #a338a3;
+  --content-inverted: #ffffff;
+  --content-secondary: #7e8b99;
+
+  /* background colors */
+  --background-neutral: #002b5e0d;
   --background-screen: #ffffff;
+
+  /* interactive colors */
+  --interactive-primary: #634eca;
+  --interactive-primary-hover: #4e38bc;
+  --interactive-secondary: #04294421;
+  --interactive-secondary-hover: #10305433;
+
+  /* one-off sentiment colors */
+  --sentiment-negative: #c53434;
+  --sentiment-negative-hover: #952d2d;
+
+  /* radiuses */
+  --radius-small: 8px;
 }
