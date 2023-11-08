@@ -5,7 +5,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
 import json from "@rollup/plugin-json";
-import autoprefixer from "autoprefixer";
+import postcssPresetEnv from "postcss-preset-env";
 import dts from "rollup-plugin-dts";
 
 const commonPlugins = [
@@ -16,9 +16,10 @@ const commonPlugins = [
   }),
   commonjs(),
   postcss({
+    inject: false,
     minimize: true,
     extract: "index.css",
-    plugins: [autoprefixer()],
+    plugins: [postcssPresetEnv()],
   }),
   json(),
 ];
