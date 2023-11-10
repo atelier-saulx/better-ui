@@ -111,7 +111,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       position: "relative",
                       outline: "none",
                       userSelect: "none",
-                      "&:hover": {
+                      "&[data-highlighted]": {
                         background: "var(--background-neutral)",
                       },
                     }}
