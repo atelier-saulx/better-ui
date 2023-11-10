@@ -2,6 +2,7 @@ import * as React from "react";
 import { Modal } from "./";
 import { Button } from "../button";
 import { TextInput } from "../text-input";
+import { SelectInput } from "../select-input";
 import { styled } from "inlines";
 
 const meta = {
@@ -30,18 +31,14 @@ export const Default = () => {
                   },
                 }}
               >
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
-                <TextInput label="Enter data" />
+                <TextInput label="Name" />
+                <SelectInput
+                  label="Language"
+                  options={[
+                    { label: "English", value: "english", prefix: "🇺🇸" },
+                    { label: "Hungarian", value: "hungarian", prefix: "🇭🇺" },
+                  ]}
+                />
               </styled.div>
             </Modal.Body>
             <Modal.Actions>

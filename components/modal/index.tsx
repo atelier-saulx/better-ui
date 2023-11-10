@@ -82,6 +82,8 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             borderRadius: "var(--radius-small)",
             display: "flex",
             flexDirection: "column",
+            boxShadow: "var(--shadow-elevation)",
+            outline: "none",
           }}
         >
           {typeof children === "function"

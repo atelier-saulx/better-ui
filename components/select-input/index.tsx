@@ -64,6 +64,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 borderRadius: "var(--radius-small)",
                 border: "1px solid var(--interactive-secondary)",
                 color: "var(--content-primary)",
+                "&:before": {
+                  content: '""',
+                  display: "inline-block",
+                },
                 "&:hover": {
                   border: "1px solid var(--interactive-secondary-hover)",
                 },
