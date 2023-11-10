@@ -7,6 +7,7 @@
     "build": "rimraf dist && rollup -c"
   },
   "dependencies": {
+    "@radix-ui/react-select": "^2.0.0",
     "inlines": "^0.2.2"
   },
   "peerDependencies": {

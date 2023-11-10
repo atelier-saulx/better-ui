@@ -20,4 +20,8 @@
 
   /* radiuses */
   --radius-small: 8px;
+
+  /* shadows */
+  --shadow-elevation: 0px 2px 8px -1px rgba(27, 36, 44, 0.08),
+    0px 2px 2px -1px rgba(27, 36, 44, 0.04);
 }

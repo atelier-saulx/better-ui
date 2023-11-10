@@ -7,6 +7,7 @@ import "../styles/fonts.css";
 const preview: Preview = {
   parameters: {
     controls: { expanded: true },
+    layout: "centered",
   },
 };
 
