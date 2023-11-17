@@ -120,9 +120,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       },
                     }}
                   >
-                    <SelectBase.ItemIndicator
-                      style={{ position: "absolute", top: 0, left: 0 }}
-                    >
+                    <SelectBase.ItemIndicator>
                       <CheckSmall
                         style={{
                           position: "absolute",

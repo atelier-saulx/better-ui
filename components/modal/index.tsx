@@ -35,9 +35,9 @@ export function Root({ children, defaultOpen = false }: ModalRootProps) {
 
 export type ModalTriggerProps = { children: React.ReactNode };
 
-export function Trigger({ children, ...props }: ModalTriggerProps) {
+export function Trigger({ children }: ModalTriggerProps) {
   return (
-    <ModalBase.Trigger asChild {...props}>
+    <ModalBase.Trigger asChild>
       <div>{children}</div>
     </ModalBase.Trigger>
   );
