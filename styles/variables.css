@@ -20,6 +20,7 @@
   --sentiment-negative-hover: #952d2d;
 
   /* radiuses */
+  --radius-tiny: 4px;
   --radius-small: 8px;
 
   /* shadows */

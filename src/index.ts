@@ -6,6 +6,7 @@ export * from "../components/button";
 export * from "../components/text-input";
 export * from "../components/select-input";
 export * from "../components/icons";
-export { Modal } from "../components/modal";
+export * from "../components/tooltip";
 export * from "../components/icon-button";
+export { Modal } from "../components/modal";
 export { Dropdown } from "../components/dropdown";
