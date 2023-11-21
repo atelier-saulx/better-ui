@@ -3,7 +3,7 @@ import { Button } from "../button";
 import { Tooltip } from "./";
 
 const meta = {
-  title: "Component/Tooltip",
+  title: "Foundation/Tooltip",
 };
 export default meta;
 

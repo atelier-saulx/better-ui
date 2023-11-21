@@ -8,5 +8,6 @@ export * from "../components/select-input";
 export * from "../components/icons";
 export * from "../components/tooltip";
 export * from "../components/icon-button";
+export * from "../components/form";
 export { Modal } from "../components/modal";
 export { Dropdown } from "../components/dropdown";
