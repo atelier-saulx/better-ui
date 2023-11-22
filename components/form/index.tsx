@@ -1,9 +1,8 @@
 import * as React from "react";
 import { styled } from "inlines";
 import { TextInput } from "../text-input";
-import { SelectInput } from "../select-input";
+import { SelectInput, SelectInputProps } from "../select-input";
 import { Button } from "../button";
-import { SelectInputProps } from "../../dist";
 
 type FormValues = {
   [key: string]: string | FormValues;
