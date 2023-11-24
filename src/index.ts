@@ -9,5 +9,6 @@ export * from "../components/icons";
 export * from "../components/tooltip";
 export * from "../components/icon-button";
 export * from "../components/form";
+export * from "../components/table";
 export { Modal } from "../components/modal";
 export { Dropdown } from "../components/dropdown";
