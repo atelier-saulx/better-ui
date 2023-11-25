@@ -22,6 +22,7 @@
   /* radiuses */
   --radius-tiny: 4px;
   --radius-small: 8px;
+  --radius-medium: 10px;
   --radius-large: 24px;
 
   /* shadows */

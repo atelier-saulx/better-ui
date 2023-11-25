@@ -12,6 +12,7 @@ export default meta;
 
 const data = new Array(50).fill(null).map(() => ({
   id: faker.string.uuid().slice(0, 8),
+  avatar: faker.image.avatar(),
   number: faker.number.int(10),
   name: faker.person.fullName(),
   status: faker.lorem.words(1),

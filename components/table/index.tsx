@@ -11,6 +11,7 @@ import { DateFormat } from "@based/pretty-date";
 import { useCallbackRef } from "../../utils/hooks/use-callback-ref";
 import { SortAsc, SortDesc } from "../icons";
 import { Badge } from "../badge";
+import { Avatar } from "../avatar";
 
 type RenderAs =
   | "badge"
@@ -38,52 +39,6 @@ export type TableProps = {
   rowAction?: (row: any) => React.ReactNode;
   onRowClick?: (row: any) => void;
 };
-
-function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
-  // TODO re-enable after we have every component
-  //   if (typeof renderAs === "function") return renderAs(row);
-  //   if (renderAs === "normal") return <Text>{row[key]}</Text>;
-  //   if (renderAs === "medium") return <Text weight="medium">{row[key]}</Text>;
-  //   if (renderAs === "strong") return <Text weight="strong">{row[key]}</Text>;
-  //   if (renderAs === "image")
-  //     return <Thumbnail color="neutral" size="small" src={row[key]} />;
-  if (renderAs === "badge")
-    return (
-      <Badge
-        color={key === "id" ? "informative" : "auto"}
-        copyable={key === "id"}
-        style="muted"
-      >
-        {row[key]}
-      </Badge>
-    );
-  //   if (renderAs === "avatar")
-  //     return (
-  //       <Avatar light autoColor>
-  //         {row[key]}
-  //       </Avatar>
-  //     );
-  //   if (renderAs === "toggle") return <Toggle value={row[key]} />;
-
-  //   let content = row[key];
-  //   if (row[key] instanceof Date) {
-  //     content = row[key].getTime();
-  //   }
-  //   if (typeof row[key] === "object") {
-  //     content = JSON.stringify(row[key]);
-  //   }
-
-  //   return (
-  //     <Text
-  //       valueFormat={renderAs}
-  //       light={renderAs?.includes?.("date") || renderAs?.includes?.("time")}
-  //     >
-  //       {content}
-  //     </Text>
-  //   );
-
-  return row[key];
-}
 
 export function Table({
   data,
@@ -306,6 +261,55 @@ export function Table({
   );
 }
 
+function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
+  // TODO re-enable after we have every component
+  //   if (typeof renderAs === "function") return renderAs(row);
+  //   if (renderAs === "normal") return <Text>{row[key]}</Text>;
+  //   if (renderAs === "medium") return <Text weight="medium">{row[key]}</Text>;
+  //   if (renderAs === "strong") return <Text weight="strong">{row[key]}</Text>;
+  //   if (renderAs === "image")
+  //     return <Thumbnail color="neutral" size="small" src={row[key]} />;
+  if (renderAs === "badge")
+    return (
+      <Badge
+        color={key === "id" ? "informative" : "auto"}
+        copyable={key === "id"}
+        style="muted"
+      >
+        {row[key]}
+      </Badge>
+    );
+  if (renderAs === "avatar") {
+    const value = row[key];
+
+    if (value.length > 2) {
+      return <Avatar src={value} />;
+    }
+
+    return <Avatar placeholder={value} />;
+  }
+  //   if (renderAs === "toggle") return <Toggle value={row[key]} />;
+
+  //   let content = row[key];
+  //   if (row[key] instanceof Date) {
+  //     content = row[key].getTime();
+  //   }
+  //   if (typeof row[key] === "object") {
+  //     content = JSON.stringify(row[key]);
+  //   }
+
+  //   return (
+  //     <Text
+  //       valueFormat={renderAs}
+  //       light={renderAs?.includes?.("date") || renderAs?.includes?.("time")}
+  //     >
+  //       {content}
+  //     </Text>
+  //   );
+
+  return row[key];
+}
+
 function generateColumDefinitionsFromData(element: any) {
   let columnDefinitions = Object.entries(element).map(([key, value]) => {
     const columnDefinition: TableColumn = {
@@ -313,7 +317,7 @@ function generateColumDefinitionsFromData(element: any) {
       header: key.charAt(0).toUpperCase() + key.slice(1),
     };
 
-    if (value instanceof Date) {
+    if (value instanceof Date || key === "createdAt" || key === "updatedAt") {
       columnDefinition.renderAs = "date-time-human";
     }
 
@@ -330,16 +334,13 @@ function generateColumDefinitionsFromData(element: any) {
       columnDefinition.renderAs = "number-bytes";
     }
 
-    if (key === "avatar") {
+    if (
+      key === "avatar" ||
+      key === "image" ||
+      key === "img" ||
+      key === "logo"
+    ) {
       columnDefinition.renderAs = "avatar";
-    }
-
-    if (key === "image" || key === "img" || key === "logo") {
-      columnDefinition.renderAs = "image";
-    }
-
-    if (key === "createdAt" || key === "updatedAt") {
-      columnDefinition.renderAs = "date-time-human";
     }
 
     if (key === "name" || key === "title") {

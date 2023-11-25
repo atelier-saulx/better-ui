@@ -1,7 +1,6 @@
 import * as React from "react";
 import { hash } from "@saulx/hash";
 import { styled } from "inlines";
-import "./badge-colors.css";
 import { CheckLarge, Copy } from "../icons";
 
 export type BadgeProps = {
@@ -49,8 +48,8 @@ export function Badge({
         padding: "0 8px",
         borderRadius: "var(--radius-large)",
         fontWeight: 500,
-        color: `var(--badge-color-${style}-${color})`,
-        background: `var(--badge-background-${style}-${color})`,
+        color: `var(--semantic-color-${style}-${color})`,
+        background: `var(--semantic-background-${style}-${color})`,
         ...(size === "regular" && {
           fontSize: "14px",
           lineHeight: "24px",
@@ -92,8 +91,8 @@ export function Badge({
             right: 0,
             top: 0,
             transform: "translateX(100%)",
-            color: `var(--badge-color-${style}-${color})`,
-            background: `var(--badge-background-${style}-${color})`,
+            color: `var(--semantic-color-${style}-${color})`,
+            background: `var(--semantic-background-${style}-${color})`,
             borderTopRightRadius: "var(--radius-large)",
             borderBottomRightRadius: "var(--radius-large)",
             padding: "0 8px 0 0",
