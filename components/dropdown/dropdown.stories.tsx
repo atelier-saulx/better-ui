@@ -4,7 +4,7 @@ import { IconButton } from "../icon-button";
 import { MoreVertical, Copy, Delete } from "../icons";
 
 const meta = {
-  title: "Foundation/Dropdown",
+  title: "Atoms/Dropdown",
 };
 export default meta;
 

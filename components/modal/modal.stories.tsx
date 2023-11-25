@@ -6,7 +6,7 @@ import { SelectInput } from "../select-input";
 import { styled } from "inlines";
 
 const meta = {
-  title: "Foundation/Modal",
+  title: "Atoms/Modal",
 };
 export default meta;
 

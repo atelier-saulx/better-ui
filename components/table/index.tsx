@@ -10,6 +10,7 @@ import { NumberFormat } from "@based/pretty-number";
 import { DateFormat } from "@based/pretty-date";
 import { useCallbackRef } from "../../utils/hooks/use-callback-ref";
 import { SortAsc, SortDesc } from "../icons";
+import { Badge } from "../badge";
 
 type RenderAs =
   | "badge"
@@ -34,14 +35,11 @@ export type TableProps = {
   columns?: TableColumn[];
   onScrollToBottom?: () => void;
   onVisibleElementsChange?: (visibleElements: number[]) => void;
-  border?: boolean;
   rowAction?: (row: any) => React.ReactNode;
   onRowClick?: (row: any) => void;
 };
 
 function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
-  return row[key];
-
   // TODO re-enable after we have every component
   //   if (typeof renderAs === "function") return renderAs(row);
   //   if (renderAs === "normal") return <Text>{row[key]}</Text>;
@@ -49,12 +47,16 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
   //   if (renderAs === "strong") return <Text weight="strong">{row[key]}</Text>;
   //   if (renderAs === "image")
   //     return <Thumbnail color="neutral" size="small" src={row[key]} />;
-  //   if (renderAs === "badge")
-  //     return (
-  //       <Badge autoColor light copy copyValue={row[key]}>
-  //         {row[key]}
-  //       </Badge>
-  //     );
+  if (renderAs === "badge")
+    return (
+      <Badge
+        color={key === "id" ? "informative" : "auto"}
+        copyable={key === "id"}
+        style="muted"
+      >
+        {row[key]}
+      </Badge>
+    );
   //   if (renderAs === "avatar")
   //     return (
   //       <Avatar light autoColor>
@@ -79,6 +81,8 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
   //       {content}
   //     </Text>
   //   );
+
+  return row[key];
 }
 
 export function Table({
@@ -104,8 +108,6 @@ export function Table({
         : []),
     ];
   }, [columnsProp, data]);
-
-  console.log(columns);
 
   const table = useReactTable({
     data,

@@ -1,0 +1,36 @@
+:root {
+  /* neutral regular */
+  --badge-color-regular-neutral: #ffffff;
+  --badge-background-regular-neutral: #1830488f;
+  /* neutral muted */
+  --badge-color-muted-neutral: #1b242c;
+  --badge-background-muted-neutral: #10284817;
+
+  /* informative regular */
+  --badge-color-regular-informative: #ffffff;
+  --badge-background-regular-informative: #3062d4;
+  /* informative muted */
+  --badge-color-muted-informative: #3062d4;
+  --badge-background-muted-informative: #3062d429;
+
+  /* positive regular */
+  --badge-color-regular-positive: #ffffff;
+  --badge-background-regular-positive: #1d7c4d;
+  /* positive muted */
+  --badge-color-muted-positive: #1d7c4d;
+  --badge-background-muted-positive: #1d7c4d29;
+
+  /* warning regular */
+  --badge-color-regular-warning: #222222;
+  --badge-background-regular-warning: #f59638;
+  /* warning muted */
+  --badge-color-muted-warning: #f59638;
+  --badge-background-muted-warning: #f5963829;
+
+  /* error regular */
+  --badge-color-regular-error: #ffffff;
+  --badge-background-regular-error: #c53434;
+  /* error muted */
+  --badge-color-muted-error: #c53434;
+  --badge-background-muted-error: #c5343429;
+}

@@ -4,7 +4,7 @@ import { MoreVertical } from "../icons";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof IconButton> = {
-  title: "Foundation/IconButton",
+  title: "Atoms/IconButton",
   component: IconButton,
 };
 

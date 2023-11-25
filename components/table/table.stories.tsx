@@ -3,7 +3,7 @@ import { Table } from "./";
 import { faker } from "@faker-js/faker";
 
 const meta = {
-  title: "Component/Table",
+  title: "Components/Table",
   parameters: {
     layout: "fullscreen",
   },

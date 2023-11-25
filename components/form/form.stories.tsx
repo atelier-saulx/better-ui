@@ -2,7 +2,7 @@ import * as React from "react";
 import { Form } from "./";
 
 const meta = {
-  title: "Component/Form",
+  title: "Components/Form",
   parameters: {
     layout: "fullscreen",
   },

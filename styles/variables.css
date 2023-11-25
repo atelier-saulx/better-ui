@@ -22,6 +22,7 @@
   /* radiuses */
   --radius-tiny: 4px;
   --radius-small: 8px;
+  --radius-large: 24px;
 
   /* shadows */
   --shadow-elevation: 0px 2px 8px -1px rgba(27, 36, 44, 0.08),
