@@ -106,7 +106,6 @@ export function Title({ title, description }: ModalTitleProps) {
     <div
       style={{
         padding: "24px 32px",
-        borderBottom: "1px solid var(--interactive-secondary)",
       }}
     >
       <div
@@ -140,7 +139,15 @@ export type ModalBodyProps = { children: React.ReactNode };
 
 export function Body({ children }: ModalBodyProps) {
   return (
-    <div style={{ padding: "24px 32px", flex: 1, overflowY: "auto" }}>
+    <div
+      style={{
+        padding: "24px 32px",
+        flex: 1,
+        overflowY: "auto",
+        borderTop: "1px solid var(--interactive-secondary)",
+        borderBottom: "1px solid var(--interactive-secondary)",
+      }}
+    >
       {children}
     </div>
   );
@@ -156,7 +163,6 @@ export function Actions({ children }: ModalActionsProps) {
         display: "flex",
         justifyContent: "end",
         alignItems: "center",
-        borderTop: "1px solid var(--interactive-secondary)",
         "& > * + *": {
           marginLeft: "24px",
         },

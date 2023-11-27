@@ -170,6 +170,43 @@ export function Table({
         position: "relative",
       }}
     >
+      <styled.div
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          overflow: "hidden",
+          "&:before": {
+            content: '""',
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            background:
+              "linear-gradient(to right, var(--background-screen) 0, transparent 60px)",
+            backgroundSize: "200% 200%",
+            backgroundPositionX: ["left", "both"].includes(
+              showOverflowIndicator
+            )
+              ? "left"
+              : "-60px",
+          },
+          "&:after": {
+            content: '""',
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            background: `linear-gradient(to left, var(--background-screen) 0, ${
+              rowAction && "var(--background-screen) 42px, "
+            } transparent 60px)`,
+            backgroundSize: "200% 200%",
+            backgroundPositionX: ["right", "both"].includes(
+              showOverflowIndicator
+            )
+              ? "right"
+              : "-60px",
+          },
+        }}
+      />
       <div
         ref={scrollRef}
         style={{ height: "100%", width: "100%", overflow: "auto" }}
@@ -213,7 +250,6 @@ export function Table({
                             style={{
                               boxSizing: "border-box",
                               height: 61,
-                              padding: "0 12px",
                               borderBottom:
                                 index !== virtualItems.length - 1
                                   ? `1px solid var(--interactive-secondary)`
@@ -222,6 +258,15 @@ export function Table({
                               textOverflow: "ellipsis",
                               whiteSpace: "nowrap",
                               maxWidth: "100%",
+                              ...(cell.column.columnDef.id ===
+                              "internal_row_action"
+                                ? {
+                                    position: "sticky",
+                                    right: 0,
+                                  }
+                                : {
+                                    padding: "0 12px",
+                                  }),
                             }}
                             key={cell.id}
                           >
@@ -288,6 +333,10 @@ export function Table({
                               cursor: header.column.getCanSort()
                                 ? "pointer"
                                 : "default",
+                              fontSize: 14,
+                              lineHeight: "24px",
+                              fontWeight: 500,
+                              color: "var(--content-secondary)",
                             }}
                           >
                             {{
@@ -309,52 +358,11 @@ export function Table({
           </table>
         </div>
       </div>
-      <styled.div
-        style={{
-          position: "absolute",
-          inset: 0,
-          pointerEvents: "none",
-          overflow: "hidden",
-          "&:before": {
-            content: '""',
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            background:
-              "linear-gradient(to right, var(--background-screen) 0, transparent 60px)",
-            backgroundSize: "200% 200%",
-            backgroundPositionX: ["left", "both"].includes(
-              showOverflowIndicator
-            )
-              ? "left"
-              : "-60px",
-          },
-          "&:after": {
-            content: '""',
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            background:
-              "linear-gradient(to left, var(--background-screen) 0, transparent 60px)",
-            backgroundSize: "200% 200%",
-            backgroundPositionX: ["right", "both"].includes(
-              showOverflowIndicator
-            )
-              ? "right"
-              : "-60px",
-          },
-        }}
-      />
     </div>
   );
 }
 
 function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
-  // TODO re-enable after we have every component
-  //   if (typeof renderAs === "function") return renderAs(row);
-  //   if (renderAs === "normal") return <Text>{row[key]}</Text>;
-  //   if (renderAs === "medium") return <Text weight="medium">{row[key]}</Text>;
-  //   if (renderAs === "strong") return <Text weight="strong">{row[key]}</Text>;
   if (renderAs === "badge")
     return (
       <Badge
@@ -375,6 +383,8 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
     return <Avatar placeholder={value} />;
   }
 
+  if (typeof renderAs === "function") return renderAs(row);
+
   //   let content = row[key];
   //   if (row[key] instanceof Date) {
   //     content = row[key].getTime();
@@ -392,7 +402,11 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
   //     </Text>
   //   );
 
-  return row[key];
+  return (
+    <span style={{ fontSize: 14, lineHeight: "24px", fontWeight: 500 }}>
+      {row[key]}
+    </span>
+  );
 }
 
 function generateColumDefinitionsFromData(element: any) {
@@ -428,18 +442,12 @@ function generateColumDefinitionsFromData(element: any) {
       columnDefinition.renderAs = "avatar";
     }
 
-    if (key === "name" || key === "title") {
-      columnDefinition.renderAs = "medium";
-    }
-
     if (key === "status") {
       columnDefinition.renderAs = "badge";
     }
 
     return columnDefinition;
   });
-
-  // TODO re-enable later, once we have thumnbail and text
 
   //   const maybeNameIndex = columnDefinitions.findIndex(
   //     (e) => e.key === "name" || e.key === "title"
