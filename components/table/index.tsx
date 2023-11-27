@@ -12,6 +12,7 @@ import { useCallbackRef } from "../../utils/hooks/use-callback-ref";
 import { SortAsc, SortDesc } from "../icons";
 import { Badge } from "../badge";
 import { Avatar } from "../avatar";
+import { styled } from "inlines";
 
 type RenderAs =
   | "badge"
@@ -88,6 +89,7 @@ export function Table({
   const { rows } = table.getRowModel();
 
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
   const { totalSize, virtualItems } = useVirtual({
     parentRef: tableContainerRef,
     size: rows.length,
@@ -112,8 +114,9 @@ export function Table({
   const onScrollToBottom = useCallbackRef(onScrollToBottomProp);
   const handleScroll = React.useCallback(
     (containerRefElement: HTMLDivElement) => {
+      const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
+
       if (onScrollToBottom) {
-        const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
         if (scrollHeight - scrollTop - clientHeight < 300) {
           onScrollToBottom();
         }
@@ -123,140 +126,225 @@ export function Table({
   );
   const onRowClick = useCallbackRef(onRowClickProp);
 
+  React.useLayoutEffect(() => {
+    if (!scrollRef.current) return;
+
+    function calculateOverflowInidcator() {
+      if (!scrollRef.current) return;
+
+      const { scrollLeft, clientWidth, scrollWidth } = scrollRef.current;
+
+      if (scrollLeft > 0 && scrollWidth - scrollLeft > clientWidth) {
+        setShowOverflowIndicator("both");
+      } else if (scrollWidth - scrollLeft > clientWidth) {
+        setShowOverflowIndicator("right");
+      } else if (scrollLeft > 0) {
+        setShowOverflowIndicator("left");
+      } else {
+        setShowOverflowIndicator("none");
+      }
+    }
+
+    window.addEventListener("resize", calculateOverflowInidcator);
+    scrollRef.current.addEventListener("scroll", calculateOverflowInidcator);
+    calculateOverflowInidcator();
+
+    return () => {
+      window.removeEventListener("resize", calculateOverflowInidcator);
+      scrollRef.current?.removeEventListener(
+        "scroll",
+        calculateOverflowInidcator
+      );
+    };
+  }, []);
+
+  const [showOverflowIndicator, setShowOverflowIndicator] = React.useState<
+    "left" | "right" | "both" | "none"
+  >("none");
+
   return (
     <div
-      ref={tableContainerRef}
       style={{
-        overflow: "auto",
         height: "100%",
         width: "100%",
+        position: "relative",
       }}
-      onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
     >
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "separate",
-          borderSpacing: 0,
-          tableLayout: "fixed",
-        }}
+      <div
+        ref={scrollRef}
+        style={{ height: "100%", width: "100%", overflow: "auto" }}
+        onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
       >
-        <tbody>
-          {paddingTop > 0 && (
-            <tr>
-              <td style={{ height: `${paddingTop}px` }} />
-            </tr>
-          )}
-          {virtualItems
-            .map((row) => rows[row.index])
-            .map((row, index) => {
-              return (
-                <tr
-                  onClick={(e) => {
-                    if (onRowClick) {
-                      onRowClick(row.original);
-                    }
-                  }}
-                  key={row.id}
-                >
-                  {row.getVisibleCells().map((cell) => {
+        <div
+          ref={tableContainerRef}
+          style={{
+            minWidth: 650,
+          }}
+        >
+          <table
+            style={{
+              height: "100%",
+              width: "100%",
+              borderCollapse: "separate",
+              borderSpacing: 0,
+            }}
+          >
+            <tbody>
+              {paddingTop > 0 && (
+                <tr>
+                  <td style={{ height: `${paddingTop}px` }} />
+                </tr>
+              )}
+              {virtualItems
+                .map((row) => rows[row.index])
+                .map((row, index) => {
+                  return (
+                    <tr
+                      onClick={(e) => {
+                        if (onRowClick) {
+                          onRowClick(row.original);
+                        }
+                      }}
+                      key={row.id}
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <td
+                            style={{
+                              boxSizing: "border-box",
+                              height: 61,
+                              padding: "0 12px",
+                              borderBottom:
+                                index !== virtualItems.length - 1
+                                  ? `1px solid var(--interactive-secondary)`
+                                  : undefined,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              maxWidth: "100%",
+                            }}
+                            key={cell.id}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent:
+                                  (cell.column.columnDef as any).align ??
+                                  "start",
+                                alignItems: "center",
+                              }}
+                            >
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </div>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              {paddingBottom > 0 && (
+                <tr>
+                  <td style={{ height: `${paddingBottom}px` }} />
+                </tr>
+              )}
+            </tbody>
+            <thead
+              style={{
+                position: "sticky",
+                top: 0,
+                margin: 0,
+                textAlign: "left",
+                background: "var(--background-screen)",
+              }}
+            >
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
                     return (
-                      <td
+                      <th
+                        key={header.id}
                         style={{
-                          boxSizing: "border-box",
-                          height: 61,
                           padding: "0 12px",
-                          borderBottom:
-                            index !== virtualItems.length - 1
-                              ? `1px solid var(--interactive-secondary)`
-                              : undefined,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          maxWidth: "100%",
+                          height: 42,
+                          boxSizing: "border-box",
+                          borderTop: `1px solid var(--interactive-secondary)`,
+                          borderBottom: `1px solid var(--interactive-secondary)`,
                         }}
-                        key={cell.id}
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent:
-                              (cell.column.columnDef as any).align ?? "start",
-                            alignItems: "center",
-                          }}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </div>
-                      </td>
+                        {header.isPlaceholder ? null : (
+                          <div
+                            onClick={header.column.getToggleSortingHandler()}
+                            style={{
+                              display: "flex",
+                              height: "100%",
+                              justifyContent:
+                                (header.column.columnDef as any).align ??
+                                "start",
+                              alignItems: "center",
+                              userSelect: "none",
+                              cursor: header.column.getCanSort()
+                                ? "pointer"
+                                : "default",
+                            }}
+                          >
+                            {{
+                              asc: <SortAsc style={{ marginRight: 8 }} />,
+                              desc: <SortDesc style={{ marginRight: 8 }} />,
+                            }[header.column.getIsSorted() as string] ?? null}
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                          </div>
+                        )}
+                      </th>
                     );
                   })}
                 </tr>
-              );
-            })}
-          {paddingBottom > 0 && (
-            <tr>
-              <td style={{ height: `${paddingBottom}px` }} />
-            </tr>
-          )}
-        </tbody>
-        <thead
-          style={{
-            position: "sticky",
-            top: 0,
-            margin: 0,
-            textAlign: "left",
-            background: "var(--background-screen)",
-          }}
-        >
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <th
-                    key={header.id}
-                    style={{
-                      padding: "0 12px",
-                      height: 42,
-                      boxSizing: "border-box",
-                      borderTop: `1px solid var(--interactive-secondary)`,
-                      borderBottom: `1px solid var(--interactive-secondary)`,
-                    }}
-                  >
-                    {header.isPlaceholder ? null : (
-                      <div
-                        onClick={header.column.getToggleSortingHandler()}
-                        style={{
-                          display: "flex",
-                          height: "100%",
-                          justifyContent:
-                            (header.column.columnDef as any).align ?? "start",
-                          alignItems: "center",
-                          userSelect: "none",
-                          cursor: header.column.getCanSort()
-                            ? "pointer"
-                            : "default",
-                        }}
-                      >
-                        {{
-                          asc: <SortAsc style={{ marginRight: 8 }} />,
-                          desc: <SortDesc style={{ marginRight: 8 }} />,
-                        }[header.column.getIsSorted() as string] ?? null}
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </div>
-                    )}
-                  </th>
-                );
-              })}
-            </tr>
-          ))}
-        </thead>
-      </table>
+              ))}
+            </thead>
+          </table>
+        </div>
+      </div>
+      <styled.div
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          overflow: "hidden",
+          "&:before": {
+            content: '""',
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            background:
+              "linear-gradient(to right, var(--background-screen) 0, transparent 60px)",
+            backgroundSize: "200% 200%",
+            backgroundPositionX: ["left", "both"].includes(
+              showOverflowIndicator
+            )
+              ? "left"
+              : "-60px",
+          },
+          "&:after": {
+            content: '""',
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            background:
+              "linear-gradient(to left, var(--background-screen) 0, transparent 60px)",
+            backgroundSize: "200% 200%",
+            backgroundPositionX: ["right", "both"].includes(
+              showOverflowIndicator
+            )
+              ? "right"
+              : "-60px",
+          },
+        }}
+      />
     </div>
   );
 }
@@ -267,8 +355,6 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
   //   if (renderAs === "normal") return <Text>{row[key]}</Text>;
   //   if (renderAs === "medium") return <Text weight="medium">{row[key]}</Text>;
   //   if (renderAs === "strong") return <Text weight="strong">{row[key]}</Text>;
-  //   if (renderAs === "image")
-  //     return <Thumbnail color="neutral" size="small" src={row[key]} />;
   if (renderAs === "badge")
     return (
       <Badge
@@ -288,7 +374,6 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
 
     return <Avatar placeholder={value} />;
   }
-  //   if (renderAs === "toggle") return <Toggle value={row[key]} />;
 
   //   let content = row[key];
   //   if (row[key] instanceof Date) {

@@ -20,7 +20,7 @@ const data = new Array(50).fill(null).map(() => ({
 
 export const Default = () => {
   return (
-    <div style={{ height: "100svh", padding: 64 }}>
+    <div style={{ height: "100svh" }}>
       <Table data={data} />
     </div>
   );
