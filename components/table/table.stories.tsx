@@ -6,6 +6,15 @@ import { Copy, Delete, MoreVertical } from "../icons";
 import { Modal } from "../modal";
 import { Button } from "../button";
 import { Dropdown } from "../dropdown";
+import { useInfiniteQuery } from "../../utils/hooks/use-infinite-query";
+import { Provider } from "@based/react";
+import based from "@based/client";
+
+const client = based({
+  org: "saulx",
+  project: "based-ui",
+  env: "production",
+});
 
 const meta = {
   title: "Components/Table",
@@ -82,5 +91,50 @@ export const Default = () => {
         </Modal.Root>
       )}
     </>
+  );
+};
+
+const InfiniteQueryContent = () => {
+  const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
+    accessFn: (data) => data.files,
+    queryFn: (offset) => ({
+      $id: "root",
+      files: {
+        $all: true,
+        $list: {
+          $sort: { $field: "updatedAt", $order: "desc" },
+          $offset: offset,
+          $limit: 25,
+          $find: {
+            $traverse: "children",
+            $filter: {
+              $operator: "=",
+              $field: "type",
+              $value: "todo",
+            },
+          },
+        },
+      },
+    }),
+  });
+
+  return (
+    <>
+      <div style={{ height: "90svh", width: "90svw", margin: "5svh auto" }}>
+        <Table
+          data={data}
+          onScrollToBottom={fetchMore}
+          onVisibleElementsChange={setVisibleElements}
+        />
+      </div>
+    </>
+  );
+};
+
+export const InfiniteQuery = () => {
+  return (
+    <Provider client={client}>
+      <InfiniteQueryContent />
+    </Provider>
   );
 };
