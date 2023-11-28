@@ -24,7 +24,7 @@ const meta = {
 };
 export default meta;
 
-const data = new Array(50).fill(null).map(() => ({
+const data = new Array(10).fill(null).map(() => ({
   id: faker.string.uuid().slice(0, 8),
   status: faker.lorem.words(1),
   title: faker.lorem.sentence(3),
@@ -120,7 +120,7 @@ const InfiniteQueryContent = () => {
 
   return (
     <>
-      <div style={{ height: "90svh", width: "90svw", margin: "5svh auto" }}>
+      <div style={{ height: "100svh" }}>
         <Table
           data={data}
           onScrollToBottom={fetchMore}
