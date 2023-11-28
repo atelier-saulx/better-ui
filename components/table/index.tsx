@@ -89,7 +89,6 @@ export function Table({
   const { rows } = table.getRowModel();
 
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
-  const scrollRef = React.useRef<HTMLDivElement>(null);
   const { totalSize, virtualItems } = useVirtual({
     parentRef: tableContainerRef,
     size: rows.length,
@@ -126,42 +125,6 @@ export function Table({
   );
   const onRowClick = useCallbackRef(onRowClickProp);
 
-  React.useLayoutEffect(() => {
-    if (!scrollRef.current) return;
-
-    function calculateOverflowInidcator() {
-      if (!scrollRef.current) return;
-
-      const { scrollLeft, clientWidth, scrollWidth } = scrollRef.current;
-
-      if (scrollLeft > 0 && scrollWidth - scrollLeft > clientWidth) {
-        setShowOverflowIndicator("both");
-      } else if (scrollWidth - scrollLeft > clientWidth) {
-        setShowOverflowIndicator("right");
-      } else if (scrollLeft > 0) {
-        setShowOverflowIndicator("left");
-      } else {
-        setShowOverflowIndicator("none");
-      }
-    }
-
-    window.addEventListener("resize", calculateOverflowInidcator);
-    scrollRef.current.addEventListener("scroll", calculateOverflowInidcator);
-    calculateOverflowInidcator();
-
-    return () => {
-      window.removeEventListener("resize", calculateOverflowInidcator);
-      scrollRef.current?.removeEventListener(
-        "scroll",
-        calculateOverflowInidcator
-      );
-    };
-  }, []);
-
-  const [showOverflowIndicator, setShowOverflowIndicator] = React.useState<
-    "left" | "right" | "both" | "none"
-  >("none");
-
   return (
     <div
       style={{
@@ -170,45 +133,7 @@ export function Table({
         position: "relative",
       }}
     >
-      <styled.div
-        style={{
-          position: "absolute",
-          inset: 0,
-          pointerEvents: "none",
-          overflow: "hidden",
-          "&:before": {
-            content: '""',
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            background:
-              "linear-gradient(to right, var(--background-screen) 0, transparent 60px)",
-            backgroundSize: "200% 200%",
-            backgroundPositionX: ["left", "both"].includes(
-              showOverflowIndicator
-            )
-              ? "left"
-              : "-60px",
-          },
-          "&:after": {
-            content: '""',
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            background: `linear-gradient(to left, var(--background-screen) 0, ${
-              rowAction && "var(--background-screen) 42px, "
-            } transparent 60px)`,
-            backgroundSize: "200% 200%",
-            backgroundPositionX: ["right", "both"].includes(
-              showOverflowIndicator
-            )
-              ? "right"
-              : "-60px",
-          },
-        }}
-      />
       <div
-        ref={scrollRef}
         style={{ height: "100%", width: "100%", overflow: "auto" }}
         onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
       >
@@ -261,8 +186,8 @@ export function Table({
                               ...(cell.column.columnDef.id ===
                               "internal_row_action"
                                 ? {
-                                    position: "sticky",
-                                    right: 0,
+                                    background: "var(--background-screen)",
+                                    padding: "0 4px",
                                   }
                                 : {
                                     padding: "0 12px",
@@ -320,7 +245,7 @@ export function Table({
                         }}
                       >
                         {header.isPlaceholder ? null : (
-                          <div
+                          <styled.div
                             onClick={header.column.getToggleSortingHandler()}
                             style={{
                               display: "flex",
@@ -336,18 +261,23 @@ export function Table({
                               fontSize: 14,
                               lineHeight: "24px",
                               fontWeight: 500,
-                              color: "var(--content-secondary)",
+                              color: header.column.getIsSorted()
+                                ? "var(--content-primary)"
+                                : "var(--content-secondary)",
+                              "&:hover": {
+                                color: "var(--content-primary)",
+                              },
                             }}
                           >
-                            {{
-                              asc: <SortAsc style={{ marginRight: 8 }} />,
-                              desc: <SortDesc style={{ marginRight: 8 }} />,
-                            }[header.column.getIsSorted() as string] ?? null}
                             {flexRender(
                               header.column.columnDef.header,
                               header.getContext()
                             )}
-                          </div>
+                            {{
+                              asc: <SortAsc style={{ marginLeft: 8 }} />,
+                              desc: <SortDesc style={{ marginLeft: 8 }} />,
+                            }[header.column.getIsSorted() as string] ?? null}
+                          </styled.div>
                         )}
                       </th>
                     );

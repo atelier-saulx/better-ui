@@ -1,6 +1,7 @@
 import * as React from "react";
 import { styled } from "inlines";
 import * as ModalBase from "@radix-ui/react-dialog";
+import { useControllableState } from "../../utils/hooks/use-controllable-state";
 
 type UseModalProps = {
   open: boolean;
@@ -18,14 +19,28 @@ export const useModal = () => {
 
 export type ModalRootProps = {
   children: React.ReactNode;
-  defaultOpen?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
-export function Root({ children, defaultOpen = false }: ModalRootProps) {
-  const [open, setOpen] = React.useState(defaultOpen);
+export function Root({
+  children,
+  open: openProp,
+  onOpenChange,
+}: ModalRootProps) {
+  const [open, setOpen] = useControllableState({
+    prop: openProp,
+    defaultProp: false,
+    onChange: onOpenChange,
+  });
 
   return (
-    <ModalContext.Provider value={{ open, setOpen }}>
+    <ModalContext.Provider
+      value={{
+        open: open as boolean,
+        setOpen: setOpen as (open: React.SetStateAction<boolean>) => void,
+      }}
+    >
       <ModalBase.Root open={open} onOpenChange={setOpen}>
         {children}
       </ModalBase.Root>
