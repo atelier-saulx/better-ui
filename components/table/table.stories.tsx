@@ -34,13 +34,45 @@ const data = new Array(10).fill(null).map(() => ({
 }));
 
 export const Default = () => {
+  return (
+    <div style={{ height: "100svh" }}>
+      <Table data={data} />
+    </div>
+  );
+};
+
+const InfiniteQueryContent = () => {
   const [itemToDelete, setItemToDelete] = React.useState(null);
+  const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
+    accessFn: (data) => data.files,
+    queryFn: (offset) => ({
+      $id: "root",
+      files: {
+        $all: true,
+        $list: {
+          $sort: { $field: "updatedAt", $order: "desc" },
+          $offset: offset,
+          $limit: 25,
+          $find: {
+            $traverse: "children",
+            $filter: {
+              $operator: "=",
+              $field: "type",
+              $value: "todo",
+            },
+          },
+        },
+      },
+    }),
+  });
 
   return (
     <>
       <div style={{ height: "100svh" }}>
         <Table
           data={data}
+          onScrollToBottom={fetchMore}
+          onVisibleElementsChange={setVisibleElements}
           rowAction={(row) => (
             <Dropdown.Root>
               <Dropdown.Trigger>
@@ -90,43 +122,6 @@ export const Default = () => {
           </Modal.Overlay>
         </Modal.Root>
       )}
-    </>
-  );
-};
-
-const InfiniteQueryContent = () => {
-  const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
-    accessFn: (data) => data.files,
-    queryFn: (offset) => ({
-      $id: "root",
-      files: {
-        $all: true,
-        $list: {
-          $sort: { $field: "updatedAt", $order: "desc" },
-          $offset: offset,
-          $limit: 25,
-          $find: {
-            $traverse: "children",
-            $filter: {
-              $operator: "=",
-              $field: "type",
-              $value: "todo",
-            },
-          },
-        },
-      },
-    }),
-  });
-
-  return (
-    <>
-      <div style={{ height: "100svh" }}>
-        <Table
-          data={data}
-          onScrollToBottom={fetchMore}
-          onVisibleElementsChange={setVisibleElements}
-        />
-      </div>
     </>
   );
 };
