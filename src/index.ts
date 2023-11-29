@@ -12,5 +12,8 @@ export * from "../components/icon-button";
 export * from "../components/form";
 export * from "../components/table";
 export * from "../components/badge";
+export * from "../components/file-input";
+export * from "../components/avatar";
+export * from "../components/form";
 export { Modal } from "../components/modal";
 export { Dropdown } from "../components/dropdown";
