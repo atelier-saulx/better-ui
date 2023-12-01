@@ -176,7 +176,7 @@ const DefaultContent = () => {
   const [page, setPage] = React.useState("content");
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "100vh", width: "100vw" }}>
       <header
         style={{
           height: 64,
@@ -253,7 +253,7 @@ const DefaultContent = () => {
             Statistics
           </SidebarItem>
         </Sidebar>
-        <div style={{ flex: "1", marginTop: -1 }}>
+        <div style={{ flex: "1", overflow: "auto", marginTop: -1 }}>
           {page === "content" && <Content />}
           {page === "users" && <UserContent />}
         </div>

@@ -91,7 +91,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            maxWidth: "100%",
+            maxWidth: "calc(100% - 32px)",
             background: "var(--background-screen)",
             maxHeight: "85svh",
             borderRadius: "var(--radius-small)",
