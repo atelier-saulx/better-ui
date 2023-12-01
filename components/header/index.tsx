@@ -13,13 +13,16 @@ import { Dropdown } from "../dropdown";
 import { Avatar } from "../avatar";
 import { useIsMobile } from "../../utils/hooks/use-is-mobile";
 import { IconButton } from "../icon-button";
+import { useTheme } from "../../utils/hooks/use-theme";
 
 export function Header() {
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const { theme, setTheme } = useTheme();
 
   return (
     <>
+      {theme}
       <header
         style={{
           height: 64,
@@ -80,8 +83,13 @@ export function Header() {
                 </Dropdown.Trigger>
                 <Dropdown.Items>
                   <Dropdown.Item icon={<Settings />}>Settings</Dropdown.Item>
-                  <Dropdown.Item icon={<Eye />}>
-                    Switch to dark mode
+                  <Dropdown.Item
+                    icon={<Eye />}
+                    onClick={() => {
+                      setTheme(theme === "dark" ? "light" : "dark");
+                    }}
+                  >
+                    Switch to {theme === "dark" ? "light" : "dark"} mode
                   </Dropdown.Item>
                   <Dropdown.Item icon={<Logout />}>Logout</Dropdown.Item>
                 </Dropdown.Items>

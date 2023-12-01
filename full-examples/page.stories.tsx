@@ -25,6 +25,7 @@ import { styled } from "inlines";
 import { Form } from "../components/form";
 import { Sidebar, SidebarItem } from "../components/sidebar";
 import { Header } from "../components/header";
+import { ThemeProvider } from "../utils/hooks/use-theme";
 
 const client = based({
   org: "saulx",
@@ -230,7 +231,9 @@ const DefaultContent = () => {
 export const Default = () => {
   return (
     <Provider client={client}>
-      <DefaultContent />
+      <ThemeProvider>
+        <DefaultContent />
+      </ThemeProvider>
     </Provider>
   );
 };

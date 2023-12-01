@@ -34,3 +34,7 @@
   --semantic-color-muted-error: #c53434;
   --semantic-background-muted-error: #c5343429;
 }
+
+[data-theme="dark"] {
+  /* TODO add dark mode colors  */
+}

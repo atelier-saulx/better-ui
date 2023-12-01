@@ -1,5 +1,7 @@
+import * as React from "react";
+import { ThemeProvider } from "../../utils/hooks/use-theme";
 import { Header } from "./";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta } from "@storybook/react";
 
 const meta: Meta<typeof Header> = {
   title: "Components/Header",
@@ -11,6 +13,8 @@ const meta: Meta<typeof Header> = {
 
 export default meta;
 
-export const Default: StoryObj<typeof Header> = {
-  args: {},
+export const Default = () => {
+  <ThemeProvider>
+    <Header />
+  </ThemeProvider>;
 };
