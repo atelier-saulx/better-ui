@@ -22,7 +22,6 @@ export function Header() {
 
   return (
     <>
-      {theme}
       <header
         style={{
           height: 64,
