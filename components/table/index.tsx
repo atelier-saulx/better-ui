@@ -6,8 +6,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useVirtual } from "@tanstack/react-virtual";
-import { NumberFormat } from "@based/pretty-number";
-import { DateFormat } from "@based/pretty-date";
+import { NumberFormat, prettyNumber } from "@based/pretty-number";
+import { DateFormat, prettyDate } from "@based/pretty-date";
 import { useCallbackRef } from "../../utils/hooks/use-callback-ref";
 import { SortAsc, SortDesc } from "../icons";
 import { Badge } from "../badge";
@@ -301,6 +301,7 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "text") {
         {row[key]}
       </Badge>
     );
+
   if (renderAs === "avatar") {
     const value = row[key];
 
@@ -311,24 +312,42 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "text") {
     return <Avatar placeholder={value} />;
   }
 
+  if (
+    renderAs === "date" ||
+    renderAs === "date-time" ||
+    renderAs === "date-time-human" ||
+    renderAs === "date-time-text"
+  ) {
+    return (
+      <span style={{ fontSize: 14, lineHeight: "24px", fontWeight: 500 }}>
+        {prettyDate(row[key], renderAs)}
+      </span>
+    );
+  }
+
+  if (
+    renderAs === "number-short" ||
+    renderAs === "number-human" ||
+    renderAs === "number-ratio" ||
+    renderAs === "number-bytes" ||
+    renderAs === "number-euro" ||
+    renderAs === "number-dollar" ||
+    renderAs === "number-pound"
+  ) {
+    return (
+      <span style={{ fontSize: 14, lineHeight: "24px", fontWeight: 500 }}>
+        {prettyNumber(row[key], renderAs)}
+      </span>
+    );
+  }
+
   if (typeof renderAs === "function") return renderAs(row);
 
-  //   let content = row[key];
-  //   if (row[key] instanceof Date) {
-  //     content = row[key].getTime();
-  //   }
-  //   if (typeof row[key] === "object") {
-  //     content = JSON.stringify(row[key]);
-  //   }
-
-  //   return (
-  //     <Text
-  //       valueFormat={renderAs}
-  //       light={renderAs?.includes?.("date") || renderAs?.includes?.("time")}
-  //     >
-  //       {content}
-  //     </Text>
-  //   );
+  if (typeof row[key] === "object") {
+    <span style={{ fontSize: 14, lineHeight: "24px", fontWeight: 500 }}>
+      {JSON.stringify(row[key])}
+    </span>;
+  }
 
   return (
     <span style={{ fontSize: 14, lineHeight: "24px", fontWeight: 500 }}>

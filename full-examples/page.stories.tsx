@@ -70,7 +70,7 @@ const UserContent = () => {
           { key: "id", header: "ID", renderAs: "badge" },
           { key: "name", header: "Name", renderAs: "text" },
           { key: "cycle", header: "Cycle", renderAs: "text" },
-          { key: "createdAt", header: "Created", renderAs: "text" },
+          { key: "createdAt", header: "Created", renderAs: "date" },
         ]}
         data={data}
         onScrollToBottom={fetchMore}
@@ -83,7 +83,6 @@ const UserContent = () => {
               </IconButton>
             </Dropdown.Trigger>
             <Dropdown.Items>
-              <Dropdown.Item icon={<Copy />}>Copy</Dropdown.Item>
               <Dropdown.Item
                 icon={<Delete />}
                 onClick={() => {
@@ -220,7 +219,7 @@ const DefaultContent = () => {
             width: 248,
             height: "100%",
             borderRight: "1px solid var(--interactive-secondary)",
-            padding: "24px 12px",
+            padding: "16px 12px",
             "& > * + *": { marginTop: "8px" },
           }}
         >
