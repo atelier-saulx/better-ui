@@ -13,8 +13,13 @@ export type FormProps = {
   onChange: (values: FormValues) => void;
   fields: {
     [key: string]:
-      | { label: string; type: "text" }
-      | { label: string; type: "select"; options: SelectInputProps["options"] };
+      | { label: string; type: "text"; description?: string }
+      | {
+          label: string;
+          type: "select";
+          options: SelectInputProps["options"];
+          description?: string;
+        };
   };
 };
 
@@ -56,42 +61,76 @@ export function Form({ fields, defaultValues, onChange }: FormProps) {
   }, []);
 
   return (
-    <div>
+    <styled.div style={{ "& > * + *": { marginTop: "32px" } }}>
       {Object.entries(fields).map(([key, field]) => {
-        console.log(getDefaultValue(key));
         switch (field.type) {
           case "text":
             return (
-              <TextInput
-                key={key}
-                label={field.label}
-                defaultValue={getDefaultValue(key)}
-                onChange={(value) => {
-                  setValue(key, value);
-                }}
-              />
+              <FormField key={key} description={field.description}>
+                <TextInput
+                  label={field.label}
+                  defaultValue={getDefaultValue(key)}
+                  onChange={(value) => {
+                    setValue(key, value);
+                  }}
+                />
+              </FormField>
             );
           case "select":
             return (
-              <SelectInput
-                key={key}
-                label={field.label}
-                defaultValue={getDefaultValue(key)}
-                onChange={(value) => {
-                  setValue(key, value);
-                }}
-                options={field.options}
-              />
+              <FormField key={key} description={field.description}>
+                <SelectInput
+                  label={field.label}
+                  defaultValue={getDefaultValue(key)}
+                  onChange={(value) => {
+                    setValue(key, value);
+                  }}
+                  options={field.options}
+                />
+              </FormField>
             );
         }
       })}
-      <Button
-        onClick={() => {
-          onChange(values.current);
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
         }}
       >
-        Submit
-      </Button>
-    </div>
+        <Button type="secondary">Cancel</Button>
+        <div style={{ marginLeft: "auto" }}>
+          <Button
+            onClick={() => {
+              onChange(values.current);
+            }}
+          >
+            Submit
+          </Button>
+        </div>
+      </div>
+    </styled.div>
+  );
+}
+
+type FormFieldProps = { children: React.ReactNode; description?: string };
+
+function FormField({ children, description }: FormFieldProps) {
+  return (
+    <styled.div style={{ "& > * + *": { marginTop: "8px" } }}>
+      {children}
+      {description && (
+        <div
+          style={{
+            fontWeight: 400,
+            fontSize: 14,
+            lineHeight: "24px",
+            color: "var(--content-secondary)",
+          }}
+        >
+          {description}
+        </div>
+      )}
+    </styled.div>
   );
 }

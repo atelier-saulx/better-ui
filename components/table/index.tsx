@@ -21,9 +21,7 @@ type RenderAs =
   | "toggle"
   | NumberFormat
   | DateFormat
-  | "strong"
-  | "medium"
-  | "normal"
+  | "text"
   | ((row: any) => React.ReactNode);
 
 type TableColumn = {
@@ -292,7 +290,7 @@ export function Table({
   );
 }
 
-function renderCell(key: string, row: any, renderAs: RenderAs = "normal") {
+function renderCell(key: string, row: any, renderAs: RenderAs = "text") {
   if (renderAs === "badge")
     return (
       <Badge

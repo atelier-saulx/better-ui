@@ -25,6 +25,7 @@ export function Items({ children }: DropdownItemsProps) {
     <DropdownBase.Portal>
       <DropdownBase.Content
         sideOffset={8}
+        collisionPadding={24}
         asChild
         onCloseAutoFocus={(e) => {
           e.preventDefault();
@@ -35,8 +36,7 @@ export function Items({ children }: DropdownItemsProps) {
             width: 258,
             background: "var(--background-screen)",
             overflowY: "auto",
-            maxHeight:
-              "calc(var(--radix-dropdown-menu-content-available-height) - 8px)",
+            maxHeight: "var(--radix-dropdown-menu-content-available-height)",
             borderRadius: "var(--radius-small)",
             border: "1px solid var(--interactive-secondary)",
             boxShadow: "var(--shadow-elevation)",
