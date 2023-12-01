@@ -24,6 +24,7 @@ import { Avatar } from "../components/avatar";
 import { styled } from "inlines";
 import { Form } from "../components/form";
 import { Sidebar, SidebarItem } from "../components/sidebar";
+import { Header } from "../components/header";
 
 const client = based({
   org: "saulx",
@@ -177,43 +178,7 @@ const DefaultContent = () => {
 
   return (
     <div style={{ height: "100vh", width: "100vw" }}>
-      <header
-        style={{
-          height: 64,
-          borderBottom: "1px solid var(--interactive-secondary)",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 24px",
-        }}
-      >
-        <BasedLogoWithText />
-        <styled.div
-          style={{
-            marginLeft: "auto",
-            display: "flex",
-            alignItems: "center",
-            "& > * + *": {
-              marginLeft: "24px",
-            },
-          }}
-        >
-          <Button size="small" type="secondary">
-            Documentation
-          </Button>
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <div style={{ cursor: "pointer" }}>
-                <Avatar placeholder="MD" shape="circle" size="small" />
-              </div>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<Settings />}>Settings</Dropdown.Item>
-              <Dropdown.Item icon={<Eye />}>Switch to dark mode</Dropdown.Item>
-              <Dropdown.Item icon={<Logout />}>Logout</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        </styled.div>
-      </header>
+      <Header />
       <div style={{ display: "flex", height: "calc(100% - 64px)" }}>
         <Sidebar>
           <SidebarItem
