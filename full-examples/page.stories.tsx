@@ -23,6 +23,7 @@ import { Button } from "../components/button";
 import { Avatar } from "../components/avatar";
 import { styled } from "inlines";
 import { Form } from "../components/form";
+import { Sidebar, SidebarItem } from "../components/sidebar";
 
 const client = based({
   org: "saulx",
@@ -214,116 +215,44 @@ const DefaultContent = () => {
         </styled.div>
       </header>
       <div style={{ display: "flex", height: "calc(100% - 64px)" }}>
-        <styled.aside
-          style={{
-            width: 248,
-            height: "100%",
-            borderRight: "1px solid var(--interactive-secondary)",
-            padding: "16px 12px",
-            "& > * + *": { marginTop: "8px" },
-          }}
-        >
-          <styled.div
-            style={{
-              height: "40px",
-              display: "flex",
-              alignItems: "center",
-              padding: "0 12px",
-              borderRadius: "var(--radius-small)",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: "pointer",
-              "&:hover": {
-                background: "var(--background-neutral)",
-              },
-              "& > * + *": { marginLeft: "10px" },
-              ...(page === "overview" && {
-                background: "var(--background-neutral)",
-              }),
-            }}
+        <Sidebar>
+          <SidebarItem
+            active={page === "overview"}
             onClick={() => {
               setPage("overview");
             }}
+            icon={<Boxes />}
           >
-            <Boxes />
-            <div>Overview</div>
-          </styled.div>
-          <styled.div
-            style={{
-              height: "40px",
-              display: "flex",
-              alignItems: "center",
-              padding: "0 12px",
-              borderRadius: "var(--radius-small)",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: "pointer",
-              "&:hover": {
-                background: "var(--background-neutral)",
-              },
-              "& > * + *": { marginLeft: "10px" },
-              ...(page === "content" && {
-                background: "var(--background-neutral)",
-              }),
-            }}
+            Overview
+          </SidebarItem>
+          <SidebarItem
+            active={page === "content"}
             onClick={() => {
               setPage("content");
             }}
+            icon={<Edit />}
           >
-            <Edit />
-            <div>Content</div>
-          </styled.div>
-          <styled.div
-            style={{
-              height: "40px",
-              display: "flex",
-              alignItems: "center",
-              padding: "0 12px",
-              borderRadius: "var(--radius-small)",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: "pointer",
-              "&:hover": {
-                background: "var(--background-neutral)",
-              },
-              "& > * + *": { marginLeft: "10px" },
-              ...(page === "users" && {
-                background: "var(--background-neutral)",
-              }),
-            }}
+            Content
+          </SidebarItem>
+          <SidebarItem
+            active={page === "users"}
             onClick={() => {
               setPage("users");
             }}
+            icon={<Users />}
           >
-            <Users />
-            <div>Users</div>
-          </styled.div>
-          <styled.div
-            style={{
-              height: "40px",
-              display: "flex",
-              alignItems: "center",
-              padding: "0 12px",
-              borderRadius: "var(--radius-small)",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: "pointer",
-              "&:hover": {
-                background: "var(--background-neutral)",
-              },
-              "& > * + *": { marginLeft: "10px" },
-              ...(page === "statistics" && {
-                background: "var(--background-neutral)",
-              }),
-            }}
+            Users
+          </SidebarItem>
+          <SidebarItem
+            active={page === "statistics"}
             onClick={() => {
               setPage("statistics");
             }}
+            icon={<ChartBar />}
           >
-            <ChartBar />
-            <div>Statistics</div>
-          </styled.div>
-        </styled.aside>
+            Statistics
+          </SidebarItem>
+        </Sidebar>
         <div style={{ flex: "1", marginTop: -1 }}>
           {page === "content" && <Content />}
           {page === "users" && <UserContent />}

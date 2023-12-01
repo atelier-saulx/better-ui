@@ -15,7 +15,7 @@ export function Tooltip({ children, content }: TooltipProps) {
           <div>{children}</div>
         </TooltipBase.Trigger>
         <TooltipBase.Portal>
-          <TooltipBase.Content asChild sideOffset={4}>
+          <TooltipBase.Content asChild sideOffset={4} collisionPadding={8}>
             <div
               style={{
                 padding: "4px 8px",

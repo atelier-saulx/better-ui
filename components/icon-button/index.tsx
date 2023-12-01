@@ -19,15 +19,16 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           justifyContent: "center",
           alignItems: "center",
           borderRadius: "var(--radius-small)",
+          padding: 0,
           fontWeight: 600,
           cursor: "pointer",
           ...(size === "medium" && {
-            height: "42px",
-            width: "42px",
+            height: "40px",
+            width: "40px",
           }),
           ...(size === "small" && {
-            height: "34px",
-            width: "34px",
+            height: "32px",
+            width: "32px",
           }),
           ...(type === "primary" && {
             color: "var(--content-primary)",

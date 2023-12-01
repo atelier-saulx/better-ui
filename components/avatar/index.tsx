@@ -51,8 +51,8 @@ export function Avatar({
           height: 40,
         }),
         ...(size === "small" && {
-          width: 34,
-          height: 34,
+          width: 32,
+          height: 32,
         }),
       }}
     >

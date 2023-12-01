@@ -29,17 +29,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           fontWeight: 600,
           cursor: "pointer",
           ...(size === "large" && {
-            padding: "10px 16px",
+            padding: "9px 16px",
             fontSize: 16,
             lineHeight: "28px",
           }),
           ...(size === "medium" && {
-            padding: "6px 16px",
+            padding: "5px 16px",
             fontSize: 16,
             lineHeight: "28px",
           }),
           ...(size === "small" && {
-            padding: "4px 12px",
+            padding: "3px 12px",
             fontSize: 14,
             lineHeight: "24px",
           }),
