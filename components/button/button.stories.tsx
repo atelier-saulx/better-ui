@@ -18,3 +18,17 @@ export const Default: StoryObj<typeof Button> = {
     },
   },
 };
+
+export const AsyncOnClick: StoryObj<typeof Button> = {
+  args: {
+    children: "Click",
+    type: "primary",
+    size: "medium",
+    onClick: async () => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 800);
+      });
+      throw new Error("something went bad")
+    },
+  },
+};

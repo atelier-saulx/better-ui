@@ -2,6 +2,7 @@ import "../styles/reset.css";
 import "../styles/variables.css";
 import "../styles/fonts.css";
 import "../styles/semantic-colors.css";
+import "../styles/keyframes.css";
 
 export * from "../components/button";
 export * from "../components/text-input";
