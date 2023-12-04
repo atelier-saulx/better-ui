@@ -20,7 +20,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
     const [shaking, setShaking] = React.useState(false);
 
     const handleClick = React.useCallback(async () => {
