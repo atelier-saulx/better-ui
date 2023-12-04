@@ -3,28 +3,51 @@ import { hash } from "@saulx/hash";
 import { styled } from "inlines";
 import { CheckLarge, Copy } from "../icons";
 
+type SemanticColor =
+  | "auto"
+  | "neutral"
+  | "informative"
+  | "positive"
+  | "warning"
+  | "error"
+  | "auto-muted"
+  | "neutral-muted"
+  | "informative-muted"
+  | "positive-muted"
+  | "warning-muted"
+  | "error-muted";
+
 export type BadgeProps = {
   children: string | number;
-  color?: "auto" | "neutral" | "informative" | "positive" | "warning" | "error";
-  style?: "regular" | "muted";
+  color?: SemanticColor;
   size?: "regular" | "small";
-  copyable?: boolean;
+  copyValue?: string;
   prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
 };
 
 export function Badge({
   children,
-  color: colorProp = "neutral",
-  copyable = false,
-  style = "regular",
+  copyValue,
+  color: colorProp = "informative",
   size = "regular",
   prefix,
+  suffix,
 }: BadgeProps) {
   const [showCheck, setShowCheck] = React.useState(false);
 
   const color = React.useMemo(() => {
-    if (colorProp === "auto") {
-      const colors = ["neutral", "informative", "positive", "warning", "error"];
+    if (colorProp === "auto" || colorProp === "auto-muted") {
+      const colors =
+        colorProp === "auto"
+          ? ["neutral", "informative", "positive", "warning", "error"]
+          : [
+              "neutral-muted",
+              "informative-muted",
+              "positive-muted",
+              "warning-muted",
+              "error-muted",
+            ];
 
       const index =
         Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) +
@@ -39,9 +62,9 @@ export function Badge({
   return (
     <styled.div
       onClick={() => {
-        if (!copyable) return;
+        if (!copyValue) return;
 
-        navigator.clipboard.writeText(`${children}`);
+        navigator.clipboard.writeText(copyValue);
         setShowCheck(true);
       }}
       style={{
@@ -53,8 +76,8 @@ export function Badge({
         padding: "0 8px",
         borderRadius: "var(--radius-large)",
         fontWeight: 500,
-        color: `var(--semantic-color-${style}-${color})`,
-        background: `var(--semantic-background-${style}-${color})`,
+        color: `var(--semantic-color-${color})`,
+        background: `var(--semantic-background-${color})`,
         ...(size === "regular" && {
           fontSize: "14px",
           lineHeight: "24px",
@@ -63,7 +86,7 @@ export function Badge({
           fontSize: "12px",
           lineHeight: "20px",
         }),
-        ...(copyable && {
+        ...(copyValue && {
           cursor: "copy",
           "&:hover": {
             borderTopRightRadius: "0 !important",
@@ -80,7 +103,8 @@ export function Badge({
     >
       {prefix && prefix}
       {children}
-      {copyable && (
+      {suffix && suffix}
+      {copyValue && (
         <span
           className="badge-copyable"
           style={{
@@ -97,8 +121,8 @@ export function Badge({
             right: 0,
             top: 0,
             transform: "translateX(100%)",
-            color: `var(--semantic-color-${style}-${color})`,
-            background: `var(--semantic-background-${style}-${color})`,
+            color: `var(--semantic-color-${color})`,
+            background: `var(--semantic-background-${color})`,
             borderTopRightRadius: "var(--radius-large)",
             borderBottomRightRadius: "var(--radius-large)",
             padding: "0 8px 0 0",
