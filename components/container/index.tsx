@@ -37,16 +37,19 @@ export function Container({
           alignItems: "center",
           gap: 8,
           padding: 16,
-          cursor: "pointer",
           borderTopRightRadius: 8,
           borderTopLeftRadius: 8,
           borderBottomRightRadius: expanded ? 0 : 8,
           borderBottomLeftRadius: expanded ? 0 : 8,
-          "&:hover": {
-            background: "var(--background-neutral)",
-          },
+          ...(expandable && {
+            cursor: "pointer",
+            "&:hover": {
+              background: "var(--background-neutral)",
+            },
+          }),
         }}
         onClick={(e: any) => {
+          if (!expandable) return;
           if (headerRef.current && headerRef.current.contains(e.target)) {
             setExpanded((p) => !p);
           }
