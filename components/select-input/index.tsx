@@ -10,7 +10,10 @@ export type SelectInputProps = {
   onChange?: (value: string) => void;
   formName?: string;
   label?: string;
-  options?: { value: string; label: string; prefix?: React.ReactNode }[];
+  options?: (
+    | { value: string; label?: string; prefix?: React.ReactNode }
+    | string
+  )[];
 };
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
@@ -100,45 +103,53 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             sideOffset={8}
           >
             <SelectBase.Viewport style={{ padding: 8 }}>
-              {options?.map((option) => (
-                <SelectBase.Item
-                  key={option.value}
-                  value={option.value}
-                  asChild
-                >
-                  <styled.div
-                    style={{
-                      padding: "4px 12px 4px 42px",
-                      borderRadius: "var(--radius-small)",
-                      fontSize: 14,
-                      lineHeight: "24px",
-                      position: "relative",
-                      outline: "none",
-                      userSelect: "none",
-                      "&[data-highlighted]": {
-                        background: "var(--background-neutral)",
-                      },
-                    }}
-                  >
-                    <SelectBase.ItemIndicator>
-                      <CheckSmall
-                        style={{
-                          position: "absolute",
-                          top: 6,
-                          left: 12,
-                          color: "var(--content-primary)",
-                        }}
-                      />
-                    </SelectBase.ItemIndicator>
-                    <SelectBase.ItemText>
-                      <div style={{ display: "inline-block", marginRight: 8 }}>
-                        {option.prefix}
-                      </div>
-                      {option.label}
-                    </SelectBase.ItemText>
-                  </styled.div>
-                </SelectBase.Item>
-              ))}
+              {options?.map((option) => {
+                const {
+                  value,
+                  label = null,
+                  prefix = null,
+                } = typeof option === "string" ? { value: option } : option;
+
+                return (
+                  <SelectBase.Item key={value} value={value} asChild>
+                    <styled.div
+                      style={{
+                        padding: "4px 12px 4px 42px",
+                        borderRadius: "var(--radius-small)",
+                        fontSize: 14,
+                        lineHeight: "24px",
+                        position: "relative",
+                        outline: "none",
+                        userSelect: "none",
+                        "&[data-highlighted]": {
+                          background: "var(--background-neutral)",
+                        },
+                      }}
+                    >
+                      <SelectBase.ItemIndicator>
+                        <CheckSmall
+                          style={{
+                            position: "absolute",
+                            top: 6,
+                            left: 12,
+                            color: "var(--content-primary)",
+                          }}
+                        />
+                      </SelectBase.ItemIndicator>
+                      <SelectBase.ItemText>
+                        {prefix && (
+                          <div
+                            style={{ display: "inline-block", marginRight: 8 }}
+                          >
+                            {prefix}
+                          </div>
+                        )}
+                        {label ?? value}
+                      </SelectBase.ItemText>
+                    </styled.div>
+                  </SelectBase.Item>
+                );
+              })}
             </SelectBase.Viewport>
           </SelectBase.Content>
         </SelectBase.Portal>

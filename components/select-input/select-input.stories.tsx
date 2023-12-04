@@ -31,3 +31,11 @@ export const Default: StoryObj<typeof SelectInput> = {
     ],
   },
 };
+
+export const Simple: StoryObj<typeof SelectInput> = {
+  args: {
+    placeholder: "Select something",
+    label: "Favourite fruit",
+    options: ["orange", "banana", "apple"],
+  },
+};
