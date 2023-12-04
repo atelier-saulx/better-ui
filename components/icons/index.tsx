@@ -497,3 +497,21 @@ export function ChevronDown({ style, width = 20, height = 20 }: IconProps) {
     </svg>
   );
 }
+
+export function BoltSmall({ style, width = 16, height = 16 }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      style={style}
+      viewBox="0 0 16 16"
+      fill="currentColor"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M7 10H3.62582C3.14354 10 2.84306 9.49993 3.08606 9.1L7.84 2.29864C8.16139 1.76972 9 1.98858 9 2.60092V6H12.3742C12.8565 6 13.1569 6.50007 12.9139 6.9L8.16 13.7014C7.83861 14.2303 7 14.0114 7 13.3991V10Z"
+      />
+    </svg>
+  );
+}

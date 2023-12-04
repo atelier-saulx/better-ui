@@ -9,6 +9,7 @@ export type BadgeProps = {
   style?: "regular" | "muted";
   size?: "regular" | "small";
   copyable?: boolean;
+  prefix?: React.ReactNode;
 };
 
 export function Badge({
@@ -17,6 +18,7 @@ export function Badge({
   copyable = false,
   style = "regular",
   size = "regular",
+  prefix,
 }: BadgeProps) {
   const [showCheck, setShowCheck] = React.useState(false);
 
@@ -44,7 +46,10 @@ export function Badge({
       }}
       style={{
         position: "relative",
-        display: "inline-block",
+        display: "inline-flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 4,
         padding: "0 8px",
         borderRadius: "var(--radius-large)",
         fontWeight: 500,
@@ -73,6 +78,7 @@ export function Badge({
         setShowCheck(false);
       }}
     >
+      {prefix && prefix}
       {children}
       {copyable && (
         <span
