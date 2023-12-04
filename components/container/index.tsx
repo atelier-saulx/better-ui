@@ -1,6 +1,7 @@
 import * as React from "react";
 import { styled } from "inlines";
 import { ChevronDown } from "../icons";
+import { useControllableState } from "../../utils/hooks/use-controllable-state";
 
 export type ContainerProps = {
   children?: React.ReactNode;
@@ -9,6 +10,10 @@ export type ContainerProps = {
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   expandable?: boolean;
+  expanded?: boolean;
+  onExpandedChange?: (expanded: boolean) => void;
+  onClick?: () => void;
+  divider?: boolean;
 };
 
 export function Container({
@@ -17,10 +22,20 @@ export function Container({
   description,
   prefix,
   suffix,
-  expandable = true,
+  expandable = false,
+  expanded: expandedProp,
+  onClick,
+  onExpandedChange,
+  divider = true,
 }: ContainerProps) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useControllableState({
+    prop: expandedProp,
+    defaultProp: false,
+    onChange: onExpandedChange,
+  });
   const headerRef = React.useRef<HTMLDivElement | null>(null);
+
+  console.log(expanded);
 
   return (
     <div
@@ -41,7 +56,7 @@ export function Container({
           borderTopLeftRadius: 8,
           borderBottomRightRadius: expanded ? 0 : 8,
           borderBottomLeftRadius: expanded ? 0 : 8,
-          ...(expandable && {
+          ...((expandable || onClick) && {
             cursor: "pointer",
             "&:hover": {
               background: "var(--background-neutral)",
@@ -49,9 +64,12 @@ export function Container({
           }),
         }}
         onClick={(e: any) => {
-          if (!expandable) return;
           if (headerRef.current && headerRef.current.contains(e.target)) {
-            setExpanded((p) => !p);
+            onClick?.();
+
+            if (expandable) {
+              setExpanded((p) => !p);
+            }
           }
         }}
       >
@@ -82,11 +100,13 @@ export function Container({
         </div>
         {suffix && <div style={{ marginLeft: "auto" }}>{suffix}</div>}
       </styled.div>
-      {(!expandable || expanded) && (
+      {children && (!expandable || expanded) && (
         <div
           style={{
             padding: 16,
-            borderTop: "1px solid var(--interactive-secondary)",
+            ...(divider && {
+              borderTop: "1px solid var(--interactive-secondary)",
+            }),
           }}
         >
           {children}
