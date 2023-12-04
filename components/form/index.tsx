@@ -98,7 +98,7 @@ export function Form({ fields, defaultValues, onChange }: FormProps) {
           alignItems: "center",
         }}
       >
-        <Button type="secondary">Cancel</Button>
+        <Button variant="neutral">Cancel</Button>
         <div style={{ marginLeft: "auto" }}>
           <Button
             onClick={() => {

@@ -6,6 +6,8 @@ import { Tooltip } from "../tooltip";
 
 const SidebarContext = React.createContext({ open: true });
 
+// TODO auto collapse on small screens?
+
 export type SidebarProps = {
   children: React.ReactNode;
 };

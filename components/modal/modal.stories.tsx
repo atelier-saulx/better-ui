@@ -42,7 +42,7 @@ export const Default = () => {
               </styled.div>
             </Modal.Body>
             <Modal.Actions>
-              <Button type="secondary" onClick={close}>
+              <Button variant="neutral" onClick={close}>
                 Cancel
               </Button>
               <Button>Save</Button>

@@ -11,7 +11,7 @@ import { DateFormat, prettyDate } from "@based/pretty-date";
 import { useCallbackRef } from "../../utils/hooks/use-callback-ref";
 import { SortAsc, SortDesc } from "../icons";
 import { Badge } from "../badge";
-import { Avatar } from "../avatar";
+import { Thumbnail } from "../thumbnail";
 import { styled } from "inlines";
 
 type RenderAs =
@@ -294,9 +294,8 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "text") {
   if (renderAs === "badge")
     return (
       <Badge
-        color={key === "id" ? "informative" : "auto"}
-        copyable={key === "id"}
-        style="muted"
+        color={key === "id" ? "informative-muted" : "auto-muted"}
+        copyValue={key === "id" ? row[key] : undefined}
       >
         {row[key]}
       </Badge>
@@ -306,10 +305,10 @@ function renderCell(key: string, row: any, renderAs: RenderAs = "text") {
     const value = row[key];
 
     if (value.length > 2) {
-      return <Avatar src={value} />;
+      return <Thumbnail src={value} />;
     }
 
-    return <Avatar placeholder={value} />;
+    return <Thumbnail text={value} />;
   }
 
   if (

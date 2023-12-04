@@ -3,10 +3,23 @@ import { styled } from "inlines";
 
 export type ButtonProps = {
   children: React.ReactNode;
-  type?: "primary" | "secondary" | "error";
+  variant?:
+    | "primary"
+    | "primary-transparent"
+    | "neutral"
+    | "neutral-transparent"
+    | "error";
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
   size?: "large" | "medium" | "small";
-  buttonType?: "button" | "submit";
+  type?: "button" | "submit";
+  disabled?: boolean;
   onClick?: () => void | Promise<void>;
+  onMouseEnter?: React.MouseEventHandler;
+  onMouseLeave?: React.MouseEventHandler;
+  onFocus?: React.FocusEventHandler;
+  onBlur?: React.FocusEventHandler;
+  // TODO keyboard shortcust from old lib
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -14,15 +27,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     {
       children,
       onClick,
-      type = "primary",
+      variant = "primary",
       size = "medium",
-      buttonType = "button",
+      type = "button",
+      prefix,
+      suffix,
+      onMouseEnter,
+      onMouseLeave,
+      onFocus,
+      onBlur,
     },
     ref
   ) => {
     const [loading, setLoading] = React.useState(false);
     const [shaking, setShaking] = React.useState(false);
 
+    // TODO make this into a hook
     const handleClick = React.useCallback(async () => {
       if (!onClick) return;
 
@@ -43,7 +63,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <styled.button
         ref={ref}
-        type={buttonType}
+        type={type}
         style={{
           position: "relative",
           borderRadius: "var(--radius-small)",
@@ -70,7 +90,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             fontSize: 14,
             lineHeight: "24px",
           }),
-          ...(type === "primary" && {
+          ...(variant === "primary" && {
             color: "var(--content-inverted)",
             background: "var(--interactive-primary)",
             border: "1px solid var(--interactive-primary)",
@@ -79,7 +99,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               border: "1px solid var(--interactive-primary-hover)",
             },
           }),
-          ...(type === "secondary" && {
+          ...(variant === "primary-transparent" && {
+            color: "var(--interactive-primary)",
+            background: "transparent",
+            border: "transparent",
+            "&:hover": {
+              background:
+                "color-mix(in srgb, var(--interactive-primary) 20%, transparent)",
+              border: "transparent",
+            },
+          }),
+          ...(variant === "neutral" && {
             color: "var(--content-primary)",
             background: "transparent",
             border: "1px solid var(--interactive-secondary)",
@@ -88,7 +118,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               border: "1px solid var(--interactive-secondary-hover)",
             },
           }),
-          ...(type === "error" && {
+          ...(variant === "neutral-transparent" && {
+            color: "var(--content-primary)",
+            background: "transparent",
+            border: "transparent",
+            "&:hover": {
+              background: "var(--background-neutral)",
+              border: "transparent",
+            },
+          }),
+          ...(variant === "error" && {
             color: "var(--content-inverted)",
             background: "var(--sentiment-negative)",
             border: "1px solid var(--sentiment-negative)",
@@ -102,6 +141,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onAnimationEnd={() => {
           setShaking(false);
         }}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onFocus={onFocus}
+        onBlur={onBlur}
       >
         {loading && (
           <div
@@ -133,7 +176,19 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             </svg>
           </div>
         )}
-        <span style={{ opacity: loading ? 0 : 100 }}>{children}</span>
+        <div
+          style={{
+            opacity: loading ? 0 : 100,
+            display: "flex",
+            gap: 8,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {prefix && prefix}
+          <span>{children}</span>
+          {suffix && suffix}
+        </div>
       </styled.button>
     );
   }

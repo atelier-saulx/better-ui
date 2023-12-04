@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container } from "./";
-import { Avatar } from "../avatar";
+import { Thumbnail } from "../thumbnail";
 import type { Meta, StoryObj } from "@storybook/react";
 import { MoreHorizontal } from "../icons";
 import { IconButton } from "../icon-button";
@@ -18,7 +18,7 @@ export const ListItem: StoryObj<typeof Container> = {
   args: {
     title: "This is a title",
     description: "This is a description",
-    prefix: <Avatar placeholder="AB" />,
+    prefix: <Thumbnail text="AB" />,
     suffix: (
       <Dropdown.Root>
         <Dropdown.Trigger>
@@ -54,7 +54,7 @@ export const ListItemWithOnClick: StoryObj<typeof Container> = {
     onClick: () => {
       alert("clicked");
     },
-    prefix: <Avatar placeholder="AB" />,
+    prefix: <Thumbnail text="AB" />,
     suffix: (
       <Dropdown.Root>
         <Dropdown.Trigger>
@@ -87,7 +87,7 @@ export const ListItemWithChildren: StoryObj<typeof Container> = {
   args: {
     title: "This is a title",
     description: "This is a description",
-    prefix: <Avatar placeholder="AB" />,
+    prefix: <Thumbnail text="AB" />,
     suffix: (
       <Dropdown.Root>
         <Dropdown.Trigger>
@@ -122,7 +122,7 @@ export const ListItemWithChildrenNoDivider: StoryObj<typeof Container> = {
     title: "This is a title",
     description: "This is a description",
     divider: false,
-    prefix: <Avatar placeholder="AB" />,
+    prefix: <Thumbnail text="AB" />,
     suffix: (
       <Dropdown.Root>
         <Dropdown.Trigger>
@@ -163,7 +163,7 @@ export const Expandable: StoryObj<typeof Container> = {
     title: "This is a title",
     description: "This is a description",
     expandable: true,
-    prefix: <Avatar placeholder="AB" />,
+    prefix: <Thumbnail text="AB" />,
     suffix: (
       <Dropdown.Root>
         <Dropdown.Trigger>

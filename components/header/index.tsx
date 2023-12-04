@@ -10,7 +10,7 @@ import {
 } from "../icons";
 import { Button } from "../button";
 import { Dropdown } from "../dropdown";
-import { Avatar } from "../avatar";
+import { Thumbnail } from "../thumbnail";
 import { useIsMobile } from "../../utils/hooks/use-is-mobile";
 import { IconButton } from "../icon-button";
 import { useTheme } from "../../utils/hooks/use-theme";
@@ -71,13 +71,13 @@ export function Header() {
                 },
               }}
             >
-              <Button size="small" type="secondary">
+              <Button size="small" variant="neutral">
                 Documentation
               </Button>
               <Dropdown.Root>
                 <Dropdown.Trigger>
                   <div style={{ cursor: "pointer" }}>
-                    <Avatar placeholder="MD" shape="circle" size="small" />
+                    <Thumbnail text="MD" shape="circle" size="small" />
                   </div>
                 </Dropdown.Trigger>
                 <Dropdown.Items>

@@ -2,20 +2,11 @@ import * as React from "react";
 import { hash } from "@saulx/hash";
 import { styled } from "inlines";
 import { CheckLarge, Copy } from "../icons";
-
-type SemanticColor =
-  | "auto"
-  | "neutral"
-  | "informative"
-  | "positive"
-  | "warning"
-  | "error"
-  | "auto-muted"
-  | "neutral-muted"
-  | "informative-muted"
-  | "positive-muted"
-  | "warning-muted"
-  | "error-muted";
+import {
+  MUTED_SEMANTIC_COLORS,
+  SEMANTIC_COLORS,
+  SemanticColor,
+} from "../../utils/semantic-color";
 
 export type BadgeProps = {
   children: string | number;
@@ -39,15 +30,7 @@ export function Badge({
   const color = React.useMemo(() => {
     if (colorProp === "auto" || colorProp === "auto-muted") {
       const colors =
-        colorProp === "auto"
-          ? ["neutral", "informative", "positive", "warning", "error"]
-          : [
-              "neutral-muted",
-              "informative-muted",
-              "positive-muted",
-              "warning-muted",
-              "error-muted",
-            ];
+        colorProp === "auto" ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS;
 
       const index =
         Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) +
@@ -57,7 +40,7 @@ export function Badge({
     }
 
     return colorProp;
-  }, [colorProp]);
+  }, [colorProp, children]);
 
   return (
     <styled.div
