@@ -5,9 +5,10 @@ import * as TooltipBase from "@radix-ui/react-tooltip";
 export type TooltipProps = {
   children: React.ReactNode;
   content: string;
+  side?: TooltipBase.TooltipContentProps["side"];
 };
 
-export function Tooltip({ children, content }: TooltipProps) {
+export function Tooltip({ children, content, side }: TooltipProps) {
   return (
     <TooltipBase.Provider delayDuration={0} skipDelayDuration={0}>
       <TooltipBase.Root>
@@ -15,12 +16,18 @@ export function Tooltip({ children, content }: TooltipProps) {
           <div>{children}</div>
         </TooltipBase.Trigger>
         <TooltipBase.Portal>
-          <TooltipBase.Content asChild sideOffset={4} collisionPadding={8}>
+          <TooltipBase.Content
+            asChild
+            side={side}
+            sideOffset={4}
+            collisionPadding={8}
+          >
             <div
               style={{
                 padding: "4px 8px",
                 borderRadius: "var(--radius-tiny)",
                 background: "var(--content-primary)",
+                userSelect: "none",
               }}
             >
               <span
