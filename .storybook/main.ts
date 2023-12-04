@@ -3,10 +3,12 @@ import type { StorybookConfig } from "@storybook/react-webpack5";
 const config: StorybookConfig = {
   stories: ["../**/*.stories.tsx"],
   addons: ["@storybook/addon-controls", "@storybook/addon-viewport"],
+
   framework: {
     name: "@storybook/react-webpack5",
     options: {},
   },
+
   webpackFinal: (config) => {
     return {
       ...config,
@@ -29,6 +31,10 @@ const config: StorybookConfig = {
       },
     };
   },
+
+  docs: {
+    autodocs: true
+  }
 };
 
 export default config;
