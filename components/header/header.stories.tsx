@@ -14,7 +14,9 @@ const meta: Meta<typeof Header> = {
 export default meta;
 
 export const Default = () => {
-  <ThemeProvider>
-    <Header />
-  </ThemeProvider>;
+  return (
+    <ThemeProvider>
+      <Header />
+    </ThemeProvider>
+  );
 };

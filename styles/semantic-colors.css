@@ -1,39 +1,41 @@
 :root {
   /* neutral regular */
-  --semantic-color-regular-neutral: #ffffff;
-  --semantic-background-regular-neutral: #1830488f;
+  --semantic-color-neutral: #ffffff;
+  --semantic-background-neutral: #1830488f;
   /* neutral muted */
-  --semantic-color-muted-neutral: #1b242c;
-  --semantic-background-muted-neutral: #10284817;
+  --semantic-color-neutral-muted: #1b242c;
+  --semantic-background-neutral-muted: #10284817;
 
   /* informative regular */
-  --semantic-color-regular-informative: #ffffff;
-  --semantic-background-regular-informative: #3062d4;
+  --semantic-color-informative: #ffffff;
+  --semantic-background-informative: #3062d4;
   /* informative muted */
-  --semantic-color-muted-informative: #3062d4;
-  --semantic-background-muted-informative: #3062d429;
+  --semantic-color-informative-muted: #3062d4;
+  --semantic-background-informative-muted: #3062d429;
 
   /* positive regular */
-  --semantic-color-regular-positive: #ffffff;
-  --semantic-background-regular-positive: #1d7c4d;
+  --semantic-color-positive: #ffffff;
+  --semantic-background-positive: #1d7c4d;
   /* positive muted */
-  --semantic-color-muted-positive: #1d7c4d;
-  --semantic-background-muted-positive: #1d7c4d29;
+  --semantic-color-positive-muted: #1d7c4d;
+  --semantic-background-positive-muted: #1d7c4d29;
 
   /* warning regular */
-  --semantic-color-regular-warning: #222222;
-  --semantic-background-regular-warning: #f59638;
+  --semantic-color-warning: #222222;
+  --semantic-background-warning: #f59638;
   /* warning muted */
-  --semantic-color-muted-warning: #f59638;
-  --semantic-background-muted-warning: #f5963829;
+  --semantic-color-warning-muted: #f59638;
+  --semantic-background-warning-muted: #f5963829;
 
   /* error regular */
-  --semantic-color-regular-error: #ffffff;
-  --semantic-background-regular-error: #c53434;
+  --semantic-color-error: #ffffff;
+  --semantic-background-error: #c53434;
   /* error muted */
-  --semantic-color-muted-error: #c53434;
-  --semantic-background-muted-error: #c5343429;
+  --semantic-color-error-muted: #c53434;
+  --semantic-background-error-muted: #c5343429;
 }
+
+/* TODO add even more colors from figma */
 
 [data-theme="dark"] {
   /* TODO add dark mode colors  */

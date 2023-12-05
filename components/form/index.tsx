@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { styled } from 'inlines'
 import { TextInput } from '../text-input'
-import { Button } from '../button'
 import { display, BasedSchemaField } from '@based/schema'
 
 type FormValues = { [key: string]: BasedSchemaField }
@@ -13,9 +12,7 @@ export type FormProps = {
 }
 
 export function Form({ fields, defaultValues, onChange }: FormProps) {
-  const values = React.useRef<FormValues>({})
-
-  // check for index in fields
+  // const values = React.useRef<FormValues>({})
 
   return (
     <styled.div style={{ '& > * + *': { marginTop: '32px' } }}>

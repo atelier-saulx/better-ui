@@ -13,24 +13,34 @@ export default meta;
 export const Default: StoryObj<typeof Badge> = {
   args: {
     children: "I'm a badge",
-    style: "regular",
     size: "regular",
     color: "informative",
-    copyable: true,
   },
   argTypes: {
     color: { control: "select" },
   },
 };
 
-export const Prefix: StoryObj<typeof Badge> = {
+export const PrefixAndSuffix: StoryObj<typeof Badge> = {
   args: {
     children: "I'm a badge",
-    style: "regular",
     size: "regular",
     color: "informative",
-    copyable: true,
     prefix: <BoltSmall />,
+    suffix: <BoltSmall />,
+  },
+  argTypes: {
+    color: { control: "select" },
+  },
+};
+
+export const Copyable: StoryObj<typeof Badge> = {
+  args: {
+    children: "I'm a copyable badge",
+    size: "regular",
+    color: "informative",
+    prefix: <BoltSmall />,
+    copyValue: "this got copied from a badge",
   },
   argTypes: {
     color: { control: "select" },

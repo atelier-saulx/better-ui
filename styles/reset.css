@@ -25,6 +25,7 @@ html {
   tab-size: 4; /* 3 */
   color: var(--content-primary);
   background: var(--background-screen);
+  -webkit-font-smoothing: antialiased;
 }
 
 /*

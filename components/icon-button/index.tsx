@@ -1,6 +1,8 @@
 import * as React from "react";
 import { styled } from "inlines";
 
+// TODO rename type to variant same as button also add native event haldners etc similar to button
+
 export type IconButtonProps = {
   children: React.ReactNode;
   type?: "primary" | "secondary";

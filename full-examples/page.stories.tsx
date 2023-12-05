@@ -20,7 +20,7 @@ import {
 } from "../components/icons";
 import { Modal } from "../components/modal";
 import { Button } from "../components/button";
-import { Avatar } from "../components/avatar";
+import { Thumbnail } from "../components/thumbnail";
 import { styled } from "inlines";
 import { Form } from "../components/form";
 import { Sidebar, SidebarItem } from "../components/sidebar";
@@ -113,10 +113,10 @@ const UserContent = () => {
                   description="Are you sure? This action cannot be undone."
                 />
                 <Modal.Actions>
-                  <Button onClick={close} type="secondary">
+                  <Button onClick={close} variant="neutral">
                     Cancel
                   </Button>
-                  <Button onClick={close} type="error">
+                  <Button onClick={close} variant="error">
                     Delete
                   </Button>
                 </Modal.Actions>

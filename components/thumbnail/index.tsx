@@ -1,31 +1,42 @@
 import * as React from "react";
 import { hash } from "@saulx/hash";
 import { styled } from "inlines";
+import {
+  MUTED_SEMANTIC_COLORS,
+  SEMANTIC_COLORS,
+  SemanticColor,
+} from "../../utils/semantic-color";
 
-export type AvatarProps = {
+export type ThumbnailProps = {
   src?: string;
-  placeholder?: string;
-  size?: "large" | "regular" | "small";
+  text?: string;
+  color?: SemanticColor;
+  size?: "large" | "regular" | "small" | "extra-small";
   shape?: "square" | "circle";
 };
 
-export function Avatar({
+export function Thumbnail({
   src,
-  placeholder,
+  text,
   size = "regular",
   shape = "square",
-}: AvatarProps) {
+  color: colorProp = "auto",
+}: ThumbnailProps) {
   const color = React.useMemo(() => {
-    if (!placeholder) return;
+    if (!text) return;
 
-    const colors = ["neutral", "informative", "positive", "warning", "error"];
+    if (colorProp === "auto" || colorProp === "auto-muted") {
+      const colors =
+        colorProp === "auto" ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS;
 
-    const index =
-      Math.floor(Math.abs(Math.sin(hash(placeholder))) * (colors.length - 1)) +
-      1;
+      const index =
+        Math.floor(Math.abs(Math.sin(hash(text))) * (colors.length - 1)) + 1;
 
-    return colors[index];
-  }, [placeholder]);
+      return colors[index];
+    }
+
+    return colorProp;
+  }, [colorProp, text]);
 
   return (
     <div
@@ -33,8 +44,8 @@ export function Avatar({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        color: `var(--semantic-color-muted-${color})`,
-        background: `var(--semantic-background-muted-${color})`,
+        color: `var(--semantic-color-${color})`,
+        background: `var(--semantic-background-${color})`,
         overflow: "hidden",
         ...(shape === "square" && {
           borderRadius: "var(--radius-medium)",
@@ -54,6 +65,10 @@ export function Avatar({
           width: 32,
           height: 32,
         }),
+        ...(size === "extra-small" && {
+          width: 24,
+          height: 24,
+        }),
       }}
     >
       {src && (
@@ -62,7 +77,7 @@ export function Avatar({
           src={src}
         />
       )}
-      {placeholder && (
+      {text && (
         <span
           style={{
             ...(size === "large" && {
@@ -77,9 +92,13 @@ export function Avatar({
               fontSize: "12px",
               fontWeight: 600,
             }),
+            ...(size === "extra-small" && {
+              fontSize: "10px",
+              fontWeight: 500,
+            }),
           }}
         >
-          {placeholder}
+          {text}
         </span>
       )}
     </div>
