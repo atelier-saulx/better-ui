@@ -2,6 +2,8 @@ import { pascalCase } from "pascal-case";
 import fs from "node:fs";
 import path from "node:path";
 
+// TODO add Icon prefix to the names
+
 // usage: node pull-icons-from-figma.js <FIGMA_TOKEN>
 
 (async () => {
