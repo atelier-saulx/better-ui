@@ -3,6 +3,7 @@ import { styled } from 'inlines'
 import { Button } from '../button'
 import { BasedSchemaField } from '@based/schema'
 import { Delete } from '../icons'
+import { Text } from '../text'
 
 type TableProps = {
   colls: string[]
@@ -17,7 +18,7 @@ function Row({ field, value }: { field: BasedSchemaField; value: any }) {
   const [focus, setFocus] = React.useState(false)
 
   if (field.type === 'object') {
-    return <styled.div>OBJECT</styled.div>
+    return <styled.div style={{ marginLeft: 10 }}>OBJECT</styled.div>
   }
 
   const ref = React.useRef<HTMLDivElement>()
@@ -73,10 +74,30 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
           height: 48,
           display: 'flex',
           alignItems: 'center',
+          paddingLeft: 10,
+          paddingRight: 10,
+          justifyContent: 'space-between',
         }}
       >
         {colls.map((v, index) => {
-          return <styled.div key={index}></styled.div>
+          return (
+            <Text
+              weight={500}
+              style={{
+                height: 48,
+                display: 'flex',
+                alignItems: 'center',
+                borderRight: '1px solid var(--border-default-strong)',
+                width: `calc(${100 / colls.length}% - 10px)`,
+                marginLeft: 10,
+                marginRight: 10,
+                color: `var(--content-default-secondary, #7E8B99)`,
+              }}
+              key={index}
+            >
+              {v}
+            </Text>
+          )
         })}
       </styled.div>
     )

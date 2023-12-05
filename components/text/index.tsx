@@ -1,25 +1,25 @@
-import * as React from "react";
+import * as React from 'react'
 
 export type TextProps = {
-  children: React.ReactNode;
-  as?: "div" | "span" | "p" | "h1" | "h2" | "h3" | "h4";
-  weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
-  style?: React.CSSProperties;
-  align?: "left" | "center" | "right";
-  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48;
-  lineHeight?: 16 | 20 | 24 | 28 | 32 | 36 | 44 | 56 | 64;
-  color?: "primary" | "secondary" | "inverted";
-};
+  children: React.ReactNode
+  as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4'
+  weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+  style?: React.CSSProperties
+  align?: 'left' | 'center' | 'right'
+  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48
+  lineHeight?: 16 | 20 | 24 | 28 | 32 | 36 | 44 | 56 | 64
+  color?: 'primary' | 'secondary' | 'inverted'
+}
 
 export const Text = React.forwardRef<HTMLElement, TextProps>(
   (
     {
-      as = "p",
+      as = 'p',
       weight = 400,
-      align = "left",
+      align = 'left',
       size = 16,
       lineHeight = 28,
-      color = "primary",
+      color = 'primary',
       style,
       children,
     },
@@ -36,9 +36,10 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
         fontSize: size,
         lineHeight: `${lineHeight}px`,
         color: `var(--content-${color})`,
-        fontFamily: "inherit",
+        fontFamily: 'inherit',
+        letterSpacing: '-0.14px',
         ...style,
       },
-    });
+    })
   }
-);
+)
