@@ -3,7 +3,9 @@ import { styled, Style } from 'inlines'
 import { Button } from '../button'
 import { BasedSchemaField } from '@based/schema'
 import { Plus, Close } from '../icons'
-import { Text } from '../text'
+import { textVariants } from '../text'
+import { border, color } from '../../utils/vars'
+import { Stack } from '../layout'
 
 type TableProps = {
   colls: string[]
@@ -26,20 +28,17 @@ function StringInput({
     <styled.input
       style={{
         flexGrow: 1,
-        fontSize: 14,
-        fontWeight: 500,
+        width: 'calc(100% - 10px)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         height: 32,
-        borderRadius: `var(--radius-xs)`,
+        borderRadius: `var(--radius-tiny)`,
         paddingLeft: 10,
         paddingRight: 10,
-        border: focus
-          ? `1px solid var(--input-border-active, #634ECA)`
-          : `1px solid transparent`,
-        boxShadow: focus ? `0px 0px 0px 2px rgba(87, 63, 207, 0.20)` : null,
-        letterSpacing: '-0.14px',
+        border: focus ? border('focus') : `1px solid transparent`,
+        boxShadow: focus ? `var(--shadow-focus)` : undefined,
+        ...textVariants.body,
         ...style,
       }}
       value={value}
@@ -58,41 +57,37 @@ function Row({ field, value }: { field: BasedSchemaField; value: any }) {
     const colls = Object.keys(field.properties)
 
     return (
-      <styled.div
+      <Stack
         style={{
           width: '100%',
           height: 48,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
         }}
       >
         {Object.keys(field.properties).map((v, index) => {
           return (
-            <styled.div
+            <Stack
               style={{
                 height: 48,
-                display: 'flex',
                 paddingRight: 10,
-                alignItems: 'center',
-                borderRight:
-                  index === colls.length - 1
-                    ? undefined
-                    : '1px solid var(--border-default-strong)',
+                borderRight: index === colls.length - 1 ? undefined : border(),
                 width: `calc(${100 / colls.length}%)`,
                 paddingLeft: 20,
               }}
             >
               <StringInput key={index} value={value[v]} />
-            </styled.div>
+            </Stack>
           )
         })}
-      </styled.div>
+      </Stack>
     )
   }
 
   if (field.type === 'string') {
-    return <StringInput value={value} />
+    return (
+      <styled.div style={{ paddingRight: 10, width: '100%' }}>
+        <StringInput value={value} />
+      </styled.div>
+    )
   }
 }
 
@@ -104,31 +99,29 @@ export function RowStyled({
   field: BasedSchemaField
 }) {
   return (
-    <styled.div
+    <Stack
       style={{
         height: 48,
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
         paddingTop: 12,
         paddingBottom: 12,
-        justifyContent: 'space-between',
-        borderBottom: '1px solid var(--border-default-strong)',
-        ':hover >:last-child': {
-          opacity: 1,
-          border: '1px solid blue',
+        borderBottom: border(),
+        '>:last-child': {
+          opacity: 0,
+        },
+        '&:hover >:last-child': {
+          opacity: '1',
         },
       }}
     >
       <Row value={value} field={field} />
-      <Close
+      <styled.div
         style={{
-          marginLeft: 12,
-          opacity: 0,
           transition: 'opacity 0.1s',
         }}
-      />
-    </styled.div>
+      >
+        <Close />
+      </styled.div>
+    </Stack>
   )
 }
 
@@ -137,50 +130,45 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
   const isObject = colls.length
   if (isObject) {
     header = (
-      <styled.div
+      <Stack
         style={{
-          background: `var(--background-neutral-surface, rgba(31, 82, 158, 0.02))`,
-          borderTop: '1px solid var(--border-default-strong)',
-          borderBottom: '1px solid var(--border-default-strong)',
+          background: color('background', 'muted'),
+          color: color('content', 'secondary'),
+          borderTop: border(),
+          borderBottom: border(),
           height: 48,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
         }}
       >
         {colls.map((v, index) => {
           return (
-            <Text
-              weight={500}
+            <Stack
               style={{
                 height: 48,
-                fontSize: 14,
                 paddingRight: 10,
-
-                display: 'flex',
-                alignItems: 'center',
-                borderRight:
-                  index === colls.length - 1
-                    ? undefined
-                    : '1px solid var(--border-default-strong)',
+                borderRight: index === colls.length - 1 ? undefined : border(),
                 width: `calc(${100 / colls.length}%)`,
                 paddingLeft: 30,
-                color: `var(--content-default-secondary, #7E8B99)`,
+                color: color('content', 'secondary'),
+                ...textVariants.bodyBold,
               }}
               key={index}
             >
               {v}
-            </Text>
+            </Stack>
           )
         })}
-        <Close style={{ color: '#eee', marginLeft: 12, opacity: 0 }} />
-      </styled.div>
+        <Close
+          style={{
+            opacity: 0,
+          }}
+        />
+      </Stack>
     )
   } else {
     header = (
       <styled.div
         style={{
-          borderBottom: '1px solid var(--border-default-strong)',
+          borderBottom: border(),
         }}
       />
     )
@@ -194,7 +182,6 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
           return <RowStyled field={field} key={i} value={value} />
         })}
       </styled.div>
-
       <Button
         size="small"
         variant="neutral-transparent"

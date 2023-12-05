@@ -1,6 +1,9 @@
 import * as React from 'react'
 import { styled } from 'inlines'
 import { BasedSchemaField } from '@based/schema'
+import { Text } from '../text'
+import { Stack } from '../layout'
+import { border } from '../../utils/vars'
 
 type FormFieldProps = {
   children: React.ReactNode
@@ -10,38 +13,18 @@ type FormFieldProps = {
 
 export function FormField({ children, field, name }: FormFieldProps) {
   return (
-    <styled.div
+    <Stack
+      gap={8}
+      direction="column"
+      align="start"
       style={{
-        '& > * + *': { marginTop: '8px' },
         paddingLeft: 10,
-        borderLeft: `2px solid var(--border-default-subtle, rgba(16, 40, 72, 0.09))`,
+        borderLeft: border('muted', 2),
       }}
     >
-      <styled.div
-        style={{
-          fontWeight: 600,
-          lineHeight: '24px',
-          fontSize: 14,
-          letterSpacing: '-0.14px',
-        }}
-      >
-        {name}
-      </styled.div>
+      <Text variant="bodyStrong">{name}</Text>
       {children}
-      {field.description && (
-        <styled.div
-          style={{
-            fontWeight: 400,
-            fontSize: 14,
-            lineHeight: '24px',
-            letterSpacing: '-0.14px',
-
-            color: 'var(--content-secondary)',
-          }}
-        >
-          {field.description}
-        </styled.div>
-      )}
-    </styled.div>
+      {field.description && <Text color="secondary">{field.description}</Text>}
+    </Stack>
   )
 }

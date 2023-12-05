@@ -40,6 +40,9 @@ export const Default = () => {
             type: 'string',
             description: 'A name of someone',
           },
+          flap: {
+            type: 'string',
+          },
           set: {
             title: 'Set',
             type: 'set',
@@ -59,10 +62,18 @@ export const Default = () => {
               },
             },
           },
+          object: {
+            title: 'an object',
+            type: 'object',
+            properties: {
+              bla: { type: 'string' },
+            },
+          },
         }}
         onChange={(values) => {
           console.log(values)
         }}
+        // selectReferences={}
       />
     </div>
   )
