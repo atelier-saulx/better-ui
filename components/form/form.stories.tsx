@@ -28,6 +28,12 @@ export const Default = () => {
             type: 'string',
             description: 'A name of someone',
           },
+          set: {
+            title: 'Set',
+            type: 'set',
+            description: 'A set',
+            items: { type: 'string' },
+          },
         }}
         onChange={(values) => {
           console.log(values)

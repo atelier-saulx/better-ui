@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { styled } from 'inlines'
 import { TextInput } from '../text-input'
-import { display, BasedSchemaField } from '@based/schema'
+import { display, BasedSchemaField, BasedSchemaFieldSet } from '@based/schema'
+import { FormField } from './form-field'
+import { FormSet } from './set'
 
 type FormValues = { [key: string]: BasedSchemaField }
 
@@ -17,72 +19,29 @@ export function Form({ fields, defaultValues, onChange }: FormProps) {
   return (
     <styled.div style={{ '& > * + *': { marginTop: '32px' } }}>
       {Object.entries(fields).map(([key, field]) => {
-        switch (field.type) {
-          case 'string':
-            return (
-              <FormField key={key} field={field} name={field.title ?? key}>
-                <div
-                  style={{
-                    width: 450,
+        if (field.type === 'string') {
+          return (
+            <FormField key={key} field={field} name={field.title ?? key}>
+              <div
+                style={{
+                  width: 450,
+                }}
+              >
+                <TextInput
+                  onChange={(value) => {
+                    // setValue(key, value)
                   }}
-                >
-                  <TextInput
-                    // if display show it somewhere
-                    // placeholder
-                    // defaultValue={getDefaultValue(key)}
-                    onChange={(value) => {
-                      // setValue(key, value)
-                    }}
-                  />
-                </div>
-              </FormField>
-            )
+                />
+              </div>
+            </FormField>
+          )
+        }
+
+        if (field.type === 'set') {
+          // fix this....
+          return <FormSet key={key} field={field as BasedSchemaFieldSet} />
         }
       })}
-    </styled.div>
-  )
-}
-
-type FormFieldProps = {
-  children: React.ReactNode
-  field: BasedSchemaField
-  name: string
-}
-
-function FormField({ children, field, name }: FormFieldProps) {
-  return (
-    <styled.div
-      style={{
-        '& > * + *': { marginTop: '8px' },
-        paddingLeft: 10,
-        borderLeft: `2px solid var(--border-default-subtle, rgba(16, 40, 72, 0.09))`,
-      }}
-    >
-      <div
-        style={{
-          fontWeight: 600,
-          lineHeight: '24px',
-          fontSize: 14,
-          letterSpacing: '-0.14px',
-        }}
-      >
-        {name}
-      </div>
-      {children}
-      {field.description && (
-        <div
-          style={{
-            fontWeight: 400,
-            fontSize: 14,
-            lineHeight: '24px',
-            letterSpacing: '-0.14px',
-
-            color: 'var(--content-secondary)',
-          }}
-        >
-          {field.description}
-        </div>
-      )}
     </styled.div>
   )
 }
