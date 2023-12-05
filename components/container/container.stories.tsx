@@ -117,41 +117,6 @@ export const ListItemWithChildren: StoryObj<typeof Container> = {
   },
 };
 
-export const ListItemWithChildrenNoDivider: StoryObj<typeof Container> = {
-  args: {
-    title: "This is a title",
-    description: "This is a description",
-    divider: false,
-    prefix: <Thumbnail text="AB" />,
-    suffix: (
-      <Dropdown.Root>
-        <Dropdown.Trigger>
-          <IconButton type="secondary">
-            <MoreHorizontal />
-          </IconButton>
-        </Dropdown.Trigger>
-        <Dropdown.Items>
-          <Dropdown.Item
-            onClick={() => {
-              alert("item 1 clicked");
-            }}
-          >
-            Item 1
-          </Dropdown.Item>
-          <Dropdown.Item
-            onClick={() => {
-              alert("item 1 clicked");
-            }}
-          >
-            Item 2
-          </Dropdown.Item>
-        </Dropdown.Items>
-      </Dropdown.Root>
-    ),
-    children: <Button>This is a button</Button>,
-  },
-};
-
 export const ListItemSimple: StoryObj<typeof Container> = {
   args: {
     title: "This is a title",
