@@ -1,81 +1,80 @@
-import * as React from "react";
-import { hash } from "@saulx/hash";
-import { styled } from "inlines";
-import { CheckLarge, Copy } from "../icons";
+import * as React from 'react'
+import { hash } from '@saulx/hash'
+import { styled } from 'inlines'
+import { CheckLarge, Copy } from '../icons'
 
 export type BadgeProps = {
-  children: string | number;
-  color?: "auto" | "neutral" | "informative" | "positive" | "warning" | "error";
-  style?: "regular" | "muted";
-  size?: "regular" | "small";
-  copyable?: boolean;
-  prefix?: React.ReactNode;
-};
+  children: string | number
+  color?: 'auto' | 'neutral' | 'informative' | 'positive' | 'warning' | 'error'
+  style?: 'regular' | 'muted'
+  size?: 'regular' | 'small'
+  copyable?: boolean
+  prefix?: React.ReactNode
+}
 
 export function Badge({
   children,
-  color: colorProp = "neutral",
+  color: colorProp = 'neutral',
   copyable = false,
-  style = "regular",
-  size = "regular",
+  style = 'regular',
+  size = 'regular',
   prefix,
 }: BadgeProps) {
-  const [showCheck, setShowCheck] = React.useState(false);
+  const [showCheck, setShowCheck] = React.useState(false)
 
   const color = React.useMemo(() => {
-    if (colorProp === "auto") {
-      const colors = ["neutral", "informative", "positive", "warning", "error"];
+    if (colorProp === 'auto') {
+      const colors = ['neutral', 'informative', 'positive', 'warning', 'error']
 
       const index =
-        Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) +
-        1;
+        Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) + 1
 
-      return colors[index];
+      return colors[index]
     }
 
-    return colorProp;
-  }, [colorProp]);
+    return colorProp
+  }, [colorProp])
 
   return (
     <styled.div
       onClick={() => {
-        if (!copyable) return;
+        if (!copyable) return
 
-        navigator.clipboard.writeText(`${children}`);
-        setShowCheck(true);
+        navigator.clipboard.writeText(`${children}`)
+        setShowCheck(true)
       }}
       style={{
-        position: "relative",
-        display: "inline-flex",
-        justifyContent: "center",
-        alignItems: "center",
+        position: 'relative',
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         gap: 4,
-        padding: "0 8px",
-        borderRadius: "var(--radius-large)",
+        padding: '0 8px',
+        borderRadius: 'var(--radius-large)',
         fontWeight: 500,
         color: `var(--semantic-color-${style}-${color})`,
         background: `var(--semantic-background-${style}-${color})`,
-        ...(size === "regular" && {
-          fontSize: "14px",
-          lineHeight: "24px",
+        ...(size === 'regular' && {
+          fontSize: '14px',
+          lineHeight: '24px',
         }),
-        ...(size === "small" && {
-          fontSize: "12px",
-          lineHeight: "20px",
+        ...(size === 'small' && {
+          fontSize: '12px',
+          lineHeight: '20px',
         }),
         ...(copyable && {
-          cursor: "copy",
-          "&:hover": {
-            borderTopRightRadius: "0 !important",
-            borderBottomRightRadius: "0 !important",
+          cursor: 'copy',
+          '&:hover': {
+            borderTopRightRadius: '0 !important',
+            borderBottomRightRadius: '0 !important',
           },
-          "&:hover > .badge-copyable": {
-            display: "flex !important",
+          '&:hover > .badge-copyable': {
+            display: 'flex !important',
           },
         }),
       }}
       onMouseLeave={() => {
-        setShowCheck(false);
+        setShowCheck(false)
       }}
     >
       {prefix && prefix}
@@ -84,39 +83,39 @@ export function Badge({
         <span
           className="badge-copyable"
           style={{
-            display: "none",
-            justifyContent: "center",
-            alignItems: "center",
-            ...(size === "regular" && {
-              height: "24px",
+            display: 'none',
+            justifyContent: 'center',
+            alignItems: 'center',
+            ...(size === 'regular' && {
+              height: '24px',
             }),
-            ...(size === "small" && {
-              height: "20px",
+            ...(size === 'small' && {
+              height: '20px',
             }),
-            position: "absolute",
+            position: 'absolute',
             right: 0,
             top: 0,
-            transform: "translateX(100%)",
+            transform: 'translateX(100%)',
             color: `var(--semantic-color-${style}-${color})`,
             background: `var(--semantic-background-${style}-${color})`,
-            borderTopRightRadius: "var(--radius-large)",
-            borderBottomRightRadius: "var(--radius-large)",
-            padding: "0 8px 0 0",
+            borderTopRightRadius: 'var(--radius-large)',
+            borderBottomRightRadius: 'var(--radius-large)',
+            padding: '0 8px 0 0',
           }}
         >
           {showCheck ? (
             <CheckLarge
-              height={size === "regular" ? 16 : 12}
-              width={size === "regular" ? 16 : 12}
+              height={size === 'regular' ? 16 : 12}
+              width={size === 'regular' ? 16 : 12}
             />
           ) : (
             <Copy
-              height={size === "regular" ? 16 : 12}
-              width={size === "regular" ? 16 : 12}
+              height={size === 'regular' ? 16 : 12}
+              width={size === 'regular' ? 16 : 12}
             />
           )}
         </span>
       )}
     </styled.div>
-  );
+  )
 }

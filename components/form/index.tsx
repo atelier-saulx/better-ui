@@ -1,136 +1,91 @@
-import * as React from "react";
-import { styled } from "inlines";
-import { TextInput } from "../text-input";
-import { SelectInput, SelectInputProps } from "../select-input";
-import { Button } from "../button";
+import * as React from 'react'
+import { styled } from 'inlines'
+import { TextInput } from '../text-input'
+import { Button } from '../button'
+import { display, BasedSchemaField } from '@based/schema'
 
-type FormValues = {
-  [key: string]: string | FormValues;
-};
+type FormValues = { [key: string]: BasedSchemaField }
 
 export type FormProps = {
-  defaultValues: FormValues;
-  onChange: (values: FormValues) => void;
-  fields: {
-    [key: string]:
-      | { label: string; type: "text"; description?: string }
-      | {
-          label: string;
-          type: "select";
-          options: SelectInputProps["options"];
-          description?: string;
-        };
-  };
-};
-
-export function Form({ fields, defaultValues, onChange }: FormProps) {
-  const values = React.useRef<FormValues>({});
-
-  const getDefaultValue = React.useCallback(
-    (key: string) => {
-      const keyParts = key.split(".");
-      let currentLevel = defaultValues;
-
-      for (const [index, key] of keyParts.entries()) {
-        if (index === keyParts.length - 1) {
-          return currentLevel[key] as string;
-        }
-
-        currentLevel = currentLevel[key] as FormValues;
-      }
-    },
-    [defaultValues]
-  );
-
-  const setValue = React.useCallback((key: string, value: string) => {
-    const keyParts = key.split(".");
-    let currentLevel = values.current;
-
-    for (const [index, key] of keyParts.entries()) {
-      if (index === keyParts.length - 1) {
-        currentLevel[key] = value;
-        return;
-      }
-
-      if (!currentLevel[key]) {
-        currentLevel[key] = {};
-      }
-
-      currentLevel = currentLevel[key] as FormValues;
-    }
-  }, []);
-
-  return (
-    <styled.div style={{ "& > * + *": { marginTop: "32px" } }}>
-      {Object.entries(fields).map(([key, field]) => {
-        switch (field.type) {
-          case "text":
-            return (
-              <FormField key={key} description={field.description}>
-                <TextInput
-                  label={field.label}
-                  defaultValue={getDefaultValue(key)}
-                  onChange={(value) => {
-                    setValue(key, value);
-                  }}
-                />
-              </FormField>
-            );
-          case "select":
-            return (
-              <FormField key={key} description={field.description}>
-                <SelectInput
-                  label={field.label}
-                  defaultValue={getDefaultValue(key)}
-                  onChange={(value) => {
-                    setValue(key, value);
-                  }}
-                  options={field.options}
-                />
-              </FormField>
-            );
-        }
-      })}
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Button type="secondary">Cancel</Button>
-        <div style={{ marginLeft: "auto" }}>
-          <Button
-            onClick={() => {
-              onChange(values.current);
-            }}
-          >
-            Submit
-          </Button>
-        </div>
-      </div>
-    </styled.div>
-  );
+  defaultValues?: FormValues
+  onChange: (values: FormValues) => void
+  fields: FormValues
 }
 
-type FormFieldProps = { children: React.ReactNode; description?: string };
+export function Form({ fields, defaultValues, onChange }: FormProps) {
+  const values = React.useRef<FormValues>({})
 
-function FormField({ children, description }: FormFieldProps) {
+  // check for index in fields
+
   return (
-    <styled.div style={{ "& > * + *": { marginTop: "8px" } }}>
+    <styled.div style={{ '& > * + *': { marginTop: '32px' } }}>
+      {Object.entries(fields).map(([key, field]) => {
+        switch (field.type) {
+          case 'string':
+            return (
+              <FormField key={key} field={field} name={field.title ?? key}>
+                <div
+                  style={{
+                    width: 450,
+                  }}
+                >
+                  <TextInput
+                    // if display show it somewhere
+                    // placeholder
+                    // defaultValue={getDefaultValue(key)}
+                    onChange={(value) => {
+                      // setValue(key, value)
+                    }}
+                  />
+                </div>
+              </FormField>
+            )
+        }
+      })}
+    </styled.div>
+  )
+}
+
+type FormFieldProps = {
+  children: React.ReactNode
+  field: BasedSchemaField
+  name: string
+}
+
+function FormField({ children, field, name }: FormFieldProps) {
+  return (
+    <styled.div
+      style={{
+        '& > * + *': { marginTop: '8px' },
+        paddingLeft: 10,
+        borderLeft: `2px solid var(--border-default-subtle, rgba(16, 40, 72, 0.09))`,
+      }}
+    >
+      <div
+        style={{
+          fontWeight: 600,
+          lineHeight: '24px',
+          fontSize: 14,
+          letterSpacing: '-0.14px',
+        }}
+      >
+        {name}
+      </div>
       {children}
-      {description && (
+      {field.description && (
         <div
           style={{
             fontWeight: 400,
             fontSize: 14,
-            lineHeight: "24px",
-            color: "var(--content-secondary)",
+            lineHeight: '24px',
+            letterSpacing: '-0.14px',
+
+            color: 'var(--content-secondary)',
           }}
         >
-          {description}
+          {field.description}
         </div>
       )}
     </styled.div>
-  );
+  )
 }
