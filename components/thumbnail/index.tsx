@@ -141,7 +141,7 @@ export function Thumbnail({
           {text.slice(0, 2).toUpperCase()}
         </span>
       )}
-      {count && (
+      {typeof count !== "undefined" && (
         <div
           style={{
             position: "absolute",
