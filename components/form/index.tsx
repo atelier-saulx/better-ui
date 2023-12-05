@@ -39,7 +39,7 @@ export function Form({ fields, defaultValues, onChange }: FormProps) {
 
         if (field.type === 'set') {
           // fix this....
-          return <FormSet key={key} field={field as BasedSchemaFieldSet} />
+          return <FormSet key={key} field={field} />
         }
       })}
     </styled.div>
