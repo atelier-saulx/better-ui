@@ -2,7 +2,7 @@ import * as React from 'react'
 import { styled, Style } from 'inlines'
 import { Button } from '../button'
 import { BasedSchemaField } from '@based/schema'
-import { Delete } from '../icons'
+import { Plus, Close } from '../icons'
 import { Text } from '../text'
 
 type TableProps = {
@@ -137,7 +137,7 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
             </Text>
           )
         })}
-        <Delete style={{ color: '#eee', marginLeft: 12, opacity: 0 }} />
+        <Close style={{ color: '#eee', marginLeft: 12, opacity: 0 }} />
       </styled.div>
     )
   } else {
@@ -172,13 +172,18 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
               }}
             >
               <Row value={value} field={field} />
-              <Delete style={{ color: '#eee', marginLeft: 12 }} />
+              <Close style={{ marginLeft: 12 }} />
             </styled.div>
           )
         })}
       </styled.div>
 
-      <Button size="small" variant="neutral-transparent" onClick={onNew}>
+      <Button
+        size="small"
+        variant="neutral-transparent"
+        onClick={onNew}
+        prefix={<Plus />}
+      >
         New
       </Button>
     </styled.div>
