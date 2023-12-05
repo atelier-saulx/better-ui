@@ -6,17 +6,15 @@ import { Dropdown } from "../components/dropdown";
 import { Table } from "../components/table";
 import { IconButton } from "../components/icon-button";
 import {
-  BasedLogoWithText,
-  Boxes,
   ChartBar,
   Copy,
   Delete,
   Edit,
   Eye,
-  Logout,
   MoreVertical,
   Settings,
   Users,
+  ViewBoxes,
 } from "../components/icons";
 import { Modal } from "../components/modal";
 import { Button } from "../components/button";
@@ -187,7 +185,7 @@ const DefaultContent = () => {
             onClick={() => {
               setPage("overview");
             }}
-            icon={<Boxes />}
+            icon={<ViewBoxes />}
           >
             Overview
           </SidebarItem>

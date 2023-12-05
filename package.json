@@ -7,11 +7,11 @@
     "build": "rimraf dist && rollup -c"
   },
   "dependencies": {
-    "@based/schema": "^2.2.6",
     "@based/client": "^4.8.10",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.1.2",
     "@based/react": "^4.6.1",
+    "@based/schema": "^2.2.6",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-select": "^2.0.0",
@@ -39,6 +39,7 @@
     "@storybook/react": "^7.5.3",
     "@storybook/react-webpack5": "^7.5.3",
     "@types/react": "^18.2.37",
+    "pascal-case": "^4.0.0",
     "postcss": "^8.4.31",
     "postcss-preset-env": "^9.3.0",
     "rimraf": "^5.0.5",

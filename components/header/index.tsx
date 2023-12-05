@@ -1,19 +1,13 @@
 import * as React from "react";
 import { styled } from "inlines";
-import {
-  BasedLogoWithText,
-  BasedLogoWithoutText,
-  Eye,
-  Logout,
-  Menu,
-  Settings,
-} from "../icons";
+import { Eye, LogOut, Menu, Settings } from "../icons";
 import { Button } from "../button";
 import { Dropdown } from "../dropdown";
 import { Thumbnail } from "../thumbnail";
 import { useIsMobile } from "../../utils/hooks/use-is-mobile";
 import { IconButton } from "../icon-button";
 import { useTheme } from "../../utils/hooks/use-theme";
+import { BasedLogoWithText, BasedLogoWithoutText } from "../icons/logo";
 
 export function Header() {
   const isMobile = useIsMobile();
@@ -90,7 +84,7 @@ export function Header() {
                   >
                     Switch to {theme === "dark" ? "light" : "dark"} mode
                   </Dropdown.Item>
-                  <Dropdown.Item icon={<Logout />}>Logout</Dropdown.Item>
+                  <Dropdown.Item icon={<LogOut />}>Logout</Dropdown.Item>
                 </Dropdown.Items>
               </Dropdown.Root>
             </styled.div>
@@ -161,7 +155,7 @@ export function Header() {
               padding: "0 24px",
             }}
           >
-            <Logout />
+            <LogOut />
             <div
               style={{
                 color: "var(--content-primary)",
