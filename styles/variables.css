@@ -28,8 +28,12 @@
   /* shadows */
   --shadow-elevation: 0px 2px 8px -1px rgba(27, 36, 44, 0.08),
     0px 2px 2px -1px rgba(27, 36, 44, 0.04);
+
+  /* borders */
+  --border-default-strong: #e9ecef;
+  --radius-xs: 4px;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   /* TODO add dark mode colors  */
 }

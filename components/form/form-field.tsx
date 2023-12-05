@@ -17,7 +17,7 @@ export function FormField({ children, field, name }: FormFieldProps) {
         borderLeft: `2px solid var(--border-default-subtle, rgba(16, 40, 72, 0.09))`,
       }}
     >
-      <div
+      <styled.div
         style={{
           fontWeight: 600,
           lineHeight: '24px',
@@ -26,10 +26,10 @@ export function FormField({ children, field, name }: FormFieldProps) {
         }}
       >
         {name}
-      </div>
+      </styled.div>
       {children}
-      {'description' in field && (
-        <div
+      {field.description && (
+        <styled.div
           style={{
             fontWeight: 400,
             fontSize: 14,
@@ -40,7 +40,7 @@ export function FormField({ children, field, name }: FormFieldProps) {
           }}
         >
           {field.description}
-        </div>
+        </styled.div>
       )}
     </styled.div>
   )

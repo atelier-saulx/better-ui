@@ -1,28 +1,26 @@
 import * as React from 'react'
-import { TextInput } from '../text-input'
-import { BasedSchemaFieldSet } from '@based/schema'
+import { BasedSchemaFieldSet, BasedSchemaFieldPrimitive } from '@based/schema'
 import { FormField } from './form-field'
+import { Table } from './table'
 
 export function FormSet({
-  key,
+  fieldKey,
   field,
+  items,
 }: {
-  key: string
+  fieldKey: string
   field: BasedSchemaFieldSet
+  items: any[]
 }) {
   return (
-    <FormField key={key} field={field} name={field.title ?? key}>
-      <div
-        style={{
-          width: 450,
-        }}
-      >
-        <TextInput
-          onChange={(value) => {
-            // setValue(key, value)
-          }}
-        />
-      </div>
+    <FormField field={field} name={field.title ?? fieldKey}>
+      <Table
+        field={field.items}
+        colls={[]}
+        rows={items}
+        onNew={() => {}}
+        onRemove={() => {}}
+      />
     </FormField>
   )
 }

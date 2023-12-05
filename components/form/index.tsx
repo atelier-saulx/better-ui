@@ -4,16 +4,17 @@ import { TextInput } from '../text-input'
 import { display, BasedSchemaField, BasedSchemaFieldSet } from '@based/schema'
 import { FormField } from './form-field'
 import { FormSet } from './set'
+import { FormArray } from './array'
 
 type FormValues = { [key: string]: BasedSchemaField }
 
 export type FormProps = {
-  defaultValues?: FormValues
+  values: { [key: string]: any }
   onChange: (values: FormValues) => void
   fields: FormValues
 }
 
-export function Form({ fields, defaultValues, onChange }: FormProps) {
+export function Form({ fields, values, onChange }: FormProps) {
   // const values = React.useRef<FormValues>({})
 
   return (
@@ -21,7 +22,7 @@ export function Form({ fields, defaultValues, onChange }: FormProps) {
       {Object.entries(fields).map(([key, field]) => {
         if (field.type === 'string') {
           return (
-            <FormField key={key} field={field} name={field.title ?? key}>
+            <FormField field={field} name={field.title ?? key}>
               <div
                 style={{
                   width: 450,
@@ -39,7 +40,19 @@ export function Form({ fields, defaultValues, onChange }: FormProps) {
 
         // TS picks up type better with if statement version switch 👍
         if (field.type === 'set') {
-          return <FormSet key={key} field={field} />
+          return (
+            <FormSet fieldKey={key} field={field} items={values[key] ?? []} />
+          )
+        }
+
+        if (field.type === 'array') {
+          return (
+            <FormArray
+              fieldKey={key}
+              field={field}
+              values={values[key] ?? []}
+            />
+          )
         }
       })}
     </styled.div>
