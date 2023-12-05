@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { Button } from '../button'
 import { BasedSchemaField } from '@based/schema'
 import { Delete } from '../icons'
@@ -14,50 +14,86 @@ type TableProps = {
   order?: boolean // drag and drop
 }
 
-function Row({ field, value }: { field: BasedSchemaField; value: any }) {
+function StringInput({
+  value,
+  style,
+}: {
+  value: string | number | undefined
+  style?: Style
+}) {
   const [focus, setFocus] = React.useState(false)
+  return (
+    <styled.input
+      style={{
+        flexGrow: 1,
+        fontSize: 14,
+        fontWeight: 500,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        height: 32,
+        borderRadius: `var(--radius-xs)`,
+        paddingLeft: 10,
+        paddingRight: 10,
+        border: focus
+          ? `1px solid var(--input-border-active, #634ECA)`
+          : `1px solid transparent`,
+        boxShadow: focus ? `0px 0px 0px 2px rgba(87, 63, 207, 0.20)` : null,
+        letterSpacing: '-0.14px',
+        ...style,
+      }}
+      value={value}
+      onFocus={() => {
+        setFocus(true)
+      }}
+      onBlur={() => {
+        setFocus(false)
+      }}
+    />
+  )
+}
 
+function Row({ field, value }: { field: BasedSchemaField; value: any }) {
   if (field.type === 'object') {
-    return <styled.div style={{ marginLeft: 10 }}>OBJECT</styled.div>
+    const colls = Object.keys(field.properties)
+
+    return (
+      <styled.div
+        style={{
+          width: '100%',
+          height: 48,
+          display: 'flex',
+          alignItems: 'center',
+          //   paddingLeft: 10,
+          //   paddingRight: 10,
+          justifyContent: 'space-between',
+        }}
+      >
+        {Object.keys(field.properties).map((v, index) => {
+          return (
+            <styled.div
+              style={{
+                height: 48,
+                display: 'flex',
+                alignItems: 'center',
+                borderRight:
+                  index === colls.length - 1
+                    ? undefined
+                    : '1px solid var(--border-default-strong)',
+                width: `calc(${100 / colls.length}%)`,
+                paddingLeft: 20,
+              }}
+            >
+              <StringInput key={index} value={value[v]} />
+            </styled.div>
+          )
+        })}
+      </styled.div>
+    )
   }
 
-  const ref = React.useRef<HTMLDivElement>()
-
   if (field.type === 'string') {
-    return (
-      <styled.input
-        ref={ref}
-        style={{
-          flexGrow: 1,
-          fontSize: 14,
-          fontWeight: 500,
-
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-
-          height: 32,
-          borderRadius: `var(--radius-xs)`,
-
-          paddingLeft: 10,
-          paddingRight: 10,
-
-          border: focus
-            ? `1px solid var(--input-border-active, #634ECA)`
-            : `1px solid transparent`,
-          boxShadow: focus ? `0px 0px 0px 2px rgba(87, 63, 207, 0.20)` : null,
-
-          letterSpacing: '-0.14px',
-        }}
-        value={value}
-        onFocus={() => {
-          setFocus(true)
-        }}
-        onBlur={() => {
-          setFocus(false)
-        }}
-      />
-    )
+    return <StringInput value={value} />
   }
 }
 
@@ -74,8 +110,7 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
           height: 48,
           display: 'flex',
           alignItems: 'center',
-          paddingLeft: 10,
-          paddingRight: 10,
+
           justifyContent: 'space-between',
         }}
       >
@@ -85,12 +120,15 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
               weight={500}
               style={{
                 height: 48,
+                fontSize: 14,
                 display: 'flex',
                 alignItems: 'center',
-                borderRight: '1px solid var(--border-default-strong)',
-                width: `calc(${100 / colls.length}% - 10px)`,
-                marginLeft: 10,
-                marginRight: 10,
+                borderRight:
+                  index === colls.length - 1
+                    ? undefined
+                    : '1px solid var(--border-default-strong)',
+                width: `calc(${100 / colls.length}%)`,
+                paddingLeft: 30,
                 color: `var(--content-default-secondary, #7E8B99)`,
               }}
               key={index}
@@ -99,6 +137,7 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
             </Text>
           )
         })}
+        <Delete style={{ color: '#eee', marginLeft: 12, opacity: 0 }} />
       </styled.div>
     )
   } else {
@@ -106,7 +145,7 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
       <styled.div
         style={{
           borderBottom: '1px solid var(--border-default-strong)',
-          borderTop: '1px solid var(--border-default-strong)',
+          //   borderTop: '1px solid var(--border-default-strong)',
         }}
       />
     )
@@ -128,8 +167,7 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
                 paddingTop: 12,
                 paddingBottom: 12,
                 justifyContent: 'space-between',
-                paddingLeft: 10,
-                paddingRight: 10,
+
                 borderBottom: '1px solid var(--border-default-strong)',
               }}
             >
@@ -140,12 +178,7 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
         })}
       </styled.div>
 
-      <Button
-        size="small"
-        variant="neutral-transparent"
-        onClick={onNew}
-        // prefix={<AddIcon />}
-      >
+      <Button size="small" variant="neutral-transparent" onClick={onNew}>
         New
       </Button>
     </styled.div>
