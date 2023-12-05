@@ -64,8 +64,6 @@ function Row({ field, value }: { field: BasedSchemaField; value: any }) {
           height: 48,
           display: 'flex',
           alignItems: 'center',
-          //   paddingLeft: 10,
-          //   paddingRight: 10,
           justifyContent: 'space-between',
         }}
       >
@@ -75,6 +73,7 @@ function Row({ field, value }: { field: BasedSchemaField; value: any }) {
               style={{
                 height: 48,
                 display: 'flex',
+                paddingRight: 10,
                 alignItems: 'center',
                 borderRight:
                   index === colls.length - 1
@@ -97,6 +96,42 @@ function Row({ field, value }: { field: BasedSchemaField; value: any }) {
   }
 }
 
+export function RowStyled({
+  value,
+  field,
+}: {
+  value: any
+  field: BasedSchemaField
+}) {
+  return (
+    <styled.div
+      style={{
+        height: 48,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingTop: 12,
+        paddingBottom: 12,
+        justifyContent: 'space-between',
+        borderBottom: '1px solid var(--border-default-strong)',
+        ':hover >:last-child': {
+          opacity: 1,
+          border: '1px solid blue',
+        },
+      }}
+    >
+      <Row value={value} field={field} />
+      <Close
+        style={{
+          marginLeft: 12,
+          opacity: 0,
+          transition: 'opacity 0.1s',
+        }}
+      />
+    </styled.div>
+  )
+}
+
 export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
   let header = null
   const isObject = colls.length
@@ -110,7 +145,6 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
           height: 48,
           display: 'flex',
           alignItems: 'center',
-
           justifyContent: 'space-between',
         }}
       >
@@ -121,6 +155,8 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
               style={{
                 height: 48,
                 fontSize: 14,
+                paddingRight: 10,
+
                 display: 'flex',
                 alignItems: 'center',
                 borderRight:
@@ -145,7 +181,6 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
       <styled.div
         style={{
           borderBottom: '1px solid var(--border-default-strong)',
-          //   borderTop: '1px solid var(--border-default-strong)',
         }}
       />
     )
@@ -156,25 +191,7 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
       <styled.div style={{ marginBottom: 8, width: '100%' }}>
         {header}
         {rows.map((value, i) => {
-          return (
-            <styled.div
-              key={i}
-              style={{
-                height: 48,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingTop: 12,
-                paddingBottom: 12,
-                justifyContent: 'space-between',
-
-                borderBottom: '1px solid var(--border-default-strong)',
-              }}
-            >
-              <Row value={value} field={field} />
-              <Close style={{ marginLeft: 12 }} />
-            </styled.div>
-          )
+          return <RowStyled field={field} key={i} value={value} />
         })}
       </styled.div>
 
