@@ -23,3 +23,12 @@ export const Placeholder: StoryObj<typeof Thumbnail> = {
     shape: "square",
   },
 };
+
+export const Counter: StoryObj<typeof Thumbnail> = {
+  args: {
+    text: "AB",
+    size: "large",
+    shape: "square",
+    count: 8,
+  },
+};

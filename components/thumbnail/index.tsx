@@ -1,18 +1,29 @@
 import * as React from "react";
 import { hash } from "@saulx/hash";
-import { styled } from "inlines";
 import {
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
   SemanticColor,
 } from "../../utils/semantic-color";
+import { border, color as getColor } from "../../utils/vars";
+import { textVariants } from "../text";
+
+// TODO think about if we need text over image, if so how do we handle the colors of the text
 
 export type ThumbnailProps = {
   src?: string;
   text?: string;
   color?: SemanticColor;
-  size?: "large" | "regular" | "small" | "extra-small";
+  size?:
+    | "extra-extra-large"
+    | "extra-large"
+    | "large"
+    | "regular"
+    | "small"
+    | "extra-small";
   shape?: "square" | "circle";
+  onClick?: () => void;
+  count?: number;
 };
 
 export function Thumbnail({
@@ -21,6 +32,8 @@ export function Thumbnail({
   size = "regular",
   shape = "square",
   color: colorProp = "auto",
+  onClick,
+  count,
 }: ThumbnailProps) {
   const color = React.useMemo(() => {
     if (!text) return;
@@ -41,17 +54,25 @@ export function Thumbnail({
   return (
     <div
       style={{
+        position: "relative",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         color: `var(--semantic-color-${color})`,
         background: `var(--semantic-background-${color})`,
-        overflow: "hidden",
         ...(shape === "square" && {
           borderRadius: "var(--radius-medium)",
         }),
         ...(shape === "circle" && {
           borderRadius: 9999,
+        }),
+        ...(size === "extra-extra-large" && {
+          width: 80,
+          height: 80,
+        }),
+        ...(size === "extra-large" && {
+          width: 60,
+          height: 60,
         }),
         ...(size === "large" && {
           width: 48,
@@ -70,16 +91,35 @@ export function Thumbnail({
           height: 24,
         }),
       }}
+      onClick={onClick}
     >
       {src && (
         <img
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            ...(shape === "square" && {
+              borderRadius: "var(--radius-medium)",
+            }),
+            ...(shape === "circle" && {
+              borderRadius: 9999,
+            }),
+          }}
           src={src}
         />
       )}
-      {text && (
+      {!src && text && (
         <span
           style={{
+            ...(size === "extra-extra-large" && {
+              fontSize: "32px",
+              fontWeight: 700,
+            }),
+            ...(size === "extra-large" && {
+              fontSize: "24px",
+              fontWeight: 700,
+            }),
             ...(size === "large" && {
               fontSize: "18px",
               fontWeight: 700,
@@ -98,8 +138,27 @@ export function Thumbnail({
             }),
           }}
         >
-          {text}
+          {text.slice(0, 2).toUpperCase()}
         </span>
+      )}
+      {count && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            background: getColor("background", "screen"),
+            color: getColor("content", "primary"),
+            border: border(),
+            padding: "0 4px",
+            borderRadius: 9999,
+            ...textVariants.bodyStrong,
+            lineHeight: "18px",
+            transform: "translate(30%, -30%)",
+          }}
+        >
+          {count}
+        </div>
       )}
     </div>
   );
