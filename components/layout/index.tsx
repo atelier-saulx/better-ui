@@ -3,7 +3,7 @@ import { Style, styled } from "inlines";
 
 export type StackProps = {
   children: React.ReactNode;
-  as?: "div" | "ul" | "input";
+  as?: "div" | "ul";
   style?: Style;
   direction?: "row" | "column";
   justify?: "center" | "between" | "end" | "start";
