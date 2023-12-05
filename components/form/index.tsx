@@ -37,8 +37,8 @@ export function Form({ fields, defaultValues, onChange }: FormProps) {
           )
         }
 
+        // TS picks up type better with if statement version switch 👍
         if (field.type === 'set') {
-          // fix this....
           return <FormSet key={key} field={field} />
         }
       })}
