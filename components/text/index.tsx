@@ -39,6 +39,8 @@ export type TextProps = {
     | "normal600";
 };
 
+// TODO add letter spacing to variants based on figma
+
 const VARIANTS: {
   [key in NonNullable<TextProps["variant"]>]: {
     size: TextProps["size"];
