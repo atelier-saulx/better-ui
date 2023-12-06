@@ -17,9 +17,10 @@ export const Default = () => {
         values={{
           src: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
           set: ['a', 'b', 'c'],
+          arraySimple: ['a', 'b', 'c'],
           array: [
             {
-              bla: 'flap',
+              bla: 'snurp',
               snurp: 'hello snuf',
               flap: 'gurt',
             },
@@ -66,6 +67,10 @@ export const Default = () => {
             type: 'string',
             description: 'A name of someone',
           },
+          shortnumber: {
+            type: 'number',
+            display: 'short',
+          },
           flap: {
             type: 'string',
           },
@@ -90,6 +95,14 @@ export const Default = () => {
                 snurp: { type: 'string' },
                 flap: { type: 'string' },
               },
+            },
+          },
+          arraySimple: {
+            title: 'Simple Array',
+            type: 'array',
+            description: 'An array with a string',
+            values: {
+              type: 'string',
             },
           },
           record: {

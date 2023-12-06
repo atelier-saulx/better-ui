@@ -9,7 +9,7 @@ export type StackProps = {
   justify?: 'center' | 'between' | 'end' | 'start'
   align?: 'center' | 'start' | 'end'
   gap?: 0 | 4 | 8 | 12 | 16 | 24 | 32
-}
+} & typeof styled.div
 
 export const Stack = React.forwardRef<HTMLElement, StackProps>(
   (
@@ -21,6 +21,7 @@ export const Stack = React.forwardRef<HTMLElement, StackProps>(
       gap = 0,
       align = 'center',
       justify = 'between',
+      ...props
     },
     ref
   ) => {
@@ -34,6 +35,7 @@ export const Stack = React.forwardRef<HTMLElement, StackProps>(
         justifyContent: justify === 'between' ? 'space-between' : justify,
         ...style,
       },
+      ...props,
       children,
       ref,
     })

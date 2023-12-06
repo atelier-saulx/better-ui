@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Button } from '../button'
 import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
-import { Plus, Close } from '../icons'
+import { Plus, Close, DragDropHorizontal } from '../icons'
 import { textVariants } from '../text'
 import { border, color } from '../../utils/vars'
 import { Stack } from '../layout'
@@ -89,14 +89,21 @@ function Row({
   value,
   orginalField,
   noBorder,
+  order,
+  index,
 }: {
   field: BasedSchemaField
   value: any
   orginalField?: BasedSchemaFieldObject
   noBorder?: boolean
+  order?: boolean
+  index: number
 }) {
   let body: ReactNode
   let noIcon = false
+
+  const [drag, setDrag] = useState(false)
+  const [dragOver, setDragOver] = useState(false)
 
   if (field.type === 'object') {
     const colls = Object.keys(field.properties)
@@ -182,24 +189,76 @@ function Row({
 
   return (
     <Stack
+      draggable={drag}
+      onDragStart={(e: any) => {
+        e.dataTransfer.setData('Text', index)
+      }}
+      onDrop={(e: any) => {
+        e.preventDefault()
+        const data = e.dataTransfer.getData('Text')
+        console.info(data)
+        setDragOver(false)
+      }}
+      onDragOver={() => {
+        setDragOver(true)
+      }}
+      onDragLeave={() => {
+        setDragOver(false)
+      }}
+      onDragEnd={() => {
+        setDrag(false)
+      }}
+      onDragStop={() => {
+        setDrag(false)
+      }}
+      align="center"
       style={{
+        background: color('background', 'screen'),
         minHeight: 48,
-        borderBottom: noBorder ? undefined : border(),
+        borderBottom: dragOver
+          ? border('focus', 2)
+          : noBorder
+          ? undefined
+          : border(),
+        '*': {
+          pointerEvents: dragOver ? 'none' : undefined,
+        },
         '>:last-child': {
           opacity: 0,
         },
         '&:hover >:last-child': {
-          opacity: '1',
+          opacity: 1,
         },
       }}
     >
+      {order ? (
+        <styled.div
+          style={{
+            cursor: 'grab',
+            transition: 'opacity 0.1s',
+            color: color('content', 'secondary'),
+            opacity: 0.75,
+            '&:hover': {
+              opacity: '1',
+            },
+          }}
+          onMouseDown={() => {
+            setDrag(true)
+          }}
+          onMouseUp={() => {
+            setDrag(false)
+          }}
+        >
+          <DragDropHorizontal />
+        </styled.div>
+      ) : null}
       {body}
       <styled.div
         style={{
           transition: 'opacity 0.1s',
         }}
       >
-        <Close />
+        <Close style={{ opacity: drag ? 0 : 1 }} />
       </styled.div>
     </Stack>
   )
@@ -210,11 +269,14 @@ export function Table({
   rows,
   field,
   nested,
+  order,
   onNew,
   onRemove,
   orginalField,
   style,
 }: TableProps) {
+  const [dragOver, setDragOver] = useState(false)
+
   let header = null
   const isObject = colls.length
   if (isObject) {
@@ -225,15 +287,41 @@ export function Table({
           background: color('background', 'muted'),
           color: color('content', hasKey ? 'primary' : 'secondary'),
           borderTop: nested ? undefined : border(),
-          borderBottom: border(),
+          borderBottom: dragOver ? border('focus', 2) : border(),
           height: 48,
         }}
+        onDrop={
+          order
+            ? (e: any) => {
+                setDragOver(false)
+              }
+            : undefined
+        }
+        onDragOver={
+          order
+            ? () => {
+                setDragOver(true)
+              }
+            : undefined
+        }
+        onDragLeave={
+          order
+            ? () => {
+                setDragOver(false)
+              }
+            : undefined
+        }
       >
         <Stack
           style={{
             height: 48,
           }}
         >
+          {order ? (
+            <styled.div style={{ opacity: 0 }}>
+              <DragDropHorizontal />
+            </styled.div>
+          ) : null}
           {colls.map((v, index) => (
             <Cell isKey={hasKey && index === 0} index={index}>
               {v}
@@ -268,10 +356,12 @@ export function Table({
         {header}
         {rows.map((value, i) => (
           <Row
+            order={order}
             noBorder={i === rows.length - 1 && nested}
             orginalField={orginalField}
             field={field}
             key={i}
+            index={i}
             value={value}
           />
         ))}
