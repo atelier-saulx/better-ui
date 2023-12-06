@@ -10,6 +10,7 @@ import {
 } from '../icons'
 import { Dropdown } from '../dropdown'
 import { BasedSchemaContentMediaType } from '@based/schema'
+import { useHover } from '../../utils/hooks/use-hover'
 
 type Status = 'initial' | 'uploading' | 'success' | 'error'
 
@@ -21,6 +22,7 @@ export type FileInputProps = {
   progress?: number
   allowedType?: BasedSchemaContentMediaType
   value?: string
+  variant?: 'minimal' | 'extended'
 }
 
 export function FileInput({
@@ -30,6 +32,7 @@ export function FileInput({
   progress: progressProp,
   allowedType,
   value,
+  variant = 'extended',
 }: FileInputProps) {
   const [file, setFile] = React.useState<File | null>(null)
   const [filePreview, setFilePreview] = React.useState<string | null>(null)
@@ -39,8 +42,7 @@ export function FileInput({
   const progress = progressProp ?? internalProgress
   const inputRef = React.useRef<HTMLInputElement | null>(null)
 
-  console.info('NOT ADDED YET |--->', allowedType)
-  console.info('NOT ADDED YET |--->', value)
+  const { listeners, hover } = useHover()
 
   return (
     <label
@@ -49,6 +51,7 @@ export function FileInput({
         flexDirection: 'column',
         width: '100%',
       }}
+      {...listeners}
     >
       {label && (
         <span
@@ -63,30 +66,34 @@ export function FileInput({
         </span>
       )}
       <styled.div
-        style={{
-          padding: '8px 12px',
-          borderRadius: 'var(--radius-small)',
-          ...(status === 'initial' && {
-            cursor: 'pointer',
-            border: '1px dashed var(--interactive-secondary)',
-            '&:hover': {
-              border: '1px dashed var(--interactive-secondary-hover)',
-            },
-          }),
-          ...(status === 'uploading' && {
-            border: '1px solid var(--interactive-secondary)',
-          }),
-          ...(status === 'success' && {
-            border: '1px solid var(--interactive-secondary)',
-          }),
-          ...(status === 'error' && {
-            cursor: 'pointer',
-            border: '1px dashed var(--sentiment-negative)',
-            '&:hover': {
-              border: '1px dashed var(--sentiment-negative-hover)',
-            },
-          }),
-        }}
+        style={
+          variant === 'minimal'
+            ? {}
+            : {
+                padding: '8px 12px',
+                borderRadius: 'var(--radius-small)',
+                ...(status === 'initial' && {
+                  cursor: 'pointer',
+                  border: '1px dashed var(--interactive-secondary)',
+                  '&:hover': {
+                    border: '1px dashed var(--interactive-secondary-hover)',
+                  },
+                }),
+                ...(status === 'uploading' && {
+                  border: '1px solid var(--interactive-secondary)',
+                }),
+                ...(status === 'success' && {
+                  border: '1px solid var(--interactive-secondary)',
+                }),
+                ...(status === 'error' && {
+                  cursor: 'pointer',
+                  border: '1px dashed var(--sentiment-negative)',
+                  '&:hover': {
+                    border: '1px dashed var(--sentiment-negative-hover)',
+                  },
+                }),
+              }
+        }
       >
         {status === 'initial' && (
           <styled.div
@@ -149,7 +156,7 @@ export function FileInput({
           <styled.div
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: variant === 'minimal' ? 'start' : 'center',
               alignItems: 'center',
               '& > * + *': { marginLeft: '8px' },
             }}
@@ -158,8 +165,8 @@ export function FileInput({
               <img
                 src={filePreview}
                 style={{
-                  height: 48,
-                  width: 48,
+                  height: variant === 'minimal' ? 32 : 48,
+                  width: variant === 'minimal' ? 32 : 48,
                   borderRadius: 'var(--radius-small)',
                   objectFit: 'cover',
                 }}
@@ -179,12 +186,13 @@ export function FileInput({
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    border: 'none',
+                    opacity: hover ? 1 : 0,
                     outline: 'none',
                     background: 'transparent',
                     padding: '2px',
                     borderRadius: 4,
                     marginLeft: 'auto',
+                    transition: 'opacity 0.1s',
                     cursor: 'pointer',
                     color: 'var(--content-primary)',
                     '&:hover': {

@@ -6,7 +6,7 @@ import { Plus, Close, DragDropHorizontal } from '../icons'
 import { textVariants } from '../text'
 import { border, color } from '../../utils/vars'
 import { Stack } from '../layout'
-import { FormObject } from './object'
+import { FileInput } from '../file-input'
 
 type TableProps = {
   colls: string[]
@@ -148,6 +148,25 @@ function Row({
         }
       }
 
+      const propsField = field.properties[key]
+
+      if (propsField.type === 'string' && propsField.contentMediaType) {
+        return (
+          <Cell index={index}>
+            <FileInput
+              variant="minimal"
+              allowedType={propsField.contentMediaType}
+              //   status={status}
+              //   progress={progress}
+              value={value}
+              onChange={(file) => {
+                console.log('uploaded file', file)
+              }}
+            />
+          </Cell>
+        )
+      }
+
       return (
         <Cell isKey={key === '$key'} index={index}>
           {readOnly ? (
@@ -164,7 +183,19 @@ function Row({
     })
   }
 
-  if (field.type === 'string') {
+  if (field.type === 'string' && field.contentMediaType) {
+    body = (
+      <FileInput
+        allowedType={field.contentMediaType}
+        //   status={status}
+        //   progress={progress}
+        value={value}
+        onChange={(file) => {
+          console.log('uploaded file', file)
+        }}
+      />
+    )
+  } else if (field.type === 'string') {
     body = (
       <styled.div style={{ paddingRight: 10, width: '100%' }}>
         <StringInput value={value} />
