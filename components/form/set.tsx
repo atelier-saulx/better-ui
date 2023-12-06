@@ -7,13 +7,15 @@ export function FormSet({
   fieldKey,
   field,
   items,
+  variant,
 }: {
   fieldKey: string
   field: BasedSchemaFieldSet
   items: any[]
+  variant: 'extensive' | 'minimal'
 }) {
   return (
-    <FormField field={field} name={field.title ?? fieldKey}>
+    <FormField variant={variant} field={field} name={field.title ?? fieldKey}>
       <Table
         field={field.items}
         colls={[]}

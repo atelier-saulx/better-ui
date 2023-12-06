@@ -9,22 +9,34 @@ type FormFieldProps = {
   children: React.ReactNode
   field: BasedSchemaField
   name: string
+  variant: 'extensive' | 'minimal'
 }
 
-export function FormField({ children, field, name }: FormFieldProps) {
+export function FormField({ children, field, name, variant }: FormFieldProps) {
   return (
     <Stack
-      gap={8}
+      gap={12}
       direction="column"
       align="start"
-      style={{
-        paddingLeft: 10,
-        borderLeft: border('muted', 2),
-      }}
+      style={
+        variant === 'minimal'
+          ? {}
+          : {
+              paddingLeft: 16,
+              paddingBottom: 8,
+              borderLeft: border('muted', 2),
+            }
+      }
     >
-      <Text variant="bodyStrong">{name}</Text>
+      <styled.div>
+        <Text variant="bodyStrong">{name}</Text>
+        {field.description && (
+          <Text style={{ marginTop: -2 }} color="secondary">
+            {field.description}
+          </Text>
+        )}
+      </styled.div>
       {children}
-      {field.description && <Text color="secondary">{field.description}</Text>}
     </Stack>
   )
 }

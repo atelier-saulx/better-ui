@@ -9,14 +9,20 @@ export type FormProps = {
   values: { [key: string]: any }
   onChange: (values: FormValues) => void
   fields: FormValues
+  variant?: 'extensive' | 'minimal'
 }
 
-export function Form({ fields, values, onChange }: FormProps) {
+export function Form({
+  fields,
+  values,
+  onChange,
+  variant = 'extensive',
+}: FormProps) {
   // const values = React.useRef<FormValues>({})
   return (
     <Stack gap={32} direction="column" align="start">
       {Object.entries(fields).map(([key, field]) => {
-        return selectField(field, key, values)
+        return selectField(field, key, values, variant)
       })}
     </Stack>
   )

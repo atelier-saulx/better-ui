@@ -7,7 +7,9 @@ export function FormObject({
   fieldKey,
   field,
   values,
+  variant,
 }: {
+  variant: 'extensive' | 'minimal'
   fieldKey: string
   field: BasedSchemaFieldObject
   values: { [key: string]: any }
@@ -27,7 +29,7 @@ export function FormObject({
   }
 
   return (
-    <FormField field={field} name={field.title ?? fieldKey}>
+    <FormField variant={variant} field={field} name={field.title ?? fieldKey}>
       <Table
         orginalField={field}
         field={fieldValue}

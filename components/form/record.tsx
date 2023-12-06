@@ -7,7 +7,9 @@ export function FormRecord({
   fieldKey,
   field,
   values,
+  variant,
 }: {
+  variant: 'extensive' | 'minimal'
   fieldKey: string
   field: BasedSchemaFieldRecord
   values: { [key: string]: any }
@@ -45,7 +47,7 @@ export function FormRecord({
   }
 
   return (
-    <FormField field={field} name={field.title ?? fieldKey}>
+    <FormField variant={variant} field={field} name={field.title ?? fieldKey}>
       <Table
         field={fieldValue}
         colls={colls}

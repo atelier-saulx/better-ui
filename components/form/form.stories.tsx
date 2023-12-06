@@ -15,6 +15,7 @@ export const Default = () => {
     <div style={{ padding: 64 }}>
       <Form
         values={{
+          src: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
           set: ['a', 'b', 'c'],
           array: [
             {
@@ -55,6 +56,7 @@ export const Default = () => {
             derp: {
               x: 'nurp',
               y: 'gurt',
+              z: 'xxx',
             },
           },
         }}
@@ -66,6 +68,10 @@ export const Default = () => {
           },
           flap: {
             type: 'string',
+          },
+          src: {
+            type: 'string',
+            contentMediaType: '*/*',
           },
           set: {
             title: 'Set',
@@ -95,13 +101,6 @@ export const Default = () => {
                 bla: { type: 'string' },
                 snurp: { type: 'string' },
                 flap: { type: 'string' },
-                // derp: {
-                //   type: 'object',
-                //   properties: {
-                //     x: { type: 'string' },
-                //     y: { type: 'string' },
-                //   },
-                // },
               },
             },
           },
@@ -118,11 +117,13 @@ export const Default = () => {
             properties: {
               bla: { type: 'string' },
               snurp: { type: 'string' },
+              name: { type: 'string' },
               derp: {
                 type: 'object',
                 properties: {
                   x: { type: 'string' },
                   y: { type: 'string' },
+                  z: { type: 'string' },
                 },
               },
             },

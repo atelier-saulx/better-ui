@@ -103,10 +103,9 @@ function Row({
     body = Object.keys(field.properties).map((key, index) => {
       const { readOnly } = field.properties[key]
 
-      console.info('---------->', key, value)
-
-      if (orginalField && key === '$value') {
-        const f = orginalField.properties[value.$key]
+      if (orginalField && key !== '$key') {
+        const isValue = key === '$value'
+        const f = orginalField.properties[isValue ? value.$key : key]
         if (f.type === 'object') {
           noIcon = true
           /*
@@ -124,7 +123,7 @@ function Row({
           for (const key in f.properties) {
             const p = f.properties[key]
             colls.push(p.title ?? key)
-            r[key] = value.$value[key]
+            r[key] = isValue ? value.$value[key] : value[key]
           }
 
           return (
@@ -132,10 +131,11 @@ function Row({
               style={{
                 borderLeft: border(),
               }}
+              // orginalField={f}
               nested
               colls={colls}
               rows={[r]}
-              field={orginalField.properties[value.$key]}
+              field={f}
             />
           )
         }
@@ -258,7 +258,12 @@ export function Table({
   }
 
   return (
-    <Stack direction="column" gap={8} align="start" style={style}>
+    <Stack
+      direction="column"
+      gap={8}
+      align="start"
+      style={{ flexGrow: 1, ...style }}
+    >
       <styled.div style={{ width: '100%' }}>
         {header}
         {rows.map((value, i) => (

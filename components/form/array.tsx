@@ -7,10 +7,12 @@ export function FormArray({
   fieldKey,
   field,
   values,
+  variant,
 }: {
   fieldKey: string
   field: BasedSchemaFieldArray
   values: any[]
+  variant: 'extensive' | 'minimal'
 }) {
   const colls: string[] = []
 
@@ -22,7 +24,7 @@ export function FormArray({
   }
 
   return (
-    <FormField field={field} name={field.title ?? fieldKey}>
+    <FormField variant={variant} field={field} name={field.title ?? fieldKey}>
       <Table
         order
         field={field.values}
