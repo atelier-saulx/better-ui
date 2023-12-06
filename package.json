@@ -17,6 +17,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@saulx/hash": "^3.0.0",
+    "@saulx/utils": "^4.1.0",
     "@tanstack/react-table": "^8.10.7",
     "@tanstack/react-virtual": "^3.0.0-alpha.0",
     "inlines": "^0.2.2"

@@ -40,7 +40,7 @@ export function FormRecord({
 
     // field.values
     for (const key in values) {
-      parsedValues.push({ $key: key, value: values[key] })
+      parsedValues.push({ $key: key, $value: values[key] })
     }
   }
 

@@ -49,6 +49,14 @@ export const Default = () => {
             x: 'flap',
             y: 'flup',
           },
+          object: {
+            bla: 'hello!',
+            snurp: 'derp!',
+            derp: {
+              x: 'nurp',
+              y: 'gurt',
+            },
+          },
         }}
         fields={{
           name: {
@@ -78,15 +86,8 @@ export const Default = () => {
               },
             },
           },
-          object: {
-            title: 'an object',
-            type: 'object',
-            properties: {
-              bla: { type: 'string' },
-            },
-          },
           record: {
-            title: 'a record',
+            title: 'Record',
             type: 'record',
             values: {
               type: 'object',
@@ -94,14 +95,36 @@ export const Default = () => {
                 bla: { type: 'string' },
                 snurp: { type: 'string' },
                 flap: { type: 'string' },
+                // derp: {
+                //   type: 'object',
+                //   properties: {
+                //     x: { type: 'string' },
+                //     y: { type: 'string' },
+                //   },
+                // },
               },
             },
           },
           recordPrimitive: {
-            title: 'a primitve record',
+            title: 'Primitve record',
             type: 'record',
             values: {
               type: 'string',
+            },
+          },
+          object: {
+            title: 'Object',
+            type: 'object',
+            properties: {
+              bla: { type: 'string' },
+              snurp: { type: 'string' },
+              derp: {
+                type: 'object',
+                properties: {
+                  x: { type: 'string' },
+                  y: { type: 'string' },
+                },
+              },
             },
           },
         }}

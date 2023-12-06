@@ -1,19 +1,23 @@
 import React, { ReactNode } from 'react'
 import { styled, Style } from 'inlines'
 import { Button } from '../button'
-import { BasedSchemaField } from '@based/schema'
+import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
 import { Plus, Close } from '../icons'
 import { textVariants } from '../text'
 import { border, color } from '../../utils/vars'
 import { Stack } from '../layout'
+import { FormObject } from './object'
 
 type TableProps = {
   colls: string[]
+  nested?: boolean
   rows: any[]
-  onNew: () => void
+  orginalField?: BasedSchemaFieldObject
+  onNew?: () => void
   field: BasedSchemaField
-  onRemove: (index: number) => void
+  onRemove?: (index: number) => void
   order?: boolean // drag and drop
+  style?: Style
 }
 
 function StringInput({
@@ -35,7 +39,7 @@ function StringInput({
         height: 32,
         borderRadius: `var(--radius-tiny)`,
         paddingLeft: 10,
-        marginLeft: -10,
+        // marginLeft: -10,
         paddingRight: 10,
         border: focus ? border('focus') : `1px solid transparent`,
         boxShadow: focus ? `var(--shadow-focus)` : undefined,
@@ -54,23 +58,22 @@ function StringInput({
 }
 
 function Cell({
-  colls,
   index,
   isKey,
   children,
 }: {
-  colls: string[]
   index: number
-  isKey: boolean
+  isKey?: boolean
   children: ReactNode
 }) {
   return (
     <Stack
+      justify="start"
       style={{
-        height: 48,
+        minHeight: 48,
         flexGrow: 1,
         paddingRight: 10,
-        borderRight: index === colls.length - 1 ? undefined : border(),
+        borderLeft: index === 0 ? undefined : border(),
         maxWidth: isKey ? 200 : undefined,
         paddingLeft: 20,
         ...(isKey ? textVariants.bodyStrong : textVariants.bodyBold),
@@ -81,45 +84,107 @@ function Cell({
   )
 }
 
-function Row({ field, value }: { field: BasedSchemaField; value: any }) {
+function Row({
+  field,
+  value,
+  orginalField,
+  noBorder,
+}: {
+  field: BasedSchemaField
+  value: any
+  orginalField?: BasedSchemaFieldObject
+  noBorder?: boolean
+}) {
+  let body: ReactNode
+  let noIcon = false
+
   if (field.type === 'object') {
     const colls = Object.keys(field.properties)
-    return (
-      <Stack
-        style={{
-          height: 48,
-        }}
-      >
-        {Object.keys(field.properties).map((key, index) => (
-          <Cell colls={colls} isKey={key === '$key'} index={index}>
-            <StringInput key={index} value={value[key]} />
-          </Cell>
-        ))}
-      </Stack>
-    )
+    body = Object.keys(field.properties).map((key, index) => {
+      const { readOnly } = field.properties[key]
+
+      console.info('---------->', key, value)
+
+      if (orginalField && key === '$value') {
+        const f = orginalField.properties[value.$key]
+        if (f.type === 'object') {
+          noIcon = true
+          /*
+               colls,
+                rows,
+                field,
+                onNew,
+                onRemove,
+                orginalField,
+              */
+
+          const colls: string[] = []
+          const r: any = {}
+
+          for (const key in f.properties) {
+            const p = f.properties[key]
+            colls.push(p.title ?? key)
+            r[key] = value.$value[key]
+          }
+
+          return (
+            <Table
+              style={{
+                borderLeft: border(),
+              }}
+              nested
+              colls={colls}
+              rows={[r]}
+              field={orginalField.properties[value.$key]}
+            />
+          )
+        }
+      }
+
+      return (
+        <Cell isKey={key === '$key'} index={index}>
+          {readOnly ? (
+            value[key]
+          ) : (
+            <StringInput
+              style={{ marginLeft: -10 }}
+              key={index}
+              value={value[key]}
+            />
+          )}
+        </Cell>
+      )
+    })
   }
 
   if (field.type === 'string') {
-    return (
+    body = (
       <styled.div style={{ paddingRight: 10, width: '100%' }}>
         <StringInput value={value} />
       </styled.div>
     )
   }
-}
 
-export function RowStyled({
-  value,
-  field,
-}: {
-  value: any
-  field: BasedSchemaField
-}) {
+  if (noIcon) {
+    return (
+      <Stack
+        align="start"
+        justify="start"
+        style={{
+          minHeight: 48,
+          borderBottom: border(),
+        }}
+      >
+        {body}
+      </Stack>
+    )
+  }
+
   return (
     <Stack
       style={{
-        height: 48,
-        borderBottom: border(),
+        minHeight: 48,
+        borderBottom: noBorder ? undefined : border(),
         '>:last-child': {
           opacity: 0,
         },
@@ -128,7 +193,7 @@ export function RowStyled({
         },
       }}
     >
-      <Row value={value} field={field} />
+      {body}
       <styled.div
         style={{
           transition: 'opacity 0.1s',
@@ -140,7 +205,16 @@ export function RowStyled({
   )
 }
 
-export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
+export function Table({
+  colls,
+  rows,
+  field,
+  nested,
+  onNew,
+  onRemove,
+  orginalField,
+  style,
+}: TableProps) {
   let header = null
   const isObject = colls.length
   if (isObject) {
@@ -150,7 +224,7 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
         style={{
           background: color('background', 'muted'),
           color: color('content', hasKey ? 'primary' : 'secondary'),
-          borderTop: border(),
+          borderTop: nested ? undefined : border(),
           borderBottom: border(),
           height: 48,
         }}
@@ -161,7 +235,7 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
           }}
         >
           {colls.map((v, index) => (
-            <Cell colls={colls} isKey={hasKey && index === 0} index={index}>
+            <Cell isKey={hasKey && index === 0} index={index}>
               {v}
             </Cell>
           ))}
@@ -184,21 +258,29 @@ export function Table({ colls, rows, field, onNew, onRemove }: TableProps) {
   }
 
   return (
-    <Stack direction="column" gap={8} align="start">
+    <Stack direction="column" gap={8} align="start" style={style}>
       <styled.div style={{ width: '100%' }}>
         {header}
         {rows.map((value, i) => (
-          <RowStyled field={field} key={i} value={value} />
+          <Row
+            noBorder={i === rows.length - 1 && nested}
+            orginalField={orginalField}
+            field={field}
+            key={i}
+            value={value}
+          />
         ))}
       </styled.div>
-      <Button
-        size="small"
-        variant="neutral-transparent"
-        onClick={onNew}
-        prefix={<Plus />}
-      >
-        New
-      </Button>
+      {onNew ? (
+        <Button
+          size="small"
+          variant="neutral-transparent"
+          onClick={onNew}
+          prefix={<Plus />}
+        >
+          New
+        </Button>
+      ) : null}
     </Stack>
   )
 }
