@@ -13,6 +13,7 @@ export type ButtonProps = {
   suffix?: React.ReactNode;
   size?: "large" | "medium" | "small";
   type?: "button" | "submit";
+  shape?: "square" | "rectangle";
   disabled?: boolean;
   onClick?: () => void | Promise<void>;
   onMouseEnter?: React.MouseEventHandler;
@@ -30,21 +31,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       variant = "primary",
       size = "medium",
       type = "button",
+      shape = "rectangle",
       prefix,
       suffix,
       onMouseEnter,
       onMouseLeave,
       onFocus,
       onBlur,
+      disabled,
     },
     ref
   ) => {
     const [loading, setLoading] = React.useState(false);
     const [shaking, setShaking] = React.useState(false);
 
-    // TODO make this into a hook
     const handleClick = React.useCallback(async () => {
-      if (!onClick) return;
+      if (!onClick || disabled) return;
 
       const loadingDelayTimeout = setTimeout(() => {
         setLoading(true);
@@ -58,7 +60,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       setLoading(false);
       clearTimeout(loadingDelayTimeout);
-    }, [onClick]);
+    }, [onClick, disabled]);
 
     return (
       <styled.button
@@ -68,25 +70,28 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           position: "relative",
           borderRadius: "var(--radius-small)",
           fontWeight: 600,
-          cursor: "pointer",
+          cursor: disabled ? "not-allowed" : "pointer",
           display: "inline-flex",
           justifyItems: "center",
           alignItems: "center",
           ...(shaking && {
             animation: "200ms shake ease-in-out",
           }),
+          ...(disabled && {
+            opacity: "40%",
+          }),
           ...(size === "large" && {
-            padding: "9px 16px",
+            padding: shape === "rectangle" ? "9px 16px" : "14px",
             fontSize: 16,
             lineHeight: "28px",
           }),
           ...(size === "medium" && {
-            padding: "5px 16px",
+            padding: shape === "rectangle" ? "5px 16px" : "10px",
             fontSize: 16,
             lineHeight: "28px",
           }),
           ...(size === "small" && {
-            padding: "3px 12px",
+            padding: shape === "rectangle" ? "3px 12px" : "6px",
             fontSize: 14,
             lineHeight: "24px",
           }),
@@ -145,6 +150,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onMouseLeave={onMouseLeave}
         onFocus={onFocus}
         onBlur={onBlur}
+        disabled={disabled}
       >
         {loading && (
           <div
@@ -186,7 +192,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }}
         >
           {prefix && prefix}
-          <span>{children}</span>
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {children}
+          </span>
           {suffix && suffix}
         </div>
       </styled.button>

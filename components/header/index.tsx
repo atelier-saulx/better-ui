@@ -5,7 +5,6 @@ import { Button } from "../button";
 import { Dropdown } from "../dropdown";
 import { Thumbnail } from "../thumbnail";
 import { useIsMobile } from "../../utils/hooks/use-is-mobile";
-import { IconButton } from "../icon-button";
 import { useTheme } from "../../utils/hooks/use-theme";
 import { BasedLogoWithText, BasedLogoWithoutText } from "../icons/logo";
 
@@ -43,15 +42,16 @@ export function Header() {
               alignItems: "center",
             }}
           >
-            <IconButton
-              type="secondary"
+            <Button
+              variant="neutral-transparent"
+              shape="square"
               size="small"
               onClick={() => {
                 setMobileMenuOpen((p) => !p);
               }}
             >
               <Menu />
-            </IconButton>
+            </Button>
           </styled.div>
         ) : (
           <>

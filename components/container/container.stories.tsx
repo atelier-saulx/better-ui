@@ -3,7 +3,6 @@ import { Container } from "./";
 import { Thumbnail } from "../thumbnail";
 import type { Meta, StoryObj } from "@storybook/react";
 import { MoreHorizontal } from "../icons";
-import { IconButton } from "../icon-button";
 import { Button } from "../button";
 import { Dropdown } from "../dropdown";
 
@@ -22,9 +21,9 @@ export const ListItem: StoryObj<typeof Container> = {
     suffix: (
       <Dropdown.Root>
         <Dropdown.Trigger>
-          <IconButton type="secondary">
+          <Button variant="neutral-transparent" shape="square">
             <MoreHorizontal />
-          </IconButton>
+          </Button>
         </Dropdown.Trigger>
         <Dropdown.Items>
           <Dropdown.Item
@@ -58,9 +57,9 @@ export const ListItemWithOnClick: StoryObj<typeof Container> = {
     suffix: (
       <Dropdown.Root>
         <Dropdown.Trigger>
-          <IconButton type="secondary">
+          <Button variant="neutral-transparent" shape="square">
             <MoreHorizontal />
-          </IconButton>
+          </Button>
         </Dropdown.Trigger>
         <Dropdown.Items>
           <Dropdown.Item
@@ -91,9 +90,9 @@ export const ListItemWithChildren: StoryObj<typeof Container> = {
     suffix: (
       <Dropdown.Root>
         <Dropdown.Trigger>
-          <IconButton type="secondary">
+          <Button variant="neutral-transparent" shape="square">
             <MoreHorizontal />
-          </IconButton>
+          </Button>
         </Dropdown.Trigger>
         <Dropdown.Items>
           <Dropdown.Item
@@ -132,9 +131,9 @@ export const Expandable: StoryObj<typeof Container> = {
     suffix: (
       <Dropdown.Root>
         <Dropdown.Trigger>
-          <IconButton type="secondary">
+          <Button variant="neutral-transparent" shape="square">
             <MoreHorizontal />
-          </IconButton>
+          </Button>
         </Dropdown.Trigger>
         <Dropdown.Items>
           <Dropdown.Item

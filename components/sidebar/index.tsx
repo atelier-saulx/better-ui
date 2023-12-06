@@ -1,8 +1,8 @@
 import * as React from "react";
 import { styled } from "inlines";
-import { IconButton } from "../icon-button";
 import { ViewLayoutLeft } from "../icons";
 import { Tooltip } from "../tooltip";
+import { Button } from "../button";
 
 const SidebarContext = React.createContext({ open: true });
 
@@ -34,14 +34,15 @@ export function Sidebar({ children }: SidebarProps) {
           content={open ? "Collapse sidebar" : "Expand sidebar"}
           side={open ? "top" : "right"}
         >
-          <IconButton
-            type="secondary"
+          <Button
+            variant="neutral-transparent"
+            shape="square"
             onClick={() => {
               setOpen((p) => !p);
             }}
           >
             <ViewLayoutLeft />
-          </IconButton>
+          </Button>
         </Tooltip>
       </div>
     </styled.aside>
@@ -112,9 +113,9 @@ export function SidebarItem({
       }}
     >
       <Tooltip content={children} side="right">
-        <IconButton onClick={onClick} type="secondary">
+        <Button shape="square" onClick={onClick} variant="neutral-transparent">
           {icon}
-        </IconButton>
+        </Button>
       </Tooltip>
     </styled.div>
   );

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dropdown } from "./";
-import { IconButton } from "../icon-button";
+import { Button } from "../button";
 import { MoreVertical, Copy, Delete } from "../icons";
 
 const meta = {
@@ -12,9 +12,9 @@ export const Default = () => {
   return (
     <Dropdown.Root>
       <Dropdown.Trigger>
-        <IconButton>
+        <Button shape="square" variant="neutral">
           <MoreVertical />
-        </IconButton>
+        </Button>
       </Dropdown.Trigger>
       <Dropdown.Items>
         <Dropdown.Item
