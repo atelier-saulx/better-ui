@@ -131,6 +131,7 @@ export const Default = () => {
               bla: { type: 'string' },
               snurp: { type: 'string' },
               name: { type: 'string' },
+              src: { type: 'string', contentMediaType: '*/*' },
               derp: {
                 type: 'object',
                 properties: {

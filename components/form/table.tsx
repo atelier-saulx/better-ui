@@ -110,45 +110,35 @@ function Row({
     body = Object.keys(field.properties).map((key, index) => {
       const { readOnly } = field.properties[key]
 
+      let propsField = field.properties[key]
+      const isValue = key === '$value'
+
       if (orginalField && key !== '$key') {
-        const isValue = key === '$value'
-        const f = orginalField.properties[isValue ? value.$key : key]
-        if (f.type === 'object') {
-          noIcon = true
-          /*
-               colls,
-                rows,
-                field,
-                onNew,
-                onRemove,
-                orginalField,
-              */
-
-          const colls: string[] = []
-          const r: any = {}
-
-          for (const key in f.properties) {
-            const p = f.properties[key]
-            colls.push(p.title ?? key)
-            r[key] = isValue ? value.$value[key] : value[key]
-          }
-
-          return (
-            <Table
-              style={{
-                borderLeft: border(),
-              }}
-              // orginalField={f}
-              nested
-              colls={colls}
-              rows={[r]}
-              field={f}
-            />
-          )
-        }
+        propsField = orginalField.properties[isValue ? value.$key : key]
       }
 
-      const propsField = field.properties[key]
+      if (propsField.type === 'object') {
+        noIcon = true
+        const colls: string[] = []
+        const r: any = {}
+        for (const key in propsField.properties) {
+          const p = propsField.properties[key]
+          colls.push(p.title ?? key)
+          r[key] = isValue ? value.$value[key] : value[key]
+        }
+        return (
+          <Table
+            style={{
+              borderLeft: border(),
+            }}
+            // orginalField={f}
+            nested
+            colls={colls}
+            rows={[r]}
+            field={propsField}
+          />
+        )
+      }
 
       if (propsField.type === 'string' && propsField.contentMediaType) {
         return (
@@ -156,8 +146,6 @@ function Row({
             <FileInput
               variant="minimal"
               allowedType={propsField.contentMediaType}
-              //   status={status}
-              //   progress={progress}
               value={value}
               onChange={(file) => {
                 console.log('uploaded file', file)

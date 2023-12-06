@@ -11,6 +11,9 @@ import {
 import { Dropdown } from '../dropdown'
 import { BasedSchemaContentMediaType } from '@based/schema'
 import { useHover } from '../../utils/hooks/use-hover'
+import { color } from '../../utils/vars'
+import { Text } from '../text'
+import { Stack } from '../layout'
 
 type Status = 'initial' | 'uploading' | 'success' | 'error'
 
@@ -24,6 +27,8 @@ export type FileInputProps = {
   value?: string
   variant?: 'minimal' | 'extended'
 }
+
+// add drop
 
 export function FileInput({
   onChange,
@@ -44,14 +49,29 @@ export function FileInput({
 
   const { listeners, hover } = useHover()
 
+  // state for drop
+
+  // elipsis
+
+  // add value
+
+  // add allowedtype
+
+  // value object { name?, mime?, src string }
+
   return (
     <label
       style={{
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
+
+        // color: color('content', hover ? 'primary' : 'secondary'),
       }}
       {...listeners}
+      // onDrop={(e) => {
+      //   e.preventDefault()
+      // }}
     >
       {label && (
         <span
@@ -96,20 +116,10 @@ export function FileInput({
         }
       >
         {status === 'initial' && (
-          <styled.div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              '& > * + *': { marginLeft: '8px' },
-            }}
-          >
+          <Stack gap={12} justify="start">
             <Upload />
-            <div
-              style={{ fontSize: '14px', lineHeight: '24px', fontWeight: 500 }}
-            >
-              Upload new file
-            </div>
-          </styled.div>
+            <Text>Upload file</Text>
+          </Stack>
         )}
         {status === 'uploading' && (
           <styled.div
