@@ -99,6 +99,7 @@ export const CheckboxInput = React.forwardRef<
         ) : (
           <styled.div
             style={{
+              marginTop: 4,
               width: 36,
               height: 20,
               padding: 2,
