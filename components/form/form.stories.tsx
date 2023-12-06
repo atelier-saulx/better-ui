@@ -45,6 +45,10 @@ export const Default = () => {
               flap: 'gurt',
             },
           },
+          recordPrimitive: {
+            x: 'flap',
+            y: 'flup',
+          },
         }}
         fields={{
           name: {

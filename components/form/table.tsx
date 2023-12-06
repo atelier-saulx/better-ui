@@ -71,7 +71,7 @@ function Cell({
         flexGrow: 1,
         paddingRight: 10,
         borderRight: index === colls.length - 1 ? undefined : border(),
-        maxWidth: isKey ? 250 : undefined,
+        maxWidth: isKey ? 200 : undefined,
         paddingLeft: 20,
         ...(isKey ? textVariants.bodyStrong : textVariants.bodyBold),
       }}
