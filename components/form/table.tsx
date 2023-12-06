@@ -275,8 +275,6 @@ export function Table({
   orginalField,
   style,
 }: TableProps) {
-  const [dragOver, setDragOver] = useState(false)
-
   let header = null
   const isObject = colls.length
   if (isObject) {
@@ -287,30 +285,9 @@ export function Table({
           background: color('background', 'muted'),
           color: color('content', hasKey ? 'primary' : 'secondary'),
           borderTop: nested ? undefined : border(),
-          borderBottom: dragOver ? border('focus', 2) : border(),
+          borderBottom: border(),
           height: 48,
         }}
-        onDrop={
-          order
-            ? (e: any) => {
-                setDragOver(false)
-              }
-            : undefined
-        }
-        onDragOver={
-          order
-            ? () => {
-                setDragOver(true)
-              }
-            : undefined
-        }
-        onDragLeave={
-          order
-            ? () => {
-                setDragOver(false)
-              }
-            : undefined
-        }
       >
         <Stack
           style={{
