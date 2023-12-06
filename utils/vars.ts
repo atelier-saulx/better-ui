@@ -1,6 +1,7 @@
 type Color = {
   content: "primary" | "inverted" | "secondary";
   background: "neutral" | "muted" | "dimmer" | "screen";
+  interactive: "primary" | "primary-hover" | "secondary" | "secondary-hover";
 };
 
 export const color = <T extends keyof Color>(
