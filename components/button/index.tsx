@@ -1,13 +1,17 @@
 import * as React from "react";
 import { styled } from "inlines";
+import { color } from "../../utils/vars";
+import { textVariants } from "../text";
 
 export type ButtonProps = {
   children: React.ReactNode;
   variant?:
     | "primary"
     | "primary-transparent"
+    | "primary-link"
     | "neutral"
     | "neutral-transparent"
+    | "neutral-link"
     | "error";
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
@@ -139,6 +143,26 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             "&:hover": {
               background: "var(--sentiment-negative-hover)",
               border: "1px solid var(--sentiment-negative-hover)",
+            },
+          }),
+          ...(variant === "primary-link" && {
+            color: color("interactive", "primary"),
+            background: "transparent",
+            border: "none",
+            padding: 0,
+            ...textVariants.bodyStrong,
+            "&:hover": {
+              textDecoration: "underline",
+            },
+          }),
+          ...(variant === "neutral-link" && {
+            color: color("content", "primary"),
+            background: "transparent",
+            border: "none",
+            padding: 0,
+            ...textVariants.bodyStrong,
+            "&:hover": {
+              textDecoration: "underline",
             },
           }),
         }}

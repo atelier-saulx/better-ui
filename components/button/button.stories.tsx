@@ -34,6 +34,18 @@ export const IconOnly: StoryObj<typeof Button> = {
   },
 };
 
+export const Link: StoryObj<typeof Button> = {
+  args: {
+    children: "This is a link",
+    variant: "neutral-link",
+    size: "medium",
+    shape: "square",
+    onClick: () => {
+      alert("hello");
+    },
+  },
+};
+
 export const PrefixAndSuffix: StoryObj<typeof Button> = {
   args: {
     children: "Click me",
