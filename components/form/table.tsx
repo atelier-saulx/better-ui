@@ -173,15 +173,16 @@ function Row({
 
   if (field.type === 'string' && field.contentMediaType) {
     body = (
-      <FileInput
-        allowedType={field.contentMediaType}
-        //   status={status}
-        //   progress={progress}
-        value={value}
-        onChange={(file) => {
-          console.log('uploaded file', file)
-        }}
-      />
+      <styled.div style={{ paddingLeft: 12, paddingRight: 10, width: '100%' }}>
+        <FileInput
+          variant="minimal"
+          allowedType={field.contentMediaType}
+          value={value}
+          onChange={(file) => {
+            console.log('uploaded file', file)
+          }}
+        />
+      </styled.div>
     )
   } else if (field.type === 'string') {
     body = (
