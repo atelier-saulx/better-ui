@@ -14,6 +14,7 @@ export function FormArray({
 }) {
   const colls: string[] = []
 
+  // array / refs / set /
   if (field.values.type === 'object') {
     for (const key in field.values.properties) {
       colls.push(field.values.properties[key].title ?? key)

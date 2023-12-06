@@ -6,6 +6,7 @@ import { FormField } from './form-field'
 import { FormSet } from './set'
 import { FormArray } from './array'
 import { Stack } from '../layout'
+import { FormRecord } from './record'
 
 type FormValues = { [key: string]: BasedSchemaField }
 
@@ -51,6 +52,16 @@ export function Form({ fields, values, onChange }: FormProps) {
               fieldKey={key}
               field={field}
               values={values[key] ?? []}
+            />
+          )
+        }
+
+        if (field.type === 'record') {
+          return (
+            <FormRecord
+              fieldKey={key}
+              field={field}
+              values={values[key] ?? {}}
             />
           )
         }
