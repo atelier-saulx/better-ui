@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Table } from "./";
-import { IconButton } from "../icon-button";
 import { faker } from "@faker-js/faker";
 import { Copy, Delete, MoreVertical } from "../icons";
 import { Modal } from "../modal";
@@ -76,9 +75,9 @@ const InfiniteQueryContent = () => {
           rowAction={(row) => (
             <Dropdown.Root>
               <Dropdown.Trigger>
-                <IconButton type="secondary">
+                <Button shape="square" variant="neutral-transparent">
                   <MoreVertical />
-                </IconButton>
+                </Button>
               </Dropdown.Trigger>
               <Dropdown.Items>
                 <Dropdown.Item icon={<Copy />}>Copy</Dropdown.Item>

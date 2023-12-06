@@ -4,7 +4,6 @@ import { Provider } from "@based/react";
 import based from "@based/client";
 import { Dropdown } from "../components/dropdown";
 import { Table } from "../components/table";
-import { IconButton } from "../components/icon-button";
 import {
   ChartBar,
   Copy,
@@ -79,9 +78,9 @@ const UserContent = () => {
         rowAction={(row) => (
           <Dropdown.Root>
             <Dropdown.Trigger>
-              <IconButton type="secondary">
+              <Button variant="neutral-transparent" shape="square">
                 <MoreVertical />
-              </IconButton>
+              </Button>
             </Dropdown.Trigger>
             <Dropdown.Items>
               <Dropdown.Item
