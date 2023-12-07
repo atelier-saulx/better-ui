@@ -151,6 +151,33 @@ export const Default = () => {
                   y: { type: 'string' },
                   z: { type: 'string' },
                   src: { type: 'string', contentMediaType: '*/*' },
+                  nested: {
+                    type: 'object',
+                    properties: {
+                      x: { type: 'string' },
+                      y: { type: 'string' },
+                      z: { type: 'string' },
+                    },
+                  },
+                },
+              },
+              flap: {
+                type: 'record',
+                values: {
+                  type: 'object',
+                  properties: {
+                    bla: { type: 'string' },
+                    snurp: { type: 'string' },
+                    flap: { type: 'string' },
+                    nested: {
+                      type: 'object',
+                      properties: {
+                        x: { type: 'string' },
+                        y: { type: 'string' },
+                        z: { type: 'string' },
+                      },
+                    },
+                  },
                 },
               },
             },

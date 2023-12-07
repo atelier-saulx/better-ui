@@ -7,6 +7,10 @@ import { textVariants } from '../text'
 import { border, color } from '../../utils/vars'
 import { Stack } from '../layout'
 import { FileInput } from '../file-input'
+import { FormObject } from './object'
+import { FormRecord } from './record'
+
+// no remove row
 
 type TableProps = {
   colls: string[]
@@ -74,7 +78,7 @@ function Cell({
         flexGrow: 1,
         paddingRight: 10,
         borderLeft: index === 0 ? undefined : border(),
-        maxWidth: isKey ? 200 : undefined,
+        maxWidth: isKey ? 150 : undefined,
         paddingLeft: 20,
         ...(isKey ? textVariants.bodyStrong : textVariants.bodyBold),
       }}
@@ -118,23 +122,28 @@ function Row({
 
       if (propsField.type === 'object') {
         noIcon = true
-        const colls: string[] = []
-        const r: any = {}
-        for (const key in propsField.properties) {
-          const p = propsField.properties[key]
-          colls.push(p.title ?? key)
-          r[key] = isValue ? value.$value[key] : value[key]
-        }
         return (
-          <Table
+          <FormObject
             key={key}
-            style={{
-              borderLeft: border(),
-            }}
             nested
-            colls={colls}
-            rows={[r]}
+            variant="minimal"
+            fieldKey={key}
             field={propsField}
+            values={value}
+          />
+        )
+      }
+
+      if (propsField.type === 'record') {
+        noIcon = true
+        return (
+          <FormRecord
+            key={key}
+            nested
+            variant="minimal"
+            fieldKey={key}
+            field={propsField}
+            values={isValue ? value.$value : value}
           />
         )
       }
@@ -314,12 +323,12 @@ export function Table({
   colls,
   rows,
   field,
-  nested,
   order,
   onNew,
   onRemove,
   orginalField,
   style,
+  nested,
 }: TableProps) {
   const [dragOver, setDragOver] = useState(false)
 
@@ -332,7 +341,6 @@ export function Table({
         style={{
           background: color('background', 'muted'),
           color: color('content', hasKey ? 'primary' : 'secondary'),
-          borderTop: nested ? undefined : border(),
           borderBottom: dragOver ? border('focus', 2) : border(),
           height: 48,
         }}
@@ -408,7 +416,11 @@ export function Table({
         style={{
           marginTop: -8,
           height: 8,
-          borderBottom: dragOver ? border('focus', 2) : border(),
+          borderBottom: dragOver
+            ? border('focus', 2)
+            : nested
+            ? undefined
+            : border(),
         }}
       />
     )
@@ -419,7 +431,12 @@ export function Table({
       direction="column"
       gap={8}
       align="start"
-      style={{ flexGrow: 1, ...style }}
+      style={{
+        flexGrow: 1,
+        paddingBottom: onNew ? 6 : 0,
+        ...style,
+        borderLeft: nested ? border() : undefined,
+      }}
     >
       <styled.div style={{ width: '100%' }}>
         {header}

@@ -8,11 +8,13 @@ export function FormRecord({
   field,
   values,
   variant,
+  nested,
 }: {
   variant: 'extensive' | 'minimal'
   fieldKey: string
   field: BasedSchemaFieldRecord
   values: { [key: string]: any }
+  nested?: boolean
 }) {
   const colls: string[] = ['key']
   const parsedValues: { [key: string]: any }[] = []
@@ -44,6 +46,19 @@ export function FormRecord({
     for (const key in values) {
       parsedValues.push({ $key: key, $value: values[key] })
     }
+  }
+
+  if (nested) {
+    return (
+      <Table
+        nested
+        field={fieldValue}
+        colls={colls}
+        rows={parsedValues}
+        onNew={() => {}}
+        onRemove={() => {}}
+      />
+    )
   }
 
   return (
