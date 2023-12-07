@@ -127,6 +127,7 @@ function Row({
         }
         return (
           <Table
+            key={key}
             style={{
               borderLeft: border(),
             }}
@@ -139,13 +140,21 @@ function Row({
       }
 
       if (propsField.type === 'string' && propsField.contentMediaType) {
-        console.log(value)
         return (
-          <Cell index={index}>
+          <Cell index={index} key={key}>
             <FileInput
               variant="minimal"
               mimeType={propsField.contentMediaType}
-              value={value ?? { src: value }}
+              // make this better
+              value={
+                isValue
+                  ? value.$value
+                    ? { src: value.$value }
+                    : undefined
+                  : value[key]
+                  ? { src: value[key] }
+                  : undefined
+              }
               onChange={(file) => {
                 console.log('uploaded file', file)
               }}
@@ -155,7 +164,7 @@ function Row({
       }
 
       return (
-        <Cell isKey={key === '$key'} index={index}>
+        <Cell isKey={key === '$key'} index={index} key={key}>
           {readOnly ? (
             value[key]
           ) : (
@@ -169,10 +178,9 @@ function Row({
       )
     })
   }
+  // ----------
 
   if (field.type === 'string' && field.contentMediaType) {
-    console.info('bla', field, value)
-
     body = (
       <styled.div style={{ paddingLeft: 12, paddingRight: 10, width: '100%' }}>
         <FileInput
@@ -341,7 +349,7 @@ export function Table({
             </styled.div>
           ) : null}
           {colls.map((v, index) => (
-            <Cell isKey={hasKey && index === 0} index={index}>
+            <Cell key={v} isKey={hasKey && index === 0} index={index}>
               {v}
             </Cell>
           ))}

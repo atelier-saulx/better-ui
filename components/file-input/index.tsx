@@ -58,10 +58,9 @@ export function FileInput({
   const progress = progressProp ?? internalProgress
   const inputRef = React.useRef<HTMLInputElement | null>(null)
 
+  // can be a bit nicer
   React.useEffect(() => {
     if (value?.src) {
-      console.log('VALUE', value?.src)
-
       fetch(value?.src)
         .then((r) => r.blob())
         .then((blob) => {
@@ -77,18 +76,15 @@ export function FileInput({
               extension === 'gif')
               ? `image/${extension}`
               : ''
-
           const file = new File([blob], value.name ?? n, {
             type: mime,
           })
-
           if (blob.size && mime.startsWith('image/')) {
             const objectURL = URL.createObjectURL(file)
             setFilePreview(objectURL)
           }
           setFile(file)
         })
-      // make this better ofc
     }
   }, [value?.src])
 
