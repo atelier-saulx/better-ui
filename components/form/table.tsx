@@ -219,24 +219,44 @@ function Row({
   return (
     <Stack
       draggable={drag}
-      onDragStart={(e: any) => {
-        e.dataTransfer.setData('Text', index)
-      }}
-      onDrop={(e: any) => {
-        e.preventDefault()
-        const data = e.dataTransfer.getData('Text')
-        console.info(data)
-        setDragOver(false)
-      }}
-      onDragOver={() => {
-        setDragOver(true)
-      }}
-      onDragLeave={() => {
-        setDragOver(false)
-      }}
-      onDragEnd={() => {
-        setDrag(false)
-      }}
+      onDragStart={
+        order
+          ? (e: any) => {
+              e.dataTransfer.setData('Text', index)
+            }
+          : undefined
+      }
+      onDrop={
+        order
+          ? (e: any) => {
+              e.preventDefault()
+              const data = e.dataTransfer.getData('Text')
+              console.info(data)
+              setDragOver(false)
+            }
+          : undefined
+      }
+      onDragOver={
+        order
+          ? () => {
+              setDragOver(true)
+            }
+          : undefined
+      }
+      onDragLeave={
+        order
+          ? () => {
+              setDragOver(false)
+            }
+          : undefined
+      }
+      onDragEnd={
+        order
+          ? () => {
+              setDrag(false)
+            }
+          : undefined
+      }
       align="center"
       style={{
         background: color('background', 'screen'),

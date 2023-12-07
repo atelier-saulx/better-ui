@@ -29,10 +29,21 @@ export type TextProps = {
   style?: Style
   color?: 'primary' | 'secondary' | 'inverted'
   variant?: keyof typeof textVariants
+  singleLine?: boolean
 }
 
 export const Text = React.forwardRef<HTMLElement, TextProps>(
-  ({ as = 'p', variant = 'body', color = 'primary', style, children }, ref) => {
+  (
+    {
+      as = 'p',
+      variant = 'body',
+      color = 'primary',
+      style,
+      children,
+      singleLine,
+    },
+    ref
+  ) => {
     return React.createElement(styled[as], {
       children,
       ref,
@@ -43,6 +54,13 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
         fontFamily: 'inherit',
         ...textVariants[variant],
         ...style,
+        ...(singleLine
+          ? {
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+            }
+          : {}),
       },
     })
   }

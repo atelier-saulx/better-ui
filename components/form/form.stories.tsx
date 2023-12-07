@@ -68,74 +68,74 @@ export const Default = () => {
           },
         }}
         fields={{
-          // name: {
-          //   title: 'Name',
-          //   type: 'string',
-          //   description: 'A name of someone',
-          // },
-          // shortnumber: {
-          //   type: 'number',
-          //   display: 'short',
-          // },
-          // flap: {
-          //   type: 'string',
-          // },
-          // src: {
-          //   type: 'string',
-          //   contentMediaType: '*/*',
-          // },
-          // set: {
-          //   title: 'Set',
-          //   type: 'set',
-          //   description: 'A set',
-          //   items: { type: 'string' },
-          // },
-          // setFiles: {
-          //   title: 'Set',
-          //   type: 'set',
-          //   description: 'A set with files',
-          //   items: { type: 'string', contentMediaType: '*/*' },
-          // },
-          // array: {
-          //   title: 'Array',
-          //   type: 'array',
-          //   description: 'An array with an object',
-          //   values: {
-          //     type: 'object',
-          //     properties: {
-          //       bla: { type: 'string' },
-          //       snurp: { type: 'string' },
-          //       src: { type: 'string', contentMediaType: '*/*' },
-          //     },
-          //   },
-          // },
-          // arraySimple: {
-          //   title: 'Simple Array',
-          //   type: 'array',
-          //   description: 'An array with a string',
-          //   values: {
-          //     type: 'string',
-          //   },
-          // },
-          // record: {
-          //   title: 'Record',
-          //   type: 'record',
-          //   values: {
-          //     type: 'object',
-          //     properties: {
-          //       bla: { type: 'string' },
-          //       snurp: { type: 'string' },
-          //       flap: { type: 'string' },
-          //     },
-          //   },
-          // },
-          // recordPrimitive: {
-          //   title: 'Primitve record',
-          //   type: 'record',
-          //   values: {
-          //     type: 'string',
-          //   },
-          // },
+          name: {
+            title: 'Name',
+            type: 'string',
+            description: 'A name of someone',
+          },
+          shortnumber: {
+            type: 'number',
+            display: 'short',
+          },
+          flap: {
+            type: 'string',
+          },
+          src: {
+            type: 'string',
+            contentMediaType: '*/*',
+          },
+          set: {
+            title: 'Set',
+            type: 'set',
+            description: 'A set',
+            items: { type: 'string' },
+          },
+          setFiles: {
+            title: 'Set',
+            type: 'set',
+            description: 'A set with files',
+            items: { type: 'string', contentMediaType: '*/*' },
+          },
+          array: {
+            title: 'Array',
+            type: 'array',
+            description: 'An array with an object',
+            values: {
+              type: 'object',
+              properties: {
+                bla: { type: 'string' },
+                snurp: { type: 'string' },
+                src: { type: 'string', contentMediaType: '*/*' },
+              },
+            },
+          },
+          arraySimple: {
+            title: 'Simple Array',
+            type: 'array',
+            description: 'An array with a string',
+            values: {
+              type: 'string',
+            },
+          },
+          record: {
+            title: 'Record',
+            type: 'record',
+            values: {
+              type: 'object',
+              properties: {
+                bla: { type: 'string' },
+                snurp: { type: 'string' },
+                flap: { type: 'string' },
+              },
+            },
+          },
+          recordPrimitive: {
+            title: 'Primitve record',
+            type: 'record',
+            values: {
+              type: 'string',
+            },
+          },
           object: {
             title: 'Object',
             type: 'object',
