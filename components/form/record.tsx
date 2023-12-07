@@ -2,6 +2,7 @@ import * as React from 'react'
 import { BasedSchemaFieldObject, BasedSchemaFieldRecord } from '@based/schema'
 import { FormField } from './form-field'
 import { Table } from './table'
+import { border } from '../../utils/vars'
 
 export function FormRecord({
   fieldKey,
@@ -29,7 +30,9 @@ export function FormRecord({
     fieldValue.properties.$key = { type: 'string', title: 'key' }
 
     for (const key in field.values.properties) {
-      colls.push(field.values.properties[key].title ?? key)
+      if (field.values.properties[key].type !== 'object') {
+        colls.push(field.values.properties[key].title ?? key)
+      }
       fieldValue.properties[key] = field.values.properties[key]
     }
     for (const key in values) {
@@ -52,6 +55,9 @@ export function FormRecord({
     return (
       <Table
         nested
+        style={{
+          borderLeft: nested ? border() : undefined,
+        }}
         field={fieldValue}
         colls={colls}
         rows={parsedValues}

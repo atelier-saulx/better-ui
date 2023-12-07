@@ -280,26 +280,35 @@ function Status({
       )}
       {status === 'uploading' && <UploadingStatus progress={progress} />}
       {status === 'success' && (
-        <Stack gap={12} justify={variant === 'minimal' ? 'start' : 'center'}>
-          {filePreview ? (
-            <img
-              src={filePreview}
-              style={{
-                height: variant === 'minimal' ? 32 : 48,
-                width: variant === 'minimal' ? 32 : 48,
-                borderRadius: 'var(--radius-small)',
-                objectFit: 'cover',
-              }}
-            />
-          ) : (
-            <Attachment />
-          )}
-          <Text
-            style={{ maxWidth: variant === 'minimal' ? 200 : undefined }}
-            singleLine
+        <Stack gap={12} justify={variant === 'minimal' ? 'start' : 'between'}>
+          <Stack
+            gap={12}
+            justify={'start'}
+            style={{
+              flexGrow: variant === 'minimal' ? null : 1,
+              width: 'auto',
+            }}
           >
-            {file?.name}
-          </Text>
+            {filePreview ? (
+              <img
+                src={filePreview}
+                style={{
+                  height: variant === 'minimal' ? 32 : 48,
+                  width: variant === 'minimal' ? 32 : 48,
+                  borderRadius: 'var(--radius-small)',
+                  objectFit: 'cover',
+                }}
+              />
+            ) : (
+              <Attachment />
+            )}
+            <Text
+              style={{ maxWidth: variant === 'minimal' ? 200 : undefined }}
+              singleLine
+            >
+              {file?.name}
+            </Text>
+          </Stack>
           <Dropdown.Root>
             <Dropdown.Trigger>
               <styled.div
@@ -307,7 +316,7 @@ function Status({
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  opacity: hover ? 1 : 0,
+                  opacity: hover ? 1 : variant === 'minimal' ? 0 : 0.5,
                   outline: 'none',
                   background: 'transparent',
                   padding: '2px',

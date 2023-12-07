@@ -23,13 +23,19 @@ export function FieldSelector({
   if (field.type === 'string' && field.contentMediaType) {
     return (
       <FormField variant={variant} field={field} name={field.title ?? propKey}>
-        <FileInput
-          mimeType={field.contentMediaType}
-          value={values[propKey] ? { src: values[propKey] } : undefined}
-          onChange={(file) => {
-            console.log('uploaded file', file)
+        <styled.div
+          style={{
+            width: 450,
           }}
-        />
+        >
+          <FileInput
+            mimeType={field.contentMediaType}
+            value={values[propKey] ? { src: values[propKey] } : undefined}
+            onChange={(file) => {
+              console.log('uploaded file', file)
+            }}
+          />
+        </styled.div>
       </FormField>
     )
   }
