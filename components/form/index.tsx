@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { BasedSchemaField } from '@based/schema'
 import { Stack } from '../layout'
-import { selectField } from './selectField'
+import { FieldSelector } from './FieldSelector'
 
 type FormValues = { [key: string]: BasedSchemaField }
 
@@ -18,11 +18,18 @@ export function Form({
   onChange,
   variant = 'extensive',
 }: FormProps) {
-  // const values = React.useRef<FormValues>({})
   return (
     <Stack gap={32} direction="column" align="start">
       {Object.entries(fields).map(([key, field]) => {
-        return selectField(field, key, values, variant)
+        return (
+          <FieldSelector
+            key={key}
+            variant={variant}
+            propKey={key}
+            values={values}
+            field={field}
+          />
+        )
       })}
     </Stack>
   )

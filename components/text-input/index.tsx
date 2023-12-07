@@ -10,20 +10,39 @@ export type TextInputProps = {
   label?: string
 }
 
+const Wrapper = ({
+  label,
+  children,
+}: {
+  label?: string
+  children: React.ReactNode
+}) => {
+  if (label) {
+    return (
+      <styled.label
+        style={
+          label
+            ? {
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+              }
+            : undefined
+        }
+      >
+        {children}
+      </styled.label>
+    )
+  }
+  return children
+}
+
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ placeholder, value, defaultValue, onChange, formName, label }, ref) => {
-    const Wrapper = label ? 'label' : React.Fragment
-
     return (
-      <Wrapper
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
+      <Wrapper label={label}>
         {label && (
-          <span
+          <styled.span
             style={{
               marginBottom: 8,
               fontSize: 14,
@@ -32,7 +51,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             }}
           >
             {label}
-          </span>
+          </styled.span>
         )}
         <styled.input
           value={value}

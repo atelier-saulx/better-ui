@@ -9,20 +9,23 @@ import { FormRecord } from './record'
 import { FormObject } from './object'
 import { FileInput } from '../file-input'
 
-export const selectField = (
-  field: BasedSchemaField,
-  key: string,
-  values: { [key: string]: any },
+export function FieldSelector({
+  field,
+  propKey,
+  values,
+  variant,
+}: {
+  field: BasedSchemaField
+  propKey: string
+  values: { [key: string]: any }
   variant: 'extensive' | 'minimal'
-): React.ReactNode => {
+}) {
   if (field.type === 'string' && field.contentMediaType) {
     return (
-      <FormField variant={variant} field={field} name={field.title ?? key}>
+      <FormField variant={variant} field={field} name={field.title ?? propKey}>
         <FileInput
-          allowedType={field.contentMediaType}
-          //   status={status}
-          //   progress={progress}
-          value={values[key]}
+          mimeType={field.contentMediaType}
+          value={values[propKey] ? { src: values[propKey] } : undefined}
           onChange={(file) => {
             console.log('uploaded file', file)
           }}
@@ -33,7 +36,7 @@ export const selectField = (
 
   if (field.type === 'string') {
     return (
-      <FormField variant={variant} field={field} name={field.title ?? key}>
+      <FormField variant={variant} field={field} name={field.title ?? propKey}>
         <styled.div
           style={{
             width: 450,
@@ -54,9 +57,9 @@ export const selectField = (
     return (
       <FormSet
         variant={variant}
-        fieldKey={key}
+        fieldKey={propKey}
         field={field}
-        items={values[key] ?? []}
+        items={values[propKey] ?? []}
       />
     )
   }
@@ -65,9 +68,9 @@ export const selectField = (
     return (
       <FormArray
         variant={variant}
-        fieldKey={key}
+        fieldKey={propKey}
         field={field}
-        values={values[key] ?? []}
+        values={values[propKey] ?? []}
       />
     )
   }
@@ -76,9 +79,9 @@ export const selectField = (
     return (
       <FormRecord
         variant={variant}
-        fieldKey={key}
+        fieldKey={propKey}
         field={field}
-        values={values[key] ?? {}}
+        values={values[propKey] ?? {}}
       />
     )
   }
@@ -87,9 +90,9 @@ export const selectField = (
     return (
       <FormObject
         variant={variant}
-        fieldKey={key}
+        fieldKey={propKey}
         field={field}
-        values={values[key] ?? {}}
+        values={values[propKey] ?? {}}
       />
     )
   }

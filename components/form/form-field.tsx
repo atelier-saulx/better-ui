@@ -20,7 +20,7 @@ export function FormField({ children, field, name, variant }: FormFieldProps) {
       align="start"
       style={
         variant === 'minimal'
-          ? {}
+          ? undefined
           : {
               paddingLeft: 16,
               paddingBottom: 8,

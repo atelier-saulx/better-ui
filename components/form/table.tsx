@@ -39,13 +39,13 @@ function StringInput({
         height: 32,
         borderRadius: `var(--radius-tiny)`,
         paddingLeft: 10,
-        // marginLeft: -10,
         paddingRight: 10,
         border: focus ? border('focus') : `1px solid transparent`,
         boxShadow: focus ? `var(--shadow-focus)` : undefined,
         ...textVariants.body,
         ...style,
       }}
+      onChange={() => {}}
       value={value}
       onFocus={() => {
         setFocus(true)
@@ -106,7 +106,6 @@ function Row({
   const [dragOver, setDragOver] = useState(false)
 
   if (field.type === 'object') {
-    const colls = Object.keys(field.properties)
     body = Object.keys(field.properties).map((key, index) => {
       const { readOnly } = field.properties[key]
 
@@ -131,7 +130,6 @@ function Row({
             style={{
               borderLeft: border(),
             }}
-            // orginalField={f}
             nested
             colls={colls}
             rows={[r]}
@@ -141,12 +139,13 @@ function Row({
       }
 
       if (propsField.type === 'string' && propsField.contentMediaType) {
+        console.log(value)
         return (
           <Cell index={index}>
             <FileInput
               variant="minimal"
-              allowedType={propsField.contentMediaType}
-              value={value}
+              mimeType={propsField.contentMediaType}
+              value={value ?? { src: value }}
               onChange={(file) => {
                 console.log('uploaded file', file)
               }}
@@ -172,12 +171,14 @@ function Row({
   }
 
   if (field.type === 'string' && field.contentMediaType) {
+    console.info('bla', field, value)
+
     body = (
       <styled.div style={{ paddingLeft: 12, paddingRight: 10, width: '100%' }}>
         <FileInput
           variant="minimal"
-          allowedType={field.contentMediaType}
-          value={value}
+          mimeType={field.contentMediaType}
+          value={value ? { src: value } : undefined}
           onChange={(file) => {
             console.log('uploaded file', file)
           }}
@@ -226,9 +227,6 @@ function Row({
         setDragOver(false)
       }}
       onDragEnd={() => {
-        setDrag(false)
-      }}
-      onDragStop={() => {
         setDrag(false)
       }}
       align="center"
