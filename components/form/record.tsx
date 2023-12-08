@@ -2,17 +2,20 @@ import * as React from 'react'
 import { BasedSchemaFieldObject, BasedSchemaFieldRecord } from '@based/schema'
 import { FormField } from './form-field'
 import { Table } from './table'
+import { border } from '../../utils/vars'
 
 export function FormRecord({
   fieldKey,
   field,
   values,
   variant,
+  nested,
 }: {
   variant: 'extensive' | 'minimal'
   fieldKey: string
   field: BasedSchemaFieldRecord
   values: { [key: string]: any }
+  nested?: boolean
 }) {
   const colls: string[] = ['key']
   const parsedValues: { [key: string]: any }[] = []
@@ -27,7 +30,9 @@ export function FormRecord({
     fieldValue.properties.$key = { type: 'string', title: 'key' }
 
     for (const key in field.values.properties) {
-      colls.push(field.values.properties[key].title ?? key)
+      if (field.values.properties[key].type !== 'object') {
+        colls.push(field.values.properties[key].title ?? key)
+      }
       fieldValue.properties[key] = field.values.properties[key]
     }
     for (const key in values) {
@@ -44,6 +49,22 @@ export function FormRecord({
     for (const key in values) {
       parsedValues.push({ $key: key, $value: values[key] })
     }
+  }
+
+  if (nested) {
+    return (
+      <Table
+        nested
+        style={{
+          borderLeft: nested ? border() : undefined,
+        }}
+        field={fieldValue}
+        colls={colls}
+        rows={parsedValues}
+        onNew={() => {}}
+        onRemove={() => {}}
+      />
+    )
   }
 
   return (

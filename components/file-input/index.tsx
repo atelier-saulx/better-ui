@@ -13,6 +13,9 @@ import { BasedSchemaContentMediaType } from '@based/schema'
 import { useHover } from '../../utils/hooks/use-hover'
 import { Text } from '../text'
 import { Stack } from '../layout'
+import { color, border } from '../../utils/vars'
+
+import { FileDrop } from 'react-file-drop'
 
 type Status = 'initial' | 'uploading' | 'success' | 'error'
 type Variant = 'minimal' | 'extensive'
@@ -58,10 +61,9 @@ export function FileInput({
   const progress = progressProp ?? internalProgress
   const inputRef = React.useRef<HTMLInputElement | null>(null)
 
+  // can be a bit nicer
   React.useEffect(() => {
     if (value?.src) {
-      console.log('VALUE', value?.src)
-
       fetch(value?.src)
         .then((r) => r.blob())
         .then((blob) => {
@@ -77,107 +79,124 @@ export function FileInput({
               extension === 'gif')
               ? `image/${extension}`
               : ''
-
           const file = new File([blob], value.name ?? n, {
             type: mime,
           })
 
-          if (blob.size && mime.startsWith('image/')) {
-            const objectURL = URL.createObjectURL(file)
-            setFilePreview(objectURL)
-          }
           setFile(file)
         })
-      // make this better ofc
     }
   }, [value?.src])
 
+  React.useEffect(() => {
+    if (file && file.type.startsWith('image/') && file.size) {
+      const objectURL = URL.createObjectURL(file)
+      setFilePreview(objectURL)
+    } else {
+      setFilePreview(null)
+    }
+  }, [file])
+
   const { listeners, hover } = useHover()
+  const [dragOver, setDragOver] = React.useState(false)
 
   return (
-    <label
+    <styled.label
       style={{
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
+        paddingLeft: variant === 'minimal' && dragOver ? 4 : null,
+        backgroundColor:
+          dragOver && variant !== 'minimal'
+            ? color('background', 'neutral')
+            : null,
       }}
       {...listeners}
-      // onDrop={(e) => {
-      //   e.preventDefault()
-      // }}
     >
-      {label && (
-        <span
-          style={{
-            marginBottom: 8,
-            fontSize: 14,
-            lineHeight: '24px',
-            fontWeight: 500,
-          }}
-        >
-          {label}
-        </span>
-      )}
-      {
-        <Status
-          variant={variant}
-          status={status}
-          progress={progress}
-          filePreview={filePreview}
-          file={file}
-          hover={hover}
-          setInternalStatus={setInternalStatus}
-          setFile={setFile}
-          setFilePreview={setFilePreview}
-          setInternalProgress={setInternalProgress}
-          onChange={onChange}
-          inputRef={inputRef}
-        />
-      }
-      <input
-        ref={inputRef}
-        type="file"
-        accept={mimeType}
-        onChange={(e) => {
-          const file = e.target.files?.[0]
-          if (!file) return
-          try {
-            setInternalStatus('uploading')
-            setFile(file)
-            if (file.type.includes('image/')) {
-              const objectURL = URL.createObjectURL(file)
-              setFilePreview(objectURL)
-            }
-            setInternalProgress(100)
-            setInternalStatus('success')
-            onChange?.(file)
-          } catch {
-            setInternalStatus('error')
-            setFile(null)
-            setFilePreview(null)
-            setInternalProgress(0)
-            if (inputRef.current) {
-              inputRef.current.value = ''
-            }
+      <FileDrop
+        onDrop={(files) => {
+          if (files) {
+            setFile(files[0])
           }
+          setDragOver(false)
         }}
-        style={{
-          position: 'absolute',
-          width: '1px',
-          height: '1px',
-          padding: '0',
-          margin: '-1px',
-          overflow: 'hidden',
-          clip: 'rect(0, 0, 0, 0)',
-          whiteSpace: 'nowrap',
-          borderWidth: '0',
+        onDragOver={(e) => {
+          setDragOver(true)
         }}
-      />
-    </label>
+        onDragLeave={() => {
+          setDragOver(false)
+        }}
+      >
+        {label && (
+          <styled.span
+            style={{
+              marginBottom: 8,
+              fontSize: 14,
+              lineHeight: '24px',
+              fontWeight: 500,
+            }}
+          >
+            {label}
+          </styled.span>
+        )}
+        {
+          <Status
+            variant={variant}
+            status={status}
+            progress={progress}
+            filePreview={filePreview}
+            file={file}
+            hover={hover}
+            setInternalStatus={setInternalStatus}
+            setFile={setFile}
+            setFilePreview={setFilePreview}
+            setInternalProgress={setInternalProgress}
+            onChange={onChange}
+            inputRef={inputRef}
+          />
+        }
+        <styled.input
+          ref={inputRef}
+          type="file"
+          accept={mimeType}
+          onChange={(e: any) => {
+            const file = e.target.files?.[0]
+            if (!file) return
+            try {
+              setInternalStatus('uploading')
+              setFile(file)
+              setInternalProgress(100)
+              setInternalStatus('success')
+              onChange?.(file)
+            } catch {
+              setInternalStatus('error')
+              setFile(null)
+              setInternalProgress(0)
+              if (inputRef.current) {
+                inputRef.current.value = ''
+              }
+            }
+          }}
+          style={{
+            position: 'absolute',
+            width: '1px',
+            height: '1px',
+            padding: '0',
+            margin: '-1px',
+            overflow: 'hidden',
+            clip: 'rect(0, 0, 0, 0)',
+            whiteSpace: 'nowrap',
+            borderWidth: '0',
+          }}
+        />
+      </FileDrop>
+    </styled.label>
   )
 }
 
 // ------------- STATUS -------------------
+// TODO: refactor a bit better
 function StyledStatus({
   variant,
   status,
@@ -261,32 +280,35 @@ function Status({
       )}
       {status === 'uploading' && <UploadingStatus progress={progress} />}
       {status === 'success' && (
-        <styled.div
-          style={{
-            display: 'flex',
-            justifyContent: variant === 'minimal' ? 'start' : 'center',
-            alignItems: 'center',
-            '& > * + *': { marginLeft: '8px' },
-          }}
-        >
-          {filePreview ? (
-            <img
-              src={filePreview}
-              style={{
-                height: variant === 'minimal' ? 32 : 48,
-                width: variant === 'minimal' ? 32 : 48,
-                borderRadius: 'var(--radius-small)',
-                objectFit: 'cover',
-              }}
-            />
-          ) : (
-            <Attachment />
-          )}
-          <div
-            style={{ fontSize: '14px', lineHeight: '24px', fontWeight: 500 }}
+        <Stack gap={12} justify={variant === 'minimal' ? 'start' : 'between'}>
+          <Stack
+            gap={12}
+            justify={'start'}
+            style={{
+              flexGrow: variant === 'minimal' ? null : 1,
+              width: 'auto',
+            }}
           >
-            {file?.name}
-          </div>
+            {filePreview ? (
+              <img
+                src={filePreview}
+                style={{
+                  height: variant === 'minimal' ? 32 : 48,
+                  width: variant === 'minimal' ? 32 : 48,
+                  borderRadius: 'var(--radius-small)',
+                  objectFit: 'cover',
+                }}
+              />
+            ) : (
+              <Attachment />
+            )}
+            <Text
+              style={{ maxWidth: variant === 'minimal' ? 200 : undefined }}
+              singleLine
+            >
+              {file?.name}
+            </Text>
+          </Stack>
           <Dropdown.Root>
             <Dropdown.Trigger>
               <styled.div
@@ -294,12 +316,11 @@ function Status({
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  opacity: hover ? 1 : 0,
+                  opacity: hover ? 1 : variant === 'minimal' ? 0 : 0.5,
                   outline: 'none',
                   background: 'transparent',
                   padding: '2px',
                   borderRadius: 4,
-                  marginLeft: 'auto',
                   transition: 'opacity 0.1s',
                   cursor: 'pointer',
                   color: 'var(--content-primary)',
@@ -320,13 +341,12 @@ function Status({
                   window.open(url, '_blank', 'noopener,noreferrer')
                 }}
               >
-                Open in new tab
+                <Text>Open in new tab</Text>
               </Dropdown.Item>
               <Dropdown.Item
                 icon={<Download />}
                 onClick={() => {
                   if (!file) return
-
                   const url = URL.createObjectURL(file)
                   const link = document.createElement('a')
                   link.download = file.name
@@ -334,14 +354,13 @@ function Status({
                   link.click()
                 }}
               >
-                Download
+                <Text>Download</Text>
               </Dropdown.Item>
               <Dropdown.Item
                 icon={<Delete />}
                 onClick={() => {
                   setInternalStatus('initial')
                   setFile(null)
-                  setFilePreview(null)
                   setInternalProgress(0)
                   onChange?.()
                   if (inputRef.current) {
@@ -349,11 +368,11 @@ function Status({
                   }
                 }}
               >
-                Delete
+                <Text>Delete</Text>
               </Dropdown.Item>
             </Dropdown.Items>
           </Dropdown.Root>
-        </styled.div>
+        </Stack>
       )}
       {status === 'error' && (
         <styled.div
@@ -364,11 +383,7 @@ function Status({
           }}
         >
           <Upload />
-          <div
-            style={{ fontSize: '14px', lineHeight: '24px', fontWeight: 500 }}
-          >
-            An error has occured
-          </div>
+          <Text>An error has occured</Text>
         </styled.div>
       )}
     </StyledStatus>

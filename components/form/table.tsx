@@ -7,9 +7,15 @@ import { textVariants } from '../text'
 import { border, color } from '../../utils/vars'
 import { Stack } from '../layout'
 import { FileInput } from '../file-input'
+import { FormObject } from './object'
+import { FormRecord } from './record'
+import { Cell } from './Cell'
+
+// no remove row
 
 type TableProps = {
   colls: string[]
+  path?: string[]
   nested?: boolean
   rows: any[]
   orginalField?: BasedSchemaFieldObject
@@ -57,50 +63,29 @@ function StringInput({
   )
 }
 
-function Cell({
-  index,
-  isKey,
-  children,
-}: {
-  index: number
-  isKey?: boolean
-  children: ReactNode
-}) {
-  return (
-    <Stack
-      justify="start"
-      style={{
-        minHeight: 48,
-        flexGrow: 1,
-        paddingRight: 10,
-        borderLeft: index === 0 ? undefined : border(),
-        maxWidth: isKey ? 200 : undefined,
-        paddingLeft: 20,
-        ...(isKey ? textVariants.bodyStrong : textVariants.bodyBold),
-      }}
-    >
-      {children}
-    </Stack>
-  )
-}
-
 function Row({
   field,
   value,
   orginalField,
+  nested,
   noBorder,
   order,
   index,
+  path,
 }: {
+  nested?: boolean
   field: BasedSchemaField
   value: any
   orginalField?: BasedSchemaFieldObject
   noBorder?: boolean
   order?: boolean
   index: number
+  path?: string[]
 }) {
   let body: ReactNode
+  let multi: ReactNode[] = []
   let noIcon = false
+  let noBody = false
 
   const [drag, setDrag] = useState(false)
   const [dragOver, setDragOver] = useState(false)
@@ -118,34 +103,74 @@ function Row({
 
       if (propsField.type === 'object') {
         noIcon = true
-        const colls: string[] = []
-        const r: any = {}
-        for (const key in propsField.properties) {
-          const p = propsField.properties[key]
-          colls.push(p.title ?? key)
-          r[key] = isValue ? value.$value[key] : value[key]
-        }
+
+        // let label: string | undefined
+
+        // const k = isValue ? value.$key : key
+        // const p = path ? [...path, k] : [k]
+
+        // if (isValue) {
+        //   noBody = true
+        //   label = p[p.length - 1]
+        // }
+
+        // multi.push(
+        //   <FormObject
+        //     nested
+        //     label={label}
+        //     key={key}
+        //     path={p}
+        //     variant="minimal"
+        //     fieldKey={key}
+        //     field={propsField}
+        //     values={value}
+        //   />
+        // )
         return (
-          <Table
-            style={{
-              borderLeft: border(),
-            }}
+          <FormObject
             nested
-            colls={colls}
-            rows={[r]}
+            // label={label}
+            key={key}
+            // path={p}
+            variant="minimal"
+            fieldKey={key}
             field={propsField}
+            values={value.$value}
+          />
+        )
+      }
+
+      if (propsField.type === 'record') {
+        noIcon = true
+
+        return (
+          <FormRecord
+            key={key}
+            nested
+            variant="minimal"
+            fieldKey={key}
+            field={propsField}
+            values={isValue ? value.$value : value}
           />
         )
       }
 
       if (propsField.type === 'string' && propsField.contentMediaType) {
-        console.log(value)
         return (
-          <Cell index={index}>
+          <Cell index={index} key={key}>
             <FileInput
               variant="minimal"
               mimeType={propsField.contentMediaType}
-              value={value ?? { src: value }}
+              // make this better
+              value={
+                isValue
+                  ? value.$value
+                    ? { src: value.$value }
+                    : undefined
+                  : value?.[key]
+                  ? { src: value?.[key] }
+                  : undefined
+              }
               onChange={(file) => {
                 console.log('uploaded file', file)
               }}
@@ -155,24 +180,23 @@ function Row({
       }
 
       return (
-        <Cell isKey={key === '$key'} index={index}>
+        <Cell nested={nested} isKey={key === '$key'} index={index} key={key}>
           {readOnly ? (
-            value[key]
+            value?.[key]
           ) : (
             <StringInput
               style={{ marginLeft: -10 }}
               key={index}
-              value={value[key]}
+              value={value?.[key]}
             />
           )}
         </Cell>
       )
     })
   }
+  // ----------
 
   if (field.type === 'string' && field.contentMediaType) {
-    console.info('bla', field, value)
-
     body = (
       <styled.div style={{ paddingLeft: 12, paddingRight: 10, width: '100%' }}>
         <FileInput
@@ -195,90 +219,118 @@ function Row({
 
   if (noIcon) {
     return (
-      <Stack
-        align="start"
-        justify="start"
-        style={{
-          minHeight: 48,
-          borderBottom: border(),
-        }}
-      >
-        {body}
-      </Stack>
+      <>
+        <Stack
+          align="start"
+          justify="start"
+          style={{
+            minHeight: 48,
+            borderBottom: border(),
+          }}
+        >
+          {body}
+        </Stack>
+        {multi}
+      </>
     )
   }
 
   return (
-    <Stack
-      draggable={drag}
-      onDragStart={(e: any) => {
-        e.dataTransfer.setData('Text', index)
-      }}
-      onDrop={(e: any) => {
-        e.preventDefault()
-        const data = e.dataTransfer.getData('Text')
-        console.info(data)
-        setDragOver(false)
-      }}
-      onDragOver={() => {
-        setDragOver(true)
-      }}
-      onDragLeave={() => {
-        setDragOver(false)
-      }}
-      onDragEnd={() => {
-        setDrag(false)
-      }}
-      align="center"
-      style={{
-        background: color('background', 'screen'),
-        minHeight: 48,
-        borderBottom: dragOver
-          ? border('focus', 2)
-          : noBorder
-          ? undefined
-          : border(),
-        '*': {
-          pointerEvents: dragOver ? 'none' : undefined,
-        },
-        '>:last-child': {
-          opacity: 0,
-        },
-        '&:hover >:last-child': {
-          opacity: 1,
-        },
-      }}
-    >
-      {order ? (
-        <styled.div
+    <>
+      {noBody ? null : (
+        <Stack
+          draggable={drag}
+          onDragStart={
+            order
+              ? (e: any) => {
+                  e.dataTransfer.setData('Text', index)
+                }
+              : undefined
+          }
+          onDrop={
+            order
+              ? (e: any) => {
+                  e.preventDefault()
+                  const data = e.dataTransfer.getData('Text')
+                  console.info(data)
+                  setDragOver(false)
+                }
+              : undefined
+          }
+          onDragOver={
+            order
+              ? () => {
+                  setDragOver(true)
+                }
+              : undefined
+          }
+          onDragLeave={
+            order
+              ? () => {
+                  setDragOver(false)
+                }
+              : undefined
+          }
+          onDragEnd={
+            order
+              ? () => {
+                  setDrag(false)
+                }
+              : undefined
+          }
+          align="center"
           style={{
-            cursor: 'grab',
-            transition: 'opacity 0.1s',
-            color: color('content', 'secondary'),
-            opacity: 0.75,
-            '&:hover': {
-              opacity: '1',
+            background: color('background', 'screen'),
+            minHeight: 48,
+            borderBottom: dragOver
+              ? border('focus', 2)
+              : noBorder
+              ? undefined
+              : border(),
+            '*': {
+              pointerEvents: dragOver ? 'none' : undefined,
+            },
+            '>:last-child': {
+              opacity: 0,
+            },
+            '&:hover >:last-child': {
+              opacity: 1,
             },
           }}
-          onMouseDown={() => {
-            setDrag(true)
-          }}
-          onMouseUp={() => {
-            setDrag(false)
-          }}
         >
-          <DragDropHorizontal />
-        </styled.div>
-      ) : null}
-      {body}
-      <styled.div
-        style={{
-          transition: 'opacity 0.1s',
-        }}
-      >
-        <Close style={{ opacity: drag ? 0 : 1 }} />
-      </styled.div>
-    </Stack>
+          {order ? (
+            <styled.div
+              style={{
+                cursor: 'grab',
+                transition: 'opacity 0.1s',
+                color: color('content', 'secondary'),
+                opacity: 0.75,
+                '&:hover': {
+                  opacity: '1',
+                },
+              }}
+              onMouseDown={() => {
+                setDrag(true)
+              }}
+              onMouseUp={() => {
+                setDrag(false)
+              }}
+            >
+              <DragDropHorizontal />
+            </styled.div>
+          ) : null}
+          {body}
+          <styled.div
+            style={{
+              transition: 'opacity 0.1s',
+            }}
+          >
+            <Close style={{ opacity: drag ? 0 : 1 }} />
+          </styled.div>
+        </Stack>
+      )}
+      {multi}
+    </>
   )
 }
 
@@ -286,12 +338,13 @@ export function Table({
   colls,
   rows,
   field,
-  nested,
   order,
   onNew,
   onRemove,
   orginalField,
   style,
+  path,
+  nested,
 }: TableProps) {
   const [dragOver, setDragOver] = useState(false)
 
@@ -304,7 +357,6 @@ export function Table({
         style={{
           background: color('background', 'muted'),
           color: color('content', hasKey ? 'primary' : 'secondary'),
-          borderTop: nested ? undefined : border(),
           borderBottom: dragOver ? border('focus', 2) : border(),
           height: 48,
         }}
@@ -341,7 +393,7 @@ export function Table({
             </styled.div>
           ) : null}
           {colls.map((v, index) => (
-            <Cell isKey={hasKey && index === 0} index={index}>
+            <Cell key={v} isKey={hasKey && index === 0} index={index}>
               {v}
             </Cell>
           ))}
@@ -380,7 +432,11 @@ export function Table({
         style={{
           marginTop: -8,
           height: 8,
-          borderBottom: dragOver ? border('focus', 2) : border(),
+          borderBottom: dragOver
+            ? border('focus', 2)
+            : nested
+            ? undefined
+            : border(),
         }}
       />
     )
@@ -391,12 +447,18 @@ export function Table({
       direction="column"
       gap={8}
       align="start"
-      style={{ flexGrow: 1, ...style }}
+      style={{
+        flexGrow: 1,
+        paddingBottom: onNew ? 6 : 0,
+        ...style,
+      }}
     >
       <styled.div style={{ width: '100%' }}>
         {header}
         {rows.map((value, i) => (
           <Row
+            nested={nested}
+            path={path}
             order={order}
             noBorder={i === rows.length - 1 && nested}
             orginalField={orginalField}

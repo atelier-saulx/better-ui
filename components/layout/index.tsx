@@ -7,7 +7,7 @@ export type StackProps = {
   style?: Style
   direction?: 'row' | 'column'
   justify?: 'center' | 'between' | 'end' | 'start'
-  align?: 'center' | 'start' | 'end'
+  align?: 'center' | 'start' | 'end' | 'stretch'
   gap?: 0 | 4 | 8 | 12 | 16 | 24 | 32
 } & typeof styled.div
 
