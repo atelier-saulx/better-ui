@@ -4,11 +4,16 @@ import { readPath } from './utils'
 import { TableCtx, Path } from './types'
 import { FileInput } from '../../file-input'
 import { Table } from '.'
+import { CheckboxInput } from '../../checkbox-input'
 
 let map: any = {}
 
 export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field } = readPath(ctx, path)
+
+  if (field.type === 'boolean') {
+    return <CheckboxInput variant="toggle" />
+  }
 
   if (field.type === 'string' && field.contentMediaType) {
     return (

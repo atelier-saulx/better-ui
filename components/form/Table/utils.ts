@@ -25,7 +25,7 @@ export const readPath = (
   return { field: selectedField, value: selectedValue }
 }
 
-export const useColls = (field: BasedSchemaFieldObject): boolean => {
+export const useCols = (field: BasedSchemaFieldObject): boolean => {
   // this can be nicer
   let cnt = 0
   for (const key in field.properties) {

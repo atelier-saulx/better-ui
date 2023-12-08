@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { ReactNode } from 'react'
 import { BasedSchemaField } from '@based/schema'
 import { Stack } from '../layout'
 import { FormField } from './form-field'
@@ -7,7 +7,7 @@ import { TextInput } from '../text-input'
 import { styled } from 'inlines'
 import { Table } from './Table'
 
-type FormValues = { [key: string]: BasedSchemaField }
+type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
 
 export type FormProps = {
   values: { [key: string]: any }

@@ -158,6 +158,9 @@ export const Default = () => {
               orderId: { type: 'string' },
               price: { type: 'string' },
               email: { type: 'string' },
+              isItDope: {
+                type: 'boolean',
+              },
             },
           },
 
@@ -330,6 +333,10 @@ export const Default = () => {
                   //   },
                   // },
                 },
+              },
+
+              isItDope: {
+                type: 'boolean',
               },
 
               bla: {
