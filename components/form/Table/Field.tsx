@@ -3,13 +3,11 @@ import { StringInput } from './StringInput'
 import { readPath } from './utils'
 import { TableCtx, Path } from './types'
 import { FileInput } from '../../file-input'
-import { Table } from '.'
+import { Table } from './'
 import { CheckboxInput } from '../../checkbox-input'
 
 export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field } = readPath(ctx, path)
-
-  console.log('--------->', value, field)
 
   if (field.type === 'boolean') {
     return <CheckboxInput variant="toggle" value={false} onChange={() => {}} />

@@ -1,10 +1,10 @@
 import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
 import { TableCtx, Path } from './types'
 
-export const readPath = (
+export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
   path: Path
-): { field: BasedSchemaField; value: any | void } => {
+): { field: T; value: any | void } => {
   let selectedValue: any = ctx.values
   let selectedField: any = ctx.schema
   for (const k of path) {
