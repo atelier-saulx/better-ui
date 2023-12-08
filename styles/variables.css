@@ -9,6 +9,7 @@
   --background-dimmer: #2e2e2e33;
   --background-screen: #ffffff;
   --background-muted: rgba(31, 82, 158, 0.02);
+  --background-inverted: #171e24;
 
   /* interactive colors */
   --interactive-primary: #634eca;
@@ -37,6 +38,6 @@
   --border-focus: #634eca;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   /* TODO add dark mode colors  */
 }

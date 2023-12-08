@@ -1,6 +1,6 @@
 type Color = {
   content: "primary" | "inverted" | "secondary";
-  background: "neutral" | "muted" | "dimmer" | "screen";
+  background: "neutral" | "muted" | "dimmer" | "screen" | "inverted";
   interactive: "primary" | "primary-hover" | "secondary" | "secondary-hover";
 };
 

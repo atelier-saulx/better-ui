@@ -151,8 +151,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             border: "none",
             padding: 0,
             ...textVariants.bodyStrong,
+            textDecoration: "underline",
             "&:hover": {
-              textDecoration: "underline",
+              textDecoration: "none",
             },
           }),
           ...(variant === "neutral-link" && {
@@ -161,8 +162,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             border: "none",
             padding: 0,
             ...textVariants.bodyStrong,
+            textDecoration: "underline",
             "&:hover": {
-              textDecoration: "underline",
+              textDecoration: "none",
             },
           }),
         }}
