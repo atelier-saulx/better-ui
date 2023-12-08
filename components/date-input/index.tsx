@@ -254,15 +254,24 @@ export function DateInput({ range = false }: DateInputProps) {
                           start: min([value.start, value.end]),
                           end: max([value.start, value.end]),
                         }) && {
-                          background:
-                            isSameDay(value.start, day) ||
-                            isSameDay(value.end, day)
-                              ? "var(--interactive-primary)"
-                              : "color-mix(in srgb, var(--interactive-primary) 20%, transparent)",
-                          ...((isSameDay(value.start, day) ||
-                            isSameDay(value.end, day)) && {
-                            color: "var(--content-inverted)",
-                          }),
+                          ...(isSameDay(value.start, day) ||
+                          isSameDay(value.end, day)
+                            ? {
+                                background: "var(--interactive-primary)",
+                                color: "var(--content-inverted)",
+                                "&:hover": {
+                                  background:
+                                    "var(--interactive-primary-hover)",
+                                },
+                              }
+                            : {
+                                background:
+                                  "color-mix(in srgb, var(--interactive-primary) 20%, transparent)",
+                                "&:hover": {
+                                  background:
+                                    "color-mix(in srgb, var(--interactive-primary) 40%, transparent)",
+                                },
+                              }),
                           borderTopLeftRadius:
                             isSameDay(min([value.start, value.end]), day) ||
                             isMonday(day)
