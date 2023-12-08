@@ -73,6 +73,11 @@ export const Default = () => {
             y: 'flup',
           },
 
+          recordObject: {
+            x: { countryName: 'fun' },
+            y: { countryName: 'fun' },
+          },
+
           address: {
             postOfficeBox: '123',
             streetAddress: '456 Main St',
@@ -274,6 +279,7 @@ export const Default = () => {
               type: 'string',
             },
           },
+
           record: {
             title: 'Record',
             type: 'record',
@@ -286,11 +292,51 @@ export const Default = () => {
               },
             },
           },
+
           recordPrimitive: {
-            title: 'Primitve record',
+            title: 'Primtive record',
             type: 'record',
             values: {
               type: 'string',
+            },
+          },
+
+          recordExtra: {
+            title: 'Primtive record (number)',
+            type: 'record',
+            values: {
+              type: 'number',
+            },
+          },
+
+          recordObject: {
+            title: 'Object record',
+            type: 'record',
+            values: {
+              type: 'object',
+              properties: {
+                postOfficeBox: {
+                  type: 'string',
+                },
+                extendedAddress: {
+                  type: 'string',
+                },
+                streetAddress: {
+                  type: 'string',
+                },
+                locality: {
+                  type: 'string',
+                },
+                region: {
+                  type: 'string',
+                },
+                postalCode: {
+                  type: 'string',
+                },
+                countryName: {
+                  type: 'string',
+                },
+              },
             },
           },
 
@@ -311,17 +357,6 @@ export const Default = () => {
             description: 'Restaurant of the form',
             type: 'object',
             properties: {
-              contact: {
-                title: 'Contact',
-                type: 'object',
-                properties: {
-                  name: { type: 'string' },
-                  phone: { type: 'string', format: 'mobilePhone' },
-                  email: { type: 'string', format: 'email' },
-                  picture: { type: 'string', contentMediaType: '*/*' },
-                },
-              },
-
               isItDope: {
                 type: 'boolean',
               },
@@ -332,6 +367,17 @@ export const Default = () => {
                   fromField: 'bla',
                 },
                 allowedTypes: ['root'],
+              },
+
+              contact: {
+                title: 'Contact',
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  phone: { type: 'string', format: 'mobilePhone' },
+                  email: { type: 'string', format: 'email' },
+                  picture: { type: 'string', contentMediaType: '*/*' },
+                },
               },
 
               ratings: {
@@ -353,6 +399,68 @@ export const Default = () => {
                   lat: { type: 'string', title: 'Latiude' },
                 },
               },
+
+              // nested: {
+              //   type: 'object',
+              //   properties: {
+              //     x: { type: 'string' },
+              //     contact: {
+              //       type: 'object',
+              //       properties: {
+              //         x: { type: 'string' },
+              //         y: { type: 'string' },
+              //         z: { type: 'string' },
+              //       },
+              //     },
+              //     location: {
+              //       type: 'object',
+              //       properties: {
+              //         id: { type: 'string' },
+              //         flightpath: {
+              //           type: 'object',
+              //           properties: {
+              //             x: { type: 'string' },
+              //             y: { type: 'string' },
+              //             z: { type: 'string' },
+              //             bla: {
+              //               type: 'object',
+              //               properties: {
+              //                 x: { type: 'string' },
+              //                 y: { type: 'string' },
+              //                 z: { type: 'string' },
+              //                 nested: {
+              //                   type: 'object',
+              //                   properties: {
+              //                     x: { type: 'string' },
+              //                     y: { type: 'string' },
+              //                     z: { type: 'string' },
+              //                     nested: {
+              //                       type: 'object',
+              //                       properties: {
+              //                         x: { type: 'string' },
+              //                         y: { type: 'string' },
+              //                         z: { type: 'string' },
+              //                         nested: {
+              //                           type: 'object',
+              //                           properties: {
+              //                             x: { type: 'string' },
+              //                             y: { type: 'string' },
+              //                             z: { type: 'string' },
+              //                           },
+              //                         },
+              //                       },
+              //                     },
+              //                   },
+              //                 },
+              //               },
+              //             },
+              //           },
+              //         },
+              //       },
+              //     },
+              //   },
+              // },
+
               flap: {
                 type: 'record',
                 values: {
@@ -361,30 +469,34 @@ export const Default = () => {
                     bla: { type: 'string' },
                     snurp: { type: 'string' },
                     flap: { type: 'string' },
+
                     // nested: {
-                    //   type: 'object',
-                    //   properties: {
-                    //     x: { type: 'string' },
-                    //     y: { type: 'string' },
-                    //     z: { type: 'string' },
-                    //     nested: {
-                    //       type: 'object',
-                    //       properties: {
-                    //         x: { type: 'string' },
-                    //         y: { type: 'string' },
-                    //         z: { type: 'string' },
-                    //         nested: {
-                    //           type: 'object',
-                    //           properties: {
-                    //             x: { type: 'string' },
-                    //             y: { type: 'string' },
-                    //             z: { type: 'string' },
-                    //             nested: {
-                    //               type: 'object',
-                    //               properties: {
-                    //                 x: { type: 'string' },
-                    //                 y: { type: 'string' },
-                    //                 z: { type: 'string' },
+                    //   type: 'record',
+                    //   values: {
+                    //     type: 'object',
+                    //     properties: {
+                    //       x: { type: 'string' },
+                    //       y: { type: 'string' },
+                    //       z: { type: 'string' },
+                    //       nested: {
+                    //         type: 'object',
+                    //         properties: {
+                    //           x: { type: 'string' },
+                    //           y: { type: 'string' },
+                    //           z: { type: 'string' },
+                    //           nested: {
+                    //             type: 'object',
+                    //             properties: {
+                    //               x: { type: 'string' },
+                    //               y: { type: 'string' },
+                    //               z: { type: 'string' },
+                    //               nested: {
+                    //                 type: 'object',
+                    //                 properties: {
+                    //                   x: { type: 'string' },
+                    //                   y: { type: 'string' },
+                    //                   z: { type: 'string' },
+                    //                 },
                     //               },
                     //             },
                     //           },

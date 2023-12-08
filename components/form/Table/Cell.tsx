@@ -15,6 +15,7 @@ export function Cell({
   return (
     <Stack
       justify="start"
+      align="stretch"
       style={{
         minHeight: 48,
         flexGrow: 1,
@@ -22,10 +23,17 @@ export function Cell({
         borderLeft: first ? undefined : border(),
         maxWidth: isKey ? 150 : undefined,
         paddingLeft: 20,
-        ...textVariants.bodyBold,
       }}
     >
-      {children}
+      <Stack
+        justify="start"
+        style={{
+          minHeight: 48,
+          ...textVariants.bodyBold,
+        }}
+      >
+        {children}
+      </Stack>
     </Stack>
   )
 }
