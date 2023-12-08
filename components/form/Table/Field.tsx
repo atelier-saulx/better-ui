@@ -2,12 +2,38 @@ import React from 'react'
 import { StringInput } from './StringInput'
 import { readPath } from './utils'
 import { TableCtx, Path } from './types'
+import { FileInput } from '../../file-input'
+import { Table } from '.'
+
+let map: any = {}
 
 export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field } = readPath(ctx, path)
-  return field.type === 'string' ? (
-    <StringInput value={value} />
-  ) : (
-    <div style={{ color: 'red' }}>{field.type}</div>
-  )
+
+  if (field.type === 'string' && field.contentMediaType) {
+    return (
+      <FileInput
+        variant="minimal"
+        mimeType={field.contentMediaType}
+        value={value ? { src: value } : undefined}
+        onChange={(file) => {
+          console.log('uploaded file', file)
+        }}
+      />
+    )
+  }
+
+  if (field.type === 'string') {
+    return <StringInput value={value} />
+  }
+
+  if (field.type === 'object') {
+    if (map[path.join('.')]) {
+      return <pre>{path.join('/')}</pre>
+    }
+    map[path.join('.')] = true
+    return <Table ctx={ctx} path={path} />
+  }
+
+  return <div style={{ color: 'red' }}>{field.type}</div>
 }

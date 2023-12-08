@@ -38,8 +38,6 @@ export type FileInputProps = {
   variant?: Variant
 }
 
-// ADD DROP OVER
-
 export function FileInput({
   onChange,
   label,
@@ -89,9 +87,11 @@ export function FileInput({
   }, [value?.src])
 
   React.useEffect(() => {
-    if (file && file.type.startsWith('image/') && file.size) {
-      const objectURL = URL.createObjectURL(file)
-      setFilePreview(objectURL)
+    if (file) {
+      if (file.type.startsWith('image/') && file.size) {
+        const objectURL = URL.createObjectURL(file)
+        setFilePreview(objectURL)
+      }
     } else {
       setFilePreview(null)
     }
@@ -116,8 +116,10 @@ export function FileInput({
     >
       <FileDrop
         onDrop={(files) => {
+          console.log('hello', files)
           if (files) {
             setFile(files[0])
+            setInternalStatus('success')
           }
           setDragOver(false)
         }}

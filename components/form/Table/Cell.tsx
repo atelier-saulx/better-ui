@@ -4,13 +4,13 @@ import { border } from '../../../utils/vars'
 import { Stack } from '../../layout'
 
 export function Cell({
-  isKey,
   first,
   children,
+  isKey,
 }: {
   first?: boolean
-  isKey?: boolean
   children: ReactNode
+  isKey?: boolean
 }) {
   return (
     <Stack
@@ -18,11 +18,11 @@ export function Cell({
       style={{
         minHeight: 48,
         flexGrow: 1,
-        paddingRight: 10,
+        paddingRight: 20,
         borderLeft: first ? undefined : border(),
         maxWidth: isKey ? 150 : undefined,
         paddingLeft: 20,
-        ...(isKey ? textVariants.bodyStrong : textVariants.bodyBold),
+        ...textVariants.bodyBold,
       }}
     >
       {children}

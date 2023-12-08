@@ -82,15 +82,17 @@ export const Default = () => {
             countryName: 'Country',
           },
 
+          order: {
+            orderId: 'ed1213',
+          },
+
           object: {
             bla: 'hello!',
             snurp: 'derp!',
             src: 'https://i.imgur.com/t1bWmmC.jpeg',
             contact: {
-              x: 'nurp',
-              y: 'gurt',
-              z: 'xxx',
-              src: 'https://i.imgur.com/t1bWmmC.jpeg',
+              name: 'snurp',
+              picture: 'https://i.imgur.com/t1bWmmC.jpeg',
             },
             location: {
               long: '12312312.123123123',
