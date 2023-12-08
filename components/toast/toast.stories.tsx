@@ -1,9 +1,11 @@
 import * as React from "react";
 import { useToast, ToastProvider } from "./";
 import { Button } from "../button";
+import { Stack } from "../layout";
+import { InfoFill } from "../icons";
 
 const meta = {
-  title: "Components/Toast",
+  title: "Atoms/Toast",
 };
 export default meta;
 
@@ -11,8 +13,9 @@ const DefaultContent = () => {
   const toast = useToast();
 
   return (
-    <>
+    <Stack direction="column" gap={8}>
       <Button
+        variant="neutral"
         onClick={() => {
           toast("Toast Text");
         }}
@@ -20,20 +23,42 @@ const DefaultContent = () => {
         Simple toast
       </Button>
       <Button
+        variant="neutral"
         onClick={() => {
-          toast(() => (
-            <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-              <div>Toast text</div>
-              <div>
-                <Button variant="neutral-link">Action</Button>
-              </div>
-            </div>
-          ));
+          toast({
+            prefix: <InfoFill />,
+            text: "Toast text",
+            suffix: <Button variant="neutral-link">Action</Button>,
+          });
         }}
       >
-        Custom JSX
+        Prefix and suffix
       </Button>
-    </>
+      <Button
+        variant="neutral"
+        onClick={() => {
+          toast("I'm an informative toast", "informative");
+        }}
+      >
+        Informative
+      </Button>
+      <Button
+        variant="neutral"
+        onClick={() => {
+          toast("Warning text", "warning");
+        }}
+      >
+        Warning
+      </Button>
+      <Button
+        variant="neutral"
+        onClick={() => {
+          toast("An error toast", "error");
+        }}
+      >
+        Error
+      </Button>
+    </Stack>
   );
 };
 
