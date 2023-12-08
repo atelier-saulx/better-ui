@@ -4,11 +4,13 @@ import { Close } from "../icons";
 import { textVariants } from "../text";
 import { color } from "../../utils/vars";
 
-type Toast = string | (() => React.ReactNode);
+type Toast =
+  | string
+  | { text: string; prefix?: React.ReactNode; suffix?: React.ReactNode };
 type ToastVariant = "neutral" | "informative" | "warning" | "error";
 
 const ToastContext = React.createContext<
-  (variant: ToastVariant, toast: Toast) => void
+  (toast: Toast, variant?: ToastVariant) => void
 >(() => {});
 
 type ToastContextProviderProps = {
@@ -21,6 +23,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
     {
       id: number;
       toast: Toast;
+      variant: ToastVariant;
       entering?: boolean;
       leaving?: boolean;
       leaveTimeoutId?: number;
@@ -28,7 +31,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
     }[]
   >([]);
 
-  function showToast(toast: Toast) {
+  function showToast(toast: Toast, variant: ToastVariant = "neutral") {
     const id = window.setTimeout(() => {
       hideToast(id);
     }, 3500);
@@ -40,7 +43,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
       rerender({});
     }, 0);
 
-    queue.current = [{ id, toast, entering: true }, ...queue.current];
+    queue.current = [{ id, toast, variant, entering: true }, ...queue.current];
     rerender({});
   }
 
@@ -86,75 +89,113 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
             gap: 12,
           }}
         >
-          {queue.current.map(({ id, toast, leaving, entering }, index) => {
-            const sumOfPrevToastHeights = (
-              index === 0 ? [] : queue.current.slice(0, index)
-            ).reduce((acc, curr) => acc + (curr?.height ?? 0), 0);
+          {queue.current.map(
+            ({ id, toast, leaving, entering, variant }, index) => {
+              const sumOfPrevToastHeights = (
+                index === 0 ? [] : queue.current.slice(0, index)
+              ).reduce((acc, curr) => acc + (curr?.height ?? 0), 0);
 
-            console.log(
-              index,
-              index > 0 && queue.current.some((e) => e.entering)
-                ? "250ms"
-                : "none"
-            );
+              console.log(
+                index,
+                index > 0 && queue.current.some((e) => e.entering)
+                  ? "250ms"
+                  : "none"
+              );
 
-            return (
-              <div
-                style={{
-                  position: "absolute",
-                  padding: 16,
-                  display: "flex",
-                  justifyContent: "start",
-                  alignItems: "center",
-                  borderRadius: "var(--radius-small)",
-                  color: color("content", "inverted"),
-                  background: color("background", "inverted"),
-                  gap: 16,
-                  bottom: 0,
-                  transitionProperty: "transform opacity",
-                  transitionDuration: leaving ? "150ms" : "250ms",
-                  transitionTimingFunction: "cubic-bezier(.25,.75,.6,.98)",
-                  opacity: entering || leaving ? 0 : 1,
-                  transform: entering
-                    ? "translate3d(0,calc(100% + 24px),0)"
-                    : `translate3d(0,-${
-                        sumOfPrevToastHeights + index * 12
-                      }px,0)`,
-                }}
-                key={id}
-                ref={(ref) => {
-                  if (ref && !queue.current.find((e) => e.id === id)?.height) {
-                    queue.current = queue.current.map((e) =>
-                      e.id === id
-                        ? { ...e, height: ref.getBoundingClientRect().height }
-                        : e
-                    );
-                    rerender({});
-                  }
-                }}
-              >
-                <div style={{ whiteSpace: "nowrap", ...textVariants.bodyBold }}>
-                  {typeof toast === "function" ? toast() : toast}
-                </div>
+              return (
                 <div
                   style={{
+                    position: "absolute",
+                    padding: 16,
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "start",
                     alignItems: "center",
-                    cursor: "pointer",
-                    padding: 4,
-                    margin: "-4px",
-                    borderRadius: 6,
+                    borderRadius: "var(--radius-small)",
+
+                    gap: 16,
+                    bottom: 0,
+                    transitionProperty: "transform opacity",
+                    transitionDuration: leaving ? "150ms" : "250ms",
+                    transitionTimingFunction: "cubic-bezier(.25,.75,.6,.98)",
+                    opacity: entering || leaving ? 0 : 1,
+                    transform: entering
+                      ? "translate3d(0,calc(100% + 24px),0)"
+                      : `translate3d(0,-${
+                          sumOfPrevToastHeights + index * 12
+                        }px,0)`,
+                    ...(variant === "neutral" && {
+                      color: color("content", "inverted"),
+                      background: color("background", "inverted"),
+                    }),
+                    ...(variant === "informative" && {
+                      color: "var(--semantic-color-positive)",
+                      background: "var(--semantic-background-positive)",
+                    }),
+                    ...(variant === "warning" && {
+                      color: "var(--semantic-color-warning)",
+                      background: "var(--semantic-background-warning)",
+                    }),
+                    ...(variant === "error" && {
+                      color: "var(--semantic-color-error)",
+                      background: "var(--semantic-background-error)",
+                    }),
                   }}
-                  onClick={() => {
-                    hideToast(id);
+                  key={id}
+                  ref={(ref) => {
+                    if (
+                      ref &&
+                      !queue.current.find((e) => e.id === id)?.height
+                    ) {
+                      queue.current = queue.current.map((e) =>
+                        e.id === id
+                          ? { ...e, height: ref.getBoundingClientRect().height }
+                          : e
+                      );
+                      rerender({});
+                    }
                   }}
                 >
-                  <Close />
+                  {typeof toast === "object" ? (
+                    <>
+                      {toast?.prefix}
+                      <div
+                        style={{
+                          whiteSpace: "nowrap",
+                          ...textVariants.bodyBold,
+                        }}
+                      >
+                        {toast.text}
+                      </div>
+                      {toast?.suffix}
+                    </>
+                  ) : (
+                    <div
+                      style={{ whiteSpace: "nowrap", ...textVariants.bodyBold }}
+                    >
+                      {toast}
+                    </div>
+                  )}
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      padding: 4,
+                      margin: "-4px",
+                      borderRadius: 6,
+                    }}
+                    onClick={() => {
+                      hideToast(id);
+                    }}
+                  >
+                    <Close />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            }
+          )}
         </div>,
         document.body
       )}

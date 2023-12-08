@@ -157,7 +157,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             },
           }),
           ...(variant === "neutral-link" && {
-            color: color("content", "primary"),
+            color: "inherit",
             background: "transparent",
             border: "none",
             padding: 0,
