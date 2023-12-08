@@ -2,7 +2,7 @@ import * as React from "react";
 import { DateInput } from "./";
 
 const meta = {
-  title: "Atoms/DateInput",
+  title: "Atoms/(WIP) DateInput ",
   parameters: {
     layout: "fullscreen",
   },
