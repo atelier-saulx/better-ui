@@ -8,11 +8,18 @@ export const readPath = (
   let selectedValue: any = ctx.values
   let selectedField: any = ctx.schema
 
-  for (let k of path) {
+  for (let i = 0; i < path.length; i++) {
+    const k = path[i]
     selectedValue = selectedValue?.[k]
-    const type = selectedField.type
+    let type = selectedField.type
 
     if (type) {
+      if (type === 'record') {
+        if (i !== path.length - 1) {
+          selectedField = selectedField.values
+        }
+      }
+
       if (type === 'object') {
         selectedField = selectedField.properties[k]
       }

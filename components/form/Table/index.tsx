@@ -5,15 +5,102 @@ import { readPath, useCols } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/vars'
+import { StringInput } from './StringInput'
+import { Button } from '../../button'
+import { styled } from 'inlines'
+import { Plus } from '../../icons'
 
 export function Table({ ctx, path }: { ctx: TableCtx; path: Path }) {
-  const { field } = readPath(ctx, path)
+  const { field, value } = readPath(ctx, path)
   const isRoot = path.length === 1
+  const { type } = field
 
   let body: ReactNode
 
-  if (field.type === 'object') {
-    const cols = field.type === 'object' && useCols(field)
+  if (type === 'record') {
+    const valuesField = field.values
+
+    if (valuesField.type === 'object') {
+      const cols = useCols(valuesField)
+
+      if (cols) {
+        const rows: ReactNode[] = []
+        const cols: ReactNode[] = [
+          <Cell first isKey key={'key'}>
+            key
+          </Cell>,
+        ]
+
+        for (const key in valuesField.properties) {
+          cols.push(
+            <Cell key={key}>{valuesField.properties[key].title ?? key}</Cell>
+          )
+        }
+
+        if (value) {
+          for (const key in value) {
+            const cells: ReactNode[] = [
+              <Cell first isKey key={'key'}>
+                <StringInput value={key} />
+              </Cell>,
+            ]
+            for (const k in value[key]) {
+              cells.push(
+                <Cell>
+                  <Field ctx={ctx} path={path} />
+                </Cell>
+              )
+            }
+            rows.push(
+              <Stack
+                style={{
+                  borderBottom: border(),
+                }}
+                justify="start"
+              >
+                {cells}
+              </Stack>
+            )
+          }
+        }
+
+        body = (
+          <Stack
+            justify="start"
+            align="start"
+            direction="column"
+            style={{
+              borderTop: isRoot ? border() : null,
+              borderLeft: isRoot ? undefined : border(),
+            }}
+          >
+            <Stack
+              justify="start"
+              style={{
+                background: color('background', 'muted'),
+                borderBottom: border(),
+              }}
+            >
+              {cols}
+            </Stack>
+            {rows}
+            <styled.div style={{ marginTop: 8 }}>
+              <Button
+                size="small"
+                variant="neutral-transparent"
+                prefix={<Plus />}
+              >
+                Add
+              </Button>
+            </styled.div>
+          </Stack>
+        )
+      } else {
+        // bla
+      }
+    }
+  } else if (type === 'object') {
+    const cols = useCols(field)
     if (cols) {
       const cells: ReactNode[] = []
       const cols: ReactNode[] = []
