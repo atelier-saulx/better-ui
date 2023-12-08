@@ -1,16 +1,14 @@
 import React, { ReactNode } from 'react'
-import { textVariants } from '../text'
-import { border } from '../../utils/vars'
-import { Stack } from '../layout'
+import { textVariants } from '../../text'
+import { border } from '../../../utils/vars'
+import { Stack } from '../../layout'
 
 export function Cell({
-  index,
   isKey,
-  nested,
+  first,
   children,
 }: {
-  index: number
-  nested?: boolean
+  first?: boolean
   isKey?: boolean
   children: ReactNode
 }) {
@@ -21,9 +19,9 @@ export function Cell({
         minHeight: 48,
         flexGrow: 1,
         paddingRight: 10,
-        borderLeft: index === 0 ? undefined : border(),
+        borderLeft: first ? undefined : border(),
         maxWidth: isKey ? 150 : undefined,
-        paddingLeft: isKey && nested ? 40 : 20,
+        paddingLeft: 20,
         ...(isKey ? textVariants.bodyStrong : textVariants.bodyBold),
       }}
     >

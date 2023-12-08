@@ -127,9 +127,11 @@ export const Default = () => {
             display: 'short',
           },
           flap: {
+            title: 'Flap',
             type: 'string',
           },
           src: {
+            title: 'Source',
             type: 'string',
             contentMediaType: '*/*',
           },
@@ -148,6 +150,7 @@ export const Default = () => {
           },
 
           order: {
+            title: 'Order',
             type: 'object',
             properties: {
               orderId: { type: 'string' },
@@ -157,6 +160,7 @@ export const Default = () => {
           },
 
           healthRecord: {
+            title: 'Health Record',
             type: 'object',
             required: ['patientName', 'dateOfBirth', 'bloodType'],
             properties: {
@@ -307,7 +311,7 @@ export const Default = () => {
               // name: { type: 'string' },
               // src: { type: 'string', contentMediaType: '*/*' },
               contact: {
-                title: 'Location',
+                title: 'Contact',
                 type: 'object',
                 properties: {
                   name: { type: 'string' },
@@ -335,7 +339,7 @@ export const Default = () => {
               },
 
               ratings: {
-                title: 'Menu',
+                title: 'Ratings',
                 type: 'object',
                 properties: {
                   price: { type: 'string', title: 'Price' },
