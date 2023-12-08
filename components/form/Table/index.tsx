@@ -11,15 +11,6 @@ import { Object } from './Object'
 export function Table({ ctx, path }: TableProps) {
   const { field } = readPath(ctx, path)
   const isRoot = path.length === 1
-  const parentType = !isRoot && readPath(ctx, path.slice(0, -1)).field?.type
-  // const nestedObject =
-  //   field.type === 'object' &&
-  //   parentType === 'object' &&
-  //   readPath(ctx, path.slice(0, -2)).field?.type === 'object'
-
-  const nestedObjectRecord =
-    parentType === 'object' &&
-    readPath(ctx, path.slice(0, -2)).field?.type === 'record'
 
   const { type } = field
 
@@ -38,6 +29,12 @@ export function Table({ ctx, path }: TableProps) {
       </Cell>
     )
   }
+
+  const parentType = !isRoot && readPath(ctx, path.slice(0, -1)).field?.type
+
+  const nestedObjectRecord =
+    parentType === 'object' &&
+    readPath(ctx, path.slice(0, -2)).field?.type === 'record'
 
   return isRoot || parentType === 'record' ? (
     body

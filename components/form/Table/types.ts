@@ -8,3 +8,5 @@ export type TableCtx = {
 }
 
 export type Path = (string | number)[]
+
+export type TableProps = { ctx: TableCtx; path: Path }

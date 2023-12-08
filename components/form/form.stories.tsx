@@ -400,34 +400,34 @@ export const Default = () => {
                 },
               },
 
-              // nested: {
-              //   type: 'object',
-              //   properties: {
-              //     x: { type: 'string' },
-              //     contact: {
-              //       type: 'object',
-              //       properties: {
-              //         x: { type: 'string' },
-              //         y: { type: 'string' },
-              //         z: { type: 'string' },
-              //       },
-              //     },
-              //     location: {
-              //       type: 'object',
-              //       properties: {
-              //         id: { type: 'string' },
-              //         flightpath: {
-              //           type: 'object',
-              //           properties: {
-              //             x: { type: 'string' },
-              //             y: { type: 'string' },
-              //             z: { type: 'string' },
-              //           },
-              //         },
-              //       },
-              //     },
-              //   },
-              // },
+              nested: {
+                type: 'object',
+                properties: {
+                  x: { type: 'string' },
+                  contact: {
+                    type: 'object',
+                    properties: {
+                      x: { type: 'string' },
+                      y: { type: 'string' },
+                      z: { type: 'string' },
+                    },
+                  },
+                  location: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'string' },
+                      flightpath: {
+                        type: 'object',
+                        properties: {
+                          x: { type: 'string' },
+                          y: { type: 'string' },
+                          z: { type: 'string' },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
 
               flap: {
                 type: 'record',
