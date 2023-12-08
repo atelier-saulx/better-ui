@@ -19,10 +19,8 @@ export function Table({ ctx, path }: { ctx: TableCtx; path: Path }) {
 
   if (type === 'record') {
     const valuesField = field.values
-
     if (valuesField.type === 'object') {
       const cols = useCols(valuesField)
-
       if (cols) {
         const rows: ReactNode[] = []
         const cols: ReactNode[] = [
@@ -30,13 +28,11 @@ export function Table({ ctx, path }: { ctx: TableCtx; path: Path }) {
             key
           </Cell>,
         ]
-
         for (const key in valuesField.properties) {
           cols.push(
             <Cell key={key}>{valuesField.properties[key].title ?? key}</Cell>
           )
         }
-
         if (value) {
           for (const key in value) {
             const cells: ReactNode[] = [
@@ -47,7 +43,7 @@ export function Table({ ctx, path }: { ctx: TableCtx; path: Path }) {
             for (const k in value[key]) {
               cells.push(
                 <Cell>
-                  <Field ctx={ctx} path={path} />
+                  <Field ctx={ctx} path={[...path, key, k]} />
                 </Cell>
               )
             }
@@ -84,7 +80,7 @@ export function Table({ ctx, path }: { ctx: TableCtx; path: Path }) {
               {cols}
             </Stack>
             {rows}
-            <styled.div style={{ marginTop: 8 }}>
+            <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
               <Button
                 size="small"
                 variant="neutral-transparent"
@@ -98,6 +94,66 @@ export function Table({ ctx, path }: { ctx: TableCtx; path: Path }) {
       } else {
         // bla
       }
+    } else if (valuesField.type === 'string') {
+      const rows: ReactNode[] = []
+      const cols: ReactNode[] = [
+        <Cell first isKey key={'key'}>
+          key
+        </Cell>,
+        <Cell first isKey key={'value'}>
+          value
+        </Cell>,
+      ]
+      if (value) {
+        for (const key in value) {
+          rows.push(
+            <Stack
+              style={{
+                borderBottom: border(),
+              }}
+              justify="start"
+            >
+              <Cell first isKey key={'key'}>
+                <StringInput value={key} />
+              </Cell>
+              <Cell>
+                <Field ctx={ctx} path={[...path, key]} />
+              </Cell>
+            </Stack>
+          )
+        }
+      }
+      body = (
+        <Stack
+          justify="start"
+          align="start"
+          direction="column"
+          style={{
+            borderTop: isRoot ? border() : null,
+            borderLeft: isRoot ? undefined : border(),
+          }}
+        >
+          <Stack
+            justify="start"
+            style={{
+              background: color('background', 'muted'),
+              borderBottom: border(),
+            }}
+          >
+            {cols}
+          </Stack>
+          {rows}
+          <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
+            <Button
+              size="small"
+              variant="neutral-transparent"
+              prefix={<Plus />}
+            >
+              Add
+            </Button>
+          </styled.div>
+        </Stack>
+      )
     }
   } else if (type === 'object') {
     const cols = useCols(field)

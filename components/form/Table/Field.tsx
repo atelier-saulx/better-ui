@@ -9,6 +9,8 @@ import { CheckboxInput } from '../../checkbox-input'
 export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field } = readPath(ctx, path)
 
+  console.log('--------->', value, field)
+
   if (field.type === 'boolean') {
     return <CheckboxInput variant="toggle" value={false} onChange={() => {}} />
   }

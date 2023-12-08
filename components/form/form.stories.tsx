@@ -311,10 +311,6 @@ export const Default = () => {
             description: 'Restaurant of the form',
             type: 'object',
             properties: {
-              // bla: { type: 'string' },
-              // snurp: { type: 'string' },
-              // name: { type: 'string' },
-              // src: { type: 'string', contentMediaType: '*/*' },
               contact: {
                 title: 'Contact',
                 type: 'object',
@@ -323,15 +319,6 @@ export const Default = () => {
                   phone: { type: 'string', format: 'mobilePhone' },
                   email: { type: 'string', format: 'email' },
                   picture: { type: 'string', contentMediaType: '*/*' },
-
-                  // nested: {
-                  //   type: 'object',
-                  //   properties: {
-                  //     x: { type: 'string' },
-                  //     y: { type: 'string' },
-                  //     z: { type: 'string' },
-                  //   },
-                  // },
                 },
               },
 
@@ -366,49 +353,49 @@ export const Default = () => {
                   lat: { type: 'string', title: 'Latiude' },
                 },
               },
-              //   flap: {
-              //     type: 'record',
-              //     values: {
-              //       type: 'object',
-              //       properties: {
-              //         bla: { type: 'string' },
-              //         snurp: { type: 'string' },
-              //         flap: { type: 'string' },
-              //         // nested: {
-              //         //   type: 'object',
-              //         //   properties: {
-              //         //     x: { type: 'string' },
-              //         //     y: { type: 'string' },
-              //         //     z: { type: 'string' },
-              //         //     nested: {
-              //         //       type: 'object',
-              //         //       properties: {
-              //         //         x: { type: 'string' },
-              //         //         y: { type: 'string' },
-              //         //         z: { type: 'string' },
-              //         //         nested: {
-              //         //           type: 'object',
-              //         //           properties: {
-              //         //             x: { type: 'string' },
-              //         //             y: { type: 'string' },
-              //         //             z: { type: 'string' },
-              //         //             nested: {
-              //         //               type: 'object',
-              //         //               properties: {
-              //         //                 x: { type: 'string' },
-              //         //                 y: { type: 'string' },
-              //         //                 z: { type: 'string' },
-              //         //               },
-              //         //             },
-              //         //           },
-              //         //         },
-              //         //       },
-              //         //     },
-              //         //   },
-              //         // },
-              //       },
-              //     },
-              //   },
+              flap: {
+                type: 'record',
+                values: {
+                  type: 'object',
+                  properties: {
+                    bla: { type: 'string' },
+                    snurp: { type: 'string' },
+                    flap: { type: 'string' },
+                    // nested: {
+                    //   type: 'object',
+                    //   properties: {
+                    //     x: { type: 'string' },
+                    //     y: { type: 'string' },
+                    //     z: { type: 'string' },
+                    //     nested: {
+                    //       type: 'object',
+                    //       properties: {
+                    //         x: { type: 'string' },
+                    //         y: { type: 'string' },
+                    //         z: { type: 'string' },
+                    //         nested: {
+                    //           type: 'object',
+                    //           properties: {
+                    //             x: { type: 'string' },
+                    //             y: { type: 'string' },
+                    //             z: { type: 'string' },
+                    //             nested: {
+                    //               type: 'object',
+                    //               properties: {
+                    //                 x: { type: 'string' },
+                    //                 y: { type: 'string' },
+                    //                 z: { type: 'string' },
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //       },
+                    //     },
+                    //   },
+                    // },
+                  },
+                },
+              },
             },
           },
         }}
