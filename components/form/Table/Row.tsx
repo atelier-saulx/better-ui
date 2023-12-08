@@ -36,6 +36,7 @@ export function Row({ ctx, path }: { ctx: TableCtx; path: Path }) {
           justify="start"
           direction="column"
           style={{
+            borderTop: isRoot ? border() : null,
             borderLeft: isRoot ? undefined : border(),
           }}
         >
@@ -63,7 +64,16 @@ export function Row({ ctx, path }: { ctx: TableCtx; path: Path }) {
       for (const key in field.properties) {
         rows.push(<Row key={key} ctx={ctx} path={[...path, key]} />)
       }
-      body = <Stack direction="column">{rows}</Stack>
+      body = (
+        <Stack
+          style={{
+            borderTop: isRoot ? border() : null,
+          }}
+          direction="column"
+        >
+          {rows}
+        </Stack>
+      )
     }
   }
 
