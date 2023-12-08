@@ -1,20 +1,20 @@
-import * as React from "react";
-import { textVariants } from "../text";
-import { color } from "../../utils/vars";
-import { Stack } from "../layout";
-import { styled } from "inlines";
-import { useControllableState } from "../../utils/hooks/use-controllable-state";
-import { SmallCheck } from "../icons";
+import * as React from 'react'
+import { textVariants } from '../text'
+import { color } from '../../utils/vars'
+import { Stack } from '../layout'
+import { styled } from 'inlines'
+import { useControllableState } from '../../utils/hooks/use-controllable-state'
+import { SmallCheck } from '../icons'
 
 export type CheckboxInputProps = {
-  value?: boolean;
-  defaultValue?: boolean;
-  onChange?: (checked: boolean) => void;
-  formName?: string;
-  label: string;
-  description?: string;
-  variant?: "checkbox" | "toggle";
-};
+  value?: boolean
+  defaultValue?: boolean
+  onChange?: (checked: boolean) => void
+  formName?: string
+  label?: string
+  description?: string
+  variant?: 'checkbox' | 'toggle'
+}
 
 export const CheckboxInput = React.forwardRef<
   HTMLInputElement,
@@ -28,7 +28,7 @@ export const CheckboxInput = React.forwardRef<
       formName,
       label,
       description,
-      variant = "checkbox",
+      variant = 'checkbox',
     },
     ref
   ) => {
@@ -36,7 +36,7 @@ export const CheckboxInput = React.forwardRef<
       prop: valueProp,
       defaultProp: defaultValue,
       onChange,
-    });
+    })
 
     return (
       <Stack as="label" justify="start" align="start" gap={12}>
@@ -45,23 +45,23 @@ export const CheckboxInput = React.forwardRef<
           name={formName}
           type="checkbox"
           style={{
-            position: "absolute",
+            position: 'absolute',
             width: 1,
             height: 1,
             padding: 0,
             margin: -1,
-            overflow: "hidden",
-            clip: "rect(0, 0, 0, 0)",
-            whiteSpace: "nowrap",
+            overflow: 'hidden',
+            clip: 'rect(0, 0, 0, 0)',
+            whiteSpace: 'nowrap',
             borderWidth: 0,
           }}
           defaultChecked={defaultValue}
           checked={value}
           onChange={(e) => {
-            setValue(e.target.checked);
+            setValue(e.target.checked)
           }}
         />
-        {variant === "checkbox" ? (
+        {variant === 'checkbox' ? (
           <styled.div
             className="box"
             style={{
@@ -69,31 +69,31 @@ export const CheckboxInput = React.forwardRef<
               width: 16,
               border: `1px solid ${
                 value
-                  ? color("interactive", "primary")
-                  : color("interactive", "secondary")
+                  ? color('interactive', 'primary')
+                  : color('interactive', 'secondary')
               }`,
               background: value
-                ? color("interactive", "primary")
-                : "transparent",
-              borderRadius: "var(--radius-tiny)",
+                ? color('interactive', 'primary')
+                : 'transparent',
+              borderRadius: 'var(--radius-tiny)',
               marginTop: 4,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              "&:hover": {
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              '&:hover': {
                 background: value
-                  ? color("interactive", "primary-hover")
-                  : "transparent",
+                  ? color('interactive', 'primary-hover')
+                  : 'transparent',
                 border: `1px solid ${
                   value
-                    ? color("interactive", "primary-hover")
-                    : color("interactive", "secondary-hover")
+                    ? color('interactive', 'primary-hover')
+                    : color('interactive', 'secondary-hover')
                 }`,
               },
             }}
           >
             {value && (
-              <SmallCheck style={{ color: color("content", "inverted") }} />
+              <SmallCheck style={{ color: color('content', 'inverted') }} />
             )}
           </styled.div>
         ) : (
@@ -103,14 +103,14 @@ export const CheckboxInput = React.forwardRef<
               width: 36,
               height: 20,
               padding: 2,
-              borderRadius: "var(--radius-large)",
+              borderRadius: 'var(--radius-large)',
               background: value
-                ? color("interactive", "primary")
-                : color("interactive", "secondary"),
-              "&:hover": {
+                ? color('interactive', 'primary')
+                : color('interactive', 'secondary'),
+              '&:hover': {
                 background: value
-                  ? color("interactive", "primary-hover")
-                  : color("interactive", "secondary-hover"),
+                  ? color('interactive', 'primary-hover')
+                  : color('interactive', 'secondary-hover'),
               },
             }}
           >
@@ -119,32 +119,36 @@ export const CheckboxInput = React.forwardRef<
                 width: 16,
                 height: 16,
                 borderRadius: 9999,
-                background: color("background", "screen"),
-                marginLeft: value ? "16px" : "0px",
-                transition: "margin-left 100ms linear",
+                background: color('background', 'screen'),
+                marginLeft: value ? '16px' : '0px',
+                transition: 'margin-left 100ms linear',
               }}
             />
           </styled.div>
         )}
         <div>
-          <div
-            style={{
-              color: color("content", "primary"),
-              ...textVariants.bodyBold,
-            }}
-          >
-            {label}
-          </div>
-          <div
-            style={{
-              color: color("content", "secondary"),
-              ...textVariants.bodyBold,
-            }}
-          >
-            {description}
-          </div>
+          {label !== undefined ? (
+            <div
+              style={{
+                color: color('content', 'primary'),
+                ...textVariants.bodyBold,
+              }}
+            >
+              {label}
+            </div>
+          ) : null}
+          {description !== undefined ? (
+            <div
+              style={{
+                color: color('content', 'secondary'),
+                ...textVariants.bodyBold,
+              }}
+            >
+              {description}
+            </div>
+          ) : null}
         </div>
       </Stack>
-    );
+    )
   }
-);
+)

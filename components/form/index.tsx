@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { ReactNode } from 'react'
 import { BasedSchemaField } from '@based/schema'
 import { Stack } from '../layout'
 import { FormField } from './form-field'
@@ -7,7 +7,7 @@ import { TextInput } from '../text-input'
 import { styled } from 'inlines'
 import { Table } from './Table'
 
-type FormValues = { [key: string]: BasedSchemaField }
+type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
 
 export type FormProps = {
   values: { [key: string]: any }
@@ -25,7 +25,9 @@ export function Form({
   return (
     <Stack gap={32} direction="column" align="start">
       {Object.entries(fields).map(([key, field]) => {
-        if (field.type === 'string' && field.contentMediaType) {
+        const { type } = field
+
+        if (type === 'string' && field.contentMediaType) {
           return (
             <FormField
               key={key}
@@ -50,7 +52,7 @@ export function Form({
           )
         }
 
-        if (field.type === 'string') {
+        if (type === 'string') {
           return (
             <FormField
               key={key}
@@ -73,7 +75,7 @@ export function Form({
           )
         }
 
-        if (field.type === 'object') {
+        if (type === 'object' || type === 'record') {
           return (
             <FormField
               key={key}

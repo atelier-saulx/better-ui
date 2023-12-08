@@ -82,15 +82,17 @@ export const Default = () => {
             countryName: 'Country',
           },
 
+          order: {
+            orderId: 'ed1213',
+          },
+
           object: {
             bla: 'hello!',
             snurp: 'derp!',
             src: 'https://i.imgur.com/t1bWmmC.jpeg',
             contact: {
-              x: 'nurp',
-              y: 'gurt',
-              z: 'xxx',
-              src: 'https://i.imgur.com/t1bWmmC.jpeg',
+              name: 'snurp',
+              picture: 'https://i.imgur.com/t1bWmmC.jpeg',
             },
             location: {
               long: '12312312.123123123',
@@ -156,6 +158,9 @@ export const Default = () => {
               orderId: { type: 'string' },
               price: { type: 'string' },
               email: { type: 'string' },
+              isItDope: {
+                type: 'boolean',
+              },
             },
           },
 
@@ -306,10 +311,6 @@ export const Default = () => {
             description: 'Restaurant of the form',
             type: 'object',
             properties: {
-              // bla: { type: 'string' },
-              // snurp: { type: 'string' },
-              // name: { type: 'string' },
-              // src: { type: 'string', contentMediaType: '*/*' },
               contact: {
                 title: 'Contact',
                 type: 'object',
@@ -318,16 +319,11 @@ export const Default = () => {
                   phone: { type: 'string', format: 'mobilePhone' },
                   email: { type: 'string', format: 'email' },
                   picture: { type: 'string', contentMediaType: '*/*' },
-
-                  // nested: {
-                  //   type: 'object',
-                  //   properties: {
-                  //     x: { type: 'string' },
-                  //     y: { type: 'string' },
-                  //     z: { type: 'string' },
-                  //   },
-                  // },
                 },
+              },
+
+              isItDope: {
+                type: 'boolean',
               },
 
               bla: {
@@ -357,49 +353,49 @@ export const Default = () => {
                   lat: { type: 'string', title: 'Latiude' },
                 },
               },
-              //   flap: {
-              //     type: 'record',
-              //     values: {
-              //       type: 'object',
-              //       properties: {
-              //         bla: { type: 'string' },
-              //         snurp: { type: 'string' },
-              //         flap: { type: 'string' },
-              //         // nested: {
-              //         //   type: 'object',
-              //         //   properties: {
-              //         //     x: { type: 'string' },
-              //         //     y: { type: 'string' },
-              //         //     z: { type: 'string' },
-              //         //     nested: {
-              //         //       type: 'object',
-              //         //       properties: {
-              //         //         x: { type: 'string' },
-              //         //         y: { type: 'string' },
-              //         //         z: { type: 'string' },
-              //         //         nested: {
-              //         //           type: 'object',
-              //         //           properties: {
-              //         //             x: { type: 'string' },
-              //         //             y: { type: 'string' },
-              //         //             z: { type: 'string' },
-              //         //             nested: {
-              //         //               type: 'object',
-              //         //               properties: {
-              //         //                 x: { type: 'string' },
-              //         //                 y: { type: 'string' },
-              //         //                 z: { type: 'string' },
-              //         //               },
-              //         //             },
-              //         //           },
-              //         //         },
-              //         //       },
-              //         //     },
-              //         //   },
-              //         // },
-              //       },
-              //     },
-              //   },
+              flap: {
+                type: 'record',
+                values: {
+                  type: 'object',
+                  properties: {
+                    bla: { type: 'string' },
+                    snurp: { type: 'string' },
+                    flap: { type: 'string' },
+                    // nested: {
+                    //   type: 'object',
+                    //   properties: {
+                    //     x: { type: 'string' },
+                    //     y: { type: 'string' },
+                    //     z: { type: 'string' },
+                    //     nested: {
+                    //       type: 'object',
+                    //       properties: {
+                    //         x: { type: 'string' },
+                    //         y: { type: 'string' },
+                    //         z: { type: 'string' },
+                    //         nested: {
+                    //           type: 'object',
+                    //           properties: {
+                    //             x: { type: 'string' },
+                    //             y: { type: 'string' },
+                    //             z: { type: 'string' },
+                    //             nested: {
+                    //               type: 'object',
+                    //               properties: {
+                    //                 x: { type: 'string' },
+                    //                 y: { type: 'string' },
+                    //                 z: { type: 'string' },
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //       },
+                    //     },
+                    //   },
+                    // },
+                  },
+                },
+              },
             },
           },
         }}
