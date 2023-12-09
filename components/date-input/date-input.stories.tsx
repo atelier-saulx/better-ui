@@ -10,9 +10,22 @@ const meta = {
 export default meta;
 
 export const SingleDate = () => {
-  return <DateInput />;
+  return (
+    <DateInput
+      onChange={(value) => {
+        console.log(value);
+      }}
+    />
+  );
 };
 
 export const DateRange = () => {
-  return <DateInput range />;
+  return (
+    <DateInput
+      range
+      onChange={(value) => {
+        console.log(value);
+      }}
+    />
+  );
 };
