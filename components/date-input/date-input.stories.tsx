@@ -19,10 +19,33 @@ export const SingleDate = () => {
   );
 };
 
+export const SingleDateAndTime = () => {
+  return (
+    <DateInput
+      time
+      onChange={(value) => {
+        console.log(value);
+      }}
+    />
+  );
+};
+
 export const DateRange = () => {
   return (
     <DateInput
       range
+      onChange={(value) => {
+        console.log(value);
+      }}
+    />
+  );
+};
+
+export const DateRangeAndTime = () => {
+  return (
+    <DateInput
+      range
+      time
       onChange={(value) => {
         console.log(value);
       }}

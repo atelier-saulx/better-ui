@@ -21,13 +21,19 @@ import {
   isSameMonth,
   isMonday,
   isSunday,
+  startOfDay,
+  parse,
+  setHours,
+  setMinutes,
 } from "date-fns";
 import { useControllableState } from "../../utils/hooks/use-controllable-state";
+import { TextInput } from "../text-input";
 
 type DateInputValue = Date | { start: Date; end: Date };
 
 export type DateInputProps = {
   range?: boolean;
+  time?: boolean;
   value?: DateInputValue;
   defaultValue?: DateInputValue;
   onChange?: (value: DateInputValue) => void;
@@ -35,6 +41,7 @@ export type DateInputProps = {
 
 export function DateInput({
   range = false,
+  time = false,
   value: valueProp,
   defaultValue: defaultValueProp,
   onChange,
@@ -49,6 +56,13 @@ export function DateInput({
   const [pendingRangePart, setPendingRangePart] = React.useState<Date | null>(
     null
   );
+  const [pendingStartTime, setPendingStartTime] = React.useState("");
+  const [pendingEndTime, setPendingEndTime] = React.useState("");
+
+  // TODO sync pending start and end times with the value
+  React.useEffect(() => {
+    // setPendingStartTime(format(value));
+  }, [value]);
 
   const getDays = React.useCallback(() => {
     const days = [];
@@ -65,6 +79,7 @@ export function DateInput({
 
   return (
     <Popover.Root open>
+      {/* TODO write actual input looking trigger */}
       <Popover.Trigger>open</Popover.Trigger>
       <Popover.Portal>
         <Popover.Content>
@@ -346,63 +361,186 @@ export function DateInput({
                 </styled.button>
               ))}
             </div>
-            <div
-              style={{
-                borderTop: border(),
-                display: "flex",
-                flexDirection: "column",
-                padding: "8px 0",
-                marginLeft: -16,
-                marginRight: -16,
-              }}
-            >
-              <styled.button
-                style={{
-                  margin: 0,
-                  border: "none",
-                  background: "transparent",
-                  padding: "4px 16px",
-                  textAlign: "left",
-                  ...textVariants.body,
-                  "&:hover": {
-                    background: color("background", "neutral"),
-                  },
-                }}
-              >
-                Today
-              </styled.button>
-              <styled.button
-                style={{
-                  margin: 0,
-                  border: "none",
-                  background: "transparent",
-                  padding: "4px 16px",
-                  textAlign: "left",
-                  ...textVariants.body,
-                  "&:hover": {
-                    background: color("background", "neutral"),
-                  },
-                }}
-              >
-                Select next date
-              </styled.button>
+            {time && (
+              <>
+                <div
+                  style={{
+                    borderTop: border(),
+                    padding: "12px 16px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginLeft: -16,
+                    marginRight: -16,
+                  }}
+                >
+                  <Text>{range ? "Start time" : "Time"}</Text>
+                  <div style={{ width: 80 }}>
+                    <TextInput
+                      placeholder="11:00"
+                      variant="small"
+                      value={pendingStartTime}
+                      onChange={setPendingStartTime}
+                      onBlur={() => {
+                        if (!value) return;
+                        const result = parse(
+                          pendingStartTime,
+                          "HH:mm",
+                          new Date()
+                        );
 
-              <styled.button
+                        if (isNaN(result.getTime())) {
+                          return;
+                        }
+
+                        if ("start" in value) {
+                          setValue({
+                            ...value,
+                            start: setHours(
+                              setMinutes(value.start, result.getMinutes()),
+                              result.getHours()
+                            ),
+                          });
+                        } else {
+                          setValue(
+                            setHours(
+                              setMinutes(value, result.getMinutes()),
+                              result.getHours()
+                            )
+                          );
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+                {range && (
+                  <div
+                    style={{
+                      padding: "0 16px 12px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginLeft: -16,
+                      marginRight: -16,
+                    }}
+                  >
+                    <Text>End time</Text>
+                    <div style={{ width: 80 }}>
+                      <TextInput
+                        placeholder="11:00"
+                        variant="small"
+                        value={pendingEndTime}
+                        onChange={setPendingEndTime}
+                        onBlur={() => {
+                          if (!value || !("end" in value)) return;
+                          const result = parse(
+                            pendingEndTime,
+                            "HH:mm",
+                            new Date()
+                          );
+
+                          if (isNaN(result.getTime())) {
+                            return;
+                          }
+
+                          setValue({
+                            ...value,
+                            end: setHours(
+                              setMinutes(value.end, result.getMinutes()),
+                              result.getHours()
+                            ),
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+            {!range && (
+              <div
                 style={{
-                  margin: 0,
-                  border: "none",
-                  background: "transparent",
-                  padding: "4px 16px",
-                  textAlign: "left",
-                  ...textVariants.body,
-                  "&:hover": {
-                    background: color("background", "neutral"),
-                  },
+                  borderTop: border(),
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "8px 0",
+                  marginLeft: -16,
+                  marginRight: -16,
                 }}
               >
-                Select previous date
-              </styled.button>
-            </div>
+                <styled.button
+                  style={{
+                    margin: 0,
+                    border: "none",
+                    background: "transparent",
+                    padding: "4px 16px",
+                    textAlign: "left",
+                    color: color("content", "primary"),
+                    ...textVariants.body,
+                    "&:hover": {
+                      background: color("background", "neutral"),
+                    },
+                  }}
+                  onClick={() => {
+                    setValue(startOfDay(new Date()));
+                  }}
+                >
+                  Today
+                </styled.button>
+                <styled.button
+                  style={{
+                    margin: 0,
+                    border: "none",
+                    background: "transparent",
+                    padding: "4px 16px",
+                    textAlign: "left",
+                    color: color("content", "primary"),
+                    ...textVariants.body,
+                    "&:hover": {
+                      background: color("background", "neutral"),
+                    },
+                  }}
+                  onClick={() => {
+                    if (!value) {
+                      setValue(addDays(new Date(), +1));
+                      return;
+                    }
+
+                    if (value && !("start" in value)) {
+                      setValue(addDays(value, +1));
+                    }
+                  }}
+                >
+                  Select next date
+                </styled.button>
+
+                <styled.button
+                  style={{
+                    margin: 0,
+                    border: "none",
+                    background: "transparent",
+                    padding: "4px 16px",
+                    textAlign: "left",
+                    ...textVariants.body,
+                    "&:hover": {
+                      background: color("background", "neutral"),
+                    },
+                  }}
+                  onClick={() => {
+                    if (!value) {
+                      setValue(addDays(new Date(), -1));
+                      return;
+                    }
+
+                    if (value && !("start" in value)) {
+                      setValue(addDays(value, -1));
+                    }
+                  }}
+                >
+                  Select previous date
+                </styled.button>
+              </div>
+            )}
             <div
               style={{
                 borderTop: border(),
@@ -420,10 +558,17 @@ export function DateInput({
                   background: "transparent",
                   padding: "4px 16px",
                   textAlign: "left",
+                  color: color("content", "primary"),
                   ...textVariants.body,
                   "&:hover": {
                     background: color("background", "neutral"),
                   },
+                }}
+                onClick={() => {
+                  setCurrentMonth(new Date());
+                  setValue(undefined);
+                  setHoveredDate(null);
+                  setPendingRangePart(null);
                 }}
               >
                 Clear
