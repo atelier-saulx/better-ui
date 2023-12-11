@@ -28,9 +28,15 @@ export const IconOnly: StoryObj<typeof Button> = {
     variant: "neutral",
     size: "medium",
     shape: "square",
-    onClick: () => {
-      alert("hello");
-    },
+  },
+};
+
+export const IconOnlyNoBorder: StoryObj<typeof Button> = {
+  args: {
+    children: <Copy />,
+    variant: "neutral-transparent",
+    size: "small",
+    shape: "square",
   },
 };
 
