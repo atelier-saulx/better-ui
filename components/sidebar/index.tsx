@@ -1,44 +1,44 @@
-import * as React from "react";
-import { styled } from "inlines";
-import { IconViewLayoutLeft } from "../icons";
-import { Tooltip } from "../tooltip";
-import { Button } from "../button";
+import * as React from 'react'
+import { styled } from 'inlines'
+import { IconViewLayoutLeft } from '../icons'
+import { Tooltip } from '../tooltip'
+import { Button } from '../button'
 
-const SidebarContext = React.createContext({ open: true });
+const SidebarContext = React.createContext({ open: true })
 
 // TODO auto collapse on small screens?
 
 export type SidebarProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export function Sidebar({ children }: SidebarProps) {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(true)
 
   return (
     <styled.aside
       style={{
-        position: "relative",
+        position: 'relative',
         width: open ? 248 : 65,
-        height: "100%",
-        borderRight: "1px solid var(--interactive-secondary)",
-        padding: "16px 12px",
-        "& > * + *": { marginTop: "8px" },
+        height: '100%',
+        borderRight: '1px solid var(--interactive-secondary)',
+        padding: '16px 12px',
+        '& > * + *': { marginTop: '8px' },
       }}
     >
       <SidebarContext.Provider value={{ open }}>
         {children}
       </SidebarContext.Provider>
-      <div style={{ position: "absolute", bottom: 16, right: 12 }}>
+      <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
         <Tooltip
-          content={open ? "Collapse sidebar" : "Expand sidebar"}
-          side={open ? "top" : "right"}
+          content={open ? 'Collapse sidebar' : 'Expand sidebar'}
+          side={open ? 'top' : 'right'}
         >
           <Button
             variant="neutral-transparent"
             shape="square"
             onClick={() => {
-              setOpen((p) => !p);
+              setOpen((p) => !p)
             }}
           >
             <IconViewLayoutLeft />
@@ -46,15 +46,15 @@ export function Sidebar({ children }: SidebarProps) {
         </Tooltip>
       </div>
     </styled.aside>
-  );
+  )
 }
 
 export type SidebarItemProps = {
-  icon?: React.ReactNode;
-  children: string;
-  onClick?: () => void;
-  active?: boolean;
-};
+  icon?: React.ReactNode
+  children: string
+  onClick?: () => void
+  active?: boolean
+}
 
 export function SidebarItem({
   children,
@@ -62,25 +62,25 @@ export function SidebarItem({
   onClick,
   active,
 }: SidebarItemProps) {
-  const { open } = React.useContext(SidebarContext);
+  const { open } = React.useContext(SidebarContext)
 
   if (open) {
     return (
       <styled.div
         style={{
-          height: "40px",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 10px",
-          borderRadius: "var(--radius-small)",
-          cursor: "pointer",
-          color: "var(--content-primary)",
-          "&:hover": {
-            background: "var(--background-neutral)",
+          height: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 10px',
+          borderRadius: 'var(--radius-small)',
+          cursor: 'pointer',
+          color: 'var(--content-primary)',
+          '&:hover': {
+            background: 'var(--background-neutral)',
           },
-          "& > * + *": { marginLeft: "10px" },
+          '& > * + *': { marginLeft: '10px' },
           ...(active && {
-            background: "var(--background-neutral)",
+            background: 'var(--background-neutral)',
           }),
         }}
         onClick={onClick}
@@ -88,7 +88,7 @@ export function SidebarItem({
         {icon}
         <span
           style={{
-            color: "var(--content-primary)",
+            color: 'var(--content-primary)',
             fontSize: 14,
             fontWeight: 600,
           }}
@@ -96,18 +96,18 @@ export function SidebarItem({
           {children}
         </span>
       </styled.div>
-    );
+    )
   }
 
   return (
     <styled.div
       style={{
-        display: "flex",
+        display: 'flex',
         ...(active && {
-          background: "var(--background-neutral)",
-          borderRadius: "var(--radius-small)",
-          "&:hover": {
-            background: "none",
+          background: 'var(--background-neutral)',
+          borderRadius: 'var(--radius-small)',
+          '&:hover': {
+            background: 'none',
           },
         }),
       }}
@@ -118,5 +118,5 @@ export function SidebarItem({
         </Button>
       </Tooltip>
     </styled.div>
-  );
+  )
 }

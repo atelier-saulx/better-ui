@@ -14,7 +14,6 @@ export * from './utils'
 export function Table({ ctx, path }: TableProps) {
   const { field } = readPath(ctx, path)
   const { type } = field
-
   const isRoot = path.length === 1
 
   let body: ReactNode
@@ -35,9 +34,7 @@ export function Table({ ctx, path }: TableProps) {
     )
   }
 
-  // FIXME: for borders... still not perfect
   const parentType = !isRoot && readType(ctx, path, 1)
-  const ancestorType = parentType === 'object' && readType(ctx, path, 2)
 
   return isRoot || parentType === 'record' || parentType === 'array' ? (
     body
@@ -46,22 +43,10 @@ export function Table({ ctx, path }: TableProps) {
       align="stretch"
       justify="start"
       style={{
-        // marginLeft:
-        //   ancestorType === 'record' || ancestorType === 'array' ? -40 : 0,
         borderBottom: border(),
       }}
     >
-      <Cell
-        // first={
-        //   path.length < 3 ||
-        //   ancestorType === 'record' ||
-        //   ancestorType === 'array' ||
-        //   parentType === 'array'
-        // }
-        border
-        isKey
-        objectKey
-      >
+      <Cell border isKey objectKey>
         {field.title ?? path[path.length - 1]}
       </Cell>
       {body}

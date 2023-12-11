@@ -96,7 +96,11 @@ export function Record({ ctx, path }: TableProps) {
       </ColStack>
       {rows}
       <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
-        <Button size="small" variant="neutral-transparent" prefix={<IconPlus />}>
+        <Button
+          size="small"
+          variant="neutral-transparent"
+          prefix={<IconPlus />}
+        >
           Add
         </Button>
       </styled.div>
