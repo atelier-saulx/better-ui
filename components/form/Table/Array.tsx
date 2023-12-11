@@ -5,72 +5,82 @@ import { readPath, useCols } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/vars'
-import { StringInput } from './StringInput'
 import { Button } from '../../button'
 import { styled } from 'inlines'
 import { Plus } from '../../icons'
-import { BasedSchemaFieldRecord } from '@based/schema'
+import { BasedSchemaFieldArray } from '@based/schema'
+import { ColStack } from './ColStack'
+import { isSmallField } from './utils'
 
 export function Array({ ctx, path }: TableProps) {
-  const { field, value } = readPath<BasedSchemaFieldRecord>(ctx, path)
-  const isRoot = path.length === 1
+  const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
   const valuesField = field.values
-
   const rows: ReactNode[] = []
-  const cols: ReactNode[] = [
-    <Cell first isKey key={'key'}>
-      key
-    </Cell>,
-  ]
+  const cols: ReactNode[] = []
+  const isCols = valuesField.type === 'object' && useCols(valuesField)
 
-  if (valuesField.type === 'object' && useCols(valuesField)) {
+  if (isCols) {
     for (const key in valuesField.properties) {
       cols.push(
-        <Cell key={key}>{valuesField.properties[key].title ?? key}</Cell>
+        <Cell border isKey key={key}>
+          {valuesField.properties[key].title ?? key}
+        </Cell>
       )
     }
     if (value) {
-      for (const key in value) {
-        const cells: ReactNode[] = [
-          <Cell first isKey key="key">
-            <StringInput value={key} />
-          </Cell>,
-        ]
-        for (const k in value[key]) {
+      for (let i = 0; i < value.length; i++) {
+        const cells: ReactNode[] = []
+        for (const key in valuesField.properties) {
           cells.push(
-            <Cell>
-              <Field ctx={ctx} path={[...path, key, k]} />
+            <Cell border key={key}>
+              <Field ctx={ctx} path={[...path, i, key]} />
             </Cell>
           )
         }
         rows.push(
-          <Stack
+          <ColStack
+            key={i}
             style={{
               borderBottom: border(),
             }}
-            justify="start"
           >
             {cells}
-          </Stack>
+          </ColStack>
         )
       }
     }
-  } else {
-    cols.push(<Cell key={'value'}>value</Cell>)
-    if (value) {
-      for (const key in value) {
+  } else if (value) {
+    if (isSmallField(valuesField)) {
+      for (let i = 0; i < value.length; i++) {
+        rows.push(
+          <Stack
+            justify="start"
+            key={i}
+            style={{
+              borderBottom: border(),
+            }}
+          >
+            <Cell>
+              <Field ctx={ctx} path={[...path, i]} />
+            </Cell>
+          </Stack>
+        )
+      }
+    } else {
+      for (let i = 0; i < value.length; i++) {
         rows.push(
           <Stack
             justify="start"
             style={{
+              background: color('background', 'muted'),
               borderBottom: border(),
             }}
           >
-            <Cell first isKey key={'key'}>
-              <StringInput value={key} />
-            </Cell>
+            <Cell isKey>{valuesField.title ?? '' + ' ' + (i + 1)}</Cell>
+          </Stack>,
+          <Stack justify="start" key={i}>
             <Cell>
-              <Field ctx={ctx} path={[...path, key]} />
+              <Field ctx={ctx} path={[...path, i]} />
             </Cell>
           </Stack>
         )
@@ -79,24 +89,17 @@ export function Array({ ctx, path }: TableProps) {
   }
 
   return (
-    <Stack
-      justify="start"
-      align="start"
-      direction="column"
-      style={{
-        borderTop: isRoot ? border() : undefined,
-        borderLeft: isRoot ? undefined : border(),
-      }}
-    >
-      <Stack
-        justify="start"
-        style={{
-          background: color('background', 'muted'),
-          borderBottom: border(),
-        }}
-      >
-        {cols}
-      </Stack>
+    <Stack justify="start" align="start" direction="column">
+      {cols.length ? (
+        <ColStack
+          style={{
+            background: color('background', 'muted'),
+            borderBottom: border(),
+          }}
+        >
+          {cols}
+        </ColStack>
+      ) : null}
       {rows}
       <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
         <Button size="small" variant="neutral-transparent" prefix={<Plus />}>

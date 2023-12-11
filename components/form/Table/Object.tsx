@@ -7,48 +7,38 @@ import { Field } from './Field'
 import { border, color } from '../../../utils/vars'
 import { BasedSchemaFieldObject } from '@based/schema'
 import { Table } from './'
+import { ColStack } from './ColStack'
 
 export function Object({ ctx, path }: TableProps) {
   const { field } = readPath<BasedSchemaFieldObject>(ctx, path)
-  const isRoot = path.length === 1
-
   const cols = useCols(field)
+
   if (cols) {
     const cells: ReactNode[] = []
     const cols: ReactNode[] = []
-    let first = true
     for (const key in field.properties) {
       cols.push(
-        <Cell first={first} key={key}>
+        <Cell isKey border key={key}>
           {field.properties[key].title ?? key}
         </Cell>
       )
       cells.push(
-        <Cell first={first} key={key}>
+        <Cell border key={key}>
           <Field ctx={ctx} path={[...path, key]} />
         </Cell>
       )
-      first = false
     }
     return (
-      <Stack
-        justify="start"
-        direction="column"
-        style={{
-          borderTop: isRoot ? border() : null,
-          borderLeft: isRoot ? undefined : border(),
-        }}
-      >
-        <Stack
-          justify="start"
+      <Stack justify="start" direction="column">
+        <ColStack
           style={{
             background: color('background', 'muted'),
             borderBottom: border(),
           }}
         >
           {cols}
-        </Stack>
-        <Stack justify="start">{cells}</Stack>
+        </ColStack>
+        <ColStack>{cells}</ColStack>
       </Stack>
     )
   }
@@ -58,14 +48,5 @@ export function Object({ ctx, path }: TableProps) {
     rows.push(<Table key={key} ctx={ctx} path={[...path, key]} />)
   }
 
-  return (
-    <Stack
-      style={{
-        borderTop: isRoot ? border() : null,
-      }}
-      direction="column"
-    >
-      {rows}
-    </Stack>
-  )
+  return <Stack direction="column">{rows}</Stack>
 }

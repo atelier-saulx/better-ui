@@ -7,11 +7,13 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
 ): { field: T; value: any | void } => {
   let selectedValue: any = ctx.values
   let selectedField: any = ctx.schema
+
   for (const k of path) {
     selectedValue = selectedValue?.[k]
+
     const type = selectedField.type
     if (type) {
-      if (type === 'record') {
+      if (type === 'record' || type === 'array') {
         selectedField = selectedField.values
       }
       if (type === 'object') {
@@ -21,25 +23,18 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
       selectedField = selectedField[k]
     }
   }
+
   return { field: selectedField, value: selectedValue }
 }
 
 export const useCols = (field: BasedSchemaFieldObject): boolean => {
   let cnt = 0
   for (const key in field.properties) {
-    const { type } = field.properties[key]
     cnt++
     if (cnt > 5) {
       return false
     }
-    if (
-      type === 'array' ||
-      type === 'json' ||
-      type === 'record' ||
-      type === 'set' ||
-      type === 'references' ||
-      type === 'object'
-    ) {
+    if (!isSmallField(field.properties[key])) {
       return false
     }
   }
@@ -51,6 +46,23 @@ export const isTable = (field: BasedSchemaField): boolean => {
   if (type === 'object' || type === 'record' || type === 'array') {
     return true
   }
-
   return false
+}
+
+export const isSmallField = ({ type }: BasedSchemaField): boolean => {
+  if (
+    type === 'array' ||
+    type === 'json' ||
+    type === 'record' ||
+    type === 'set' ||
+    type === 'references' ||
+    type === 'object'
+  ) {
+    return false
+  }
+  return true
+}
+
+export const readType = (ctx: TableCtx, path: Path, level: number): string => {
+  return readPath(ctx, path.slice(0, -level)).field?.type ?? ''
 }

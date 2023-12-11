@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Stack } from '../../layout'
 import { TableProps } from './types'
-import { readPath } from './utils'
+import { readPath, readType } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border } from '../../../utils/vars'
@@ -13,9 +13,9 @@ export * from './utils'
 
 export function Table({ ctx, path }: TableProps) {
   const { field } = readPath(ctx, path)
-  const isRoot = path.length === 1
-
   const { type } = field
+
+  const isRoot = path.length === 1
 
   let body: ReactNode
 
@@ -36,23 +36,32 @@ export function Table({ ctx, path }: TableProps) {
   }
 
   // FIXME: for borders... still not perfect
-  const parentType = !isRoot && readPath(ctx, path.slice(0, -1)).field?.type
-  const nestedObjectRecord =
-    parentType === 'object' &&
-    readPath(ctx, path.slice(0, -2)).field?.type === 'record'
+  const parentType = !isRoot && readType(ctx, path, 1)
+  const ancestorType = parentType === 'object' && readType(ctx, path, 2)
 
-  return isRoot || parentType === 'record' ? (
+  return isRoot || parentType === 'record' || parentType === 'array' ? (
     body
   ) : (
     <Stack
       align="stretch"
       justify="start"
       style={{
-        marginLeft: nestedObjectRecord ? -40 : 0,
+        // marginLeft:
+        //   ancestorType === 'record' || ancestorType === 'array' ? -40 : 0,
         borderBottom: border(),
       }}
     >
-      <Cell first={path.length < 3 || nestedObjectRecord} isKey>
+      <Cell
+        // first={
+        //   path.length < 3 ||
+        //   ancestorType === 'record' ||
+        //   ancestorType === 'array' ||
+        //   parentType === 'array'
+        // }
+        border
+        isKey
+        objectKey
+      >
         {field.title ?? path[path.length - 1]}
       </Cell>
       {body}

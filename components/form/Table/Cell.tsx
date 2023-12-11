@@ -1,16 +1,21 @@
 import React, { ReactNode } from 'react'
 import { textVariants } from '../../text'
-import { border } from '../../../utils/vars'
+import { border as getBorder } from '../../../utils/vars'
 import { Stack } from '../../layout'
+import { Style } from 'inlines'
 
 export function Cell({
-  first,
+  border,
   children,
   isKey,
+  objectKey,
+  style,
 }: {
-  first?: boolean
+  border?: boolean
   children: ReactNode
   isKey?: boolean
+  style?: Style
+  objectKey?: boolean
 }) {
   return (
     <Stack
@@ -19,10 +24,10 @@ export function Cell({
       style={{
         minHeight: 48,
         flexGrow: 1,
-        paddingRight: 20,
-        borderLeft: first ? undefined : border(),
-        maxWidth: isKey ? 150 : undefined,
-        paddingLeft: 20,
+        borderRight: border ? getBorder() : undefined,
+        maxWidth: objectKey ? 150 : undefined,
+        paddingLeft: isKey ? 20 : 0,
+        ...style,
       }}
     >
       <Stack
