@@ -39,6 +39,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@storybook/addon-controls": "^7.5.3",
+    "@storybook/addon-docs": "^7.6.4",
     "@storybook/addon-viewport": "^7.5.3",
     "@storybook/react": "^7.5.3",
     "@storybook/react-webpack5": "^7.5.3",

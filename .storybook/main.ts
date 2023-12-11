@@ -1,8 +1,15 @@
-import type { StorybookConfig } from "@storybook/react-webpack5";
+import type { StorybookConfig } from "@storybook/react-webpack5"
 
 const config: StorybookConfig = {
   stories: ["../**/*.stories.tsx"],
-  addons: ["@storybook/addon-controls", "@storybook/addon-viewport"],
+  addons: [
+    "@storybook/addon-controls",
+    "@storybook/addon-viewport",
+    "@storybook/addon-docs",
+  ],
+  docs: {
+    autodocs: true,
+  },
   framework: {
     name: "@storybook/react-webpack5",
     options: {},
@@ -27,8 +34,8 @@ const config: StorybookConfig = {
           // ...config.resolve.fallback,
         },
       },
-    };
+    }
   },
-};
+}
 
-export default config;
+export default config
