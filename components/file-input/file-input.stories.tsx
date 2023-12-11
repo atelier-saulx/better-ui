@@ -1,32 +1,43 @@
-import * as React from 'react'
-import { FileInput } from './'
-import { useUploadFile } from '../../utils/hooks/use-upload-file'
-import { Provider } from '@based/react'
-import based from '@based/client'
+import * as React from "react";
+import { FileInput } from "./";
+import { useUploadFile } from "../../utils/hooks/use-upload-file";
+import { Provider } from "@based/react";
+import based from "@based/client";
 
 const client = based({
-  org: 'saulx',
-  project: 'based-ui',
-  env: 'production',
-})
+  org: "saulx",
+  project: "based-ui",
+  env: "production",
+});
 
 const meta = {
-  title: 'Atoms/FileInput',
-}
-export default meta
+  title: "Atoms/FileInput",
+};
+export default meta;
 
 export const Default = () => {
   return (
     <FileInput
       onChange={(file) => {
-        console.log('file', file)
+        console.log("file", file);
       }}
     />
-  )
-}
+  );
+};
+
+export const Small = () => {
+  return (
+    <FileInput
+      variant="small"
+      onChange={(file) => {
+        console.log("file", file);
+      }}
+    />
+  );
+};
 
 const RealUploadContent = () => {
-  const { handleFileInputChange, status, progress } = useUploadFile()
+  const { handleFileInputChange, status, progress } = useUploadFile();
 
   return (
     <FileInput
@@ -34,16 +45,16 @@ const RealUploadContent = () => {
       status={status}
       progress={progress}
       onChange={handleFileInputChange((file) => {
-        console.log('uploaded file', file)
+        console.log("uploaded file", file);
       })}
     />
-  )
-}
+  );
+};
 
 export const RealUpload = () => {
   return (
     <Provider client={client}>
       <RealUploadContent />
     </Provider>
-  )
-}
+  );
+};

@@ -18,7 +18,7 @@ import { color, border } from "../../utils/vars";
 import { FileDrop } from "react-file-drop";
 
 type Status = "initial" | "uploading" | "success" | "error";
-type Variant = "minimal" | "extensive";
+type Variant = "regular" | "small";
 
 // Global file upload hook to based to see upload progress
 export type FileInputProps = {
@@ -45,7 +45,7 @@ export function FileInput({
   progress: progressProp,
   mimeType,
   value,
-  variant = "extensive",
+  variant = "regular",
 }: FileInputProps) {
   // Allow paste of url as well...
 
@@ -106,9 +106,9 @@ export function FileInput({
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        paddingLeft: variant === "minimal" && dragOver ? 4 : null,
+        paddingLeft: variant === "small" && dragOver ? 4 : null,
         backgroundColor:
-          dragOver && variant !== "minimal"
+          dragOver && variant !== "small"
             ? color("background", "neutral")
             : null,
       }}
@@ -211,7 +211,7 @@ function StyledStatus({
   return (
     <styled.div
       style={
-        variant === "minimal"
+        variant === "small"
           ? {}
           : {
               padding: "8px 12px",
@@ -282,12 +282,12 @@ function Status({
       )}
       {status === "uploading" && <UploadingStatus progress={progress} />}
       {status === "success" && (
-        <Stack gap={12} justify={variant === "minimal" ? "start" : "between"}>
+        <Stack gap={12} justify={variant === "small" ? "start" : "between"}>
           <Stack
             gap={12}
             justify={"start"}
             style={{
-              flexGrow: variant === "minimal" ? null : 1,
+              flexGrow: variant === "small" ? null : 1,
               width: "auto",
             }}
           >
@@ -295,8 +295,8 @@ function Status({
               <img
                 src={filePreview}
                 style={{
-                  height: variant === "minimal" ? 32 : 48,
-                  width: variant === "minimal" ? 32 : 48,
+                  height: variant === "small" ? 32 : 48,
+                  width: variant === "small" ? 32 : 48,
                   borderRadius: "var(--radius-small)",
                   objectFit: "cover",
                 }}
@@ -305,7 +305,7 @@ function Status({
               <IconAttachment />
             )}
             <Text
-              style={{ maxWidth: variant === "minimal" ? 200 : undefined }}
+              style={{ maxWidth: variant === "small" ? 200 : undefined }}
               singleLine
             >
               {file?.name}
@@ -318,7 +318,7 @@ function Status({
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  opacity: hover ? 1 : variant === "minimal" ? 0 : 0.5,
+                  opacity: hover ? 1 : variant === "small" ? 0 : 0.5,
                   outline: "none",
                   background: "transparent",
                   padding: "2px",

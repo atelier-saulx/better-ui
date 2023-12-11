@@ -14,3 +14,10 @@ export const Default: StoryObj<typeof TextInput> = {
     label: "Label",
   },
 };
+
+export const Small: StoryObj<typeof TextInput> = {
+  args: {
+    placeholder: "Placeholder text",
+    variant: "small",
+  },
+};

@@ -81,8 +81,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             fontSize: 14,
             lineHeight: "24px",
             width: "100%",
-            padding: variant === "regular" ? "8px 12px" : "4px 8px",
-            borderRadius: "var(--radius-small)",
+            padding: variant === "regular" ? "8px 12px" : "3px 10px",
+            borderRadius:
+              variant === "regular"
+                ? "var(--radius-small)"
+                : "var(--radius-tiny)",
             border: "1px solid var(--interactive-secondary)",
             color: "var(--content-primary)",
             outline: "none",

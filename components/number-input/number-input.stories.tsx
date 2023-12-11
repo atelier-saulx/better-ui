@@ -18,3 +18,10 @@ export const Default: StoryObj<typeof NumberInput> = {
     },
   },
 };
+
+export const Small: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: "Placeholder text",
+    variant: "small",
+  },
+};

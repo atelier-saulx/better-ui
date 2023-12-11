@@ -12,6 +12,7 @@ export type NumberInputProps = {
   formName?: string;
   label?: string;
   step?: number;
+  variant?: "regular" | "small";
 };
 
 const Wrapper = ({
@@ -51,6 +52,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       formName,
       label,
       step = 1,
+      variant = "regular",
     },
     ref
   ) => {
@@ -95,8 +97,11 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               fontSize: 14,
               lineHeight: "24px",
               width: "100%",
-              padding: "8px 40px 8px 12px",
-              borderRadius: "var(--radius-small)",
+              padding: variant === "regular" ? "8px 40px 8px 12px" : "3px 10px",
+              borderRadius:
+                variant === "regular"
+                  ? "var(--radius-small)"
+                  : "var(--radius-tiny)",
               border: "1px solid var(--interactive-secondary)",
               color: "var(--content-primary)",
               outline: "none",
@@ -148,7 +153,10 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 setValue(value + step);
               }}
             >
-              <IconSmallArrowheadTop />
+              <IconSmallArrowheadTop
+                height={variant === "regular" ? 16 : 12}
+                width={variant === "regular" ? 16 : 12}
+              />
             </styled.div>
             <styled.div
               style={{
@@ -165,7 +173,10 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 setValue(value - step);
               }}
             >
-              <IconSmallArrowheadDown />
+              <IconSmallArrowheadDown
+                height={variant === "regular" ? 16 : 12}
+                width={variant === "regular" ? 16 : 12}
+              />
             </styled.div>
           </div>
         </div>

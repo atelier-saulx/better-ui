@@ -8,17 +8,25 @@ export type SelectInputProps = {
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
-  formName?: string;
   label?: string;
   options?: (
     | { value: string; label?: string; prefix?: React.ReactNode }
     | string
   )[];
+  variant: "regular" | "small";
 };
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
   (
-    { placeholder, value, defaultValue, onChange, formName, label, options },
+    {
+      placeholder,
+      value,
+      defaultValue,
+      onChange,
+      label,
+      options,
+      variant = "regular",
+    },
     ref
   ) => {
     const Wrapper = label ? styled.label : styled.div;
@@ -63,8 +71,12 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 position: "relative",
                 fontSize: 14,
                 lineHeight: "24px",
-                padding: "8px 40px 8px 12px",
-                borderRadius: "var(--radius-small)",
+                padding:
+                  variant === "regular" ? "8px 40px 8px 12px" : "3px 28px 3px 10px",
+                borderRadius:
+                  variant === "regular"
+                    ? "var(--radius-small)"
+                    : "var(--radius-tiny)",
                 border: "1px solid var(--interactive-secondary)",
                 color: "var(--content-primary)",
                 "&:before": {
@@ -80,8 +92,8 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               <IconChevronDownSmall
                 style={{
                   position: "absolute",
-                  top: 10,
-                  right: 12,
+                  top: variant === "regular" ? 10 : 5,
+                  right: variant === "regular" ? 12 : 6,
                   color: "var(--content-primary)",
                 }}
               />

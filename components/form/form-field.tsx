@@ -1,16 +1,16 @@
-import * as React from 'react'
-import { styled } from 'inlines'
-import { BasedSchemaField } from '@based/schema'
-import { Text } from '../text'
-import { Stack } from '../layout'
-import { border } from '../../utils/vars'
+import * as React from "react";
+import { styled } from "inlines";
+import { BasedSchemaField } from "@based/schema";
+import { Text } from "../text";
+import { Stack } from "../layout";
+import { border } from "../../utils/vars";
 
 type FormFieldProps = {
-  children: React.ReactNode
-  field: BasedSchemaField
-  name: string
-  variant: 'extensive' | 'minimal'
-}
+  children: React.ReactNode;
+  field: BasedSchemaField;
+  name: string;
+  variant: "regular" | "small";
+};
 
 export function FormField({ children, field, name, variant }: FormFieldProps) {
   return (
@@ -19,12 +19,12 @@ export function FormField({ children, field, name, variant }: FormFieldProps) {
       direction="column"
       align="start"
       style={
-        variant === 'minimal'
+        variant === "small"
           ? undefined
           : {
               paddingLeft: 16,
               paddingBottom: 8,
-              borderLeft: border('muted', 2),
+              borderLeft: border("muted", 2),
             }
       }
     >
@@ -38,5 +38,5 @@ export function FormField({ children, field, name, variant }: FormFieldProps) {
       </styled.div>
       {children}
     </Stack>
-  )
+  );
 }
