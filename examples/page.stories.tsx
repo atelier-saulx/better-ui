@@ -12,7 +12,7 @@ import {
   IconUsers,
   IconViewBoxes,
 } from "../components/Icons";
-import { Modal } from "../components/modal";
+import { Modal } from "../components/Modal";
 import { Button } from "../components/Button";
 import { Form } from "../components/Form";
 import { Sidebar, SidebarItem } from "../components/Sidebar";
