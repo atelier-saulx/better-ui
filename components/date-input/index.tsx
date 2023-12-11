@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
 import { Text, textVariants } from "../text";
-import { IconChevronDown, IconChevronTop } from "../icons";
+import { IconCalendar, IconChevronDown, IconChevronTop } from "../icons";
 import { styled } from "inlines";
 import { border, color } from "../../utils/vars";
 import {
@@ -37,6 +37,9 @@ export type DateInputProps = {
   value?: DateInputValue;
   defaultValue?: DateInputValue;
   onChange?: (value: DateInputValue) => void;
+  variant?: "regular" | "small";
+  error?: boolean;
+  label?: string;
 };
 
 export function DateInput({
@@ -45,6 +48,9 @@ export function DateInput({
   value: valueProp,
   defaultValue: defaultValueProp,
   onChange,
+  variant = "regular",
+  error,
+  label,
 }: DateInputProps) {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -59,9 +65,18 @@ export function DateInput({
   const [pendingStartTime, setPendingStartTime] = React.useState("");
   const [pendingEndTime, setPendingEndTime] = React.useState("");
 
-  // TODO sync pending start and end times with the value
   React.useEffect(() => {
-    // setPendingStartTime(format(value));
+    if (value) {
+      if ("start" in value) {
+        setPendingStartTime(format(value.start, "HH:mm"));
+        setPendingEndTime(format(value.end, "HH:mm"));
+      } else {
+        setPendingStartTime(format(value, "HH:mm"));
+      }
+    } else {
+      setPendingStartTime("");
+      setPendingEndTime("");
+    }
   }, [value]);
 
   const getDays = React.useCallback(() => {
@@ -77,21 +92,111 @@ export function DateInput({
     return days;
   }, [currentMonth]);
 
+  const Wrapper = label ? styled.label : styled.div;
+
   return (
-    <Popover.Root open>
-      {/* TODO write actual input looking trigger */}
-      <Popover.Trigger>open</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Content>
-          <div
+    <Popover.Root>
+      <Popover.Trigger asChild>
+        <Wrapper
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            '&[data-state="open"] > div': {
+              border: "1px solid var(--interactive-primary) !important",
+              boxShadow:
+                "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important",
+            },
+            ...(error && {
+              '&[data-state="open"] > div': {
+                border: "1px solid var(--sentiment-negative)",
+                boxShadow:
+                  "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+              },
+            }),
+          }}
+        >
+          {label && (
+            <styled.span
+              style={{
+                marginBottom: 8,
+                fontSize: 14,
+                lineHeight: "24px",
+                fontWeight: 500,
+              }}
+            >
+              {label}
+            </styled.span>
+          )}
+          <styled.div
             style={{
-              padding: "16px 16px 0px",
-              background: color("background", "screen"),
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              fontSize: 14,
+              lineHeight: "24px",
+              fontWeight: 500,
+              width: "100%",
+              minHeight: variant === "regular" ? 42 : 32,
+              padding: variant === "regular" ? "8px 12px" : "3px 10px",
+              borderRadius:
+                variant === "regular"
+                  ? "var(--radius-small)"
+                  : "var(--radius-tiny)",
               border: "1px solid var(--interactive-secondary)",
-              boxShadow: "var(--shadow-elevation)",
-              borderRadius: "var(--radius-small)",
+              "&:hover": {
+                border: "1px solid var(--interactive-secondary-hover)",
+              },
+              "&:focus": {
+                border: "1px solid var(--interactive-primary)",
+                boxShadow:
+                  "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)",
+              },
+              ...(error && {
+                border: "1px solid var(--sentiment-negative)",
+                "&:hover": {
+                  border: "1px solid var(--sentiment-negative)",
+                },
+                "&:focus": {
+                  border: "1px solid var(--sentiment-negative)",
+                  boxShadow:
+                    "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+                },
+              }),
             }}
           >
+            <IconCalendar />
+            <div>
+              {value &&
+                ("start" in value
+                  ? `${format(
+                      value.start,
+                      time ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy"
+                    )} - ${format(
+                      value.end,
+                      time ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy"
+                    )}`
+                  : format(value, time ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy"))}
+            </div>
+          </styled.div>
+        </Wrapper>
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content
+          align="start"
+          sideOffset={8}
+          style={{
+            maxHeight:
+              "calc(var(--radix-popover-content-available-height) - 8px)",
+            padding: "16px 16px 0px",
+            border: "1px solid var(--interactive-secondary)",
+            background: color("background", "screen"),
+            boxShadow: "var(--shadow-elevation)",
+            borderRadius: "var(--radius-small)",
+            overflowY: "auto",
+          }}
+        >
+          <div>
             <div
               style={{
                 display: "flex",
@@ -410,6 +515,11 @@ export function DateInput({
                           );
                         }
                       }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          (e.target as HTMLInputElement).blur();
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -450,6 +560,11 @@ export function DateInput({
                               result.getHours()
                             ),
                           });
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            (e.target as HTMLInputElement).blur();
+                          }
                         }}
                       />
                     </div>

@@ -7,6 +7,7 @@ export type TextInputProps = {
   defaultValue?: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   formName?: string;
   label?: string;
   variant?: "regular" | "small";
@@ -52,6 +53,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       onBlur,
       variant = "regular",
       error,
+      onKeyDown,
     },
     ref
   ) => {
@@ -76,6 +78,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             onChange?.(e.target.value);
           }}
           onBlur={onBlur}
+          onKeyDown={onKeyDown}
           ref={ref}
           name={formName}
           placeholder={placeholder}
