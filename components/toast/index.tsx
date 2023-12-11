@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Close } from "../icons";
+import { IconClose } from "../icons";
 import { textVariants } from "../text";
 import { color } from "../../utils/vars";
 
@@ -190,7 +190,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                       hideToast(id);
                     }}
                   >
-                    <Close />
+                    <IconClose />
                   </div>
                 </div>
               );

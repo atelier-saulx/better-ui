@@ -35,7 +35,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     return (
       <Padder>
         <FileInput
-          variant="minimal"
+          variant="small"
           mimeType={field.contentMediaType}
           value={value ? { src: value } : undefined}
           onChange={(file) => {

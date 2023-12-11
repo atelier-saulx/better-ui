@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "inlines";
 import { useControllableState } from "../../utils/hooks/use-controllable-state";
-import { SmallArrowheadDown, SmallArrowheadTop } from "../icons";
+import { IconSmallArrowheadDown, IconSmallArrowheadTop } from "../icons";
 import { color } from "../../utils/vars";
 
 export type NumberInputProps = {
@@ -12,6 +12,8 @@ export type NumberInputProps = {
   formName?: string;
   label?: string;
   step?: number;
+  variant?: "regular" | "small";
+  error?: boolean;
 };
 
 const Wrapper = ({
@@ -51,6 +53,8 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       formName,
       label,
       step = 1,
+      variant = "regular",
+      error,
     },
     ref
   ) => {
@@ -95,8 +99,11 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               fontSize: 14,
               lineHeight: "24px",
               width: "100%",
-              padding: "8px 40px 8px 12px",
-              borderRadius: "var(--radius-small)",
+              padding: variant === "regular" ? "8px 40px 8px 12px" : "3px 10px",
+              borderRadius:
+                variant === "regular"
+                  ? "var(--radius-small)"
+                  : "var(--radius-tiny)",
               border: "1px solid var(--interactive-secondary)",
               color: "var(--content-primary)",
               outline: "none",
@@ -118,6 +125,17 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 "-webkit-appearance": "none",
                 margin: "0",
               },
+              ...(error && {
+                border: "1px solid var(--sentiment-negative)",
+                "&:hover": {
+                  border: "1px solid var(--sentiment-negative)",
+                },
+                "&:focus": {
+                  border: "1px solid var(--sentiment-negative)",
+                  boxShadow:
+                    "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+                },
+              }),
             }}
           />
           <div
@@ -148,7 +166,10 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 setValue(value + step);
               }}
             >
-              <SmallArrowheadTop />
+              <IconSmallArrowheadTop
+                height={variant === "regular" ? 16 : 12}
+                width={variant === "regular" ? 16 : 12}
+              />
             </styled.div>
             <styled.div
               style={{
@@ -165,7 +186,10 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 setValue(value - step);
               }}
             >
-              <SmallArrowheadDown />
+              <IconSmallArrowheadDown
+                height={variant === "regular" ? 16 : 12}
+                width={variant === "regular" ? 16 : 12}
+              />
             </styled.div>
           </div>
         </div>

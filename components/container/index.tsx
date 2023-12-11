@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "inlines";
-import { ChevronDown } from "../icons";
+import { IconChevronDown } from "../icons";
 import { useControllableState } from "../../utils/hooks/use-controllable-state";
 
 export type ContainerProps = {
@@ -74,7 +74,7 @@ export function Container({
         }}
       >
         {expandable && (
-          <ChevronDown style={{ rotate: expanded ? "0deg" : "-90deg" }} />
+          <IconChevronDown style={{ rotate: expanded ? "0deg" : "-90deg" }} />
         )}
         {prefix && <div>{prefix}</div>}
         <div>

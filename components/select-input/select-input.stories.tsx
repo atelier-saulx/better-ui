@@ -2,7 +2,7 @@ import { SelectInput } from "./";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof SelectInput> = {
-  title: "Atoms/SelectInput",
+  title: "Atoms/Inputs/SelectInput",
   component: SelectInput,
 };
 
@@ -37,5 +37,21 @@ export const Simple: StoryObj<typeof SelectInput> = {
     placeholder: "Select something",
     label: "Favourite fruit",
     options: ["orange", "banana", "apple"],
+  },
+};
+
+export const Small: StoryObj<typeof SelectInput> = {
+  args: {
+    placeholder: "Select something",
+    options: ["orange", "banana", "apple"],
+    variant: "small",
+  },
+};
+
+export const Error: StoryObj<typeof SelectInput> = {
+  args: {
+    placeholder: "Select something",
+    options: ["orange", "banana", "apple"],
+    error: true,
   },
 };

@@ -8,7 +8,7 @@ import { border, color } from '../../../utils/vars'
 import { StringInput } from './StringInput'
 import { Button } from '../../button'
 import { styled } from 'inlines'
-import { Plus } from '../../icons'
+import { IconPlus } from '../../icons'
 import { BasedSchemaFieldRecord } from '@based/schema'
 import { ColStack } from './ColStack'
 
@@ -96,7 +96,7 @@ export function Record({ ctx, path }: TableProps) {
       </ColStack>
       {rows}
       <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
-        <Button size="small" variant="neutral-transparent" prefix={<Plus />}>
+        <Button size="small" variant="neutral-transparent" prefix={<IconPlus />}>
           Add
         </Button>
       </styled.div>

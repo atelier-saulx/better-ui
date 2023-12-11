@@ -7,9 +7,11 @@ export type TextInputProps = {
   defaultValue?: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   formName?: string;
   label?: string;
   variant?: "regular" | "small";
+  error?: boolean;
 };
 
 const Wrapper = ({
@@ -50,6 +52,8 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       label,
       onBlur,
       variant = "regular",
+      error,
+      onKeyDown,
     },
     ref
   ) => {
@@ -74,6 +78,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             onChange?.(e.target.value);
           }}
           onBlur={onBlur}
+          onKeyDown={onKeyDown}
           ref={ref}
           name={formName}
           placeholder={placeholder}
@@ -81,8 +86,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             fontSize: 14,
             lineHeight: "24px",
             width: "100%",
-            padding: variant === "regular" ? "8px 12px" : "4px 8px",
-            borderRadius: "var(--radius-small)",
+            padding: variant === "regular" ? "8px 12px" : "3px 10px",
+            borderRadius:
+              variant === "regular"
+                ? "var(--radius-small)"
+                : "var(--radius-tiny)",
             border: "1px solid var(--interactive-secondary)",
             color: "var(--content-primary)",
             outline: "none",
@@ -95,6 +103,17 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               boxShadow:
                 "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)",
             },
+            ...(error && {
+              border: "1px solid var(--sentiment-negative)",
+              "&:hover": {
+                border: "1px solid var(--sentiment-negative)",
+              },
+              "&:focus": {
+                border: "1px solid var(--sentiment-negative)",
+                boxShadow:
+                  "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+              },
+            }),
           }}
         />
       </Wrapper>

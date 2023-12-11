@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Sidebar, SidebarItem } from "./";
 import type { Meta } from "@storybook/react";
-import { ViewBoxes, ChartBar, Edit, Users } from "../icons";
+import { IconViewBoxes, IconChartBar, IconEdit, IconUsers } from "../icons";
 
 const meta: Meta<typeof Sidebar> = {
   title: "Components/Sidebar",
@@ -22,28 +22,28 @@ export const Default = () => {
         <SidebarItem
           active={active === "overview"}
           onClick={() => setActive("overview")}
-          icon={<ViewBoxes />}
+          icon={<IconViewBoxes />}
         >
           Overview
         </SidebarItem>
         <SidebarItem
           active={active === "content"}
           onClick={() => setActive("content")}
-          icon={<Edit />}
+          icon={<IconEdit />}
         >
           Content
         </SidebarItem>
         <SidebarItem
           active={active === "users"}
           onClick={() => setActive("users")}
-          icon={<Users />}
+          icon={<IconUsers />}
         >
           Users
         </SidebarItem>
         <SidebarItem
           active={active === "stats"}
           onClick={() => setActive("stats")}
-          icon={<ChartBar />}
+          icon={<IconChartBar />}
         >
           Statistics
         </SidebarItem>

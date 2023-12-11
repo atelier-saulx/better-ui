@@ -10,7 +10,7 @@ type FormFieldProps = {
   children: React.ReactNode
   field: BasedSchemaField
   name: string
-  variant: 'extensive' | 'minimal'
+  variant: 'regular' | 'small'
 }
 
 export function FormField({ children, field, name, variant }: FormFieldProps) {
@@ -20,7 +20,7 @@ export function FormField({ children, field, name, variant }: FormFieldProps) {
       direction="column"
       align="start"
       style={
-        variant === 'minimal'
+        variant === 'small'
           ? undefined
           : {
               paddingLeft: 16,

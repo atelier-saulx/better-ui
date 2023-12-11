@@ -1,8 +1,9 @@
 import { pascalCase } from "pascal-case";
 import fs from "node:fs";
 import path from "node:path";
+import { fetch, setGlobalDispatcher, Agent } from "undici";
 
-// TODO add Icon prefix to the names
+setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }));
 
 // usage: node pull-icons-from-figma.js <FIGMA_TOKEN>
 
@@ -73,7 +74,7 @@ import path from "node:path";
         componentName = "Small" + componentName;
       }
 
-      const component = `export function ${componentName}({ style, width = ${
+      const component = `export function Icon${componentName}({ style, width = ${
         icon.size
       }, height = ${icon.size} }: IconProps) {
         return (
@@ -105,8 +106,11 @@ import path from "node:path";
 
     const q = [];
     for (const key in icons) {
-      for (const icon of icons[key]) {
-        q.push(readFileFromS3(icon));
+      for await (const icon of icons[key]) {
+        console.log("fetching", icon.name);
+        const data = await readFileFromS3(icon);
+        q.push(data);
+        console.log("fetched", icon.name);
       }
     }
 
