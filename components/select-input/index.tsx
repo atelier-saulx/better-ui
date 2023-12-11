@@ -1,24 +1,34 @@
 import * as React from "react";
 import * as SelectBase from "@radix-ui/react-select";
 import { styled } from "inlines";
-import { CheckSmall, ChevronDownSmall } from "../icons";
+import { IconCheckSmall, IconChevronDownSmall } from "../icons";
 
 export type SelectInputProps = {
   placeholder?: string;
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
-  formName?: string;
   label?: string;
   options?: (
     | { value: string; label?: string; prefix?: React.ReactNode }
     | string
   )[];
+  variant?: "regular" | "small";
+  error?: boolean;
 };
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
   (
-    { placeholder, value, defaultValue, onChange, formName, label, options },
+    {
+      placeholder,
+      value,
+      defaultValue,
+      onChange,
+      label,
+      options,
+      variant = "regular",
+      error,
+    },
     ref
   ) => {
     const Wrapper = label ? styled.label : styled.div;
@@ -43,6 +53,13 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 boxShadow:
                   "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important",
               },
+              ...(error && {
+                '&[data-state="open"] > div': {
+                  border: "1px solid var(--sentiment-negative)",
+                  boxShadow:
+                    "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+                },
+              }),
             }}
           >
             {label && (
@@ -63,8 +80,14 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 position: "relative",
                 fontSize: 14,
                 lineHeight: "24px",
-                padding: "8px 40px 8px 12px",
-                borderRadius: "var(--radius-small)",
+                padding:
+                  variant === "regular"
+                    ? "8px 40px 8px 12px"
+                    : "3px 28px 3px 10px",
+                borderRadius:
+                  variant === "regular"
+                    ? "var(--radius-small)"
+                    : "var(--radius-tiny)",
                 border: "1px solid var(--interactive-secondary)",
                 color: "var(--content-primary)",
                 "&:before": {
@@ -74,14 +97,20 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 "&:hover": {
                   border: "1px solid var(--interactive-secondary-hover)",
                 },
+                ...(error && {
+                  border: "1px solid var(--sentiment-negative)",
+                  "&:hover": {
+                    border: "1px solid var(--sentiment-negative)",
+                  },
+                }),
               }}
             >
               <SelectBase.Value placeholder={placeholder} />
-              <ChevronDownSmall
+              <IconChevronDownSmall
                 style={{
                   position: "absolute",
-                  top: 10,
-                  right: 12,
+                  top: variant === "regular" ? 10 : 5,
+                  right: variant === "regular" ? 12 : 6,
                   color: "var(--content-primary)",
                 }}
               />
@@ -127,7 +156,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       }}
                     >
                       <SelectBase.ItemIndicator>
-                        <CheckSmall
+                        <IconCheckSmall
                           style={{
                             position: "absolute",
                             top: 6,

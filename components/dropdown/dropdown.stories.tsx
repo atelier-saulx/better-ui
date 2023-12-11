@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Dropdown } from "./";
 import { Button } from "../button";
-import { MoreVertical, Copy, Delete } from "../icons";
+import { IconMoreVertical, IconCopy, IconDelete } from "../icons";
 
 const meta = {
   title: "Atoms/Dropdown",
@@ -13,7 +13,7 @@ export const Default = () => {
     <Dropdown.Root>
       <Dropdown.Trigger>
         <Button shape="square" variant="neutral">
-          <MoreVertical />
+          <IconMoreVertical />
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Items>
@@ -21,7 +21,7 @@ export const Default = () => {
           onClick={() => {
             alert("copy");
           }}
-          icon={<Copy />}
+          icon={<IconCopy />}
         >
           Copy
         </Dropdown.Item>
@@ -29,7 +29,7 @@ export const Default = () => {
           onClick={() => {
             alert("delete");
           }}
-          icon={<Delete />}
+          icon={<IconDelete />}
         >
           Delete
         </Dropdown.Item>
@@ -38,7 +38,7 @@ export const Default = () => {
             onClick={() => {
               alert(`delete ${i}`);
             }}
-            icon={<Delete />}
+            icon={<IconDelete />}
           >
             Delete {i}
           </Dropdown.Item>

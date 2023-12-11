@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
 import { Text, textVariants } from "../text";
-import { ChevronDown, ChevronTop } from "../icons";
+import { IconCalendar, IconChevronDown, IconChevronTop } from "../icons";
 import { styled } from "inlines";
 import { border, color } from "../../utils/vars";
 import {
@@ -29,7 +29,7 @@ import {
 import { useControllableState } from "../../utils/hooks/use-controllable-state";
 import { TextInput } from "../text-input";
 
-type DateInputValue = Date | { start: Date; end: Date };
+type DateInputValue = number | { start: number; end: number };
 
 export type DateInputProps = {
   range?: boolean;
@@ -37,6 +37,9 @@ export type DateInputProps = {
   value?: DateInputValue;
   defaultValue?: DateInputValue;
   onChange?: (value: DateInputValue) => void;
+  variant?: "regular" | "small";
+  error?: boolean;
+  label?: string;
 };
 
 export function DateInput({
@@ -45,6 +48,9 @@ export function DateInput({
   value: valueProp,
   defaultValue: defaultValueProp,
   onChange,
+  variant = "regular",
+  error,
+  label,
 }: DateInputProps) {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -59,9 +65,18 @@ export function DateInput({
   const [pendingStartTime, setPendingStartTime] = React.useState("");
   const [pendingEndTime, setPendingEndTime] = React.useState("");
 
-  // TODO sync pending start and end times with the value
   React.useEffect(() => {
-    // setPendingStartTime(format(value));
+    if (value) {
+      if (typeof value === "object") {
+        setPendingStartTime(format(value.start, "HH:mm"));
+        setPendingEndTime(format(value.end, "HH:mm"));
+      } else {
+        setPendingStartTime(format(value, "HH:mm"));
+      }
+    } else {
+      setPendingStartTime("");
+      setPendingEndTime("");
+    }
   }, [value]);
 
   const getDays = React.useCallback(() => {
@@ -77,21 +92,111 @@ export function DateInput({
     return days;
   }, [currentMonth]);
 
+  const Wrapper = label ? styled.label : styled.div;
+
   return (
-    <Popover.Root open>
-      {/* TODO write actual input looking trigger */}
-      <Popover.Trigger>open</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Content>
-          <div
+    <Popover.Root>
+      <Popover.Trigger asChild>
+        <Wrapper
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            '&[data-state="open"] > div': {
+              border: "1px solid var(--interactive-primary) !important",
+              boxShadow:
+                "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important",
+            },
+            ...(error && {
+              '&[data-state="open"] > div': {
+                border: "1px solid var(--sentiment-negative)",
+                boxShadow:
+                  "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+              },
+            }),
+          }}
+        >
+          {label && (
+            <styled.span
+              style={{
+                marginBottom: 8,
+                fontSize: 14,
+                lineHeight: "24px",
+                fontWeight: 500,
+              }}
+            >
+              {label}
+            </styled.span>
+          )}
+          <styled.div
             style={{
-              padding: "16px 16px 0px",
-              background: color("background", "screen"),
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              fontSize: 14,
+              lineHeight: "24px",
+              fontWeight: 500,
+              width: "100%",
+              minHeight: variant === "regular" ? 42 : 32,
+              padding: variant === "regular" ? "8px 12px" : "3px 10px",
+              borderRadius:
+                variant === "regular"
+                  ? "var(--radius-small)"
+                  : "var(--radius-tiny)",
               border: "1px solid var(--interactive-secondary)",
-              boxShadow: "var(--shadow-elevation)",
-              borderRadius: "var(--radius-small)",
+              "&:hover": {
+                border: "1px solid var(--interactive-secondary-hover)",
+              },
+              "&:focus": {
+                border: "1px solid var(--interactive-primary)",
+                boxShadow:
+                  "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)",
+              },
+              ...(error && {
+                border: "1px solid var(--sentiment-negative)",
+                "&:hover": {
+                  border: "1px solid var(--sentiment-negative)",
+                },
+                "&:focus": {
+                  border: "1px solid var(--sentiment-negative)",
+                  boxShadow:
+                    "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+                },
+              }),
             }}
           >
+            <IconCalendar />
+            <div>
+              {value &&
+                (typeof value === "object"
+                  ? `${format(
+                      value.start,
+                      time ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy"
+                    )} - ${format(
+                      value.end,
+                      time ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy"
+                    )}`
+                  : format(value, time ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy"))}
+            </div>
+          </styled.div>
+        </Wrapper>
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content
+          align="start"
+          sideOffset={8}
+          style={{
+            maxHeight:
+              "calc(var(--radix-popover-content-available-height) - 8px)",
+            padding: "16px 16px 0px",
+            border: "1px solid var(--interactive-secondary)",
+            background: color("background", "screen"),
+            boxShadow: "var(--shadow-elevation)",
+            borderRadius: "var(--radius-small)",
+            overflowY: "auto",
+          }}
+        >
+          <div>
             <div
               style={{
                 display: "flex",
@@ -124,7 +229,7 @@ export function DateInput({
                     setCurrentMonth(addMonths(currentMonth, -1));
                   }}
                 >
-                  <ChevronDown />
+                  <IconChevronDown />
                 </styled.button>
                 <styled.button
                   style={{
@@ -147,7 +252,7 @@ export function DateInput({
                     setCurrentMonth(addMonths(currentMonth, 1));
                   }}
                 >
-                  <ChevronTop />
+                  <IconChevronTop />
                 </styled.button>
               </div>
             </div>
@@ -199,7 +304,7 @@ export function DateInput({
                       border: "1px solid var(--interactive-primary)",
                     }),
                     ...(value &&
-                      ("start" in value
+                      (typeof value === "object"
                         ? !pendingRangePart &&
                           (isSameDay(day, value.start) ||
                             isSameDay(day, value.end))
@@ -274,7 +379,7 @@ export function DateInput({
                       }),
                     ...(!pendingRangePart &&
                       value &&
-                      "start" in value &&
+                      typeof value === "object" &&
                       isWithinInterval(day, {
                         start: min([value.start, value.end]),
                         end: max([value.start, value.end]),
@@ -339,8 +444,8 @@ export function DateInput({
                     if (range) {
                       if (pendingRangePart) {
                         setValue({
-                          start: min([pendingRangePart, day]),
-                          end: max([pendingRangePart, day]),
+                          start: min([pendingRangePart, day]).getTime(),
+                          end: max([pendingRangePart, day]).getTime(),
                         });
                         setPendingRangePart(null);
                         return;
@@ -349,7 +454,7 @@ export function DateInput({
                       return;
                     }
 
-                    setValue(day);
+                    setValue(day.getTime());
                   }}
                   onMouseEnter={() => {
                     if (!range) return;
@@ -393,21 +498,26 @@ export function DateInput({
                           return;
                         }
 
-                        if ("start" in value) {
+                        if (typeof value === "object") {
                           setValue({
                             ...value,
                             start: setHours(
                               setMinutes(value.start, result.getMinutes()),
                               result.getHours()
-                            ),
+                            ).getTime(),
                           });
                         } else {
                           setValue(
                             setHours(
                               setMinutes(value, result.getMinutes()),
                               result.getHours()
-                            )
+                            ).getTime()
                           );
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          (e.target as HTMLInputElement).blur();
                         }
                       }}
                     />
@@ -432,7 +542,7 @@ export function DateInput({
                         value={pendingEndTime}
                         onChange={setPendingEndTime}
                         onBlur={() => {
-                          if (!value || !("end" in value)) return;
+                          if (!value || !(typeof value === "object")) return;
                           const result = parse(
                             pendingEndTime,
                             "HH:mm",
@@ -448,8 +558,13 @@ export function DateInput({
                             end: setHours(
                               setMinutes(value.end, result.getMinutes()),
                               result.getHours()
-                            ),
+                            ).getTime(),
                           });
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            (e.target as HTMLInputElement).blur();
+                          }
                         }}
                       />
                     </div>
@@ -482,7 +597,7 @@ export function DateInput({
                     },
                   }}
                   onClick={() => {
-                    setValue(startOfDay(new Date()));
+                    setValue(startOfDay(new Date()).getTime());
                   }}
                 >
                   Today
@@ -502,12 +617,12 @@ export function DateInput({
                   }}
                   onClick={() => {
                     if (!value) {
-                      setValue(addDays(new Date(), +1));
+                      setValue(addDays(new Date(), +1).getTime());
                       return;
                     }
 
-                    if (value && !("start" in value)) {
-                      setValue(addDays(value, +1));
+                    if (value && !(typeof value === "object")) {
+                      setValue(addDays(value, +1).getTime());
                     }
                   }}
                 >
@@ -528,12 +643,12 @@ export function DateInput({
                   }}
                   onClick={() => {
                     if (!value) {
-                      setValue(addDays(new Date(), -1));
+                      setValue(addDays(new Date(), -1).getTime());
                       return;
                     }
 
-                    if (value && !("start" in value)) {
-                      setValue(addDays(value, -1));
+                    if (value && !(typeof value === "object")) {
+                      setValue(addDays(value, -1).getTime());
                     }
                   }}
                 >

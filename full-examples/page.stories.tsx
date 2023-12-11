@@ -5,15 +5,15 @@ import based from "@based/client";
 import { Dropdown } from "../components/dropdown";
 import { Table } from "../components/table";
 import {
-  ChartBar,
-  Copy,
-  Delete,
-  Edit,
-  Eye,
-  MoreVertical,
-  Settings,
-  Users,
-  ViewBoxes,
+  IconChartBar,
+  IconCopy,
+  IconDelete,
+  IconEdit,
+  IconEye,
+  IconMoreVertical,
+  IconSettings,
+  IconUsers,
+  IconViewBoxes,
 } from "../components/icons";
 import { Modal } from "../components/modal";
 import { Button } from "../components/button";
@@ -79,12 +79,12 @@ const UserContent = () => {
           <Dropdown.Root>
             <Dropdown.Trigger>
               <Button variant="neutral-transparent" shape="square">
-                <MoreVertical />
+                <IconMoreVertical />
               </Button>
             </Dropdown.Trigger>
             <Dropdown.Items>
               <Dropdown.Item
-                icon={<Delete />}
+                icon={<IconDelete />}
                 onClick={() => {
                   setItemToDelete(row.id);
                 }}
@@ -184,7 +184,7 @@ const DefaultContent = () => {
             onClick={() => {
               setPage("overview");
             }}
-            icon={<ViewBoxes />}
+            icon={<IconViewBoxes />}
           >
             Overview
           </SidebarItem>
@@ -193,7 +193,7 @@ const DefaultContent = () => {
             onClick={() => {
               setPage("content");
             }}
-            icon={<Edit />}
+            icon={<IconEdit />}
           >
             Content
           </SidebarItem>
@@ -202,7 +202,7 @@ const DefaultContent = () => {
             onClick={() => {
               setPage("users");
             }}
-            icon={<Users />}
+            icon={<IconUsers />}
           >
             Users
           </SidebarItem>
@@ -211,7 +211,7 @@ const DefaultContent = () => {
             onClick={() => {
               setPage("statistics");
             }}
-            icon={<ChartBar />}
+            icon={<IconChartBar />}
           >
             Statistics
           </SidebarItem>

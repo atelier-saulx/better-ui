@@ -4,7 +4,7 @@ import { color } from '../../utils/vars'
 import { Stack } from '../layout'
 import { styled } from 'inlines'
 import { useControllableState } from '../../utils/hooks/use-controllable-state'
-import { SmallCheck } from '../icons'
+import { IconSmallCheck } from '../icons'
 
 export type CheckboxInputProps = {
   value?: boolean
@@ -93,7 +93,7 @@ export const CheckboxInput = React.forwardRef<
             }}
           >
             {value && (
-              <SmallCheck style={{ color: color('content', 'inverted') }} />
+              <IconSmallCheck style={{ color: color('content', 'inverted') }} />
             )}
           </styled.div>
         ) : (

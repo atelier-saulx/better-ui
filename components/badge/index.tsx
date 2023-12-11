@@ -1,21 +1,21 @@
-import * as React from "react"
-import { hash } from "@saulx/hash"
-import { styled } from "inlines"
-import { CheckLarge, Copy } from "../icons"
+import * as React from "react";
+import { hash } from "@saulx/hash";
+import { styled } from "inlines";
+import { IconCheckLarge, IconCopy } from "../icons";
 import {
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
   SemanticColor,
-} from "../../utils/semantic-color"
+} from "../../utils/semantic-color";
 
 export type BadgeProps = {
-  children: string | number
-  color?: SemanticColor
-  size?: "regular" | "small"
-  copyValue?: string
-  prefix?: React.ReactNode
-  suffix?: React.ReactNode
-}
+  children: string | number;
+  color?: SemanticColor;
+  size?: "regular" | "small";
+  copyValue?: string;
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
+};
 
 export function Badge({
   children,
@@ -25,29 +25,30 @@ export function Badge({
   prefix,
   suffix,
 }: BadgeProps) {
-  const [showCheck, setShowCheck] = React.useState(false)
+  const [showCheck, setShowCheck] = React.useState(false);
 
   const color = React.useMemo(() => {
     if (colorProp === "auto" || colorProp === "auto-muted") {
       const colors =
-        colorProp === "auto" ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS
+        colorProp === "auto" ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS;
 
       const index =
-        Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) + 1
+        Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) +
+        1;
 
-      return colors[index]
+      return colors[index];
     }
 
-    return colorProp
-  }, [colorProp, children])
+    return colorProp;
+  }, [colorProp, children]);
 
   return (
     <styled.div
       onClick={() => {
-        if (!copyValue) return
+        if (!copyValue) return;
 
-        navigator.clipboard.writeText(copyValue)
-        setShowCheck(true)
+        navigator.clipboard.writeText(copyValue);
+        setShowCheck(true);
       }}
       style={{
         position: "relative",
@@ -80,7 +81,7 @@ export function Badge({
         }),
       }}
       onMouseLeave={() => {
-        setShowCheck(false)
+        setShowCheck(false);
       }}
     >
       {prefix && prefix}
@@ -111,12 +112,20 @@ export function Badge({
           }}
         >
           {showCheck ? (
+<<<<<<< HEAD
             <CheckLarge
+=======
+            <IconCheckLarge
+>>>>>>> bd580ca7ddf726bd91f94261c3febcd59dbfef63
               height={size === "regular" ? 16 : 12}
               width={size === "regular" ? 16 : 12}
             />
           ) : (
+<<<<<<< HEAD
             <Copy
+=======
+            <IconCopy
+>>>>>>> bd580ca7ddf726bd91f94261c3febcd59dbfef63
               height={size === "regular" ? 16 : 12}
               width={size === "regular" ? 16 : 12}
             />
@@ -124,5 +133,5 @@ export function Badge({
         </span>
       )}
     </styled.div>
-  )
+  );
 }
