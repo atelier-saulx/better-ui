@@ -4,6 +4,7 @@ import { BasedSchemaField } from '@based/schema'
 import { Text } from '../text'
 import { Stack } from '../layout'
 import { border } from '../../utils/vars'
+import { isTable } from './Table/utils'
 
 type FormFieldProps = {
   children: React.ReactNode

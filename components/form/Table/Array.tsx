@@ -11,7 +11,7 @@ import { styled } from 'inlines'
 import { Plus } from '../../icons'
 import { BasedSchemaFieldRecord } from '@based/schema'
 
-export function Record({ ctx, path }: TableProps) {
+export function Array({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldRecord>(ctx, path)
   const isRoot = path.length === 1
   const valuesField = field.values

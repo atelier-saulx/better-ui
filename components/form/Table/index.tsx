@@ -7,6 +7,9 @@ import { Field } from './Field'
 import { border } from '../../../utils/vars'
 import { Record } from './Record'
 import { Object } from './Object'
+import { Array } from './Array'
+
+export * from './utils'
 
 export function Table({ ctx, path }: TableProps) {
   const { field } = readPath(ctx, path)
@@ -20,6 +23,8 @@ export function Table({ ctx, path }: TableProps) {
     body = <Record ctx={ctx} path={path} />
   } else if (type === 'object') {
     body = <Object ctx={ctx} path={path} />
+  } else if (type === 'array') {
+    body = <Array ctx={ctx} path={path} />
   }
 
   if (!body) {
@@ -30,8 +35,8 @@ export function Table({ ctx, path }: TableProps) {
     )
   }
 
+  // FIXME: for borders... still not perfect
   const parentType = !isRoot && readPath(ctx, path.slice(0, -1)).field?.type
-
   const nestedObjectRecord =
     parentType === 'object' &&
     readPath(ctx, path.slice(0, -2)).field?.type === 'record'

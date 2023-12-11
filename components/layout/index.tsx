@@ -5,6 +5,7 @@ export type StackProps = {
   children: React.ReactNode
   as?: 'div' | 'ul' | 'label'
   style?: Style
+  wrap?: boolean
   direction?: 'row' | 'column'
   justify?: 'center' | 'between' | 'end' | 'start'
   align?: 'center' | 'start' | 'end' | 'stretch'
@@ -17,6 +18,7 @@ export const Stack = React.forwardRef<HTMLElement, StackProps>(
       as = 'div',
       style,
       children,
+      wrap,
       direction = 'row',
       gap = 0,
       align = 'center',
@@ -30,6 +32,7 @@ export const Stack = React.forwardRef<HTMLElement, StackProps>(
         display: 'flex',
         flexDirection: direction,
         gap,
+        flexWrap: wrap ? 'wrap' : undefined,
         width: '100%',
         alignItems: align,
         justifyContent: justify === 'between' ? 'space-between' : justify,

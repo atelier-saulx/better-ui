@@ -45,3 +45,12 @@ export const useCols = (field: BasedSchemaFieldObject): boolean => {
   }
   return true
 }
+
+export const isTable = (field: BasedSchemaField): boolean => {
+  const { type } = field
+  if (type === 'object' || type === 'record' || type === 'array') {
+    return true
+  }
+
+  return false
+}

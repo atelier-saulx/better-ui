@@ -5,7 +5,8 @@ import { FormField } from './form-field'
 import { FileInput } from '../file-input'
 import { TextInput } from '../text-input'
 import { styled } from 'inlines'
-import { Table } from './Table'
+import { Table, isTable } from './Table'
+import { DateInput } from '../date-input'
 
 type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
 
@@ -66,6 +67,7 @@ export function Form({
                 }}
               >
                 <TextInput
+                  value={values[key] as string}
                   onChange={(value) => {
                     // setValue(key, value)
                   }}
@@ -75,7 +77,31 @@ export function Form({
           )
         }
 
-        if (type === 'object' || type === 'record') {
+        if (type === 'timestamp') {
+          return (
+            <FormField
+              key={key}
+              variant={variant}
+              field={field}
+              name={field.title ?? key}
+            >
+              <styled.div
+                style={{
+                  width: 450,
+                }}
+              >
+                {/* <DateInput
+                  // value={values[key] as number}
+                  onChange={(value) => {
+                    // setValue(key, value)
+                  }}
+                /> */}
+              </styled.div>
+            </FormField>
+          )
+        }
+
+        if (isTable(field)) {
           return (
             <FormField
               key={key}

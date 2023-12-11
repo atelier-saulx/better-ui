@@ -132,15 +132,37 @@ export const Default = () => {
           shortnumber: {
             type: 'number',
             display: 'short',
+            description: 'A short number',
+          },
+          date: {
+            type: 'timestamp',
+            description: 'A timestamp',
           },
           flap: {
             title: 'Flap',
             type: 'string',
+            description: 'A flap',
           },
           src: {
             title: 'Source',
             type: 'string',
             contentMediaType: '*/*',
+            description: 'A src',
+          },
+
+          // ------------------
+          array: {
+            title: 'Array',
+            type: 'array',
+            description: 'An array with an object',
+            values: {
+              type: 'object',
+              properties: {
+                bla: { type: 'string' },
+                snurp: { type: 'string' },
+                src: { type: 'string', contentMediaType: '*/*' },
+              },
+            },
           },
 
           set: {
@@ -231,20 +253,6 @@ export const Default = () => {
               },
               countryName: {
                 type: 'string',
-              },
-            },
-          },
-
-          array: {
-            title: 'Array',
-            type: 'array',
-            description: 'An array with an object',
-            values: {
-              type: 'object',
-              properties: {
-                bla: { type: 'string' },
-                snurp: { type: 'string' },
-                src: { type: 'string', contentMediaType: '*/*' },
               },
             },
           },
