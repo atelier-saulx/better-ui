@@ -2,7 +2,7 @@ import * as React from "react";
 import { DateInput } from "./";
 
 const meta = {
-  title: "Atoms/Inputs/(WIP) DateInput ",
+  title: "Atoms/Inputs/DateInput ",
 };
 export default meta;
 
