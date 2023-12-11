@@ -10,7 +10,7 @@ import {
 } from "../icons";
 import { Dropdown } from "../dropdown";
 import { BasedSchemaContentMediaType } from "@based/schema";
-import { useHover } from "../../utils/hooks/use-hover";
+import { useHover } from "../../utils/hooks/useHover";
 import { Text } from "../text";
 import { Stack } from "../layout";
 import { color, border } from "../../utils/colors";

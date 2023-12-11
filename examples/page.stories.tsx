@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useInfiniteQuery } from "../utils/hooks/use-infinite-query";
+import { useInfiniteQuery } from "../utils/hooks/useInfiniteQuery";
 import { Provider } from "@based/react";
 import based from "@based/client";
 import { Dropdown } from "../components/dropdown";
@@ -22,7 +22,7 @@ import { styled } from "inlines";
 import { Form } from "../components/form";
 import { Sidebar, SidebarItem } from "../components/sidebar";
 import { Header } from "../components/header";
-import { ThemeProvider } from "../utils/hooks/use-theme";
+import { ThemeProvider } from "../utils/hooks/useTheme";
 
 const client = based({
   org: "saulx",

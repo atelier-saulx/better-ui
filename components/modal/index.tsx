@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "inlines";
 import * as ModalBase from "@radix-ui/react-dialog";
-import { useControllableState } from "../../utils/hooks/use-controllable-state";
+import { useControllableState } from "../../utils/hooks/useControllableState";
 
 type UseModalProps = {
   open: boolean;

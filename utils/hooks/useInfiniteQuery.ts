@@ -1,7 +1,7 @@
 import { CloseObserve } from "@based/client/dist/types";
 import { useClient } from "@based/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useCallbackRef } from "./use-callback-ref";
+import { useCallbackRef } from "./useCallbackRef";
 
 export type UseInfiniteQueryProps = {
   queryFn: (offset: number) => any;

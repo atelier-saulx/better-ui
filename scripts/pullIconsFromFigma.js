@@ -5,7 +5,7 @@ import { fetch, setGlobalDispatcher, Agent } from "undici";
 
 setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }));
 
-// usage: node pull-icons-from-figma.js <FIGMA_TOKEN>
+// usage: node pullIconsFromFigma.js <FIGMA_TOKEN>
 
 (async () => {
   const figmaToken = process.argv[2];

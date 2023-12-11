@@ -8,7 +8,7 @@ import {
 import { useVirtual } from "@tanstack/react-virtual";
 import { NumberFormat, prettyNumber } from "@based/pretty-number";
 import { DateFormat, prettyDate } from "@based/pretty-date";
-import { useCallbackRef } from "../../utils/hooks/use-callback-ref";
+import { useCallbackRef } from "../../utils/hooks/useCallbackRef";
 import { IconSortAsc, IconSortDesc } from "../icons";
 import { Badge } from "../badge";
 import { Thumbnail } from "../thumbnail";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ThemeProvider } from "../../utils/hooks/use-theme";
+import { ThemeProvider } from "../../utils/hooks/useTheme";
 import { Header } from "./";
 import type { Meta } from "@storybook/react";
 

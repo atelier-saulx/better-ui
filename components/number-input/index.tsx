@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "inlines";
-import { useControllableState } from "../../utils/hooks/use-controllable-state";
+import { useControllableState } from "../../utils/hooks/useControllableState";
 import { IconSmallArrowheadDown, IconSmallArrowheadTop } from "../icons";
 import { color } from "../../utils/colors";
 

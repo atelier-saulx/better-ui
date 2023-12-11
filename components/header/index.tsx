@@ -4,8 +4,8 @@ import { IconEye, IconLogOut, IconMenu, IconSettings } from "../icons";
 import { Button } from "../button";
 import { Dropdown } from "../dropdown";
 import { Thumbnail } from "../thumbnail";
-import { useIsMobile } from "../../utils/hooks/use-is-mobile";
-import { useTheme } from "../../utils/hooks/use-theme";
+import { useIsMobile } from "../../utils/hooks/useIsMobile";
+import { useTheme } from "../../utils/hooks/useTheme";
 import { BasedLogoWithText, BasedLogoWithoutText } from "../icons/logo";
 
 export function Header() {

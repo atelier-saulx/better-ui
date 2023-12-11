@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FileInput } from "./";
-import { useUploadFile } from "../../utils/hooks/use-upload-file";
+import { useUploadFile } from "../../utils/hooks/useUploadFile";
 import { Provider } from "@based/react";
 import based from "@based/client";
 

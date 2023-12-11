@@ -5,7 +5,7 @@ import { IconCopy, IconDelete, IconMoreVertical } from "../icons";
 import { Modal } from "../modal";
 import { Button } from "../button";
 import { Dropdown } from "../dropdown";
-import { useInfiniteQuery } from "../../utils/hooks/use-infinite-query";
+import { useInfiniteQuery } from "../../utils/hooks/useInfiniteQuery";
 import { Provider } from "@based/react";
 import based from "@based/client";
 

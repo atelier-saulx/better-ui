@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useCallbackRef } from "./use-callback-ref";
+import { useCallbackRef } from "./useCallbackRef";
 
 function useUncontrolledState<T>({
   defaultProp,

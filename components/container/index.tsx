@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "inlines";
 import { IconChevronDown } from "../icons";
-import { useControllableState } from "../../utils/hooks/use-controllable-state";
+import { useControllableState } from "../../utils/hooks/useControllableState";
 
 export type ContainerProps = {
   children?: React.ReactNode;

@@ -26,7 +26,7 @@ import {
   setHours,
   setMinutes,
 } from "date-fns";
-import { useControllableState } from "../../utils/hooks/use-controllable-state";
+import { useControllableState } from "../../utils/hooks/useControllableState";
 import { TextInput } from "../text-input";
 
 type DateInputValue = number | { start: number; end: number };
