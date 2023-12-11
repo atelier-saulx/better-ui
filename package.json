@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "rimraf dist && rollup -c"
+    "build": "rimraf dist && rollup -c",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@based/client": "^4.8.10",
