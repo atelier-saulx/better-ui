@@ -68,9 +68,11 @@ export function Record({ ctx, path }: TableProps) {
         rows.push(
           <ColStack
             key={key}
-            style={{
-              borderBottom: border(),
-            }}
+            style={
+              {
+                // borderBottom: border(),
+              }
+            }
           >
             <Cell objectKey border isKey key={'key'}>
               <StringInput value={key} />

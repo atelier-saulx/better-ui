@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Stack } from '../../layout'
 import { TableProps } from './types'
 import { readPath, useCols } from './utils'
@@ -7,7 +7,12 @@ import { Field } from './Field'
 import { border, color } from '../../../utils/vars'
 import { Button } from '../../button'
 import { styled } from 'inlines'
-import { IconPlus } from '../../icons'
+import {
+  IconArrowDown,
+  IconChevronDown,
+  IconChevronRight,
+  IconPlus,
+} from '../../icons'
 import { BasedSchemaFieldArray } from '@based/schema'
 import { ColStack } from './ColStack'
 import { isSmallField } from './utils'
@@ -18,6 +23,8 @@ export function Array({ ctx, path }: TableProps) {
   const rows: ReactNode[] = []
   const cols: ReactNode[] = []
   const isCols = valuesField.type === 'object' && useCols(valuesField)
+
+  const [openIndex, setIndex] = useState(0)
 
   if (isCols) {
     for (const key in valuesField.properties) {
@@ -68,22 +75,50 @@ export function Array({ ctx, path }: TableProps) {
       }
     } else {
       for (let i = 0; i < value.length; i++) {
+        const isOpen = openIndex === i
         rows.push(
           <Stack
+            onClick={() => {
+              setIndex(isOpen ? -1 : i)
+            }}
             justify="start"
             style={{
+              userSelect: 'none',
+              cursor: 'pointer',
               background: color('background', 'muted'),
               borderBottom: border(),
+              '&:hover': {
+                background: color('background', 'neutral'),
+              },
             }}
           >
-            <Cell isKey>{valuesField.title ?? '' + ' ' + (i + 1)}</Cell>
-          </Stack>,
-          <Stack justify="start" key={i}>
-            <Cell>
-              <Field ctx={ctx} path={[...path, i]} />
+            <Cell isKey>
+              {isOpen ? (
+                <IconChevronDown
+                  style={{
+                    marginRight: 8,
+                  }}
+                />
+              ) : (
+                <IconChevronRight
+                  style={{
+                    marginRight: 8,
+                  }}
+                />
+              )}
+              {valuesField.title ?? ''} {i}
             </Cell>
           </Stack>
         )
+        if (isOpen) {
+          rows.push(
+            <Stack justify="start" key={i}>
+              <Cell>
+                <Field ctx={ctx} path={[...path, i]} />
+              </Cell>
+            </Stack>
+          )
+        }
       }
     }
   }

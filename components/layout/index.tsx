@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
 
-export type StackProps = {
+export type StackProps = React.HTMLProps<'div'> & {
   children: React.ReactNode
   as?: 'div' | 'ul' | 'label'
   style?: Style
