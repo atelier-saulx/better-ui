@@ -29,7 +29,7 @@ import {
 import { useControllableState } from "../../utils/hooks/use-controllable-state";
 import { TextInput } from "../text-input";
 
-type DateInputValue = Date | { start: Date; end: Date };
+type DateInputValue = number | { start: number; end: number };
 
 export type DateInputProps = {
   range?: boolean;
@@ -67,7 +67,7 @@ export function DateInput({
 
   React.useEffect(() => {
     if (value) {
-      if ("start" in value) {
+      if (typeof value === "object") {
         setPendingStartTime(format(value.start, "HH:mm"));
         setPendingEndTime(format(value.end, "HH:mm"));
       } else {
@@ -168,7 +168,7 @@ export function DateInput({
             <IconCalendar />
             <div>
               {value &&
-                ("start" in value
+                (typeof value === "object"
                   ? `${format(
                       value.start,
                       time ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy"
@@ -304,7 +304,7 @@ export function DateInput({
                       border: "1px solid var(--interactive-primary)",
                     }),
                     ...(value &&
-                      ("start" in value
+                      (typeof value === "object"
                         ? !pendingRangePart &&
                           (isSameDay(day, value.start) ||
                             isSameDay(day, value.end))
@@ -379,7 +379,7 @@ export function DateInput({
                       }),
                     ...(!pendingRangePart &&
                       value &&
-                      "start" in value &&
+                      typeof value === "object" &&
                       isWithinInterval(day, {
                         start: min([value.start, value.end]),
                         end: max([value.start, value.end]),
@@ -444,8 +444,8 @@ export function DateInput({
                     if (range) {
                       if (pendingRangePart) {
                         setValue({
-                          start: min([pendingRangePart, day]),
-                          end: max([pendingRangePart, day]),
+                          start: min([pendingRangePart, day]).getTime(),
+                          end: max([pendingRangePart, day]).getTime(),
                         });
                         setPendingRangePart(null);
                         return;
@@ -454,7 +454,7 @@ export function DateInput({
                       return;
                     }
 
-                    setValue(day);
+                    setValue(day.getTime());
                   }}
                   onMouseEnter={() => {
                     if (!range) return;
@@ -498,20 +498,20 @@ export function DateInput({
                           return;
                         }
 
-                        if ("start" in value) {
+                        if (typeof value === "object") {
                           setValue({
                             ...value,
                             start: setHours(
                               setMinutes(value.start, result.getMinutes()),
                               result.getHours()
-                            ),
+                            ).getTime(),
                           });
                         } else {
                           setValue(
                             setHours(
                               setMinutes(value, result.getMinutes()),
                               result.getHours()
-                            )
+                            ).getTime()
                           );
                         }
                       }}
@@ -542,7 +542,7 @@ export function DateInput({
                         value={pendingEndTime}
                         onChange={setPendingEndTime}
                         onBlur={() => {
-                          if (!value || !("end" in value)) return;
+                          if (!value || !(typeof value === "object")) return;
                           const result = parse(
                             pendingEndTime,
                             "HH:mm",
@@ -558,7 +558,7 @@ export function DateInput({
                             end: setHours(
                               setMinutes(value.end, result.getMinutes()),
                               result.getHours()
-                            ),
+                            ).getTime(),
                           });
                         }}
                         onKeyDown={(e) => {
@@ -597,7 +597,7 @@ export function DateInput({
                     },
                   }}
                   onClick={() => {
-                    setValue(startOfDay(new Date()));
+                    setValue(startOfDay(new Date()).getTime());
                   }}
                 >
                   Today
@@ -617,12 +617,12 @@ export function DateInput({
                   }}
                   onClick={() => {
                     if (!value) {
-                      setValue(addDays(new Date(), +1));
+                      setValue(addDays(new Date(), +1).getTime());
                       return;
                     }
 
-                    if (value && !("start" in value)) {
-                      setValue(addDays(value, +1));
+                    if (value && !(typeof value === "object")) {
+                      setValue(addDays(value, +1).getTime());
                     }
                   }}
                 >
@@ -643,12 +643,12 @@ export function DateInput({
                   }}
                   onClick={() => {
                     if (!value) {
-                      setValue(addDays(new Date(), -1));
+                      setValue(addDays(new Date(), -1).getTime());
                       return;
                     }
 
-                    if (value && !("start" in value)) {
-                      setValue(addDays(value, -1));
+                    if (value && !(typeof value === "object")) {
+                      setValue(addDays(value, -1).getTime());
                     }
                   }}
                 >

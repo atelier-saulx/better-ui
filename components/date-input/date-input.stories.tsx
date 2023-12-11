@@ -25,6 +25,7 @@ export const SingleDateAndTime = () => {
       onChange={(value) => {
         console.log(value);
       }}
+      defaultValue={new Date("1999/11/03 08:00").getTime()}
     />
   );
 };
