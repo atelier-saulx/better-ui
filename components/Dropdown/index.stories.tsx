@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dropdown } from "./";
-import { Button } from "../button";
+import { Button } from "../Button";
 import { IconMoreVertical, IconCopy, IconDelete } from "../Icons";
 
 const meta = {

@@ -2,8 +2,8 @@ import * as React from "react";
 import { useInfiniteQuery } from "../utils/hooks/useInfiniteQuery";
 import { Provider } from "@based/react";
 import based from "@based/client";
-import { Dropdown } from "../components/dropdown";
-import { Table } from "../components/table";
+import { Dropdown } from "../components/Dropdown";
+import { Table } from "../components/Table";
 import {
   IconChartBar,
   IconCopy,
@@ -15,13 +15,13 @@ import {
   IconUsers,
   IconViewBoxes,
 } from "../components/Icons";
-import { Modal } from "../components/modal";
-import { Button } from "../components/button";
+import { Modal } from "../components/Modal";
+import { Button } from "../components/Button";
 import { Thumbnail } from "../components/Thumbnail";
 import { styled } from "inlines";
-import { Form } from "../components/form";
-import { Sidebar, SidebarItem } from "../components/sidebar";
-import { Header } from "../components/header";
+import { Form } from "../components/Form";
+import { Sidebar, SidebarItem } from "../components/Sidebar";
+import { Header } from "../components/Header";
 import { ThemeProvider } from "../utils/hooks/useTheme";
 
 const client = based({

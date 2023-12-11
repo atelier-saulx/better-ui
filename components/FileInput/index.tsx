@@ -8,10 +8,10 @@ import {
   IconOpenInNew,
   IconUpload,
 } from "../Icons";
-import { Dropdown } from "../dropdown";
+import { Dropdown } from "../Dropdown";
 import { BasedSchemaContentMediaType } from "@based/schema";
 import { useHover } from "../../utils/hooks/useHover";
-import { Text } from "../text";
+import { Text } from "../Text";
 import { Stack } from "../Stack";
 import { color, border } from "../../utils/colors";
 

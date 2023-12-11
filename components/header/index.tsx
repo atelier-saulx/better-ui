@@ -1,8 +1,8 @@
 import * as React from "react";
 import { styled } from "inlines";
 import { IconEye, IconLogOut, IconMenu, IconSettings } from "../Icons";
-import { Button } from "../button";
-import { Dropdown } from "../dropdown";
+import { Button } from "../Button";
+import { Dropdown } from "../Dropdown";
 import { Thumbnail } from "../Thumbnail";
 import { useIsMobile } from "../../utils/hooks/useIsMobile";
 import { useTheme } from "../../utils/hooks/useTheme";

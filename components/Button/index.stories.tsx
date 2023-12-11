@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "./";
+import { Button } from "."
 import type { Meta, StoryObj } from "@storybook/react";
 import { IconCopy } from "../Icons";
 import { IconMoreVertical } from "../Icons";

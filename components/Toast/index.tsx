@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { IconClose } from "../Icons";
-import { textVariants } from "../text";
+import { textVariants } from "../Text";
 import { color } from "../../utils/colors";
 
 type Toast =

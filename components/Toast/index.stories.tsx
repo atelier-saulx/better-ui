@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useToast, ToastProvider } from ".";
-import { Button } from "../button";
+import { Button } from "../Button";
 import { Stack } from "../Stack";
 import { IconInfoFill } from "../Icons";
 

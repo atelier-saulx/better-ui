@@ -2,9 +2,9 @@ import React, { ReactNode } from 'react'
 import { StringInput } from './StringInput'
 import { readPath } from './utils'
 import { TableCtx, Path } from './types'
-import { FileInput } from '../../file-input'
+import { FileInput } from '../../FileInput'
 import { Table } from '.'
-import { CheckboxInput } from '../../checkbox-input'
+import { CheckboxInput } from '../../CheckboxInput'
 import { styled } from 'inlines'
 
 export const Padder = ({ children }: { children: ReactNode }) => {

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { styled } from 'inlines'
 import { IconViewLayoutLeft } from '../Icons'
 import { Tooltip } from '../Tooltip'
-import { Button } from '../button'
+import { Button } from '../Button'
 
 const SidebarContext = React.createContext({ open: true })
 

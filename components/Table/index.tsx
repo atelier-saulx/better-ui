@@ -10,7 +10,7 @@ import { NumberFormat, prettyNumber } from "@based/pretty-number";
 import { DateFormat, prettyDate } from "@based/pretty-date";
 import { useCallbackRef } from "../../utils/hooks/useCallbackRef";
 import { IconSortAsc, IconSortDesc } from "../Icons";
-import { Badge } from "../badge";
+import { Badge } from "../Badge";
 import { Thumbnail } from "../Thumbnail";
 import { styled } from "inlines";
 

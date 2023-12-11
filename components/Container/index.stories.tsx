@@ -3,8 +3,8 @@ import { Container } from "./";
 import { Thumbnail } from "../Thumbnail";
 import type { Meta, StoryObj } from "@storybook/react";
 import { IconMoreHorizontal } from "../Icons";
-import { Button } from "../button";
-import { Dropdown } from "../dropdown";
+import { Button } from "../Button";
+import { Dropdown } from "../Dropdown";
 
 const meta: Meta<typeof Container> = {
   title: "Components/Container",

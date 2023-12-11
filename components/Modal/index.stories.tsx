@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Modal } from ".";
-import { Button } from "../button";
+import { Button } from "../Button";
 import { TextInput } from "../TextInput";
 import { SelectInput } from "../SelectInput";
 import { styled } from "inlines";
