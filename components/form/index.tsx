@@ -6,7 +6,6 @@ import { FileInput } from '../file-input'
 import { TextInput } from '../text-input'
 import { styled } from 'inlines'
 import { Table, isTable } from './Table'
-import { DateInput } from '../date-input'
 
 type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
 
@@ -14,15 +13,10 @@ export type FormProps = {
   values: { [key: string]: any }
   onChange: (values: FormValues) => void
   fields: FormValues
-  variant?: 'extensive' | 'minimal'
+  variant?: 'regular' | 'small'
 }
 
-export function Form({
-  fields,
-  values,
-  onChange,
-  variant = 'extensive',
-}: FormProps) {
+export function Form({ fields, values, variant = 'regular' }: FormProps) {
   return (
     <Stack gap={32} direction="column" align="start">
       {Object.entries(fields).map(([key, field]) => {

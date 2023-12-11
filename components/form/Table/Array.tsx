@@ -7,7 +7,7 @@ import { Field } from './Field'
 import { border, color } from '../../../utils/vars'
 import { Button } from '../../button'
 import { styled } from 'inlines'
-import { Plus } from '../../icons'
+import { IconPlus } from '../../icons'
 import { BasedSchemaFieldArray } from '@based/schema'
 import { ColStack } from './ColStack'
 import { isSmallField } from './utils'
@@ -102,7 +102,11 @@ export function Array({ ctx, path }: TableProps) {
       ) : null}
       {rows}
       <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
-        <Button size="small" variant="neutral-transparent" prefix={<Plus />}>
+        <Button
+          size="small"
+          variant="neutral-transparent"
+          prefix={<IconPlus />}
+        >
           Add
         </Button>
       </styled.div>
