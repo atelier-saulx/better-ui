@@ -112,20 +112,12 @@ export function Badge({
           }}
         >
           {showCheck ? (
-<<<<<<< HEAD
-            <CheckLarge
-=======
             <IconCheckLarge
->>>>>>> bd580ca7ddf726bd91f94261c3febcd59dbfef63
               height={size === "regular" ? 16 : 12}
               width={size === "regular" ? 16 : 12}
             />
           ) : (
-<<<<<<< HEAD
-            <Copy
-=======
             <IconCopy
->>>>>>> bd580ca7ddf726bd91f94261c3febcd59dbfef63
               height={size === "regular" ? 16 : 12}
               width={size === "regular" ? 16 : 12}
             />
