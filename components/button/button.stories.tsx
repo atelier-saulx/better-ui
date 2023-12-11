@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Button } from "./";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Copy } from "../icons";
-import { MoreVertical } from "../icons";
+import { IconCopy } from "../icons";
+import { IconMoreVertical } from "../icons";
 
 const meta: Meta<typeof Button> = {
   title: "Atoms/Button",
@@ -24,7 +24,7 @@ export const Default: StoryObj<typeof Button> = {
 
 export const IconOnly: StoryObj<typeof Button> = {
   args: {
-    children: <MoreVertical />,
+    children: <IconMoreVertical />,
     variant: "neutral",
     size: "medium",
     shape: "square",
@@ -33,7 +33,7 @@ export const IconOnly: StoryObj<typeof Button> = {
 
 export const IconOnlyNoBorder: StoryObj<typeof Button> = {
   args: {
-    children: <Copy />,
+    children: <IconCopy />,
     variant: "neutral-transparent",
     size: "small",
     shape: "square",
@@ -57,8 +57,8 @@ export const PrefixAndSuffix: StoryObj<typeof Button> = {
     children: "Click me",
     variant: "primary",
     size: "medium",
-    prefix: <Copy />,
-    suffix: <Copy />,
+    prefix: <IconCopy />,
+    suffix: <IconCopy />,
     onClick: () => {
       alert("hello");
     },
@@ -70,7 +70,7 @@ export const AsyncOnClick: StoryObj<typeof Button> = {
     children: "Click",
     variant: "primary",
     size: "medium",
-    prefix: <Copy />,
+    prefix: <IconCopy />,
     onClick: async () => {
       await new Promise((resolve) => {
         setTimeout(resolve, 800);

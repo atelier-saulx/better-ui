@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "inlines";
-import { ViewLayoutLeft } from "../icons";
+import { IconViewLayoutLeft } from "../icons";
 import { Tooltip } from "../tooltip";
 import { Button } from "../button";
 
@@ -41,7 +41,7 @@ export function Sidebar({ children }: SidebarProps) {
               setOpen((p) => !p);
             }}
           >
-            <ViewLayoutLeft />
+            <IconViewLayoutLeft />
           </Button>
         </Tooltip>
       </div>

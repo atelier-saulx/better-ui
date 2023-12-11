@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
 import { Text, textVariants } from "../text";
-import { ChevronDown, ChevronTop } from "../icons";
+import { IconChevronDown, IconChevronTop } from "../icons";
 import { styled } from "inlines";
 import { border, color } from "../../utils/vars";
 import {
@@ -124,7 +124,7 @@ export function DateInput({
                     setCurrentMonth(addMonths(currentMonth, -1));
                   }}
                 >
-                  <ChevronDown />
+                  <IconChevronDown />
                 </styled.button>
                 <styled.button
                   style={{
@@ -147,7 +147,7 @@ export function DateInput({
                     setCurrentMonth(addMonths(currentMonth, 1));
                   }}
                 >
-                  <ChevronTop />
+                  <IconChevronTop />
                 </styled.button>
               </div>
             </div>

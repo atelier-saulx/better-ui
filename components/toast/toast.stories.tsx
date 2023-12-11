@@ -2,7 +2,7 @@ import * as React from "react";
 import { useToast, ToastProvider } from "./";
 import { Button } from "../button";
 import { Stack } from "../layout";
-import { InfoFill } from "../icons";
+import { IconInfoFill } from "../icons";
 
 const meta = {
   title: "Atoms/Toast",
@@ -26,7 +26,7 @@ const DefaultContent = () => {
         variant="neutral"
         onClick={() => {
           toast({
-            prefix: <InfoFill />,
+            prefix: <IconInfoFill />,
             text: "Toast text",
             suffix: <Button variant="neutral-link">Action</Button>,
           });

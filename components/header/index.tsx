@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "inlines";
-import { Eye, LogOut, Menu, Settings } from "../icons";
+import { IconEye, IconLogOut, IconMenu, IconSettings } from "../icons";
 import { Button } from "../button";
 import { Dropdown } from "../dropdown";
 import { Thumbnail } from "../thumbnail";
@@ -50,7 +50,7 @@ export function Header() {
                 setMobileMenuOpen((p) => !p);
               }}
             >
-              <Menu />
+              <IconMenu />
             </Button>
           </styled.div>
         ) : (
@@ -75,16 +75,18 @@ export function Header() {
                   </div>
                 </Dropdown.Trigger>
                 <Dropdown.Items>
-                  <Dropdown.Item icon={<Settings />}>Settings</Dropdown.Item>
+                  <Dropdown.Item icon={<IconSettings />}>
+                    Settings
+                  </Dropdown.Item>
                   <Dropdown.Item
-                    icon={<Eye />}
+                    icon={<IconEye />}
                     onClick={() => {
                       setTheme(theme === "dark" ? "light" : "dark");
                     }}
                   >
                     Switch to {theme === "dark" ? "light" : "dark"} mode
                   </Dropdown.Item>
-                  <Dropdown.Item icon={<LogOut />}>Logout</Dropdown.Item>
+                  <Dropdown.Item icon={<IconLogOut />}>Logout</Dropdown.Item>
                 </Dropdown.Items>
               </Dropdown.Root>
             </styled.div>
@@ -114,7 +116,7 @@ export function Header() {
               borderBottom: "1px solid var(--interactive-secondary)",
             }}
           >
-            <Settings />
+            <IconSettings />
             <div
               style={{
                 color: "var(--content-primary)",
@@ -135,7 +137,7 @@ export function Header() {
               borderBottom: "1px solid var(--interactive-secondary)",
             }}
           >
-            <Eye />
+            <IconEye />
             <div
               style={{
                 color: "var(--content-primary)",
@@ -155,7 +157,7 @@ export function Header() {
               padding: "0 24px",
             }}
           >
-            <LogOut />
+            <IconLogOut />
             <div
               style={{
                 color: "var(--content-primary)",

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as SelectBase from "@radix-ui/react-select";
 import { styled } from "inlines";
-import { CheckSmall, ChevronDownSmall } from "../icons";
+import { IconCheckSmall, IconChevronDownSmall } from "../icons";
 
 export type SelectInputProps = {
   placeholder?: string;
@@ -77,7 +77,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               }}
             >
               <SelectBase.Value placeholder={placeholder} />
-              <ChevronDownSmall
+              <IconChevronDownSmall
                 style={{
                   position: "absolute",
                   top: 10,
@@ -127,7 +127,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       }}
                     >
                       <SelectBase.ItemIndicator>
-                        <CheckSmall
+                        <IconCheckSmall
                           style={{
                             position: "absolute",
                             top: 6,

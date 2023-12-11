@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "inlines";
 import { useControllableState } from "../../utils/hooks/use-controllable-state";
-import { SmallArrowheadDown, SmallArrowheadTop } from "../icons";
+import { IconSmallArrowheadDown, IconSmallArrowheadTop } from "../icons";
 import { color } from "../../utils/vars";
 
 export type NumberInputProps = {
@@ -148,7 +148,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 setValue(value + step);
               }}
             >
-              <SmallArrowheadTop />
+              <IconSmallArrowheadTop />
             </styled.div>
             <styled.div
               style={{
@@ -165,7 +165,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 setValue(value - step);
               }}
             >
-              <SmallArrowheadDown />
+              <IconSmallArrowheadDown />
             </styled.div>
           </div>
         </div>
