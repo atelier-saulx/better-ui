@@ -6,23 +6,18 @@ import { Dropdown } from "../components/Dropdown";
 import { Table } from "../components/Table";
 import {
   IconChartBar,
-  IconCopy,
   IconDelete,
   IconEdit,
-  IconEye,
   IconMoreVertical,
-  IconSettings,
   IconUsers,
   IconViewBoxes,
 } from "../components/Icons";
 import { Modal } from "../components/Modal";
 import { Button } from "../components/Button";
-import { Thumbnail } from "../components/Thumbnail";
-import { styled } from "inlines";
 import { Form } from "../components/Form";
 import { Sidebar, SidebarItem } from "../components/Sidebar";
-import { Header } from "../components/Header";
 import { ThemeProvider } from "../utils/hooks/useTheme";
+import { Header } from "../components/Header";
 
 const client = based({
   org: "saulx",
