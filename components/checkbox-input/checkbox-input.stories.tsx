@@ -2,7 +2,7 @@ import { CheckboxInput } from "./";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof CheckboxInput> = {
-  title: "Atoms/CheckboxInput",
+  title: "Atoms/Inputs/CheckboxInput",
   component: CheckboxInput,
 };
 

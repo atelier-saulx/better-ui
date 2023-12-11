@@ -11,7 +11,7 @@ const client = based({
 });
 
 const meta = {
-  title: "Atoms/FileInput",
+  title: "Atoms/Inputs/FileInput",
 };
 export default meta;
 
@@ -34,6 +34,10 @@ export const Small = () => {
       }}
     />
   );
+};
+
+export const Error = () => {
+  return <FileInput status="error" />;
 };
 
 const RealUploadContent = () => {

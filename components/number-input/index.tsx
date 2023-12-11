@@ -13,6 +13,7 @@ export type NumberInputProps = {
   label?: string;
   step?: number;
   variant?: "regular" | "small";
+  error?: boolean;
 };
 
 const Wrapper = ({
@@ -53,6 +54,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       label,
       step = 1,
       variant = "regular",
+      error,
     },
     ref
   ) => {
@@ -123,6 +125,17 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 "-webkit-appearance": "none",
                 margin: "0",
               },
+              ...(error && {
+                border: "1px solid var(--sentiment-negative)",
+                "&:hover": {
+                  border: "1px solid var(--sentiment-negative)",
+                },
+                "&:focus": {
+                  border: "1px solid var(--sentiment-negative)",
+                  boxShadow:
+                    "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+                },
+              }),
             }}
           />
           <div

@@ -10,6 +10,7 @@ export type TextInputProps = {
   formName?: string;
   label?: string;
   variant?: "regular" | "small";
+  error?: boolean;
 };
 
 const Wrapper = ({
@@ -50,6 +51,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       label,
       onBlur,
       variant = "regular",
+      error,
     },
     ref
   ) => {
@@ -98,6 +100,17 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               boxShadow:
                 "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)",
             },
+            ...(error && {
+              border: "1px solid var(--sentiment-negative)",
+              "&:hover": {
+                border: "1px solid var(--sentiment-negative)",
+              },
+              "&:focus": {
+                border: "1px solid var(--sentiment-negative)",
+                boxShadow:
+                  "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+              },
+            }),
           }}
         />
       </Wrapper>

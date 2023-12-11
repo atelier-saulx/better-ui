@@ -9,6 +9,7 @@ export type TextAreaInputProps = {
   formName?: string;
   label?: string;
   variant?: "regular" | "small";
+  error?: boolean;
 };
 
 const Wrapper = ({
@@ -51,6 +52,7 @@ export const TextAreaInput = React.forwardRef<
       formName,
       label,
       variant = "regular",
+      error,
     },
     ref
   ) => {
@@ -127,6 +129,17 @@ export const TextAreaInput = React.forwardRef<
               },
               resize: "none",
               overflow: "hidden",
+              ...(error && {
+                border: "1px solid var(--sentiment-negative)",
+                "&:hover": {
+                  border: "1px solid var(--sentiment-negative)",
+                },
+                "&:focus": {
+                  border: "1px solid var(--sentiment-negative)",
+                  boxShadow:
+                    "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+                },
+              }),
             }}
           />
         </styled.div>

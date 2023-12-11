@@ -13,7 +13,8 @@ export type SelectInputProps = {
     | { value: string; label?: string; prefix?: React.ReactNode }
     | string
   )[];
-  variant: "regular" | "small";
+  variant?: "regular" | "small";
+  error?: boolean;
 };
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
@@ -26,6 +27,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       label,
       options,
       variant = "regular",
+      error,
     },
     ref
   ) => {
@@ -51,6 +53,13 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 boxShadow:
                   "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important",
               },
+              ...(error && {
+                '&[data-state="open"] > div': {
+                  border: "1px solid var(--sentiment-negative)",
+                  boxShadow:
+                    "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+                },
+              }),
             }}
           >
             {label && (
@@ -72,7 +81,9 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 fontSize: 14,
                 lineHeight: "24px",
                 padding:
-                  variant === "regular" ? "8px 40px 8px 12px" : "3px 28px 3px 10px",
+                  variant === "regular"
+                    ? "8px 40px 8px 12px"
+                    : "3px 28px 3px 10px",
                 borderRadius:
                   variant === "regular"
                     ? "var(--radius-small)"
@@ -86,6 +97,12 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 "&:hover": {
                   border: "1px solid var(--interactive-secondary-hover)",
                 },
+                ...(error && {
+                  border: "1px solid var(--sentiment-negative)",
+                  "&:hover": {
+                    border: "1px solid var(--sentiment-negative)",
+                  },
+                }),
               }}
             >
               <SelectBase.Value placeholder={placeholder} />

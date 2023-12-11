@@ -381,11 +381,10 @@ function Status({
           style={{
             display: "flex",
             alignItems: "center",
-            "& > * + *": { marginLeft: "8px" },
           }}
         >
           <IconUpload />
-          <Text>An error has occured</Text>
+          <Text style={{ marginLeft: "8px" }}>An error has occured</Text>
         </styled.div>
       )}
     </StyledStatus>
