@@ -4,7 +4,7 @@ import {
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
   SemanticColor,
-} from "../../utils/semantic-color";
+} from "../../utils/colors";
 import { border, color as getColor } from "../../utils/colors";
 import { textVariants } from "../text";
 
