@@ -1,14 +1,14 @@
-import * as React from "react";
-import { Badge } from "./";
-import type { Meta, StoryObj } from "@storybook/react";
-import { SmallBolt } from "../icons";
+import * as React from "react"
+import { Badge } from "./"
+import type { Meta, StoryObj } from "@storybook/react"
+import { SmallBolt } from "../icons"
 
 const meta: Meta<typeof Badge> = {
   title: "Atoms/Badge",
   component: Badge,
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj<typeof Badge> = {
   args: {
@@ -19,7 +19,7 @@ export const Default: StoryObj<typeof Badge> = {
   argTypes: {
     color: { control: "select" },
   },
-};
+}
 
 export const PrefixAndSuffix: StoryObj<typeof Badge> = {
   args: {
@@ -32,7 +32,7 @@ export const PrefixAndSuffix: StoryObj<typeof Badge> = {
   argTypes: {
     color: { control: "select" },
   },
-};
+}
 
 export const Copyable: StoryObj<typeof Badge> = {
   args: {
@@ -45,4 +45,4 @@ export const Copyable: StoryObj<typeof Badge> = {
   argTypes: {
     color: { control: "select" },
   },
-};
+}
