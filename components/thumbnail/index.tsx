@@ -5,7 +5,7 @@ import {
   SEMANTIC_COLORS,
   SemanticColor,
 } from "../../utils/semantic-color";
-import { border, color as getColor } from "../../utils/vars";
+import { border, color as getColor } from "../../utils/colors";
 import { textVariants } from "../text";
 
 // TODO think about if we need text over image, if so how do we handle the colors of the text

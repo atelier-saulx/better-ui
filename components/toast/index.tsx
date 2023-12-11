@@ -2,7 +2,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { IconClose } from "../icons";
 import { textVariants } from "../text";
-import { color } from "../../utils/vars";
+import { color } from "../../utils/colors";
 
 type Toast =
   | string

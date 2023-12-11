@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { color } from '../../utils/vars'
+import { color } from '../../utils/colors'
 import { textVariants } from '../text'
 
 export type ButtonProps = {

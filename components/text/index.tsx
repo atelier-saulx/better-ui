@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color as getColor } from '../../utils/vars'
+import { color as getColor } from '../../utils/colors'
 
 export const textVariants = {
   body: {

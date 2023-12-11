@@ -3,7 +3,7 @@ import * as Popover from "@radix-ui/react-popover";
 import { Text, textVariants } from "../text";
 import { IconCalendar, IconChevronDown, IconChevronTop } from "../icons";
 import { styled } from "inlines";
-import { border, color } from "../../utils/vars";
+import { border, color } from "../../utils/colors";
 import {
   addMonths,
   format,

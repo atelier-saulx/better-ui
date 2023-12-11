@@ -3,7 +3,7 @@ import { styled } from 'inlines'
 import { BasedSchemaField } from '@based/schema'
 import { Text } from '../text'
 import { Stack } from '../layout'
-import { border } from '../../utils/vars'
+import { border } from '../../utils/colors'
 import { isTable } from './Table/utils'
 
 type FormFieldProps = {

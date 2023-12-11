@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled, Style } from 'inlines'
 import { textVariants } from '../../text'
-import { border } from '../../../utils/vars'
+import { border } from '../../../utils/colors'
 
 export function StringInput({
   value,

@@ -4,7 +4,7 @@ import { TableProps } from './types'
 import { readPath, useCols } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
-import { border, color } from '../../../utils/vars'
+import { border, color } from '../../../utils/colors'
 import { Button } from '../../button'
 import { styled } from 'inlines'
 import {

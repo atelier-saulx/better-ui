@@ -13,7 +13,7 @@ import { BasedSchemaContentMediaType } from "@based/schema";
 import { useHover } from "../../utils/hooks/use-hover";
 import { Text } from "../text";
 import { Stack } from "../layout";
-import { color, border } from "../../utils/vars";
+import { color, border } from "../../utils/colors";
 
 import { FileDrop } from "react-file-drop";
 

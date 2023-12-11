@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { textVariants } from '../text'
-import { color } from '../../utils/vars'
+import { color } from '../../utils/colors'
 import { Stack } from '../layout'
 import { styled } from 'inlines'
 import { useControllableState } from '../../utils/hooks/use-controllable-state'

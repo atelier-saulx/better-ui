@@ -2,7 +2,7 @@ import * as React from "react";
 import { styled } from "inlines";
 import { useControllableState } from "../../utils/hooks/use-controllable-state";
 import { IconSmallArrowheadDown, IconSmallArrowheadTop } from "../icons";
-import { color } from "../../utils/vars";
+import { color } from "../../utils/colors";
 
 export type NumberInputProps = {
   placeholder?: string;
