@@ -14,10 +14,10 @@ import {
   IconSettings,
   IconUsers,
   IconViewBoxes,
-} from "../components/icons";
+} from "../components/Icons";
 import { Modal } from "../components/modal";
 import { Button } from "../components/button";
-import { Thumbnail } from "../components/thumbnail";
+import { Thumbnail } from "../components/Thumbnail";
 import { styled } from "inlines";
 import { Form } from "../components/form";
 import { Sidebar, SidebarItem } from "../components/sidebar";
