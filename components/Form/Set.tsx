@@ -46,16 +46,16 @@ export function SetField({ ctx, path }: { ctx: TableCtx; path: Path }) {
             })
           : null}
       </Stack>
-      <styled.div style={{ marginTop: 16, marginBottom: 8, marginLeft: -8 }}>
+      <styled.div style={{ marginTop: 16, marginBottom: 8 }}>
         {addNew ? (
-          <TextInput variant="small" />
+          <TextInput autoFocus variant="small" />
         ) : (
           <Button
             size="small"
             onClick={() => {
               setAddNew(true)
             }}
-            variant="neutral-transparent"
+            variant="icon-only"
             prefix={<IconPlus />}
           >
             Add
