@@ -5,14 +5,22 @@ import { TableCtx, Path } from './types'
 import { FileInput } from '../../FileInput'
 import { Table } from '.'
 import { CheckboxInput } from '../../CheckboxInput'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
+import { SetField } from '../Set'
 
-export const Padder = ({ children }: { children: ReactNode }) => {
+export const Padder = ({
+  children,
+  style,
+}: {
+  children: ReactNode
+  style?: Style
+}) => {
   return (
     <styled.div
       style={{
         width: '100%',
         paddingLeft: 20,
+        ...style,
       }}
     >
       {children}
@@ -27,6 +35,18 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     return (
       <Padder>
         <CheckboxInput variant="toggle" value={false} onChange={() => {}} />
+      </Padder>
+    )
+  }
+
+  if (field.type === 'set') {
+    return (
+      <Padder
+        style={{
+          marginTop: 16,
+        }}
+      >
+        <SetField ctx={ctx} path={path} />
       </Padder>
     )
   }

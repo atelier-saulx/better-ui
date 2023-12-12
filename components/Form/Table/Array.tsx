@@ -7,12 +7,7 @@ import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
 import { Button } from '../../Button'
 import { styled } from 'inlines'
-import {
-  IconArrowDown,
-  IconChevronDown,
-  IconChevronRight,
-  IconPlus,
-} from '../../Icons'
+import { IconChevronDown, IconChevronRight, IconPlus } from '../../Icons'
 import { BasedSchemaFieldArray } from '@based/schema'
 import { ColStack } from './ColStack'
 import { isSmallField } from './utils'

@@ -5,14 +5,14 @@ export type StackProps = React.HTMLProps<'div'> & {
   children: React.ReactNode
   as?: 'div' | 'ul' | 'label'
   style?: Style
-  wrap?: boolean
+  grid?: boolean
   direction?: 'row' | 'column'
   justify?: 'center' | 'between' | 'end' | 'start'
   align?: 'center' | 'start' | 'end' | 'stretch'
   gap?: 0 | 4 | 8 | 12 | 16 | 24 | 32
 }
 
-export const Stack = React.forwardRef<HTMLElement, StackProps>(
+const ReactStack = React.forwardRef(
   (
     {
       as = 'div',
@@ -24,7 +24,7 @@ export const Stack = React.forwardRef<HTMLElement, StackProps>(
       align = 'center',
       justify = 'between',
       ...props
-    },
+    }: StackProps,
     ref
   ) => {
     return React.createElement(styled[as], {
@@ -44,3 +44,8 @@ export const Stack = React.forwardRef<HTMLElement, StackProps>(
     })
   }
 )
+
+type StackComponent = (props: StackProps) => React.ReactNode
+
+// tmp
+export const Stack: StackComponent = ReactStack as StackComponent

@@ -6,6 +6,8 @@ import { FileInput } from '../FileInput'
 import { TextInput } from '../TextInput'
 import { styled } from 'inlines'
 import { Table, isTable } from './Table'
+import { DateInput } from '../DateInput'
+import { SetField } from './Set'
 
 type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
 
@@ -62,7 +64,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
               >
                 <TextInput
                   value={values[key] as string}
-                  onChange={(value) => {
+                  onChange={() => {
                     // setValue(key, value)
                   }}
                 />
@@ -84,13 +86,31 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                   width: 450,
                 }}
               >
-                {/* <DateInput
-                  // value={values[key] as number}
-                  onChange={(value) => {
-                    // setValue(key, value)
-                  }}
-                /> */}
+                <DateInput
+                  time
+                  value={values[key] as number}
+                  onChange={() => {}}
+                />
               </styled.div>
+            </FormField>
+          )
+        }
+
+        if (type === 'set') {
+          return (
+            <FormField
+              key={key}
+              variant={variant}
+              field={field}
+              name={field.title ?? key}
+            >
+              <SetField
+                path={[key]}
+                ctx={{
+                  schema: fields,
+                  values: values,
+                }}
+              />
             </FormField>
           )
         }
