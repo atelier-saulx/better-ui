@@ -11,7 +11,7 @@ export const Default = () => {
 };
 
 export const Small = () => {
-  return <ColorInput variant="small" />;
+  return <ColorInput variant="small" defaultValue="rgba(0,123,231,0.5)" />;
 };
 
 export const Error = () => {

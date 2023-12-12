@@ -28,7 +28,10 @@ export function ColorInput({
   });
   const [hue, setHue] = React.useState(0);
   const [alpha, setAlpha] = React.useState(1);
-  const [position, setPosition] = React.useState({ y: 0, x: 1 });
+  const [position, setPosition] = React.useState<{
+    x: number;
+    y: number;
+  } | null>(null);
   const [mouseDown, setMouseDown] = React.useState(false);
   const positionDivRef = React.useRef<HTMLDivElement | null>(null);
   const Wrapper = label ? styled.label : styled.div;
@@ -60,6 +63,28 @@ export function ColorInput({
       };
     }
   }, [mouseDown]);
+
+  React.useEffect(() => {
+    if (!position) return;
+
+    const rgb = hslToRGB(hue, 100, 50)
+      .map((v) => (v + (255 - v) * (1 - position.x)) * (1 - position.y))
+      .map((v) => Math.round(v));
+
+    setValue(`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`);
+  }, [position, hue, alpha]);
+
+  React.useEffect(() => {
+    if (value && hue === 0 && alpha === 1) {
+      const [red, green, blue, alpha] = value
+        .match(/(\d+(\.\d+)?)/g)!
+        .map((v) => parseFloat(v));
+      const [h, s, l] = rgbToHSL(red, green, blue);
+
+      setHue(h);
+      setAlpha(alpha);
+    }
+  }, [value]);
 
   return (
     <Popover.Root>
@@ -132,7 +157,29 @@ export function ColorInput({
               }),
             }}
           >
-            <div>colovalue</div>
+            {value && (
+              <div
+                style={{
+                  height: variant === "regular" ? 24 : 20,
+                  width: variant === "regular" ? 24 : 20,
+                  borderRadius: "var(--radius-tiny)",
+                  background:
+                    'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center',
+                  backgroundPosition: "0 -1px",
+                }}
+              />
+            )}
+            <div
+              style={{
+                position: "absolute",
+                height: variant === "regular" ? 24 : 20,
+                width: variant === "regular" ? 24 : 20,
+                borderRadius: "var(--radius-tiny)",
+                background: value,
+                border: `1px solid rgba(4,41,68,.13)`,
+              }}
+            />
+            <div>{value}</div>
           </styled.div>
         </Wrapper>
       </Popover.Trigger>
@@ -191,23 +238,26 @@ export function ColorInput({
                   "linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0))",
               }}
             />
-            <div
-              style={{
-                position: "absolute",
-                left: `${position.x * 100}%`,
-                top: `${position.y * 100}%`,
-                transform: `translate3d(-50%,-50%,0)`,
-                width: 8,
-                height: 8,
-                border: "2px solid var(--background-screen)",
-                boxShadow:
-                  "0px 0px 2px var(--content-primary), inset 0px 0px 2px var(--content-primary)",
-                borderRadius: 9999,
-              }}
-            />
+            {position && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: `${position.x * 100}%`,
+                  top: `${position.y * 100}%`,
+                  transform: `translate3d(-50%,-50%,0)`,
+                  width: 8,
+                  height: 8,
+                  border: "2px solid var(--background-screen)",
+                  boxShadow:
+                    "0px 0px 2px var(--content-primary), inset 0px 0px 2px var(--content-primary)",
+                  borderRadius: 9999,
+                }}
+              />
+            )}
           </div>
           <div
             style={{
+              position: "relative",
               height: 24,
               width: "100%",
               borderRadius: "var(--radius-tiny)",
@@ -217,11 +267,25 @@ export function ColorInput({
           >
             <input
               type="range"
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: "100%", height: "100%", opacity: 0 }}
               value={hue}
               max="360"
               onChange={(e) => {
                 setHue(parseInt(e.target.value));
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                width: 10,
+                top: 2,
+                left: `max(2px, calc(${(hue / 360) * 100}% - 2px))`,
+                transform: `translate3d(-${(hue / 360) * 100}%,0,0)`,
+                height: 20,
+                backgroundColor: "var(--background-screen)",
+                boxShadow: "0px 0px 1px rgba(0,0,0,0.4)",
+                borderRadius: 2,
+                pointerEvents: "none",
               }}
             />
           </div>
@@ -237,6 +301,7 @@ export function ColorInput({
           >
             <div
               style={{
+                position: "relative",
                 width: "100%",
                 height: "100%",
                 borderRadius: "var(--radius-tiny)",
@@ -245,12 +310,26 @@ export function ColorInput({
             >
               <input
                 type="range"
-                style={{ width: "100%", height: "100%" }}
+                style={{ width: "100%", height: "100%", opacity: 0 }}
                 value={alpha}
                 step="0.01"
                 max="1"
                 onChange={(e) => {
                   setAlpha(parseFloat(e.target.value));
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  width: 10,
+                  top: 2,
+                  left: `max(2px, calc(${alpha * 100}% - 2px))`,
+                  transform: `translate3d(-${alpha * 100}%,0,0)`,
+                  height: 20,
+                  backgroundColor: "var(--background-screen)",
+                  boxShadow: "0px 0px 1px rgba(0,0,0,0.4)",
+                  borderRadius: 2,
+                  pointerEvents: "none",
                 }}
               />
             </div>
@@ -269,4 +348,41 @@ const hslToRGB = (h: number, s: number, l: number) => {
   const f = (n: number) =>
     l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
   return [255 * f(0), 255 * f(8), 255 * f(4)];
+};
+
+const rgbToHSL = (r: number, g: number, b: number): number[] => {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h,
+    s,
+    l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0; // achromatic
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+      default:
+        break;
+    }
+
+    h! /= 6;
+  }
+
+  return [h! * 360, s * 100, l * 100];
 };
