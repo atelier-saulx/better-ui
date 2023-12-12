@@ -1,15 +1,16 @@
-import * as React from "react";
+import * as React from "react"
 import { Button } from "."
-import type { Meta, StoryObj } from "@storybook/react";
-import { IconCopy } from "../Icons";
-import { IconMoreVertical } from "../Icons";
+import type { Meta, StoryObj } from "@storybook/react"
+import { IconCopy } from "../Icons"
+import { IconMoreVertical } from "../Icons"
 
+/** Use buttons for clickable things */
 const meta: Meta<typeof Button> = {
   title: "Atoms/Button",
   component: Button,
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj<typeof Button> = {
   args: {
@@ -17,10 +18,10 @@ export const Default: StoryObj<typeof Button> = {
     variant: "primary",
     size: "medium",
     onClick: () => {
-      alert("hello");
+      alert("hello")
     },
   },
-};
+}
 
 export const IconOnly: StoryObj<typeof Button> = {
   args: {
@@ -29,7 +30,7 @@ export const IconOnly: StoryObj<typeof Button> = {
     size: "medium",
     shape: "square",
   },
-};
+}
 
 export const IconOnlyNoBorder: StoryObj<typeof Button> = {
   args: {
@@ -38,7 +39,7 @@ export const IconOnlyNoBorder: StoryObj<typeof Button> = {
     size: "small",
     shape: "square",
   },
-};
+}
 
 export const Link: StoryObj<typeof Button> = {
   args: {
@@ -47,10 +48,10 @@ export const Link: StoryObj<typeof Button> = {
     size: "medium",
     shape: "square",
     onClick: () => {
-      alert("hello");
+      alert("hello")
     },
   },
-};
+}
 
 export const PrefixAndSuffix: StoryObj<typeof Button> = {
   args: {
@@ -60,10 +61,10 @@ export const PrefixAndSuffix: StoryObj<typeof Button> = {
     prefix: <IconCopy />,
     suffix: <IconCopy />,
     onClick: () => {
-      alert("hello");
+      alert("hello")
     },
   },
-};
+}
 
 export const AsyncOnClick: StoryObj<typeof Button> = {
   args: {
@@ -73,9 +74,9 @@ export const AsyncOnClick: StoryObj<typeof Button> = {
     prefix: <IconCopy />,
     onClick: async () => {
       await new Promise((resolve) => {
-        setTimeout(resolve, 800);
-      });
-      throw new Error("something went bad");
+        setTimeout(resolve, 800)
+      })
+      throw new Error("something went bad")
     },
   },
-};
+}

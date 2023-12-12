@@ -1,4 +1,5 @@
 {
+  "extends": "@saulx/tsconfig/default.json",
   "exclude": ["**/*.stories.tsx"],
   "compilerOptions": {
     "jsx": "react",
