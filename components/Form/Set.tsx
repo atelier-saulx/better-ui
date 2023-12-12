@@ -48,7 +48,13 @@ export function SetField({ ctx, path }: { ctx: TableCtx; path: Path }) {
       </Stack>
       <styled.div style={{ marginTop: 16, marginBottom: 8 }}>
         {addNew ? (
-          <TextInput autoFocus variant="small" />
+          <TextInput
+            autoFocus
+            variant="small"
+            onBlur={() => {
+              setAddNew(false)
+            }}
+          />
         ) : (
           <Button
             size="small"
