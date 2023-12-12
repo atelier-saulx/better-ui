@@ -46,7 +46,7 @@ export function SetField({ ctx, path }: { ctx: TableCtx; path: Path }) {
             })
           : null}
       </Stack>
-      <styled.div style={{ marginTop: 16, marginBottom: 8 }}>
+      <styled.div style={{ marginTop: addNew ? 13 : 16, marginBottom: 8 }}>
         {addNew ? (
           <TextInput
             autoFocus

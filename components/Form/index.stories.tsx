@@ -60,6 +60,9 @@ export const Set = () => {
         values={{
           set: ['a', 'b', 'c'],
           setNumber: [1, 3, 4, 5],
+          object: {
+            bla: ['a', 'b', 'c'],
+          },
         }}
         fields={{
           set: {
@@ -73,6 +76,19 @@ export const Set = () => {
             type: 'set',
             description: 'A set with numbers',
             items: { type: 'number' },
+          },
+          object: {
+            title: 'Set in an object',
+            type: 'object',
+            description: 'A set with numbers',
+            properties: {
+              bla: {
+                title: 'Set',
+                type: 'set',
+                description: 'A set with strings',
+                items: { type: 'string' },
+              },
+            },
           },
         }}
         onChange={(values) => {
