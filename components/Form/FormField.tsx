@@ -1,10 +1,8 @@
 import * as React from 'react'
-import { styled } from 'inlines'
 import { BasedSchemaField } from '@based/schema'
 import { Text } from '../Text'
 import { Stack } from '../Stack'
 import { border } from '../../utils/colors'
-import { isTable } from './Table/utils'
 
 type FormFieldProps = {
   children: React.ReactNode
@@ -29,14 +27,14 @@ export function FormField({ children, field, name, variant }: FormFieldProps) {
             }
       }
     >
-      <styled.div>
+      <div>
         <Text variant="bodyStrong">{name}</Text>
         {field.description && (
           <Text style={{ marginTop: -2 }} color="secondary">
             {field.description}
           </Text>
         )}
-      </styled.div>
+      </div>
       {children}
     </Stack>
   )
