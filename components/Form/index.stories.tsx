@@ -106,147 +106,86 @@ export const Set = () => {
   )
 }
 
+export const Object = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Form
+        values={{
+          ratings: {
+            powerful: 9000,
+          },
+        }}
+        fields={{
+          ratings: {
+            title: 'Ratings',
+            description: 'Rating of things',
+            type: 'object',
+            properties: {
+              price: { type: 'string', title: 'Price' },
+              quality: { type: 'string', title: 'Quality' },
+              awards: { type: 'string', title: 'Awards' },
+              powerful: { type: 'string', title: 'Power Level' },
+            },
+          },
+          order: {
+            title: 'Order',
+            type: 'object',
+            properties: {
+              orderId: { type: 'string' },
+              price: { type: 'string' },
+              email: { type: 'string' },
+              isItDope: {
+                type: 'boolean',
+              },
+            },
+          },
+
+          address: {
+            title: 'Address',
+            description:
+              'An address similar to http://microformats.org/wiki/h-card',
+            type: 'object',
+            properties: {
+              picture: { type: 'string', contentMediaType: '*/*' },
+
+              postOfficeBox: {
+                type: 'string',
+              },
+              extendedAddress: {
+                type: 'string',
+              },
+              streetAddress: {
+                type: 'string',
+              },
+              locality: {
+                type: 'string',
+              },
+              region: {
+                type: 'string',
+              },
+              postalCode: {
+                type: 'string',
+              },
+              countryName: {
+                type: 'string',
+              },
+            },
+          },
+        }}
+        onChange={(values) => {
+          console.log(values)
+        }}
+      />
+    </div>
+  )
+}
+
 // export const Flap = () => {
 //   return (
 //     <div style={{ padding: 64 }}>
 //       <Form
-//         values={{
-//           arraySimple: ['a', 'b', 'c'],
-//           array: [
-//             {
-//               bla: 'snurp',
-//               snurp: 'hello snuf',
-//               src: 'https://i.imgur.com/t1bWmmC.jpeg',
-//             },
-//             {
-//               bla: 'flap',
-//               snurp: 'hello snuf',
-//               src: 'https://i.imgur.com/t1bWmmC.jpeg',
-//             },
-//             {
-//               bla: 'flap',
-//               snurp: 'hello snuf',
-//               src: 'https://i.imgur.com/t1bWmmC.jpeg',
-//             },
-//           ],
-//           healthRecord: {
-//             allergies: ['a', 'b'],
-//           },
-//           arraynest: [
-//             {
-//               bla: 'snurp',
-//               snurp: 'hello snuf',
-//               src: 'https://i.imgur.com/t1bWmmC.jpeg',
-//             },
-//             {
-//               bla: 'flap',
-//               snurp: 'hello snuf',
-//               src: 'https://i.imgur.com/t1bWmmC.jpeg',
-//             },
-//             {
-//               bla: 'flap',
-//               snurp: 'hello snuf',
-//               src: 'https://i.imgur.com/t1bWmmC.jpeg',
-//             },
-//           ],
-//           setFiles: [
-//             'https://i.imgur.com/t1bWmmC.jpeg',
-//             'https://i.imgur.com/t1bWmmC.jpeg',
-//           ],
-//           record: {
-//             bla: {
-//               bla: 'flap',
-//               snurp: 'hello snuf',
-//               flap: 'gurt',
-//             },
-//             snurp: {
-//               bla: 'flap',
-//               snurp: 'hello snuf snuf snuf',
-//               flap: 'gurt',
-//             },
-//           },
-//           recordPrimitive: {
-//             x: 'flap',
-//             y: 'flup',
-//           },
-
-//           recordObject: {
-//             x: { countryName: 'fun' },
-//             y: { countryName: 'fun' },
-//           },
-
-//           address: {
-//             postOfficeBox: '123',
-//             streetAddress: '456 Main St',
-//             locality: 'Cityville',
-//             region: 'State',
-//             postalCode: '12345',
-//             countryName: 'Country',
-//           },
-
-//           order: {
-//             orderId: 'ed1213',
-//           },
-
-//           object: {
-//             bla: 'hello!',
-//             snurp: 'derp!',
-//             src: 'https://i.imgur.com/t1bWmmC.jpeg',
-//             contact: {
-//               name: 'snurp',
-//               picture: 'https://i.imgur.com/t1bWmmC.jpeg',
-//             },
-//             location: {
-//               long: '12312312.123123123',
-//               lat: '23123.213123',
-//             },
-//             ratings: {},
-//             flap: {
-//               bla: {
-//                 bla: 'flap',
-//                 snurp: 'hello snuf',
-//                 flap: 'gurt',
-//               },
-//               bla2: {
-//                 bla: 'flap',
-//                 snurp: 'hello snuf',
-//                 flap: 'gurt',
-//               },
-//               bla3: {
-//                 bla: 'flap',
-//                 snurp: 'hello snuf',
-//                 flap: 'gurt',
-//               },
-//             },
-//           },
-//         }}
+//         values={{}}
 //         fields={{
-//           // name: {
-//           //   title: 'Name',
-//           //   type: 'string',
-//           //   description: 'A name of someone',
-//           // },
-//           // shortnumber: {
-//           //   type: 'number',
-//           //   display: 'short',
-//           //   description: 'A short number',
-//           // },
-//           // date: {
-//           //   type: 'timestamp',
-//           //   description: 'A timestamp',
-//           // },
-//           // flap: {
-//           //   title: 'Flap',
-//           //   type: 'string',
-//           //   description: 'A flap',
-//           // },
-//           // src: {
-//           //   title: 'Source',
-//           //   type: 'string',
-//           //   contentMediaType: '*/*',
-//           //   description: 'A src',
-//           // },
-
 //           // // ------------------
 //           // array: {
 //           //   title: 'Array',
@@ -273,19 +212,6 @@ export const Set = () => {
 //           //   type: 'set',
 //           //   description: 'A set with files',
 //           //   items: { type: 'string', contentMediaType: '*/*' },
-//           // },
-
-//           // order: {
-//           //   title: 'Order',
-//           //   type: 'object',
-//           //   properties: {
-//           //     orderId: { type: 'string' },
-//           //     price: { type: 'string' },
-//           //     email: { type: 'string' },
-//           //     isItDope: {
-//           //       type: 'boolean',
-//           //     },
-//           //   },
 //           // },
 
 //           // healthRecord: {
@@ -320,36 +246,6 @@ export const Set = () => {
 //           //       values: {
 //           //         type: 'string',
 //           //       },
-//           //     },
-//           //   },
-//           // },
-
-//           // address: {
-//           //   title: 'Address',
-//           //   description:
-//           //     'An address similar to http://microformats.org/wiki/h-card',
-//           //   type: 'object',
-//           //   properties: {
-//           //     postOfficeBox: {
-//           //       type: 'string',
-//           //     },
-//           //     extendedAddress: {
-//           //       type: 'string',
-//           //     },
-//           //     streetAddress: {
-//           //       type: 'string',
-//           //     },
-//           //     locality: {
-//           //       type: 'string',
-//           //     },
-//           //     region: {
-//           //       type: 'string',
-//           //     },
-//           //     postalCode: {
-//           //       type: 'string',
-//           //     },
-//           //     countryName: {
-//           //       type: 'string',
 //           //     },
 //           //   },
 //           // },
@@ -442,18 +338,6 @@ export const Set = () => {
 //                   type: 'string',
 //                 },
 //               },
-//             },
-//           },
-
-//           objectSimple: {
-//             title: 'Seller',
-//             description: 'Seller of the form',
-//             type: 'object',
-//             properties: {
-//               name: { type: 'string' },
-//               country: { type: 'string' },
-//               email: { type: 'string', format: 'email' },
-//               picture: { type: 'string', contentMediaType: '*/*' },
 //             },
 //           },
 

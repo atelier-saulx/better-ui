@@ -64,7 +64,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
               >
                 <TextInput
                   value={values[key] as string}
-                  onChange={(value) => {
+                  onChange={() => {
                     // setValue(key, value)
                   }}
                 />
@@ -89,7 +89,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                 <DateInput
                   time
                   value={values[key] as number}
-                  onChange={(value) => {}}
+                  onChange={() => {}}
                 />
               </styled.div>
             </FormField>
