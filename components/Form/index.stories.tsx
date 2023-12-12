@@ -61,7 +61,8 @@ export const Set = () => {
           set: ['a', 'b', 'c'],
           setNumber: [1, 3, 4, 5],
           object: {
-            bla: ['a', 'b', 'c'],
+            a: ['a', 'b', 'c'],
+            b: [1, 3, 4, 5],
           },
         }}
         fields={{
@@ -82,11 +83,17 @@ export const Set = () => {
             type: 'object',
             description: 'A set with numbers',
             properties: {
-              bla: {
+              a: {
                 title: 'Set',
                 type: 'set',
                 description: 'A set with strings',
                 items: { type: 'string' },
+              },
+              b: {
+                title: 'Set Numbers',
+                type: 'set',
+                description: 'A set with numbers',
+                items: { type: 'number' },
               },
             },
           },
