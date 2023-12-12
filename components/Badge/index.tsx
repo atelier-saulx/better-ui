@@ -43,11 +43,14 @@ export function Badge({
 
   return (
     <styled.div
-      onClick={() => {
-        if (!copyValue) return
-        navigator.clipboard.writeText(copyValue)
-        setShowCheck(true)
-      }}
+      onClick={
+        copyValue
+          ? () => {
+              navigator.clipboard.writeText(copyValue)
+              setShowCheck(true)
+            }
+          : null
+      }
       style={{
         position: "relative",
         display: "inline-flex",
