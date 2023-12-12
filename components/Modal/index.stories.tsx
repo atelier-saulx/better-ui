@@ -1,14 +1,22 @@
-import * as React from "react";
-import { Modal } from ".";
-import { Button } from "../Button";
-import { TextInput } from "../TextInput";
-import { SelectInput } from "../SelectInput";
-import { styled } from "inlines";
+import * as React from "react"
+import { Modal } from "."
+import { Button } from "../Button"
+import { TextInput } from "../TextInput"
+import { SelectInput } from "../SelectInput"
+import { styled } from "inlines"
 
 const meta = {
   title: "Components/Modal",
-};
-export default meta;
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
+}
+
+export default meta
 
 export const Default = () => {
   return (
@@ -51,5 +59,117 @@ export const Default = () => {
         )}
       </Modal.Overlay>
     </Modal.Root>
-  );
-};
+  )
+}
+
+export const Nested = ({ level = 0 }) => {
+  return (
+    <Modal.Root>
+      <Modal.Trigger>
+        <Button>Open modal</Button>
+      </Modal.Trigger>
+      <Modal.Overlay>
+        {({ close }) => (
+          <>
+            <Modal.Title title={`Modal #${level}`} />
+            <Modal.Actions>
+              <Nested level={level + 1} />
+              <Button variant="neutral" onClick={close}>
+                Cancel
+              </Button>
+            </Modal.Actions>
+          </>
+        )}
+      </Modal.Overlay>
+    </Modal.Root>
+  )
+}
+
+export const List = ({ level = 0 }) => {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      {Array.from({ length: 5 }).map(() => {
+        return (
+          <Modal.Root>
+            <Modal.Trigger>
+              <Button>Open modal</Button>
+            </Modal.Trigger>
+            <Modal.Overlay>
+              {({ close }) => (
+                <>
+                  <Modal.Title title={`Modal #${level}`} />
+                  <Modal.Actions>
+                    <Nested level={level + 1} />
+                    <Button variant="neutral" onClick={close}>
+                      Cancel
+                    </Button>
+                  </Modal.Actions>
+                </>
+              )}
+            </Modal.Overlay>
+          </Modal.Root>
+        )
+      })}
+    </div>
+  )
+}
+
+export const Open = () => {
+  const modal = Modal.useModal()
+
+  return (
+    <Button
+      onClick={() => {
+        modal.open(<Modal title="xxx">Imma body</Modal>)
+      }}
+    >
+      Open
+    </Button>
+  )
+}
+
+export const Alert = () => {
+  const modal = Modal.useModal()
+
+  return (
+    <Button
+      onClick={() => {
+        modal.alert("Hello")
+      }}
+    >
+      Alert
+    </Button>
+  )
+}
+
+export const Prompt = () => {
+  const modal = Modal.useModal()
+
+  return (
+    <Button
+      onClick={async () => {
+        const res = await modal.prompt("Hello?")
+        if (res) {
+          return modal.alert(res)
+        }
+      }}
+    >
+      Prompt
+    </Button>
+  )
+}
+
+export const Confirm = () => {
+  const modal = Modal.useModal()
+
+  return (
+    <Button
+      onClick={async () => {
+        const res = await modal.confirm("Yes?")
+        return modal.alert(res ? "YES" : "NO")
+      }}
+    >
+      Confirm
+    </Button>
+  )
+}
