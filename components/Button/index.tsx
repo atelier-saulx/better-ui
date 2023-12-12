@@ -12,7 +12,8 @@ export type ButtonProps = {
     | "neutral"
     | "neutral-transparent"
     | "neutral-link"
-    | "error";
+    | "error"
+    | "icon-only";
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   size?: "large" | "medium" | "small";
@@ -166,6 +167,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             "&:hover": {
               textDecoration: "none",
             },
+          }),
+          ...(variant === "icon-only" && {
+            color: "inherit",
+            background: "transparent",
+            border: "none",
+            padding: 0,
           }),
         }}
         onClick={handleClick}
