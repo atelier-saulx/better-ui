@@ -188,6 +188,7 @@ export function ColorInput({
           align="start"
           sideOffset={8}
           style={{
+            background: "var(--background-screen)",
             maxHeight:
               "calc(var(--radix-popover-content-available-height) - 8px)",
             width: 500,
