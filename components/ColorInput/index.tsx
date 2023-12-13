@@ -197,9 +197,7 @@ export function ColorInput({
             padding: 8,
             border: border(),
             borderRadius: "var(--radius-small)",
-            display: "flex",
-            flexDirection: "column",
-            gap: 8,
+            overflowY: "auto",
           }}
         >
           <div
@@ -258,6 +256,7 @@ export function ColorInput({
           </div>
           <div
             style={{
+              marginTop: 8,
               position: "relative",
               height: 24,
               width: "100%",
@@ -292,6 +291,7 @@ export function ColorInput({
           </div>
           <div
             style={{
+              marginTop: 8,
               height: 24,
               width: "100%",
               borderRadius: "var(--radius-tiny)",
