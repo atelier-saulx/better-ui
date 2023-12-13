@@ -18,7 +18,7 @@ export function Record({ ctx, path }: TableProps) {
 
   const rows: ReactNode[] = []
   const cols: ReactNode[] = [
-    <Cell objectKey isKey border key={'key'}>
+    <Cell width={200} isKey border key={'key'}>
       key
     </Cell>,
   ]
@@ -34,7 +34,7 @@ export function Record({ ctx, path }: TableProps) {
     if (value) {
       for (const key in value) {
         const cells: ReactNode[] = [
-          <Cell objectKey border isKey key="key">
+          <Cell width={200} border isKey key="key">
             <StringInput value={key} />
           </Cell>,
         ]
@@ -66,15 +66,8 @@ export function Record({ ctx, path }: TableProps) {
     if (value) {
       for (const key in value) {
         rows.push(
-          <ColStack
-            key={key}
-            style={
-              {
-                // borderBottom: border(),
-              }
-            }
-          >
-            <Cell objectKey border isKey key={'key'}>
+          <ColStack key={key}>
+            <Cell width={200} border isKey key={'key'}>
               <StringInput value={key} />
             </Cell>
             <Cell>

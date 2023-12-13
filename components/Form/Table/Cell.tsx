@@ -8,14 +8,14 @@ export function Cell({
   border,
   children,
   isKey,
-  objectKey,
   style,
+  width,
 }: {
   border?: boolean
   children: ReactNode
   isKey?: boolean
   style?: Style
-  objectKey?: boolean
+  width?: number
 }) {
   return (
     <Stack
@@ -24,8 +24,8 @@ export function Cell({
       style={{
         minHeight: 48,
         flexGrow: 1,
+        maxWidth: width,
         borderRight: border ? getBorder() : undefined,
-        maxWidth: objectKey ? 150 : undefined,
         paddingLeft: isKey ? 20 : 0,
         ...style,
       }}

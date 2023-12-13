@@ -129,6 +129,7 @@ export const Object = () => {
           },
           order: {
             title: 'Order',
+            description: 'A nice order',
             type: 'object',
             properties: {
               orderId: { type: 'string' },
@@ -139,34 +140,71 @@ export const Object = () => {
               },
             },
           },
-
+          orderWithDescription: {
+            title: 'Order Described',
+            description: 'A nice order',
+            type: 'object',
+            properties: {
+              orderId: {
+                type: 'string',
+                description: 'ID of the order',
+                title: 'ID',
+              },
+              price: {
+                type: 'string',
+                description: 'The most important',
+                title: 'Price',
+              },
+              email: {
+                type: 'string',
+                description: 'Email for comms',
+                title: 'Email',
+              },
+              isItDope: {
+                title: 'Is it dope?',
+                description: 'Determines the dopeness',
+                type: 'boolean',
+              },
+            },
+          },
           address: {
             title: 'Address',
             description:
               'An address similar to http://microformats.org/wiki/h-card',
             type: 'object',
             properties: {
-              picture: { type: 'string', contentMediaType: '*/*' },
-
+              picture: {
+                title: 'Picture',
+                type: 'string',
+                contentMediaType: '*/*',
+              },
               postOfficeBox: {
+                title: 'PO Box',
                 type: 'string',
               },
               extendedAddress: {
+                title: 'Address extended',
+                description: 'An address similar to flap',
                 type: 'string',
               },
               streetAddress: {
+                title: 'Street',
                 type: 'string',
               },
               locality: {
+                title: 'Locality',
                 type: 'string',
               },
               region: {
+                title: 'Region',
                 type: 'string',
               },
               postalCode: {
+                title: 'PostalCode',
                 type: 'string',
               },
               countryName: {
+                title: 'Country',
                 type: 'string',
               },
             },

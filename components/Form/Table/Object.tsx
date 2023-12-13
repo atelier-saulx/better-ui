@@ -29,7 +29,13 @@ export function Object({ ctx, path }: TableProps) {
       )
     }
     return (
-      <Stack justify="start" direction="column">
+      <Stack
+        justify="start"
+        direction="column"
+        style={{
+          borderBottom: border(),
+        }}
+      >
         <ColStack
           style={{
             background: color('background', 'muted'),
