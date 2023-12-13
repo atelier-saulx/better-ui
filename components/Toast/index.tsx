@@ -34,7 +34,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
   function showToast(toast: Toast, variant: ToastVariant = "neutral") {
     const id = window.setTimeout(() => {
       hideToast(id);
-    }, 3500);
+    }, 35000);
 
     window.setTimeout(() => {
       queue.current = queue.current.map((e) =>
@@ -79,14 +79,14 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
           style={{
             position: "fixed",
             bottom: 24,
-            left: "50%",
+            right: 24,
             maxWidth: "calc(100% - 48px)",
-            transform: "translateX(-50%)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             gap: 12,
+            zIndex: 20,
           }}
         >
           {queue.current.map(
@@ -111,7 +111,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                     justifyContent: "start",
                     alignItems: "center",
                     borderRadius: "var(--radius-small)",
-
+                    right: 0,
                     gap: 16,
                     bottom: 0,
                     transitionProperty: "transform opacity",
