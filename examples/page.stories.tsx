@@ -173,41 +173,17 @@ const DefaultContent = () => {
     <div style={{ height: "100vh", width: "100vw" }}>
       <Header />
       <div style={{ display: "flex", height: "calc(100% - 64px)" }}>
-        <Sidebar>
-          <SidebarItem
-            active={page === "overview"}
-            onClick={() => {
-              setPage("overview");
-            }}
-            icon={<IconViewBoxes />}
-          >
+        <Sidebar value={page} onChange={setPage}>
+          <SidebarItem value="overview" icon={<IconViewBoxes />}>
             Overview
           </SidebarItem>
-          <SidebarItem
-            active={page === "content"}
-            onClick={() => {
-              setPage("content");
-            }}
-            icon={<IconEdit />}
-          >
+          <SidebarItem value="content" icon={<IconEdit />}>
             Content
           </SidebarItem>
-          <SidebarItem
-            active={page === "users"}
-            onClick={() => {
-              setPage("users");
-            }}
-            icon={<IconUsers />}
-          >
+          <SidebarItem value="users" icon={<IconUsers />}>
             Users
           </SidebarItem>
-          <SidebarItem
-            active={page === "statistics"}
-            onClick={() => {
-              setPage("statistics");
-            }}
-            icon={<IconChartBar />}
-          >
+          <SidebarItem value="statistics" icon={<IconChartBar />}>
             Statistics
           </SidebarItem>
         </Sidebar>

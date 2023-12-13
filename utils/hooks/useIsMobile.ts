@@ -7,7 +7,7 @@ export function useIsMobile() {
     setMobile(window.matchMedia("(max-width: 768px)").matches);
   }
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     calculate();
 
     window.addEventListener("resize", calculate);
