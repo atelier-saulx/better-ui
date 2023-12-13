@@ -1,10 +1,11 @@
 import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
 import { TableCtx, Path } from './types'
-import { fontSizeMap } from './fontSizeMap'
+import { getStringWidth } from '../../../utils/getStringWidth'
+import { textVariants } from '../../Text'
 
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
-  path: Path,
+  path: Path
 ): { field: T; value: any | void } => {
   let selectedValue: any = ctx.values
   let selectedField: any = ctx.schema
@@ -25,28 +26,25 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   return { field: selectedField, value: selectedValue }
 }
 
-const calcWidth = (str: string): number => {
-  let nr = 0
-  for (const char of str) {
-    // @ts-ignore
-    nr += fontSizeMap.characters[char] ?? 12
-  }
-  return nr
-}
-
 export const getKeyWidth = (field: BasedSchemaField): number => {
   if (field.type === 'object') {
     let maxWidth = 0
     for (const key in field.properties) {
       const { title, description } = field.properties[key]
       const k = title ?? key
-      const keyWidth = calcWidth(k)
+      const keyWidth = getStringWidth(k, {
+        ...textVariants.bodyBold,
+        fontFamily: 'Inter',
+      })
       if (keyWidth > maxWidth) {
-        maxWidth = keyWidth
+        maxWidth = keyWidth + 40
       }
       if (description) {
-        const descriptionWidth = calcWidth(description)
-        maxWidth = descriptionWidth
+        const descriptionWidth = getStringWidth(description, {
+          ...textVariants.body,
+          fontFamily: 'Inter',
+        })
+        maxWidth = descriptionWidth + 40
       }
     }
     return maxWidth
