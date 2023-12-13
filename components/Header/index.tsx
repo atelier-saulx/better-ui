@@ -6,7 +6,7 @@ import { Dropdown } from '../Dropdown'
 import { Thumbnail } from '../Thumbnail'
 import { useIsMobile } from '../../utils/hooks/useIsMobile'
 import { useTheme } from '../../utils/hooks/useTheme'
-import { BasedLogoWithText, BasedLogoWithoutText } from '../Icons/logo'
+import { BasedLogoWithText, BasedLogoWithoutText } from '../Icons/extras'
 
 export function Header() {
   const isMobile = useIsMobile()
