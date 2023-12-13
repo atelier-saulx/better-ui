@@ -1,23 +1,23 @@
-import * as React from "react";
-import { styled } from "inlines";
+import * as React from 'react'
+import { styled } from 'inlines'
 
 export type TextAreaInputProps = {
-  placeholder?: string;
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-  formName?: string;
-  label?: string;
-  variant?: "regular" | "small";
-  error?: boolean;
-};
+  placeholder?: string
+  value?: string
+  defaultValue?: string
+  onChange?: (value: string) => void
+  formName?: string
+  label?: string
+  variant?: 'regular' | 'small'
+  error?: boolean
+}
 
 const Wrapper = ({
   label,
   children,
 }: {
-  label?: string;
-  children: React.ReactNode;
+  label?: string
+  children: React.ReactNode
 }) => {
   if (label) {
     return (
@@ -25,19 +25,19 @@ const Wrapper = ({
         style={
           label
             ? {
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
               }
             : undefined
         }
       >
         {children}
       </styled.label>
-    );
+    )
   }
-  return children;
-};
+  return children
+}
 
 export const TextAreaInput = React.forwardRef<
   HTMLTextAreaElement,
@@ -51,13 +51,13 @@ export const TextAreaInput = React.forwardRef<
       onChange,
       formName,
       label,
-      variant = "regular",
+      variant = 'regular',
       error,
     },
-    ref
+    ref,
   ) => {
-    const rerender = React.useState({})[1];
-    const valueRef = React.useRef(value ?? defaultValue ?? "");
+    const rerender = React.useState({})[1]
+    const valueRef = React.useRef(value ?? defaultValue ?? '')
 
     return (
       <Wrapper label={label}>
@@ -66,7 +66,7 @@ export const TextAreaInput = React.forwardRef<
             style={{
               marginBottom: 8,
               fontSize: 14,
-              lineHeight: "24px",
+              lineHeight: '24px',
               fontWeight: 500,
             }}
           >
@@ -76,20 +76,20 @@ export const TextAreaInput = React.forwardRef<
         <styled.div
           data-value={valueRef.current}
           style={{
-            position: "relative",
-            display: "grid",
-            width: "100%",
-            "&::after": {
-              width: "100%",
+            position: 'relative',
+            display: 'grid',
+            width: '100%',
+            '&::after': {
+              width: '100%',
               content: `attr(data-value) " "`,
-              whiteSpace: "pre-wrap",
-              wordBreak: "break-all",
-              visibility: "hidden",
-              gridArea: "1 / 1 / 2 / 2",
-              border: "1px solid transparent",
-              fontSize: "14px",
-              lineHeight: "24px",
-              padding: variant === "regular" ? "8px 12px" : "3px 10px",
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-all',
+              visibility: 'hidden',
+              gridArea: '1 / 1 / 2 / 2',
+              border: '1px solid transparent',
+              fontSize: '14px',
+              lineHeight: '24px',
+              padding: variant === 'regular' ? '8px 12px' : '3px 10px',
             },
           }}
         >
@@ -97,53 +97,53 @@ export const TextAreaInput = React.forwardRef<
             value={value}
             defaultValue={defaultValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              onChange?.(e.target.value);
-              valueRef.current = e.target.value;
-              rerender({});
+              onChange?.(e.target.value)
+              valueRef.current = e.target.value
+              rerender({})
             }}
             ref={ref}
             name={formName}
-            rows={variant === "regular" ? 3 : 2}
+            rows={variant === 'regular' ? 3 : 2}
             placeholder={placeholder}
             style={{
               fontSize: 14,
-              lineHeight: "24px",
-              width: "100%",
-              padding: variant === "regular" ? "8px 12px" : "3px 10px",
+              lineHeight: '24px',
+              width: '100%',
+              padding: variant === 'regular' ? '8px 12px' : '3px 10px',
               borderRadius:
-                variant === "regular"
-                  ? "var(--radius-small)"
-                  : "var(--radius-tiny)",
-              border: "1px solid var(--interactive-secondary)",
-              color: "var(--content-primary)",
-              gridArea: "1 / 1 / 2 / 2",
-              outline: "none",
-              "&::placeholder": { color: "var(--content-secondary)" },
-              "&:hover": {
-                border: "1px solid var(--interactive-secondary-hover)",
+                variant === 'regular'
+                  ? 'var(--radius-small)'
+                  : 'var(--radius-tiny)',
+              border: '1px solid var(--interactive-secondary)',
+              color: 'var(--content-primary)',
+              gridArea: '1 / 1 / 2 / 2',
+              outline: 'none',
+              '&::placeholder': { color: 'var(--content-secondary)' },
+              '&:hover': {
+                border: '1px solid var(--interactive-secondary-hover)',
               },
-              "&:focus": {
-                border: "1px solid var(--interactive-primary)",
+              '&:focus': {
+                border: '1px solid var(--interactive-primary)',
                 boxShadow:
-                  "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)",
+                  '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
               },
-              resize: "none",
-              overflow: "hidden",
+              resize: 'none',
+              overflow: 'hidden',
               ...(error && {
-                border: "1px solid var(--sentiment-negative)",
-                "&:hover": {
-                  border: "1px solid var(--sentiment-negative)",
+                border: '1px solid var(--sentiment-negative)',
+                '&:hover': {
+                  border: '1px solid var(--sentiment-negative)',
                 },
-                "&:focus": {
-                  border: "1px solid var(--sentiment-negative)",
+                '&:focus': {
+                  border: '1px solid var(--sentiment-negative)',
                   boxShadow:
-                    "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+                    '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
                 },
               }),
             }}
           />
         </styled.div>
       </Wrapper>
-    );
-  }
-);
+    )
+  },
+)

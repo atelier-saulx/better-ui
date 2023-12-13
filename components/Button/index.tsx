@@ -1,42 +1,42 @@
-import * as React from "react";
-import { styled } from "inlines";
-import { color } from "../../utils/colors";
-import { textVariants } from "../Text";
+import * as React from 'react'
+import { styled } from 'inlines'
+import { color } from '../../utils/colors'
+import { textVariants } from '../Text'
 
 export type ButtonProps = {
-  children: React.ReactNode;
+  children: React.ReactNode
   variant?:
-    | "primary"
-    | "primary-transparent"
-    | "primary-link"
-    | "neutral"
-    | "neutral-transparent"
-    | "neutral-link"
-    | "error"
-    | "icon-only";
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
-  size?: "large" | "medium" | "small";
-  type?: "button" | "submit";
-  shape?: "square" | "rectangle";
-  disabled?: boolean;
-  onClick?: () => void | Promise<void>;
-  onMouseEnter?: React.MouseEventHandler;
-  onMouseLeave?: React.MouseEventHandler;
-  onFocus?: React.FocusEventHandler;
-  onBlur?: React.FocusEventHandler;
+    | 'primary'
+    | 'primary-transparent'
+    | 'primary-link'
+    | 'neutral'
+    | 'neutral-transparent'
+    | 'neutral-link'
+    | 'error'
+    | 'icon-only'
+  prefix?: React.ReactNode
+  suffix?: React.ReactNode
+  size?: 'large' | 'medium' | 'small'
+  type?: 'button' | 'submit'
+  shape?: 'square' | 'rectangle'
+  disabled?: boolean
+  onClick?: () => void | Promise<void>
+  onMouseEnter?: React.MouseEventHandler
+  onMouseLeave?: React.MouseEventHandler
+  onFocus?: React.FocusEventHandler
+  onBlur?: React.FocusEventHandler
   // TODO keyboard shortcust from old lib
-};
+}
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
       onClick,
-      variant = "primary",
-      size = "medium",
-      type = "button",
-      shape = "rectangle",
+      variant = 'primary',
+      size = 'medium',
+      type = 'button',
+      shape = 'rectangle',
       prefix,
       suffix,
       onMouseEnter,
@@ -45,139 +45,139 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onBlur,
       disabled,
     },
-    ref
+    ref,
   ) => {
-    const [loading, setLoading] = React.useState(false);
-    const [shaking, setShaking] = React.useState(false);
+    const [loading, setLoading] = React.useState(false)
+    const [shaking, setShaking] = React.useState(false)
 
     const handleClick = React.useCallback(async () => {
-      if (!onClick || disabled) return;
+      if (!onClick || disabled) return
 
       const loadingDelayTimeout = setTimeout(() => {
-        setLoading(true);
-      }, 100);
+        setLoading(true)
+      }, 100)
 
       try {
-        await onClick();
+        await onClick()
       } catch {
-        setShaking(true);
+        setShaking(true)
       }
 
-      setLoading(false);
-      clearTimeout(loadingDelayTimeout);
-    }, [onClick, disabled]);
+      setLoading(false)
+      clearTimeout(loadingDelayTimeout)
+    }, [onClick, disabled])
 
     return (
       <styled.button
         ref={ref}
         type={type}
         style={{
-          position: "relative",
-          borderRadius: "var(--radius-small)",
+          position: 'relative',
+          borderRadius: 'var(--radius-small)',
           fontWeight: 600,
-          cursor: disabled ? "not-allowed" : "pointer",
-          display: "inline-flex",
-          justifyItems: "center",
-          alignItems: "center",
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          display: 'inline-flex',
+          justifyItems: 'center',
+          alignItems: 'center',
           ...(shaking && {
-            animation: "200ms shake ease-in-out",
+            animation: '200ms shake ease-in-out',
           }),
           ...(disabled && {
-            opacity: "40%",
+            opacity: '40%',
           }),
-          ...(size === "large" && {
-            padding: shape === "rectangle" ? "9px 16px" : "14px",
+          ...(size === 'large' && {
+            padding: shape === 'rectangle' ? '9px 16px' : '14px',
             fontSize: 16,
-            lineHeight: "28px",
+            lineHeight: '28px',
           }),
-          ...(size === "medium" && {
-            padding: shape === "rectangle" ? "5px 16px" : "10px",
+          ...(size === 'medium' && {
+            padding: shape === 'rectangle' ? '5px 16px' : '10px',
             fontSize: 16,
-            lineHeight: "28px",
+            lineHeight: '28px',
           }),
-          ...(size === "small" && {
-            padding: shape === "rectangle" ? "3px 12px" : "6px",
+          ...(size === 'small' && {
+            padding: shape === 'rectangle' ? '3px 12px' : '6px',
             fontSize: 14,
-            lineHeight: "24px",
+            lineHeight: '24px',
           }),
-          ...(variant === "primary" && {
-            color: "var(--content-inverted)",
-            background: "var(--interactive-primary)",
-            border: "1px solid var(--interactive-primary)",
-            "&:hover": {
-              background: "var(--interactive-primary-hover)",
-              border: "1px solid var(--interactive-primary-hover)",
+          ...(variant === 'primary' && {
+            color: 'var(--content-inverted)',
+            background: 'var(--interactive-primary)',
+            border: '1px solid var(--interactive-primary)',
+            '&:hover': {
+              background: 'var(--interactive-primary-hover)',
+              border: '1px solid var(--interactive-primary-hover)',
             },
           }),
-          ...(variant === "primary-transparent" && {
-            color: "var(--interactive-primary)",
-            background: "transparent",
-            border: "transparent",
-            "&:hover": {
+          ...(variant === 'primary-transparent' && {
+            color: 'var(--interactive-primary)',
+            background: 'transparent',
+            border: 'transparent',
+            '&:hover': {
               background:
-                "color-mix(in srgb, var(--interactive-primary) 20%, transparent)",
-              border: "transparent",
+                'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+              border: 'transparent',
             },
           }),
-          ...(variant === "neutral" && {
-            color: "var(--content-primary)",
-            background: "transparent",
-            border: "1px solid var(--interactive-secondary)",
-            "&:hover": {
-              background: "var(--background-neutral)",
-              border: "1px solid var(--interactive-secondary-hover)",
+          ...(variant === 'neutral' && {
+            color: 'var(--content-primary)',
+            background: 'transparent',
+            border: '1px solid var(--interactive-secondary)',
+            '&:hover': {
+              background: 'var(--background-neutral)',
+              border: '1px solid var(--interactive-secondary-hover)',
             },
           }),
-          ...(variant === "neutral-transparent" && {
-            color: "var(--content-primary)",
-            background: "transparent",
-            border: "transparent",
-            "&:hover": {
-              background: "var(--background-neutral)",
-              border: "transparent",
+          ...(variant === 'neutral-transparent' && {
+            color: 'var(--content-primary)',
+            background: 'transparent',
+            border: 'transparent',
+            '&:hover': {
+              background: 'var(--background-neutral)',
+              border: 'transparent',
             },
           }),
-          ...(variant === "error" && {
-            color: "var(--content-inverted)",
-            background: "var(--sentiment-negative)",
-            border: "1px solid var(--sentiment-negative)",
-            "&:hover": {
-              background: "var(--sentiment-negative-hover)",
-              border: "1px solid var(--sentiment-negative-hover)",
+          ...(variant === 'error' && {
+            color: 'var(--content-inverted)',
+            background: 'var(--sentiment-negative)',
+            border: '1px solid var(--sentiment-negative)',
+            '&:hover': {
+              background: 'var(--sentiment-negative-hover)',
+              border: '1px solid var(--sentiment-negative-hover)',
             },
           }),
-          ...(variant === "primary-link" && {
-            color: color("interactive", "primary"),
-            background: "transparent",
-            border: "none",
+          ...(variant === 'primary-link' && {
+            color: color('interactive', 'primary'),
+            background: 'transparent',
+            border: 'none',
             padding: 0,
             ...textVariants.bodyStrong,
-            textDecoration: "underline",
-            "&:hover": {
-              textDecoration: "none",
+            textDecoration: 'underline',
+            '&:hover': {
+              textDecoration: 'none',
             },
           }),
-          ...(variant === "neutral-link" && {
-            color: "inherit",
-            background: "transparent",
-            border: "none",
+          ...(variant === 'neutral-link' && {
+            color: 'inherit',
+            background: 'transparent',
+            border: 'none',
             padding: 0,
             ...textVariants.bodyStrong,
-            textDecoration: "underline",
-            "&:hover": {
-              textDecoration: "none",
+            textDecoration: 'underline',
+            '&:hover': {
+              textDecoration: 'none',
             },
           }),
-          ...(variant === "icon-only" && {
-            color: "inherit",
-            background: "transparent",
-            border: "none",
+          ...(variant === 'icon-only' && {
+            color: 'inherit',
+            background: 'transparent',
+            border: 'none',
             padding: 0,
           }),
         }}
         onClick={handleClick}
         onAnimationEnd={() => {
-          setShaking(false);
+          setShaking(false)
         }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -188,13 +188,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {loading && (
           <div
             style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <svg
@@ -202,7 +202,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               height="20"
               viewBox="0 0 20 20"
               style={{
-                animation: "750ms spin linear infinite",
+                animation: '750ms spin linear infinite',
               }}
               fill="none"
             >
@@ -218,18 +218,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <div
           style={{
             opacity: loading ? 0 : 100,
-            display: "flex",
+            display: 'flex',
             gap: 8,
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           {prefix && prefix}
           <span
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             {children}
@@ -237,6 +237,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {suffix && suffix}
         </div>
       </styled.button>
-    );
-  }
-);
+    )
+  },
+)

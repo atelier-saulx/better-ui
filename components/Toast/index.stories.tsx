@@ -1,23 +1,23 @@
-import * as React from "react";
-import { useToast, ToastProvider } from ".";
-import { Button } from "../Button";
-import { Stack } from "../Stack";
-import { IconInfoFill } from "../Icons";
+import * as React from 'react'
+import { useToast, ToastProvider } from '.'
+import { Button } from '../Button'
+import { Stack } from '../Stack'
+import { IconInfoFill } from '../Icons'
 
 const meta = {
-  title: "Atoms/Toast",
-};
-export default meta;
+  title: 'Atoms/Toast',
+}
+export default meta
 
 const DefaultContent = () => {
-  const toast = useToast();
+  const toast = useToast()
 
   return (
     <Stack direction="column" gap={8}>
       <Button
         variant="neutral"
         onClick={() => {
-          toast("Toast Text");
+          toast('Toast Text')
         }}
       >
         Simple toast
@@ -27,9 +27,9 @@ const DefaultContent = () => {
         onClick={() => {
           toast({
             prefix: <IconInfoFill />,
-            text: "Toast text",
+            text: 'Toast text',
             suffix: <Button variant="neutral-link">Action</Button>,
-          });
+          })
         }}
       >
         Prefix and suffix
@@ -37,7 +37,7 @@ const DefaultContent = () => {
       <Button
         variant="neutral"
         onClick={() => {
-          toast("I'm an informative toast", "informative");
+          toast("I'm an informative toast", 'informative')
         }}
       >
         Informative
@@ -45,7 +45,7 @@ const DefaultContent = () => {
       <Button
         variant="neutral"
         onClick={() => {
-          toast("Warning text", "warning");
+          toast('Warning text', 'warning')
         }}
       >
         Warning
@@ -53,19 +53,19 @@ const DefaultContent = () => {
       <Button
         variant="neutral"
         onClick={() => {
-          toast("An error toast", "error");
+          toast('An error toast', 'error')
         }}
       >
         Error
       </Button>
     </Stack>
-  );
-};
+  )
+}
 
 export const Default = () => {
   return (
     <ToastProvider>
       <DefaultContent />
     </ToastProvider>
-  );
-};
+  )
+}

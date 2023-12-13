@@ -1,30 +1,30 @@
-import { TextInput } from ".";
-import type { Meta, StoryObj } from "@storybook/react";
+import { TextInput } from '.'
+import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof TextInput> = {
-  title: "Atoms/Inputs/TextInput",
+  title: 'Atoms/Inputs/TextInput',
   component: TextInput,
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj<typeof TextInput> = {
   args: {
-    placeholder: "Placeholder text",
-    label: "Label",
+    placeholder: 'Placeholder text',
+    label: 'Label',
   },
-};
+}
 
 export const Small: StoryObj<typeof TextInput> = {
   args: {
-    placeholder: "Placeholder text",
-    variant: "small",
+    placeholder: 'Placeholder text',
+    variant: 'small',
   },
-};
+}
 
 export const Error: StoryObj<typeof TextInput> = {
   args: {
-    placeholder: "Placeholder text",
+    placeholder: 'Placeholder text',
     error: true,
   },
-};
+}

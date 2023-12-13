@@ -25,7 +25,7 @@ const ReactStack = React.forwardRef(
       justify = 'between',
       ...props
     }: StackProps,
-    ref
+    ref,
   ) => {
     return React.createElement(styled[as], {
       style: {
@@ -42,7 +42,7 @@ const ReactStack = React.forwardRef(
       children,
       ref,
     })
-  }
+  },
 )
 
 type StackComponent = (props: StackProps) => React.ReactNode

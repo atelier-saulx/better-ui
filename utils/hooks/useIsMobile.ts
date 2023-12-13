@@ -1,21 +1,21 @@
-import * as React from "react";
+import * as React from 'react'
 
 export function useIsMobile() {
-  const [mobile, setMobile] = React.useState(false);
+  const [mobile, setMobile] = React.useState(false)
 
   function calculate() {
-    setMobile(window.matchMedia("(max-width: 768px)").matches);
+    setMobile(window.matchMedia('(max-width: 768px)').matches)
   }
 
-  React.useEffect(() => {
-    calculate();
+  React.useLayoutEffect(() => {
+    calculate()
 
-    window.addEventListener("resize", calculate);
+    window.addEventListener('resize', calculate)
 
     return () => {
-      window.removeEventListener("resize", calculate);
-    };
-  }, []);
+      window.removeEventListener('resize', calculate)
+    }
+  }, [])
 
-  return mobile;
+  return mobile
 }

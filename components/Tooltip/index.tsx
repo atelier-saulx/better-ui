@@ -1,12 +1,12 @@
-import * as React from "react";
-import { styled } from "inlines";
-import * as TooltipBase from "@radix-ui/react-tooltip";
+import * as React from 'react'
+import { styled } from 'inlines'
+import * as TooltipBase from '@radix-ui/react-tooltip'
 
 export type TooltipProps = {
-  children: React.ReactNode;
-  content: string;
-  side?: TooltipBase.TooltipContentProps["side"];
-};
+  children: React.ReactNode
+  content: string
+  side?: TooltipBase.TooltipContentProps['side']
+}
 
 export function Tooltip({ children, content, side }: TooltipProps) {
   return (
@@ -24,27 +24,27 @@ export function Tooltip({ children, content, side }: TooltipProps) {
           >
             <div
               style={{
-                padding: "4px 8px",
-                borderRadius: "var(--radius-tiny)",
-                background: "var(--content-primary)",
-                userSelect: "none",
+                padding: '4px 8px',
+                borderRadius: 'var(--radius-tiny)',
+                background: 'var(--content-primary)',
+                userSelect: 'none',
               }}
             >
               <span
                 style={{
                   fontSize: 12,
                   fontWeight: 600,
-                  lineHeight: "20px",
-                  color: "var(--content-inverted)",
+                  lineHeight: '20px',
+                  color: 'var(--content-inverted)',
                 }}
               >
                 {content}
               </span>
-              <TooltipBase.Arrow style={{ fill: "var(--content-primary)" }} />
+              <TooltipBase.Arrow style={{ fill: 'var(--content-primary)' }} />
             </div>
           </TooltipBase.Content>
         </TooltipBase.Portal>
       </TooltipBase.Root>
     </TooltipBase.Provider>
-  );
+  )
 }

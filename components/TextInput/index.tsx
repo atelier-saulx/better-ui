@@ -57,7 +57,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       error,
       onKeyDown,
     },
-    ref
+    ref,
   ) => {
     return (
       <Wrapper label={label}>
@@ -121,5 +121,5 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         />
       </Wrapper>
     )
-  }
+  },
 )

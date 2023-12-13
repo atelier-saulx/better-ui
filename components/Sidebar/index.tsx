@@ -3,17 +3,42 @@ import { styled } from 'inlines'
 import { IconViewLayoutLeft } from '../Icons'
 import { Tooltip } from '../Tooltip'
 import { Button } from '../Button'
+import { useIsMobile } from '../../utils/hooks/useIsMobile'
+import { useControllableState } from '../../utils/hooks/useControllableState'
+import { textVariants } from '../Text'
+import { color } from '../../utils/colors'
 
-const SidebarContext = React.createContext({ open: true })
+const SidebarContext = React.createContext({
+  open: true,
+  value: '',
+  setValue: (_?: string) => {},
+})
 
 // TODO auto collapse on small screens?
 
 export type SidebarProps = {
   children: React.ReactNode
+  value: string
+  onChange: (value: string) => void
 }
 
-export function Sidebar({ children }: SidebarProps) {
+export function Sidebar({
+  children,
+  value: valueProp,
+  onChange,
+}: SidebarProps) {
+  const isMobile = useIsMobile()
   const [open, setOpen] = React.useState(true)
+  const [value = '', setValue] = useControllableState({
+    prop: valueProp,
+    onChange,
+  })
+
+  React.useEffect(() => {
+    if (isMobile) {
+      setOpen(false)
+    }
+  }, [isMobile])
 
   return (
     <styled.aside
@@ -26,7 +51,7 @@ export function Sidebar({ children }: SidebarProps) {
         '& > * + *': { marginTop: '8px' },
       }}
     >
-      <SidebarContext.Provider value={{ open }}>
+      <SidebarContext.Provider value={{ open, value, setValue }}>
         {children}
       </SidebarContext.Provider>
       <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
@@ -52,17 +77,15 @@ export function Sidebar({ children }: SidebarProps) {
 export type SidebarItemProps = {
   icon?: React.ReactNode
   children: string
-  onClick?: () => void
-  active?: boolean
+  value: string
 }
 
-export function SidebarItem({
-  children,
-  icon,
-  onClick,
-  active,
-}: SidebarItemProps) {
-  const { open } = React.useContext(SidebarContext)
+export function SidebarItem({ children, icon, value }: SidebarItemProps) {
+  const {
+    open,
+    value: sidebarValue,
+    setValue,
+  } = React.useContext(SidebarContext)
 
   if (open) {
     return (
@@ -79,11 +102,13 @@ export function SidebarItem({
             background: 'var(--background-neutral)',
           },
           '& > * + *': { marginLeft: '10px' },
-          ...(active && {
+          ...(sidebarValue === value && {
             background: 'var(--background-neutral)',
           }),
         }}
-        onClick={onClick}
+        onClick={() => {
+          setValue(value)
+        }}
       >
         {icon}
         <span
@@ -103,7 +128,7 @@ export function SidebarItem({
     <styled.div
       style={{
         display: 'flex',
-        ...(active && {
+        ...(sidebarValue === value && {
           background: 'var(--background-neutral)',
           borderRadius: 'var(--radius-small)',
           '&:hover': {
@@ -113,10 +138,52 @@ export function SidebarItem({
       }}
     >
       <Tooltip content={children} side="right">
-        <Button shape="square" onClick={onClick} variant="neutral-transparent">
+        <Button
+          shape="square"
+          onClick={() => {
+            setValue(value)
+          }}
+          variant="neutral-transparent"
+        >
           {icon}
         </Button>
       </Tooltip>
+    </styled.div>
+  )
+}
+
+export type SidebarGroupProps = {
+  children: React.ReactNode
+  title: string
+}
+
+export function SidebarGroup({ title, children }: SidebarGroupProps) {
+  const { open } = React.useContext(SidebarContext)
+
+  return (
+    <styled.div
+      style={{
+        '& > * + *': { marginTop: '8px' },
+        paddingTop: '32px',
+        paddingBottom: '4px',
+        '&:first-child': {
+          paddingTop: '4px',
+        },
+      }}
+    >
+      <div
+        style={{
+          paddingLeft: '4px',
+          paddingRight: '4px',
+          ...textVariants.bodyStrong,
+          color: color('content', 'secondary'),
+          textTransform: 'uppercase',
+          opacity: open ? 1 : 0,
+        }}
+      >
+        {title}
+      </div>
+      {children}
     </styled.div>
   )
 }
