@@ -21,6 +21,7 @@ export const useModalContext = () => {
 
 export type ModalRootProps = {
   children: React.ReactNode
+  defaultOpen?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }
@@ -29,10 +30,11 @@ export function Root({
   children,
   open: openProp,
   onOpenChange,
+  defaultOpen,
 }: ModalRootProps) {
   const [open, setOpen] = useControllableState({
     prop: openProp,
-    defaultProp: false,
+    defaultProp: defaultOpen || false,
     onChange: onOpenChange,
   })
 
