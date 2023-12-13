@@ -20,7 +20,7 @@ export default meta
 
 export const Default = () => {
   return (
-    <Modal.Root defaultOpen>
+    <Modal.Root>
       <Modal.Trigger>
         <Button>Open modal</Button>
       </Modal.Trigger>
@@ -64,7 +64,7 @@ export const Default = () => {
 
 export const Nested = ({ level = 0 }) => {
   return (
-    <Modal.Root defaultOpen={level === 0}>
+    <Modal.Root>
       <Modal.Trigger>
         <Button>Open modal</Button>
       </Modal.Trigger>
