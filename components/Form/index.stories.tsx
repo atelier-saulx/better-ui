@@ -209,6 +209,56 @@ export const Object = () => {
               },
             },
           },
+
+          object: {
+            title: 'Restaurant',
+            description: 'Restaurant of the form',
+            type: 'object',
+            properties: {
+              isItDope: {
+                type: 'boolean',
+              },
+
+              bla: {
+                type: 'reference',
+                bidirectional: {
+                  fromField: 'bla',
+                },
+                allowedTypes: ['root'],
+              },
+
+              contact: {
+                title: 'Contact',
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  phone: { type: 'string', format: 'mobilePhone' },
+                  email: { type: 'string', format: 'email' },
+                  picture: { type: 'string', contentMediaType: '*/*' },
+                },
+              },
+
+              ratings: {
+                title: 'Ratings',
+                type: 'object',
+                properties: {
+                  price: { type: 'string', title: 'Price' },
+                  quality: { type: 'string', title: 'Quality' },
+                  awards: { type: 'string', title: 'Awards' },
+                  powerful: { type: 'string', title: 'Power Level' },
+                },
+              },
+
+              location: {
+                title: 'Location',
+                type: 'object',
+                properties: {
+                  long: { type: 'string', title: 'Longitude' },
+                  lat: { type: 'string', title: 'Latiude' },
+                },
+              },
+            },
+          },
         }}
         onChange={(values) => {
           console.log(values)
