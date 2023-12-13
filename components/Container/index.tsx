@@ -1,20 +1,20 @@
-import * as React from "react";
-import { styled } from "inlines";
-import { IconChevronDown } from "../Icons";
-import { useControllableState } from "../../utils/hooks/useControllableState";
+import * as React from 'react'
+import { styled } from 'inlines'
+import { IconChevronDown } from '../Icons'
+import { useControllableState } from '../../utils/hooks/useControllableState'
 
 export type ContainerProps = {
-  children?: React.ReactNode;
-  title: string;
-  description?: string;
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
-  expandable?: boolean;
-  expanded?: boolean;
-  onExpandedChange?: (expanded: boolean) => void;
-  onClick?: () => void;
-  divider?: boolean;
-};
+  children?: React.ReactNode
+  title: string
+  description?: string
+  prefix?: React.ReactNode
+  suffix?: React.ReactNode
+  expandable?: boolean
+  expanded?: boolean
+  onExpandedChange?: (expanded: boolean) => void
+  onClick?: () => void
+  divider?: boolean
+}
 
 export function Container({
   children,
@@ -32,24 +32,24 @@ export function Container({
     prop: expandedProp,
     defaultProp: false,
     onChange: onExpandedChange,
-  });
-  const headerRef = React.useRef<HTMLDivElement | null>(null);
+  })
+  const headerRef = React.useRef<HTMLDivElement | null>(null)
 
-  console.log(expanded);
+  console.log(expanded)
 
   return (
     <div
       style={{
-        width: "100%",
+        width: '100%',
         borderRadius: 8,
-        border: "1px solid var(--interactive-secondary)",
+        border: '1px solid var(--interactive-secondary)',
       }}
     >
       <styled.div
         ref={headerRef}
         style={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           gap: 8,
           padding: 16,
           borderTopRightRadius: 8,
@@ -57,24 +57,24 @@ export function Container({
           borderBottomRightRadius: expanded ? 0 : 8,
           borderBottomLeftRadius: expanded ? 0 : 8,
           ...((expandable || onClick) && {
-            cursor: "pointer",
-            "&:hover": {
-              background: "var(--background-neutral)",
+            cursor: 'pointer',
+            '&:hover': {
+              background: 'var(--background-neutral)',
             },
           }),
         }}
         onClick={(e: any) => {
           if (headerRef.current && headerRef.current.contains(e.target)) {
-            onClick?.();
+            onClick?.()
 
             if (expandable) {
-              setExpanded((p) => !p);
+              setExpanded((p) => !p)
             }
           }
         }}
       >
         {expandable && (
-          <IconChevronDown style={{ rotate: expanded ? "0deg" : "-90deg" }} />
+          <IconChevronDown style={{ rotate: expanded ? '0deg' : '-90deg' }} />
         )}
         {prefix && <div>{prefix}</div>}
         <div>
@@ -82,7 +82,7 @@ export function Container({
             style={{
               fontSize: 14,
               fontWeight: 600,
-              color: "var(--content-primary)",
+              color: 'var(--content-primary)',
             }}
           >
             {title}
@@ -91,21 +91,21 @@ export function Container({
             <div
               style={{
                 fontSize: 14,
-                color: "var(--content-secondary)",
+                color: 'var(--content-secondary)',
               }}
             >
               {description}
             </div>
           )}
         </div>
-        {suffix && <div style={{ marginLeft: "auto" }}>{suffix}</div>}
+        {suffix && <div style={{ marginLeft: 'auto' }}>{suffix}</div>}
       </styled.div>
       {children && (!expandable || expanded) && (
         <div
           style={{
             padding: 16,
             ...(divider && {
-              borderTop: "1px solid var(--interactive-secondary)",
+              borderTop: '1px solid var(--interactive-secondary)',
             }),
           }}
         >
@@ -113,5 +113,5 @@ export function Container({
         </div>
       )}
     </div>
-  );
+  )
 }

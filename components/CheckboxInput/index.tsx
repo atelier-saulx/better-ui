@@ -30,7 +30,7 @@ export const CheckboxInput = React.forwardRef<
       description,
       variant = 'checkbox',
     },
-    ref
+    ref,
   ) => {
     const [value, setValue] = useControllableState({
       prop: valueProp,
@@ -150,5 +150,5 @@ export const CheckboxInput = React.forwardRef<
         </div>
       </Stack>
     )
-  }
+  },
 )

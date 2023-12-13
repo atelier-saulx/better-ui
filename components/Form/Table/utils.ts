@@ -3,7 +3,7 @@ import { TableCtx, Path } from './types'
 
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
-  path: Path
+  path: Path,
 ): { field: T; value: any | void } => {
   let selectedValue: any = ctx.values
   let selectedField: any = ctx.schema

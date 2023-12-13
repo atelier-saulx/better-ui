@@ -1,27 +1,27 @@
-import * as React from "react";
-import { Table } from ".";
-import { faker } from "@faker-js/faker";
-import { IconCopy, IconDelete, IconMoreVertical } from "../Icons";
-import { Modal } from "../Modal";
-import { Button } from "../Button";
-import { Dropdown } from "../Dropdown";
-import { useInfiniteQuery } from "../../utils/hooks/useInfiniteQuery";
-import { Provider } from "@based/react";
-import based from "@based/client";
+import * as React from 'react'
+import { Table } from '.'
+import { faker } from '@faker-js/faker'
+import { IconCopy, IconDelete, IconMoreVertical } from '../Icons'
+import { Modal } from '../Modal'
+import { Button } from '../Button'
+import { Dropdown } from '../Dropdown'
+import { useInfiniteQuery } from '../../utils/hooks/useInfiniteQuery'
+import { Provider } from '@based/react'
+import based from '@based/client'
 
 const client = based({
-  org: "saulx",
-  project: "based-ui",
-  env: "production",
-});
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
-  title: "Components/Table",
+  title: 'Components/Table',
   parameters: {
-    layout: "fullscreen",
+    layout: 'fullscreen',
   },
-};
-export default meta;
+}
+export default meta
 
 const data = new Array(10).fill(null).map(() => ({
   id: faker.string.uuid().slice(0, 8),
@@ -30,44 +30,44 @@ const data = new Array(10).fill(null).map(() => ({
   avatar: faker.image.avatar(),
   number: faker.number.int(10),
   name: faker.person.fullName(),
-}));
+}))
 
 export const Default = () => {
   return (
-    <div style={{ height: "100svh" }}>
+    <div style={{ height: '100svh' }}>
       <Table data={data} />
     </div>
-  );
-};
+  )
+}
 
 const InfiniteQueryContent = () => {
-  const [itemToDelete, setItemToDelete] = React.useState(null);
+  const [itemToDelete, setItemToDelete] = React.useState(null)
   const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
     accessFn: (data) => data.files,
     queryFn: (offset) => ({
-      $id: "root",
+      $id: 'root',
       files: {
         $all: true,
         $list: {
-          $sort: { $field: "updatedAt", $order: "desc" },
+          $sort: { $field: 'updatedAt', $order: 'desc' },
           $offset: offset,
           $limit: 25,
           $find: {
-            $traverse: "children",
+            $traverse: 'children',
             $filter: {
-              $operator: "=",
-              $field: "type",
-              $value: "todo",
+              $operator: '=',
+              $field: 'type',
+              $value: 'todo',
             },
           },
         },
       },
     }),
-  });
+  })
 
   return (
     <>
-      <div style={{ height: "100svh" }}>
+      <div style={{ height: '100svh' }}>
         <Table
           data={data}
           onScrollToBottom={fetchMore}
@@ -84,7 +84,7 @@ const InfiniteQueryContent = () => {
                 <Dropdown.Item
                   icon={<IconDelete />}
                   onClick={() => {
-                    setItemToDelete(row.id);
+                    setItemToDelete(row.id)
                   }}
                 >
                   Delete
@@ -98,7 +98,7 @@ const InfiniteQueryContent = () => {
         <Modal.Root
           open
           onOpenChange={() => {
-            setItemToDelete(null);
+            setItemToDelete(null)
           }}
         >
           <Modal.Overlay>
@@ -122,13 +122,13 @@ const InfiniteQueryContent = () => {
         </Modal.Root>
       )}
     </>
-  );
-};
+  )
+}
 
 export const InfiniteQuery = () => {
   return (
     <Provider client={client}>
       <InfiniteQueryContent />
     </Provider>
-  );
-};
+  )
+}

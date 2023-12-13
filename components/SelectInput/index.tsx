@@ -1,21 +1,21 @@
-import * as React from "react";
-import * as SelectBase from "@radix-ui/react-select";
-import { styled } from "inlines";
-import { IconCheckSmall, IconChevronDownSmall } from "../Icons";
+import * as React from 'react'
+import * as SelectBase from '@radix-ui/react-select'
+import { styled } from 'inlines'
+import { IconCheckSmall, IconChevronDownSmall } from '../Icons'
 
 export type SelectInputProps = {
-  placeholder?: string;
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-  label?: string;
+  placeholder?: string
+  value?: string
+  defaultValue?: string
+  onChange?: (value: string) => void
+  label?: string
   options?: (
     | { value: string; label?: string; prefix?: React.ReactNode }
     | string
-  )[];
-  variant?: "regular" | "small";
-  error?: boolean;
-};
+  )[]
+  variant?: 'regular' | 'small'
+  error?: boolean
+}
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
   (
@@ -26,12 +26,12 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       onChange,
       label,
       options,
-      variant = "regular",
+      variant = 'regular',
       error,
     },
-    ref
+    ref,
   ) => {
-    const Wrapper = label ? styled.label : styled.div;
+    const Wrapper = label ? styled.label : styled.div
 
     return (
       <SelectBase.Root
@@ -42,22 +42,22 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
         <SelectBase.Trigger asChild>
           <Wrapper
             style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              "&[data-placeholder] > div": {
-                color: "var(--content-secondary) !important",
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              '&[data-placeholder] > div': {
+                color: 'var(--content-secondary) !important',
               },
               '&[data-state="open"] > div': {
-                border: "1px solid var(--interactive-primary) !important",
+                border: '1px solid var(--interactive-primary) !important',
                 boxShadow:
-                  "0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important",
+                  '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
               },
               ...(error && {
                 '&[data-state="open"] > div': {
-                  border: "1px solid var(--sentiment-negative)",
+                  border: '1px solid var(--sentiment-negative)',
                   boxShadow:
-                    "0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)",
+                    '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
                 },
               }),
             }}
@@ -67,7 +67,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 style={{
                   marginBottom: 8,
                   fontSize: 14,
-                  lineHeight: "24px",
+                  lineHeight: '24px',
                   fontWeight: 500,
                 }}
               >
@@ -77,30 +77,30 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             <styled.div
               ref={ref}
               style={{
-                position: "relative",
+                position: 'relative',
                 fontSize: 14,
-                lineHeight: "24px",
+                lineHeight: '24px',
                 padding:
-                  variant === "regular"
-                    ? "8px 40px 8px 12px"
-                    : "3px 28px 3px 10px",
+                  variant === 'regular'
+                    ? '8px 40px 8px 12px'
+                    : '3px 28px 3px 10px',
                 borderRadius:
-                  variant === "regular"
-                    ? "var(--radius-small)"
-                    : "var(--radius-tiny)",
-                border: "1px solid var(--interactive-secondary)",
-                color: "var(--content-primary)",
-                "&:before": {
+                  variant === 'regular'
+                    ? 'var(--radius-small)'
+                    : 'var(--radius-tiny)',
+                border: '1px solid var(--interactive-secondary)',
+                color: 'var(--content-primary)',
+                '&:before': {
                   content: '""',
-                  display: "inline-block",
+                  display: 'inline-block',
                 },
-                "&:hover": {
-                  border: "1px solid var(--interactive-secondary-hover)",
+                '&:hover': {
+                  border: '1px solid var(--interactive-secondary-hover)',
                 },
                 ...(error && {
-                  border: "1px solid var(--sentiment-negative)",
-                  "&:hover": {
-                    border: "1px solid var(--sentiment-negative)",
+                  border: '1px solid var(--sentiment-negative)',
+                  '&:hover': {
+                    border: '1px solid var(--sentiment-negative)',
                   },
                 }),
               }}
@@ -108,10 +108,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               <SelectBase.Value placeholder={placeholder} />
               <IconChevronDownSmall
                 style={{
-                  position: "absolute",
-                  top: variant === "regular" ? 10 : 5,
-                  right: variant === "regular" ? 12 : 6,
-                  color: "var(--content-primary)",
+                  position: 'absolute',
+                  top: variant === 'regular' ? 10 : 5,
+                  right: variant === 'regular' ? 12 : 6,
+                  color: 'var(--content-primary)',
                 }}
               />
             </styled.div>
@@ -121,13 +121,13 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           <SelectBase.Content
             position="popper"
             style={{
-              background: "var(--background-screen)",
-              overflow: "hidden",
-              width: "var(--radix-select-trigger-width)",
-              maxHeight: "var(--radix-select-content-available-height)",
-              borderRadius: "var(--radius-small)",
-              border: "1px solid var(--interactive-secondary)",
-              boxShadow: "var(--shadow-elevation)",
+              background: 'var(--background-screen)',
+              overflow: 'hidden',
+              width: 'var(--radix-select-trigger-width)',
+              maxHeight: 'var(--radix-select-content-available-height)',
+              borderRadius: 'var(--radius-small)',
+              border: '1px solid var(--interactive-secondary)',
+              boxShadow: 'var(--shadow-elevation)',
             }}
             sideOffset={8}
           >
@@ -137,38 +137,38 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                   value,
                   label = null,
                   prefix = null,
-                } = typeof option === "string" ? { value: option } : option;
+                } = typeof option === 'string' ? { value: option } : option
 
                 return (
                   <SelectBase.Item key={value} value={value} asChild>
                     <styled.div
                       style={{
-                        padding: "4px 12px 4px 42px",
-                        borderRadius: "var(--radius-small)",
+                        padding: '4px 12px 4px 42px',
+                        borderRadius: 'var(--radius-small)',
                         fontSize: 14,
-                        lineHeight: "24px",
-                        position: "relative",
-                        outline: "none",
-                        userSelect: "none",
-                        "&[data-highlighted]": {
-                          background: "var(--background-neutral)",
+                        lineHeight: '24px',
+                        position: 'relative',
+                        outline: 'none',
+                        userSelect: 'none',
+                        '&[data-highlighted]': {
+                          background: 'var(--background-neutral)',
                         },
                       }}
                     >
                       <SelectBase.ItemIndicator>
                         <IconCheckSmall
                           style={{
-                            position: "absolute",
+                            position: 'absolute',
                             top: 6,
                             left: 12,
-                            color: "var(--content-primary)",
+                            color: 'var(--content-primary)',
                           }}
                         />
                       </SelectBase.ItemIndicator>
                       <SelectBase.ItemText>
                         {prefix && (
                           <div
-                            style={{ display: "inline-block", marginRight: 8 }}
+                            style={{ display: 'inline-block', marginRight: 8 }}
                           >
                             {prefix}
                           </div>
@@ -177,12 +177,12 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       </SelectBase.ItemText>
                     </styled.div>
                   </SelectBase.Item>
-                );
+                )
               })}
             </SelectBase.Viewport>
           </SelectBase.Content>
         </SelectBase.Portal>
       </SelectBase.Root>
-    );
-  }
-);
+    )
+  },
+)

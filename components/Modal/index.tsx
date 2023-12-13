@@ -1,9 +1,9 @@
-import * as React from "react"
-import { styled } from "inlines"
-import * as ModalBase from "@radix-ui/react-dialog"
-import { useControllableState } from "../../utils/hooks/useControllableState"
-import { Button } from "../Button"
-import { TextInput } from "../TextInput"
+import * as React from 'react'
+import { styled } from 'inlines'
+import * as ModalBase from '@radix-ui/react-dialog'
+import { useControllableState } from '../../utils/hooks/useControllableState'
+import { Button } from '../Button'
+import { TextInput } from '../TextInput'
 
 type UseModalContextProps = {
   open: boolean
@@ -79,8 +79,8 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
         <ModalBase.Overlay
           style={{
             inset: 0,
-            position: "fixed",
-            background: "var(--background-dimmer)",
+            position: 'fixed',
+            background: 'var(--background-dimmer)',
           }}
         />
         <ModalBase.Content
@@ -93,21 +93,21 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
           ref={ref}
           style={{
             width: 552,
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            maxWidth: "calc(100% - 32px)",
-            background: "var(--background-screen)",
-            maxHeight: "85svh",
-            borderRadius: "var(--radius-small)",
-            display: "flex",
-            flexDirection: "column",
-            boxShadow: "var(--shadow-elevation)",
-            outline: "none",
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            maxWidth: 'calc(100% - 32px)',
+            background: 'var(--background-screen)',
+            maxHeight: '85svh',
+            borderRadius: 'var(--radius-small)',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: 'var(--shadow-elevation)',
+            outline: 'none',
           }}
         >
-          {typeof children === "function"
+          {typeof children === 'function'
             ? children({
                 close: () => {
                   setOpen(false)
@@ -117,7 +117,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
         </ModalBase.Content>
       </ModalBase.Portal>
     )
-  }
+  },
 )
 
 export type ModalTitleProps = { title: string; description?: string }
@@ -126,14 +126,14 @@ export function Title({ title, description }: ModalTitleProps) {
   return (
     <div
       style={{
-        padding: "24px 32px",
+        padding: '24px 32px',
       }}
     >
       <div
         style={{
-          color: "var(--content-primary)",
+          color: 'var(--content-primary)',
           fontSize: 18,
-          lineHeight: "32px",
+          lineHeight: '32px',
           fontWeight: 700,
         }}
       >
@@ -143,9 +143,9 @@ export function Title({ title, description }: ModalTitleProps) {
         <div
           style={{
             marginTop: 16,
-            color: "var(--content-secondary)",
+            color: 'var(--content-secondary)',
             fontSize: 14,
-            lineHeight: "24px",
+            lineHeight: '24px',
             fontWeight: 500,
           }}
         >
@@ -162,11 +162,11 @@ export function Body({ children }: ModalBodyProps) {
   return (
     <div
       style={{
-        padding: "24px 32px",
+        padding: '24px 32px',
         flex: 1,
-        overflowY: "auto",
-        borderTop: "1px solid var(--interactive-secondary)",
-        borderBottom: "1px solid var(--interactive-secondary)",
+        overflowY: 'auto',
+        borderTop: '1px solid var(--interactive-secondary)',
+        borderBottom: '1px solid var(--interactive-secondary)',
       }}
     >
       {children}
@@ -180,12 +180,12 @@ export function Actions({ children }: ModalActionsProps) {
   return (
     <styled.div
       style={{
-        padding: "24px 32px",
-        display: "flex",
-        justifyContent: "end",
-        alignItems: "center",
-        "& > * + *": {
-          marginLeft: "24px",
+        padding: '24px 32px',
+        display: 'flex',
+        justifyContent: 'end',
+        alignItems: 'center',
+        '& > * + *': {
+          marginLeft: '24px',
         },
       }}
     >
@@ -213,7 +213,7 @@ export const useModal = (): UseModalRes => {
   const ctx = React.useContext(ModalProviderContext)
 
   if (!ctx) {
-    console.warn("No ModalProvider context found")
+    console.warn('No ModalProvider context found')
     return {
       modals: [],
       async open() {},
@@ -231,7 +231,7 @@ export const useModal = (): UseModalRes => {
   const ref = React.useRef<UseModalRes>()
 
   if (!ref.current) {
-    const open: UseModalRes["open"] = (el) => {
+    const open: UseModalRes['open'] = (el) => {
       return new Promise((resolve) => {
         const modal = React.cloneElement(el, {
           key: modalId++,
@@ -269,7 +269,7 @@ export const useModal = (): UseModalRes => {
                 val = v
               }}
             />
-          </Modal>
+          </Modal>,
         )
 
         return confirmed || false
@@ -284,7 +284,7 @@ export const useModal = (): UseModalRes => {
             }}
           >
             {message}
-          </Modal>
+          </Modal>,
         )
         return ok
       },
@@ -317,10 +317,10 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 export type ModalProps = {
-  title?: ModalTitleProps["title"]
-  description?: ModalTitleProps["description"]
+  title?: ModalTitleProps['title']
+  description?: ModalTitleProps['description']
   open?: boolean
-  onOpenChange?: ModalRootProps["onOpenChange"]
+  onOpenChange?: ModalRootProps['onOpenChange']
   children?: React.ReactNode
   onConfirm?({ close }: { close(): void }): void
 }
@@ -376,5 +376,5 @@ export const Modal = Object.assign(
     Title,
     Body,
     Actions,
-  }
+  },
 )

@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Sidebar, SidebarGroup, SidebarItem } from ".";
-import type { Meta } from "@storybook/react";
+import * as React from 'react'
+import { Sidebar, SidebarGroup, SidebarItem } from '.'
+import type { Meta } from '@storybook/react'
 import {
   IconViewBoxes,
   IconChartBar,
@@ -11,23 +11,23 @@ import {
   IconAttachment,
   IconLayerThree,
   IconViewDashboard,
-} from "../Icons";
+} from '../Icons'
 
 const meta: Meta<typeof Sidebar> = {
-  title: "Components/Sidebar",
+  title: 'Components/Sidebar',
   component: Sidebar,
   parameters: {
-    layout: "fullscreen",
+    layout: 'fullscreen',
   },
-};
+}
 
-export default meta;
+export default meta
 
 export const Default = () => {
-  const [active, setActive] = React.useState("overview");
+  const [active, setActive] = React.useState('overview')
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div style={{ height: '100vh', width: '100%' }}>
       <Sidebar value={active} onChange={setActive}>
         <SidebarItem value="overview" icon={<IconViewBoxes />}>
           Overview
@@ -43,14 +43,14 @@ export const Default = () => {
         </SidebarItem>
       </Sidebar>
     </div>
-  );
-};
+  )
+}
 
 export const WithGroups = () => {
-  const [active, setActive] = React.useState("overview");
+  const [active, setActive] = React.useState('overview')
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div style={{ height: '100vh', width: '100%' }}>
       <Sidebar value={active} onChange={setActive}>
         <SidebarGroup title="Database">
           <SidebarItem value="overview" icon={<IconViewDashboard />}>
@@ -74,5 +74,5 @@ export const WithGroups = () => {
         </SidebarGroup>
       </Sidebar>
     </div>
-  );
-};
+  )
+}

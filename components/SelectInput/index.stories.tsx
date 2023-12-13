@@ -1,57 +1,57 @@
-import { SelectInput } from ".";
-import type { Meta, StoryObj } from "@storybook/react";
+import { SelectInput } from '.'
+import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof SelectInput> = {
-  title: "Atoms/Inputs/SelectInput",
+  title: 'Atoms/Inputs/SelectInput',
   component: SelectInput,
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj<typeof SelectInput> = {
   args: {
-    placeholder: "Select something",
-    label: "Favourite fruit",
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
     options: [
       {
-        label: "Orange",
-        value: "orange",
-        prefix: "🍊",
+        label: 'Orange',
+        value: 'orange',
+        prefix: '🍊',
       },
       {
-        label: "Banana",
-        value: "banana",
-        prefix: "🍌",
+        label: 'Banana',
+        value: 'banana',
+        prefix: '🍌',
       },
       ...Array.from({ length: 100 }).map((_, i) => ({
         label: `Apple ${i}`,
         value: `apple-${i}`,
-        prefix: "🍎",
+        prefix: '🍎',
       })),
     ],
   },
-};
+}
 
 export const Simple: StoryObj<typeof SelectInput> = {
   args: {
-    placeholder: "Select something",
-    label: "Favourite fruit",
-    options: ["orange", "banana", "apple"],
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    options: ['orange', 'banana', 'apple'],
   },
-};
+}
 
 export const Small: StoryObj<typeof SelectInput> = {
   args: {
-    placeholder: "Select something",
-    options: ["orange", "banana", "apple"],
-    variant: "small",
+    placeholder: 'Select something',
+    options: ['orange', 'banana', 'apple'],
+    variant: 'small',
   },
-};
+}
 
 export const Error: StoryObj<typeof SelectInput> = {
   args: {
-    placeholder: "Select something",
-    options: ["orange", "banana", "apple"],
+    placeholder: 'Select something',
+    options: ['orange', 'banana', 'apple'],
     error: true,
   },
-};
+}

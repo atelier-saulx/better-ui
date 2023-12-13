@@ -1,31 +1,31 @@
-import * as React from "react";
-import { styled } from "inlines";
-import { IconEye, IconLogOut, IconMenu, IconSettings } from "../Icons";
-import { Button } from "../Button";
-import { Dropdown } from "../Dropdown";
-import { Thumbnail } from "../Thumbnail";
-import { useIsMobile } from "../../utils/hooks/useIsMobile";
-import { useTheme } from "../../utils/hooks/useTheme";
-import { BasedLogoWithText, BasedLogoWithoutText } from "../Icons/logo";
+import * as React from 'react'
+import { styled } from 'inlines'
+import { IconEye, IconLogOut, IconMenu, IconSettings } from '../Icons'
+import { Button } from '../Button'
+import { Dropdown } from '../Dropdown'
+import { Thumbnail } from '../Thumbnail'
+import { useIsMobile } from '../../utils/hooks/useIsMobile'
+import { useTheme } from '../../utils/hooks/useTheme'
+import { BasedLogoWithText, BasedLogoWithoutText } from '../Icons/logo'
 
 export function Header() {
-  const isMobile = useIsMobile();
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const { theme, setTheme } = useTheme();
+  const isMobile = useIsMobile()
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
+  const { theme, setTheme } = useTheme()
 
   return (
     <>
       <header
         style={{
           height: 64,
-          borderBottom: "1px solid var(--interactive-secondary)",
-          background: "var(--background-screen)",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 24px",
+          borderBottom: '1px solid var(--interactive-secondary)',
+          background: 'var(--background-screen)',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 24px',
           ...(isMobile &&
             mobileMenuOpen && {
-              position: "fixed",
+              position: 'fixed',
               top: 0,
               left: 0,
               right: 0,
@@ -37,9 +37,9 @@ export function Header() {
         {isMobile ? (
           <styled.div
             style={{
-              marginLeft: "auto",
-              display: "flex",
-              alignItems: "center",
+              marginLeft: 'auto',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
             <Button
@@ -47,7 +47,7 @@ export function Header() {
               shape="square"
               size="small"
               onClick={() => {
-                setMobileMenuOpen((p) => !p);
+                setMobileMenuOpen((p) => !p)
               }}
             >
               <IconMenu />
@@ -57,11 +57,11 @@ export function Header() {
           <>
             <styled.div
               style={{
-                marginLeft: "auto",
-                display: "flex",
-                alignItems: "center",
-                "& > * + *": {
-                  marginLeft: "24px",
+                marginLeft: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                '& > * + *': {
+                  marginLeft: '24px',
                 },
               }}
             >
@@ -70,7 +70,7 @@ export function Header() {
               </Button>
               <Dropdown.Root>
                 <Dropdown.Trigger>
-                  <div style={{ cursor: "pointer" }}>
+                  <div style={{ cursor: 'pointer' }}>
                     <Thumbnail text="MD" shape="circle" size="small" />
                   </div>
                 </Dropdown.Trigger>
@@ -81,10 +81,10 @@ export function Header() {
                   <Dropdown.Item
                     icon={<IconEye />}
                     onClick={() => {
-                      setTheme(theme === "dark" ? "light" : "dark");
+                      setTheme(theme === 'dark' ? 'light' : 'dark')
                     }}
                   >
-                    Switch to {theme === "dark" ? "light" : "dark"} mode
+                    Switch to {theme === 'dark' ? 'light' : 'dark'} mode
                   </Dropdown.Item>
                   <Dropdown.Item icon={<IconLogOut />}>Logout</Dropdown.Item>
                 </Dropdown.Items>
@@ -96,30 +96,30 @@ export function Header() {
       {isMobile && mobileMenuOpen && (
         <styled.div
           style={{
-            position: "fixed",
+            position: 'fixed',
             top: 64,
             left: 0,
             right: 0,
             bottom: 0,
-            background: "var(--background-screen)",
+            background: 'var(--background-screen)',
             zIndex: 20,
-            padding: "12px0",
+            padding: '12px0',
           }}
         >
           <styled.div
             style={{
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
               height: 48,
-              "& > * + *": { marginLeft: "10px" },
-              padding: "0 24px",
-              borderBottom: "1px solid var(--interactive-secondary)",
+              '& > * + *': { marginLeft: '10px' },
+              padding: '0 24px',
+              borderBottom: '1px solid var(--interactive-secondary)',
             }}
           >
             <IconSettings />
             <div
               style={{
-                color: "var(--content-primary)",
+                color: 'var(--content-primary)',
                 fontSize: 14,
                 fontWeight: 600,
               }}
@@ -129,18 +129,18 @@ export function Header() {
           </styled.div>
           <styled.div
             style={{
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
               height: 48,
-              "& > * + *": { marginLeft: "10px" },
-              padding: "0 24px",
-              borderBottom: "1px solid var(--interactive-secondary)",
+              '& > * + *': { marginLeft: '10px' },
+              padding: '0 24px',
+              borderBottom: '1px solid var(--interactive-secondary)',
             }}
           >
             <IconEye />
             <div
               style={{
-                color: "var(--content-primary)",
+                color: 'var(--content-primary)',
                 fontSize: 14,
                 fontWeight: 600,
               }}
@@ -150,17 +150,17 @@ export function Header() {
           </styled.div>
           <styled.div
             style={{
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
               height: 48,
-              "& > * + *": { marginLeft: "10px" },
-              padding: "0 24px",
+              '& > * + *': { marginLeft: '10px' },
+              padding: '0 24px',
             }}
           >
             <IconLogOut />
             <div
               style={{
-                color: "var(--content-primary)",
+                color: 'var(--content-primary)',
                 fontSize: 14,
                 fontWeight: 600,
               }}
@@ -171,5 +171,5 @@ export function Header() {
         </styled.div>
       )}
     </>
-  );
+  )
 }

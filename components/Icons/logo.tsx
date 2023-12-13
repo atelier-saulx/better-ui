@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 
 export function BasedLogoWithText() {
   return (
@@ -33,7 +33,7 @@ export function BasedLogoWithText() {
         fill="var(--content-primary)"
       />
     </svg>
-  );
+  )
 }
 
 export function BasedLogoWithoutText() {
@@ -55,5 +55,5 @@ export function BasedLogoWithoutText() {
       />
       <path d="M10.8798 0L0 10.8798V21.1198L10.8798 10.24V0Z" fill="#008CFF" />
     </svg>
-  );
+  )
 }

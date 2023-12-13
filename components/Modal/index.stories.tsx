@@ -1,12 +1,12 @@
-import * as React from "react"
-import { Modal } from "."
-import { Button } from "../Button"
-import { TextInput } from "../TextInput"
-import { SelectInput } from "../SelectInput"
-import { styled } from "inlines"
+import * as React from 'react'
+import { Modal } from '.'
+import { Button } from '../Button'
+import { TextInput } from '../TextInput'
+import { SelectInput } from '../SelectInput'
+import { styled } from 'inlines'
 
 const meta = {
-  title: "Components/Modal",
+  title: 'Components/Modal',
   decorators: [
     (Story) => (
       <Modal.Provider>
@@ -34,8 +34,8 @@ export const Default = () => {
             <Modal.Body>
               <styled.div
                 style={{
-                  "& > * + *": {
-                    marginTop: "24px",
+                  '& > * + *': {
+                    marginTop: '24px',
                   },
                 }}
               >
@@ -43,8 +43,8 @@ export const Default = () => {
                 <SelectInput
                   label="Language"
                   options={[
-                    { label: "English", value: "english", prefix: "🇺🇸" },
-                    { label: "Hungarian", value: "hungarian", prefix: "🇭🇺" },
+                    { label: 'English', value: 'english', prefix: '🇺🇸' },
+                    { label: 'Hungarian', value: 'hungarian', prefix: '🇭🇺' },
                   ]}
                 />
               </styled.div>
@@ -87,7 +87,7 @@ export const Nested = ({ level = 0 }) => {
 
 export const List = ({ level = 0 }) => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
       {Array.from({ length: 5 }).map(() => {
         return (
           <Modal.Root>
@@ -134,7 +134,7 @@ export const Alert = () => {
   return (
     <Button
       onClick={() => {
-        modal.alert("Hello")
+        modal.alert('Hello')
       }}
     >
       Alert
@@ -148,7 +148,7 @@ export const Prompt = () => {
   return (
     <Button
       onClick={async () => {
-        const res = await modal.prompt("Hello?")
+        const res = await modal.prompt('Hello?')
         if (res) {
           return modal.alert(res)
         }
@@ -165,8 +165,8 @@ export const Confirm = () => {
   return (
     <Button
       onClick={async () => {
-        const res = await modal.confirm("Yes?")
-        return modal.alert(res ? "YES" : "NO")
+        const res = await modal.confirm('Yes?')
+        return modal.alert(res ? 'YES' : 'NO')
       }}
     >
       Confirm

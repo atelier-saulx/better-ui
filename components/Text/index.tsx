@@ -42,7 +42,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
       children,
       singleLine,
     },
-    ref
+    ref,
   ) => {
     return React.createElement(styled[as], {
       children,
@@ -63,5 +63,5 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
           : {}),
       },
     })
-  }
+  },
 )

@@ -1,90 +1,90 @@
-import * as React from "react";
-import { createPortal } from "react-dom";
-import { IconClose } from "../Icons";
-import { textVariants } from "../Text";
-import { color } from "../../utils/colors";
+import * as React from 'react'
+import { createPortal } from 'react-dom'
+import { IconClose } from '../Icons'
+import { textVariants } from '../Text'
+import { color } from '../../utils/colors'
 
 type Toast =
   | string
-  | { text: string; prefix?: React.ReactNode; suffix?: React.ReactNode };
-type ToastVariant = "neutral" | "informative" | "warning" | "error";
+  | { text: string; prefix?: React.ReactNode; suffix?: React.ReactNode }
+type ToastVariant = 'neutral' | 'informative' | 'warning' | 'error'
 
 const ToastContext = React.createContext<
   (toast: Toast, variant?: ToastVariant) => void
->(() => {});
+>(() => {})
 
 type ToastContextProviderProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export function ToastProvider({ children }: ToastContextProviderProps) {
-  const rerender = React.useState({})[1];
+  const rerender = React.useState({})[1]
   const queue = React.useRef<
     {
-      id: number;
-      toast: Toast;
-      variant: ToastVariant;
-      entering?: boolean;
-      leaving?: boolean;
-      leaveTimeoutId?: number;
-      height?: number;
+      id: number
+      toast: Toast
+      variant: ToastVariant
+      entering?: boolean
+      leaving?: boolean
+      leaveTimeoutId?: number
+      height?: number
     }[]
-  >([]);
+  >([])
 
-  function showToast(toast: Toast, variant: ToastVariant = "neutral") {
+  function showToast(toast: Toast, variant: ToastVariant = 'neutral') {
     const id = window.setTimeout(() => {
-      hideToast(id);
-    }, 35000);
+      hideToast(id)
+    }, 35000)
 
     window.setTimeout(() => {
       queue.current = queue.current.map((e) =>
-        e.id === id ? { ...e, entering: false } : e
-      );
-      rerender({});
-    }, 0);
+        e.id === id ? { ...e, entering: false } : e,
+      )
+      rerender({})
+    }, 0)
 
-    queue.current = [{ id, toast, variant, entering: true }, ...queue.current];
-    rerender({});
+    queue.current = [{ id, toast, variant, entering: true }, ...queue.current]
+    rerender({})
   }
 
   function hideToast(id: number) {
-    window.clearTimeout(id);
+    window.clearTimeout(id)
 
     const leaveTimeoutId = window.setTimeout(() => {
-      queue.current = queue.current.filter((e) => e.id !== id);
-      rerender({});
-    }, 150);
+      queue.current = queue.current.filter((e) => e.id !== id)
+      rerender({})
+    }, 150)
 
     queue.current = queue.current.map((e) =>
-      e.id === id ? { ...e, leaving: true, leaveTimeoutId } : e
-    );
-    rerender({});
+      e.id === id ? { ...e, leaving: true, leaveTimeoutId } : e,
+    )
+    rerender({})
   }
 
   React.useEffect(() => {
     return () => {
       for (const toast of queue.current) {
-        window.clearTimeout(toast.id);
+        window.clearTimeout(toast.id)
         if (toast.leaveTimeoutId) {
-          window.clearTimeout(toast.leaveTimeoutId);
+          window.clearTimeout(toast.leaveTimeoutId)
         }
       }
-    };
-  }, []);
+    }
+  }, [])
 
   return (
     <ToastContext.Provider value={showToast}>
       {createPortal(
         <div
           style={{
-            position: "fixed",
+            position: 'fixed',
             bottom: 24,
             right: 24,
-            maxWidth: "calc(100% - 48px)",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
+            maxWidth: 'calc(100% - 48px)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
             gap: 12,
             zIndex: 20,
           }}
@@ -93,51 +93,51 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
             ({ id, toast, leaving, entering, variant }, index) => {
               const sumOfPrevToastHeights = (
                 index === 0 ? [] : queue.current.slice(0, index)
-              ).reduce((acc, curr) => acc + (curr?.height ?? 0), 0);
+              ).reduce((acc, curr) => acc + (curr?.height ?? 0), 0)
 
               console.log(
                 index,
                 index > 0 && queue.current.some((e) => e.entering)
-                  ? "250ms"
-                  : "none"
-              );
+                  ? '250ms'
+                  : 'none',
+              )
 
               return (
                 <div
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     padding: 16,
-                    display: "flex",
-                    justifyContent: "start",
-                    alignItems: "center",
-                    borderRadius: "var(--radius-small)",
+                    display: 'flex',
+                    justifyContent: 'start',
+                    alignItems: 'center',
+                    borderRadius: 'var(--radius-small)',
                     right: 0,
                     gap: 16,
                     bottom: 0,
-                    transitionProperty: "transform opacity",
-                    transitionDuration: leaving ? "150ms" : "250ms",
-                    transitionTimingFunction: "cubic-bezier(.25,.75,.6,.98)",
+                    transitionProperty: 'transform opacity',
+                    transitionDuration: leaving ? '150ms' : '250ms',
+                    transitionTimingFunction: 'cubic-bezier(.25,.75,.6,.98)',
                     opacity: entering || leaving ? 0 : 1,
                     transform: entering
-                      ? "translate3d(0,calc(100% + 24px),0)"
+                      ? 'translate3d(0,calc(100% + 24px),0)'
                       : `translate3d(0,-${
                           sumOfPrevToastHeights + index * 12
                         }px,0)`,
-                    ...(variant === "neutral" && {
-                      color: color("content", "inverted"),
-                      background: color("background", "inverted"),
+                    ...(variant === 'neutral' && {
+                      color: color('content', 'inverted'),
+                      background: color('background', 'inverted'),
                     }),
-                    ...(variant === "informative" && {
-                      color: "var(--semantic-color-positive)",
-                      background: "var(--semantic-background-positive)",
+                    ...(variant === 'informative' && {
+                      color: 'var(--semantic-color-positive)',
+                      background: 'var(--semantic-background-positive)',
                     }),
-                    ...(variant === "warning" && {
-                      color: "var(--semantic-color-warning)",
-                      background: "var(--semantic-background-warning)",
+                    ...(variant === 'warning' && {
+                      color: 'var(--semantic-color-warning)',
+                      background: 'var(--semantic-background-warning)',
                     }),
-                    ...(variant === "error" && {
-                      color: "var(--semantic-color-error)",
-                      background: "var(--semantic-background-error)",
+                    ...(variant === 'error' && {
+                      color: 'var(--semantic-color-error)',
+                      background: 'var(--semantic-background-error)',
                     }),
                   }}
                   key={id}
@@ -149,18 +149,18 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                       queue.current = queue.current.map((e) =>
                         e.id === id
                           ? { ...e, height: ref.getBoundingClientRect().height }
-                          : e
-                      );
-                      rerender({});
+                          : e,
+                      )
+                      rerender({})
                     }
                   }}
                 >
-                  {typeof toast === "object" ? (
+                  {typeof toast === 'object' ? (
                     <>
                       {toast?.prefix}
                       <div
                         style={{
-                          whiteSpace: "nowrap",
+                          whiteSpace: 'nowrap',
                           ...textVariants.bodyBold,
                         }}
                       >
@@ -170,7 +170,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                     </>
                   ) : (
                     <div
-                      style={{ whiteSpace: "nowrap", ...textVariants.bodyBold }}
+                      style={{ whiteSpace: 'nowrap', ...textVariants.bodyBold }}
                     >
                       {toast}
                     </div>
@@ -178,32 +178,32 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
 
                   <div
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      cursor: "pointer",
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      cursor: 'pointer',
                       padding: 4,
-                      margin: "-4px",
+                      margin: '-4px',
                       borderRadius: 6,
                     }}
                     onClick={() => {
-                      hideToast(id);
+                      hideToast(id)
                     }}
                   >
                     <IconClose />
                   </div>
                 </div>
-              );
-            }
+              )
+            },
           )}
         </div>,
-        document.body
+        document.body,
       )}
       {children}
     </ToastContext.Provider>
-  );
+  )
 }
 
 export function useToast() {
-  return React.useContext(ToastContext);
+  return React.useContext(ToastContext)
 }

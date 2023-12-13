@@ -1,17 +1,17 @@
-import type { StorybookConfig } from "@storybook/react-webpack5"
+import type { StorybookConfig } from '@storybook/react-webpack5'
 
 const config: StorybookConfig = {
-  stories: ["../**/*.stories.tsx"],
+  stories: ['../**/*.stories.tsx'],
   addons: [
-    "@storybook/addon-controls",
-    "@storybook/addon-viewport",
-    "@storybook/addon-docs",
+    '@storybook/addon-controls',
+    '@storybook/addon-viewport',
+    '@storybook/addon-docs',
   ],
   docs: {
     autodocs: true,
   },
   framework: {
-    name: "@storybook/react-webpack5",
+    name: '@storybook/react-webpack5',
     options: {},
   },
   webpackFinal: (config) => {

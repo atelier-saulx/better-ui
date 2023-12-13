@@ -1,12 +1,12 @@
-import * as React from "react";
-import { Dropdown } from "./";
-import { Button } from "../Button";
-import { IconMoreVertical, IconCopy, IconDelete } from "../Icons";
+import * as React from 'react'
+import { Dropdown } from './'
+import { Button } from '../Button'
+import { IconMoreVertical, IconCopy, IconDelete } from '../Icons'
 
 const meta = {
-  title: "Atoms/Dropdown",
-};
-export default meta;
+  title: 'Atoms/Dropdown',
+}
+export default meta
 
 export const Default = () => {
   return (
@@ -19,7 +19,7 @@ export const Default = () => {
       <Dropdown.Items>
         <Dropdown.Item
           onClick={() => {
-            alert("copy");
+            alert('copy')
           }}
           icon={<IconCopy />}
         >
@@ -27,7 +27,7 @@ export const Default = () => {
         </Dropdown.Item>
         <Dropdown.Item
           onClick={() => {
-            alert("delete");
+            alert('delete')
           }}
           icon={<IconDelete />}
         >
@@ -36,7 +36,7 @@ export const Default = () => {
         {Array.from({ length: 100 }).map((_, i) => (
           <Dropdown.Item
             onClick={() => {
-              alert(`delete ${i}`);
+              alert(`delete ${i}`)
             }}
             icon={<IconDelete />}
           >
@@ -45,5 +45,5 @@ export const Default = () => {
         ))}
       </Dropdown.Items>
     </Dropdown.Root>
-  );
-};
+  )
+}

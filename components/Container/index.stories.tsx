@@ -1,24 +1,24 @@
-import * as React from "react";
-import { Container } from "./";
-import { Thumbnail } from "../Thumbnail";
-import type { Meta, StoryObj } from "@storybook/react";
-import { IconMoreHorizontal } from "../Icons";
-import { Button } from "../Button";
-import { Dropdown } from "../Dropdown";
+import * as React from 'react'
+import { Container } from './'
+import { Thumbnail } from '../Thumbnail'
+import type { Meta, StoryObj } from '@storybook/react'
+import { IconMoreHorizontal } from '../Icons'
+import { Button } from '../Button'
+import { Dropdown } from '../Dropdown'
 
 const meta: Meta<typeof Container> = {
-  title: "Components/Container",
+  title: 'Components/Container',
   component: Container,
-};
+}
 
-export default meta;
+export default meta
 
 // <SelectMenu items={['x','y','z', { value: 'root', label: 'bla'}]} onChange={(value: string) => {}} />
 
 export const ListItem: StoryObj<typeof Container> = {
   args: {
-    title: "This is a title",
-    description: "This is a description",
+    title: 'This is a title',
+    description: 'This is a description',
     prefix: <Thumbnail text="AB" />,
     suffix: (
       <Dropdown.Root>
@@ -30,14 +30,14 @@ export const ListItem: StoryObj<typeof Container> = {
         <Dropdown.Items>
           <Dropdown.Item
             onClick={() => {
-              alert("item 1 clicked");
+              alert('item 1 clicked')
             }}
           >
             Item 1
           </Dropdown.Item>
           <Dropdown.Item
             onClick={() => {
-              alert("item 1 clicked");
+              alert('item 1 clicked')
             }}
           >
             Item 2
@@ -46,14 +46,14 @@ export const ListItem: StoryObj<typeof Container> = {
       </Dropdown.Root>
     ),
   },
-};
+}
 
 export const ListItemWithOnClick: StoryObj<typeof Container> = {
   args: {
-    title: "This is a title",
-    description: "This is a description",
+    title: 'This is a title',
+    description: 'This is a description',
     onClick: () => {
-      alert("clicked");
+      alert('clicked')
     },
     prefix: <Thumbnail text="AB" />,
     suffix: (
@@ -66,14 +66,14 @@ export const ListItemWithOnClick: StoryObj<typeof Container> = {
         <Dropdown.Items>
           <Dropdown.Item
             onClick={() => {
-              alert("item 1 clicked");
+              alert('item 1 clicked')
             }}
           >
             Item 1
           </Dropdown.Item>
           <Dropdown.Item
             onClick={() => {
-              alert("item 1 clicked");
+              alert('item 1 clicked')
             }}
           >
             Item 2
@@ -82,12 +82,12 @@ export const ListItemWithOnClick: StoryObj<typeof Container> = {
       </Dropdown.Root>
     ),
   },
-};
+}
 
 export const ListItemWithChildren: StoryObj<typeof Container> = {
   args: {
-    title: "This is a title",
-    description: "This is a description",
+    title: 'This is a title',
+    description: 'This is a description',
     prefix: <Thumbnail text="AB" />,
     suffix: (
       <Dropdown.Root>
@@ -99,14 +99,14 @@ export const ListItemWithChildren: StoryObj<typeof Container> = {
         <Dropdown.Items>
           <Dropdown.Item
             onClick={() => {
-              alert("item 1 clicked");
+              alert('item 1 clicked')
             }}
           >
             Item 1
           </Dropdown.Item>
           <Dropdown.Item
             onClick={() => {
-              alert("item 1 clicked");
+              alert('item 1 clicked')
             }}
           >
             Item 2
@@ -116,18 +116,18 @@ export const ListItemWithChildren: StoryObj<typeof Container> = {
     ),
     children: <Button>This is a button</Button>,
   },
-};
+}
 
 export const ListItemSimple: StoryObj<typeof Container> = {
   args: {
-    title: "This is a title",
+    title: 'This is a title',
   },
-};
+}
 
 export const Expandable: StoryObj<typeof Container> = {
   args: {
-    title: "This is a title",
-    description: "This is a description",
+    title: 'This is a title',
+    description: 'This is a description',
     expandable: true,
     prefix: <Thumbnail text="AB" />,
     suffix: (
@@ -140,14 +140,14 @@ export const Expandable: StoryObj<typeof Container> = {
         <Dropdown.Items>
           <Dropdown.Item
             onClick={() => {
-              alert("item 1 clicked");
+              alert('item 1 clicked')
             }}
           >
             Item 1
           </Dropdown.Item>
           <Dropdown.Item
             onClick={() => {
-              alert("item 1 clicked");
+              alert('item 1 clicked')
             }}
           >
             Item 2
@@ -157,4 +157,4 @@ export const Expandable: StoryObj<typeof Container> = {
     ),
     children: <Button>This is a button</Button>,
   },
-};
+}
