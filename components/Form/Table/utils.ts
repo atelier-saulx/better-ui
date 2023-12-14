@@ -34,7 +34,7 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
       const k = title ?? key
       const keyWidth = getStringWidth(k, {
         ...textVariants.bodyBold,
-        fontFamily: 'Inter',
+        fontFamily: 'Inter, system-ui',
       })
       if (keyWidth > maxWidth) {
         maxWidth = keyWidth + 48
@@ -42,7 +42,7 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
       if (description) {
         const descriptionWidth = getStringWidth(description, {
           ...textVariants.body,
-          fontFamily: 'Inter',
+          fontFamily: 'Inter, system-ui',
         })
         maxWidth = descriptionWidth + 40
       }
@@ -95,11 +95,15 @@ export const isSmallField = ({ type }: BasedSchemaField): boolean => {
 export const readParentField = (
   ctx: TableCtx,
   path: Path,
-  level: number
+  level: number = 1
 ): BasedSchemaField => {
   return readPath(ctx, path.slice(0, -level)).field
 }
 
-export const readType = (ctx: TableCtx, path: Path, level: number): string => {
+export const readParentType = (
+  ctx: TableCtx,
+  path: Path,
+  level: number = 1
+): string => {
   return readParentField(ctx, path, level).type ?? ''
 }

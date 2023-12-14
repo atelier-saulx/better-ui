@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Stack } from '../../Stack'
 import { TableProps } from './types'
-import { readPath, readType, useCols } from './utils'
+import { readPath, readParentType, useCols } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -33,8 +33,9 @@ export function Object({ ctx, path }: TableProps) {
         justify="start"
         direction="column"
         style={{
+          // TODO: preferebly all handled in the index
           borderBottom:
-            readType(ctx, path, 1) === 'object' ? undefined : border(),
+            readParentType(ctx, path) === 'object' ? undefined : border(),
         }}
       >
         <ColStack
