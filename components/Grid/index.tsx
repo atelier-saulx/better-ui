@@ -4,107 +4,166 @@ import { Text } from '../Text'
 import { IconMoreHorizontal } from '../Icons'
 import { styled } from 'inlines'
 import { Button } from '../Button'
-import { Folder } from '../Icons/extras'
+import { Folder, Paper } from '../Icons/extras'
+import { textVariants } from '../Text'
 
 export type GridProps = {
   variant?: 'row' | 'column'
-  children: React.ReactNode
+  items: {
+    title: string
+    description?: string
+    renderAs: 'folder' | 'file' | 'image'
+    [key: string]: any
+  }[]
 }
 
-const GridContext = React.createContext<{ variant: GridProps['variant'] }>({
-  variant: 'row',
-})
-
-export function Grid({ variant = 'column', children }: GridProps) {
+export function Grid({ variant = 'column', items }: GridProps) {
   return (
-    <GridContext.Provider value={{ variant }}>
-      <div
-        style={{
-          display: 'grid',
-          gap: variant === 'column' ? 16 : 0,
-          gridTemplateColumns: variant === 'column' ? 'repeat(3, 1fr)' : '1fr',
-        }}
-      >
-        {children}
-      </div>
-    </GridContext.Provider>
-  )
-}
-
-export function GridItem({ title, description }: any) {
-  const { variant } = React.useContext(GridContext)
-
-  return (
-    <styled.div
+    <div
       style={{
-        padding: 16,
-        display: 'flex',
-        ...(variant === 'column' && {
-          borderRadius: 'var(--radius-tiny)',
-          border: border(),
-          flexDirection: 'column',
-        }),
-        ...(variant === 'row' && {
-          borderBottom: border(),
-          flexDirection: 'row',
-        }),
-        '&:hover .optionsButton': {
-          opacity: '100% !important',
-        },
+        display: 'grid',
+        gap: variant === 'column' ? 16 : 0,
+        gridTemplateColumns: variant === 'column' ? 'repeat(3, 1fr)' : '1fr',
       }}
     >
-      <div
-        style={{
-          background: color('background', 'neutral'),
-          borderRadius: 'var(--radius-tiny)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexShrink: 0,
-          ...(variant === 'column' && {
-            aspectRatio: '16/9',
-            marginBottom: 12,
-            padding: 16,
-          }),
-          ...(variant === 'row' && {
-            marginLeft: -16,
-            marginRight: 12,
-            padding: 8,
-            height: 48,
-            width: 48,
-          }),
-        }}
-      >
-        <Folder />
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'start',
-          justifyContent: 'center',
-          minHeight: 48,
-        }}
-      >
-        <div
+      {items.map((item) => (
+        <styled.div
           style={{
+            padding: 16,
             display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
+            ...(variant === 'column' && {
+              borderRadius: 'var(--radius-tiny)',
+              border: border(),
+              flexDirection: 'column',
+            }),
+            ...(variant === 'row' && {
+              borderBottom: border(),
+              flexDirection: 'row',
+            }),
+            '&:hover .optionsButton': {
+              opacity: '100% !important',
+            },
           }}
         >
-          <Text variant="bodyBold" color="primary">
-            {title}
-          </Text>
-          {variant === 'column' && (
+          <div
+            style={{
+              background: color('background', 'neutral'),
+              borderRadius: 'var(--radius-tiny)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexShrink: 0,
+              ...(variant === 'column' && {
+                aspectRatio: '16 / 9',
+                width: '100%',
+                marginBottom: 12,
+              }),
+              ...(variant === 'row' && {
+                marginLeft: -16,
+                marginRight: 12,
+                height: 48,
+                width: 48,
+                padding: 4,
+              }),
+            }}
+          >
+            {item.renderAs === 'folder' && (
+              <Folder style={{ height: variant === 'column' ? 64 : 28 }} />
+            )}
+            {item.renderAs === 'file' && (
+              <div
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Paper style={{ height: variant === 'column' ? 76 : 32 }} />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    ...textVariants.bodyStrong,
+                    color: color('interactive', 'primary'),
+                    textTransform: 'uppercase',
+                    fontSize: variant === 'column' ? 14 : 8,
+                  }}
+                >
+                  {item.title.split('.')[1]}
+                </div>
+              </div>
+            )}
+            {item.renderAs === 'image' && (
+              <img
+                src={item.image}
+                style={{
+                  width: '100%',
+                  objectFit: variant === 'column' ? 'contain' : 'cover',
+                  aspectRatio: '16 / 9',
+                  padding: variant === 'column' ? 16 : 0,
+                }}
+              />
+            )}
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'start',
+              justifyContent: 'center',
+              minHeight: 48,
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Text
+                variant="bodyBold"
+                color="primary"
+                style={{ wordBreak: 'break-all' }}
+              >
+                {item.title}
+              </Text>
+              {variant === 'column' && (
+                <div
+                  className="optionsButton"
+                  style={{
+                    display: 'flex',
+                    opacity: 0,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingLeft: 12,
+                  }}
+                >
+                  <Button variant="icon-only">
+                    <IconMoreHorizontal />
+                  </Button>
+                </div>
+              )}
+            </div>
+            <Text color="secondary" style={{ wordBreak: 'break-all' }}>
+              {item.description}
+            </Text>
+          </div>
+          {variant === 'row' && (
             <div
               className="optionsButton"
               style={{
                 display: 'flex',
-                opacity: 0,
                 alignItems: 'center',
                 justifyContent: 'center',
+                opacity: 0,
+                paddingLeft: 12,
+                marginLeft: 'auto',
               }}
             >
               <Button variant="icon-only">
@@ -112,26 +171,8 @@ export function GridItem({ title, description }: any) {
               </Button>
             </div>
           )}
-        </div>
-        <Text color="secondary">{description}</Text>
-      </div>
-      {variant === 'row' && (
-        <div
-          className="optionsButton"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            opacity: 0,
-            paddingLeft: 12,
-            marginLeft: 'auto',
-          }}
-        >
-          <Button variant="icon-only">
-            <IconMoreHorizontal />
-          </Button>
-        </div>
-      )}
-    </styled.div>
+        </styled.div>
+      ))}
+    </div>
   )
 }
