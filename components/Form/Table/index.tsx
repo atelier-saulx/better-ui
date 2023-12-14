@@ -21,11 +21,20 @@ function Title({
 }: TableProps & { parent: BasedSchemaField }) {
   const { field } = readPath(ctx, path)
   return (
-    <Cell border isKey width={getKeyWidth(parent)}>
+    <Cell
+      border
+      isKey
+      width={getKeyWidth(parent)}
+      style={{
+        borderBottom: border(),
+      }}
+    >
       <styled.div style={{ marginBottom: 8, marginTop: 8 }}>
         {field.title ?? path[path.length - 1]}
         {field.description ? (
-          <Text color="secondary">{field.description}</Text>
+          <Text style={{ marginTop: -2 }} color="secondary">
+            {field.description}
+          </Text>
         ) : null}
       </styled.div>
     </Cell>
@@ -49,7 +58,11 @@ function Body({ ctx, path }: TableProps) {
   }
 
   return (
-    <Cell>
+    <Cell
+      style={{
+        borderBottom: border(),
+      }}
+    >
       <Field ctx={ctx} path={path} />
     </Cell>
   )
@@ -71,13 +84,7 @@ export function Table({ ctx, path }: TableProps) {
   }
 
   return (
-    <Stack
-      align="stretch"
-      justify="start"
-      style={{
-        borderBottom: border(),
-      }}
-    >
+    <Stack align="stretch" justify="start">
       <Title ctx={ctx} path={path} parent={parent} />
       <Body ctx={ctx} path={path} />
     </Stack>

@@ -32,19 +32,26 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
     for (const key in field.properties) {
       const { title, description } = field.properties[key]
       const k = title ?? key
-      const keyWidth = getStringWidth(k, {
-        ...textVariants.bodyBold,
-        fontFamily: 'Inter, system-ui',
-      })
+      const keyWidth =
+        getStringWidth(k, {
+          ...textVariants.bodyBold,
+          fontFamily: 'Inter, system-ui',
+        }) + 40
+
+      console.info(k, keyWidth)
+
       if (keyWidth > maxWidth) {
-        maxWidth = keyWidth + 48
+        maxWidth = keyWidth
       }
       if (description) {
-        const descriptionWidth = getStringWidth(description, {
-          ...textVariants.body,
-          fontFamily: 'Inter, system-ui',
-        })
-        maxWidth = descriptionWidth + 40
+        const descriptionWidth =
+          getStringWidth(description, {
+            ...textVariants.body,
+            fontFamily: 'Inter, system-ui',
+          }) + 40
+        if (descriptionWidth > maxWidth) {
+          maxWidth = descriptionWidth
+        }
       }
     }
     return maxWidth
@@ -60,7 +67,7 @@ export const useCols = (field: BasedSchemaFieldObject): boolean => {
       return false
     }
     cnt++
-    if (cnt > 5) {
+    if (cnt > 4) {
       return false
     }
     if (!isSmallField(field.properties[key])) {
