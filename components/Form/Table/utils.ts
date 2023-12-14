@@ -37,7 +37,7 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
         fontFamily: 'Inter',
       })
       if (keyWidth > maxWidth) {
-        maxWidth = keyWidth + 40
+        maxWidth = keyWidth + 48
       }
       if (description) {
         const descriptionWidth = getStringWidth(description, {

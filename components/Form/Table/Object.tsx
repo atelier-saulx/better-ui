@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Stack } from '../../Stack'
 import { TableProps } from './types'
-import { readPath, useCols } from './utils'
+import { readPath, readType, useCols } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -20,12 +20,12 @@ export function Object({ ctx, path }: TableProps) {
       cols.push(
         <Cell isKey border key={key}>
           {field.properties[key].title ?? key}
-        </Cell>,
+        </Cell>
       )
       cells.push(
         <Cell border key={key}>
           <Field ctx={ctx} path={[...path, key]} />
-        </Cell>,
+        </Cell>
       )
     }
     return (
@@ -33,7 +33,8 @@ export function Object({ ctx, path }: TableProps) {
         justify="start"
         direction="column"
         style={{
-          borderBottom: border(),
+          borderBottom:
+            readType(ctx, path, 1) === 'object' ? undefined : border(),
         }}
       >
         <ColStack
