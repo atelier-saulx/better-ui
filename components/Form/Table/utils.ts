@@ -32,19 +32,26 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
     for (const key in field.properties) {
       const { title, description } = field.properties[key]
       const k = title ?? key
-      const keyWidth = getStringWidth(k, {
-        ...textVariants.bodyBold,
-        fontFamily: 'Inter',
-      })
+      const keyWidth =
+        getStringWidth(k, {
+          ...textVariants.bodyBold,
+          fontFamily: 'Inter, system-ui',
+        }) + 40
+
+      console.info(k, keyWidth)
+
       if (keyWidth > maxWidth) {
-        maxWidth = keyWidth + 40
+        maxWidth = keyWidth
       }
       if (description) {
-        const descriptionWidth = getStringWidth(description, {
-          ...textVariants.body,
-          fontFamily: 'Inter',
-        })
-        maxWidth = descriptionWidth + 40
+        const descriptionWidth =
+          getStringWidth(description, {
+            ...textVariants.body,
+            fontFamily: 'Inter, system-ui',
+          }) + 40
+        if (descriptionWidth > maxWidth) {
+          maxWidth = descriptionWidth
+        }
       }
     }
     return maxWidth
@@ -60,7 +67,7 @@ export const useCols = (field: BasedSchemaFieldObject): boolean => {
       return false
     }
     cnt++
-    if (cnt > 5) {
+    if (cnt > 4) {
       return false
     }
     if (!isSmallField(field.properties[key])) {
@@ -95,11 +102,15 @@ export const isSmallField = ({ type }: BasedSchemaField): boolean => {
 export const readParentField = (
   ctx: TableCtx,
   path: Path,
-  level: number
+  level: number = 1
 ): BasedSchemaField => {
   return readPath(ctx, path.slice(0, -level)).field
 }
 
-export const readType = (ctx: TableCtx, path: Path, level: number): string => {
+export const readParentType = (
+  ctx: TableCtx,
+  path: Path,
+  level: number = 1
+): string => {
   return readParentField(ctx, path, level).type ?? ''
 }

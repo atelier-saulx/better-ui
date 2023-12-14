@@ -209,24 +209,23 @@ export const Object = () => {
               },
             },
           },
-
           object: {
             title: 'Restaurant',
             description: 'Restaurant of the form',
             type: 'object',
             properties: {
               isItDope: {
+                title: 'Dopeness',
                 type: 'boolean',
               },
-
               bla: {
                 type: 'reference',
                 bidirectional: {
                   fromField: 'bla',
                 },
+                title: 'Bla',
                 allowedTypes: ['root'],
               },
-
               contact: {
                 title: 'Contact',
                 type: 'object',
@@ -237,7 +236,6 @@ export const Object = () => {
                   picture: { type: 'string', contentMediaType: '*/*' },
                 },
               },
-
               ratings: {
                 title: 'Ratings',
                 type: 'object',
@@ -248,13 +246,48 @@ export const Object = () => {
                   powerful: { type: 'string', title: 'Power Level' },
                 },
               },
-
               location: {
                 title: 'Location',
                 type: 'object',
                 properties: {
                   long: { type: 'string', title: 'Longitude' },
                   lat: { type: 'string', title: 'Latiude' },
+                },
+              },
+            },
+          },
+
+          nestedObject: {
+            title: 'Nested object',
+            description: 'Nested large objects',
+            type: 'object',
+            properties: {
+              contact: {
+                title: 'Nested object',
+                description: 'Nested large objects',
+                type: 'object',
+                properties: {
+                  contact: {
+                    title: 'Contact',
+                    type: 'object',
+                    properties: {
+                      name: { type: 'string' },
+                      phone: { type: 'string', format: 'mobilePhone' },
+                      email: { type: 'string', format: 'email' },
+                      picture: { type: 'string', contentMediaType: '*/*' },
+                    },
+                  },
+                  flap: {
+                    title: 'Deep Nested object',
+                    type: 'object',
+                    properties: {
+                      name: { type: 'string' },
+                      flapflapflap: { type: 'string' },
+                      phone: { type: 'string', format: 'mobilePhone' },
+                      email: { type: 'string', format: 'email' },
+                      picture: { type: 'string', contentMediaType: '*/*' },
+                    },
+                  },
                 },
               },
             },

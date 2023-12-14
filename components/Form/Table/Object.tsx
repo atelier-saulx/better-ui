@@ -20,12 +20,12 @@ export function Object({ ctx, path }: TableProps) {
       cols.push(
         <Cell isKey border key={key}>
           {field.properties[key].title ?? key}
-        </Cell>,
+        </Cell>
       )
       cells.push(
         <Cell border key={key}>
           <Field ctx={ctx} path={[...path, key]} />
-        </Cell>,
+        </Cell>
       )
     }
     return (
