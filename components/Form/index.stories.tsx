@@ -209,24 +209,23 @@ export const Object = () => {
               },
             },
           },
-
           object: {
             title: 'Restaurant',
             description: 'Restaurant of the form',
             type: 'object',
             properties: {
               isItDope: {
+                title: 'Dopeness',
                 type: 'boolean',
               },
-
               bla: {
                 type: 'reference',
                 bidirectional: {
                   fromField: 'bla',
                 },
+                title: 'Bla',
                 allowedTypes: ['root'],
               },
-
               contact: {
                 title: 'Contact',
                 type: 'object',
