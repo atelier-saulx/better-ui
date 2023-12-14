@@ -3,12 +3,13 @@ import { BasedSchemaField } from '@based/schema'
 import { Text } from '../Text'
 import { Stack } from '../Stack'
 import { border } from '../../utils/colors'
+import { Variant } from './types'
 
 type FormFieldProps = {
   children: React.ReactNode
   field: BasedSchemaField
   name: string
-  variant: 'regular' | 'small'
+  variant: Variant
 }
 
 export function FormField({ children, field, name, variant }: FormFieldProps) {
@@ -18,7 +19,16 @@ export function FormField({ children, field, name, variant }: FormFieldProps) {
       direction="column"
       align="start"
       style={
-        variant === 'small'
+        variant === 'bare'
+          ? {
+              '& > *': {
+                border: 'none !important',
+                '& > * > :last-child > *': {
+                  borderBottom: 'none !important',
+                },
+              },
+            }
+          : variant !== 'regular'
           ? undefined
           : {
               paddingLeft: 16,
@@ -27,14 +37,16 @@ export function FormField({ children, field, name, variant }: FormFieldProps) {
             }
       }
     >
-      <div>
-        <Text variant="bodyStrong">{name}</Text>
-        {field.description && (
-          <Text style={{ marginTop: -2 }} color="secondary">
-            {field.description}
-          </Text>
-        )}
-      </div>
+      {variant !== 'bare' ? (
+        <div>
+          <Text variant="bodyStrong">{name}</Text>
+          {field.description && (
+            <Text style={{ marginTop: -2 }} color="secondary">
+              {field.description}
+            </Text>
+          )}
+        </div>
+      ) : null}
       {children}
     </Stack>
   )

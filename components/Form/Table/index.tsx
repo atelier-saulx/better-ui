@@ -6,7 +6,7 @@ import { TableProps } from './types'
 import { readPath, readParentField, getKeyWidth } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
-import { border } from '../../../utils/colors'
+import { border, color } from '../../../utils/colors'
 import { Record } from './Record'
 import { Object } from './Object'
 import { Array } from './Array'
@@ -26,6 +26,7 @@ function Title({
       isKey
       width={getKeyWidth(parent)}
       style={{
+        background: color('background', 'muted'),
         borderBottom: border(),
       }}
     >

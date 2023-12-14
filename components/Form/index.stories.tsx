@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Form } from '.'
-import type { Meta, StoryObj } from '@storybook/react'
+import { BasedSchemaField } from '@based/schema'
+import { border } from '../../utils/colors'
 
 const meta = {
   title: 'Components/Form',
@@ -106,197 +107,220 @@ export const Set = () => {
   )
 }
 
+const objectField: { [key: string]: BasedSchemaField } = {
+  ratings: {
+    title: 'Ratings',
+    description: 'Rating of things',
+    type: 'object',
+    properties: {
+      price: { type: 'string', title: 'Price' },
+      quality: { type: 'string', title: 'Quality' },
+      awards: { type: 'string', title: 'Awards' },
+      powerful: { type: 'string', title: 'Power Level' },
+    },
+  },
+  order: {
+    title: 'Order',
+    description: 'A nice order',
+    type: 'object',
+    properties: {
+      orderId: { type: 'string' },
+      price: { type: 'string' },
+      email: { type: 'string' },
+      isItDope: {
+        type: 'boolean',
+      },
+    },
+  },
+  orderWithDescription: {
+    title: 'Order Described',
+    description: 'A nice order',
+    type: 'object',
+    properties: {
+      orderId: {
+        type: 'string',
+        description: 'ID of the order',
+        title: 'ID',
+      },
+      price: {
+        type: 'string',
+        description: 'The most important',
+        title: 'Price',
+      },
+      email: {
+        type: 'string',
+        description: 'Email for comms',
+        title: 'Email',
+      },
+      isItDope: {
+        title: 'Is it dope?',
+        description: 'Determines the dopeness',
+        type: 'boolean',
+      },
+    },
+  },
+  address: {
+    title: 'Address',
+    description: 'An address similar to http://microformats.org/wiki/h-card',
+    type: 'object',
+    properties: {
+      picture: {
+        title: 'Picture',
+        type: 'string',
+        contentMediaType: '*/*',
+      },
+      postOfficeBox: {
+        title: 'PO Box',
+        type: 'string',
+      },
+      extendedAddress: {
+        title: 'Address extended',
+        description: 'An address similar to flap',
+        type: 'string',
+      },
+      streetAddress: {
+        title: 'Street',
+        type: 'string',
+      },
+      locality: {
+        title: 'Locality',
+        type: 'string',
+      },
+      region: {
+        title: 'Region',
+        type: 'string',
+      },
+      postalCode: {
+        title: 'PostalCode',
+        type: 'string',
+      },
+      countryName: {
+        title: 'Country',
+        type: 'string',
+      },
+    },
+  },
+  object: {
+    title: 'Restaurant',
+    description: 'Restaurant of the form',
+    type: 'object',
+    properties: {
+      isItDope: {
+        title: 'Dopeness',
+        type: 'boolean',
+      },
+      bla: {
+        type: 'reference',
+        bidirectional: {
+          fromField: 'bla',
+        },
+        title: 'Bla',
+        allowedTypes: ['root'],
+      },
+      contact: {
+        title: 'Contact',
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          phone: { type: 'string', format: 'mobilePhone' },
+          email: { type: 'string', format: 'email' },
+          picture: { type: 'string', contentMediaType: '*/*' },
+        },
+      },
+      ratings: {
+        title: 'Ratings',
+        type: 'object',
+        properties: {
+          price: { type: 'string', title: 'Price' },
+          quality: { type: 'string', title: 'Quality' },
+          awards: { type: 'string', title: 'Awards' },
+          powerful: { type: 'string', title: 'Power Level' },
+        },
+      },
+      location: {
+        title: 'Location',
+        type: 'object',
+        properties: {
+          long: { type: 'string', title: 'Longitude' },
+          lat: { type: 'string', title: 'Latiude' },
+        },
+      },
+    },
+  },
+
+  nestedObject: {
+    title: 'Nested object',
+    description: 'Nested large objects',
+    type: 'object',
+    properties: {
+      contact: {
+        title: 'Nested object',
+        description: 'Nested large objects',
+        type: 'object',
+        properties: {
+          contact: {
+            title: 'Contact',
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              phone: { type: 'string', format: 'mobilePhone' },
+              email: { type: 'string', format: 'email' },
+              picture: { type: 'string', contentMediaType: '*/*' },
+            },
+          },
+          flap: {
+            title: 'Deep Nested object',
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              flapflapflap: { type: 'string' },
+              phone: { type: 'string', format: 'mobilePhone' },
+              email: { type: 'string', format: 'email' },
+              picture: { type: 'string', contentMediaType: '*/*' },
+            },
+          },
+        },
+      },
+    },
+  },
+}
+
 export const Object = () => {
   return (
     <div style={{ padding: 64 }}>
       <Form
+        variant="small"
         values={{
           ratings: {
             powerful: 9000,
           },
         }}
-        fields={{
-          ratings: {
-            title: 'Ratings',
-            description: 'Rating of things',
-            type: 'object',
-            properties: {
-              price: { type: 'string', title: 'Price' },
-              quality: { type: 'string', title: 'Quality' },
-              awards: { type: 'string', title: 'Awards' },
-              powerful: { type: 'string', title: 'Power Level' },
-            },
-          },
-          order: {
-            title: 'Order',
-            description: 'A nice order',
-            type: 'object',
-            properties: {
-              orderId: { type: 'string' },
-              price: { type: 'string' },
-              email: { type: 'string' },
-              isItDope: {
-                type: 'boolean',
-              },
-            },
-          },
-          orderWithDescription: {
-            title: 'Order Described',
-            description: 'A nice order',
-            type: 'object',
-            properties: {
-              orderId: {
-                type: 'string',
-                description: 'ID of the order',
-                title: 'ID',
-              },
-              price: {
-                type: 'string',
-                description: 'The most important',
-                title: 'Price',
-              },
-              email: {
-                type: 'string',
-                description: 'Email for comms',
-                title: 'Email',
-              },
-              isItDope: {
-                title: 'Is it dope?',
-                description: 'Determines the dopeness',
-                type: 'boolean',
-              },
-            },
-          },
-          address: {
-            title: 'Address',
-            description:
-              'An address similar to http://microformats.org/wiki/h-card',
-            type: 'object',
-            properties: {
-              picture: {
-                title: 'Picture',
-                type: 'string',
-                contentMediaType: '*/*',
-              },
-              postOfficeBox: {
-                title: 'PO Box',
-                type: 'string',
-              },
-              extendedAddress: {
-                title: 'Address extended',
-                description: 'An address similar to flap',
-                type: 'string',
-              },
-              streetAddress: {
-                title: 'Street',
-                type: 'string',
-              },
-              locality: {
-                title: 'Locality',
-                type: 'string',
-              },
-              region: {
-                title: 'Region',
-                type: 'string',
-              },
-              postalCode: {
-                title: 'PostalCode',
-                type: 'string',
-              },
-              countryName: {
-                title: 'Country',
-                type: 'string',
-              },
-            },
-          },
-          object: {
-            title: 'Restaurant',
-            description: 'Restaurant of the form',
-            type: 'object',
-            properties: {
-              isItDope: {
-                title: 'Dopeness',
-                type: 'boolean',
-              },
-              bla: {
-                type: 'reference',
-                bidirectional: {
-                  fromField: 'bla',
-                },
-                title: 'Bla',
-                allowedTypes: ['root'],
-              },
-              contact: {
-                title: 'Contact',
-                type: 'object',
-                properties: {
-                  name: { type: 'string' },
-                  phone: { type: 'string', format: 'mobilePhone' },
-                  email: { type: 'string', format: 'email' },
-                  picture: { type: 'string', contentMediaType: '*/*' },
-                },
-              },
-              ratings: {
-                title: 'Ratings',
-                type: 'object',
-                properties: {
-                  price: { type: 'string', title: 'Price' },
-                  quality: { type: 'string', title: 'Quality' },
-                  awards: { type: 'string', title: 'Awards' },
-                  powerful: { type: 'string', title: 'Power Level' },
-                },
-              },
-              location: {
-                title: 'Location',
-                type: 'object',
-                properties: {
-                  long: { type: 'string', title: 'Longitude' },
-                  lat: { type: 'string', title: 'Latiude' },
-                },
-              },
-            },
-          },
-
-          nestedObject: {
-            title: 'Nested object',
-            description: 'Nested large objects',
-            type: 'object',
-            properties: {
-              contact: {
-                title: 'Nested object',
-                description: 'Nested large objects',
-                type: 'object',
-                properties: {
-                  contact: {
-                    title: 'Contact',
-                    type: 'object',
-                    properties: {
-                      name: { type: 'string' },
-                      phone: { type: 'string', format: 'mobilePhone' },
-                      email: { type: 'string', format: 'email' },
-                      picture: { type: 'string', contentMediaType: '*/*' },
-                    },
-                  },
-                  flap: {
-                    title: 'Deep Nested object',
-                    type: 'object',
-                    properties: {
-                      name: { type: 'string' },
-                      flapflapflap: { type: 'string' },
-                      phone: { type: 'string', format: 'mobilePhone' },
-                      email: { type: 'string', format: 'email' },
-                      picture: { type: 'string', contentMediaType: '*/*' },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        }}
+        fields={objectField}
         onChange={(values) => {
           console.log(values)
         }}
       />
+    </div>
+  )
+}
+
+export const Bare = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <div style={{ borderRadius: 8, border: border() }}>
+        <Form
+          variant="bare"
+          values={{
+            ratings: {
+              powerful: 9000,
+            },
+          }}
+          fields={{ object: objectField.object }}
+          onChange={(values) => {
+            console.log(values)
+          }}
+        />
+      </div>
     </div>
   )
 }

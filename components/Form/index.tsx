@@ -8,6 +8,7 @@ import { styled } from 'inlines'
 import { Table, isTable } from './Table'
 import { DateInput } from '../DateInput'
 import { SetField } from './Set'
+import { Variant } from './types'
 
 type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
 
@@ -15,7 +16,7 @@ export type FormProps = {
   values: { [key: string]: any }
   onChange: (values: FormValues) => void
   fields: FormValues
-  variant?: 'regular' | 'small'
+  variant?: Variant
 }
 
 export function Form({ fields, values, variant = 'regular' }: FormProps) {
@@ -107,6 +108,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
               <SetField
                 path={[key]}
                 ctx={{
+                  variant,
                   schema: fields,
                   values: values,
                 }}
@@ -126,6 +128,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
               <Table
                 path={[key]}
                 ctx={{
+                  variant,
                   schema: fields,
                   values: values,
                 }}

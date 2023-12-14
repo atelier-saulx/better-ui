@@ -5,7 +5,7 @@ import { useControllableState } from '../../utils/hooks/useControllableState'
 
 export type ContainerProps = {
   children?: React.ReactNode
-  title: string
+  title?: string
   description?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
@@ -26,8 +26,12 @@ export function Container({
   expanded: expandedProp,
   onClick,
   onExpandedChange,
-  divider = true,
+  divider,
 }: ContainerProps) {
+  if (divider === undefined) {
+    divider = !!(title ?? description ?? prefix ?? suffix)
+  }
+
   const [expanded, setExpanded] = useControllableState({
     prop: expandedProp,
     defaultProp: false,
@@ -78,15 +82,17 @@ export function Container({
         )}
         {prefix && <div>{prefix}</div>}
         <div>
-          <div
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: 'var(--content-primary)',
-            }}
-          >
-            {title}
-          </div>
+          {title && (
+            <div
+              style={{
+                fontSize: 14,
+                fontWeight: 600,
+                color: 'var(--content-primary)',
+              }}
+            >
+              {title}
+            </div>
+          )}
           {description && (
             <div
               style={{
