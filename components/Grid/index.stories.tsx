@@ -2,6 +2,9 @@ import * as React from 'react'
 import { Grid } from './'
 import type { Meta } from '@storybook/react'
 import { faker } from '@faker-js/faker'
+import { Button } from '../Button'
+import { IconCopy, IconDelete, IconMoreHorizontal } from '../Icons'
+import { Dropdown } from '../Dropdown'
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/(WIP) Grid',
@@ -27,7 +30,22 @@ const items = new Array(10).fill(null).map(() => ({
 export const Default = () => {
   return (
     <div style={{ padding: 64 }}>
-      <Grid items={items} />
+      <Grid
+        items={items}
+        itemAction={(item) => (
+          <Dropdown.Root>
+            <Dropdown.Trigger>
+              <Button variant="icon-only">
+                <IconMoreHorizontal />
+              </Button>
+            </Dropdown.Trigger>
+            <Dropdown.Items>
+              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
+              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown.Root>
+        )}
+      />
     </div>
   )
 }
@@ -35,7 +53,23 @@ export const Default = () => {
 export const Row = () => {
   return (
     <div style={{ padding: 64 }}>
-      <Grid items={items} variant="row" />
+      <Grid
+        items={items}
+        variant="row"
+        itemAction={(item) => (
+          <Dropdown.Root>
+            <Dropdown.Trigger>
+              <Button variant="icon-only">
+                <IconMoreHorizontal />
+              </Button>
+            </Dropdown.Trigger>
+            <Dropdown.Items>
+              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
+              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown.Root>
+        )}
+      />
     </div>
   )
 }

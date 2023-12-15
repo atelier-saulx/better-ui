@@ -1,9 +1,7 @@
 import * as React from 'react'
 import { border, color } from '../../utils/colors'
 import { Text } from '../Text'
-import { IconMoreHorizontal } from '../Icons'
 import { styled } from 'inlines'
-import { Button } from '../Button'
 import { Folder, Paper } from '../Icons/extras'
 import { textVariants } from '../Text'
 
@@ -15,9 +13,10 @@ export type GridProps = {
     renderAs: 'folder' | 'file' | 'image'
     [key: string]: any
   }[]
+  itemAction?: (item: any) => React.ReactNode
 }
 
-export function Grid({ variant = 'column', items }: GridProps) {
+export function Grid({ variant = 'column', items, itemAction }: GridProps) {
   return (
     <div
       style={{
@@ -40,9 +39,9 @@ export function Grid({ variant = 'column', items }: GridProps) {
               borderBottom: border(),
               flexDirection: 'row',
             }),
-            '&:hover .optionsButton': {
-              opacity: '100% !important',
-            },
+            // '&:hover .optionsButton': {
+            //   opacity: '100% !important',
+            // },
           }}
         >
           <div
@@ -133,20 +132,18 @@ export function Grid({ variant = 'column', items }: GridProps) {
               >
                 {item.title}
               </Text>
-              {variant === 'column' && (
+              {variant === 'column' && itemAction && (
                 <div
                   className="optionsButton"
                   style={{
                     display: 'flex',
-                    opacity: 0,
+                    // opacity: 0,
                     alignItems: 'center',
                     justifyContent: 'center',
                     paddingLeft: 12,
                   }}
                 >
-                  <Button variant="icon-only">
-                    <IconMoreHorizontal />
-                  </Button>
+                  {itemAction(item)}
                 </div>
               )}
             </div>
@@ -154,22 +151,20 @@ export function Grid({ variant = 'column', items }: GridProps) {
               {item.description}
             </Text>
           </div>
-          {variant === 'row' && (
-            <div
+          {variant === 'row' && itemAction && (
+            <styled.div
               className="optionsButton"
               style={{
                 display: 'flex',
+                // opacity: 0,
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: 0,
                 paddingLeft: 12,
                 marginLeft: 'auto',
               }}
             >
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </div>
+              {itemAction(item)}
+            </styled.div>
           )}
         </styled.div>
       ))}
