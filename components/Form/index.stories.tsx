@@ -315,7 +315,7 @@ export const Bare = () => {
               powerful: 9000,
             },
           }}
-          fields={{ object: objectField.object }}
+          fields={{ object: objectField.address }}
           onChange={(values) => {
             console.log(values)
           }}
