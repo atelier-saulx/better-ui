@@ -99,6 +99,18 @@ export const isSmallField = ({ type }: BasedSchemaField): boolean => {
   return true
 }
 
+export const isIterable = ({ type }: BasedSchemaField): boolean => {
+  if (
+    type === 'array' ||
+    type === 'record' ||
+    type === 'set' ||
+    type === 'references'
+  ) {
+    return false
+  }
+  return true
+}
+
 export const readParentField = (
   ctx: TableCtx,
   path: Path,

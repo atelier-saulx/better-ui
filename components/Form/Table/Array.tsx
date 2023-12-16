@@ -10,7 +10,7 @@ import { styled } from 'inlines'
 import { IconChevronDown, IconChevronRight, IconPlus } from '../../Icons'
 import { BasedSchemaFieldArray } from '@based/schema'
 import { ColStack } from './ColStack'
-import { isSmallField } from './utils'
+import { isSmallField, isIterable } from './utils'
 
 export function Array({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
@@ -26,7 +26,7 @@ export function Array({ ctx, path }: TableProps) {
       cols.push(
         <Cell border isKey key={key}>
           {valuesField.properties[key].title ?? key}
-        </Cell>,
+        </Cell>
       )
     }
     if (value) {
@@ -36,7 +36,7 @@ export function Array({ ctx, path }: TableProps) {
           cells.push(
             <Cell border key={key}>
               <Field ctx={ctx} path={[...path, i, key]} />
-            </Cell>,
+            </Cell>
           )
         }
         rows.push(
@@ -47,7 +47,7 @@ export function Array({ ctx, path }: TableProps) {
             }}
           >
             {cells}
-          </ColStack>,
+          </ColStack>
         )
       }
     }
@@ -65,7 +65,7 @@ export function Array({ ctx, path }: TableProps) {
             <Cell>
               <Field ctx={ctx} path={[...path, i]} />
             </Cell>
-          </Stack>,
+          </Stack>
         )
       }
     } else {
@@ -103,7 +103,7 @@ export function Array({ ctx, path }: TableProps) {
               )}
               {valuesField.title ?? ''} {i}
             </Cell>
-          </Stack>,
+          </Stack>
         )
         if (isOpen) {
           rows.push(
@@ -111,7 +111,7 @@ export function Array({ ctx, path }: TableProps) {
               <Cell>
                 <Field ctx={ctx} path={[...path, i]} />
               </Cell>
-            </Stack>,
+            </Stack>
           )
         }
       }
