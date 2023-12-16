@@ -304,6 +304,73 @@ export const Object = () => {
   )
 }
 
+export const Array = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Form
+        values={{
+          array: [
+            {
+              powerful: 9000,
+            },
+            {
+              powerful: 9000,
+            },
+            {
+              powerful: 9000,
+            },
+          ],
+          nestedArray: [
+            [
+              {
+                powerful: 9000,
+              },
+              {
+                powerful: 9000,
+              },
+              {
+                powerful: 9000,
+              },
+            ],
+            [
+              {
+                powerful: 9000,
+              },
+            ],
+            [
+              {
+                powerful: 9000,
+              },
+            ],
+          ],
+        }}
+        fields={{
+          array: {
+            title: 'Things',
+            description: 'some things',
+            type: 'array',
+            values: objectField.ratings,
+          },
+          nestedArray: {
+            title: 'Nested things',
+            description: 'some things, nested',
+            type: 'array',
+            values: {
+              title: 'Things',
+              description: 'some things',
+              type: 'array',
+              values: objectField.ratings,
+            },
+          },
+        }}
+        onChange={(values) => {
+          console.log(values)
+        }}
+      />
+    </div>
+  )
+}
+
 export const Bare = () => {
   return (
     <div style={{ padding: 64 }}>
@@ -324,235 +391,3 @@ export const Bare = () => {
     </div>
   )
 }
-
-// export const Flap = () => {
-//   return (
-//     <div style={{ padding: 64 }}>
-//       <Form
-//         values={{}}
-//         fields={{
-//           // // ------------------
-//           // array: {
-//           //   title: 'Array',
-//           //   type: 'array',
-//           //   description: 'An array with an object',
-//           //   values: {
-//           //     type: 'object',
-//           //     properties: {
-//           //       bla: { type: 'string' },
-//           //       snurp: { type: 'string' },
-//           //       src: { type: 'string', contentMediaType: '*/*' },
-//           //     },
-//           //   },
-//           // },
-
-//           // set: {
-//           //   title: 'Set',
-//           //   type: 'set',
-//           //   description: 'A set',
-//           //   items: { type: 'string' },
-//           // },
-//           // setFiles: {
-//           //   title: 'Set',
-//           //   type: 'set',
-//           //   description: 'A set with files',
-//           //   items: { type: 'string', contentMediaType: '*/*' },
-//           // },
-
-//           // healthRecord: {
-//           //   title: 'Health Record',
-//           //   type: 'object',
-//           //   required: ['patientName', 'dateOfBirth', 'bloodType'],
-//           //   properties: {
-//           //     patientName: {
-//           //       type: 'string',
-//           //     },
-//           //     dateOfBirth: {
-//           //       type: 'timestamp',
-//           //       display: 'date',
-//           //     },
-//           //     bloodType: {
-//           //       type: 'string',
-//           //     },
-//           //     allergies: {
-//           //       type: 'array',
-//           //       values: {
-//           //         type: 'string',
-//           //       },
-//           //     },
-//           //     conditions: {
-//           //       type: 'array',
-//           //       values: {
-//           //         type: 'string',
-//           //       },
-//           //     },
-//           //     medications: {
-//           //       type: 'array',
-//           //       values: {
-//           //         type: 'string',
-//           //       },
-//           //     },
-//           //   },
-//           // },
-
-//           arraynest: {
-//             title: 'Nested Array',
-//             type: 'array',
-//             description: 'An array with an object',
-//             values: {
-//               type: 'object',
-//               properties: {
-//                 bla: { type: 'string' },
-//                 snurp: { type: 'string' },
-//                 src: { type: 'string', contentMediaType: '*/*' },
-//                 values: {
-//                   type: 'object',
-//                   properties: {
-//                     bla: { type: 'string' },
-//                     snurp: { type: 'string' },
-//                     src: { type: 'string', contentMediaType: '*/*' },
-//                   },
-//                 },
-//               },
-//             },
-//           },
-
-//           arraySimple: {
-//             title: 'Simple Array',
-//             type: 'array',
-//             description: 'An array with a string',
-//             values: {
-//               type: 'string',
-//             },
-//           },
-
-//           record: {
-//             title: 'Record',
-//             type: 'record',
-//             values: {
-//               type: 'object',
-//               properties: {
-//                 bla: { type: 'string' },
-//                 snurp: { type: 'string' },
-//                 flap: { type: 'string' },
-//               },
-//             },
-//           },
-
-//           recordPrimitive: {
-//             title: 'Primtive record',
-//             type: 'record',
-//             values: {
-//               type: 'string',
-//             },
-//           },
-
-//           recordExtra: {
-//             title: 'Primtive record (number)',
-//             type: 'record',
-//             values: {
-//               type: 'number',
-//             },
-//           },
-
-//           recordObject: {
-//             title: 'Object record',
-//             type: 'record',
-//             values: {
-//               type: 'object',
-//               properties: {
-//                 postOfficeBox: {
-//                   type: 'string',
-//                 },
-//                 extendedAddress: {
-//                   type: 'string',
-//                 },
-//                 streetAddress: {
-//                   type: 'string',
-//                 },
-//                 locality: {
-//                   type: 'string',
-//                 },
-//                 region: {
-//                   type: 'string',
-//                 },
-//                 postalCode: {
-//                   type: 'string',
-//                 },
-//                 countryName: {
-//                   type: 'string',
-//                 },
-//               },
-//             },
-//           },
-
-//           object: {
-//             title: 'Restaurant',
-//             description: 'Restaurant of the form',
-//             type: 'object',
-//             properties: {
-//               isItDope: {
-//                 type: 'boolean',
-//               },
-
-//               bla: {
-//                 type: 'reference',
-//                 bidirectional: {
-//                   fromField: 'bla',
-//                 },
-//                 allowedTypes: ['root'],
-//               },
-
-//               contact: {
-//                 title: 'Contact',
-//                 type: 'object',
-//                 properties: {
-//                   name: { type: 'string' },
-//                   phone: { type: 'string', format: 'mobilePhone' },
-//                   email: { type: 'string', format: 'email' },
-//                   picture: { type: 'string', contentMediaType: '*/*' },
-//                 },
-//               },
-
-//               ratings: {
-//                 title: 'Ratings',
-//                 type: 'object',
-//                 properties: {
-//                   price: { type: 'string', title: 'Price' },
-//                   quality: { type: 'string', title: 'Quality' },
-//                   awards: { type: 'string', title: 'Awards' },
-//                   powerful: { type: 'string', title: 'Power Level' },
-//                 },
-//               },
-
-//               location: {
-//                 title: 'Location',
-//                 type: 'object',
-//                 properties: {
-//                   long: { type: 'string', title: 'Longitude' },
-//                   lat: { type: 'string', title: 'Latiude' },
-//                 },
-//               },
-
-//               flap: {
-//                 type: 'record',
-//                 values: {
-//                   type: 'object',
-//                   properties: {
-//                     bla: { type: 'string' },
-//                     snurp: { type: 'string' },
-//                     flap: { type: 'string' },
-//                   },
-//                 },
-//               },
-//             },
-//           },
-//         }}
-//         onChange={(values) => {
-//           console.log(values)
-//         }}
-//         // selectReferences={}
-//       />
-//     </div>
-//   )
-// }
