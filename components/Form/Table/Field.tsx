@@ -78,6 +78,10 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     return <Table ctx={ctx} path={path} />
   }
 
+  if (field.type === 'array') {
+    return <Table ctx={ctx} path={path} />
+  }
+
   return (
     <Padder>
       <div style={{ color: 'red' }}>{field.type}</div>
