@@ -116,14 +116,13 @@ export function FileInput({
     >
       <FileDrop
         onDrop={(files) => {
-          console.log('hello', files)
           if (files) {
             setFile(files[0])
             setInternalStatus('success')
           }
           setDragOver(false)
         }}
-        onDragOver={(e) => {
+        onDragOver={() => {
           setDragOver(true)
         }}
         onDragLeave={() => {
