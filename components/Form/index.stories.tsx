@@ -355,6 +355,13 @@ export const Array = () => {
               name: 'Snurpie',
             },
           ],
+          nestedArrayBig: [
+            [
+              {
+                name: 'fun',
+              },
+            ],
+          ],
         }}
         fields={{
           array: {
@@ -371,6 +378,16 @@ export const Array = () => {
               description: 'some things',
               type: 'array',
               values: objectField.ratings,
+            },
+          },
+          nestedArrayBig: {
+            title: 'Nested things large',
+            description: 'some things, nested',
+            type: 'array',
+            values: {
+              description: 'some things',
+              type: 'array',
+              values: objectField.object,
             },
           },
           arrayAutoTitle: {
