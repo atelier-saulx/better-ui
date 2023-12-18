@@ -9,7 +9,7 @@ import {
 } from '../../utils/colors'
 
 export type BadgeProps = {
-  children: string | number
+  children: React.ReactNode
   color?: SemanticColor
   size?: 'regular' | 'small'
   copyValue?: string

@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 import { Stack } from '../../Stack'
 import { TableProps } from './types'
-import { getIdentifierField, readPath, useCols } from './utils'
+import { getIdentifierField, isIterable, readPath, useCols } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -110,6 +110,11 @@ export function Array({ ctx, path }: TableProps) {
               <Stack gap={16} justify="start">
                 <Badge>{i + 1}</Badge>
                 {title}
+                {isIterable(valuesField) ? (
+                  <Badge color="neutral-muted">
+                    {value?.[i]?.length} Items
+                  </Badge>
+                ) : null}
               </Stack>
             </Cell>
           </Stack>
