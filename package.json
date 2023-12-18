@@ -8,9 +8,6 @@
     "build-storybook": "storybook build"
   },
   "prettier": "@saulx/prettier-config",
-  "eslintConfig": {
-    "extends": "@saulx/eslint-config"
-  },
   "dependencies": {
     "@based/client": "^4.8.10",
     "@based/pretty-date": "^1.0.4",
@@ -44,7 +41,6 @@
     "@rollup/plugin-json": "^6.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
-    "@saulx/eslint-config": "^1.1.1",
     "@saulx/prettier-config": "^1.0.0",
     "@saulx/tsconfig": "1.0.6",
     "@storybook/addon-controls": "^7.5.3",
@@ -54,7 +50,6 @@
     "@storybook/react-webpack5": "^7.5.3",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.17",
-    "eslint": "^8.55.0",
     "pascal-case": "^4.0.0",
     "postcss": "^8.4.31",
     "postcss-preset-env": "^9.3.0",
