@@ -75,7 +75,8 @@ export function Array({ ctx, path }: TableProps) {
 
       for (let i = 0; i < value.length; i++) {
         const isOpen = openIndex === i
-        const title: ReactNode = field ? value?.[i]?.[field] : valuesField.title
+        const item = value?.[i]
+        const title: ReactNode = field ? item?.[field] : valuesField.title
 
         rows.push(
           <Stack
@@ -112,7 +113,8 @@ export function Array({ ctx, path }: TableProps) {
                 {title}
                 {isIterable(valuesField) ? (
                   <Badge color="neutral-muted">
-                    {value?.[i]?.length} Items
+                    {item?.length} Item
+                    {item?.length === 1 ? '' : 's'}
                   </Badge>
                 ) : null}
               </Stack>
