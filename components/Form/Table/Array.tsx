@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 import { Stack } from '../../Stack'
 import { TableProps } from './types'
-import { readPath, useCols } from './utils'
+import { getIdentifierField, readPath, useCols } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -10,7 +10,8 @@ import { styled } from 'inlines'
 import { IconChevronDown, IconChevronRight, IconPlus } from '../../Icons'
 import { BasedSchemaFieldArray } from '@based/schema'
 import { ColStack } from './ColStack'
-import { isSmallField, isIterable } from './utils'
+import { isSmallField } from './utils'
+import { Badge } from '../../Badge'
 
 export function Array({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
@@ -69,8 +70,13 @@ export function Array({ ctx, path }: TableProps) {
         )
       }
     } else {
+      const field =
+        valuesField.type === 'object' && getIdentifierField(valuesField)
+
       for (let i = 0; i < value.length; i++) {
         const isOpen = openIndex === i
+        const title: ReactNode = field ? value?.[i]?.[field] : valuesField.title
+
         rows.push(
           <Stack
             onClick={() => {
@@ -101,7 +107,10 @@ export function Array({ ctx, path }: TableProps) {
                   }}
                 />
               )}
-              {valuesField.title ?? ''} {i}
+              <Stack gap={16} justify="start">
+                <Badge>{i + 1}</Badge>
+                {title}
+              </Stack>
             </Cell>
           </Stack>
         )

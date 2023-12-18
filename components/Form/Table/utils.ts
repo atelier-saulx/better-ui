@@ -37,9 +37,6 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
           ...textVariants.bodyBold,
           fontFamily: 'Inter, system-ui',
         }) + 40
-
-      console.info(k, keyWidth)
-
       if (keyWidth > maxWidth) {
         maxWidth = keyWidth
       }
@@ -77,6 +74,26 @@ export const useCols = (field: BasedSchemaFieldObject): boolean => {
   return true
 }
 
+const IDENTIFIER_FIELDS = [
+  'name',
+  'title',
+  'email',
+  'phone',
+  'id',
+  'price',
+  'type',
+]
+
+export const getIdentifierField = (
+  field: BasedSchemaFieldObject
+): string | void => {
+  for (const str of IDENTIFIER_FIELDS) {
+    if (str in field.properties) {
+      return str
+    }
+  }
+}
+
 export const isTable = (field: BasedSchemaField): boolean => {
   const { type } = field
   if (type === 'object' || type === 'record' || type === 'array') {
@@ -106,9 +123,9 @@ export const isIterable = ({ type }: BasedSchemaField): boolean => {
     type === 'set' ||
     type === 'references'
   ) {
-    return false
+    return true
   }
-  return true
+  return false
 }
 
 export const readParentField = (

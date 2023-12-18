@@ -205,6 +205,7 @@ const objectField: { [key: string]: BasedSchemaField } = {
     description: 'Restaurant of the form',
     type: 'object',
     properties: {
+      name: { type: 'string', title: 'Name' },
       isItDope: {
         title: 'Dopeness',
         type: 'boolean',
@@ -343,6 +344,17 @@ export const Array = () => {
               },
             ],
           ],
+          arrayAutoTitle: [
+            {
+              name: 'fun',
+            },
+            {
+              name: 'flap',
+            },
+            {
+              name: 'Snurpie',
+            },
+          ],
         }}
         fields={{
           array: {
@@ -356,11 +368,16 @@ export const Array = () => {
             description: 'some things, nested',
             type: 'array',
             values: {
-              title: 'Things',
               description: 'some things',
               type: 'array',
               values: objectField.ratings,
             },
+          },
+          arrayAutoTitle: {
+            title: 'Auto title',
+            description: 'some things',
+            type: 'array',
+            values: objectField.object,
           },
         }}
         onChange={(values) => {
