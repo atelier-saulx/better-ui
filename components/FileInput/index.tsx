@@ -13,7 +13,7 @@ import { BasedSchemaContentMediaType } from '@based/schema'
 import { useHover } from '../../utils/hooks/useHover'
 import { Text } from '../Text'
 import { Stack } from '../Stack'
-import { color, border } from '../../utils/colors'
+import { color } from '../../utils/colors'
 
 import { FileDrop } from 'react-file-drop'
 
@@ -131,16 +131,14 @@ export function FileInput({
         }}
       >
         {label && (
-          <styled.span
+          <Text
+            singleLine
             style={{
               marginBottom: 8,
-              fontSize: 14,
-              lineHeight: '24px',
-              fontWeight: 500,
             }}
           >
             {label}
-          </styled.span>
+          </Text>
         )}
         {
           <Status
@@ -253,7 +251,6 @@ function Status({
   hover,
   setInternalStatus,
   setFile,
-  setFilePreview,
   setInternalProgress,
   onChange,
   inputRef,
@@ -277,7 +274,7 @@ function Status({
       {status === 'initial' && (
         <Stack gap={12} justify="start">
           <IconUpload />
-          <Text>Upload file</Text>
+          <Text singleLine>Upload file</Text>
         </Stack>
       )}
       {status === 'uploading' && <UploadingStatus progress={progress} />}
@@ -343,7 +340,7 @@ function Status({
                   window.open(url, '_blank', 'noopener,noreferrer')
                 }}
               >
-                <Text>Open in new tab</Text>
+                <Text singleLine>Open in new tab</Text>
               </Dropdown.Item>
               <Dropdown.Item
                 icon={<IconDownload />}
@@ -384,7 +381,9 @@ function Status({
           }}
         >
           <IconUpload />
-          <Text style={{ marginLeft: '8px' }}>An error has occured</Text>
+          <Text singleLine style={{ marginLeft: '8px' }}>
+            An error has occured
+          </Text>
         </styled.div>
       )}
     </StyledStatus>
@@ -426,9 +425,7 @@ function UploadingStatus({ progress }: { progress: number }) {
           strokeDashoffset={100 - (5 + progress * 0.95)}
         />
       </svg>
-      <div style={{ fontSize: '14px', lineHeight: '24px', fontWeight: 500 }}>
-        Uploading...
-      </div>
+      <Text singleLine>Uploading...</Text>
     </styled.div>
   )
 }
