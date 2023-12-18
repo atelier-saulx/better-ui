@@ -52,6 +52,9 @@ export function Badge({
           : null
       }
       style={{
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
         position: 'relative',
         display: 'inline-flex',
         justifyContent: 'center',

@@ -108,11 +108,13 @@ export function Array({ ctx, path }: TableProps) {
                   }}
                 />
               )}
-              <Stack gap={16} justify="start">
-                <Badge>{i + 1}</Badge>
-                {title}
+              <Stack gap={16}>
+                <Stack gap={16} justify="start">
+                  <Badge color="neutral-muted">{i + 1}</Badge>
+                  {title}
+                </Stack>
                 {isIterable(valuesField) ? (
-                  <Badge color="neutral-muted">
+                  <Badge>
                     {item?.length} Item
                     {item?.length === 1 ? '' : 's'}
                   </Badge>
