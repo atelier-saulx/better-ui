@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as SelectBase from '@radix-ui/react-select'
 import { styled } from 'inlines'
 import { IconCheckSmall, IconChevronDownSmall } from '../Icons'
+import { mergeRefs } from 'react-merge-refs'
 
 export type SelectInputProps = {
   placeholder?: string
@@ -15,6 +16,7 @@ export type SelectInputProps = {
   )[]
   variant?: 'regular' | 'small'
   error?: boolean
+  autoFocus?: boolean
 }
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
@@ -28,10 +30,19 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       options,
       variant = 'regular',
       error,
+      autoFocus,
     },
     ref,
   ) => {
     const Wrapper = label ? styled.label : styled.div
+    const wrapperRef = React.useRef<HTMLDivElement | null>(null)
+    
+
+    React.useEffect(() => {
+      if (autoFocus && wrapperRef.current) {
+        wrapperRef.current.focus()
+      }
+    }, [autoFocus])
 
     return (
       <SelectBase.Root
@@ -75,7 +86,9 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               </span>
             )}
             <styled.div
-              ref={ref}
+              autoFocus={autoFocus}
+              tabIndex={0}
+              ref={mergeRefs([wrapperRef, ref])}
               style={{
                 position: 'relative',
                 fontSize: 14,
@@ -96,6 +109,11 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 },
                 '&:hover': {
                   border: '1px solid var(--interactive-secondary-hover)',
+                },
+                '&:focus': {
+                  border: '1px solid var(--interactive-primary) !important',
+                  boxShadow:
+                    '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
                 },
                 ...(error && {
                   border: '1px solid var(--sentiment-negative)',

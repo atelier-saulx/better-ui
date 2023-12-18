@@ -10,6 +10,7 @@ export type TextAreaInputProps = {
   label?: string
   variant?: 'regular' | 'small'
   error?: boolean
+  autoFocus?: boolean
 }
 
 const Wrapper = ({
@@ -53,6 +54,7 @@ export const TextAreaInput = React.forwardRef<
       label,
       variant = 'regular',
       error,
+      autoFocus,
     },
     ref,
   ) => {
@@ -101,6 +103,7 @@ export const TextAreaInput = React.forwardRef<
               valueRef.current = e.target.value
               rerender({})
             }}
+            autoFocus={autoFocus}
             ref={ref}
             name={formName}
             rows={variant === 'regular' ? 3 : 2}
