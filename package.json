@@ -29,7 +29,7 @@
     "date-fns": "^2.30.0",
     "inlines": "0.4.0-alpha.1",
     "react-file-drop": "^3.1.6",
-    "undici": "^6.0.1"
+    "react-merge-refs": "^2.1.1"
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -67,6 +67,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
     "storybook": "^7.5.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "undici": "^6.0.1"
   }
 }

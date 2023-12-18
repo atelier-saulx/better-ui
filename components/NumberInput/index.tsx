@@ -14,6 +14,7 @@ export type NumberInputProps = {
   step?: number
   variant?: 'regular' | 'small'
   error?: boolean
+  autoFocus?: boolean
 }
 
 const Wrapper = ({
@@ -55,6 +56,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       step = 1,
       variant = 'regular',
       error,
+      autoFocus,
     },
     ref,
   ) => {
@@ -81,6 +83,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
         <div style={{ position: 'relative' }}>
           <styled.input
             type="number"
+            autoFocus={autoFocus}
             value={value ?? ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const numberValue = parseFloat(e.target.value)
