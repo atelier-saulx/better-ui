@@ -14,6 +14,7 @@ export type CheckboxInputProps = {
   label?: string
   description?: string
   variant?: 'checkbox' | 'toggle'
+  autoFocus?: boolean
 }
 
 export const CheckboxInput = React.forwardRef<
@@ -29,6 +30,7 @@ export const CheckboxInput = React.forwardRef<
       label,
       description,
       variant = 'checkbox',
+      autoFocus,
     },
     ref,
   ) => {
@@ -37,6 +39,7 @@ export const CheckboxInput = React.forwardRef<
       defaultProp: defaultValue,
       onChange,
     })
+    const [focused, setFocused] = React.useState(false)
 
     return (
       <Stack as="label" justify="start" align="start" gap={12}>
@@ -55,10 +58,16 @@ export const CheckboxInput = React.forwardRef<
             whiteSpace: 'nowrap',
             borderWidth: 0,
           }}
-          defaultChecked={defaultValue}
           checked={value}
           onChange={(e) => {
             setValue(e.target.checked)
+          }}
+          autoFocus={autoFocus}
+          onFocus={() => {
+            setFocused(true)
+          }}
+          onBlur={() => {
+            setFocused(false)
           }}
         />
         {variant === 'checkbox' ? (
@@ -90,6 +99,12 @@ export const CheckboxInput = React.forwardRef<
                     : color('interactive', 'secondary-hover')
                 }`,
               },
+              ...(focused && {
+                boxShadow: `0px 0px 0px 1px ${color(
+                  'background',
+                  'screen',
+                )}, 0px 0px 0px 3px ${color('interactive', 'primary')}`,
+              }),
             }}
           >
             {value && (
@@ -112,6 +127,12 @@ export const CheckboxInput = React.forwardRef<
                   ? color('interactive', 'primary-hover')
                   : color('interactive', 'secondary-hover'),
               },
+              ...(focused && {
+                boxShadow: `0px 0px 0px 1px ${color(
+                  'background',
+                  'screen',
+                )}, 0px 0px 0px 3px ${color('interactive', 'primary')}`,
+              }),
             }}
           >
             <div
