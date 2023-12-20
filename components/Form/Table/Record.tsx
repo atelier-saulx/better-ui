@@ -59,6 +59,7 @@ export function Record({ ctx, path }: TableProps) {
       }
     }
   } else {
+    const borderBottom = valuesField.type === 'object' ? false : true
     cols.push(
       <Cell isKey border key={'value'}>
         Value
@@ -67,17 +68,25 @@ export function Record({ ctx, path }: TableProps) {
     if (value) {
       for (const key in value) {
         rows.push(
-          <ColStack key={key} style={{ borderBottom: border() }}>
+          <ColStack align="stretch" key={key}>
             <Cell
               width={200}
               border
               isKey
               key={'key'}
-              style={{ paddingRight: 10, paddingLeft: 10 }}
+              style={{
+                paddingRight: 10,
+                paddingLeft: 10,
+                borderBottom: border(),
+              }}
             >
               <TextInput variant="small" value={key} />
             </Cell>
-            <Cell>
+            <Cell
+              style={{
+                borderBottom: borderBottom ? border() : null,
+              }}
+            >
               <Field ctx={ctx} path={[...path, key]} />
             </Cell>
           </ColStack>
