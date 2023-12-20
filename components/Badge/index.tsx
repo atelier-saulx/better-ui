@@ -49,11 +49,11 @@ export function Badge({
               navigator.clipboard.writeText(copyValue)
               setShowCheck(true)
             }
-          : null
+          : undefined
       }
       style={{
+        cursor: 'default',
         textOverflow: 'ellipsis',
-        overflow: 'hidden',
         whiteSpace: 'nowrap',
         position: 'relative',
         display: 'inline-flex',
