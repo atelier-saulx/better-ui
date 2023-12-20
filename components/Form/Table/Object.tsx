@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Stack } from '../../Stack'
 import { TableProps } from './types'
-import { readPath, useCols } from './utils'
+import { readPath, useCols, getTitle } from '../utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -19,7 +19,7 @@ export function Object({ ctx, path }: TableProps) {
     for (const key in field.properties) {
       cols.push(
         <Cell isKey border key={key}>
-          {field.properties[key].title ?? key}
+          {getTitle(key, field.properties[key])}
         </Cell>
       )
       cells.push(

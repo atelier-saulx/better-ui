@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Stack } from '../../Stack'
 import { TableProps } from './types'
-import { readPath, useCols } from './utils'
+import { readPath, useCols } from '../utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -28,7 +28,7 @@ export function Record({ ctx, path }: TableProps) {
       cols.push(
         <Cell border isKey key={key}>
           {valuesField.properties[key].title ?? key}
-        </Cell>,
+        </Cell>
       )
     }
     if (value) {
@@ -42,7 +42,7 @@ export function Record({ ctx, path }: TableProps) {
           cells.push(
             <Cell border key={k}>
               <Field ctx={ctx} path={[...path, key, k]} />
-            </Cell>,
+            </Cell>
           )
         }
         rows.push(
@@ -53,7 +53,7 @@ export function Record({ ctx, path }: TableProps) {
             }}
           >
             {cells}
-          </ColStack>,
+          </ColStack>
         )
       }
     }
@@ -61,7 +61,7 @@ export function Record({ ctx, path }: TableProps) {
     cols.push(
       <Cell isKey border key={'value'}>
         value
-      </Cell>,
+      </Cell>
     )
     if (value) {
       for (const key in value) {
@@ -73,7 +73,7 @@ export function Record({ ctx, path }: TableProps) {
             <Cell>
               <Field ctx={ctx} path={[...path, key]} />
             </Cell>
-          </ColStack>,
+          </ColStack>
         )
       }
     }

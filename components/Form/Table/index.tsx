@@ -3,7 +3,13 @@ import { styled } from 'inlines'
 import { BasedSchemaField } from '@based/schema'
 import { Stack } from '../../Stack'
 import { TableProps } from './types'
-import { readPath, readParentField, getKeyWidth, readParentType } from './utils'
+import {
+  readPath,
+  readParentField,
+  getKeyWidth,
+  readParentType,
+  getTitle,
+} from '../utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -12,7 +18,7 @@ import { Object } from './Object'
 import { Array } from './Array'
 import { Text } from '../../Text'
 
-export * from './utils'
+export * from '../utils'
 
 function Title({
   ctx,
@@ -33,7 +39,7 @@ function Title({
       }}
     >
       <styled.div style={{ marginBottom: 8, marginTop: 8 }}>
-        {field.title ?? path[path.length - 1]}
+        {getTitle(path[path.length - 1], field)}
         {field.description ? (
           <Text style={{ marginTop: -2 }} color="secondary">
             {field.description}

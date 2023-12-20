@@ -27,12 +27,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
 
         if (type === 'string' && field.contentMediaType) {
           return (
-            <FormField
-              key={key}
-              variant={variant}
-              field={field}
-              name={field.title ?? key}
-            >
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
               <styled.div
                 style={{
                   width: 450,
@@ -52,12 +47,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
 
         if (type === 'string') {
           return (
-            <FormField
-              key={key}
-              variant={variant}
-              field={field}
-              name={field.title ?? key}
-            >
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
               <styled.div
                 style={{
                   width: 450,
@@ -76,12 +66,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
 
         if (type === 'timestamp') {
           return (
-            <FormField
-              key={key}
-              variant={variant}
-              field={field}
-              name={field.title ?? key}
-            >
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
               <styled.div
                 style={{
                   width: 450,
@@ -99,12 +84,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
 
         if (type === 'set') {
           return (
-            <FormField
-              key={key}
-              variant={variant}
-              field={field}
-              name={field.title ?? key}
-            >
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
               <SetField
                 path={[key]}
                 ctx={{
@@ -119,12 +99,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
 
         if (isTable(field)) {
           return (
-            <FormField
-              key={key}
-              variant={variant}
-              field={field}
-              name={field.title ?? key}
-            >
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
               <Table
                 path={[key]}
                 ctx={{

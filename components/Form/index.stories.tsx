@@ -25,6 +25,10 @@ export const Default = () => {
             type: 'string',
             description: 'A name of someone',
           },
+          createdAt: {
+            title: 'Created',
+            type: 'timestamp',
+          },
           shortnumber: {
             type: 'number',
             display: 'short',
@@ -115,7 +119,7 @@ const objectField: { [key: string]: BasedSchemaField } = {
     properties: {
       price: { type: 'string', title: 'Price' },
       quality: { type: 'string', title: 'Quality' },
-      awards: { type: 'string', title: 'Awards' },
+      time: { type: 'timestamp', title: 'Time' },
       powerful: { type: 'string', title: 'Power Level' },
     },
   },

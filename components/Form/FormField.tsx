@@ -4,15 +4,22 @@ import { Text } from '../Text'
 import { Stack } from '../Stack'
 import { border } from '../../utils/colors'
 import { Variant } from './types'
+import { getTitle } from './utils'
 
 type FormFieldProps = {
   children: React.ReactNode
   field: BasedSchemaField
-  name: string
   variant: Variant
+  fieldKey: string
 }
 
-export function FormField({ children, field, name, variant }: FormFieldProps) {
+export function FormField({
+  children,
+  field,
+  fieldKey,
+  variant,
+}: FormFieldProps) {
+  const name = getTitle(fieldKey, field)
   return (
     <Stack
       gap={12}

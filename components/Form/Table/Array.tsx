@@ -7,7 +7,7 @@ import {
   readParentType,
   readPath,
   useCols,
-} from './utils'
+} from '../utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -16,7 +16,7 @@ import { styled } from 'inlines'
 import { IconChevronDown, IconChevronRight, IconPlus } from '../../Icons'
 import { BasedSchemaFieldArray } from '@based/schema'
 import { ColStack } from './ColStack'
-import { isSmallField } from './utils'
+import { isSmallField, getTitle } from '../utils'
 import { Badge } from '../../Badge'
 
 export function Array({ ctx, path }: TableProps) {
@@ -31,7 +31,7 @@ export function Array({ ctx, path }: TableProps) {
     for (const key in valuesField.properties) {
       cols.push(
         <Cell border isKey key={key}>
-          {valuesField.properties[key].title ?? key}
+          {getTitle(key, valuesField.properties[key])}
         </Cell>
       )
     }

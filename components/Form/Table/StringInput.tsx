@@ -15,7 +15,7 @@ export function StringInput({
     <styled.input
       style={{
         flexGrow: 1,
-        width: 'calc(100% - 10px)',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

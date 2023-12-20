@@ -1,12 +1,13 @@
 import React, { ReactNode } from 'react'
 import { StringInput } from './StringInput'
-import { readPath } from './utils'
+import { readPath } from '../utils'
 import { TableCtx, Path } from './types'
 import { FileInput } from '../../FileInput'
 import { Table } from '.'
 import { CheckboxInput } from '../../CheckboxInput'
 import { styled, Style } from 'inlines'
 import { SetField } from '../Set'
+import { DateInput } from '../../DateInput'
 
 export const Padder = ({
   children,
@@ -20,6 +21,7 @@ export const Padder = ({
       style={{
         width: '100%',
         paddingLeft: 20,
+        paddingRight: 10,
         ...style,
       }}
     >
@@ -70,6 +72,14 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     return (
       <Padder>
         <StringInput value={value} />
+      </Padder>
+    )
+  }
+
+  if (field.type === 'timestamp') {
+    return (
+      <Padder>
+        <DateInput variant="small" value={value} />
       </Padder>
     )
   }

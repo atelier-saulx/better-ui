@@ -1,7 +1,7 @@
 import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
-import { TableCtx, Path } from './types'
-import { getStringWidth } from '../../../utils/getStringWidth'
-import { textVariants } from '../../Text'
+import { TableCtx, Path } from './Table/types'
+import { getStringWidth } from '../../utils/getStringWidth'
+import { textVariants } from '../Text'
 
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
@@ -30,10 +30,11 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
   if (field.type === 'object') {
     let maxWidth = 0
     for (const key in field.properties) {
-      const { title, description } = field.properties[key]
-      const k = title ?? key
+      const prop = field.properties[key]
+      const { description } = prop
+      const k = getTitle(key, prop)
       const keyWidth =
-        getStringWidth(k, {
+        getStringWidth(String(k), {
           ...textVariants.bodyBold,
           fontFamily: 'Inter, system-ui',
         }) + 40
@@ -142,4 +143,23 @@ export const readParentType = (
   level: number = 1
 ): string => {
   return readParentField(ctx, path, level).type ?? ''
+}
+
+export const getTitle = (
+  key: string | number,
+  field: BasedSchemaField
+): string | number => {
+  if ('title' in field) {
+    return field.title
+  }
+
+  if (key === 'createdAt') {
+    return 'Created at'
+  }
+
+  if (key === 'updatedAt') {
+    return 'Updated at'
+  }
+
+  return key
 }
