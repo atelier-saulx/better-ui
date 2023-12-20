@@ -58,7 +58,7 @@ export function Media({
   function renderContent() {
     if (!size) return null
 
-    if (type.startsWith('image/')) {
+    if (type?.startsWith('image/')) {
       return (
         <img
           src={src}
@@ -72,7 +72,7 @@ export function Media({
       )
     }
 
-    if (type.startsWith('video/')) {
+    if (type?.startsWith('video/')) {
       // if size is small video is not interactive, we just show a thumbnail
       // and if there is no thumbnail then as a best effort
       // we render a native video element without controls which will render the first frame of the vid
@@ -161,7 +161,7 @@ export function Media({
             fontSize: size === 'small' ? 8 : size === 'medium' ? 14 : 24,
           }}
         >
-          {type.split('/')[1] ?? src.split('.').pop()}
+          {type?.split('/')[1] ?? src.split('.').pop()}
         </div>
       </div>
     )
