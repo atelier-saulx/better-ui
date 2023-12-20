@@ -117,7 +117,7 @@ const objectField: { [key: string]: BasedSchemaField } = {
     description: 'Rating of things',
     type: 'object',
     properties: {
-      price: { type: 'string', title: 'Price' },
+      price: { type: 'number', title: 'Price' },
       quality: { type: 'string', title: 'Quality' },
       time: { type: 'timestamp', title: 'Time' },
       powerful: { type: 'string', title: 'Power Level' },
@@ -129,7 +129,7 @@ const objectField: { [key: string]: BasedSchemaField } = {
     type: 'object',
     properties: {
       orderId: { type: 'string' },
-      price: { type: 'string' },
+      price: { type: 'number' },
       email: { type: 'string' },
       isItDope: {
         type: 'boolean',

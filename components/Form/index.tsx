@@ -9,6 +9,7 @@ import { Table, isTable } from './Table'
 import { DateInput } from '../DateInput'
 import { SetField } from './Set'
 import { Variant } from './types'
+import { NumberInput } from '../NumberInput'
 
 type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
 
@@ -55,6 +56,25 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
               >
                 <TextInput
                   value={values[key] as string}
+                  onChange={() => {
+                    // setValue(key, value)
+                  }}
+                />
+              </styled.div>
+            </FormField>
+          )
+        }
+
+        if (type === 'number') {
+          return (
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
+              <styled.div
+                style={{
+                  width: 450,
+                }}
+              >
+                <NumberInput
+                  value={values[key] as number}
                   onChange={() => {
                     // setValue(key, value)
                   }}

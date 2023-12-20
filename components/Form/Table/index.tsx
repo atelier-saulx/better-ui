@@ -92,15 +92,6 @@ export function Table({ ctx, path }: TableProps) {
     return <Body ctx={ctx} path={path} />
   }
 
-  /*
-   const paddingLeft =
-            valuesField.type === 'array' &&
-            valuesField.values.type === 'object' &&
-            !useCols(valuesField.values)
-              ? 20
-              : 0
-  */
-
   return (
     <Stack align="stretch" justify="start">
       <Title ctx={ctx} path={path} parent={parent} />

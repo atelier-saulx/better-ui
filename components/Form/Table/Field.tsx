@@ -8,6 +8,7 @@ import { styled, Style } from 'inlines'
 import { SetField } from '../Set'
 import { DateInput } from '../../DateInput'
 import { TextInput } from '../../TextInput'
+import { NumberInput } from '../../NumberInput'
 
 export const Padder = ({
   children,
@@ -20,7 +21,7 @@ export const Padder = ({
     <styled.div
       style={{
         width: '100%',
-        paddingLeft: 20,
+        paddingLeft: 10,
         paddingRight: 10,
         ...style,
       }}
@@ -55,7 +56,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
 
   if (field.type === 'string' && field.contentMediaType) {
     return (
-      <Padder>
+      <Padder style={{ paddingLeft: 20 }}>
         <FileInput
           variant="small"
           mimeType={field.contentMediaType}
@@ -68,10 +69,18 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     )
   }
 
+  if (field.type === 'number') {
+    return (
+      <Padder>
+        <NumberInput variant="small" />
+      </Padder>
+    )
+  }
+
   if (field.type === 'string') {
     return (
       <Padder>
-        <TextInput />
+        <TextInput variant="small" />
       </Padder>
     )
   }
