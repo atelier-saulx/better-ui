@@ -4,11 +4,11 @@ import { textVariants } from '../Text'
 import { styled } from 'inlines'
 
 export type VideoProps = {
-  thumbnailSrc?: string
+  thumbnail?: string
   src: string
 }
 
-export function Video({ src, thumbnailSrc }: VideoProps) {
+export function Video({ src, thumbnail }: VideoProps) {
   const [playing, setPlaying] = React.useState(false)
   const [duration, setDuration] = React.useState(0)
   const [percentage, setPercentage] = React.useState(0)
@@ -60,6 +60,8 @@ export function Video({ src, thumbnailSrc }: VideoProps) {
     <styled.div
       style={{
         position: 'relative',
+        height: '100%',
+        width: '100%',
         cursor: 'pointer',
         ...(mouseDown && {
           '& .dimmer': {
@@ -75,11 +77,12 @@ export function Video({ src, thumbnailSrc }: VideoProps) {
         style={{
           display: 'block',
           verticalAlign: 'middle',
+          height: '100%',
           width: '100%',
-          height: 'auto',
+          objectFit: 'contain',
         }}
         ref={videoRef}
-        poster={thumbnailSrc}
+        poster={thumbnail}
         preload="metadata"
         loop={false}
         onPlay={() => {
