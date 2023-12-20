@@ -167,20 +167,6 @@ export function Media({
     )
   }
 
-  // size breakpoints
-  // ICON (48px)
-  // MID (as in a grid / thumnail in youtube)
-  // LARGE
-
-  // for video
-  // ICON => only play button with thumb
-  // MID => the one you made now with seekbar at the bottom
-  // LARGE => full size vid player
-
-  // for audio round progress bar (make as sep component)
-
-  // for icons max size for MID / LARGE (but large is bigger)
-
   return (
     <styled.div
       style={{ width: '100%', height: '100%', ...style }}
