@@ -309,11 +309,38 @@ export const Object = () => {
   )
 }
 
+export const Record = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Form
+        variant="small"
+        values={{
+          ratings: {
+            powerful: 9000,
+          },
+        }}
+        fields={{
+          record: {
+            type: 'record',
+            values: {
+              type: 'string',
+            },
+          },
+        }}
+        onChange={(values) => {
+          console.log(values)
+        }}
+      />
+    </div>
+  )
+}
+
 export const Array = () => {
   return (
     <div style={{ padding: 64 }}>
       <Form
         values={{
+          simpleArray: ['hello'],
           array: [
             {
               powerful: 9000,
@@ -368,6 +395,12 @@ export const Array = () => {
           ],
         }}
         fields={{
+          simpleArray: {
+            type: 'array',
+            values: {
+              type: 'string',
+            },
+          },
           array: {
             title: 'Things',
             description: 'some things',

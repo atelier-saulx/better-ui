@@ -72,7 +72,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   if (field.type === 'number') {
     return (
       <Padder>
-        <NumberInput variant="small" />
+        <NumberInput variant="small" value={value} />
       </Padder>
     )
   }
@@ -80,7 +80,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   if (field.type === 'string') {
     return (
       <Padder>
-        <TextInput variant="small" />
+        <TextInput variant="small" value={value} />
       </Padder>
     )
   }
