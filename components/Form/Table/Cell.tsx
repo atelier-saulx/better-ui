@@ -25,6 +25,7 @@ export function Cell({
         minHeight: 48,
         flexGrow: 1,
         maxWidth: width,
+        minWidth: width,
         borderRight: border ? getBorder() : undefined,
         paddingLeft: isKey ? 20 : 0,
         ...style,

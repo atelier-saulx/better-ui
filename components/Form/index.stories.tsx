@@ -315,16 +315,39 @@ export const Record = () => {
       <Form
         variant="small"
         values={{
+          record: {
+            flap: 'flap',
+            snurp: 'derp',
+          },
           ratings: {
             powerful: 9000,
+          },
+          recordObject: {
+            flap: { price: 200 },
+            flup: { price: 50 },
+          },
+          recordObjectBig: {
+            big: {},
+            blap: {},
           },
         }}
         fields={{
           record: {
+            title: 'Fun record',
             type: 'record',
             values: {
               type: 'string',
             },
+          },
+          recordObject: {
+            title: 'Nested record',
+            type: 'record',
+            values: objectField.ratings,
+          },
+          recordObjectBig: {
+            title: 'Nested big record',
+            type: 'record',
+            values: objectField.object,
           },
         }}
         onChange={(values) => {
