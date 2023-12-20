@@ -11,6 +11,7 @@ import { SetField } from './Set'
 import { Variant } from './types'
 import { NumberInput } from '../NumberInput'
 import { TextAreaInput } from '../TextAreaInput'
+import { SelectInput } from '../SelectInput'
 
 type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
 
@@ -26,6 +27,20 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
     <Stack gap={32} direction="column" align="start">
       {Object.entries(fields).map(([key, field]) => {
         const { type } = field
+
+        if ('enum' in field) {
+          return (
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
+              <styled.div
+                style={{
+                  width: 450,
+                }}
+              >
+                <SelectInput options={field.enum} value={values[key]} />
+              </styled.div>
+            </FormField>
+          )
+        }
 
         if (type === 'string' && field.contentMediaType) {
           return (

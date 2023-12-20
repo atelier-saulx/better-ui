@@ -10,6 +10,7 @@ import { DateInput } from '../../DateInput'
 import { TextInput } from '../../TextInput'
 import { NumberInput } from '../../NumberInput'
 import { TextAreaInput } from '../../TextAreaInput'
+import { SelectInput } from '../../SelectInput'
 
 export const Padder = ({
   children,
@@ -34,6 +35,14 @@ export const Padder = ({
 
 export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field } = readPath(ctx, path)
+
+  if ('enum' in field) {
+    return (
+      <Padder>
+        <SelectInput variant="small" options={field.enum} value={value} />
+      </Padder>
+    )
+  }
 
   if (field.type === 'boolean') {
     return (

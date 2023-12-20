@@ -26,8 +26,12 @@ export const Default = () => {
             description: 'A name of someone',
           },
           createdAt: {
-            title: 'Created',
             type: 'timestamp',
+          },
+          options: {
+            title: 'Options',
+            description: 'Select some options',
+            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
           },
           shortnumber: {
             type: 'number',
@@ -167,6 +171,11 @@ const objectField: { [key: string]: BasedSchemaField } = {
         description: 'The most important',
         title: 'Price',
       },
+      quality: {
+        enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
+        title: 'Quality',
+        description: 'Is it snurp or dakkie?',
+      },
       email: {
         type: 'string',
         description: 'Email for comms',
@@ -253,7 +262,10 @@ const objectField: { [key: string]: BasedSchemaField } = {
         type: 'object',
         properties: {
           price: { type: 'string', title: 'Price' },
-          quality: { type: 'string', title: 'Quality' },
+          quality: {
+            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
+            title: 'Quality',
+          },
           awards: { type: 'string', title: 'Awards' },
           powerful: { type: 'string', title: 'Power Level' },
         },
