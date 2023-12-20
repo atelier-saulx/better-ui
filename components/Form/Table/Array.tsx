@@ -147,7 +147,14 @@ export function Array({ ctx, path }: TableProps) {
   }
 
   return (
-    <Stack justify="start" align="start" direction="column">
+    <Stack
+      justify="start"
+      align="start"
+      direction="column"
+      style={{
+        borderBottom: path.length > 1 ? border() : null,
+      }}
+    >
       {cols.length ? (
         <ColStack
           style={{
