@@ -10,6 +10,7 @@ import { DateInput } from '../DateInput'
 import { SetField } from './Set'
 import { Variant } from './types'
 import { NumberInput } from '../NumberInput'
+import { TextAreaInput } from '../TextAreaInput'
 
 type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
 
@@ -39,6 +40,25 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                   value={values[key] ? { src: values[key] } : undefined}
                   onChange={(file) => {
                     console.log('uploaded file', file)
+                  }}
+                />
+              </styled.div>
+            </FormField>
+          )
+        }
+
+        if (type === 'string' && field.multiline) {
+          return (
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
+              <styled.div
+                style={{
+                  width: 450,
+                }}
+              >
+                <TextAreaInput
+                  value={values[key] as string}
+                  onChange={() => {
+                    // setValue(key, value)
                   }}
                 />
               </styled.div>

@@ -43,6 +43,12 @@ export const Default = () => {
             type: 'string',
             description: 'A flap',
           },
+          mutliLineText: {
+            title: 'Multiline Text',
+            type: 'string',
+            multiline: true,
+            description: 'A flap',
+          },
           src: {
             title: 'Source',
             type: 'string',
@@ -131,6 +137,7 @@ const objectField: { [key: string]: BasedSchemaField } = {
       orderId: { type: 'string' },
       price: { type: 'number' },
       email: { type: 'string' },
+      multiLineText: { type: 'string', multiline: true },
       isItDope: {
         type: 'boolean',
       },

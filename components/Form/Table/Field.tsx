@@ -9,6 +9,7 @@ import { SetField } from '../Set'
 import { DateInput } from '../../DateInput'
 import { TextInput } from '../../TextInput'
 import { NumberInput } from '../../NumberInput'
+import { TextAreaInput } from '../../TextAreaInput'
 
 export const Padder = ({
   children,
@@ -36,7 +37,11 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
 
   if (field.type === 'boolean') {
     return (
-      <Padder>
+      <Padder
+        style={{
+          paddingLeft: 15,
+        }}
+      >
         <CheckboxInput variant="toggle" value={false} onChange={() => {}} />
       </Padder>
     )
@@ -73,6 +78,19 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     return (
       <Padder>
         <NumberInput variant="small" value={value} />
+      </Padder>
+    )
+  }
+
+  if (field.type === 'string' && field.multiline) {
+    return (
+      <Padder
+        style={{
+          paddingTop: 10,
+          paddingBottom: 10,
+        }}
+      >
+        <TextAreaInput variant="small" value={value} />
       </Padder>
     )
   }
