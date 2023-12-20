@@ -118,6 +118,15 @@ export const Set = () => {
 }
 
 const objectField: { [key: string]: BasedSchemaField } = {
+  multiLineRatings: {
+    title: 'Multiline Ratings',
+    description: 'Rating of things',
+    type: 'object',
+    properties: {
+      price: { title: 'Price', type: 'number' },
+      text: { title: 'Multiline text', type: 'string', multiline: true },
+    },
+  },
   ratings: {
     title: 'Ratings',
     description: 'Rating of things',
