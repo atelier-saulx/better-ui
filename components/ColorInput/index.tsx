@@ -13,6 +13,11 @@ export type ColorInputProps = {
   error?: boolean
 }
 
+// just to display nicer
+const parseColor = (value: string): string => {
+  return value ? value.match(/rgba?\((.*?)\)/)?.[1] || value : value
+}
+
 export function ColorInput({
   label,
   variant = 'regular',
@@ -83,8 +88,7 @@ export function ColorInput({
       const [red, green, blue, alpha] = value
         .match(/(\d+(\.\d+)?)/g)!
         .map((v) => parseFloat(v))
-      const [h, s, l] = rgbToHSL(red, green, blue)
-
+      const [h] = rgbToHSL(red, green, blue)
       setHue(h)
       setAlpha(alpha)
     }
@@ -189,9 +193,7 @@ export function ColorInput({
                 border: `1px solid rgba(4,41,68,.13)`,
               }}
             />
-            <div>
-              {value ? value.match(/rgba?\((.*?)\)/)?.[1] || value : value}
-            </div>
+            <div>{parseColor(value)}</div>
           </styled.div>
         </Wrapper>
       </Popover.Trigger>
