@@ -28,6 +28,11 @@ export const Default = () => {
           createdAt: {
             type: 'timestamp',
           },
+          bgColor: {
+            title: 'Background color',
+            type: 'string',
+            format: 'rgbColor',
+          },
           options: {
             title: 'Options',
             description: 'Select some options',
@@ -139,7 +144,7 @@ const objectField: { [key: string]: BasedSchemaField } = {
       price: { type: 'number', title: 'Price' },
       quality: { type: 'string', title: 'Quality' },
       time: { type: 'timestamp', title: 'Time' },
-      powerful: { type: 'string', title: 'Power Level' },
+      powerful: { type: 'string', title: 'Power Level', format: 'rgbColor' },
     },
   },
   order: {
@@ -325,7 +330,7 @@ export const Object = () => {
         variant="small"
         values={{
           ratings: {
-            powerful: 9000,
+            powerful: 'rgb(255,255,100)',
           },
         }}
         fields={objectField}
@@ -348,7 +353,7 @@ export const Record = () => {
             snurp: 'derp',
           },
           ratings: {
-            powerful: 9000,
+            powerful: 'rgb(255,255,100)',
           },
           recordObject: {
             flap: { price: 200 },
@@ -394,35 +399,35 @@ export const Array = () => {
           simpleArray: ['hello'],
           array: [
             {
-              powerful: 9000,
+              powerful: 'rgb(255,255,100)',
             },
             {
-              powerful: 9000,
+              powerful: 'rgb(255,255,100)',
             },
             {
-              powerful: 9000,
+              powerful: 'rgb(255,255,100)',
             },
           ],
           nestedArray: [
             [
               {
-                powerful: 9000,
+                powerful: 'rgb(255,255,100)',
               },
               {
-                powerful: 9000,
+                powerful: 'rgb(255,255,100)',
               },
               {
-                powerful: 9000,
-              },
-            ],
-            [
-              {
-                powerful: 9000,
+                powerful: 'rgb(255,255,100)',
               },
             ],
             [
               {
-                powerful: 9000,
+                powerful: 'rgb(255,255,100)',
+              },
+            ],
+            [
+              {
+                powerful: 'rgb(255,255,100)',
               },
             ],
           ],
@@ -501,7 +506,7 @@ export const Bare = () => {
           variant="bare"
           values={{
             ratings: {
-              powerful: 9000,
+              powerful: 'rgb(255,255,100)',
             },
           }}
           fields={{ object: objectField.address }}

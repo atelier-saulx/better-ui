@@ -189,7 +189,9 @@ export function ColorInput({
                 border: `1px solid rgba(4,41,68,.13)`,
               }}
             />
-            <div>{value}</div>
+            <div>
+              {value ? value.match(/rgba?\((.*?)\)/)?.[1] || value : value}
+            </div>
           </styled.div>
         </Wrapper>
       </Popover.Trigger>

@@ -11,6 +11,7 @@ import { TextInput } from '../../TextInput'
 import { NumberInput } from '../../NumberInput'
 import { TextAreaInput } from '../../TextAreaInput'
 import { SelectInput } from '../../SelectInput'
+import { ColorInput } from '../../ColorInput'
 
 export const Padder = ({
   children,
@@ -91,6 +92,14 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     )
   }
 
+  if (field.type === 'string' && field.format === 'rgbColor') {
+    return (
+      <Padder>
+        <ColorInput value={value} variant="small" />
+      </Padder>
+    )
+  }
+
   if (field.type === 'string' && field.multiline) {
     return (
       <Padder
@@ -115,7 +124,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   if (field.type === 'timestamp') {
     return (
       <Padder>
-        <DateInput variant="small" value={value} />
+        <DateInput time variant="small" value={value} />
       </Padder>
     )
   }

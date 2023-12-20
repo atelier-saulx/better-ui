@@ -12,6 +12,7 @@ import { Variant } from './types'
 import { NumberInput } from '../NumberInput'
 import { TextAreaInput } from '../TextAreaInput'
 import { SelectInput } from '../SelectInput'
+import { ColorInput } from '../ColorInput'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
@@ -45,6 +46,20 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                 }}
               >
                 <SelectInput options={field.enum} value={values[key]} />
+              </styled.div>
+            </FormField>
+          )
+        }
+
+        if (type === 'string' && field.format === 'rgbColor') {
+          return (
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
+              <styled.div
+                style={{
+                  width: 450,
+                }}
+              >
+                <ColorInput value={values[key]} />
               </styled.div>
             </FormField>
           )
