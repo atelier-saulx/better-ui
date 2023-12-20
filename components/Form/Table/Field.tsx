@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import { StringInput } from './StringInput'
 import { readPath } from '../utils'
 import { TableCtx, Path } from './types'
 import { FileInput } from '../../FileInput'
@@ -8,6 +7,7 @@ import { CheckboxInput } from '../../CheckboxInput'
 import { styled, Style } from 'inlines'
 import { SetField } from '../Set'
 import { DateInput } from '../../DateInput'
+import { TextInput } from '../../TextInput'
 
 export const Padder = ({
   children,
@@ -71,7 +71,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   if (field.type === 'string') {
     return (
       <Padder>
-        <StringInput value={value} />
+        <TextInput />
       </Padder>
     )
   }

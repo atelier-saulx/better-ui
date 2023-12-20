@@ -5,12 +5,12 @@ import { readPath, useCols } from '../utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
-import { StringInput } from './StringInput'
 import { Button } from '../../Button'
 import { styled } from 'inlines'
 import { IconPlus } from '../../Icons'
 import { BasedSchemaFieldRecord } from '@based/schema'
 import { ColStack } from './ColStack'
+import { TextInput } from '../../TextInput'
 
 export function Record({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldRecord>(ctx, path)
@@ -35,7 +35,7 @@ export function Record({ ctx, path }: TableProps) {
       for (const key in value) {
         const cells: ReactNode[] = [
           <Cell width={200} border isKey key="key">
-            <StringInput value={key} />
+            <TextInput variant="small" value={key} />
           </Cell>,
         ]
         for (const k in value[key]) {
@@ -68,7 +68,7 @@ export function Record({ ctx, path }: TableProps) {
         rows.push(
           <ColStack key={key}>
             <Cell width={200} border isKey key={'key'}>
-              <StringInput value={key} />
+              <TextInput variant="small" value={key} />
             </Cell>
             <Cell>
               <Field ctx={ctx} path={[...path, key]} />
