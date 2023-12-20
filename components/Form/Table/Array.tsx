@@ -1,7 +1,13 @@
 import React, { ReactNode, useState } from 'react'
 import { Stack } from '../../Stack'
 import { TableProps } from './types'
-import { getIdentifierField, isIterable, readPath, useCols } from './utils'
+import {
+  getIdentifierField,
+  isIterable,
+  readParentType,
+  readPath,
+  useCols,
+} from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -19,7 +25,6 @@ export function Array({ ctx, path }: TableProps) {
   const rows: ReactNode[] = []
   const cols: ReactNode[] = []
   const isCols = valuesField.type === 'object' && useCols(valuesField)
-
   const [openIndex, setIndex] = useState(0)
 
   if (isCols) {
@@ -94,7 +99,12 @@ export function Array({ ctx, path }: TableProps) {
               },
             }}
           >
-            <Cell isKey>
+            <Cell
+              isKey
+              style={{
+                paddingLeft: readParentType(ctx, path) === 'array' ? 30 : 20,
+              }}
+            >
               {isOpen ? (
                 <IconChevronDown
                   style={{

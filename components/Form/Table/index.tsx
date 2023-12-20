@@ -3,7 +3,7 @@ import { styled } from 'inlines'
 import { BasedSchemaField } from '@based/schema'
 import { Stack } from '../../Stack'
 import { TableProps } from './types'
-import { readPath, readParentField, getKeyWidth } from './utils'
+import { readPath, readParentField, getKeyWidth, readParentType } from './utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
 import { border, color } from '../../../utils/colors'
@@ -20,14 +20,16 @@ function Title({
   parent,
 }: TableProps & { parent: BasedSchemaField }) {
   const { field } = readPath(ctx, path)
+  const isNestedArray = readParentType(ctx, path, 3) === 'array'
   return (
     <Cell
       border
       isKey
-      width={getKeyWidth(parent)}
+      width={getKeyWidth(parent) + (isNestedArray ? 60 : 0)}
       style={{
         background: color('background', 'muted'),
         borderBottom: border(),
+        paddingLeft: isNestedArray ? 60 : 20,
       }}
     >
       <styled.div style={{ marginBottom: 8, marginTop: 8 }}>
