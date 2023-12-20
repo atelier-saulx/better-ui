@@ -27,6 +27,7 @@ function Title({
 }: TableProps & { parent: BasedSchemaField }) {
   const { field } = readPath(ctx, path)
   const isNestedArray = readParentType(ctx, path, 3) === 'array'
+
   return (
     <Cell
       border
