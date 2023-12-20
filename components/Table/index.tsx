@@ -13,11 +13,27 @@ import { IconSortAsc, IconSortDesc } from '../Icons'
 import { Badge } from '../Badge'
 import { Thumbnail } from '../Thumbnail'
 import { styled } from 'inlines'
+import {
+  BasedSchema,
+  BasedSchemaField,
+  BasedSchemaFieldString,
+  BasedSchemaFieldTimeStamp,
+  BasedSchemaFieldNumber,
+} from '@based/schema'
+
+type TableSchemaField = BasedSchemaField & {
+  action?: React.ReactNode
+  renderAs?: (props: { field: TableSchemaField; value: any }) => React.ReactNode
+}
+
+// type X = BasedSchemaFieldTimeStamp['display']
+// type Y = BasedSchemaFieldString['display']
+// type Z = BasedSchemaFieldNumber['display']
 
 type RenderAs =
   | 'badge'
   | 'image'
-  | 'avatar'
+  | 'avatar' // media with media type
   | 'toggle'
   | NumberFormat
   | DateFormat
@@ -30,8 +46,48 @@ type TableColumn = {
   renderAs?: RenderAs
 }
 
+/*
+
+{
+      price: { type: 'number', display: 'euro'},
+      name: { type: 'string' },
+      bytes: { type: 'number', display: 'bytes'},
+      logo: {
+        type: 'reference',
+        allowedTypes: ['file'] // user
+      }
+    }
+  }
+
+  const  { data: schema, loading } = useQuery('db:schema')
+
+  <Table field={schema.types.todo.fields} data={bla} />
+  <List
+  <Grid
+  
+  
+  -----------------------------------------------------------------------------
+
+  <BasedForm name="db" payload={{ $id: '123123', type: 'bla', $all: true }} />
+
+  <BasedTable name="db" payload={{
+    rows: {
+      id: true,
+      createdAt: true,
+      $list: {
+        $filter: ....
+      }
+    }
+  }} />
+
+  <BasedViewer  />
+
+*/
+
 export type TableProps = {
   data: any
+  field?: { [key: string]: TableSchemaField }
+  schema?: BasedSchema // for later
   columns?: TableColumn[]
   onScrollToBottom?: () => void
   onVisibleElementsChange?: (visibleElements: number[]) => void
@@ -118,7 +174,7 @@ export function Table({
         }
       }
     },
-    [onScrollToBottom],
+    [onScrollToBottom]
   )
   const onRowClick = useCallbackRef(onRowClickProp)
 
@@ -159,7 +215,7 @@ export function Table({
                 .map((row, index) => {
                   return (
                     <tr
-                      onClick={(e) => {
+                      onClick={() => {
                         if (onRowClick) {
                           onRowClick(row.original)
                         }
@@ -203,7 +259,7 @@ export function Table({
                             >
                               {flexRender(
                                 cell.column.columnDef.cell,
-                                cell.getContext(),
+                                cell.getContext()
                               )}
                             </div>
                           </td>
@@ -268,7 +324,7 @@ export function Table({
                           >
                             {flexRender(
                               header.column.columnDef.header,
-                              header.getContext(),
+                              header.getContext()
                             )}
                             {{
                               asc: <IconSortAsc style={{ marginLeft: 8 }} />,

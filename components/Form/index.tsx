@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { BasedSchemaField } from '@based/schema'
+import { BasedSchemaField, BasedSchema } from '@based/schema'
 import { Stack } from '../Stack'
 import { FormField } from './FormField'
 import { FileInput } from '../FileInput'
@@ -13,13 +13,21 @@ import { NumberInput } from '../NumberInput'
 import { TextAreaInput } from '../TextAreaInput'
 import { SelectInput } from '../SelectInput'
 
-type FormValues = { [key: string]: BasedSchemaField & { action?: ReactNode } }
+type FormSchemaField = BasedSchemaField & {
+  action?: ReactNode
+  renderAs?: (props: { field: FormSchemaField; value: any }) => ReactNode
+}
+
+type FormValues = {
+  [key: string]: FormSchemaField
+}
 
 export type FormProps = {
   values: { [key: string]: any }
   onChange: (values: FormValues) => void
   fields: FormValues
   variant?: Variant
+  schema?: BasedSchema // for later
 }
 
 export function Form({ fields, values, variant = 'regular' }: FormProps) {
