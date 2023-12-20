@@ -60,7 +60,7 @@ export function DateInput({
   const [currentMonth, setCurrentMonth] = React.useState(new Date())
   const [hoveredDate, setHoveredDate] = React.useState<Date | null>(null)
   const [pendingRangePart, setPendingRangePart] = React.useState<Date | null>(
-    null,
+    null
   )
   const [pendingStartTime, setPendingStartTime] = React.useState('')
   const [pendingEndTime, setPendingEndTime] = React.useState('')
@@ -143,12 +143,18 @@ export function DateInput({
                 variant === 'regular'
                   ? 'var(--radius-small)'
                   : 'var(--radius-tiny)',
-              border: '1px solid var(--interactive-secondary)',
+              border:
+                variant === 'small'
+                  ? '1px solid transparent'
+                  : '1px solid var(--interactive-secondary)',
               '&:hover': {
-                border: '1px solid var(--interactive-secondary-hover)',
+                border:
+                  variant === 'small'
+                    ? '1px solid transparent'
+                    : '1px solid var(--interactive-secondary-hover)',
               },
               '&:focus': {
-                border: '1px solid var(--interactive-primary)',
+                border: '1px solid var(--interactive-primary) !important',
                 boxShadow:
                   '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
               },
@@ -171,10 +177,10 @@ export function DateInput({
                 (typeof value === 'object'
                   ? `${format(
                       value.start,
-                      time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy',
+                      time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'
                     )} - ${format(
                       value.end,
-                      time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy',
+                      time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'
                     )}`
                   : format(value, time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'))}
             </div>
@@ -331,35 +337,35 @@ export function DateInput({
                         borderTopLeftRadius:
                           isSameDay(
                             min([pendingRangePart, hoveredDate]),
-                            day,
+                            day
                           ) || isMonday(day)
                             ? 'var(--radius-tiny)'
                             : '0px',
                         borderBottomLeftRadius:
                           isSameDay(
                             min([pendingRangePart, hoveredDate]),
-                            day,
+                            day
                           ) || isMonday(day)
                             ? 'var(--radius-tiny)'
                             : '0px',
                         borderTopRightRadius:
                           isSameDay(
                             max([pendingRangePart, hoveredDate]),
-                            day,
+                            day
                           ) || isSunday(day)
                             ? 'var(--radius-tiny)'
                             : '0px',
                         borderBottomRightRadius:
                           isSameDay(
                             max([pendingRangePart, hoveredDate]),
-                            day,
+                            day
                           ) || isSunday(day)
                             ? 'var(--radius-tiny)'
                             : '0px',
                         ...(!isMonday(day) &&
                           !isSameDay(
                             min([pendingRangePart, hoveredDate]),
-                            day,
+                            day
                           ) && {
                             '&:before': {
                               pointerEvents: 'none',
@@ -491,7 +497,7 @@ export function DateInput({
                         const result = parse(
                           pendingStartTime,
                           'HH:mm',
-                          new Date(),
+                          new Date()
                         )
 
                         if (isNaN(result.getTime())) {
@@ -503,15 +509,15 @@ export function DateInput({
                             ...value,
                             start: setHours(
                               setMinutes(value.start, result.getMinutes()),
-                              result.getHours(),
+                              result.getHours()
                             ).getTime(),
                           })
                         } else {
                           setValue(
                             setHours(
                               setMinutes(value, result.getMinutes()),
-                              result.getHours(),
-                            ).getTime(),
+                              result.getHours()
+                            ).getTime()
                           )
                         }
                       }}
@@ -546,7 +552,7 @@ export function DateInput({
                           const result = parse(
                             pendingEndTime,
                             'HH:mm',
-                            new Date(),
+                            new Date()
                           )
 
                           if (isNaN(result.getTime())) {
@@ -557,7 +563,7 @@ export function DateInput({
                             ...value,
                             end: setHours(
                               setMinutes(value.end, result.getMinutes()),
-                              result.getHours(),
+                              result.getHours()
                             ).getTime(),
                           })
                         }}

@@ -101,14 +101,20 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                   variant === 'regular'
                     ? 'var(--radius-small)'
                     : 'var(--radius-tiny)',
-                border: '1px solid var(--interactive-secondary)',
+                    border:
+                    variant === 'small'
+                      ? '1px solid transparent'
+                      : '1px solid var(--interactive-secondary)',
                 color: 'var(--content-primary)',
                 '&:before': {
                   content: '""',
                   display: 'inline-block',
                 },
                 '&:hover': {
-                  border: '1px solid var(--interactive-secondary-hover)',
+                  border:
+                  variant === 'small'
+                    ? '1px solid transparent'
+                    : '1px solid var(--interactive-secondary-hover)',
                 },
                 '&:focus': {
                   border: '1px solid var(--interactive-primary) !important',

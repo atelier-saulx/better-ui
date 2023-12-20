@@ -56,7 +56,7 @@ export const TextAreaInput = React.forwardRef<
       error,
       autoFocus,
     },
-    ref,
+    ref
   ) => {
     const rerender = React.useState({})[1]
     const valueRef = React.useRef(value ?? defaultValue ?? '')
@@ -117,16 +117,22 @@ export const TextAreaInput = React.forwardRef<
                 variant === 'regular'
                   ? 'var(--radius-small)'
                   : 'var(--radius-tiny)',
-              border: '1px solid var(--interactive-secondary)',
+              border:
+                variant === 'small'
+                  ? '1px solid transparent'
+                  : '1px solid var(--interactive-secondary)',
               color: 'var(--content-primary)',
               gridArea: '1 / 1 / 2 / 2',
               outline: 'none',
               '&::placeholder': { color: 'var(--content-secondary)' },
               '&:hover': {
-                border: '1px solid var(--interactive-secondary-hover)',
+                border:
+                  variant === 'small'
+                    ? '1px solid transparent'
+                    : '1px solid var(--interactive-secondary-hover)',
               },
               '&:focus': {
-                border: '1px solid var(--interactive-primary)',
+                border: '1px solid var(--interactive-primary) !important',
                 boxShadow:
                   '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
               },
@@ -148,5 +154,5 @@ export const TextAreaInput = React.forwardRef<
         </styled.div>
       </Wrapper>
     )
-  },
+  }
 )

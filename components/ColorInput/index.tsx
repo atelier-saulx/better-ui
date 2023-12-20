@@ -40,8 +40,12 @@ export function ColorInput({
     if (!positionDivRef.current) return
 
     const { clientX, clientY } = event
-    const { left, width, top, height } =
-      positionDivRef.current.getBoundingClientRect()
+    const {
+      left,
+      width,
+      top,
+      height,
+    } = positionDivRef.current.getBoundingClientRect()
     setPosition({
       x: Math.min(1, Math.max(0, (clientX - left) / width)),
       y: Math.min(1, Math.max(0, (clientY - top) / height)),
@@ -135,12 +139,18 @@ export function ColorInput({
                 variant === 'regular'
                   ? 'var(--radius-small)'
                   : 'var(--radius-tiny)',
-              border: '1px solid var(--interactive-secondary)',
+              border:
+                variant === 'small'
+                  ? '1px solid transparent'
+                  : '1px solid var(--interactive-secondary)',
               '&:hover': {
-                border: '1px solid var(--interactive-secondary-hover)',
+                border:
+                  variant === 'small'
+                    ? '1px solid transparent'
+                    : '1px solid var(--interactive-secondary-hover)',
               },
               '&:focus': {
-                border: '1px solid var(--interactive-primary)',
+                border: '1px solid var(--interactive-primary) !important',
                 boxShadow:
                   '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
               },

@@ -57,7 +57,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       error,
       onKeyDown,
     },
-    ref,
+    ref
   ) => {
     return (
       <Wrapper label={label}>
@@ -94,15 +94,21 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               variant === 'regular'
                 ? 'var(--radius-small)'
                 : 'var(--radius-tiny)',
-            border: '1px solid var(--interactive-secondary)',
+            border:
+              variant === 'small'
+                ? '1px solid transparent'
+                : '1px solid var(--interactive-secondary)',
             color: 'var(--content-primary)',
             outline: 'none',
             '&::placeholder': { color: 'var(--content-secondary)' },
             '&:hover': {
-              border: '1px solid var(--interactive-secondary-hover)',
+              border:
+                variant === 'small'
+                  ? '1px solid transparent'
+                  : '1px solid var(--interactive-secondary-hover)',
             },
             '&:focus': {
-              border: '1px solid var(--interactive-primary)',
+              border: '1px solid var(--interactive-primary) !important',
               boxShadow:
                 '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
             },
@@ -121,5 +127,5 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         />
       </Wrapper>
     )
-  },
+  }
 )

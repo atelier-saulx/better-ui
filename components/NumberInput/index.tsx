@@ -58,7 +58,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       error,
       autoFocus,
     },
-    ref,
+    ref
   ) => {
     const [value, setValue] = useControllableState<number>({
       prop: valueProp,
@@ -107,16 +107,22 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 variant === 'regular'
                   ? 'var(--radius-small)'
                   : 'var(--radius-tiny)',
-              border: '1px solid var(--interactive-secondary)',
+              border:
+                variant === 'small'
+                  ? '1px solid transparent'
+                  : '1px solid var(--interactive-secondary)',
               color: 'var(--content-primary)',
               outline: 'none',
               appearance: 'none',
               '&::placeholder': { color: 'var(--content-secondary)' },
               '&:hover': {
-                border: '1px solid var(--interactive-secondary-hover)',
+                border:
+                  variant === 'small'
+                    ? '1px solid transparent'
+                    : '1px solid var(--interactive-secondary-hover)',
               },
               '&:focus': {
-                border: '1px solid var(--interactive-primary)',
+                border: '1px solid var(--interactive-primary) !important',
                 boxShadow:
                   '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
               },
@@ -198,5 +204,5 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
         </div>
       </Wrapper>
     )
-  },
+  }
 )
