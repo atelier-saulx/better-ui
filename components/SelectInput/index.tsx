@@ -32,11 +32,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       error,
       autoFocus,
     },
-    ref,
+    ref
   ) => {
     const Wrapper = label ? styled.label : styled.div
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
-    
 
     React.useEffect(() => {
       if (autoFocus && wrapperRef.current) {
@@ -101,10 +100,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                   variant === 'regular'
                     ? 'var(--radius-small)'
                     : 'var(--radius-tiny)',
-                    border:
-                    variant === 'small'
-                      ? '1px solid transparent'
-                      : '1px solid var(--interactive-secondary)',
+                border:
+                  variant === 'small'
+                    ? '1px solid transparent'
+                    : '1px solid var(--interactive-secondary)',
                 color: 'var(--content-primary)',
                 '&:before': {
                   content: '""',
@@ -112,12 +111,12 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 },
                 '&:hover': {
                   border:
-                  variant === 'small'
-                    ? '1px solid transparent'
-                    : '1px solid var(--interactive-secondary-hover)',
+                    variant === 'small'
+                      ? '1px solid transparent'
+                      : '1px solid var(--interactive-secondary-hover)',
                 },
                 '&:focus': {
-                  border: '1px solid var(--interactive-primary) !important',
+                  border: '1px solid var(--interactive-primary)',
                   boxShadow:
                     '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
                 },
@@ -157,11 +156,8 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           >
             <SelectBase.Viewport style={{ padding: 8 }}>
               {options?.map((option) => {
-                const {
-                  value,
-                  label = null,
-                  prefix = null,
-                } = typeof option === 'string' ? { value: option } : option
+                const { value, label = null, prefix = null } =
+                  typeof option === 'string' ? { value: option } : option
 
                 return (
                   <SelectBase.Item key={value} value={value} asChild>
@@ -208,5 +204,5 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
         </SelectBase.Portal>
       </SelectBase.Root>
     )
-  },
+  }
 )

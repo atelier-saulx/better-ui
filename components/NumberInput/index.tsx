@@ -121,8 +121,8 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                     ? '1px solid transparent'
                     : '1px solid var(--interactive-secondary-hover)',
               },
-              '&:focus': {
-                border: '1px solid var(--interactive-primary) !important',
+              '&:focus, &:focus:hover': {
+                border: '1px solid var(--interactive-primary)',
                 boxShadow:
                   '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
               },
@@ -139,7 +139,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 '&:hover': {
                   border: '1px solid var(--sentiment-negative)',
                 },
-                '&:focus': {
+                '&:focus, &:focus:hover': {
                   border: '1px solid var(--sentiment-negative)',
                   boxShadow:
                     '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
