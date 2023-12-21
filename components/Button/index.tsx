@@ -104,15 +104,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(variant === 'primary' && {
             color: color('content', 'inverted'),
-            background: 'var(--interactive-primary)',
+            background: color('interactive', 'primary'),
             border: '1px solid var(--interactive-primary)',
             '&:hover': {
-              background: 'var(--interactive-primary-hover)',
+              background: color('interactive', 'primary-hover'),
               border: '1px solid var(--interactive-primary-hover)',
             },
           }),
           ...(variant === 'primary-transparent' && {
-            color: 'var(--interactive-primary)',
+            color: color('interactive', 'primary'),
             background: 'transparent',
             border: 'transparent',
             '&:hover': {
@@ -141,11 +141,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(variant === 'error' && {
             color: color('content', 'inverted'),
-            background: 'var(--sentiment-negative)',
-            border: '1px solid var(--sentiment-negative)',
+            background: 'var(--semantic-background-error)',
+            border: '1px solid var(--semantic-background-error)',
             '&:hover': {
-              background: 'var(--sentiment-negative-hover)',
-              border: '1px solid var(--sentiment-negative-hover)',
+              background: 'var(--semantic-background-error-hover)',
+              border: '1px solid var(--semantic-background-error-hover)',
             },
           }),
           ...(variant === 'primary-link' && {

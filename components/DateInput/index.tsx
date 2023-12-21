@@ -111,9 +111,9 @@ export function DateInput({
             },
             ...(error && {
               '&[data-state="open"] > div': {
-                border: '1px solid var(--sentiment-negative)',
+                border: '1px solid var(--semantic-background-error)',
                 boxShadow:
-                  '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
+                  '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
               },
             }),
             ...style,
@@ -162,14 +162,14 @@ export function DateInput({
                   '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
               },
               ...(error && {
-                border: '1px solid var(--sentiment-negative)',
+                border: '1px solid var(--semantic-background-error)',
                 '&:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                 },
                 '&:focus, &:focus:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                   boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
+                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
                 },
               }),
             }}
@@ -318,10 +318,10 @@ export function DateInput({
                           (isSameDay(day, value.start) ||
                             isSameDay(day, value.end))
                         : isSameDay(day, value)) && {
-                        background: 'var(--interactive-primary)',
+                        background: color('interactive', 'primary'),
                         color: color('content', 'inverted'),
                         '&:hover': {
-                          background: 'var(--interactive-primary-hover)',
+                          background: color('interactive', 'primary-hover'),
                           border: '1px solid var(--interactive-primary-hover)',
                         },
                       }),
@@ -332,7 +332,7 @@ export function DateInput({
                         end: max([pendingRangePart, hoveredDate]),
                       }) && {
                         background: isSameDay(pendingRangePart, day)
-                          ? 'var(--interactive-primary)'
+                          ? color('interactive', 'primary')
                           : 'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
                         ...(isSameDay(pendingRangePart, day) && {
                           color: color('content', 'inverted'),
@@ -396,10 +396,10 @@ export function DateInput({
                         ...(isSameDay(value.start, day) ||
                         isSameDay(value.end, day)
                           ? {
-                              background: 'var(--interactive-primary)',
+                              background: color('interactive', 'primary'),
                               color: color('content', 'inverted'),
                               '&:hover': {
-                                background: 'var(--interactive-primary-hover)',
+                                background: color('interactive', 'primary-hover'),
                               },
                             }
                           : {

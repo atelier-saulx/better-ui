@@ -217,9 +217,9 @@ function StyledStatus({
               }),
               ...(status === 'error' && {
                 cursor: 'pointer',
-                border: '1px dashed var(--sentiment-negative)',
+                border: '1px dashed var(--semantic-background-error)',
                 '&:hover': {
-                  border: '1px dashed var(--sentiment-negative-hover)',
+                  border: '1px dashed var(--semantic-background-error-hover)',
                 },
               }),
             }
