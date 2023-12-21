@@ -144,7 +144,7 @@ export function Title({ title, description }: ModalTitleProps) {
         <div
           style={{
             marginTop: 16,
-            color: 'var(--content-secondary)',
+            color: color('content', 'secondary'),
             fontSize: 14,
             lineHeight: '24px',
             fontWeight: 500,

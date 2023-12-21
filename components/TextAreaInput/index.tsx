@@ -130,7 +130,7 @@ export const TextAreaInput = React.forwardRef<
               color: color('content', 'primary'),
               gridArea: '1 / 1 / 2 / 2',
               outline: 'none',
-              '&::placeholder': { color: 'var(--content-secondary)' },
+              '&::placeholder': { color: color('content', 'secondary') },
               '&:hover': {
                 border:
                   variant === 'small'

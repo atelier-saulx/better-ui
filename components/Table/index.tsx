@@ -319,7 +319,7 @@ export function Table({
                               fontWeight: 500,
                               color: header.column.getIsSorted()
                                 ? color('content', 'primary')
-                                : 'var(--content-secondary)',
+                                : color('content', 'secondary'),
                               '&:hover': {
                                 color: color('content', 'primary'),
                               },
