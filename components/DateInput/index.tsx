@@ -319,7 +319,7 @@ export function DateInput({
                             isSameDay(day, value.end))
                         : isSameDay(day, value)) && {
                         background: 'var(--interactive-primary)',
-                        color: 'var(--content-inverted)',
+                        color: color('content', 'inverted'),
                         '&:hover': {
                           background: 'var(--interactive-primary-hover)',
                           border: '1px solid var(--interactive-primary-hover)',
@@ -335,7 +335,7 @@ export function DateInput({
                           ? 'var(--interactive-primary)'
                           : 'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
                         ...(isSameDay(pendingRangePart, day) && {
-                          color: 'var(--content-inverted)',
+                          color: color('content', 'inverted'),
                         }),
                         borderTopLeftRadius:
                           isSameDay(
@@ -397,7 +397,7 @@ export function DateInput({
                         isSameDay(value.end, day)
                           ? {
                               background: 'var(--interactive-primary)',
-                              color: 'var(--content-inverted)',
+                              color: color('content', 'inverted'),
                               '&:hover': {
                                 background: 'var(--interactive-primary-hover)',
                               },

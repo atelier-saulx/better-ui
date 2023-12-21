@@ -103,7 +103,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             lineHeight: '24px',
           }),
           ...(variant === 'primary' && {
-            color: 'var(--content-inverted)',
+            color: color('content', 'inverted'),
             background: 'var(--interactive-primary)',
             border: '1px solid var(--interactive-primary)',
             '&:hover': {
@@ -140,7 +140,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             },
           }),
           ...(variant === 'error' && {
-            color: 'var(--content-inverted)',
+            color: color('content', 'inverted'),
             background: 'var(--sentiment-negative)',
             border: '1px solid var(--sentiment-negative)',
             '&:hover': {
