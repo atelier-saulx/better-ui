@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { hash } from '@saulx/hash'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { IconCheckLarge, IconCopy } from '../Icons'
 import {
   Color,
@@ -15,6 +15,7 @@ export type BadgeProps = {
   copyValue?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
+  style?: Style
 }
 
 export function Badge({
@@ -24,6 +25,7 @@ export function Badge({
   size = 'regular',
   prefix,
   suffix,
+  style,
 }: BadgeProps) {
   const [showCheck, setShowCheck] = React.useState(false)
 
@@ -83,6 +85,7 @@ export function Badge({
             display: 'flex !important',
           },
         }),
+        ...style,
       }}
       onMouseLeave={() => {
         setShowCheck(false)

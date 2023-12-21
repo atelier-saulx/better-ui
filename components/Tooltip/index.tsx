@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { styled } from 'inlines'
 import * as TooltipBase from '@radix-ui/react-tooltip'
 
 export type TooltipProps = {

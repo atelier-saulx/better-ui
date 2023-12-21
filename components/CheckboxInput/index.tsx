@@ -2,7 +2,7 @@ import * as React from 'react'
 import { textVariants } from '../Text'
 import { color } from '../../utils/colors'
 import { Stack } from '../Stack'
-import { styled } from 'inlines'
+import { Style, styled } from 'inlines'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import { IconSmallCheck } from '../Icons'
 
@@ -15,6 +15,7 @@ export type CheckboxInputProps = {
   description?: string
   variant?: 'checkbox' | 'toggle'
   autoFocus?: boolean
+  style?: Style
 }
 
 export const CheckboxInput = React.forwardRef<
@@ -31,8 +32,9 @@ export const CheckboxInput = React.forwardRef<
       description,
       variant = 'checkbox',
       autoFocus,
+      style,
     },
-    ref,
+    ref
   ) => {
     const [value, setValue] = useControllableState({
       prop: valueProp,
@@ -42,7 +44,7 @@ export const CheckboxInput = React.forwardRef<
     const [focused, setFocused] = React.useState(false)
 
     return (
-      <Stack as="label" justify="start" align="start" gap={12}>
+      <Stack as="label" justify="start" align="start" gap={12} style={style}>
         <input
           ref={ref}
           name={formName}
@@ -102,7 +104,7 @@ export const CheckboxInput = React.forwardRef<
               ...(focused && {
                 boxShadow: `0px 0px 0px 1px ${color(
                   'background',
-                  'screen',
+                  'screen'
                 )}, 0px 0px 0px 3px ${color('interactive', 'primary')}`,
               }),
             }}
@@ -130,7 +132,7 @@ export const CheckboxInput = React.forwardRef<
               ...(focused && {
                 boxShadow: `0px 0px 0px 1px ${color(
                   'background',
-                  'screen',
+                  'screen'
                 )}, 0px 0px 0px 3px ${color('interactive', 'primary')}`,
               }),
             }}
@@ -171,5 +173,5 @@ export const CheckboxInput = React.forwardRef<
         </div>
       </Stack>
     )
-  },
+  }
 )

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import {
   IconAttachment,
   IconDelete,
@@ -36,6 +36,7 @@ export type FileInputProps = {
     src?: string
   }
   variant?: Variant
+  style?: Style
 }
 
 export function FileInput({
@@ -46,6 +47,7 @@ export function FileInput({
   mimeType,
   value,
   variant = 'regular',
+  style,
 }: FileInputProps) {
   // Allow paste of url as well...
 
@@ -111,6 +113,7 @@ export function FileInput({
           dragOver && variant !== 'small'
             ? color('background', 'neutral')
             : null,
+        ...style,
       }}
       {...listeners}
     >

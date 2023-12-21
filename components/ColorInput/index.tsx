@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import * as Popover from '@radix-ui/react-popover'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { border } from '../../utils/colors'
 
 export type ColorInputProps = {
@@ -11,6 +11,7 @@ export type ColorInputProps = {
   label?: string
   variant?: 'regular' | 'small'
   error?: boolean
+  style?: Style
 }
 
 // just to display nicer
@@ -25,6 +26,7 @@ export function ColorInput({
   value: valueProp,
   defaultValue: defaultValueProp,
   onChange,
+  style,
 }: ColorInputProps) {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -114,6 +116,7 @@ export function ColorInput({
                   '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
               },
             }),
+            ...style,
           }}
         >
           {label && (

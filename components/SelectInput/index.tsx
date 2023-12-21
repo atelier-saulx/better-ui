@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as SelectBase from '@radix-ui/react-select'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { IconCheckSmall, IconChevronDownSmall } from '../Icons'
 import { mergeRefs } from 'react-merge-refs'
 
@@ -17,6 +17,7 @@ export type SelectInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  style?: Style
 }
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
@@ -31,6 +32,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       variant = 'regular',
       error,
       autoFocus,
+      style,
     },
     ref
   ) => {
@@ -70,6 +72,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                     '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
                 },
               }),
+              ...style,
             }}
           >
             {label && (

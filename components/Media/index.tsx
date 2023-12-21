@@ -7,20 +7,13 @@ import { textVariants } from '../Text'
 import { color } from '../../utils/colors'
 
 export type MediaProps = {
-  variant?: 'cover' | 'contain'
   src?: string
   thumbnail?: string
   type?: BasedSchemaContentMediaType | 'directory'
   style?: Style
 }
 
-export function Media({
-  // variant = 'contain',
-  src,
-  thumbnail,
-  type,
-  style,
-}: MediaProps) {
+export function Media({ src, thumbnail, type, style }: MediaProps) {
   const containerElem = React.useRef<HTMLDivElement | null>(null)
   const [size, setSize] = React.useState<'small' | 'medium' | 'large'>(null)
 
