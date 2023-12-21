@@ -72,7 +72,11 @@ export const Code: FC<CodeProps> = ({
         borderRadius: isSmall ? 4 : 8,
         background: color ? getColor('background', color) : null,
         overflow: 'hidden',
-        border: isFocus ? border('focus', 1) : isSmall ? undefined : border(),
+        border: isFocus
+          ? border('focus', 1)
+          : isSmall
+          ? `1px solid transparent`
+          : border(),
         boxShadow: isFocus
           ? '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)'
           : undefined,
@@ -89,7 +93,6 @@ export const Code: FC<CodeProps> = ({
         </styled.div>
       )}
 
-      {/* @ts-ignore */}
       <Editor
         //@ts-ignore
         value={value}
@@ -97,14 +100,12 @@ export const Code: FC<CodeProps> = ({
         highlight={(code) => {
           try {
             const selectLang =
-              language === 'typescript' ||
-              language === 'javascript' ||
-              language === 'code'
+              language === 'typescript' || language === 'javascript'
                 ? 'js'
                 : language
+
             // @ts-ignore
-            const h = highlight(code, languages[selectLang])
-            return h
+            return highlight(code, languages[selectLang] ?? languages.js)
           } catch (err) {}
         }}
         onFocus={
@@ -123,7 +124,7 @@ export const Code: FC<CodeProps> = ({
         }
         style={{
           pointerEvents: !setValue ? 'none' : 'auto',
-          margin: isSmall ? 16 : 24,
+          margin: isSmall ? 8 : 24,
           fontSize: 14,
           color: contentColor,
           fontFamily: 'Fira Code, monospace, sans-serif',
@@ -136,8 +137,8 @@ export const Code: FC<CodeProps> = ({
           onClick={() => copyIt()}
           style={{
             position: 'absolute',
-            top: 16,
-            right: 16,
+            top: isSmall ? 8 : 16,
+            right: isSmall ? 8 : 16,
             color: contentColor,
           }}
         >

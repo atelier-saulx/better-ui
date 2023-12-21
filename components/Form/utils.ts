@@ -106,10 +106,6 @@ export const isTable = (field: BasedSchemaField): boolean => {
 export const isSmallField = (field: BasedSchemaField): boolean => {
   const { type } = field
 
-  if (type === 'string' && field.multiline) {
-    return false
-  }
-
   if (
     type === 'array' ||
     type === 'json' ||
@@ -120,6 +116,15 @@ export const isSmallField = (field: BasedSchemaField): boolean => {
   ) {
     return false
   }
+
+  if (type === 'string' && field.multiline) {
+    return false
+  }
+
+  if (type === 'string' && isCode(field.format)) {
+    return false
+  }
+
   return true
 }
 

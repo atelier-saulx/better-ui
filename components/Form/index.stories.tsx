@@ -38,8 +38,8 @@ export const Default = () => {
     <div style={{ padding: 64 }}>
       <Form
         values={{
-          code: ts,
           src: 'https://i.imgur.com/t1bWmmC.jpeg',
+          code: ts,
           json: JSON.stringify(
             { y: 1, x: 1, z: 1, someThing: 'great' },
             null,
@@ -231,6 +231,17 @@ const objectField: { [key: string]: BasedSchemaField } = {
         description: 'Determines the dopeness',
         type: 'boolean',
       },
+      json: {
+        title: 'Some JSON',
+        description: 'This is some json',
+        type: 'json',
+      },
+      code: {
+        title: 'Some Code',
+        description: 'This is some Code',
+        type: 'string',
+        format: 'code',
+      },
     },
   },
   address: {
@@ -371,6 +382,14 @@ export const Object = () => {
         values={{
           ratings: {
             powerful: 'rgb(255,255,100)',
+          },
+          orderWithDescription: {
+            code: ts,
+            json: JSON.stringify(
+              { y: 1, x: 1, z: 1, someThing: 'great' },
+              null,
+              2
+            ),
           },
         }}
         fields={objectField}

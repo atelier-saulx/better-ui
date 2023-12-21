@@ -62,7 +62,12 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                   maxWidth: 750,
                 }}
               >
-                <Code language="json" onChange={() => {}} value={values[key]} />
+                <Code
+                  copy
+                  language="json"
+                  onChange={() => {}}
+                  value={values[key]}
+                />
               </styled.div>
             </FormField>
           )
@@ -78,6 +83,12 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                 }}
               >
                 <Code
+                  copy
+                  color={
+                    field.format === 'json' || field.format === 'markdown'
+                      ? 'muted'
+                      : 'inverted'
+                  }
                   language={field.format}
                   onChange={() => {}}
                   value={values[key]}

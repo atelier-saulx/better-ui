@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { readPath } from '../utils'
+import { readPath, isCode } from '../utils'
 import { TableCtx, Path } from './types'
 import { FileInput } from '../../FileInput'
 import { Table } from '.'
@@ -12,6 +12,7 @@ import { NumberInput } from '../../NumberInput'
 import { TextAreaInput } from '../../TextAreaInput'
 import { SelectInput } from '../../SelectInput'
 import { ColorInput } from '../../ColorInput'
+import { Code } from '../../Code'
 
 export const Padder = ({
   children,
@@ -79,6 +80,44 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
           onChange={(file) => {
             console.log('uploaded file', file)
           }}
+        />
+      </Padder>
+    )
+  }
+
+  if (field.type === 'json') {
+    return (
+      <Padder
+        style={{
+          paddingTop: 10,
+          paddingBottom: 10,
+        }}
+      >
+        <Code
+          color="screen"
+          language={'json'}
+          onChange={() => {}}
+          value={value}
+          variant="small"
+        />
+      </Padder>
+    )
+  }
+
+  if (field.type === 'string' && isCode(field.format)) {
+    return (
+      <Padder
+        style={{
+          paddingTop: 10,
+          paddingBottom: 10,
+        }}
+      >
+        <Code
+          color="screen"
+          language={field.format}
+          onChange={() => {}}
+          value={value}
+          variant="small"
         />
       </Padder>
     )
