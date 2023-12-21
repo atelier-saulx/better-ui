@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction, ReactNode } from 'react'
+import React, { FC, Dispatch, SetStateAction, ReactNode, useState } from 'react'
 import Editor from './ReactSimpleEditor'
 import { IconCopy } from '../Icons'
 // @ts-ignore
@@ -15,7 +15,7 @@ import 'prismjs/components/prism-css'
 import './syntax.css'
 
 import { Style, styled } from 'inlines'
-import { Color, color as getColor } from '../../utils/colors'
+import { Color, border, color as getColor } from '../../utils/colors'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import { useCopyToClipboard } from '../../utils/hooks/useCopyToClipboard'
 import { Button } from '../Button'
@@ -46,36 +46,44 @@ export const Code: FC<CodeProps> = ({
   onChange: onChangeProp,
   style,
   header,
-  color,
+  variant,
+  color = 'muted',
   copy,
   language = 'js',
 }) => {
+  const [isFocus, setFocus] = useState(false)
   const [value, setValue] = useControllableState({
     prop: valueProp,
     defaultProp: placeholder,
     onChange: onChangeProp,
   })
   const [, copyIt] = useCopyToClipboard(value ?? '')
+  const isSmall = variant === 'small'
+  const isInverted = color === 'inverted'
   return (
     <styled.div
       style={{
         width: '100%',
         position: 'relative',
         maxWidth: '100%',
-        borderRadius: 4,
+        borderRadius: isSmall ? 4 : 8,
         background: color ? getColor('background', color) : null,
         overflow: 'hidden',
+        border: isFocus ? border('focus', 1) : isSmall ? undefined : border(),
+        boxShadow: isFocus
+          ? '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)'
+          : undefined,
         ...style,
       }}
     >
       {header && (
-        <div
+        <styled.div
           style={{
             background: getColor('background', color || 'screen'),
           }}
         >
           {header}
-        </div>
+        </styled.div>
       )}
 
       {/* @ts-ignore */}
@@ -94,11 +102,27 @@ export const Code: FC<CodeProps> = ({
             return h
           } catch (err) {}
         }}
+        onFocus={
+          onChangeProp
+            ? () => {
+                setFocus(true)
+              }
+            : undefined
+        }
+        onBlur={
+          onChangeProp
+            ? () => {
+                setFocus(false)
+              }
+            : undefined
+        }
         style={{
           pointerEvents: !setValue ? 'none' : 'auto',
-          margin: 16,
+          margin: isSmall ? 16 : 24,
           fontSize: 14,
-          color: getColor('content', 'primary'),
+          color: isInverted
+            ? getColor('content', 'inverted-muted')
+            : getColor('content', 'secondary'),
           fontFamily: 'Fira Code, monospace, sans-serif',
           outline: 'none !important',
         }}

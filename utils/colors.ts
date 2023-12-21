@@ -1,9 +1,10 @@
 export type Color = {
-  content: 'primary' | 'inverted' | 'secondary'
+  content: 'primary' | 'inverted' | 'secondary' | 'inverted-muted'
   background: 'neutral' | 'muted' | 'dimmer' | 'screen' | 'inverted'
   interactive: 'primary' | 'primary-hover' | 'secondary' | 'secondary-hover'
 }
 
+// TODO: add this in the same way to color
 export type SemanticColor =
   | 'auto'
   | 'neutral'
@@ -34,7 +35,6 @@ export const MUTED_SEMANTIC_COLORS = [
   'error-muted',
 ]
 
-// does not do suggestions...
 export const color = <T extends keyof Color>(
   group: T,
   color: Color[T]
@@ -43,7 +43,7 @@ export const color = <T extends keyof Color>(
 }
 
 export const border = (
-  color: 'default' | 'muted' | 'focus' = 'default',
+  color: 'inverted' | 'default' | 'muted' | 'focus' = 'default',
   size: number = 1
 ): string => {
   return `${size}px solid var(--border-${color})`

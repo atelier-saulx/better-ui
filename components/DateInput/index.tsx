@@ -662,7 +662,7 @@ export function DateInput({
                 </styled.button>
               </div>
             )}
-            <div
+            <styled.div
               style={{
                 borderTop: border(),
                 padding: '8px 0',
@@ -694,7 +694,7 @@ export function DateInput({
               >
                 Clear
               </styled.button>
-            </div>
+            </styled.div>
           </div>
         </Popover.Content>
       </Popover.Portal>
