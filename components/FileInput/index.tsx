@@ -17,8 +17,10 @@ import { Media } from '../Media'
 
 import { FileDrop } from 'react-file-drop'
 
+// add detached variant that you get access to the file
+
 type Status = 'initial' | 'uploading' | 'success' | 'error'
-type Variant = 'regular' | 'small'
+type Variant = 'regular' | 'small' | 'no-preview'
 
 // Global file upload hook to based to see upload progress
 export type FileInputProps = {

@@ -47,6 +47,7 @@ export const Default = () => {
           ),
           category: 'id12345',
           logo: {
+            name: 't1bWmmC.jpeg',
             id: 'idxyz',
             src: 'https://i.imgur.com/t1bWmmC.jpeg',
           },

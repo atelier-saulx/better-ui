@@ -4,9 +4,11 @@ import { Stack } from '../Stack'
 import { Path, TableCtx } from './Table/types'
 import { readPath } from './Table'
 import { Badge } from '../Badge'
-import { IconLink, IconSearch } from '../Icons'
+import { IconLink } from '../Icons'
 import { Media } from '../Media'
+import { Text } from '../Text'
 import { styled } from 'inlines'
+import { color } from '../../utils/colors'
 
 export function Reference({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field } = readPath<BasedSchemaFieldReference>(ctx, path)
@@ -33,31 +35,48 @@ export function Reference({ ctx, path }: { ctx: TableCtx; path: Path }) {
 
   if (hasFile) {
     return (
-      <Stack
-        justify="start"
-        gap={12}
-        onClick={() => {
-          // yes
-        }}
-      >
+      <>
         <styled.div
           style={{
-            width: 48,
-            height: 48,
+            width: 248,
+            height: 248,
+            overflow: 'hidden',
+            backgroundColor: color('background', 'neutral'),
+            borderRadius: 4,
+            marginTop: -4,
           }}
         >
-          <Media src={src} />
+          <Media src={src} variant="cover" />
         </styled.div>
-        <IconSearch />
-      </Stack>
+        <Stack
+          style={{ marginTop: 14 }}
+          justify="start"
+          gap={12}
+          onClick={() => {}}
+        >
+          <Text variant="bodyStrong">{value.name ?? value.title}</Text>
+          <Badge
+            prefix={
+              <IconLink style={{ width: 16, height: 16, marginRight: 4 }} />
+            }
+          >
+            {value.id}
+          </Badge>
+        </Stack>
+      </>
     )
   }
+
+  // add remove button
 
   if (isId) {
     return (
       <Stack
         justify="start"
         gap={12}
+        style={{
+          marginTop: -4,
+        }}
         onClick={() => {
           // yes
         }}
@@ -69,7 +88,7 @@ export function Reference({ ctx, path }: { ctx: TableCtx; path: Path }) {
         >
           {value}
         </Badge>
-        <IconSearch />
+        {/* <IconSearch /> */}
       </Stack>
     )
   }
