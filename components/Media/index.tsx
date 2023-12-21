@@ -15,7 +15,7 @@ export type MediaProps = {
 }
 
 export function Media({
-  variant = 'contain',
+  // variant = 'contain',
   src,
   thumbnail,
   type,
@@ -161,7 +161,7 @@ export function Media({
             fontSize: size === 'small' ? 8 : size === 'medium' ? 14 : 24,
           }}
         >
-          {type?.split('/')[1] ?? src.split('.').pop()}
+          {type?.split('/')[1] ?? src?.split('.').pop()}
         </div>
       </div>
     )
