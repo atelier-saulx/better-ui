@@ -13,6 +13,8 @@ import { NumberInput } from '../NumberInput'
 import { TextAreaInput } from '../TextAreaInput'
 import { SelectInput } from '../SelectInput'
 import { ColorInput } from '../ColorInput'
+import { Code } from '../Code'
+import { isCode } from './utils'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
@@ -46,6 +48,40 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                 }}
               >
                 <SelectInput options={field.enum} value={values[key]} />
+              </styled.div>
+            </FormField>
+          )
+        }
+
+        if (field.type === 'json') {
+          return (
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
+              <styled.div
+                style={{
+                  minWidth: 450,
+                  maxWidth: 750,
+                }}
+              >
+                <Code language="json" onChange={() => {}} value={values[key]} />
+              </styled.div>
+            </FormField>
+          )
+        }
+
+        if (type === 'string' && isCode(field.format)) {
+          return (
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
+              <styled.div
+                style={{
+                  minWidth: 450,
+                  maxWidth: 750,
+                }}
+              >
+                <Code
+                  language={field.format}
+                  onChange={() => {}}
+                  value={values[key]}
+                />
               </styled.div>
             </FormField>
           )

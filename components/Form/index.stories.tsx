@@ -10,6 +10,27 @@ const meta = {
   },
 }
 
+const ts = `import * as React from 'react'
+
+export function Svg({ style, width = 20, height = 20 }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      style={style}
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="a b c"
+      />
+    </svg>
+  )
+}
+`
+
 export default meta
 
 export const Default = () => {
@@ -17,7 +38,13 @@ export const Default = () => {
     <div style={{ padding: 64 }}>
       <Form
         values={{
+          code: ts,
           src: 'https://i.imgur.com/t1bWmmC.jpeg',
+          json: JSON.stringify(
+            { y: 1, x: 1, z: 1, someThing: 'great' },
+            null,
+            2
+          ),
         }}
         fields={{
           name: {
@@ -38,12 +65,25 @@ export const Default = () => {
             description: 'Select some options',
             enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
           },
+          json: {
+            title: 'Some JSON',
+            description: 'This is some json',
+            type: 'json',
+          },
+          code: {
+            title: 'Some Code',
+            description: 'This is some Code',
+            type: 'string',
+            format: 'code',
+          },
           shortnumber: {
+            title: 'A short number',
             type: 'number',
             display: 'short',
             description: 'A short number',
           },
           date: {
+            title: 'A date',
             type: 'timestamp',
             description: 'A timestamp',
           },

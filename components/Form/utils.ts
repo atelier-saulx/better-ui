@@ -169,3 +169,20 @@ export const getTitle = (
 
   return key
 }
+
+export const isCode = (format: any): boolean => {
+  if (
+    (typeof format === 'string' && format === 'code') ||
+    format === 'typescript' ||
+    format === 'css' ||
+    format === 'json' ||
+    format === 'javascript' ||
+    format === 'markdown' ||
+    format === 'clike' ||
+    format === 'code'
+  ) {
+    return true
+  }
+
+  return false
+}

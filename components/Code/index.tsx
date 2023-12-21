@@ -97,7 +97,9 @@ export const Code: FC<CodeProps> = ({
         highlight={(code) => {
           try {
             const selectLang =
-              language === 'typescript' || language === 'javascript'
+              language === 'typescript' ||
+              language === 'javascript' ||
+              language === 'code'
                 ? 'js'
                 : language
             // @ts-ignore
