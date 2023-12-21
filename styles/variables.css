@@ -27,6 +27,7 @@
   --radius-small: 8px;
   --radius-medium: 10px;
   --radius-large: 24px;
+  --radius-full: 9999px;
 
   /* shadows */
   --shadow-elevation: 0px 2px 8px -1px rgba(27, 36, 44, 0.08),
@@ -73,8 +74,4 @@
   /* error muted */
   --semantic-color-error-muted: #c53434;
   --semantic-background-error-muted: #c5343429;
-}
-
-[data-theme='dark'] {
-  /* TODO add dark mode colors  */
 }

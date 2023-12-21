@@ -1,20 +1,22 @@
+export type SemanticVariant =
+  | 'neutral'
+  | 'informative'
+  | 'positive'
+  | 'warning'
+  | 'error'
+  | 'auto-muted'
+  | 'neutral-muted'
+  | 'informative-muted'
+  | 'positive-muted'
+  | 'warning-muted'
+  | 'error-muted'
+
 export type Color = {
   content: 'primary' | 'inverted' | 'secondary' | 'inverted-muted'
   background: 'neutral' | 'muted' | 'dimmer' | 'screen' | 'inverted'
   interactive: 'primary' | 'primary-hover' | 'secondary' | 'secondary-hover'
-  semantic:
-    | 'auto'
-    | 'neutral'
-    | 'informative'
-    | 'positive'
-    | 'warning'
-    | 'error'
-    | 'auto-muted'
-    | 'neutral-muted'
-    | 'informative-muted'
-    | 'positive-muted'
-    | 'warning-muted'
-    | 'error-muted'
+  'semantic-color': SemanticVariant
+  'semantic-background': SemanticVariant
 }
 
 export const SEMANTIC_COLORS = [
@@ -46,3 +48,7 @@ export const border = (
 ): string => {
   return `${size}px solid var(--border-${color})`
 }
+
+export const borderRadius = (
+  radius: 'tiny' | 'small' | 'medium' | 'large' | 'full'
+) => `var(--radius-${radius})`
