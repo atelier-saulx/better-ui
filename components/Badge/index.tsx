@@ -3,14 +3,14 @@ import { hash } from '@saulx/hash'
 import { styled } from 'inlines'
 import { IconCheckLarge, IconCopy } from '../Icons'
 import {
+  Color,
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
-  SemanticColor,
 } from '../../utils/colors'
 
 export type BadgeProps = {
   children: React.ReactNode
-  color?: SemanticColor
+  color?: Color['semantic']
   size?: 'regular' | 'small'
   copyValue?: string
   prefix?: React.ReactNode

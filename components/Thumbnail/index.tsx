@@ -3,7 +3,7 @@ import { hash } from '@saulx/hash'
 import {
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
-  SemanticColor,
+  Color,
 } from '../../utils/colors'
 import { border, color as getColor } from '../../utils/colors'
 import { textVariants } from '../Text'
@@ -13,7 +13,7 @@ import { textVariants } from '../Text'
 export type ThumbnailProps = {
   src?: string
   text?: string
-  color?: SemanticColor
+  color?: Color['semantic']
   size?:
     | 'extra-extra-large'
     | 'extra-large'
