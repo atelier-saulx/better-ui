@@ -3,17 +3,18 @@ import { hash } from '@saulx/hash'
 import {
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
-  SemanticColor,
+  Color,
 } from '../../utils/colors'
 import { border, color as getColor } from '../../utils/colors'
 import { textVariants } from '../Text'
+import { Style } from 'inlines'
 
 // TODO think about if we need text over image, if so how do we handle the colors of the text
 
 export type ThumbnailProps = {
   src?: string
   text?: string
-  color?: SemanticColor
+  color?: Color['semantic']
   size?:
     | 'extra-extra-large'
     | 'extra-large'
@@ -24,6 +25,7 @@ export type ThumbnailProps = {
   shape?: 'square' | 'circle'
   onClick?: () => void
   count?: number
+  style?: Style
 }
 
 export function Thumbnail({
@@ -34,6 +36,7 @@ export function Thumbnail({
   color: colorProp = 'auto',
   onClick,
   count,
+  style,
 }: ThumbnailProps) {
   const color = React.useMemo(() => {
     if (!text) return
@@ -90,6 +93,7 @@ export function Thumbnail({
           width: 24,
           height: 24,
         }),
+        ...style,
       }}
       onClick={onClick}
     >

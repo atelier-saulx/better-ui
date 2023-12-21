@@ -1,20 +1,21 @@
 import * as React from 'react'
 import { hash } from '@saulx/hash'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { IconCheckLarge, IconCopy } from '../Icons'
 import {
+  Color,
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
-  SemanticColor,
 } from '../../utils/colors'
 
 export type BadgeProps = {
   children: React.ReactNode
-  color?: SemanticColor
+  color?: Color['semantic']
   size?: 'regular' | 'small'
   copyValue?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
+  style?: Style
 }
 
 export function Badge({
@@ -24,6 +25,7 @@ export function Badge({
   size = 'regular',
   prefix,
   suffix,
+  style,
 }: BadgeProps) {
   const [showCheck, setShowCheck] = React.useState(false)
 
@@ -83,6 +85,7 @@ export function Badge({
             display: 'flex !important',
           },
         }),
+        ...style,
       }}
       onMouseLeave={() => {
         setShowCheck(false)

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { Style, styled } from 'inlines'
 
 export type TextAreaInputProps = {
   placeholder?: string
@@ -11,14 +11,17 @@ export type TextAreaInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  style?: Style
 }
 
 const Wrapper = ({
   label,
   children,
+  style,
 }: {
   label?: string
   children: React.ReactNode
+  style?: Style
 }) => {
   if (label) {
     return (
@@ -37,7 +40,8 @@ const Wrapper = ({
       </styled.label>
     )
   }
-  return children
+
+  return <styled.div style={{ width: '100%', ...style }}>{children}</styled.div>
 }
 
 export const TextAreaInput = React.forwardRef<
@@ -55,6 +59,7 @@ export const TextAreaInput = React.forwardRef<
       variant = 'regular',
       error,
       autoFocus,
+      style,
     },
     ref
   ) => {
@@ -62,7 +67,7 @@ export const TextAreaInput = React.forwardRef<
     const valueRef = React.useRef(value ?? defaultValue ?? '')
 
     return (
-      <Wrapper label={label}>
+      <Wrapper label={label} style={style}>
         {label && (
           <styled.span
             style={{

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { IconChevronDown } from '../Icons'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 
@@ -14,6 +14,7 @@ export type ContainerProps = {
   onExpandedChange?: (expanded: boolean) => void
   onClick?: () => void
   divider?: boolean
+  style?: Style
 }
 
 export function Container({
@@ -27,6 +28,7 @@ export function Container({
   onClick,
   onExpandedChange,
   divider,
+  style,
 }: ContainerProps) {
   if (divider === undefined) {
     divider = !!(title ?? description ?? prefix ?? suffix)
@@ -47,6 +49,7 @@ export function Container({
         width: '100%',
         borderRadius: 8,
         border: '1px solid var(--interactive-secondary)',
+        ...style,
       }}
     >
       <styled.div

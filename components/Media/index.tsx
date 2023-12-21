@@ -8,11 +8,11 @@ import { color } from '../../utils/colors'
 import { getMimeType } from '../../utils/getMimeType'
 
 export type MediaProps = {
-  variant?: 'cover' | 'contain'
   src?: string
   thumbnail?: string
   type?: BasedSchemaContentMediaType | 'directory'
   style?: Style
+  variant?: 'cover' | 'contain'
   // add video option no controls auto play
 }
 

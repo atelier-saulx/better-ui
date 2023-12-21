@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { Style, styled } from 'inlines'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import { IconSmallArrowheadDown, IconSmallArrowheadTop } from '../Icons'
 import { color } from '../../utils/colors'
@@ -15,14 +15,17 @@ export type NumberInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  style?: Style
 }
 
 const Wrapper = ({
   label,
   children,
+  style,
 }: {
   label?: string
   children: React.ReactNode
+  style?: Style
 }) => {
   if (label) {
     return (
@@ -41,7 +44,8 @@ const Wrapper = ({
       </styled.label>
     )
   }
-  return children
+
+  return <styled.div style={{ width: '100%', ...style }}>{children}</styled.div>
 }
 
 export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
@@ -57,6 +61,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       variant = 'regular',
       error,
       autoFocus,
+      style,
     },
     ref
   ) => {
@@ -67,7 +72,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     })
 
     return (
-      <Wrapper label={label}>
+      <Wrapper label={label} style={style}>
         {label && (
           <styled.span
             style={{

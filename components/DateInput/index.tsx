@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text, textVariants } from '../Text'
 import { IconCalendar, IconChevronDown, IconChevronTop } from '../Icons'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { border, color } from '../../utils/colors'
 import {
   addMonths,
@@ -40,6 +40,7 @@ export type DateInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   label?: string
+  style?: Style
 }
 
 export function DateInput({
@@ -51,6 +52,7 @@ export function DateInput({
   variant = 'regular',
   error,
   label,
+  style,
 }: DateInputProps) {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -114,6 +116,7 @@ export function DateInput({
                   '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
               },
             }),
+            ...style,
           }}
         >
           {label && (

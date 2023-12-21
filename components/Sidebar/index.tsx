@@ -14,8 +14,6 @@ const SidebarContext = React.createContext({
   setValue: (_?: string) => {},
 })
 
-// TODO auto collapse on small screens?
-
 export type SidebarProps = {
   children: React.ReactNode
   value: string
@@ -81,11 +79,9 @@ export type SidebarItemProps = {
 }
 
 export function SidebarItem({ children, icon, value }: SidebarItemProps) {
-  const {
-    open,
-    value: sidebarValue,
-    setValue,
-  } = React.useContext(SidebarContext)
+  const { open, value: sidebarValue, setValue } = React.useContext(
+    SidebarContext
+  )
 
   if (open) {
     return (
