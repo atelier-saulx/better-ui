@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { textVariants } from '../Text'
-import { color } from '../../utils/colors'
+import { color, borderRadius } from '../../utils/colors'
 import { Stack } from '../Stack'
 import { Style, styled } from 'inlines'
 import { useControllableState } from '../../utils/hooks/useControllableState'
@@ -86,7 +86,7 @@ export const CheckboxInput = React.forwardRef<
               background: value
                 ? color('interactive', 'primary')
                 : 'transparent',
-              borderRadius: 'var(--radius-tiny)',
+              borderRadius: borderRadius('tiny'),
               marginTop: 4,
               display: 'flex',
               alignItems: 'center',
@@ -120,7 +120,7 @@ export const CheckboxInput = React.forwardRef<
               width: 36,
               height: 20,
               padding: 2,
-              borderRadius: 'var(--radius-large)',
+              borderRadius: borderRadius('large'),
               background: value
                 ? color('interactive', 'primary')
                 : color('interactive', 'secondary'),

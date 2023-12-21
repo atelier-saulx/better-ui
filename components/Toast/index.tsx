@@ -2,7 +2,7 @@ import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { IconClose } from '../Icons'
 import { textVariants } from '../Text'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 
 type Toast =
   | string
@@ -38,7 +38,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
 
     window.setTimeout(() => {
       queue.current = queue.current.map((e) =>
-        e.id === id ? { ...e, entering: false } : e,
+        e.id === id ? { ...e, entering: false } : e
       )
       rerender({})
     }, 0)
@@ -56,7 +56,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
     }, 150)
 
     queue.current = queue.current.map((e) =>
-      e.id === id ? { ...e, leaving: true, leaveTimeoutId } : e,
+      e.id === id ? { ...e, leaving: true, leaveTimeoutId } : e
     )
     rerender({})
   }
@@ -91,15 +91,16 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
         >
           {queue.current.map(
             ({ id, toast, leaving, entering, variant }, index) => {
-              const sumOfPrevToastHeights = (
-                index === 0 ? [] : queue.current.slice(0, index)
+              const sumOfPrevToastHeights = (index === 0
+                ? []
+                : queue.current.slice(0, index)
               ).reduce((acc, curr) => acc + (curr?.height ?? 0), 0)
 
               console.log(
                 index,
                 index > 0 && queue.current.some((e) => e.entering)
                   ? '250ms'
-                  : 'none',
+                  : 'none'
               )
 
               return (
@@ -110,7 +111,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                     display: 'flex',
                     justifyContent: 'start',
                     alignItems: 'center',
-                    borderRadius: 'var(--radius-small)',
+                    borderRadius: borderRadius('small'),
                     right: 0,
                     gap: 16,
                     bottom: 0,
@@ -128,16 +129,16 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                       background: color('background', 'inverted'),
                     }),
                     ...(variant === 'informative' && {
-                      color: 'var(--semantic-color-positive)',
-                      background: 'var(--semantic-background-positive)',
+                      color: color('semantic-color', 'positive'),
+                      background: color('semantic-background', 'positive'),
                     }),
                     ...(variant === 'warning' && {
-                      color: 'var(--semantic-color-warning)',
-                      background: 'var(--semantic-background-warning)',
+                      color: color('semantic-color', 'warning'),
+                      background: color('semantic-background', 'warning'),
                     }),
                     ...(variant === 'error' && {
-                      color: 'var(--semantic-color-error)',
-                      background: 'var(--semantic-background-error)',
+                      color: color('semantic-color', 'error'),
+                      background: color('semantic-background', 'error'),
                     }),
                   }}
                   key={id}
@@ -149,7 +150,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                       queue.current = queue.current.map((e) =>
                         e.id === id
                           ? { ...e, height: ref.getBoundingClientRect().height }
-                          : e,
+                          : e
                       )
                       rerender({})
                     }
@@ -194,10 +195,10 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                   </div>
                 </div>
               )
-            },
+            }
           )}
         </div>,
-        document.body,
+        document.body
       )}
       {children}
     </ToastContext.Provider>

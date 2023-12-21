@@ -19,7 +19,7 @@ export type Color = {
   'semantic-background': SemanticVariant
 }
 
-export const SEMANTIC_COLORS = [
+export const SEMANTIC_COLORS: SemanticVariant[] = [
   'neutral',
   'informative',
   'positive',
@@ -27,7 +27,7 @@ export const SEMANTIC_COLORS = [
   'error',
 ]
 
-export const MUTED_SEMANTIC_COLORS = [
+export const MUTED_SEMANTIC_COLORS: SemanticVariant[] = [
   'neutral-muted',
   'informative-muted',
   'positive-muted',
@@ -43,7 +43,7 @@ export const color = <T extends keyof Color>(
 }
 
 export const border = (
-  color: 'inverted' | 'default' | 'muted' | 'focus' = 'default',
+  color: 'default' | 'muted' | 'focus' = 'default',
   size: number = 1
 ): string => {
   return `${size}px solid var(--border-${color})`

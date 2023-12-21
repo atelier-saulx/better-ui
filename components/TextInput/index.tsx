@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
+import { color, borderRadius } from '../../utils/colors'
 
 export type TextInputProps = {
   placeholder?: string
@@ -97,15 +98,15 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             padding: variant === 'regular' ? '8px 12px' : '3px 10px',
             borderRadius:
               variant === 'regular'
-                ? 'var(--radius-small)'
-                : 'var(--radius-tiny)',
+                ? borderRadius('small')
+                : borderRadius('tiny'),
             border:
               variant === 'small'
                 ? '1px solid transparent'
                 : '1px solid var(--interactive-secondary)',
-            color: 'var(--content-primary)',
+            color: color('content', 'primary'),
             outline: 'none',
-            '&::placeholder': { color: 'var(--content-secondary)' },
+            '&::placeholder': { color: color('content', 'secondary') },
             '&:hover': {
               border:
                 variant === 'small'

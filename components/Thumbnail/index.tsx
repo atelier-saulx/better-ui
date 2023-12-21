@@ -4,6 +4,7 @@ import {
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
   SemanticVariant,
+  borderRadius,
 } from '../../utils/colors'
 import { border, color as getColor } from '../../utils/colors'
 import { textVariants } from '../Text'
@@ -61,13 +62,13 @@ export function Thumbnail({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        color: `var(--semantic-color-${color})`,
-        background: `var(--semantic-background-${color})`,
+        color: getColor('semantic-color', color),
+        background: getColor('semantic-background', color),
         ...(shape === 'square' && {
-          borderRadius: 'var(--radius-medium)',
+          borderRadius: borderRadius('medium'),
         }),
         ...(shape === 'circle' && {
-          borderRadius: 9999,
+          borderRadius: borderRadius('full'),
         }),
         ...(size === 'extra-extra-large' && {
           width: 80,
@@ -104,7 +105,7 @@ export function Thumbnail({
             height: '100%',
             objectFit: 'cover',
             ...(shape === 'square' && {
-              borderRadius: 'var(--radius-medium)',
+              borderRadius: borderRadius('medium'),
             }),
             ...(shape === 'circle' && {
               borderRadius: 9999,
@@ -155,7 +156,7 @@ export function Thumbnail({
             color: getColor('content', 'primary'),
             border: border(),
             padding: '0 4px',
-            borderRadius: 9999,
+            borderRadius: borderRadius('full'),
             ...textVariants.bodyStrong,
             lineHeight: '18px',
             transform: 'translate(30%, -30%)',

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { styled, Style } from 'inlines'
 import { IconChevronDown } from '../Icons'
 import { useControllableState } from '../../utils/hooks/useControllableState'
+import { color } from '../../utils/colors'
 
 export type ContainerProps = {
   children?: React.ReactNode
@@ -41,8 +42,6 @@ export function Container({
   })
   const headerRef = React.useRef<HTMLDivElement | null>(null)
 
-  console.log(expanded)
-
   return (
     <div
       style={{
@@ -66,7 +65,7 @@ export function Container({
           ...((expandable || onClick) && {
             cursor: 'pointer',
             '&:hover': {
-              background: 'var(--background-neutral)',
+              background: color('background', 'neutral'),
             },
           }),
         }}
@@ -90,7 +89,7 @@ export function Container({
               style={{
                 fontSize: 14,
                 fontWeight: 600,
-                color: 'var(--content-primary)',
+                color: color('content', 'primary'),
               }}
             >
               {title}
@@ -100,7 +99,7 @@ export function Container({
             <div
               style={{
                 fontSize: 14,
-                color: 'var(--content-secondary)',
+                color: color('content', 'secondary'),
               }}
             >
               {description}
