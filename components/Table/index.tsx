@@ -6,8 +6,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
-import { NumberFormat, prettyNumber } from '@based/pretty-number'
-import { DateFormat, prettyDate } from '@based/pretty-date'
 import { useCallbackRef } from '../../utils/hooks/useCallbackRef'
 import { IconSortAsc, IconSortDesc } from '../Icons'
 import { Badge } from '../Badge'
@@ -19,25 +17,29 @@ import {
   BasedSchemaFieldString,
   BasedSchemaFieldTimeStamp,
   BasedSchemaFieldNumber,
+  BasedTimestampDisplay,
+  BasedNumberDisplay,
+  BasedSchemaStringShared,
+  display,
 } from '@based/schema'
+
+// TODO this is a mess currently, will clean it up soon. @vassbence
 
 type TableSchemaField = BasedSchemaField & {
   action?: React.ReactNode
   renderAs?: (props: { field: TableSchemaField; value: any }) => React.ReactNode
 }
 
-// type X = BasedSchemaFieldTimeStamp['display']
-// type Y = BasedSchemaFieldString['display']
-// type Z = BasedSchemaFieldNumber['display']
+type TODOStringDisplay = BasedSchemaFieldString['display']
 
 type RenderAs =
   | 'badge'
   | 'image'
-  | 'avatar' // media with media type
+  | 'avatar' // todo swap to media with media type
   | 'toggle'
-  | NumberFormat
-  | DateFormat
   | 'text'
+  | BasedTimestampDisplay
+  | BasedNumberDisplay
   | ((row: any) => React.ReactNode)
 
 type TableColumn = {
@@ -366,48 +368,34 @@ function renderCell(key: string, row: any, renderAs: RenderAs = 'text') {
     return <Thumbnail text={value} />
   }
 
+  if (typeof renderAs === 'function') {
+    return renderAs(row)
+  }
+
+  if (renderAs === 'text') {
+    return (
+      <span style={{ fontSize: 14, lineHeight: '24px', fontWeight: 500 }}>
+        {row[key]}
+      </span>
+    )
+  }
+
   if (
     renderAs === 'date' ||
     renderAs === 'date-time' ||
-    renderAs === 'date-time-human' ||
-    renderAs === 'date-time-text'
+    renderAs === 'time' ||
+    renderAs === 'date-time-text' ||
+    renderAs === 'human' ||
+    renderAs === 'time-precise'
   ) {
+    const d = display(row[key], { type: 'timestamp', display: renderAs })
+
     return (
       <span style={{ fontSize: 14, lineHeight: '24px', fontWeight: 500 }}>
-        {prettyDate(row[key], renderAs)}
+        {d ?? row[key]}
       </span>
     )
   }
-
-  if (
-    renderAs === 'number-short' ||
-    renderAs === 'number-human' ||
-    renderAs === 'number-ratio' ||
-    renderAs === 'number-bytes' ||
-    renderAs === 'number-euro' ||
-    renderAs === 'number-dollar' ||
-    renderAs === 'number-pound'
-  ) {
-    return (
-      <span style={{ fontSize: 14, lineHeight: '24px', fontWeight: 500 }}>
-        {prettyNumber(row[key], renderAs)}
-      </span>
-    )
-  }
-
-  if (typeof renderAs === 'function') return renderAs(row)
-
-  if (typeof row[key] === 'object') {
-    ;<span style={{ fontSize: 14, lineHeight: '24px', fontWeight: 500 }}>
-      {JSON.stringify(row[key])}
-    </span>
-  }
-
-  return (
-    <span style={{ fontSize: 14, lineHeight: '24px', fontWeight: 500 }}>
-      {row[key]}
-    </span>
-  )
 }
 
 function generateColumDefinitionsFromData(element: any) {
@@ -417,22 +405,22 @@ function generateColumDefinitionsFromData(element: any) {
       header: key.charAt(0).toUpperCase() + key.slice(1),
     }
 
-    if (value instanceof Date || key === 'createdAt' || key === 'updatedAt') {
-      columnDefinition.renderAs = 'date-time-human'
-    }
+    // if (value instanceof Date || key === 'createdAt' || key === 'updatedAt') {
+    //   columnDefinition.renderAs = 'date-time-human'
+    // }
 
     if (key === 'id') {
       columnDefinition.header = 'ID'
       columnDefinition.renderAs = 'badge'
     }
 
-    if (key === 'price') {
-      columnDefinition.renderAs = 'number-euro'
-    }
+    // if (key === 'price') {
+    //   columnDefinition.renderAs = 'number-euro'
+    // }
 
-    if (key === 'bytes' || key === 'size') {
-      columnDefinition.renderAs = 'number-bytes'
-    }
+    // if (key === 'bytes' || key === 'size') {
+    //   columnDefinition.renderAs = 'number-bytes'
+    // }
 
     if (
       key === 'avatar' ||
