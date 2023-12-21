@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as Icons from '.'
 import { styled } from 'inlines'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 
 const meta = {
   title: 'Atoms/Icons',
@@ -33,7 +33,7 @@ export const Default = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 cursor: 'pointer',
-                borderRadius: 'var(--radius-small)',
+                borderRadius: borderRadius('small'),
                 '&:hover': {
                   background: color('background', 'neutral'),
                 },

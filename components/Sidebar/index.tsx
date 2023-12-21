@@ -6,7 +6,7 @@ import { Button } from '../Button'
 import { useIsMobile } from '../../utils/hooks/useIsMobile'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import { textVariants } from '../Text'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 
 const SidebarContext = React.createContext({
   open: true,
@@ -91,7 +91,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
           display: 'flex',
           alignItems: 'center',
           padding: '0 10px',
-          borderRadius: 'var(--radius-small)',
+          borderRadius: borderRadius('small'),
           cursor: 'pointer',
           color: color('content', 'primary'),
           '&:hover': {
@@ -126,7 +126,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
         display: 'flex',
         ...(sidebarValue === value && {
           background: color('background', 'neutral'),
-          borderRadius: 'var(--radius-small)',
+          borderRadius: borderRadius('small'),
           '&:hover': {
             background: 'none',
           },

@@ -144,7 +144,7 @@ export function DateInput({
               padding: variant === 'regular' ? '8px 12px' : '3px 10px',
               borderRadius:
                 variant === 'regular'
-                  ? 'var(--radius-small)'
+                  ? borderRadius('small')
                   : borderRadius('tiny'),
               border:
                 variant === 'small'
@@ -201,7 +201,7 @@ export function DateInput({
             border: '1px solid var(--interactive-secondary)',
             background: color('background', 'screen'),
             boxShadow: 'var(--shadow-elevation)',
-            borderRadius: 'var(--radius-small)',
+            borderRadius: borderRadius('small'),
             overflowY: 'auto',
           }}
         >

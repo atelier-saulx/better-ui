@@ -110,7 +110,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               padding: variant === 'regular' ? '8px 40px 8px 12px' : '3px 10px',
               borderRadius:
                 variant === 'regular'
-                  ? 'var(--radius-small)'
+                  ? borderRadius('small')
                   : borderRadius('tiny'),
               border:
                 variant === 'small'

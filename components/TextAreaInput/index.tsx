@@ -121,7 +121,7 @@ export const TextAreaInput = React.forwardRef<
               padding: variant === 'regular' ? '8px 12px' : '3px 10px',
               borderRadius:
                 variant === 'regular'
-                  ? 'var(--radius-small)'
+                  ? borderRadius('small')
                   : borderRadius('tiny'),
               border:
                 variant === 'small'

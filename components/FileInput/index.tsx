@@ -12,7 +12,7 @@ import { BasedSchemaContentMediaType } from '@based/schema'
 import { useHover } from '../../utils/hooks/useHover'
 import { Text } from '../Text'
 import { Stack } from '../Stack'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 import { Media } from '../Media'
 
 import { FileDrop } from 'react-file-drop'
@@ -201,7 +201,7 @@ function StyledStatus({
           ? {}
           : {
               padding: '8px 12px',
-              borderRadius: 'var(--radius-small)',
+              borderRadius: borderRadius('small'),
               ...(status === 'initial' && {
                 cursor: 'pointer',
                 border: '1px dashed var(--interactive-secondary)',
@@ -290,7 +290,7 @@ function Status({
               style={{
                 height: variant === 'small' ? 32 : 48,
                 width: variant === 'small' ? 32 : 48,
-                borderRadius: 'var(--radius-small)',
+                borderRadius: borderRadius('small'),
               }}
             >
               <Media

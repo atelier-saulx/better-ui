@@ -144,7 +144,7 @@ export function ColorInput({
               padding: variant === 'regular' ? '8px 12px' : '3px 10px',
               borderRadius:
                 variant === 'regular'
-                  ? 'var(--radius-small)'
+                  ? borderRadius('small')
                   : borderRadius('tiny'),
               border:
                 variant === 'small'
@@ -213,7 +213,7 @@ export function ColorInput({
               'calc(var(--radix-popover-content-available-width) - 8px)',
             padding: 8,
             border: border(),
-            borderRadius: 'var(--radius-small)',
+            borderRadius: borderRadius('small'),
             overflowY: 'auto',
           }}
         >

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 import { textVariants } from '../Text'
 
 export type ButtonProps = {
@@ -75,7 +75,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         style={{
           position: 'relative',
-          borderRadius: 'var(--radius-small)',
+          borderRadius: borderRadius('small'),
           fontWeight: 600,
           cursor: disabled ? 'not-allowed' : 'pointer',
           display: 'inline-flex',

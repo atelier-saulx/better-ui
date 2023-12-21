@@ -4,7 +4,7 @@ import * as ModalBase from '@radix-ui/react-dialog'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import { Button } from '../Button'
 import { TextInput } from '../TextInput'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 
 type UseModalContextProps = {
   open: boolean
@@ -101,7 +101,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             maxWidth: 'calc(100% - 32px)',
             background: color('background', 'screen'),
             maxHeight: '85svh',
-            borderRadius: 'var(--radius-small)',
+            borderRadius: borderRadius('small'),
             display: 'flex',
             flexDirection: 'column',
             boxShadow: 'var(--shadow-elevation)',

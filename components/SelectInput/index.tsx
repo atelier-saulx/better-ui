@@ -102,7 +102,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                     : '3px 28px 3px 10px',
                 borderRadius:
                   variant === 'regular'
-                    ? 'var(--radius-small)'
+                    ? borderRadius('small')
                     : borderRadius('tiny'),
                 border:
                   variant === 'small'
@@ -152,7 +152,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               overflow: 'hidden',
               width: 'var(--radix-select-trigger-width)',
               maxHeight: 'var(--radix-select-content-available-height)',
-              borderRadius: 'var(--radius-small)',
+              borderRadius: borderRadius('small'),
               border: '1px solid var(--interactive-secondary)',
               boxShadow: 'var(--shadow-elevation)',
             }}
@@ -168,7 +168,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                     <styled.div
                       style={{
                         padding: '4px 12px 4px 42px',
-                        borderRadius: 'var(--radius-small)',
+                        borderRadius: borderRadius('small'),
                         fontSize: 14,
                         lineHeight: '24px',
                         position: 'relative',
