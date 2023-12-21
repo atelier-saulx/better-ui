@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
 import {
-  IconAttachment,
   IconDelete,
   IconDownload,
   IconMoreHorizontal,
@@ -14,6 +13,7 @@ import { useHover } from '../../utils/hooks/useHover'
 import { Text } from '../Text'
 import { Stack } from '../Stack'
 import { color } from '../../utils/colors'
+import { Media } from '../Media'
 
 import { FileDrop } from 'react-file-drop'
 
@@ -54,7 +54,6 @@ export function FileInput({
   // controlled
   const [file, setFile] = React.useState<File | null>()
 
-  const [filePreview, setFilePreview] = React.useState<string | null>(null)
   const [internalStatus, setInternalStatus] = React.useState<Status>('initial')
   const [internalProgress, setInternalProgress] = React.useState(0)
   const status = statusProp ?? internalStatus
@@ -87,17 +86,6 @@ export function FileInput({
         })
     }
   }, [value?.src])
-
-  React.useEffect(() => {
-    if (file) {
-      if (file.type.startsWith('image/') && file.size) {
-        const objectURL = URL.createObjectURL(file)
-        setFilePreview(objectURL)
-      }
-    } else {
-      setFilePreview(null)
-    }
-  }, [file])
 
   const { listeners, hover } = useHover()
   const [dragOver, setDragOver] = React.useState(false)
@@ -147,12 +135,10 @@ export function FileInput({
             variant={variant}
             status={status}
             progress={progress}
-            filePreview={filePreview}
             file={file}
             hover={hover}
             setInternalStatus={setInternalStatus}
             setFile={setFile}
-            setFilePreview={setFilePreview}
             setInternalProgress={setInternalProgress}
             onChange={onChange}
             inputRef={inputRef}
@@ -244,11 +230,11 @@ function StyledStatus({
   )
 }
 
+// TODO ugly make it better....
 function Status({
   variant,
   status,
   progress,
-  filePreview,
   file,
   hover,
   setInternalStatus,
@@ -260,17 +246,27 @@ function Status({
   variant: Variant
   status: Status
   progress: number
-  filePreview: string | null
   file: File | null | undefined
   hover: boolean
-  // tmp
   setInternalStatus: React.Dispatch<React.SetStateAction<Status>>
   setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>
-  setFilePreview: React.Dispatch<React.SetStateAction<string | null>>
   setInternalProgress: React.Dispatch<React.SetStateAction<number>>
   onChange: ((file?: File) => void) | undefined
   inputRef: React.MutableRefObject<HTMLInputElement | null>
 }) {
+  const [filePreview, setFilePreview] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    if (file) {
+      if (file.type.startsWith('image/') && file.size) {
+        const objectURL = URL.createObjectURL(file)
+        setFilePreview(objectURL)
+      }
+    } else {
+      setFilePreview(null)
+    }
+  }, [file])
+
   return (
     <StyledStatus variant={variant} status={status}>
       {status === 'initial' && (
@@ -290,19 +286,20 @@ function Status({
               width: 'auto',
             }}
           >
-            {filePreview ? (
-              <img
+            <styled.div
+              style={{
+                height: variant === 'small' ? 32 : 48,
+                width: variant === 'small' ? 32 : 48,
+                borderRadius: 'var(--radius-small)',
+              }}
+            >
+              <Media
+                type={file.type as BasedSchemaContentMediaType}
                 src={filePreview}
-                style={{
-                  height: variant === 'small' ? 32 : 48,
-                  width: variant === 'small' ? 32 : 48,
-                  borderRadius: 'var(--radius-small)',
-                  objectFit: 'cover',
-                }}
+                variant="cover"
               />
-            ) : (
-              <IconAttachment />
-            )}
+            </styled.div>
+
             <Text
               style={{ maxWidth: variant === 'small' ? 200 : undefined }}
               singleLine
