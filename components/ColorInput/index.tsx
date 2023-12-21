@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import * as Popover from '@radix-ui/react-popover'
 import { styled, Style } from 'inlines'
-import { border } from '../../utils/colors'
+import { border, borderRadius, color } from '../../utils/colors'
 
 export type ColorInputProps = {
   value?: string
@@ -111,9 +111,9 @@ export function ColorInput({
             },
             ...(error && {
               '&[data-state="open"] > div': {
-                border: '1px solid var(--sentiment-negative)',
+                border: '1px solid var(--semantic-background-error)',
                 boxShadow:
-                  '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
+                  '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
               },
             }),
             ...style,
@@ -144,8 +144,8 @@ export function ColorInput({
               padding: variant === 'regular' ? '8px 12px' : '3px 10px',
               borderRadius:
                 variant === 'regular'
-                  ? 'var(--radius-small)'
-                  : 'var(--radius-tiny)',
+                  ? borderRadius('small')
+                  : borderRadius('tiny'),
               border:
                 variant === 'small'
                   ? '1px solid transparent'
@@ -162,14 +162,14 @@ export function ColorInput({
                   '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
               },
               ...(error && {
-                border: '1px solid var(--sentiment-negative)',
+                border: '1px solid var(--semantic-background-error)',
                 '&:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                 },
                 '&:focus, &:focus:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                   boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
+                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
                 },
               }),
             }}
@@ -179,7 +179,7 @@ export function ColorInput({
                 style={{
                   height: variant === 'regular' ? 24 : 20,
                   width: variant === 'regular' ? 24 : 20,
-                  borderRadius: 'var(--radius-tiny)',
+                  borderRadius: borderRadius('tiny'),
                   background:
                     'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center',
                   backgroundPosition: '0 -1px',
@@ -191,7 +191,7 @@ export function ColorInput({
                 position: 'absolute',
                 height: variant === 'regular' ? 24 : 20,
                 width: variant === 'regular' ? 24 : 20,
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background: value,
                 border: `1px solid rgba(4,41,68,.13)`,
               }}
@@ -205,7 +205,7 @@ export function ColorInput({
           align="start"
           sideOffset={8}
           style={{
-            background: 'var(--background-screen)',
+            background: color('background', 'screen'),
             maxHeight:
               'calc(var(--radix-popover-content-available-height) - 8px)',
             width: 500,
@@ -213,7 +213,7 @@ export function ColorInput({
               'calc(var(--radix-popover-content-available-width) - 8px)',
             padding: 8,
             border: border(),
-            borderRadius: 'var(--radius-small)',
+            borderRadius: borderRadius('small'),
             overflowY: 'auto',
           }}
         >
@@ -221,7 +221,7 @@ export function ColorInput({
             style={{
               position: 'relative',
               height: 200,
-              borderRadius: 'var(--radius-tiny)',
+              borderRadius: borderRadius('tiny'),
             }}
             ref={positionDivRef}
             onMouseDown={() => {
@@ -232,7 +232,7 @@ export function ColorInput({
               style={{
                 position: 'absolute',
                 inset: 0,
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background: `hsl(${hue}, 100%, 50%)`,
               }}
             />
@@ -240,7 +240,7 @@ export function ColorInput({
               style={{
                 position: 'absolute',
                 inset: 0,
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background:
                   'linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0))',
               }}
@@ -249,7 +249,7 @@ export function ColorInput({
               style={{
                 position: 'absolute',
                 inset: 0,
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background:
                   'linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0))',
               }}
@@ -277,7 +277,7 @@ export function ColorInput({
               position: 'relative',
               height: 24,
               width: '100%',
-              borderRadius: 'var(--radius-tiny)',
+              borderRadius: borderRadius('tiny'),
               background:
                 'linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%)',
             }}
@@ -299,7 +299,7 @@ export function ColorInput({
                 left: `max(2px, calc(${(hue / 360) * 100}% - 2px))`,
                 transform: `translate3d(-${(hue / 360) * 100}%,0,0)`,
                 height: 20,
-                backgroundColor: 'var(--background-screen)',
+                backgroundColor: color('background', 'screen'),
                 boxShadow: '0px 0px 1px rgba(0,0,0,0.4)',
                 borderRadius: 2,
                 pointerEvents: 'none',
@@ -311,7 +311,7 @@ export function ColorInput({
               marginTop: 8,
               height: 24,
               width: '100%',
-              borderRadius: 'var(--radius-tiny)',
+              borderRadius: borderRadius('tiny'),
               background:
                 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center',
               backgroundPosition: '0 -8px',
@@ -322,7 +322,7 @@ export function ColorInput({
                 position: 'relative',
                 width: '100%',
                 height: '100%',
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background: `linear-gradient(to right, transparent, hsl(${hue}, 100%, 50%) 100%)`,
               }}
             >
@@ -344,7 +344,7 @@ export function ColorInput({
                   left: `max(2px, calc(${alpha * 100}% - 2px))`,
                   transform: `translate3d(-${alpha * 100}%,0,0)`,
                   height: 20,
-                  backgroundColor: 'var(--background-screen)',
+                  backgroundColor: color('background', 'screen'),
                   boxShadow: '0px 0px 1px rgba(0,0,0,0.4)',
                   borderRadius: 2,
                   pointerEvents: 'none',

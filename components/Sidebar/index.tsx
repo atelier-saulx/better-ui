@@ -6,7 +6,7 @@ import { Button } from '../Button'
 import { useIsMobile } from '../../utils/hooks/useIsMobile'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import { textVariants } from '../Text'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 
 const SidebarContext = React.createContext({
   open: true,
@@ -91,15 +91,15 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
           display: 'flex',
           alignItems: 'center',
           padding: '0 10px',
-          borderRadius: 'var(--radius-small)',
+          borderRadius: borderRadius('small'),
           cursor: 'pointer',
-          color: 'var(--content-primary)',
+          color: color('content', 'primary'),
           '&:hover': {
-            background: 'var(--background-neutral)',
+            background: color('background', 'neutral'),
           },
           '& > * + *': { marginLeft: '10px' },
           ...(sidebarValue === value && {
-            background: 'var(--background-neutral)',
+            background: color('background', 'neutral'),
           }),
         }}
         onClick={() => {
@@ -109,7 +109,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
         {icon}
         <span
           style={{
-            color: 'var(--content-primary)',
+            color: color('content', 'primary'),
             fontSize: 14,
             fontWeight: 600,
           }}
@@ -125,8 +125,8 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
       style={{
         display: 'flex',
         ...(sidebarValue === value && {
-          background: 'var(--background-neutral)',
-          borderRadius: 'var(--radius-small)',
+          background: color('background', 'neutral'),
+          borderRadius: borderRadius('small'),
           '&:hover': {
             background: 'none',
           },

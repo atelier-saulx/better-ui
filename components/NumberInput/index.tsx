@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Style, styled } from 'inlines'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import { IconSmallArrowheadDown, IconSmallArrowheadTop } from '../Icons'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 
 export type NumberInputProps = {
   placeholder?: string
@@ -110,16 +110,16 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               padding: variant === 'regular' ? '8px 40px 8px 12px' : '3px 10px',
               borderRadius:
                 variant === 'regular'
-                  ? 'var(--radius-small)'
-                  : 'var(--radius-tiny)',
+                  ? borderRadius('small')
+                  : borderRadius('tiny'),
               border:
                 variant === 'small'
                   ? '1px solid transparent'
                   : '1px solid var(--interactive-secondary)',
-              color: 'var(--content-primary)',
+              color: color('content', 'primary'),
               outline: 'none',
               appearance: 'none',
-              '&::placeholder': { color: 'var(--content-secondary)' },
+              '&::placeholder': { color: color('content', 'secondary') },
               '&:hover': {
                 border:
                   variant === 'small'
@@ -140,14 +140,14 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 margin: '0',
               },
               ...(error && {
-                border: '1px solid var(--sentiment-negative)',
+                border: '1px solid var(--semantic-background-error)',
                 '&:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                 },
                 '&:focus, &:focus:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                   boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
+                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
                 },
               }),
             }}
@@ -170,7 +170,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 display: 'flex',
                 '&:hover': {
                   background: color('background', 'neutral'),
-                  borderRadius: 'var(--radius-tiny)',
+                  borderRadius: borderRadius('tiny'),
                 },
               }}
               onClick={(e: React.MouseEvent) => {
@@ -190,7 +190,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 display: 'flex',
                 '&:hover': {
                   background: color('background', 'neutral'),
-                  borderRadius: 'var(--radius-tiny)',
+                  borderRadius: borderRadius('tiny'),
                 },
               }}
               onClick={(e: React.MouseEvent) => {

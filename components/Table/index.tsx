@@ -22,6 +22,7 @@ import {
   BasedSchemaStringShared,
   display,
 } from '@based/schema'
+import { color } from '../../utils/colors'
 
 // TODO this is a mess currently, will clean it up soon. @vassbence
 
@@ -241,7 +242,7 @@ export function Table({
                               ...(cell.column.columnDef.id ===
                               'internal_row_action'
                                 ? {
-                                    background: 'var(--background-screen)',
+                                    background: color('background', 'screen'),
                                     padding: '0 4px',
                                   }
                                 : {
@@ -282,7 +283,7 @@ export function Table({
                 top: 0,
                 margin: 0,
                 textAlign: 'left',
-                background: 'var(--background-screen)',
+                background: color('background', 'screen'),
               }}
             >
               {table.getHeaderGroups().map((headerGroup) => (
@@ -317,10 +318,10 @@ export function Table({
                               lineHeight: '24px',
                               fontWeight: 500,
                               color: header.column.getIsSorted()
-                                ? 'var(--content-primary)'
-                                : 'var(--content-secondary)',
+                                ? color('content', 'primary')
+                                : color('content', 'secondary'),
                               '&:hover': {
-                                color: 'var(--content-primary)',
+                                color: color('content', 'primary'),
                               },
                             }}
                           >

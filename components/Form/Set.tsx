@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Text } from '../Text'
 import { Stack } from '../Stack'
-import { color, border } from '../../utils/colors'
+import { color, border, borderRadius } from '../../utils/colors'
 import { Path, TableCtx } from './Table/types'
 import { Button } from '../Button'
 import { IconClose, IconPlus } from '../Icons'
@@ -21,7 +21,7 @@ const Tag = ({ value }: { value: string | number; onRemove: () => void }) => {
         paddingRight: 8,
         border: border(),
         backgroundColor: color('background', 'muted'),
-        borderRadius: 'var(--radius-tiny)',
+        borderRadius: borderRadius('tiny'),
       }}
     >
       <Text>{value}</Text>

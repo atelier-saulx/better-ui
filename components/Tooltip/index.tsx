@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as TooltipBase from '@radix-ui/react-tooltip'
+import { borderRadius, color } from '../../utils/colors'
 
 export type TooltipProps = {
   children: React.ReactNode
@@ -24,8 +25,8 @@ export function Tooltip({ children, content, side }: TooltipProps) {
             <div
               style={{
                 padding: '4px 8px',
-                borderRadius: 'var(--radius-tiny)',
-                background: 'var(--content-primary)',
+                borderRadius: borderRadius('tiny'),
+                background: color('content', 'primary'),
                 userSelect: 'none',
               }}
             >
@@ -34,12 +35,14 @@ export function Tooltip({ children, content, side }: TooltipProps) {
                   fontSize: 12,
                   fontWeight: 600,
                   lineHeight: '20px',
-                  color: 'var(--content-inverted)',
+                  color: color('content', 'inverted'),
                 }}
               >
                 {content}
               </span>
-              <TooltipBase.Arrow style={{ fill: 'var(--content-primary)' }} />
+              <TooltipBase.Arrow
+                style={{ fill: color('content', 'primary') }}
+              />
             </div>
           </TooltipBase.Content>
         </TooltipBase.Portal>

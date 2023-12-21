@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
+import { borderRadius, color } from '../../utils/colors'
 
 export type TextAreaInputProps = {
   placeholder?: string
@@ -120,16 +121,16 @@ export const TextAreaInput = React.forwardRef<
               padding: variant === 'regular' ? '8px 12px' : '3px 10px',
               borderRadius:
                 variant === 'regular'
-                  ? 'var(--radius-small)'
-                  : 'var(--radius-tiny)',
+                  ? borderRadius('small')
+                  : borderRadius('tiny'),
               border:
                 variant === 'small'
                   ? '1px solid transparent'
                   : '1px solid var(--interactive-secondary)',
-              color: 'var(--content-primary)',
+              color: color('content', 'primary'),
               gridArea: '1 / 1 / 2 / 2',
               outline: 'none',
-              '&::placeholder': { color: 'var(--content-secondary)' },
+              '&::placeholder': { color: color('content', 'secondary') },
               '&:hover': {
                 border:
                   variant === 'small'
@@ -144,14 +145,14 @@ export const TextAreaInput = React.forwardRef<
               resize: 'none',
               overflow: 'hidden',
               ...(error && {
-                border: '1px solid var(--sentiment-negative)',
+                border: '1px solid var(--semantic-background-error)',
                 '&:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                 },
                 '&:focus, &:focus:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                   boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
+                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
                 },
               }),
             }}

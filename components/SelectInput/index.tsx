@@ -3,6 +3,7 @@ import * as SelectBase from '@radix-ui/react-select'
 import { styled, Style } from 'inlines'
 import { IconCheckSmall, IconChevronDownSmall } from '../Icons'
 import { mergeRefs } from 'react-merge-refs'
+import { borderRadius, color } from '../../utils/colors'
 
 export type SelectInputProps = {
   placeholder?: string
@@ -67,9 +68,9 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               },
               ...(error && {
                 '&[data-state="open"] > div': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                   boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
+                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
                 },
               }),
               ...style,
@@ -101,13 +102,13 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                     : '3px 28px 3px 10px',
                 borderRadius:
                   variant === 'regular'
-                    ? 'var(--radius-small)'
-                    : 'var(--radius-tiny)',
+                    ? borderRadius('small')
+                    : borderRadius('tiny'),
                 border:
                   variant === 'small'
                     ? '1px solid transparent'
                     : '1px solid var(--interactive-secondary)',
-                color: 'var(--content-primary)',
+                color: color('content', 'primary'),
                 '&:before': {
                   content: '""',
                   display: 'inline-block',
@@ -124,9 +125,9 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                     '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
                 },
                 ...(error && {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                   '&:hover': {
-                    border: '1px solid var(--sentiment-negative)',
+                    border: '1px solid var(--semantic-background-error)',
                   },
                 }),
               }}
@@ -137,7 +138,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                   position: 'absolute',
                   top: variant === 'regular' ? 10 : 5,
                   right: variant === 'regular' ? 12 : 6,
-                  color: 'var(--content-primary)',
+                  color: color('content', 'primary'),
                 }}
               />
             </styled.div>
@@ -147,11 +148,11 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           <SelectBase.Content
             position="popper"
             style={{
-              background: 'var(--background-screen)',
+              background: color('background', 'screen'),
               overflow: 'hidden',
               width: 'var(--radix-select-trigger-width)',
               maxHeight: 'var(--radix-select-content-available-height)',
-              borderRadius: 'var(--radius-small)',
+              borderRadius: borderRadius('small'),
               border: '1px solid var(--interactive-secondary)',
               boxShadow: 'var(--shadow-elevation)',
             }}
@@ -167,14 +168,14 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                     <styled.div
                       style={{
                         padding: '4px 12px 4px 42px',
-                        borderRadius: 'var(--radius-small)',
+                        borderRadius: borderRadius('small'),
                         fontSize: 14,
                         lineHeight: '24px',
                         position: 'relative',
                         outline: 'none',
                         userSelect: 'none',
                         '&[data-highlighted]': {
-                          background: 'var(--background-neutral)',
+                          background: color('background', 'neutral'),
                         },
                       }}
                     >
@@ -184,7 +185,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                             position: 'absolute',
                             top: 6,
                             left: 12,
-                            color: 'var(--content-primary)',
+                            color: color('content', 'primary'),
                           }}
                         />
                       </SelectBase.ItemIndicator>

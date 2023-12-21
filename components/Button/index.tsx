@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 import { textVariants } from '../Text'
 
 export type ButtonProps = {
@@ -75,7 +75,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         style={{
           position: 'relative',
-          borderRadius: 'var(--radius-small)',
+          borderRadius: borderRadius('small'),
           fontWeight: 600,
           cursor: disabled ? 'not-allowed' : 'pointer',
           display: 'inline-flex',
@@ -103,16 +103,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             lineHeight: '24px',
           }),
           ...(variant === 'primary' && {
-            color: 'var(--content-inverted)',
-            background: 'var(--interactive-primary)',
+            color: color('content', 'inverted'),
+            background: color('interactive', 'primary'),
             border: '1px solid var(--interactive-primary)',
             '&:hover': {
-              background: 'var(--interactive-primary-hover)',
+              background: color('interactive', 'primary-hover'),
               border: '1px solid var(--interactive-primary-hover)',
             },
           }),
           ...(variant === 'primary-transparent' && {
-            color: 'var(--interactive-primary)',
+            color: color('interactive', 'primary'),
             background: 'transparent',
             border: 'transparent',
             '&:hover': {
@@ -122,30 +122,30 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             },
           }),
           ...(variant === 'neutral' && {
-            color: 'var(--content-primary)',
+            color: color('content', 'primary'),
             background: 'transparent',
             border: '1px solid var(--interactive-secondary)',
             '&:hover': {
-              background: 'var(--background-neutral)',
+              background: color('background', 'neutral'),
               border: '1px solid var(--interactive-secondary-hover)',
             },
           }),
           ...(variant === 'neutral-transparent' && {
-            color: 'var(--content-primary)',
+            color: color('content', 'primary'),
             background: 'transparent',
             border: 'transparent',
             '&:hover': {
-              background: 'var(--background-neutral)',
+              background: color('background', 'neutral'),
               border: 'transparent',
             },
           }),
           ...(variant === 'error' && {
-            color: 'var(--content-inverted)',
-            background: 'var(--sentiment-negative)',
-            border: '1px solid var(--sentiment-negative)',
+            color: color('content', 'inverted'),
+            background: 'var(--semantic-background-error)',
+            border: '1px solid var(--semantic-background-error)',
             '&:hover': {
-              background: 'var(--sentiment-negative-hover)',
-              border: '1px solid var(--sentiment-negative-hover)',
+              background: 'var(--semantic-background-error-hover)',
+              border: '1px solid var(--semantic-background-error-hover)',
             },
           }),
           ...(variant === 'primary-link' && {

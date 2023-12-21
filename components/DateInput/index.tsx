@@ -3,7 +3,7 @@ import * as Popover from '@radix-ui/react-popover'
 import { Text, textVariants } from '../Text'
 import { IconCalendar, IconChevronDown, IconChevronTop } from '../Icons'
 import { styled, Style } from 'inlines'
-import { border, color } from '../../utils/colors'
+import { border, borderRadius, color } from '../../utils/colors'
 import {
   addMonths,
   format,
@@ -111,9 +111,9 @@ export function DateInput({
             },
             ...(error && {
               '&[data-state="open"] > div': {
-                border: '1px solid var(--sentiment-negative)',
+                border: '1px solid var(--semantic-background-error)',
                 boxShadow:
-                  '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
+                  '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
               },
             }),
             ...style,
@@ -144,8 +144,8 @@ export function DateInput({
               padding: variant === 'regular' ? '8px 12px' : '3px 10px',
               borderRadius:
                 variant === 'regular'
-                  ? 'var(--radius-small)'
-                  : 'var(--radius-tiny)',
+                  ? borderRadius('small')
+                  : borderRadius('tiny'),
               border:
                 variant === 'small'
                   ? '1px solid transparent'
@@ -162,14 +162,14 @@ export function DateInput({
                   '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
               },
               ...(error && {
-                border: '1px solid var(--sentiment-negative)',
+                border: '1px solid var(--semantic-background-error)',
                 '&:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                 },
                 '&:focus, &:focus:hover': {
-                  border: '1px solid var(--sentiment-negative)',
+                  border: '1px solid var(--semantic-background-error)',
                   boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--sentiment-negative) 20%, transparent)',
+                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
                 },
               }),
             }}
@@ -201,7 +201,7 @@ export function DateInput({
             border: '1px solid var(--interactive-secondary)',
             background: color('background', 'screen'),
             boxShadow: 'var(--shadow-elevation)',
-            borderRadius: 'var(--radius-small)',
+            borderRadius: borderRadius('small'),
             overflowY: 'auto',
           }}
         >
@@ -228,7 +228,7 @@ export function DateInput({
                     background: 'transparent',
                     width: 24,
                     height: 24,
-                    borderRadius: 'var(--radius-tiny)',
+                    borderRadius: borderRadius('tiny'),
                     '&:hover': {
                       background: color('background', 'neutral'),
                     },
@@ -251,7 +251,7 @@ export function DateInput({
                     background: 'transparent',
                     width: 24,
                     height: 24,
-                    borderRadius: 'var(--radius-tiny)',
+                    borderRadius: borderRadius('tiny'),
                     '&:hover': {
                       background: color('background', 'neutral'),
                     },
@@ -296,10 +296,10 @@ export function DateInput({
                     margin: 0,
                     border: '1px solid transparent',
                     background: 'transparent',
-                    borderTopLeftRadius: 'var(--radius-tiny)',
-                    borderBottomLeftRadius: 'var(--radius-tiny)',
-                    borderTopRightRadius: 'var(--radius-tiny)',
-                    borderBottomRightRadius: 'var(--radius-tiny)',
+                    borderTopLeftRadius: borderRadius('tiny'),
+                    borderBottomLeftRadius: borderRadius('tiny'),
+                    borderTopRightRadius: borderRadius('tiny'),
+                    borderBottomRightRadius: borderRadius('tiny'),
                     ...textVariants.bodyBold,
                     ...((!range || (range && !pendingRangePart)) && {
                       '&:hover': {
@@ -318,10 +318,10 @@ export function DateInput({
                           (isSameDay(day, value.start) ||
                             isSameDay(day, value.end))
                         : isSameDay(day, value)) && {
-                        background: 'var(--interactive-primary)',
-                        color: 'var(--content-inverted)',
+                        background: color('interactive', 'primary'),
+                        color: color('content', 'inverted'),
                         '&:hover': {
-                          background: 'var(--interactive-primary-hover)',
+                          background: color('interactive', 'primary-hover'),
                           border: '1px solid var(--interactive-primary-hover)',
                         },
                       }),
@@ -332,38 +332,38 @@ export function DateInput({
                         end: max([pendingRangePart, hoveredDate]),
                       }) && {
                         background: isSameDay(pendingRangePart, day)
-                          ? 'var(--interactive-primary)'
+                          ? color('interactive', 'primary')
                           : 'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
                         ...(isSameDay(pendingRangePart, day) && {
-                          color: 'var(--content-inverted)',
+                          color: color('content', 'inverted'),
                         }),
                         borderTopLeftRadius:
                           isSameDay(
                             min([pendingRangePart, hoveredDate]),
                             day
                           ) || isMonday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderBottomLeftRadius:
                           isSameDay(
                             min([pendingRangePart, hoveredDate]),
                             day
                           ) || isMonday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderTopRightRadius:
                           isSameDay(
                             max([pendingRangePart, hoveredDate]),
                             day
                           ) || isSunday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderBottomRightRadius:
                           isSameDay(
                             max([pendingRangePart, hoveredDate]),
                             day
                           ) || isSunday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         ...(!isMonday(day) &&
                           !isSameDay(
@@ -396,10 +396,10 @@ export function DateInput({
                         ...(isSameDay(value.start, day) ||
                         isSameDay(value.end, day)
                           ? {
-                              background: 'var(--interactive-primary)',
-                              color: 'var(--content-inverted)',
+                              background: color('interactive', 'primary'),
+                              color: color('content', 'inverted'),
                               '&:hover': {
-                                background: 'var(--interactive-primary-hover)',
+                                background: color('interactive', 'primary-hover'),
                               },
                             }
                           : {
@@ -413,22 +413,22 @@ export function DateInput({
                         borderTopLeftRadius:
                           isSameDay(min([value.start, value.end]), day) ||
                           isMonday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderBottomLeftRadius:
                           isSameDay(min([value.start, value.end]), day) ||
                           isMonday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderTopRightRadius:
                           isSameDay(max([value.start, value.end]), day) ||
                           isSunday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderBottomRightRadius:
                           isSameDay(max([value.start, value.end]), day) ||
                           isSunday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         ...(!isMonday(day) &&
                           !isSameDay(min([value.start, value.end]), day) && {

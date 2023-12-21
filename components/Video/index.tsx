@@ -150,8 +150,8 @@ export function Video({ src, thumbnail }: VideoProps) {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M10.7882 6.17965C11.2737 5.91792 11.8636 5.94373 12.3244 6.24688L31.3244 18.7469C31.7461 19.0243 32 19.4952 32 20C32 20.5048 31.7461 20.9757 31.3244 21.2531L12.3244 33.7531C11.8636 34.0563 11.2737 34.0821 10.7882 33.8204C10.3027 33.5586 10 33.0516 10 32.5V7.5C10 6.94845 10.3027 6.44139 10.7882 6.17965Z"
               fill="white"
             />

@@ -4,6 +4,7 @@ import * as ModalBase from '@radix-ui/react-dialog'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import { Button } from '../Button'
 import { TextInput } from '../TextInput'
+import { borderRadius, color } from '../../utils/colors'
 
 type UseModalContextProps = {
   open: boolean
@@ -80,7 +81,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
           style={{
             inset: 0,
             position: 'fixed',
-            background: 'var(--background-dimmer)',
+            background: color('background', 'dimmer'),
           }}
         />
         <ModalBase.Content
@@ -98,9 +99,9 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             left: '50%',
             transform: 'translate(-50%, -50%)',
             maxWidth: 'calc(100% - 32px)',
-            background: 'var(--background-screen)',
+            background: color('background', 'screen'),
             maxHeight: '85svh',
-            borderRadius: 'var(--radius-small)',
+            borderRadius: borderRadius('small'),
             display: 'flex',
             flexDirection: 'column',
             boxShadow: 'var(--shadow-elevation)',
@@ -117,7 +118,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
         </ModalBase.Content>
       </ModalBase.Portal>
     )
-  },
+  }
 )
 
 export type ModalTitleProps = { title: string; description?: string }
@@ -131,7 +132,7 @@ export function Title({ title, description }: ModalTitleProps) {
     >
       <div
         style={{
-          color: 'var(--content-primary)',
+          color: color('content', 'primary'),
           fontSize: 18,
           lineHeight: '32px',
           fontWeight: 700,
@@ -143,7 +144,7 @@ export function Title({ title, description }: ModalTitleProps) {
         <div
           style={{
             marginTop: 16,
-            color: 'var(--content-secondary)',
+            color: color('content', 'secondary'),
             fontSize: 14,
             lineHeight: '24px',
             fontWeight: 500,
@@ -269,7 +270,7 @@ export const useModal = (): UseModalRes => {
                 val = v
               }}
             />
-          </Modal>,
+          </Modal>
         )
 
         return confirmed || false
@@ -284,7 +285,7 @@ export const useModal = (): UseModalRes => {
             }}
           >
             {message}
-          </Modal>,
+          </Modal>
         )
         return ok
       },
@@ -376,5 +377,5 @@ export const Modal = Object.assign(
     Title,
     Body,
     Actions,
-  },
+  }
 )

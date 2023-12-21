@@ -18,15 +18,12 @@
   --interactive-secondary: #04294421;
   --interactive-secondary-hover: #10305433;
 
-  /* sentiment colors */
-  --sentiment-negative: #c53434;
-  --sentiment-negative-hover: #952d2d;
-
   /* radiuses */
   --radius-tiny: 4px;
   --radius-small: 8px;
   --radius-medium: 10px;
   --radius-large: 24px;
+  --radius-full: 9999px;
 
   /* shadows */
   --shadow-elevation: 0px 2px 8px -1px rgba(27, 36, 44, 0.08),
@@ -70,11 +67,8 @@
   /* error regular */
   --semantic-color-error: #ffffff;
   --semantic-background-error: #c53434;
+  --semantic-background-error-hover: #952d2d;
   /* error muted */
   --semantic-color-error-muted: #c53434;
   --semantic-background-error-muted: #c5343429;
-}
-
-[data-theme='dark'] {
-  /* TODO add dark mode colors  */
 }

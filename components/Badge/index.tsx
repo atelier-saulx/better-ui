@@ -3,14 +3,16 @@ import { hash } from '@saulx/hash'
 import { styled, Style } from 'inlines'
 import { IconCheckLarge, IconCopy } from '../Icons'
 import {
-  Color,
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
+  SemanticVariant,
+  borderRadius,
+  color as getColor,
 } from '../../utils/colors'
 
 export type BadgeProps = {
   children: React.ReactNode
-  color?: Color['semantic']
+  color?: SemanticVariant | 'auto' | 'auto-muted'
   size?: 'regular' | 'small'
   copyValue?: string
   prefix?: React.ReactNode
@@ -63,10 +65,10 @@ export function Badge({
         alignItems: 'center',
         gap: 4,
         padding: '0 8px',
-        borderRadius: 'var(--radius-large)',
+        borderRadius: borderRadius('large'),
         fontWeight: 500,
-        color: `var(--semantic-color-${color})`,
-        background: `var(--semantic-background-${color})`,
+        color: getColor('semantic-color', color),
+        background: getColor('semantic-background', color),
         ...(size === 'regular' && {
           fontSize: '14px',
           lineHeight: '24px',
@@ -111,10 +113,10 @@ export function Badge({
             right: 0,
             top: 0,
             transform: 'translateX(100%)',
-            color: `var(--semantic-color-${color})`,
-            background: `var(--semantic-background-${color})`,
-            borderTopRightRadius: 'var(--radius-large)',
-            borderBottomRightRadius: 'var(--radius-large)',
+            color: getColor('semantic-color', color),
+            background: getColor('semantic-background', color),
+            borderTopRightRadius: borderRadius('large'),
+            borderBottomRightRadius: borderRadius('large'),
             padding: '0 8px 0 0',
           }}
         >
