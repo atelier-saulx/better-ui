@@ -2,6 +2,19 @@ export type Color = {
   content: 'primary' | 'inverted' | 'secondary' | 'inverted-muted'
   background: 'neutral' | 'muted' | 'dimmer' | 'screen' | 'inverted'
   interactive: 'primary' | 'primary-hover' | 'secondary' | 'secondary-hover'
+  // semantic:
+  //   | 'auto'
+  //   | 'neutral'
+  //   | 'informative'
+  //   | 'positive'
+  //   | 'warning'
+  //   | 'error'
+  //   | 'auto-muted'
+  //   | 'neutral-muted'
+  //   | 'informative-muted'
+  //   | 'positive-muted'
+  //   | 'warning-muted'
+  //   | 'error-muted'
 }
 
 // TODO: add this in the same way to color

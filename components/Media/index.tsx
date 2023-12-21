@@ -5,6 +5,7 @@ import { Video } from '../Video'
 import { Folder, Paper } from '../Icons/extras'
 import { textVariants } from '../Text'
 import { color } from '../../utils/colors'
+import { getMimeType } from '../../utils/getMimeType'
 
 export type MediaProps = {
   variant?: 'cover' | 'contain'
@@ -12,10 +13,135 @@ export type MediaProps = {
   thumbnail?: string
   type?: BasedSchemaContentMediaType | 'directory'
   style?: Style
+  // add video option no controls auto play
+}
+
+const MediaInner = ({
+  size,
+  src,
+  type = '*/*',
+  thumbnail,
+  variant,
+}: {
+  size?: 'small' | 'medium' | 'large'
+  src?: string
+  type?: string
+  thumbnail?: string
+  variant: 'cover' | 'contain'
+}) => {
+  if (!size) return null
+
+  if (type.startsWith('image/')) {
+    return (
+      <img
+        src={src}
+        style={{
+          display: 'block',
+          width: '100%',
+          height: '100%',
+          objectFit: variant,
+        }}
+      />
+    )
+  }
+
+  if (type.startsWith('video/')) {
+    // if size is small video is not interactive, we just show a thumbnail
+    // and if there is no thumbnail then as a best effort
+    // we render a native video element without controls which will render the first frame of the vid
+    if (size === 'small') {
+      if (thumbnail) {
+        return (
+          <img
+            src={thumbnail}
+            style={{
+              display: 'block',
+              width: '100%',
+              height: '100%',
+              objectFit: variant,
+            }}
+          />
+        )
+      }
+      return (
+        <video
+          src={src}
+          style={{
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            objectFit: variant,
+          }}
+        />
+      )
+    }
+
+    return <Video src={src} thumbnail={thumbnail} />
+  }
+
+  if (type === 'directory') {
+    return (
+      <div
+        style={{
+          height: '100%',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Folder
+          style={{
+            height: '60%',
+            width: '60%',
+            maxHeight: 128,
+            maxWidth: 128,
+          }}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div
+      style={{
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+      }}
+    >
+      <Paper
+        style={{
+          height: '60%',
+          width: '60%',
+          maxHeight: 128,
+          maxWidth: 128,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          ...textVariants.bodyStrong,
+          color: color('interactive', 'primary'),
+          textTransform: 'uppercase',
+          fontSize: size === 'small' ? 8 : size === 'medium' ? 14 : 24,
+        }}
+      >
+        {type?.split('/')[1] ?? src?.split('.').pop()}
+      </div>
+    </div>
+  )
 }
 
 export function Media({
-  // variant = 'contain',
+  variant = 'contain',
   src,
   thumbnail,
   type,
@@ -23,6 +149,10 @@ export function Media({
 }: MediaProps) {
   const containerElem = React.useRef<HTMLDivElement | null>(null)
   const [size, setSize] = React.useState<'small' | 'medium' | 'large'>(null)
+
+  if (!type && src) {
+    type = getMimeType(src)
+  }
 
   const observer = React.useMemo(() => {
     return new ResizeObserver((entries) => {
@@ -55,124 +185,18 @@ export function Media({
     [observer]
   )
 
-  function renderContent() {
-    if (!size) return null
-
-    if (type?.startsWith('image/')) {
-      return (
-        <img
-          src={src}
-          style={{
-            display: 'block',
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-          }}
-        />
-      )
-    }
-
-    if (type?.startsWith('video/')) {
-      // if size is small video is not interactive, we just show a thumbnail
-      // and if there is no thumbnail then as a best effort
-      // we render a native video element without controls which will render the first frame of the vid
-      if (size === 'small') {
-        if (thumbnail) {
-          return (
-            <img
-              src={thumbnail}
-              style={{
-                display: 'block',
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-              }}
-            />
-          )
-        }
-        return (
-          <video
-            src={src}
-            style={{
-              display: 'block',
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-            }}
-          />
-        )
-      }
-
-      return <Video src={src} thumbnail={thumbnail} />
-    }
-
-    if (type === 'directory') {
-      return (
-        <div
-          style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Folder
-            style={{
-              height: '60%',
-              width: '60%',
-              maxHeight: 128,
-              maxWidth: 128,
-            }}
-          />
-        </div>
-      )
-    }
-
-    return (
-      <div
-        style={{
-          height: '100%',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative',
-        }}
-      >
-        <Paper
-          style={{
-            height: '60%',
-            width: '60%',
-            maxHeight: 128,
-            maxWidth: 128,
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            ...textVariants.bodyStrong,
-            color: color('interactive', 'primary'),
-            textTransform: 'uppercase',
-            fontSize: size === 'small' ? 8 : size === 'medium' ? 14 : 24,
-          }}
-        >
-          {type?.split('/')[1] ?? src?.split('.').pop()}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <styled.div
-      style={{ width: '100%', height: '100%', ...style }}
+      style={{ width: '100%', height: '100%', ...style, overflow: 'hidden' }}
       ref={containerRef}
     >
-      {renderContent()}
+      <MediaInner
+        variant={variant}
+        src={src}
+        type={type}
+        size={size}
+        thumbnail={thumbnail}
+      />
     </styled.div>
   )
 }
