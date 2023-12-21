@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import * as Popover from '@radix-ui/react-popover'
 import { styled, Style } from 'inlines'
-import { border } from '../../utils/colors'
+import { border, color } from '../../utils/colors'
 
 export type ColorInputProps = {
   value?: string
@@ -205,7 +205,7 @@ export function ColorInput({
           align="start"
           sideOffset={8}
           style={{
-            background: 'var(--background-screen)',
+            background: color('background', 'screen'),
             maxHeight:
               'calc(var(--radix-popover-content-available-height) - 8px)',
             width: 500,
@@ -299,7 +299,7 @@ export function ColorInput({
                 left: `max(2px, calc(${(hue / 360) * 100}% - 2px))`,
                 transform: `translate3d(-${(hue / 360) * 100}%,0,0)`,
                 height: 20,
-                backgroundColor: 'var(--background-screen)',
+                backgroundColor: color('background', 'screen'),
                 boxShadow: '0px 0px 1px rgba(0,0,0,0.4)',
                 borderRadius: 2,
                 pointerEvents: 'none',
@@ -344,7 +344,7 @@ export function ColorInput({
                   left: `max(2px, calc(${alpha * 100}% - 2px))`,
                   transform: `translate3d(-${alpha * 100}%,0,0)`,
                   height: 20,
-                  backgroundColor: 'var(--background-screen)',
+                  backgroundColor: color('background', 'screen'),
                   boxShadow: '0px 0px 1px rgba(0,0,0,0.4)',
                   borderRadius: 2,
                   pointerEvents: 'none',

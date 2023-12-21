@@ -81,7 +81,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
           style={{
             inset: 0,
             position: 'fixed',
-            background: 'var(--background-dimmer)',
+            background: color('background', 'dimmer'),
           }}
         />
         <ModalBase.Content
@@ -99,7 +99,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             left: '50%',
             transform: 'translate(-50%, -50%)',
             maxWidth: 'calc(100% - 32px)',
-            background: 'var(--background-screen)',
+            background: color('background', 'screen'),
             maxHeight: '85svh',
             borderRadius: 'var(--radius-small)',
             display: 'flex',

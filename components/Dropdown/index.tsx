@@ -35,7 +35,7 @@ export function Items({ children }: DropdownItemsProps) {
         <styled.div
           style={{
             width: 258,
-            background: 'var(--background-screen)',
+            background: color('background', 'screen'),
             overflowY: 'auto',
             maxHeight: 'var(--radix-dropdown-menu-content-available-height)',
             borderRadius: 'var(--radius-small)',

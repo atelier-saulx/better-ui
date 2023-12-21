@@ -242,7 +242,7 @@ export function Table({
                               ...(cell.column.columnDef.id ===
                               'internal_row_action'
                                 ? {
-                                    background: 'var(--background-screen)',
+                                    background: color('background', 'screen'),
                                     padding: '0 4px',
                                   }
                                 : {
@@ -283,7 +283,7 @@ export function Table({
                 top: 0,
                 margin: 0,
                 textAlign: 'left',
-                background: 'var(--background-screen)',
+                background: color('background', 'screen'),
               }}
             >
               {table.getHeaderGroups().map((headerGroup) => (

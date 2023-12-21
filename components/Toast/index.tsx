@@ -34,7 +34,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
   function showToast(toast: Toast, variant: ToastVariant = 'neutral') {
     const id = window.setTimeout(() => {
       hideToast(id)
-    }, 35000)
+    }, 3500)
 
     window.setTimeout(() => {
       queue.current = queue.current.map((e) =>

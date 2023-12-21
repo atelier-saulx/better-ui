@@ -20,7 +20,7 @@ export function Header() {
         style={{
           height: 64,
           borderBottom: '1px solid var(--interactive-secondary)',
-          background: 'var(--background-screen)',
+          background: color('background', 'screen'),
           display: 'flex',
           alignItems: 'center',
           padding: '0 24px',
@@ -102,7 +102,7 @@ export function Header() {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'var(--background-screen)',
+            background: color('background', 'screen'),
             zIndex: 20,
             padding: '12px0',
           }}

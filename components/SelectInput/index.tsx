@@ -148,7 +148,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           <SelectBase.Content
             position="popper"
             style={{
-              background: 'var(--background-screen)',
+              background: color('background', 'screen'),
               overflow: 'hidden',
               width: 'var(--radix-select-trigger-width)',
               maxHeight: 'var(--radix-select-content-available-height)',
