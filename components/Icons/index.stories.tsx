@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as Icons from '.'
 import { styled } from 'inlines'
+import { color } from '../../utils/colors'
 
 const meta = {
   title: 'Atoms/Icons',
@@ -34,7 +35,7 @@ export const Default = () => {
                 cursor: 'pointer',
                 borderRadius: 'var(--radius-small)',
                 '&:hover': {
-                  background: 'var(--background-neutral)',
+                  background: color('background', 'neutral'),
                 },
               }}
               onClick={() => {

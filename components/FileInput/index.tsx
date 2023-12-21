@@ -323,7 +323,7 @@ function Status({
                   cursor: 'pointer',
                   color: color('content', 'primary'),
                   '&:hover': {
-                    background: 'var(--background-neutral)',
+                    background: color('background', 'neutral'),
                   },
                 }}
               >

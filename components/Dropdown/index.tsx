@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { styled } from 'inlines'
 import * as DropdownBase from '@radix-ui/react-dropdown-menu'
+import { color } from '../../utils/colors'
 
 export type DropdownRootProps = { children: React.ReactNode }
 
@@ -70,7 +71,7 @@ export function Item({ icon, children, onClick, disabled }: DropdownItemProps) {
           outline: 'none',
           userSelect: 'none',
           '&[data-highlighted]': {
-            background: 'var(--background-neutral)',
+            background: color('background', 'neutral'),
           },
         }}
       >

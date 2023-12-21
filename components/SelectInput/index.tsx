@@ -175,7 +175,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                         outline: 'none',
                         userSelect: 'none',
                         '&[data-highlighted]': {
-                          background: 'var(--background-neutral)',
+                          background: color('background', 'neutral'),
                         },
                       }}
                     >

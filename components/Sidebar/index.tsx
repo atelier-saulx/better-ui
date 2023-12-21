@@ -95,11 +95,11 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
           cursor: 'pointer',
           color: color('content', 'primary'),
           '&:hover': {
-            background: 'var(--background-neutral)',
+            background: color('background', 'neutral'),
           },
           '& > * + *': { marginLeft: '10px' },
           ...(sidebarValue === value && {
-            background: 'var(--background-neutral)',
+            background: color('background', 'neutral'),
           }),
         }}
         onClick={() => {
@@ -125,7 +125,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
       style={{
         display: 'flex',
         ...(sidebarValue === value && {
-          background: 'var(--background-neutral)',
+          background: color('background', 'neutral'),
           borderRadius: 'var(--radius-small)',
           '&:hover': {
             background: 'none',

@@ -126,7 +126,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             background: 'transparent',
             border: '1px solid var(--interactive-secondary)',
             '&:hover': {
-              background: 'var(--background-neutral)',
+              background: color('background', 'neutral'),
               border: '1px solid var(--interactive-secondary-hover)',
             },
           }),
@@ -135,7 +135,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             background: 'transparent',
             border: 'transparent',
             '&:hover': {
-              background: 'var(--background-neutral)',
+              background: color('background', 'neutral'),
               border: 'transparent',
             },
           }),
