@@ -8,7 +8,7 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   path: Path
 ): { field: T; value: any | void } => {
   let selectedValue: any = ctx.values
-  let selectedField: any = ctx.schema
+  let selectedField: any = ctx.fields
   for (const k of path) {
     selectedValue = selectedValue?.[k]
     const type = selectedField.type

@@ -15,6 +15,7 @@ import { SelectInput } from '../SelectInput'
 import { ColorInput } from '../ColorInput'
 import { Code } from '../Code'
 import { isCode } from './utils'
+import { Reference } from './Reference'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
@@ -30,7 +31,8 @@ export type FormProps = {
   onChange: (values: FormValues) => void
   fields: FormValues
   variant?: Variant
-  schema?: BasedSchema // for later
+  // for later check ref types (can check ids and check allowedTypes)
+  schema?: BasedSchema
 }
 
 export function Form({ fields, values, variant = 'regular' }: FormProps) {
@@ -48,6 +50,27 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                 }}
               >
                 <SelectInput options={field.enum} value={values[key]} />
+              </styled.div>
+            </FormField>
+          )
+        }
+
+        if (field.type === 'reference') {
+          return (
+            <FormField fieldKey={key} key={key} variant={variant} field={field}>
+              <styled.div
+                style={{
+                  width: 450,
+                }}
+              >
+                <Reference
+                  path={[key]}
+                  ctx={{
+                    variant,
+                    fields,
+                    values: values,
+                  }}
+                />
               </styled.div>
             </FormField>
           )
@@ -214,7 +237,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                 path={[key]}
                 ctx={{
                   variant,
-                  schema: fields,
+                  fields,
                   values: values,
                 }}
               />
@@ -229,7 +252,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                 path={[key]}
                 ctx={{
                   variant,
-                  schema: fields,
+                  fields,
                   values: values,
                 }}
               />

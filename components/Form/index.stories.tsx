@@ -45,6 +45,11 @@ export const Default = () => {
             null,
             2
           ),
+          category: 'id12345',
+          logo: {
+            id: 'idxyz',
+            src: 'https://i.imgur.com/t1bWmmC.jpeg',
+          },
         }}
         fields={{
           name: {
@@ -54,6 +59,19 @@ export const Default = () => {
           },
           createdAt: {
             type: 'timestamp',
+          },
+          logo: {
+            title: 'Logo',
+            description: 'This is a logo',
+            type: 'reference',
+            allowedTypes: ['file'],
+          },
+          category: {
+            title: 'Category',
+            description: 'This is a category',
+            type: 'reference',
+            allowedTypes: ['category'],
+            bidirectional: { fromField: 'flap' },
           },
           bgColor: {
             title: 'Background color',
@@ -362,7 +380,7 @@ const objectField: { [key: string]: BasedSchemaField } = {
             type: 'object',
             properties: {
               name: { type: 'string' },
-              flapflapflap: { type: 'string' },
+              flapflapflap: { type: 'json' },
               phone: { type: 'string', format: 'mobilePhone' },
               email: { type: 'string', format: 'email' },
               picture: { type: 'string', contentMediaType: '*/*' },
@@ -381,7 +399,7 @@ export const Object = () => {
         variant="small"
         values={{
           ratings: {
-            powerful: 'rgb(255,255,100)',
+            powerful: 'rgb(78,56,188)',
           },
           orderWithDescription: {
             code: ts,
@@ -412,7 +430,7 @@ export const Record = () => {
             snurp: 'derp',
           },
           ratings: {
-            powerful: 'rgb(255,255,100)',
+            powerful: 'rgb(78,56,188)',
           },
           recordObject: {
             flap: { price: 200 },
@@ -458,35 +476,35 @@ export const Array = () => {
           simpleArray: ['hello'],
           array: [
             {
-              powerful: 'rgb(255,255,100)',
+              powerful: 'rgb(78,56,188)',
             },
             {
-              powerful: 'rgb(255,255,100)',
+              powerful: 'rgb(78,56,188)',
             },
             {
-              powerful: 'rgb(255,255,100)',
+              powerful: 'rgb(78,56,188)',
             },
           ],
           nestedArray: [
             [
               {
-                powerful: 'rgb(255,255,100)',
+                powerful: 'rgb(78,56,188)',
               },
               {
-                powerful: 'rgb(255,255,100)',
+                powerful: 'rgb(78,56,188)',
               },
               {
-                powerful: 'rgb(255,255,100)',
-              },
-            ],
-            [
-              {
-                powerful: 'rgb(255,255,100)',
+                powerful: 'rgb(78,56,188)',
               },
             ],
             [
               {
-                powerful: 'rgb(255,255,100)',
+                powerful: 'rgb(78,56,188)',
+              },
+            ],
+            [
+              {
+                powerful: 'rgb(78,56,188)',
               },
             ],
           ],
@@ -565,7 +583,7 @@ export const Bare = () => {
           variant="bare"
           values={{
             ratings: {
-              powerful: 'rgb(255,255,100)',
+              powerful: 'rgb(78,56,188)',
             },
           }}
           fields={{ object: objectField.address }}
