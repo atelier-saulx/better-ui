@@ -3,7 +3,7 @@ import * as SelectBase from '@radix-ui/react-select'
 import { styled, Style } from 'inlines'
 import { IconCheckSmall, IconChevronDownSmall } from '../Icons'
 import { mergeRefs } from 'react-merge-refs'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 
 export type SelectInputProps = {
   placeholder?: string
@@ -103,7 +103,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 borderRadius:
                   variant === 'regular'
                     ? 'var(--radius-small)'
-                    : 'var(--radius-tiny)',
+                    : borderRadius('tiny'),
                 border:
                   variant === 'small'
                     ? '1px solid transparent'

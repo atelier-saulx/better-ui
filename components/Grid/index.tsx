@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { border, color } from '../../utils/colors'
+import { border, borderRadius, color } from '../../utils/colors'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 import { Folder, Paper } from '../Icons/extras'
@@ -33,7 +33,7 @@ export function Grid({ variant = 'column', items, itemAction }: GridProps) {
             padding: 16,
             display: 'flex',
             ...(variant === 'column' && {
-              borderRadius: 'var(--radius-tiny)',
+              borderRadius: borderRadius('tiny'),
               border: border(),
               flexDirection: 'column',
             }),
@@ -49,7 +49,7 @@ export function Grid({ variant = 'column', items, itemAction }: GridProps) {
           <div
             style={{
               background: color('background', 'neutral'),
-              borderRadius: 'var(--radius-tiny)',
+              borderRadius: borderRadius('tiny'),
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',

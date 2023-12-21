@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Style, styled } from 'inlines'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import { IconSmallArrowheadDown, IconSmallArrowheadTop } from '../Icons'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 
 export type NumberInputProps = {
   placeholder?: string
@@ -111,7 +111,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               borderRadius:
                 variant === 'regular'
                   ? 'var(--radius-small)'
-                  : 'var(--radius-tiny)',
+                  : borderRadius('tiny'),
               border:
                 variant === 'small'
                   ? '1px solid transparent'
@@ -170,7 +170,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 display: 'flex',
                 '&:hover': {
                   background: color('background', 'neutral'),
-                  borderRadius: 'var(--radius-tiny)',
+                  borderRadius: borderRadius('tiny'),
                 },
               }}
               onClick={(e: React.MouseEvent) => {
@@ -190,7 +190,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 display: 'flex',
                 '&:hover': {
                   background: color('background', 'neutral'),
-                  borderRadius: 'var(--radius-tiny)',
+                  borderRadius: borderRadius('tiny'),
                 },
               }}
               onClick={(e: React.MouseEvent) => {

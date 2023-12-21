@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useControllableState } from '../../utils/hooks/useControllableState'
 import * as Popover from '@radix-ui/react-popover'
 import { styled, Style } from 'inlines'
-import { border, color } from '../../utils/colors'
+import { border, borderRadius, color } from '../../utils/colors'
 
 export type ColorInputProps = {
   value?: string
@@ -145,7 +145,7 @@ export function ColorInput({
               borderRadius:
                 variant === 'regular'
                   ? 'var(--radius-small)'
-                  : 'var(--radius-tiny)',
+                  : borderRadius('tiny'),
               border:
                 variant === 'small'
                   ? '1px solid transparent'
@@ -179,7 +179,7 @@ export function ColorInput({
                 style={{
                   height: variant === 'regular' ? 24 : 20,
                   width: variant === 'regular' ? 24 : 20,
-                  borderRadius: 'var(--radius-tiny)',
+                  borderRadius: borderRadius('tiny'),
                   background:
                     'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center',
                   backgroundPosition: '0 -1px',
@@ -191,7 +191,7 @@ export function ColorInput({
                 position: 'absolute',
                 height: variant === 'regular' ? 24 : 20,
                 width: variant === 'regular' ? 24 : 20,
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background: value,
                 border: `1px solid rgba(4,41,68,.13)`,
               }}
@@ -221,7 +221,7 @@ export function ColorInput({
             style={{
               position: 'relative',
               height: 200,
-              borderRadius: 'var(--radius-tiny)',
+              borderRadius: borderRadius('tiny'),
             }}
             ref={positionDivRef}
             onMouseDown={() => {
@@ -232,7 +232,7 @@ export function ColorInput({
               style={{
                 position: 'absolute',
                 inset: 0,
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background: `hsl(${hue}, 100%, 50%)`,
               }}
             />
@@ -240,7 +240,7 @@ export function ColorInput({
               style={{
                 position: 'absolute',
                 inset: 0,
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background:
                   'linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0))',
               }}
@@ -249,7 +249,7 @@ export function ColorInput({
               style={{
                 position: 'absolute',
                 inset: 0,
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background:
                   'linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0))',
               }}
@@ -277,7 +277,7 @@ export function ColorInput({
               position: 'relative',
               height: 24,
               width: '100%',
-              borderRadius: 'var(--radius-tiny)',
+              borderRadius: borderRadius('tiny'),
               background:
                 'linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%)',
             }}
@@ -311,7 +311,7 @@ export function ColorInput({
               marginTop: 8,
               height: 24,
               width: '100%',
-              borderRadius: 'var(--radius-tiny)',
+              borderRadius: borderRadius('tiny'),
               background:
                 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center',
               backgroundPosition: '0 -8px',
@@ -322,7 +322,7 @@ export function ColorInput({
                 position: 'relative',
                 width: '100%',
                 height: '100%',
-                borderRadius: 'var(--radius-tiny)',
+                borderRadius: borderRadius('tiny'),
                 background: `linear-gradient(to right, transparent, hsl(${hue}, 100%, 50%) 100%)`,
               }}
             >

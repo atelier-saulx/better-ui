@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color } from '../../utils/colors'
+import { borderRadius, color } from '../../utils/colors'
 
 export type TextAreaInputProps = {
   placeholder?: string
@@ -122,7 +122,7 @@ export const TextAreaInput = React.forwardRef<
               borderRadius:
                 variant === 'regular'
                   ? 'var(--radius-small)'
-                  : 'var(--radius-tiny)',
+                  : borderRadius('tiny'),
               border:
                 variant === 'small'
                   ? '1px solid transparent'

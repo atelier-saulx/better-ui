@@ -3,7 +3,7 @@ import * as Popover from '@radix-ui/react-popover'
 import { Text, textVariants } from '../Text'
 import { IconCalendar, IconChevronDown, IconChevronTop } from '../Icons'
 import { styled, Style } from 'inlines'
-import { border, color } from '../../utils/colors'
+import { border, borderRadius, color } from '../../utils/colors'
 import {
   addMonths,
   format,
@@ -145,7 +145,7 @@ export function DateInput({
               borderRadius:
                 variant === 'regular'
                   ? 'var(--radius-small)'
-                  : 'var(--radius-tiny)',
+                  : borderRadius('tiny'),
               border:
                 variant === 'small'
                   ? '1px solid transparent'
@@ -228,7 +228,7 @@ export function DateInput({
                     background: 'transparent',
                     width: 24,
                     height: 24,
-                    borderRadius: 'var(--radius-tiny)',
+                    borderRadius: borderRadius('tiny'),
                     '&:hover': {
                       background: color('background', 'neutral'),
                     },
@@ -251,7 +251,7 @@ export function DateInput({
                     background: 'transparent',
                     width: 24,
                     height: 24,
-                    borderRadius: 'var(--radius-tiny)',
+                    borderRadius: borderRadius('tiny'),
                     '&:hover': {
                       background: color('background', 'neutral'),
                     },
@@ -296,10 +296,10 @@ export function DateInput({
                     margin: 0,
                     border: '1px solid transparent',
                     background: 'transparent',
-                    borderTopLeftRadius: 'var(--radius-tiny)',
-                    borderBottomLeftRadius: 'var(--radius-tiny)',
-                    borderTopRightRadius: 'var(--radius-tiny)',
-                    borderBottomRightRadius: 'var(--radius-tiny)',
+                    borderTopLeftRadius: borderRadius('tiny'),
+                    borderBottomLeftRadius: borderRadius('tiny'),
+                    borderTopRightRadius: borderRadius('tiny'),
+                    borderBottomRightRadius: borderRadius('tiny'),
                     ...textVariants.bodyBold,
                     ...((!range || (range && !pendingRangePart)) && {
                       '&:hover': {
@@ -342,28 +342,28 @@ export function DateInput({
                             min([pendingRangePart, hoveredDate]),
                             day
                           ) || isMonday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderBottomLeftRadius:
                           isSameDay(
                             min([pendingRangePart, hoveredDate]),
                             day
                           ) || isMonday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderTopRightRadius:
                           isSameDay(
                             max([pendingRangePart, hoveredDate]),
                             day
                           ) || isSunday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderBottomRightRadius:
                           isSameDay(
                             max([pendingRangePart, hoveredDate]),
                             day
                           ) || isSunday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         ...(!isMonday(day) &&
                           !isSameDay(
@@ -413,22 +413,22 @@ export function DateInput({
                         borderTopLeftRadius:
                           isSameDay(min([value.start, value.end]), day) ||
                           isMonday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderBottomLeftRadius:
                           isSameDay(min([value.start, value.end]), day) ||
                           isMonday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderTopRightRadius:
                           isSameDay(max([value.start, value.end]), day) ||
                           isSunday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         borderBottomRightRadius:
                           isSameDay(max([value.start, value.end]), day) ||
                           isSunday(day)
-                            ? 'var(--radius-tiny)'
+                            ? borderRadius('tiny')
                             : '0px',
                         ...(!isMonday(day) &&
                           !isSameDay(min([value.start, value.end]), day) && {
