@@ -22,30 +22,37 @@ import { Button } from '../Button'
 
 export type CodeProps = {
   value?: string
-  defaultValue?: string
-  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
+  placeholder?: string
   style?: Style
   header?: ReactNode
   color?: Color['background']
   copy?: boolean
-  language?: 'js' | 'html' | 'css' | 'json' | 'markup' | 'clike' | string
-  props?: any
+  language?:
+    | 'typescript'
+    | 'javascript'
+    | 'html'
+    | 'css'
+    | 'json'
+    | 'markup'
+    | 'clike'
+    | string
+  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
+  variant?: 'regular' | 'small' // border
 }
 
 export const Code: FC<CodeProps> = ({
   value: valueProp,
-  defaultValue: defaultValueProp = '',
+  placeholder = '',
   onChange: onChangeProp,
   style,
   header,
   color,
   copy,
   language = 'js',
-  ...props
 }) => {
   const [value, setValue] = useControllableState({
     prop: valueProp,
-    defaultProp: defaultValueProp,
+    defaultProp: placeholder,
     onChange: onChangeProp,
   })
   const [, copyIt] = useCopyToClipboard(value ?? '')
@@ -56,7 +63,7 @@ export const Code: FC<CodeProps> = ({
         position: 'relative',
         maxWidth: '100%',
         borderRadius: 4,
-        background: color ? getColor('background', 'muted') : null,
+        background: color ? getColor('background', color) : null,
         overflow: 'hidden',
         ...style,
       }}
@@ -78,8 +85,12 @@ export const Code: FC<CodeProps> = ({
         onValueChange={(v) => setValue(v)}
         highlight={(code) => {
           try {
+            const selectLang =
+              language === 'typescript' || language === 'javascript'
+                ? 'js'
+                : language
             // @ts-ignore
-            const h = highlight(code, languages[language])
+            const h = highlight(code, languages[selectLang])
             return h
           } catch (err) {}
         }}
@@ -89,20 +100,21 @@ export const Code: FC<CodeProps> = ({
           fontSize: 14,
           color: getColor('content', 'primary'),
           fontFamily: 'Fira Code, monospace, sans-serif',
-
           outline: 'none !important',
         }}
-        {...props}
       />
       {copy ? (
-        <Button variant="icon-only" onClick={() => copyIt()}>
-          <IconCopy
-            style={{
-              position: 'absolute',
-              top: 16,
-              right: 16,
-            }}
-          />
+        <Button
+          variant="icon-only"
+          onClick={() => copyIt()}
+          style={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            color: getColor('interactive', 'primary'),
+          }}
+        >
+          <IconCopy style={{ width: 18, height: 18 }} />
         </Button>
       ) : null}
     </styled.div>

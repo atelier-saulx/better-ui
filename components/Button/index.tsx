@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { color } from '../../utils/colors'
 import { textVariants } from '../Text'
 
@@ -25,6 +25,7 @@ export type ButtonProps = {
   onMouseLeave?: React.MouseEventHandler
   onFocus?: React.FocusEventHandler
   onBlur?: React.FocusEventHandler
+  style?: Style
   // TODO keyboard shortcust from old lib
 }
 
@@ -44,8 +45,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onFocus,
       onBlur,
       disabled,
+      style,
     },
-    ref,
+    ref
   ) => {
     const [loading, setLoading] = React.useState(false)
     const [shaking, setShaking] = React.useState(false)
@@ -174,6 +176,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             border: 'none',
             padding: 0,
           }),
+          ...style,
         }}
         onClick={handleClick}
         onAnimationEnd={() => {
@@ -238,5 +241,5 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </div>
       </styled.button>
     )
-  },
+  }
 )
