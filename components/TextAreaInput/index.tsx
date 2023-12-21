@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
+import { color } from '../../utils/colors'
 
 export type TextAreaInputProps = {
   placeholder?: string
@@ -126,7 +127,7 @@ export const TextAreaInput = React.forwardRef<
                 variant === 'small'
                   ? '1px solid transparent'
                   : '1px solid var(--interactive-secondary)',
-              color: 'var(--content-primary)',
+              color: color('content', 'primary'),
               gridArea: '1 / 1 / 2 / 2',
               outline: 'none',
               '&::placeholder': { color: 'var(--content-secondary)' },

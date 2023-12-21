@@ -3,6 +3,7 @@ import * as SelectBase from '@radix-ui/react-select'
 import { styled, Style } from 'inlines'
 import { IconCheckSmall, IconChevronDownSmall } from '../Icons'
 import { mergeRefs } from 'react-merge-refs'
+import { color } from '../../utils/colors'
 
 export type SelectInputProps = {
   placeholder?: string
@@ -107,7 +108,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                   variant === 'small'
                     ? '1px solid transparent'
                     : '1px solid var(--interactive-secondary)',
-                color: 'var(--content-primary)',
+                color: color('content', 'primary'),
                 '&:before': {
                   content: '""',
                   display: 'inline-block',
@@ -137,7 +138,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                   position: 'absolute',
                   top: variant === 'regular' ? 10 : 5,
                   right: variant === 'regular' ? 12 : 6,
-                  color: 'var(--content-primary)',
+                  color: color('content', 'primary'),
                 }}
               />
             </styled.div>
@@ -184,7 +185,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                             position: 'absolute',
                             top: 6,
                             left: 12,
-                            color: 'var(--content-primary)',
+                            color: color('content', 'primary'),
                           }}
                         />
                       </SelectBase.ItemIndicator>

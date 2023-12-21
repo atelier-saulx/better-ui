@@ -93,7 +93,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
           padding: '0 10px',
           borderRadius: 'var(--radius-small)',
           cursor: 'pointer',
-          color: 'var(--content-primary)',
+          color: color('content', 'primary'),
           '&:hover': {
             background: 'var(--background-neutral)',
           },
@@ -109,7 +109,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
         {icon}
         <span
           style={{
-            color: 'var(--content-primary)',
+            color: color('content', 'primary'),
             fontSize: 14,
             fontWeight: 600,
           }}

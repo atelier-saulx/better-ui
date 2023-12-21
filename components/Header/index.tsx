@@ -7,6 +7,7 @@ import { Thumbnail } from '../Thumbnail'
 import { useIsMobile } from '../../utils/hooks/useIsMobile'
 import { useTheme } from '../../utils/hooks/useTheme'
 import { BasedLogoWithText, BasedLogoWithoutText } from '../Icons/extras'
+import { color } from '../../utils/colors'
 
 export function Header() {
   const isMobile = useIsMobile()
@@ -119,7 +120,7 @@ export function Header() {
             <IconSettings />
             <div
               style={{
-                color: 'var(--content-primary)',
+                color: color('content', 'primary'),
                 fontSize: 14,
                 fontWeight: 600,
               }}
@@ -140,7 +141,7 @@ export function Header() {
             <IconEye />
             <div
               style={{
-                color: 'var(--content-primary)',
+                color: color('content', 'primary'),
                 fontSize: 14,
                 fontWeight: 600,
               }}
@@ -160,7 +161,7 @@ export function Header() {
             <IconLogOut />
             <div
               style={{
-                color: 'var(--content-primary)',
+                color: color('content', 'primary'),
                 fontSize: 14,
                 fontWeight: 600,
               }}

@@ -116,7 +116,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 variant === 'small'
                   ? '1px solid transparent'
                   : '1px solid var(--interactive-secondary)',
-              color: 'var(--content-primary)',
+              color: color('content', 'primary'),
               outline: 'none',
               appearance: 'none',
               '&::placeholder': { color: 'var(--content-secondary)' },

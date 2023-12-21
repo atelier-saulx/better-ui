@@ -321,7 +321,7 @@ function Status({
                   borderRadius: 4,
                   transition: 'opacity 0.1s',
                   cursor: 'pointer',
-                  color: 'var(--content-primary)',
+                  color: color('content', 'primary'),
                   '&:hover': {
                     background: 'var(--background-neutral)',
                   },

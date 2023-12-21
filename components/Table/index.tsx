@@ -22,6 +22,7 @@ import {
   BasedSchemaStringShared,
   display,
 } from '@based/schema'
+import { color } from '../../utils/colors'
 
 // TODO this is a mess currently, will clean it up soon. @vassbence
 
@@ -317,10 +318,10 @@ export function Table({
                               lineHeight: '24px',
                               fontWeight: 500,
                               color: header.column.getIsSorted()
-                                ? 'var(--content-primary)'
+                                ? color('content', 'primary')
                                 : 'var(--content-secondary)',
                               '&:hover': {
-                                color: 'var(--content-primary)',
+                                color: color('content', 'primary'),
                               },
                             }}
                           >
