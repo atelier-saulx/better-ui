@@ -59,7 +59,10 @@ export const Code: FC<CodeProps> = ({
   })
   const [, copyIt] = useCopyToClipboard(value ?? '')
   const isSmall = variant === 'small'
-  const isInverted = color === 'inverted'
+  const contentColor =
+    color === 'inverted'
+      ? getColor('content', 'inverted-muted')
+      : getColor('content', 'secondary')
   return (
     <styled.div
       style={{
@@ -120,9 +123,7 @@ export const Code: FC<CodeProps> = ({
           pointerEvents: !setValue ? 'none' : 'auto',
           margin: isSmall ? 16 : 24,
           fontSize: 14,
-          color: isInverted
-            ? getColor('content', 'inverted-muted')
-            : getColor('content', 'secondary'),
+          color: contentColor,
           fontFamily: 'Fira Code, monospace, sans-serif',
           outline: 'none !important',
         }}
@@ -133,9 +134,9 @@ export const Code: FC<CodeProps> = ({
           onClick={() => copyIt()}
           style={{
             position: 'absolute',
-            top: 8,
-            right: 8,
-            color: getColor('interactive', 'primary'),
+            top: 16,
+            right: 16,
+            color: contentColor,
           }}
         >
           <IconCopy style={{ width: 18, height: 18 }} />

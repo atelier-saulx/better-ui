@@ -4,7 +4,7 @@ import '../styles/fonts.css'
 import '../styles/semanticColors.css'
 import '../styles/keyframes.css'
 
-export * from '../components/CodeInput'
+export * from '../components/Code'
 export * from '../components/Button'
 export * from '../components/TextInput'
 export * from '../components/SelectInput'
