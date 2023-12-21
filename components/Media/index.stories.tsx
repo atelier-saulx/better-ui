@@ -5,7 +5,7 @@ import { styled } from 'inlines'
 import { color } from '../../utils/colors'
 
 const meta: Meta<typeof Media> = {
-  title: 'Components/Media',
+  title: 'Atoms/Media',
   component: Media,
   parameters: {
     layout: 'fullscreen',

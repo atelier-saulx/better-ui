@@ -7,7 +7,7 @@ import { IconCopy, IconDelete, IconMoreHorizontal } from '../Icons'
 import { Dropdown } from '../Dropdown'
 
 const meta: Meta<typeof Grid> = {
-  title: 'Components/(WIP) Grid',
+  title: 'Components/Grid',
   component: Grid,
   parameters: {
     layout: 'fullscreen',

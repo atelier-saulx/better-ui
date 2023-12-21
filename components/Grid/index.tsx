@@ -5,6 +5,8 @@ import { styled } from 'inlines'
 import { Folder, Paper } from '../Icons/extras'
 import { textVariants } from '../Text'
 
+// TODO this component is a WIP, API will be changed to match the Table
+
 export type GridProps = {
   variant?: 'row' | 'column'
   items: {

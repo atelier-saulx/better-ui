@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Video } from '.'
 
 const meta = {
-  title: 'Components/Video',
+  title: 'Atoms/Video',
   parameters: {
     layout: 'fullscreen',
   },
