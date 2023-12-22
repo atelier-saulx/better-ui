@@ -1,7 +1,7 @@
-import { CloseObserve } from '@based/client/dist/types'
 import { useClient } from '@based/react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useCallbackRef } from './useCallbackRef.js'
+import { BasedQuery } from '@based/client'
 
 export type UseInfiniteQueryProps = {
   queryFn: (offset: number) => any
@@ -12,7 +12,9 @@ export type UseInfiniteQueryProps = {
 
 export function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const client = useClient()
-  const subscriptions = useRef<(CloseObserve | null)[]>([])
+  const subscriptions = useRef<
+    (ReturnType<typeof BasedQuery.prototype.subscribe> | null)[]
+  >([])
   const dataChecksums = useRef<number[]>([])
   const fetchingMore = useRef(false)
   const queryFn = useCallbackRef(props.queryFn)
@@ -24,10 +26,10 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
     () => Math.max(...data.map((e) => (e ? accessFn(e) : []).length)),
     [data, accessFn]
   )
-  const flatData = useMemo(() => data.flatMap((e) => (e ? accessFn(e) : [])), [
-    data,
-    accessFn,
-  ])
+  const flatData = useMemo(
+    () => data.flatMap((e) => (e ? accessFn(e) : [])),
+    [data, accessFn]
+  )
 
   const fetchMore = useCallback(() => {
     if (!fetchingMore.current) {
