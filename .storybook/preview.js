@@ -1,7 +1,7 @@
-import '../src/styles/reset.css'
-import '../src/styles/variables.css'
-import '../src/styles/fonts.css'
-import '../src/styles/keyframes.css'
+import '../dist/styles/reset.css'
+import '../dist/styles/variables.css'
+import '../dist/styles/fonts.css'
+import '../dist/styles/keyframes.css'
 
 const preview = {
   parameters: {

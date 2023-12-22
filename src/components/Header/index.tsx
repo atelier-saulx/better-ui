@@ -11,7 +11,7 @@ import {
   IconLogOut,
   IconMenu,
   IconSettings,
-} from '~'
+} from '../../index.js'
 import { BasedLogoWithText, BasedLogoWithoutText } from '../Icons/extras.js'
 
 export function Header() {

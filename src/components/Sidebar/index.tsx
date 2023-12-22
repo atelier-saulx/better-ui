@@ -9,7 +9,7 @@ import {
   textVariants,
   borderRadius,
   color,
-} from '~'
+} from '../../index.js'
 
 const SidebarContext = React.createContext({
   open: true,

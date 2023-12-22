@@ -1,5 +1,5 @@
 const config = {
-  stories: ['../src/**/*.stories.tsx'],
+  stories: ['../dist/**/*.stories.js'],
   addons: [
     '@storybook/addon-controls',
     '@storybook/addon-viewport',

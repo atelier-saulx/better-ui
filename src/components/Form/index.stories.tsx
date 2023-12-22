@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { Form } from '.'
+import { Form, border } from '../../index.js'
 import { BasedSchemaField } from '@based/schema'
-import { border } from '../../utils/colors'
 
 const meta = {
   title: 'Components/Form',

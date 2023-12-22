@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { BasedSchemaFieldReference } from '@based/schema'
-import { Stack, Badge, IconLink, Media, Text, color } from '~'
+import { Stack, Badge, IconLink, Media, Text, color } from '../../index.js'
 import { Path, TableCtx } from './types.js'
 import { readPath } from './utils.js'
 import { styled } from 'inlines'

@@ -9,7 +9,7 @@ import {
   color as getColor,
   useControllableState,
   useCopyToClipboard,
-} from '~'
+} from '../../index.js'
 
 import Editor from './ReactSimpleEditor.js'
 // @ts-ignore
@@ -23,7 +23,6 @@ import 'prismjs/components/prism-jsx.min'
 import 'prismjs/components/prism-tsx.min'
 import 'prismjs/components/prism-json'
 import 'prismjs/components/prism-css'
-import './syntax.css'
 
 export type CodeProps = {
   value?: string

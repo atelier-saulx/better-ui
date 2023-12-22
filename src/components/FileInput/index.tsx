@@ -14,7 +14,7 @@ import {
   borderRadius,
   color,
   Media,
-} from '~'
+} from '../../index.js'
 
 import { FileDrop } from 'react-file-drop'
 

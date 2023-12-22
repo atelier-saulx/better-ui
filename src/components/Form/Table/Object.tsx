@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { Stack, border, color } from '~'
+import { Stack, border, color } from '../../../index.js'
 import { BasedSchemaFieldObject } from '@based/schema'
 import { TableProps } from '../types.js'
 import { readPath, useCols, getTitle } from '../utils.js'

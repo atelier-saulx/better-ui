@@ -1,7 +1,12 @@
 import * as React from 'react'
 import * as SelectBase from '@radix-ui/react-select'
 import { styled, Style } from 'inlines'
-import { IconCheckSmall, IconChevronDownSmall, borderRadius, color } from '~'
+import {
+  IconCheckSmall,
+  IconChevronDownSmall,
+  borderRadius,
+  color,
+} from '../../index.js'
 import { mergeRefs } from 'react-merge-refs'
 
 export type SelectInputProps = {

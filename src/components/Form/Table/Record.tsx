@@ -1,6 +1,13 @@
 import React, { ReactNode } from 'react'
 import { styled } from 'inlines'
-import { Stack, border, color, Button, IconPlus, TextInput } from '~'
+import {
+  Stack,
+  border,
+  color,
+  Button,
+  IconPlus,
+  TextInput,
+} from '../../../index.js'
 import { TableProps } from '../types.js'
 import { readPath, useCols } from '../utils.js'
 import { Cell } from './Cell.js'

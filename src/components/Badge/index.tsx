@@ -9,7 +9,7 @@ import {
   SemanticVariant,
   borderRadius,
   color as getColor,
-} from '~'
+} from '../../index.js'
 
 export type BadgeProps = {
   children: React.ReactNode

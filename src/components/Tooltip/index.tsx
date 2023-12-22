@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as TooltipBase from '@radix-ui/react-tooltip'
-import { borderRadius, color } from '~'
+import { borderRadius, color } from '../../index.js'
 
 export type TooltipProps = {
   children: React.ReactNode

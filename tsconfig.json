@@ -1,13 +1,9 @@
 {
   "extends": "@saulx/tsconfig/default.json",
   "include": ["./src"],
-  "exclude": ["**/*.stories.tsx", "/src/**/*.stories.tsx"],
   "compilerOptions": {
     "jsx": "react",
     "outDir": "dist",
-    "esModuleInterop": true,
-    "allowJs": true,
-    "noPropertyAccessFromIndexSignature": false,
     "paths": {
       "~": ["./src/index.js"]
     }

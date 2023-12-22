@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createPortal } from 'react-dom'
-import { IconClose, textVariants, borderRadius, color } from '~'
+import { IconClose, textVariants, borderRadius, color } from '../../index.js'
 
 type Toast =
   | string

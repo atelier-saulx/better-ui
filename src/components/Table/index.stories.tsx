@@ -7,9 +7,9 @@ import {
   IconCopy,
   IconDelete,
   IconMoreVertical,
+  Dropdown,
 } from '../../index.js'
 import { faker } from '@faker-js/faker'
-import { Dropdown } from '../Dropdown'
 import { Provider } from '@based/react'
 import based from '@based/client'
 

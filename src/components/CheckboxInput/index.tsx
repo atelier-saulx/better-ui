@@ -6,7 +6,7 @@ import {
   Stack,
   useControllableState,
   IconSmallCheck,
-} from '~'
+} from '../../index.js'
 import { Style, styled } from 'inlines'
 
 export type CheckboxInputProps = {

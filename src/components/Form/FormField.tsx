@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { BasedSchemaField } from '@based/schema'
-import { Text, Stack, border } from '~'
+import { Text, Stack, border } from '../../index.js'
 import { Variant } from './types.js'
 import { getTitle } from './utils.js'
 

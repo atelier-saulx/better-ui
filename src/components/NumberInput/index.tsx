@@ -6,7 +6,7 @@ import {
   IconSmallArrowheadTop,
   borderRadius,
   color,
-} from '~'
+} from '../../index.js'
 
 export type NumberInputProps = {
   placeholder?: string

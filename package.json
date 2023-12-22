@@ -3,9 +3,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "storybook dev -p 6006",
-    "clean": "rimraf dist",
-    "build": "npx tsc && cp -r ./src/styles ./dist/styles",
+    "dev": "concurrently 'npx tsc -w' 'storybook dev -p 6006'",
+    "build": "rm -rf dist && npx tsc && cp -r ./src/styles ./dist/styles",
     "build-storybook": "storybook build"
   },
   "main": "./dist/index.js",
@@ -48,7 +47,6 @@
     "@types/react-dom": "^18.2.17",
     "pascal-case": "^4.0.0",
     "prettier": "^2.2.1",
-    "rimraf": "^5.0.5",
     "typescript": "^5.3.3",
     "undici": "^6.0.1",
     "storybook": "^7.6.6",

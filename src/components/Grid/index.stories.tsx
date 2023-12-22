@@ -36,7 +36,7 @@ export const Default = () => {
     <div style={{ padding: 64 }}>
       <Grid
         items={items}
-        itemAction={(item) => (
+        itemAction={() => (
           <Dropdown.Root>
             <Dropdown.Trigger>
               <Button variant="icon-only">
@@ -60,7 +60,7 @@ export const Row = () => {
       <Grid
         items={items}
         variant="row"
-        itemAction={(item) => (
+        itemAction={() => (
           <Dropdown.Root>
             <Dropdown.Trigger>
               <Button variant="icon-only">

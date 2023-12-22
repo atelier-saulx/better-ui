@@ -2,6 +2,7 @@ import './styles/reset.css'
 import './styles/variables.css'
 import './styles/fonts.css'
 import './styles/keyframes.css'
+import './styles/syntax.css'
 
 export * from './components/Code/index.js'
 export * from './components/Button/index.js'

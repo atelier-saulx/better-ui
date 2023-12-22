@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { borderRadius, color, textVariants } from '~'
+import { borderRadius, color, textVariants } from '../../index.js'
 
 export type ButtonProps = {
   children: React.ReactNode

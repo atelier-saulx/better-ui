@@ -9,7 +9,7 @@ import {
   TextInput,
   IconClose,
   IconPlus,
-} from '~'
+} from '../../index.js'
 import { Path, TableCtx } from './types.js'
 import { readPath } from './utils.js'
 

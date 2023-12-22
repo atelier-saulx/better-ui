@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { Text, border, borderRadius, color, textVariants } from '~'
+import { Text, border, borderRadius, color, textVariants } from '../../index.js'
 import { Folder, Paper } from '../Icons/extras.js'
 
 // TODO this component is a WIP, API will be changed to match the Table

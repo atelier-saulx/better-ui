@@ -9,7 +9,7 @@ import {
   border,
   color as getColor,
   textVariants,
-} from '~'
+} from '../../index.js'
 
 // TODO think about if we need text over image, if so how do we handle the colors of the text
 

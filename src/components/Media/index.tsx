@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
 import { BasedSchemaContentMediaType } from '@based/schema'
-import { Video, textVariants, color, getMimeType } from '~'
+import { Video, textVariants, color, getMimeType } from '../../index.js'
 import { Folder, Paper } from '../Icons/extras.js'
 
 export type MediaProps = {

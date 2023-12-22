@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { IconChevronDown, useControllableState, color } from '~'
+import { IconChevronDown, useControllableState, color } from '../../index.js'
 
 export type ContainerProps = {
   children?: React.ReactNode

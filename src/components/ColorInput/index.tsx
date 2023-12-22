@@ -1,5 +1,10 @@
 import * as React from 'react'
-import { useControllableState, border, borderRadius, color } from '~'
+import {
+  useControllableState,
+  border,
+  borderRadius,
+  color,
+} from '../../index.js'
 import * as Popover from '@radix-ui/react-popover'
 import { styled, Style } from 'inlines'
 

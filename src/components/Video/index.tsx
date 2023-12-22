@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Hls from 'hls.js'
-import { textVariants } from '~'
+import { textVariants } from '../../index.js'
 import { styled } from 'inlines'
 
 export type VideoProps = {

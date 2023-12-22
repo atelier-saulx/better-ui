@@ -11,7 +11,7 @@ import {
   color,
   useControllableState,
   TextInput,
-} from '~'
+} from '../../index.js'
 import { styled, Style } from 'inlines'
 import {
   addMonths,

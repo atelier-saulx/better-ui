@@ -10,7 +10,7 @@ import {
   ColorInput,
   Code,
   CheckboxInput,
-} from '~'
+} from '../../../index.js'
 import { readPath, isCode } from '../utils.js'
 import { TableCtx, Path } from '../types.js'
 import { Table } from './index.js'

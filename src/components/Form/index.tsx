@@ -11,7 +11,7 @@ import {
   TextAreaInput,
   SelectInput,
   ColorInput,
-} from '~'
+} from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
 import { isTable, isCode } from './utils.js'

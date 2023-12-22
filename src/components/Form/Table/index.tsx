@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled } from 'inlines'
 import { BasedSchemaField } from '@based/schema'
-import { Stack, border, color, Text } from '~'
+import { Stack, border, color, Text } from '../../../index.js'
 import { TableProps } from '../types.js'
 import {
   readPath,

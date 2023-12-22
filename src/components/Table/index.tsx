@@ -14,7 +14,7 @@ import {
   IconSortAsc,
   IconSortDesc,
   color,
-} from '~'
+} from '../../index.js'
 import {
   BasedSchema,
   BasedSchemaField,

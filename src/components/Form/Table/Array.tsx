@@ -10,7 +10,7 @@ import {
   IconChevronRight,
   IconPlus,
   Badge,
-} from '~'
+} from '../../../index.js'
 import { TableProps } from '../types.js'
 import {
   getIdentifierField,

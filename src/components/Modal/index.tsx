@@ -1,7 +1,13 @@
 import * as React from 'react'
 import { styled } from 'inlines'
 import * as ModalBase from '@radix-ui/react-dialog'
-import { useControllableState, Button, TextInput, borderRadius, color } from '~'
+import {
+  useControllableState,
+  Button,
+  TextInput,
+  borderRadius,
+  color,
+} from '../../index.js'
 
 type UseModalContextProps = {
   open: boolean
