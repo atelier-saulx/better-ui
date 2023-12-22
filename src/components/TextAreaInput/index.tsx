@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { border, borderRadius, color } from '../../index.js'
+import { border, borderRadius, boxShadow, color } from '../../index.js'
 
 export type TextAreaInputProps = {
   placeholder?: string
@@ -123,10 +123,7 @@ export const TextAreaInput = React.forwardRef<
                 variant === 'regular'
                   ? borderRadius('small')
                   : borderRadius('tiny'),
-              border:
-                variant === 'small'
-                  ? '1px solid transparent'
-                  : border(),
+              border: variant === 'small' ? '1px solid transparent' : border(),
               color: color('content', 'primary'),
               gridArea: '1 / 1 / 2 / 2',
               outline: 'none',
@@ -139,8 +136,7 @@ export const TextAreaInput = React.forwardRef<
               },
               '&:focus, &:focus:hover': {
                 border: '1px solid var(--interactive-primary)',
-                boxShadow:
-                  '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+                boxShadow: boxShadow('focus'),
               },
               resize: 'none',
               overflow: 'hidden',
@@ -151,8 +147,7 @@ export const TextAreaInput = React.forwardRef<
                 },
                 '&:focus, &:focus:hover': {
                   border: border('error'),
-                  boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
+                  boxShadow: boxShadow('error'),
                 },
               }),
             }}

@@ -6,6 +6,7 @@ import {
   IconChevronDownSmall,
   border,
   borderRadius,
+  boxShadow,
   color,
 } from '../../index.js'
 import { mergeRefs } from 'react-merge-refs'
@@ -74,8 +75,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               ...(error && {
                 '&[data-state="open"] > div': {
                   border: border('error'),
-                  boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
+                  boxShadow: boxShadow('error'),
                 },
               }),
               ...style,
@@ -110,9 +110,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                     ? borderRadius('small')
                     : borderRadius('tiny'),
                 border:
-                  variant === 'small'
-                    ? '1px solid transparent'
-                    : border(),
+                  variant === 'small' ? '1px solid transparent' : border(),
                 color: color('content', 'primary'),
                 '&:before': {
                   content: '""',
@@ -165,11 +163,8 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           >
             <SelectBase.Viewport style={{ padding: 8 }}>
               {options?.map((option) => {
-                const {
-                  value,
-                  label = null,
-                  prefix = null,
-                } = typeof option === 'string' ? { value: option } : option
+                const { value, label = null, prefix = null } =
+                  typeof option === 'string' ? { value: option } : option
 
                 return (
                   <SelectBase.Item key={value} value={value} asChild>

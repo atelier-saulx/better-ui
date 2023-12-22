@@ -11,6 +11,7 @@ import {
   color,
   useControllableState,
   TextInput,
+  boxShadow,
 } from '../../index.js'
 import { styled, Style } from 'inlines'
 import {
@@ -120,7 +121,7 @@ export function DateInput({
               '&[data-state="open"] > div': {
                 border: border('error'),
                 boxShadow:
-                  '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
+                  boxShadow('error'),
               },
             }),
             ...style,
@@ -166,7 +167,7 @@ export function DateInput({
               '&:focus, &:focus:hover': {
                 border: '1px solid var(--interactive-primary)',
                 boxShadow:
-                  '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+                  boxShadow('focus'),
               },
               ...(error && {
                 border: border('error'),
@@ -176,7 +177,7 @@ export function DateInput({
                 '&:focus, &:focus:hover': {
                   border: border('error'),
                   boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
+                    boxShadow('error'),
                 },
               }),
             }}

@@ -7,6 +7,7 @@ import {
   borderRadius,
   color,
   border,
+  boxShadow,
 } from '../../index.js'
 
 export type NumberInputProps = {
@@ -134,7 +135,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               '&:focus, &:focus:hover': {
                 border: '1px solid var(--interactive-primary)',
                 boxShadow:
-                  '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+                  boxShadow('focus'),
               },
               '&::-webkit-outer-spin-button': {
                 '-webkit-appearance': 'none',
@@ -152,7 +153,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 '&:focus, &:focus:hover': {
                   border: border('error'),
                   boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
+                    boxShadow('error'),
                 },
               }),
             }}

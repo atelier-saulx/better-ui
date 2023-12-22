@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color, borderRadius, border } from '../../index.js'
+import { color, borderRadius, border, boxShadow } from '../../index.js'
 
 export type TextInputProps = {
   placeholder?: string
@@ -100,23 +100,17 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               variant === 'regular'
                 ? borderRadius('small')
                 : borderRadius('tiny'),
-            border:
-              variant === 'small'
-                ? '1px solid transparent'
-                : border(),
+            border: variant === 'small' ? '1px solid transparent' : border(),
             color: color('content', 'primary'),
             outline: 'none',
             '&::placeholder': { color: color('content', 'secondary') },
             '&:hover': {
               border:
-                variant === 'small'
-                  ? '1px solid transparent'
-                  : border('hover'),
+                variant === 'small' ? '1px solid transparent' : border('hover'),
             },
             '&:focus, &:focus:hover': {
               border: '1px solid var(--interactive-primary)',
-              boxShadow:
-                '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+              boxShadow: boxShadow('focus'),
             },
             ...(error && {
               border: border('error'),
@@ -125,8 +119,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               },
               '&:focus, &:focus:hover': {
                 border: border('error'),
-                boxShadow:
-                  '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
+                boxShadow: boxShadow('error'),
               },
             }),
           }}

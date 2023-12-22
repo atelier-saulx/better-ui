@@ -37,6 +37,11 @@
   --border-focus: var(--interactive-primary);
   --border-error: var(--semantic-background-error);
 
+  --box-shadow-focus: 0 0 0 2px
+    color-mix(in srgb, var(--interactive-primary) 20%, transparent);
+  --box-shadow-error: 0 0 0 2px
+    color-mix(in srgb, var(--semantic-background-error) 20%, transparent);
+
   /* semantic colors  */
   /* neutral regular */
   --semantic-color-neutral: #ffffff;

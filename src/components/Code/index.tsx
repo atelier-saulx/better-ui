@@ -9,6 +9,7 @@ import {
   color as getColor,
   useControllableState,
   useCopyToClipboard,
+  boxShadow,
 } from '../../index.js'
 
 import Editor from './ReactSimpleEditor.js'
@@ -82,7 +83,7 @@ export const Code: FC<CodeProps> = ({
           ? `1px solid transparent`
           : border(),
         boxShadow: isFocus
-          ? '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent)'
+          ? boxShadow('focus')
           : undefined,
         ...style,
       }}

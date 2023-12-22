@@ -45,10 +45,13 @@ export const color = <T extends keyof Color>(
 export const border = (
   variant: 'default' | 'hover' | 'muted' | 'focus' | 'error' = 'default',
   size: number = 1
-): string => {
+) => {
   return `${size}px solid var(--border-${variant})`
 }
 
 export const borderRadius = (
   radius: 'tiny' | 'small' | 'medium' | 'large' | 'full'
 ) => `var(--radius-${radius})`
+
+export const boxShadow = (variant: 'focus' | 'error') =>
+  `var(--box-shadow-${variant})`
