@@ -73,7 +73,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               },
               ...(error && {
                 '&[data-state="open"] > div': {
-                  border: '1px solid var(--semantic-background-error)',
+                  border: border('error'),
                   boxShadow:
                     '0 0 0 2px color-mix(in srgb, var(--semantic-background-error) 20%, transparent)',
                 },
@@ -130,9 +130,9 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                     '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
                 },
                 ...(error && {
-                  border: '1px solid var(--semantic-background-error)',
+                  border: border('error'),
                   '&:hover': {
-                    border: '1px solid var(--semantic-background-error)',
+                    border: border('error'),
                   },
                 }),
               }}

@@ -141,7 +141,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ...(variant === 'error' && {
             color: color('content', 'inverted'),
             background: 'var(--semantic-background-error)',
-            border: '1px solid var(--semantic-background-error)',
+            border: border('error'),
             '&:hover': {
               background: 'var(--semantic-background-error-hover)',
               border: '1px solid var(--semantic-background-error-hover)',
