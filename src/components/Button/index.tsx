@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { borderRadius, color, textVariants } from '../../index.js'
+import { border, borderRadius, color, textVariants } from '../../index.js'
 
 export type ButtonProps = {
   children: React.ReactNode
@@ -123,7 +123,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ...(variant === 'neutral' && {
             color: color('content', 'primary'),
             background: 'transparent',
-            border: '1px solid var(--interactive-secondary)',
+            border: border(),
             '&:hover': {
               background: color('background', 'neutral'),
               border: '1px solid var(--interactive-secondary-hover)',

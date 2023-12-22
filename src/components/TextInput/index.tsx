@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color, borderRadius } from '../../index.js'
+import { color, borderRadius, border } from '../../index.js'
 
 export type TextInputProps = {
   placeholder?: string
@@ -103,7 +103,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             border:
               variant === 'small'
                 ? '1px solid transparent'
-                : '1px solid var(--interactive-secondary)',
+                : border(),
             color: color('content', 'primary'),
             outline: 'none',
             '&::placeholder': { color: color('content', 'secondary') },

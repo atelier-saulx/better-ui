@@ -4,6 +4,7 @@ import { styled, Style } from 'inlines'
 import {
   IconCheckSmall,
   IconChevronDownSmall,
+  border,
   borderRadius,
   color,
 } from '../../index.js'
@@ -111,7 +112,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 border:
                   variant === 'small'
                     ? '1px solid transparent'
-                    : '1px solid var(--interactive-secondary)',
+                    : border(),
                 color: color('content', 'primary'),
                 '&:before': {
                   content: '""',
@@ -157,7 +158,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               width: 'var(--radix-select-trigger-width)',
               maxHeight: 'var(--radix-select-content-available-height)',
               borderRadius: borderRadius('small'),
-              border: '1px solid var(--interactive-secondary)',
+              border: border(),
               boxShadow: 'var(--shadow-elevation)',
             }}
             sideOffset={8}

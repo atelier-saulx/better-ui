@@ -149,7 +149,7 @@ export function ColorInput({
               border:
                 variant === 'small'
                   ? '1px solid transparent'
-                  : '1px solid var(--interactive-secondary)',
+                  : border(),
               '&:hover': {
                 border:
                   variant === 'small'

@@ -9,6 +9,7 @@ import {
   textVariants,
   borderRadius,
   color,
+  border,
 } from '../../index.js'
 
 const SidebarContext = React.createContext({
@@ -47,7 +48,7 @@ export function Sidebar({
         position: 'relative',
         width: open ? 248 : 65,
         height: '100%',
-        borderRight: '1px solid var(--interactive-secondary)',
+        borderRight: border(),
         padding: '16px 12px',
         '& > * + *': { marginTop: '8px' },
       }}

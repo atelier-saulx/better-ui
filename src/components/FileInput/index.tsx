@@ -14,6 +14,7 @@ import {
   borderRadius,
   color,
   Media,
+  border,
 } from '../../index.js'
 
 import { FileDrop } from 'react-file-drop'
@@ -213,10 +214,10 @@ function StyledStatus({
                 },
               }),
               ...(status === 'uploading' && {
-                border: '1px solid var(--interactive-secondary)',
+                border: border(),
               }),
               ...(status === 'success' && {
-                border: '1px solid var(--interactive-secondary)',
+                border: border(),
               }),
               ...(status === 'error' && {
                 cursor: 'pointer',

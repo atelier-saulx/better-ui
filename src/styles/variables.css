@@ -32,8 +32,9 @@
 
   /* borders */
   --border-muted: rgba(16, 40, 72, 0.09);
-  --border-default: #e9ecef;
-  --border-focus: #634eca;
+  --border-default: var(--interactive-secondary);
+  --border-default-hover: var(var(--interactive-secondary-hover));
+  --border-focus: var(--interactive-primary);
 
   /* semantic colors  */
   /* neutral regular */

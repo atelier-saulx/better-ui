@@ -6,6 +6,7 @@ import {
   IconSmallArrowheadTop,
   borderRadius,
   color,
+  border,
 } from '../../index.js'
 
 export type NumberInputProps = {
@@ -119,7 +120,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               border:
                 variant === 'small'
                   ? '1px solid transparent'
-                  : '1px solid var(--interactive-secondary)',
+                  : border(),
               color: color('content', 'primary'),
               outline: 'none',
               appearance: 'none',

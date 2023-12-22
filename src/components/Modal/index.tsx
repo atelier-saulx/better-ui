@@ -7,6 +7,7 @@ import {
   TextInput,
   borderRadius,
   color,
+  border,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -169,8 +170,8 @@ export function Body({ children }: ModalBodyProps) {
         padding: '24px 32px',
         flex: 1,
         overflowY: 'auto',
-        borderTop: '1px solid var(--interactive-secondary)',
-        borderBottom: '1px solid var(--interactive-secondary)',
+        borderTop: border(),
+        borderBottom: border(),
       }}
     >
       {children}

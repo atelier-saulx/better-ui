@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { IconChevronDown, useControllableState, color } from '../../index.js'
+import { IconChevronDown, useControllableState, color, border } from '../../index.js'
 
 export type ContainerProps = {
   children?: React.ReactNode
@@ -45,7 +45,7 @@ export function Container({
       style={{
         width: '100%',
         borderRadius: 8,
-        border: '1px solid var(--interactive-secondary)',
+        border: border(),
         ...style,
       }}
     >
@@ -111,7 +111,7 @@ export function Container({
           style={{
             padding: 16,
             ...(divider && {
-              borderTop: '1px solid var(--interactive-secondary)',
+              borderTop: border(),
             }),
           }}
         >

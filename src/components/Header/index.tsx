@@ -11,6 +11,7 @@ import {
   IconLogOut,
   IconMenu,
   IconSettings,
+  border,
 } from '../../index.js'
 import { BasedLogoWithText, BasedLogoWithoutText } from '../Icons/extras.js'
 
@@ -24,7 +25,7 @@ export function Header() {
       <header
         style={{
           height: 64,
-          borderBottom: '1px solid var(--interactive-secondary)',
+          borderBottom: border(),
           background: color('background', 'screen'),
           display: 'flex',
           alignItems: 'center',
@@ -119,7 +120,7 @@ export function Header() {
               height: 48,
               '& > * + *': { marginLeft: '10px' },
               padding: '0 24px',
-              borderBottom: '1px solid var(--interactive-secondary)',
+              borderBottom: border(),
             }}
           >
             <IconSettings />
@@ -140,7 +141,7 @@ export function Header() {
               height: 48,
               '& > * + *': { marginLeft: '10px' },
               padding: '0 24px',
-              borderBottom: '1px solid var(--interactive-secondary)',
+              borderBottom: border(),
             }}
           >
             <IconEye />

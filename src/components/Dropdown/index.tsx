@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { styled } from 'inlines'
 import * as DropdownBase from '@radix-ui/react-dropdown-menu'
-import { borderRadius, color } from '../../index.js'
+import { border, borderRadius, color } from '../../index.js'
 
 export type DropdownRootProps = { children: React.ReactNode }
 
@@ -39,7 +39,7 @@ export function Items({ children }: DropdownItemsProps) {
             overflowY: 'auto',
             maxHeight: 'var(--radix-dropdown-menu-content-available-height)',
             borderRadius: borderRadius('small'),
-            border: '1px solid var(--interactive-secondary)',
+            border: border(),
             boxShadow: 'var(--shadow-elevation)',
             padding: 8,
           }}

@@ -156,7 +156,7 @@ export function DateInput({
               border:
                 variant === 'small'
                   ? '1px solid transparent'
-                  : '1px solid var(--interactive-secondary)',
+                  : border(),
               '&:hover': {
                 border:
                   variant === 'small'
@@ -205,7 +205,7 @@ export function DateInput({
             maxHeight:
               'calc(var(--radix-popover-content-available-height) - 8px)',
             padding: '16px 16px 0px',
-            border: '1px solid var(--interactive-secondary)',
+            border: border(),
             background: color('background', 'screen'),
             boxShadow: 'var(--shadow-elevation)',
             borderRadius: borderRadius('small'),
