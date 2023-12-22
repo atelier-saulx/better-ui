@@ -111,7 +111,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               border:
                 variant === 'small'
                   ? '1px solid transparent'
-                  : '1px solid var(--interactive-secondary-hover)',
+                  : border('hover'),
             },
             '&:focus, &:focus:hover': {
               border: '1px solid var(--interactive-primary)',

@@ -43,7 +43,7 @@ export const color = <T extends keyof Color>(
 }
 
 export const border = (
-  variant: 'default' | 'muted' | 'focus' = 'default',
+  variant: 'default' | 'hover' | 'muted' | 'focus' = 'default',
   size: number = 1
 ): string => {
   return `${size}px solid var(--border-${variant})`

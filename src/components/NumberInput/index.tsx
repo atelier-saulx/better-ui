@@ -129,7 +129,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 border:
                   variant === 'small'
                     ? '1px solid transparent'
-                    : '1px solid var(--interactive-secondary-hover)',
+                    : border('hover'),
               },
               '&:focus, &:focus:hover': {
                 border: '1px solid var(--interactive-primary)',
