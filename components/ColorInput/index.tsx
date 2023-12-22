@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { useControllableState } from '../../utils/hooks/useControllableState'
+import { useControllableState } from '../../src/utils/hooks/useControllableState'
 import * as Popover from '@radix-ui/react-popover'
 import { styled, Style } from 'inlines'
-import { border, borderRadius, color } from '../../utils/colors'
+import { border, borderRadius, color } from '../../src/utils/colors'
 
 export type ColorInputProps = {
   value?: string

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { BasedSchemaField } from '@based/schema'
 import { Text } from '../Text'
 import { Stack } from '../Stack'
-import { border } from '../../utils/colors'
+import { border } from '../../src/utils/colors'
 import { Variant } from './types'
 import { getTitle } from './utils'
 

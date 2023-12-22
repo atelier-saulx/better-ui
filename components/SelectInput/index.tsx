@@ -3,7 +3,7 @@ import * as SelectBase from '@radix-ui/react-select'
 import { styled, Style } from 'inlines'
 import { IconCheckSmall, IconChevronDownSmall } from '../Icons'
 import { mergeRefs } from 'react-merge-refs'
-import { borderRadius, color } from '../../utils/colors'
+import { borderRadius, color } from '../../src/utils/colors'
 
 export type SelectInputProps = {
   placeholder?: string

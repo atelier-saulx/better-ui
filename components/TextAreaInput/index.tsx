@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { borderRadius, color } from '../../utils/colors'
+import { borderRadius, color } from '../../src/utils/colors'
 
 export type TextAreaInputProps = {
   placeholder?: string

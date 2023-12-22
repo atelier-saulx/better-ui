@@ -8,7 +8,7 @@ import { IconLink } from '../Icons'
 import { Media } from '../Media'
 import { Text } from '../Text'
 import { styled } from 'inlines'
-import { color } from '../../utils/colors'
+import { color } from '../../src/utils/colors'
 
 export function Reference({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field } = readPath<BasedSchemaFieldReference>(ctx, path)

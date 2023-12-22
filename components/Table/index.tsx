@@ -6,7 +6,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
-import { useCallbackRef } from '../../utils/hooks/useCallbackRef'
+import { useCallbackRef } from '../../src/utils/hooks/useCallbackRef'
 import { IconSortAsc, IconSortDesc } from '../Icons'
 import { Badge } from '../Badge'
 import { Thumbnail } from '../Thumbnail'
@@ -22,7 +22,7 @@ import {
   BasedSchemaStringShared,
   display,
 } from '@based/schema'
-import { color } from '../../utils/colors'
+import { color } from '../../src/utils/colors'
 
 // TODO this is a mess currently, will clean it up soon. @vassbence
 

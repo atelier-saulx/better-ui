@@ -5,8 +5,8 @@ import {
   SEMANTIC_COLORS,
   SemanticVariant,
   borderRadius,
-} from '../../utils/colors'
-import { border, color as getColor } from '../../utils/colors'
+} from '../../src/utils/colors'
+import { border, color as getColor } from '../../src/utils/colors'
 import { textVariants } from '../Text'
 import { Style } from 'inlines'
 

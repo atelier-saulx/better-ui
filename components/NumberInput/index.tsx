@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { useControllableState } from '../../utils/hooks/useControllableState'
+import { useControllableState } from '../../src/utils/hooks/useControllableState'
 import { IconSmallArrowheadDown, IconSmallArrowheadTop } from '../Icons'
-import { borderRadius, color } from '../../utils/colors'
+import { borderRadius, color } from '../../src/utils/colors'
 
 export type NumberInputProps = {
   placeholder?: string

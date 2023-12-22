@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Text } from '../Text'
 import { Stack } from '../Stack'
-import { color, border, borderRadius } from '../../utils/colors'
+import { color, border, borderRadius } from '../../src/utils/colors'
 import { Path, TableCtx } from './Table/types'
 import { Button } from '../Button'
 import { IconClose, IconPlus } from '../Icons'

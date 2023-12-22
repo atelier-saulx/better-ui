@@ -4,10 +4,10 @@ import { IconEye, IconLogOut, IconMenu, IconSettings } from '../Icons'
 import { Button } from '../Button'
 import { Dropdown } from '../Dropdown'
 import { Thumbnail } from '../Thumbnail'
-import { useIsMobile } from '../../utils/hooks/useIsMobile'
-import { useTheme } from '../../utils/hooks/useTheme'
+import { useIsMobile } from '../../src/utils/hooks/useIsMobile'
+import { useTheme } from '../../src/utils/hooks/useTheme'
 import { BasedLogoWithText, BasedLogoWithoutText } from '../Icons/extras'
-import { color } from '../../utils/colors'
+import { color } from '../../src/utils/colors'
 
 export function Header() {
   const isMobile = useIsMobile()

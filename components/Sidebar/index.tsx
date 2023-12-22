@@ -3,10 +3,10 @@ import { styled } from 'inlines'
 import { IconViewLayoutLeft } from '../Icons'
 import { Tooltip } from '../Tooltip'
 import { Button } from '../Button'
-import { useIsMobile } from '../../utils/hooks/useIsMobile'
-import { useControllableState } from '../../utils/hooks/useControllableState'
+import { useIsMobile } from '../../src/utils/hooks/useIsMobile'
+import { useControllableState } from '../../src/utils/hooks/useControllableState'
 import { textVariants } from '../Text'
-import { borderRadius, color } from '../../utils/colors'
+import { borderRadius, color } from '../../src/utils/colors'
 
 const SidebarContext = React.createContext({
   open: true,

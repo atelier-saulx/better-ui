@@ -3,7 +3,7 @@ import * as Popover from '@radix-ui/react-popover'
 import { Text, textVariants } from '../Text'
 import { IconCalendar, IconChevronDown, IconChevronTop } from '../Icons'
 import { styled, Style } from 'inlines'
-import { border, borderRadius, color } from '../../utils/colors'
+import { border, borderRadius, color } from '../../src/utils/colors'
 import {
   addMonths,
   format,
@@ -26,7 +26,7 @@ import {
   setHours,
   setMinutes,
 } from 'date-fns'
-import { useControllableState } from '../../utils/hooks/useControllableState'
+import { useControllableState } from '../../src/utils/hooks/useControllableState'
 import { TextInput } from '../TextInput'
 
 type DateInputValue = number | { start: number; end: number }
@@ -399,7 +399,10 @@ export function DateInput({
                               background: color('interactive', 'primary'),
                               color: color('content', 'inverted'),
                               '&:hover': {
-                                background: color('interactive', 'primary-hover'),
+                                background: color(
+                                  'interactive',
+                                  'primary-hover'
+                                ),
                               },
                             }
                           : {

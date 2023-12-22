@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color as getColor } from '../../utils/colors'
+import { color as getColor } from '../../src/utils/colors'
 
 export const textVariants = {
   body: {
@@ -42,7 +42,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
       children,
       singleLine,
     },
-    ref,
+    ref
   ) => {
     return React.createElement(styled[as], {
       children,
@@ -63,5 +63,5 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
           : {}),
       },
     })
-  },
+  }
 )

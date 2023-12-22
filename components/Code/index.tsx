@@ -15,9 +15,9 @@ import 'prismjs/components/prism-css'
 import './syntax.css'
 
 import { Style, styled } from 'inlines'
-import { Color, border, color as getColor } from '../../utils/colors'
-import { useControllableState } from '../../utils/hooks/useControllableState'
-import { useCopyToClipboard } from '../../utils/hooks/useCopyToClipboard'
+import { Color, border, color as getColor } from '../../src/utils/colors'
+import { useControllableState } from '../../src/utils/hooks/useControllableState'
+import { useCopyToClipboard } from '../../src/utils/hooks/useCopyToClipboard'
 import { Button } from '../Button'
 
 export type CodeProps = {

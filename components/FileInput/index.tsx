@@ -9,10 +9,10 @@ import {
 } from '../Icons'
 import { Dropdown } from '../Dropdown'
 import { BasedSchemaContentMediaType } from '@based/schema'
-import { useHover } from '../../utils/hooks/useHover'
+import { useHover } from '../../src/utils/hooks/useHover'
 import { Text } from '../Text'
 import { Stack } from '../Stack'
-import { borderRadius, color } from '../../utils/colors'
+import { borderRadius, color } from '../../src/utils/colors'
 import { Media } from '../Media'
 
 import { FileDrop } from 'react-file-drop'

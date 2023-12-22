@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { textVariants } from '../../Text'
-import { border as getBorder } from '../../../utils/colors'
+import { border as getBorder } from '../../../src/utils/colors'
 import { Stack } from '../../Stack'
 import { Style } from 'inlines'
 

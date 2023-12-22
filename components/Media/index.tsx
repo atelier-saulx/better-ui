@@ -4,8 +4,8 @@ import { BasedSchemaContentMediaType } from '@based/schema'
 import { Video } from '../Video'
 import { Folder, Paper } from '../Icons/extras'
 import { textVariants } from '../Text'
-import { color } from '../../utils/colors'
-import { getMimeType } from '../../utils/getMimeType'
+import { color } from '../../src/utils/colors'
+import { getMimeType } from '../../src/utils/getMimeType'
 
 export type MediaProps = {
   src?: string

@@ -12,7 +12,7 @@ import {
 } from '../utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
-import { border, color } from '../../../utils/colors'
+import { border, color } from '../../../src/utils/colors'
 import { Record } from './Record'
 import { Object } from './Object'
 import { Array } from './Array'

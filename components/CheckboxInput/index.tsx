@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { textVariants } from '../Text'
-import { color, borderRadius } from '../../utils/colors'
+import { color, borderRadius } from '../../src/utils/colors'
 import { Stack } from '../Stack'
 import { Style, styled } from 'inlines'
-import { useControllableState } from '../../utils/hooks/useControllableState'
+import { useControllableState } from '../../src/utils/hooks/useControllableState'
 import { IconSmallCheck } from '../Icons'
 
 export type CheckboxInputProps = {

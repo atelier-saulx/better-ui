@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { styled } from 'inlines'
 import * as DropdownBase from '@radix-ui/react-dropdown-menu'
-import { borderRadius, color } from '../../utils/colors'
+import { borderRadius, color } from '../../src/utils/colors'
 
 export type DropdownRootProps = { children: React.ReactNode }
 

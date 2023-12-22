@@ -10,7 +10,7 @@ import {
 } from '../utils'
 import { Cell } from './Cell'
 import { Field } from './Field'
-import { border, color } from '../../../utils/colors'
+import { border, color } from '../../../src/utils/colors'
 import { Button } from '../../Button'
 import { styled } from 'inlines'
 import { IconChevronDown, IconChevronRight, IconPlus } from '../../Icons'

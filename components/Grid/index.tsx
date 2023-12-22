@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { border, borderRadius, color } from '../../utils/colors'
+import { border, borderRadius, color } from '../../src/utils/colors'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 import { Folder, Paper } from '../Icons/extras'

@@ -1,6 +1,6 @@
 import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
 import { TableCtx, Path } from './Table/types'
-import { getStringWidth } from '../../utils/getStringWidth'
+import { getStringWidth } from '../../src/utils/getStringWidth'
 import { textVariants } from '../Text'
 
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
