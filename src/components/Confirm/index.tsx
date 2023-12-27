@@ -21,6 +21,7 @@ type ConfirmProps = {
 export function Confirm({ style, variant, label }: ConfirmProps) {
   return variant === 'icons' ? (
     <Stack
+      justify="end"
       style={{
         marginTop: 16,
         paddingTop: 16,
@@ -49,7 +50,7 @@ export function Confirm({ style, variant, label }: ConfirmProps) {
       />
     </Stack>
   ) : (
-    <Stack>
+    <Stack justify="end">
       <Button
         onClick={() => {}}
         variant="neutral"
