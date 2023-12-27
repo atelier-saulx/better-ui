@@ -81,7 +81,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           justifyItems: 'center',
           alignItems: 'center',
           ...(shaking && {
-            animation: '200ms shake ease-in-out',
+            animation: '300ms shake ease-in-out',
           }),
           ...(disabled && {
             opacity: '40%',

@@ -62,7 +62,9 @@ export function Confirm({
   ) : (
     <Stack justify="end">
       <Button
-        onClick={() => {}}
+        onClick={() => {
+          return onConfirm()
+        }}
         variant="neutral"
         style={{ marginRight: 24, marginLeft: 16 }}
         // displayShortcut
@@ -73,7 +75,9 @@ export function Confirm({
       <Button
         // displayShortcut
         // keyboardShortcut="Enter"
-        onClick={async () => {}}
+        onClick={async () => {
+          return onCancel()
+        }}
       >
         {label ?? 'Confirm'}
       </Button>
