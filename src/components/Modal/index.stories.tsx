@@ -157,16 +157,63 @@ export const Prompt = () => {
 }
 
 export const Confirm = () => {
-  const modal = Modal.useModal()
+  const { confirm, alert } = Modal.useModal()
 
   return (
-    <Button
-      onClick={async () => {
-        const res = await modal.confirm('Yes?')
-        return modal.alert(res ? 'YES' : 'NO')
-      }}
-    >
-      Confirm
-    </Button>
+    <div>
+      <Button
+        onClick={async () => {
+          const res = await confirm('Yes??')
+          return alert(res ? 'YES' : 'NO')
+        }}
+      >
+        Confirm
+      </Button>
+    </div>
+  )
+}
+
+const Ctx = React.createContext(null)
+
+const CtxModal = () => {
+  const ctx = React.useContext(Ctx)
+  return <div>My context is: {ctx}</div>
+}
+
+export const ModalCtx = () => {
+  const { open } = Modal.useModal()
+  const modal1 = Modal.useModal()
+  const modal2 = Modal.useModal()
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <Button
+        onClick={async () => {
+          return open(<CtxModal />)
+        }}
+      >
+        Open modal without context
+      </Button>
+      <Ctx.Provider value="total success 1">
+        <modal1.Provider />
+        <Button
+          onClick={async () => {
+            return modal1.open(<CtxModal />)
+          }}
+        >
+          Open modal with context 1
+        </Button>
+      </Ctx.Provider>
+      <Ctx.Provider value="total success 2">
+        <modal2.Provider />
+        <Button
+          onClick={async () => {
+            return modal2.open(<CtxModal />)
+          }}
+        >
+          Open modal with context 2
+        </Button>
+      </Ctx.Provider>
+    </div>
   )
 }
