@@ -4,6 +4,8 @@ import './styles/fonts.css'
 import './styles/keyframes.css'
 import './styles/syntax.css'
 
+export * from './components/Confirm/index.js'
+
 export * from './components/Code/index.js'
 export * from './components/Button/index.js'
 export * from './components/TextInput/index.js'
