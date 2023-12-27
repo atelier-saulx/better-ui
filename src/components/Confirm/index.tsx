@@ -14,11 +14,17 @@ type ConfirmProps = {
   style?: Style
   variant?: 'buttons' | 'icons'
   value?: any
-  onConfirm: ((value: any) => void) | ((value: any) => Promise<void>)
-  onCancel: (value: any) => void
+  onConfirm: ((value?: any) => void) | ((value?: any) => Promise<void>)
+  onCancel: (value?: any) => void
 }
 
-export function Confirm({ style, variant, label }: ConfirmProps) {
+export function Confirm({
+  style,
+  variant,
+  label,
+  onConfirm,
+  onCancel,
+}: ConfirmProps) {
   return variant === 'icons' ? (
     <Stack
       justify="end"
@@ -32,7 +38,9 @@ export function Confirm({ style, variant, label }: ConfirmProps) {
       {label ? <Text color="secondary">{label}</Text> : null}
       <Button
         variant="icon-only"
-        onClick={() => {}}
+        onClick={() => {
+          return onConfirm()
+        }}
         style={{ marginLeft: 16 }}
         prefix={
           <IconClose style={{ color: getColor('content', 'secondary') }} />
@@ -40,7 +48,9 @@ export function Confirm({ style, variant, label }: ConfirmProps) {
       />
       <Button
         variant="icon-only"
-        onClick={async () => {}}
+        onClick={async () => {
+          return onCancel()
+        }}
         style={{ marginLeft: 4 }}
         prefix={
           <IconCheckLarge
