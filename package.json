@@ -10,7 +10,7 @@
   "main": "./dist/index.js",
   "prettier": "@saulx/prettier-config",
   "dependencies": {
-    "@based/client": "^5.0.0-alpha.2",
+    "@based/client": "^5.0.0",
     "@based/react": "^5.0.0",
     "@based/schema": "^2.2.10",
     "@radix-ui/react-dialog": "^1.0.5",
