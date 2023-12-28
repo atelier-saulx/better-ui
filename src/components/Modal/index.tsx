@@ -212,6 +212,7 @@ type UseModalRes = {
   alert(message: string): Promise<void>
   confirm(message: string): Promise<boolean>
   prompt(message: string): Promise<string | false>
+  Provider(): React.ReactNode
 }
 
 export const useModal = (): UseModalRes => {
@@ -223,12 +224,9 @@ export const useModal = (): UseModalRes => {
       modals: [],
       async open() {},
       async alert() {},
-      async confirm() {
-        return false
-      },
-      async prompt() {
-        return false
-      },
+      confirm: async () => false,
+      prompt: async () => false,
+      Provider: () => null,
     }
   }
 
@@ -236,18 +234,36 @@ export const useModal = (): UseModalRes => {
   const ref = React.useRef<UseModalRes>()
 
   if (!ref.current) {
+    let update
     const open: UseModalRes['open'] = (el) => {
       return new Promise((resolve) => {
-        const modal = React.cloneElement(el, {
-          key: modalId++,
-          onOpenChange(val: boolean) {
-            if (val === false) {
-              setModals(modals.filter((m: typeof modal) => m !== modal))
-              resolve()
-            }
-          },
-        })
-        setModals([...modals, modal])
+        const key = modalId++
+        const onOpenChange = (val: boolean) => {
+          if (val === false) {
+            const filter = (m: typeof modal) => m !== modal
+            ref.current.modals = ref.current.modals.filter(filter)
+            setModals(modals.filter(filter))
+            update?.({})
+            resolve()
+          }
+        }
+        const modal =
+          el.type === Modal ? (
+            React.cloneElement(el, {
+              key,
+              onOpenChange,
+            })
+          ) : (
+            <Modal key={key} onOpenChange={onOpenChange}>
+              {el}
+            </Modal>
+          )
+        ref.current.modals.push(modal)
+        if (update) {
+          update({})
+        } else {
+          setModals([...modals, modal])
+        }
       })
     }
 
@@ -292,6 +308,11 @@ export const useModal = (): UseModalRes => {
           </Modal>
         )
         return ok
+      },
+      Provider() {
+        const [, setState] = React.useState()
+        update = setState
+        return ref.current.modals
       },
     }
   }

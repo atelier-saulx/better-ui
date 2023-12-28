@@ -1,6 +1,6 @@
 import { useClient } from '@based/react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useCallbackRef } from './useCallbackRef.js'
+import { useCallbackRef } from '../useCallbackRef/index.js'
 import { BasedQuery } from '@based/client'
 
 export type UseInfiniteQueryProps = {
