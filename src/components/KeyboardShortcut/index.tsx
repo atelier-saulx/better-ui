@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useIsMobile } from '../../index.js'
+import { useIsMobile, useIsMac } from '../../index.js'
 
 type Char =
   | 'A'
@@ -61,7 +61,7 @@ type InputKey =
   | 'Tab'
   | Char
 
-type Key =
+export type Key =
   | InputKey
   | `${ModKeys}+${InputKey}`
   | DoubleMod<'Cmd'>
@@ -78,17 +78,9 @@ export type KeyboardShortcutProps = {
 
 export function KeyboardShortcut({ shortcut }: KeyboardShortcutProps) {
   const isMobile = useIsMobile()
-  const [isMac, setIsMac] = React.useState<boolean | null>(null)
-
-  React.useLayoutEffect(() => {
-    setIsMac(
-      /(macintosh|macintel|macppc|mac68k|macos)/i.test(navigator.userAgent)
-    )
-  }, [shortcut])
+  const isMac = useIsMac()
 
   const content = React.useMemo(() => {
-    if (isMobile) return null
-
     if (shortcut.includes('Cmd')) {
       return isMac
         ? shortcut.replace('Cmd', '⌘')
@@ -100,5 +92,5 @@ export function KeyboardShortcut({ shortcut }: KeyboardShortcutProps) {
 
   if (isMobile) return null
 
-  return <span style={{ font: 'inherit', color: 'inherit' }}>{content}</span>
+  return <span style={{ font: 'inherit', color: 'inherit' }}>({content})</span>
 }

@@ -27,6 +27,19 @@ export const Icon: StoryObj<typeof Button> = {
   },
 }
 
+export const KeyboardShortcut: StoryObj<typeof Button> = {
+  args: {
+    children: 'Save',
+    variant: 'primary',
+    size: 'medium',
+    keyboardShortcut: 'Cmd+O',
+    displayKeyboardShortcut: true,
+    onClick: () => {
+      alert('onclick triggered')
+    },
+  },
+}
+
 export const IconOnly: StoryObj<typeof Button> = {
   args: {
     children: <IconCopy />,

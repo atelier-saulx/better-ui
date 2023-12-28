@@ -1,6 +1,14 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { border, borderRadius, color, textVariants } from '../../index.js'
+import {
+  Key,
+  KeyboardShortcut,
+  border,
+  borderRadius,
+  color,
+  textVariants,
+  useKeyboardShortcut,
+} from '../../index.js'
 
 export type ButtonProps = {
   children?: React.ReactNode
@@ -25,7 +33,8 @@ export type ButtonProps = {
   onFocus?: React.FocusEventHandler
   onBlur?: React.FocusEventHandler
   style?: Style
-  // TODO keyboard shortcust from old lib
+  keyboardShortcut?: Key
+  displayKeyboardShortcut?: boolean
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -45,11 +54,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onBlur,
       disabled,
       style,
+      keyboardShortcut,
+      displayKeyboardShortcut = false,
     },
     ref
   ) => {
     const [loading, setLoading] = React.useState(false)
     const [shaking, setShaking] = React.useState(false)
+    useKeyboardShortcut(keyboardShortcut, onClick)
 
     const handleClick = React.useCallback(async () => {
       if (!onClick || disabled) return
@@ -239,6 +251,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           >
             {children}
           </span>
+          {displayKeyboardShortcut && keyboardShortcut && (
+            <KeyboardShortcut shortcut={keyboardShortcut} />
+          )}
           {suffix && suffix}
         </div>
       </styled.button>
