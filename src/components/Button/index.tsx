@@ -80,6 +80,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           display: 'inline-flex',
           justifyItems: 'center',
           alignItems: 'center',
+          '&:active': {
+            transform: 'scale(0.98)',
+          },
           ...(shaking && {
             animation: '300ms shake ease-in-out',
           }),

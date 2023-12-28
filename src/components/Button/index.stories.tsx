@@ -15,9 +15,6 @@ export const Default: StoryObj<typeof Button> = {
     children: 'Click me',
     variant: 'primary',
     size: 'medium',
-    onClick: () => {
-      alert('hello')
-    },
   },
 }
 
