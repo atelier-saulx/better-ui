@@ -57,6 +57,13 @@ export const Default = () => {
             type: 'string',
             description: 'A name of someone',
           },
+          number: {
+            title: 'Number',
+            type: 'number',
+            minimum: 10,
+            maximum: 10,
+          },
+
           createdAt: {
             type: 'timestamp',
           },

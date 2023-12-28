@@ -141,7 +141,11 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   if (field.type === 'number') {
     return (
       <Padder>
-        <NumberInput variant="small" value={value} />
+        <NumberInput
+          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+          variant="small"
+          value={value}
+        />
       </Padder>
     )
   }

@@ -14,9 +14,9 @@ import {
 } from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
-import { isTable, isCode } from './utils.js'
+import { isTable, isCode, readPath } from './utils.js'
 import { SetField } from './Set.js'
-import { Variant } from './types.js'
+import { Variant, Listeners, Path } from './types.js'
 import { Reference } from './Reference.js'
 
 type FormSchemaField = BasedSchemaField & {
@@ -29,6 +29,7 @@ type FormValues = {
 }
 
 export type FormProps = {
+  validate?: (path: Path, value: any) => boolean
   values: { [key: string]: any }
   onChange: (values: FormValues) => void
   fields: FormValues
@@ -37,7 +38,38 @@ export type FormProps = {
   schema?: BasedSchema
 }
 
-export function Form({ fields, values, variant = 'regular' }: FormProps) {
+// setWalker
+
+export function Form({
+  fields,
+  values,
+  validate,
+  variant = 'regular',
+  schema,
+}: // listeners,
+FormProps) {
+  // if ! schema
+  // if ! listeners
+
+  // if based schema we will use validate
+  // add field parsers here...
+
+  const listeners: Listeners = {
+    onChangeHandler: (ctx, path, newValue) => {
+      // validate
+
+      // just hook into validate
+
+      // validateField(schema ||  { types: { form: fields } },  path.slice(1), field}
+
+      return false
+    },
+    onNew: () => false,
+    onRemove: () => false,
+    onSelectReference: () => undefined,
+    onSelectReferences: () => undefined,
+  }
+
   return (
     <Stack gap={32} direction="column" align="start">
       {Object.entries(fields).map(([key, field]) => {
@@ -71,6 +103,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                     variant,
                     fields,
                     values: values,
+                    listeners,
                   }}
                 />
               </styled.div>
@@ -205,9 +238,18 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
               >
                 <NumberInput
                   value={values[key] as number}
-                  onChange={() => {
-                    // setValue(key, value)
-                  }}
+                  onChange={(v) =>
+                    listeners.onChangeHandler(
+                      {
+                        variant,
+                        fields,
+                        values: values,
+                        listeners,
+                      },
+                      [key],
+                      v
+                    )
+                  }
                 />
               </styled.div>
             </FormField>
@@ -241,6 +283,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                   variant,
                   fields,
                   values: values,
+                  listeners,
                 }}
               />
             </FormField>
@@ -256,6 +299,7 @@ export function Form({ fields, values, variant = 'regular' }: FormProps) {
                   variant,
                   fields,
                   values: values,
+                  listeners,
                 }}
               />
             </FormField>
