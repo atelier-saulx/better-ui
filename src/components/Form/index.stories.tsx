@@ -331,6 +331,7 @@ const objectField: { [key: string]: BasedSchemaField } = {
           picture: { type: 'string', contentMediaType: '*/*' },
         },
       },
+
       ratings: {
         title: 'Ratings',
         type: 'object',
@@ -340,7 +341,14 @@ const objectField: { [key: string]: BasedSchemaField } = {
             enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
             title: 'Quality',
           },
-          awards: { type: 'string', title: 'Awards' },
+          dinky: {
+            type: 'reference',
+            bidirectional: {
+              fromField: 'bla',
+            },
+            title: 'Dinky',
+            allowedTypes: ['thing'],
+          },
           powerful: { type: 'string', title: 'Power Level' },
         },
       },
@@ -348,8 +356,15 @@ const objectField: { [key: string]: BasedSchemaField } = {
         title: 'Location',
         type: 'object',
         properties: {
-          long: { type: 'string', title: 'Longitude' },
-          lat: { type: 'string', title: 'Latiude' },
+          snurp: {
+            type: 'reference',
+            bidirectional: {
+              fromField: 'bla',
+            },
+            title: 'Snurp',
+            allowedTypes: ['thing'],
+          },
+          lat: { type: 'string', title: 'Latitude' },
         },
       },
     },
@@ -400,6 +415,11 @@ export const Object = () => {
         values={{
           ratings: {
             powerful: 'rgb(78,56,188)',
+          },
+          object: {
+            location: {
+              snurp: { id: 'flap', src: 'https://i.imgur.com/t1bWmmC.jpeg' },
+            },
           },
           orderWithDescription: {
             code: ts,

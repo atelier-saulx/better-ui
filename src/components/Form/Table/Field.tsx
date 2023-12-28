@@ -15,6 +15,7 @@ import { readPath, isCode } from '../utils.js'
 import { TableCtx, Path } from '../types.js'
 import { Table } from './index.js'
 import { SetField } from '../Set.js'
+import { Reference } from '../Reference.js'
 
 export const Padder = ({
   children,
@@ -44,6 +45,18 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     return (
       <Padder>
         <SelectInput variant="small" options={field.enum} value={value} />
+      </Padder>
+    )
+  }
+
+  if (field.type === 'reference') {
+    return (
+      <Padder
+        style={{
+          paddingLeft: 15,
+        }}
+      >
+        <Reference variant="small" ctx={ctx} path={path} />
       </Padder>
     )
   }

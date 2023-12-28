@@ -27,7 +27,7 @@ export type TextProps = {
   children: React.ReactNode
   as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4'
   style?: Style
-  color?: 'primary' | 'secondary' | 'inverted'
+  color?: 'primary' | 'secondary' | 'inverted' | 'inherit'
   variant?: keyof typeof textVariants
   singleLine?: boolean
 }
@@ -50,7 +50,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
       style: {
         margin: 0,
         padding: 0,
-        color: getColor('content', color),
+        color: color === 'inherit' ? 'inherit' : getColor('content', color),
         fontFamily: 'inherit',
         ...textVariants[variant],
         ...style,
