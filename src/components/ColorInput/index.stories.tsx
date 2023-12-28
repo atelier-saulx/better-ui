@@ -7,7 +7,14 @@ const meta = {
 export default meta
 
 export const Default = () => {
-  return <ColorInput label="Background color" />
+  return (
+    <ColorInput
+      label="Background color"
+      onChange={(value) => {
+        console.log('onchange', value)
+      }}
+    />
+  )
 }
 
 export const Small = () => {
