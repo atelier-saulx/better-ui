@@ -23,14 +23,12 @@ export function Reference({
   variant?: 'large' | 'small'
 }) {
   const { value, field } = readPath<BasedSchemaFieldReference>(ctx, path)
+  const marginTop = variant === 'small' ? 0 : -4
+  const isLarge = variant === 'large'
+  const isId = value && typeof value === 'string'
 
   let hasFile = false
-  let isId = value && typeof value === 'string'
   let src: string
-
-  const marginTop = variant === 'small' ? 0 : -4
-
-  const isLarge = variant === 'large'
 
   const selectText = field.allowedTypes ? (
     <>
