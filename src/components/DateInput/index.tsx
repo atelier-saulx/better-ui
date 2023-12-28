@@ -74,6 +74,8 @@ export function DateInput({
   )
   const [pendingStartTime, setPendingStartTime] = React.useState('')
   const [pendingEndTime, setPendingEndTime] = React.useState('')
+  const startTimeInputRef = React.useRef<HTMLInputElement>(null)
+  const endTimeInputRef = React.useRef<HTMLInputElement>(null)
 
   React.useEffect(() => {
     if (value) {
@@ -105,7 +107,17 @@ export function DateInput({
   const Wrapper = label ? styled.label : styled.div
 
   return (
-    <Popover.Root>
+    <Popover.Root
+      onOpenChange={(open) => {
+        if (!open && document.activeElement === startTimeInputRef?.current) {
+          startTimeInputRef.current.blur()
+        }
+
+        if (!open && document.activeElement === endTimeInputRef?.current) {
+          endTimeInputRef.current.blur()
+        }
+      }}
+    >
       <Popover.Trigger asChild>
         <Wrapper
           style={{
@@ -120,8 +132,7 @@ export function DateInput({
             ...(error && {
               '&[data-state="open"] > div': {
                 border: border('error'),
-                boxShadow:
-                  boxShadow('error'),
+                boxShadow: boxShadow('error'),
               },
             }),
             ...style,
@@ -154,10 +165,7 @@ export function DateInput({
                 variant === 'regular'
                   ? borderRadius('small')
                   : borderRadius('tiny'),
-              border:
-                variant === 'small'
-                  ? '1px solid transparent'
-                  : border(),
+              border: variant === 'small' ? '1px solid transparent' : border(),
               '&:hover': {
                 border:
                   variant === 'small'
@@ -166,8 +174,7 @@ export function DateInput({
               },
               '&:focus, &:focus:hover': {
                 border: '1px solid var(--interactive-primary)',
-                boxShadow:
-                  boxShadow('focus'),
+                boxShadow: boxShadow('focus'),
               },
               ...(error && {
                 border: border('error'),
@@ -176,8 +183,7 @@ export function DateInput({
                 },
                 '&:focus, &:focus:hover': {
                   border: border('error'),
-                  boxShadow:
-                    boxShadow('error'),
+                  boxShadow: boxShadow('error'),
                 },
               }),
             }}
@@ -502,6 +508,7 @@ export function DateInput({
                   <Text>{range ? 'Start time' : 'Time'}</Text>
                   <div style={{ width: 80 }}>
                     <TextInput
+                      ref={startTimeInputRef}
                       placeholder="11:00"
                       variant="small"
                       value={pendingStartTime}
@@ -557,6 +564,7 @@ export function DateInput({
                     <Text>End time</Text>
                     <div style={{ width: 80 }}>
                       <TextInput
+                        ref={endTimeInputRef}
                         placeholder="11:00"
                         variant="small"
                         value={pendingEndTime}
