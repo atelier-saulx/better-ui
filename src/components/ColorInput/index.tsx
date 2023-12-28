@@ -23,6 +23,7 @@ export type ColorInputProps = {
 const rgbRegex = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/
 const rgbaRegex =
   /^rgba\((\d{1,3}%?),\s*(\d{1,3}%?),\s*(\d{1,3}%?),\s*(\d*(?:\.\d+)?)\)$/
+
 const hexRegex = /^#[a-f0-9]{6}\b$/i
 
 export function ColorInput({
