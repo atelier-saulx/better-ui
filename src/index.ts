@@ -25,6 +25,7 @@ export * from './components/Container/index.js'
 export * from './components/DateInput/index.js'
 export * from './components/Dropdown/index.js'
 export * from './components/KeyboardShortcut/index.js'
+export * from './components/Calendar/index.js'
 
 export * from './components/Text/index.js'
 export * from './components/Header/index.js'
