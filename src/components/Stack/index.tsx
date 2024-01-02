@@ -28,33 +28,28 @@ const ReactStack = React.forwardRef(
     }: StackProps,
     ref
   ) => {
-    if (grid) {
-      const gridIsNumber = typeof grid === 'number'
+    const gridIsNumber = typeof grid === 'number'
+
+    if (grid && gridIsNumber) {
       return React.createElement(styled[as], {
         style: {
           display: 'grid',
           gap,
           position: 'relative',
-          gridTemplateColumns: `repeat( auto-fit,minmax(48px, 1fr)  )`,
+          gridTemplateColumns: `repeat( auto-fit,minmax(${
+            gridIsNumber ? grid : 48
+          }px, 1fr)  )`,
           '&::before': {
-            border: '1px solid red',
             content: '""',
             width: 0,
             paddingTop: '100%',
             gridRow: '1 / 1',
             gridColumn: '1 / 1',
           },
-          // '& > * > *': {
-          //   border: '1px solid blue',
-          //   position: 'absolute',
-          //   top: 0,
-          //   left: 0,
-          //   bottom: 0,
-          //   right: 0,
-          // },
-
-          // gridTemplateColumns: `100px 50px 100px`,
-          // gridTemplateRows: `80px auto 80px`,
+          '& > *:first-child': {
+            gridRow: '1 / 1',
+            gridColumn: '1 / 1',
+          },
           ...style,
         },
         ...props,
@@ -67,7 +62,7 @@ const ReactStack = React.forwardRef(
           display: 'flex',
           flexDirection: direction,
           gap,
-          flexWrap: wrap || undefined,
+          flexWrap: grid ? 'wrap' : wrap || undefined,
           width: '100%',
           alignItems: align,
           justifyContent: justify === 'between' ? 'space-between' : justify,

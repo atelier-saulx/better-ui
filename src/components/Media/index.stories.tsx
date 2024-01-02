@@ -22,28 +22,32 @@ function Examples() {
       <Media type="application/pdf" src="no_extension_just_mime" />
       <Media src="no_mime_just_extension.txt" />
       <Media src="no_mime_just_extension.docx" />
-      <Media variant="cover" src="https://i.imgur.com/t1bWmmC.jpeg" />
-      <Media variant="cover" src="https://i.imgur.com/t1bWmmC.jpg" />
-      <Media variant="cover" src="https://i.imgur.com/slJCr8Q.png" />
-      <Media variant="cover" src="https://i.imgur.com/t1bWmmC.gif" />
+      <Media variant="contain" src="https://i.imgur.com/t1bWmmC.jpeg" />
+      <Media variant="contain" src="https://i.imgur.com/t1bWmmC.jpg" />
+      <Media variant="contain" src="https://i.imgur.com/slJCr8Q.png" />
+      <Media variant="contain" src="https://i.imgur.com/t1bWmmC.gif" />
 
       <Media src={base64} />
 
       <Media
         type="image/*"
+        variant="cover"
         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
       />
       <Media
         type="video/*"
+        variant="cover"
         src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm"
       />
       <Media
         type="video/*"
+        variant="cover"
         src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         thumbnail="https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
       />
       <Media
         type="*/*"
+        variant="cover"
         thumbnail="https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
       />
     </>
