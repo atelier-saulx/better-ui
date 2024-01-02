@@ -1,7 +1,6 @@
 import * as React from 'react'
 import type { Meta } from '@storybook/react'
-import { styled } from 'inlines'
-import { color, Media } from '../../index.js'
+import { color, Media, Stack } from '../../index.js'
 
 const meta: Meta<typeof Media> = {
   title: 'Atoms/Media',
@@ -43,19 +42,20 @@ function Examples() {
         src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         thumbnail="https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
       />
+      <Media
+        type="*/*"
+        thumbnail="https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      />
     </>
   )
 }
 
 export const Small = () => {
   return (
-    <styled.div
+    <Stack
+      grid={48}
       style={{
-        display: 'grid',
-        gridAutoColumns: '48px',
-        gridAutoRows: '48px',
-        gap: 16,
-        padding: 64,
+        padding: 12,
         '& > *': {
           background: color('background', 'neutral'),
           borderRadius: '4px',
@@ -63,19 +63,16 @@ export const Small = () => {
       }}
     >
       <Examples />
-    </styled.div>
+    </Stack>
   )
 }
 
 export const Medium = () => {
   return (
-    <styled.div
+    <Stack
+      grid={100}
       style={{
-        display: 'grid',
-        gridAutoColumns: '200px',
-        gridAutoRows: '100px',
-        gap: 16,
-        padding: 64,
+        padding: 12,
         '& > *': {
           background: color('background', 'neutral'),
           borderRadius: '4px',
@@ -83,19 +80,16 @@ export const Medium = () => {
       }}
     >
       <Examples />
-    </styled.div>
+    </Stack>
   )
 }
 
 export const Large = () => {
   return (
-    <styled.div
+    <Stack
+      grid={200}
       style={{
-        display: 'grid',
-        gridAutoColumns: '600px',
-        gridAutoRows: '400px',
-        gap: 16,
-        padding: 64,
+        padding: 12,
         '& > *': {
           background: color('background', 'neutral'),
           borderRadius: '4px',
@@ -103,6 +97,6 @@ export const Large = () => {
       }}
     >
       <Examples />
-    </styled.div>
+    </Stack>
   )
 }

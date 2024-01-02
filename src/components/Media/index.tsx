@@ -1,7 +1,13 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
 import { BasedSchemaContentMediaType } from '@based/schema'
-import { Video, textVariants, color, getMimeType } from '../../index.js'
+import {
+  Video,
+  textVariants,
+  color,
+  getMimeType,
+  IconAttachment,
+} from '../../index.js'
 import { Folder, Paper } from '../Icons/extras.js'
 
 export type MediaProps = {
@@ -76,10 +82,13 @@ const MediaInner = ({
     return <Video src={src} thumbnail={thumbnail} />
   }
 
+  const padding = size === 'small' ? 8 : 16
+
   if (type === 'directory') {
     return (
       <div
         style={{
+          padding,
           height: '100%',
           width: '100%',
           display: 'flex',
@@ -99,11 +108,28 @@ const MediaInner = ({
     )
   }
 
-  console.info(type, src)
+  const fileText =
+    type && type !== '*/*'
+      ? type?.split('/')[1]
+      : src?.split('.').pop() ?? (
+          <IconAttachment
+            style={{
+              width: '15%',
+              height: '15%',
+              maxWidth: 32,
+              maxHeight: 32,
+              minWidth: 10,
+              minHeight: 10,
+              opacity: 0.8,
+              color: color('semantic-color', 'informative-muted'),
+            }}
+          />
+        )
 
   return (
     <div
       style={{
+        padding,
         height: '100%',
         width: '100%',
         display: 'flex',
@@ -114,8 +140,8 @@ const MediaInner = ({
     >
       <Paper
         style={{
-          height: '60%',
-          width: '60%',
+          height: '50%',
+          width: '50%',
           maxHeight: 128,
           maxWidth: 128,
         }}
@@ -130,10 +156,10 @@ const MediaInner = ({
           ...textVariants.bodyStrong,
           color: color('interactive', 'primary'),
           textTransform: 'uppercase',
-          fontSize: size === 'small' ? 8 : size === 'medium' ? 14 : 24,
+          fontSize: size === 'small' ? 7 : size === 'medium' ? 14 : 24,
         }}
       >
-        {type?.split('/')[1] ?? src?.split('.').pop()}
+        {fileText}
       </div>
     </div>
   )
