@@ -21,7 +21,9 @@ export const Default: StoryObj<typeof Page> = {
           },
         }}
       >
-        <styled.div style={{ background: '#f5f5f5' }}>🦍</styled.div>
+        <styled.div style={{ background: '#f5f5f5', height: 200 }}>
+          🦍
+        </styled.div>
         <styled.div style={{ background: '#afafaf' }}>🐳</styled.div>
         <styled.div style={{ background: '#f5f5f5' }}>🦀</styled.div>
         <styled.div style={{ background: '#afafaf' }}>🦧</styled.div>
