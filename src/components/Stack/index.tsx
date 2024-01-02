@@ -15,24 +15,25 @@ export type StackProps = React.HTMLProps<'div'> & {
 const ReactStack = React.forwardRef(
   (
     {
+      grid,
       as = 'div',
       style,
       children,
       wrap,
       direction = 'row',
-      gap = 0,
-      align = 'center',
-      justify = 'between',
+      gap = grid ? 12 : 0,
+      align = grid ? 'start' : 'center',
+      justify = grid ? 'start' : 'between',
       ...props
     }: StackProps,
-    ref,
+    ref
   ) => {
     return React.createElement(styled[as], {
       style: {
         display: 'flex',
         flexDirection: direction,
         gap,
-        flexWrap: wrap ? 'wrap' : undefined,
+        flexWrap: wrap || grid ? 'wrap' : undefined,
         width: '100%',
         alignItems: align,
         justifyContent: justify === 'between' ? 'space-between' : justify,
@@ -42,7 +43,7 @@ const ReactStack = React.forwardRef(
       children,
       ref,
     })
-  },
+  }
 )
 
 type StackComponent = (props: StackProps) => React.ReactNode

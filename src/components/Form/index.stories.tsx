@@ -45,6 +45,10 @@ export const Default = () => {
             2
           ),
           category: 'id12345',
+          categoryNamed: {
+            id: 'id12345',
+            title: 'Mr category',
+          },
           logo: {
             name: 't1bWmmC.jpeg',
             id: 'idxyz',
@@ -63,7 +67,6 @@ export const Default = () => {
             minimum: 10,
             maximum: 10,
           },
-
           createdAt: {
             type: 'timestamp',
           },
@@ -73,8 +76,21 @@ export const Default = () => {
             type: 'reference',
             allowedTypes: ['file'],
           },
+          logoEmpty: {
+            title: 'Logo empty',
+            description: 'This is a logo',
+            type: 'reference',
+            allowedTypes: ['file'],
+          },
           category: {
             title: 'Category',
+            description: 'This is a category',
+            type: 'reference',
+            allowedTypes: ['category'],
+            bidirectional: { fromField: 'flap' },
+          },
+          categoryNamed: {
+            title: 'Category with a name',
             description: 'This is a category',
             type: 'reference',
             allowedTypes: ['category'],

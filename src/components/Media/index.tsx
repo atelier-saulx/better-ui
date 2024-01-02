@@ -99,6 +99,8 @@ const MediaInner = ({
     )
   }
 
+  console.info(type, src)
+
   return (
     <div
       style={{

@@ -92,6 +92,7 @@ export function Array({ ctx, path }: TableProps) {
         rows.push(
           // @ts-ignore TODO: fix type in inlines
           <Stack
+            key={i + 1}
             onClick={() => {
               setIndex(isOpen ? -1 : i)
             }}

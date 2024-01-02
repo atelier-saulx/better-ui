@@ -13,6 +13,66 @@ import { Path, TableCtx } from './types.js'
 import { readPath } from './utils.js'
 import { styled } from 'inlines'
 
+const SelectBadge = ({ field }: { field: BasedSchemaFieldReference }) => {
+  return (
+    <Badge
+      color="informative-muted"
+      prefix={
+        <IconSearch
+          style={{
+            width: 16,
+            height: 16,
+            marginRight: 4,
+          }}
+        />
+      }
+    >
+      {field.allowedTypes ? (
+        <>
+          Select{' '}
+          {field.allowedTypes.map((v, i) => {
+            const type = typeof v === 'object' ? v.type : v
+            return (
+              <Text color="inherit" key={i} variant="bodyStrong">
+                {type}
+              </Text>
+            )
+          })}
+        </>
+      ) : (
+        'Select item'
+      )}
+    </Badge>
+  )
+}
+
+const InfoBadge = ({ value }: { value: any }) => {
+  const isObject = typeof value === 'object'
+
+  if (typeof value === 'object') {
+    return (
+      <>
+        <Text variant="bodyStrong">{value.name ?? value.title}</Text>
+        <Badge
+          prefix={
+            <IconLink style={{ width: 16, height: 16, marginRight: 4 }} />
+          }
+        >
+          {value.id}
+        </Badge>
+      </>
+    )
+  }
+
+  return (
+    <Badge
+      prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
+    >
+      {value}
+    </Badge>
+  )
+}
+
 export function Reference({
   ctx,
   path,
@@ -29,22 +89,6 @@ export function Reference({
 
   let hasFile = false
   let src: string
-
-  const selectText = field.allowedTypes ? (
-    <>
-      Select{' '}
-      {field.allowedTypes.map((v, i) => {
-        const type = typeof v === 'object' ? v.type : v
-        return (
-          <Text color="inherit" key={i} variant="bodyStrong">
-            {type}
-          </Text>
-        )
-      })}
-    </>
-  ) : (
-    'Select item'
-  )
 
   if (ctx.schema) {
     // go go go
@@ -92,14 +136,7 @@ export function Reference({
           gap={12}
           onClick={() => {}}
         >
-          <Text variant="bodyStrong">{value.name ?? value.title}</Text>
-          <Badge
-            prefix={
-              <IconLink style={{ width: 16, height: 16, marginRight: 4 }} />
-            }
-          >
-            {value.id}
-          </Badge>
+          {value ? <InfoBadge value={value} /> : <SelectBadge field={field} />}
         </Stack>
       </Stack>
     )
@@ -117,14 +154,7 @@ export function Reference({
           // yes
         }}
       >
-        <Badge
-          prefix={
-            <IconLink style={{ width: 16, height: 16, marginRight: 4 }} />
-          }
-        >
-          {value}
-        </Badge>
-        {/* <IconSearch /> */}
+        <InfoBadge value={value} />
       </Stack>
     )
   }
@@ -135,20 +165,7 @@ export function Reference({
         // yes
       }}
     >
-      <Badge
-        color="informative-muted"
-        prefix={
-          <IconSearch
-            style={{
-              width: 16,
-              height: 16,
-              marginRight: 4,
-            }}
-          />
-        }
-      >
-        {selectText}
-      </Badge>
+      <SelectBadge field={field} />
     </Stack>
   )
 }

@@ -42,10 +42,10 @@ export function SetField({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const [addNew, setAddNew] = React.useState<boolean>(false)
   return (
     <Stack direction="column" align="start">
-      <Stack gap={12} align="start" justify="start" grid>
+      <Stack grid>
         {value
           ? value.map((v: string | number) => {
-              return <Tag value={v} onRemove={() => {}} />
+              return <Tag key={v} value={v} onRemove={() => {}} />
             })
           : null}
       </Stack>
