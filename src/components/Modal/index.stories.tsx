@@ -85,9 +85,9 @@ export const Nested = ({ level = 0 }) => {
 export const List = ({ level = 0 }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {Array.from({ length: 5 }).map(() => {
+      {Array.from({ length: 5 }).map((_, i) => {
         return (
-          <Modal.Root>
+          <Modal.Root key={i}>
             <Modal.Trigger>
               <Button>Open modal</Button>
             </Modal.Trigger>
