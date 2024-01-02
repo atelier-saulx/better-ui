@@ -14,7 +14,7 @@ import {
 } from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
-import { isTable, isCode, readPath } from './utils.js'
+import { isTable, isCode } from './utils.js'
 import { SetField } from './Set.js'
 import { Variant, Listeners, Path } from './types.js'
 import { Reference } from './Reference.js'
@@ -43,9 +43,7 @@ export type FormProps = {
 export function Form({
   fields,
   values,
-  validate,
   variant = 'regular',
-  schema,
 }: // listeners,
 FormProps) {
   // if ! schema
@@ -55,7 +53,7 @@ FormProps) {
   // add field parsers here...
 
   const listeners: Listeners = {
-    onChangeHandler: (ctx, path, newValue) => {
+    onChangeHandler: () => {
       // validate
 
       // just hook into validate

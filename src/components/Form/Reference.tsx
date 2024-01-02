@@ -47,7 +47,7 @@ const SelectBadge = ({ field }: { field: BasedSchemaFieldReference }) => {
 }
 
 const InfoBadge = ({ value }: { value: any }) => {
-  const isObject = typeof value === 'object'
+  // const isObject = typeof value === 'object'
 
   if (typeof value === 'object') {
     return (
