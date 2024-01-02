@@ -14,15 +14,13 @@ export const Default: StoryObj<typeof ScrollArea> = {
   args: {
     children: (
       <styled.div style={{ width: 420 }}>
-        <styled.div style={{ height: 200, background: 'red' }}>xxx</styled.div>
-        <styled.div style={{ height: 200, background: 'orange' }}>
-          xxx
-        </styled.div>
-        <styled.div style={{ height: 200, background: 'yellow' }}>
-          xxx
-        </styled.div>
+        <styled.div style={{ height: 270, background: '#003840' }} />
+        <styled.div style={{ height: 270, background: '#005A5B' }} />
+        <styled.div style={{ height: 270, background: '#007369' }} />
+        <styled.div style={{ height: 270, background: '#008C72' }} />
+        <styled.div style={{ height: 270, background: '#02A676' }} />
       </styled.div>
     ),
-    style: { maxHeight: 300, background: 'lightblue' },
+    style: { maxHeight: 324 },
   },
 }
