@@ -217,3 +217,52 @@ export const ModalCtx = () => {
     </div>
   )
 }
+
+export const ModalConfirm = () => {
+  const { open } = Modal.useModal()
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
+      }}
+    >
+      <Button
+        onClick={async () => {
+          const result = await open(({ close }) => (
+            <Modal
+              onConfirm={() => {
+                close('yay')
+              }}
+            >
+              xxx
+            </Modal>
+          ))
+
+          console.log({ result })
+        }}
+      >
+        Open modal
+      </Button>
+      <Button
+        onClick={async () => {
+          const result = await open(({ close }) => (
+            <Button
+              onClick={() => {
+                close('supercool')
+              }}
+            >
+              cool stuff
+            </Button>
+          ))
+
+          console.log({ result })
+        }}
+      >
+        Open modal 2
+      </Button>
+    </div>
+  )
+}

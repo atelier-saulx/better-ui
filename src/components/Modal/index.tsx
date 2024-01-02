@@ -206,9 +206,12 @@ type ModalEl = React.ReactElement<
   any,
   string | React.JSXElementConstructor<any>
 >
+
+type ModelElFn = ({ close }: { close(val: any): void }) => ModalEl
+
 type UseModalRes = {
   modals: ModalEl[]
-  open(el: ModalEl): Promise<void>
+  open(el: ModalEl | ModelElFn): Promise<any>
   alert(message: string): Promise<void>
   confirm(message: string): Promise<boolean>
   prompt(message: string): Promise<string | false>
@@ -235,18 +238,27 @@ export const useModal = (): UseModalRes => {
 
   if (!ref.current) {
     let update
-    const open: UseModalRes['open'] = (el) => {
+    const open: UseModalRes['open'] = (el: any) => {
       return new Promise((resolve) => {
+        const close = (val) => {
+          const filter = (m: typeof modal) => m !== modal
+          ref.current.modals = ref.current.modals.filter(filter)
+          setModals(modals.filter(filter))
+          update?.({})
+          resolve(val)
+        }
+
+        if (typeof el === 'function') {
+          el = el({ close })
+        }
+
         const key = modalId++
         const onOpenChange = (val: boolean) => {
           if (val === false) {
-            const filter = (m: typeof modal) => m !== modal
-            ref.current.modals = ref.current.modals.filter(filter)
-            setModals(modals.filter(filter))
-            update?.({})
-            resolve()
+            close(undefined)
           }
         }
+
         const modal =
           el.type === Modal ? (
             React.cloneElement(el, {
@@ -258,6 +270,7 @@ export const useModal = (): UseModalRes => {
               {el}
             </Modal>
           )
+
         ref.current.modals.push(modal)
         if (update) {
           update({})
