@@ -13,12 +13,19 @@ export default meta
 export const Default: StoryObj<typeof ScrollArea> = {
   args: {
     children: (
-      <styled.div style={{ width: 420 }}>
-        <styled.div style={{ height: 270, background: '#003840' }} />
-        <styled.div style={{ height: 270, background: '#005A5B' }} />
-        <styled.div style={{ height: 270, background: '#007369' }} />
-        <styled.div style={{ height: 270, background: '#008C72' }} />
-        <styled.div style={{ height: 270, background: '#02A676' }} />
+      <styled.div
+        style={{
+          width: 420,
+          '& > div': {
+            height: '270px',
+          },
+        }}
+      >
+        <styled.div style={{ background: '#003840' }} />
+        <styled.div style={{ background: '#005A5B' }} />
+        <styled.div style={{ background: '#007369' }} />
+        <styled.div style={{ background: '#008C72' }} />
+        <styled.div style={{ background: '#02A676' }} />
       </styled.div>
     ),
     style: { maxHeight: 324 },
