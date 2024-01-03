@@ -199,7 +199,7 @@ export const Set = () => {
             },
           },
         }}
-        onChange={(values, path, newValue, prevValue, field) => {
+        onChange={(values) => {
           console.log(values)
         }}
       />

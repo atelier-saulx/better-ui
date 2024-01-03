@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction, ReactNode, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Style, styled } from 'inlines'
 
 import {
@@ -41,11 +41,11 @@ export type CodeProps = {
     | 'markup'
     | 'clike'
     | string
-  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
+  onChange?: (value: string) => void
   variant?: 'regular' | 'small' // border
 }
 
-export const Code: FC<CodeProps> = ({
+export const Code = ({
   value: valueProp,
   placeholder = '',
   onChange: onChangeProp,
@@ -55,7 +55,7 @@ export const Code: FC<CodeProps> = ({
   color = 'muted',
   copy,
   language = 'js',
-}) => {
+}: CodeProps) => {
   const [isFocus, setFocus] = useState(false)
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -82,9 +82,7 @@ export const Code: FC<CodeProps> = ({
           : isSmall
           ? `1px solid transparent`
           : border(),
-        boxShadow: isFocus
-          ? boxShadow('focus')
-          : undefined,
+        boxShadow: isFocus ? boxShadow('focus') : undefined,
         ...style,
       }}
     >

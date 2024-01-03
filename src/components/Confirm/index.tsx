@@ -42,7 +42,7 @@ export function Confirm({
       <Button
         variant="icon-only"
         onClick={React.useCallback(() => {
-          return onConfirm()
+          return onCancel()
         }, [onConfirm])}
         prefix={
           <IconClose style={{ color: getColor('content', 'secondary') }} />
@@ -51,7 +51,7 @@ export function Confirm({
       <Button
         variant="icon-only"
         onClick={async () => {
-          return onCancel()
+          return onConfirm()
         }}
         style={{ marginLeft: 4 }}
         prefix={
@@ -65,7 +65,7 @@ export function Confirm({
     <Stack justify={justify}>
       <Button
         onClick={() => {
-          return onConfirm()
+          return onCancel()
         }}
         variant="neutral"
         style={{ marginRight: 24, marginLeft: 16 }}
@@ -78,7 +78,7 @@ export function Confirm({
         // displayShortcut
         // keyboardShortcut="Enter"
         onClick={async () => {
-          return onCancel()
+          return onConfirm()
         }}
       >
         {label ?? 'Confirm'}

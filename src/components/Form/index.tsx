@@ -42,7 +42,10 @@ export type FormProps = {
     prevValue: any,
     field: BasedSchemaField
   ) => void
-  onChange: (values: FormValues, checksum: number) => void
+  onChange: (
+    values: FormValues,
+    checksum: number
+  ) => void | Promise<(values: FormValues, checksum: number) => void>
   fields: FormValues
   variant?: Variant
   // for later check ref types (can check ids and check allowedTypes)
@@ -81,8 +84,6 @@ export function Form({
   const listeners: Listeners = {
     onChangeHandler: (ctx, path, newValue) => {
       const { field, value } = readPath(ctx, path)
-
-      console.info('HELLO???')
 
       if (!nRef.current.hasChanges) {
         nRef.current.hasChanges = true
@@ -171,8 +172,10 @@ export function Form({
                 <Code
                   copy
                   language="json"
-                  onChange={() => {}}
                   value={nRef.current.values[key]}
+                  onChange={(value) => {
+                    listeners.onChangeHandler(ctx, path, value)
+                  }}
                 />
               </styled.div>
             </FormField>
@@ -196,7 +199,9 @@ export function Form({
                       : 'inverted'
                   }
                   language={field.format}
-                  onChange={() => {}}
+                  onChange={(value) => {
+                    listeners.onChangeHandler(ctx, path, value)
+                  }}
                   value={nRef.current.values[key]}
                 />
               </styled.div>
@@ -212,7 +217,12 @@ export function Form({
                   width: 450,
                 }}
               >
-                <ColorInput value={nRef.current.values[key]} />
+                <ColorInput
+                  value={nRef.current.values[key]}
+                  onChange={(value) => {
+                    listeners.onChangeHandler(ctx, path, value)
+                  }}
+                />
               </styled.div>
             </FormField>
           )
@@ -234,7 +244,11 @@ export function Form({
                       : undefined
                   }
                   onChange={(file) => {
-                    console.log('uploaded file', file)
+                    // has to be handled better...
+                    console.warn(
+                      'uploaded file not there yet... (needs special handler)',
+                      file
+                    )
                   }}
                 />
               </styled.div>
@@ -252,8 +266,8 @@ export function Form({
               >
                 <TextAreaInput
                   value={nRef.current.values[key] as string}
-                  onChange={() => {
-                    // setValue(key, value)
+                  onChange={(value) => {
+                    listeners.onChangeHandler(ctx, path, value)
                   }}
                 />
               </styled.div>
@@ -271,8 +285,8 @@ export function Form({
               >
                 <TextInput
                   value={nRef.current.values[key] as string}
-                  onChange={() => {
-                    // setValue(key, value)
+                  onChange={(value) => {
+                    listeners.onChangeHandler(ctx, path, value)
                   }}
                 />
               </styled.div>
@@ -290,18 +304,7 @@ export function Form({
               >
                 <NumberInput
                   value={nRef.current.values[key] as number}
-                  onChange={(v) =>
-                    listeners.onChangeHandler(
-                      {
-                        variant,
-                        fields,
-                        values: nRef.current.values[key],
-                        listeners,
-                      },
-                      [key],
-                      v
-                    )
-                  }
+                  onChange={(v) => listeners.onChangeHandler(ctx, path, v)}
                 />
               </styled.div>
             </FormField>
@@ -319,7 +322,7 @@ export function Form({
                 <DateInput
                   time
                   value={nRef.current.values[key] as number}
-                  onChange={() => {}}
+                  onChange={(v) => listeners.onChangeHandler(ctx, path, v)}
                 />
               </styled.div>
             </FormField>
@@ -369,13 +372,21 @@ export function Form({
           }}
           justify="start"
           variant={variant}
-          onConfirm={() => {
-            // onChange(nRef.current.values, currentChecksum)
+          onConfirm={async () => {
+            try {
+              await onChange(nRef.current.values, currentChecksum)
+              nRef.current.hasChanges = false
+              nRef.current.values = values ?? {}
+              const hash = checksum ?? hashObjectIgnoreKeyOrder(values ?? {})
+              setChecksum(hash)
+            } catch (err) {
+              throw err
+            }
           }}
           onCancel={() => {
             nRef.current.hasChanges = false
-            nRef.current.values = values
-            const hash = checksum ?? hashObjectIgnoreKeyOrder(values)
+            nRef.current.values = values ?? {}
+            const hash = checksum ?? hashObjectIgnoreKeyOrder(values ?? {})
             setChecksum(hash)
           }}
         />
