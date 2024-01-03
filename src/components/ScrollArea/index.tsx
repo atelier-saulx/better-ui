@@ -14,12 +14,15 @@ export type ScrollAreaProps = {
 export const ScrollArea = React.forwardRef<HTMLElement, ScrollAreaProps>(
   ({ children, style }, ref) => {
     const [showScrollbar, setShowScrollbar] = React.useState(false)
-
-    console.log(children)
+    const [scrollTop, setScrollTop] = React.useState()
+    const [scrollAreaVisibleHeight, setScrollAreaVisibleHeight] =
+      React.useState<number>()
+    const [thumbHeight, setThumbHeight] = React.useState<number>()
 
     const scrollAreaRef = React.useRef<HTMLElement>()
 
-    console.log(scrollAreaRef)
+    // total Height
+    // scrollAreaRef.current.clientHeight
 
     return (
       <styled.div
@@ -35,14 +38,23 @@ export const ScrollArea = React.forwardRef<HTMLElement, ScrollAreaProps>(
           ...style,
         }}
         onMouseEnter={(e) => {
-          console.log(scrollAreaRef.current?.clientHeight)
           setShowScrollbar(true)
+          setScrollAreaVisibleHeight(
+            scrollAreaRef.current.parentElement.offsetHeight
+          )
+
+          let viewableRatio =
+            scrollAreaRef.current.parentElement.offsetHeight /
+            scrollAreaRef.current.clientHeight
+          setThumbHeight(
+            scrollAreaRef.current.parentElement.offsetHeight * viewableRatio
+          )
         }}
         onMouseLeave={(e) => {
           setShowScrollbar(false)
         }}
         onScroll={(e) => {
-          console.log(e)
+          setScrollTop(e.target.scrollTop)
         }}
       >
         {showScrollbar && (
@@ -55,11 +67,22 @@ export const ScrollArea = React.forwardRef<HTMLElement, ScrollAreaProps>(
               top: 0,
               right: 0,
               bottom: 0,
-              height: scrollAreaRef.current
-                ? scrollAreaRef.current?.clientHeight
+              height: scrollAreaRef
+                ? scrollAreaRef.current.clientHeight
                 : '100%',
             }}
-          ></styled.div>
+          >
+            <styled.div
+              style={{
+                height: thumbHeight ? thumbHeight : 10,
+                width: 8,
+                backgroundColor: 'yellow',
+                position: 'absolute',
+                borderRadius: 8,
+                top: scrollTop,
+              }}
+            />
+          </styled.div>
         )}
         <styled.div ref={scrollAreaRef}>{children}</styled.div>
       </styled.div>
