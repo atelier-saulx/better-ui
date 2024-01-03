@@ -11,6 +11,7 @@ import {
 
 type ConfirmProps = {
   label?: React.ReactNode
+  cancelLabel?: React.ReactNode
   style?: Style
   variant?: 'small' | 'regular'
   justify?: 'center' | 'between' | 'end' | 'start'
@@ -23,6 +24,7 @@ export function Confirm({
   style,
   variant,
   label,
+  cancelLabel,
   justify = 'end',
   onConfirm,
   onCancel,
@@ -68,11 +70,11 @@ export function Confirm({
           return onCancel()
         }}
         variant="neutral"
-        style={{ marginRight: 24, marginLeft: 16 }}
+        style={{ marginRight: 16, marginLeft: 16 }}
         // displayShortcut
         // keyboardShortcut="Esc"
       >
-        Cancel
+        {cancelLabel ?? 'Cancel'}
       </Button>
       <Button
         // displayShortcut
