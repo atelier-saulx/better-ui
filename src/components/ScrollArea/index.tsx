@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { styled, Style } from 'inlines'
-import { color as getColor } from '../../index.js'
+import { Style } from 'inlines'
+
+import * as RxScrollArea from '@radix-ui/react-scroll-area'
 
 export type ScrollAreaProps = {
   children: React.ReactNode
@@ -12,83 +13,141 @@ export type ScrollAreaProps = {
 }
 
 export const ScrollArea = React.forwardRef<HTMLElement, ScrollAreaProps>(
-  ({ children, style }, ref) => {
-    const [showScrollbar, setShowScrollbar] = React.useState(false)
-    const [scrollTop, setScrollTop] = React.useState()
-    const [scrollAreaVisibleHeight, setScrollAreaVisibleHeight] =
-      React.useState<number>()
-    const [thumbHeight, setThumbHeight] = React.useState<number>()
-
-    const scrollAreaRef = React.useRef<HTMLElement>()
-
-    // total Height
-    // scrollAreaRef.current.clientHeight
-
+  ({ children, style }) => {
     return (
-      <styled.div
-        ref={ref}
-        style={{
-          overflowX: 'overlay',
-          overflowY: 'overlay',
-          boxSizing: 'border-box',
-          position: 'relative',
-          '&::-webkit-scrollbar': {
-            // display: 'none',
-          },
-          ...style,
-        }}
-        onMouseEnter={(e) => {
-          setShowScrollbar(true)
-          setScrollAreaVisibleHeight(
-            scrollAreaRef.current.parentElement.offsetHeight
-          )
+      <RxScrollArea.Root>
+        <RxScrollArea.Viewport
+          // ref={ref}
+          style={{
+            width: '100%',
+            height: '100%',
+            borderRadius: 'inherit',
+            ...style,
+          }}
+        >
+          {children}
+        </RxScrollArea.Viewport>
 
-          let viewableRatio =
-            scrollAreaRef.current.parentElement.offsetHeight /
-            scrollAreaRef.current.clientHeight
-          setThumbHeight(
-            scrollAreaRef.current.parentElement.offsetHeight * viewableRatio
-          )
-        }}
-        onMouseLeave={(e) => {
-          setShowScrollbar(false)
-        }}
-        onScroll={(e) => {
-          setScrollTop(e.target.scrollTop)
-        }}
-      >
-        {showScrollbar && (
-          <styled.div
-            style={{
-              position: 'absolute',
-              width: 12,
-              background: 'rgba(255,0,255,0.33)',
-              border: '1px solid red',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              height: scrollAreaRef
-                ? scrollAreaRef.current.clientHeight
-                : '100%',
-            }}
-          >
-            <styled.div
-              style={{
-                height: thumbHeight ? thumbHeight : 10,
-                width: 8,
-                backgroundColor: 'yellow',
-                position: 'absolute',
-                borderRadius: 8,
-                top: scrollTop,
-              }}
-            />
-          </styled.div>
-        )}
-        <styled.div ref={scrollAreaRef}>{children}</styled.div>
-      </styled.div>
+        <RxScrollArea.Scrollbar
+          className="ScrollAreaScrollbar"
+          orientation="vertical"
+          style={{
+            display: 'flex',
+            userSelect: 'none',
+            touchAction: 'none',
+            padding: 2,
+            background: 'red',
+            transition: 'background 160ms ease-out',
+          }}
+        >
+          <RxScrollArea.Thumb className="ScrollAreaThumb" />
+        </RxScrollArea.Scrollbar>
+
+        <RxScrollArea.Scrollbar
+          className="ScrollAreaScrollbar"
+          orientation="horizontal"
+        >
+          <RxScrollArea.Thumb className="ScrollAreaThumb" />
+        </RxScrollArea.Scrollbar>
+
+        <RxScrollArea.Corner className="ScrollAreaCorner" />
+      </RxScrollArea.Root>
     )
   }
 )
+
+// export const ScrollArea = React.forwardRef<HTMLElement, ScrollAreaProps>(
+//   ({ children, style }, ref) => {
+//     const [showScrollbar, setShowScrollbar] = React.useState(false)
+//     const [customScrollTop, setCustomScrollTop] = React.useState<number>()
+//     const [scrollAreaVisibleHeight, setScrollAreaVisibleHeight] =
+//       React.useState<number>()
+//     const [thumbHeight, setThumbHeight] = React.useState<number>()
+
+//     const scrollAreaRef = React.useRef<HTMLElement>()
+
+//     // total Height
+//     // scrollAreaRef.current.clientHeight
+
+//     return (
+//       <styled.div
+//         ref={ref}
+//         style={{
+//           overflowX: 'overlay',
+//           overflowY: 'overlay',
+//           boxSizing: 'border-box',
+//           position: 'relative',
+//           '&::-webkit-scrollbar': {
+//             display: 'none',
+//           },
+//           ...style,
+//         }}
+//         onMouseEnter={(e) => {
+//           setShowScrollbar(true)
+//           // setScrollAreaVisibleHeight(
+//           //   scrollAreaRef.current.parentElement.offsetHeight
+//           // )
+
+//           console.log('🐢', scrollAreaRef.current.clientHeight)
+
+//           let viewableRatio =
+//             scrollAreaRef.current.parentElement.offsetHeight /
+//             scrollAreaRef.current.clientHeight
+//           setThumbHeight(
+//             scrollAreaRef.current.parentElement.offsetHeight * viewableRatio
+//           )
+//         }}
+//         onMouseLeave={(e) => {
+//           setShowScrollbar(false)
+//         }}
+//         onScroll={(e) => {
+//           // let a = e.target.scrollTop
+//           // console.log('A', a)
+//           // let b =
+//           //   scrollAreaRef.current.parentElement.offsetHeight -
+//           //   window.innerHeight
+//           // console.log('B', b)
+//           // console.log('C', (a / b) * 100)
+
+//           let thumbOffset =
+//             (e.target.scrollTop * scrollAreaRef.current.clientHeight) /
+//             scrollAreaRef.current.parentElement.offsetHeight
+
+//           setCustomScrollTop(thumbOffset)
+//         }}
+//       >
+//         {showScrollbar && (
+//           <styled.div
+//             style={{
+//               position: 'absolute',
+//               width: 12,
+//               background: 'rgba(255,0,255,0.33)',
+//               border: '1px solid red',
+//               top: 0,
+//               right: 0,
+//               bottom: 0,
+//               height: scrollAreaRef
+//                 ? scrollAreaRef.current.clientHeight
+//                 : '100%',
+//             }}
+//           >
+//             <styled.div
+//               style={{
+//                 height: thumbHeight ? thumbHeight : 10,
+//                 width: 8,
+//                 backgroundColor: 'yellow',
+//                 position: 'absolute',
+//                 borderRadius: 8,
+//                 top: customScrollTop,
+//               }}
+//             />
+//           </styled.div>
+//         )}
+//         <styled.div ref={scrollAreaRef}>{children}</styled.div>
+//       </styled.div>
+//     )
+//   }
+// )
 
 // export const ScrollArea = React.forwardRef<HTMLElement, ScrollAreaProps>(
 //   (
@@ -126,6 +185,7 @@ export const ScrollArea = React.forwardRef<HTMLElement, ScrollAreaProps>(
 //         scrollbarGutter: 'stable',
 //         overflowY: 'overlay',
 //         overflowX: 'overlay',
+
 //         scrollbarColor: `${THUMB_COLOR} transparent`,
 //         // scrollbarWidth: 'none',
 //         '&::-webkit-scrollbar:vertical': {
