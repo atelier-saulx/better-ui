@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect, useRef } from 'react'
 import { styled } from 'inlines'
 import { BasedSchemaField, BasedSchema } from '@based/schema'
 import {
@@ -11,16 +11,20 @@ import {
   TextAreaInput,
   SelectInput,
   ColorInput,
+  Confirm,
 } from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
-import { isTable, isCode } from './utils.js'
+import { isTable, isCode, readPath } from './utils.js'
 import { SetField } from './Set.js'
 import { Variant, Listeners, Path } from './types.js'
 import { Reference } from './Reference.js'
+import { deepCopy, setByPath } from '@saulx/utils'
+import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
+  // todo support render AS
   renderAs?: (props: { field: FormSchemaField; value: any }) => ReactNode
 }
 
@@ -30,8 +34,15 @@ type FormValues = {
 
 export type FormProps = {
   validate?: (path: Path, value: any) => boolean
-  values: { [key: string]: any }
-  onChange: (values: FormValues) => void
+  values?: { [key: string]: any }
+  checksum?: number
+  onChangeAtomic?: (
+    path: Path,
+    newValue: any,
+    prevValue: any,
+    field: BasedSchemaField
+  ) => void
+  onChange: (values: FormValues, checksum: number) => void
   fields: FormValues
   variant?: Variant
   // for later check ref types (can check ids and check allowedTypes)
@@ -43,22 +54,54 @@ export type FormProps = {
 export function Form({
   fields,
   values,
+  checksum,
+  onChange,
+  onChangeAtomic,
   variant = 'regular',
-}: // listeners,
-FormProps) {
-  // if ! schema
-  // if ! listeners
+}: FormProps) {
+  const nRef = useRef<{ hasChanges?: boolean; values: { [key: string]: any } }>(
+    {
+      values: values ?? {},
+      hasChanges: false,
+    }
+  )
+  const [currentChecksum, setChecksum] = React.useState(checksum)
 
-  // if based schema we will use validate
-  // add field parsers here...
+  // may not be a good idea...
+  useEffect(() => {
+    if (values) {
+      const hash = checksum ?? hashObjectIgnoreKeyOrder(values)
+      if (currentChecksum !== hash) {
+        nRef.current = { hasChanges: false, values }
+        setChecksum(hash)
+      }
+    }
+  }, [checksum])
 
   const listeners: Listeners = {
-    onChangeHandler: () => {
-      // validate
+    onChangeHandler: (ctx, path, newValue) => {
+      const { field, value } = readPath(ctx, path)
 
-      // just hook into validate
+      console.info('HELLO???')
 
-      // validateField(schema ||  { types: { form: fields } },  path.slice(1), field}
+      if (!nRef.current.hasChanges) {
+        nRef.current.hasChanges = true
+        nRef.current.values = deepCopy(values)
+      }
+
+      setByPath(nRef.current.values, path, newValue)
+
+      const hash = hashObjectIgnoreKeyOrder(nRef.current.values ?? {})
+
+      if (onChangeAtomic) {
+        onChangeAtomic(path, newValue, value, field)
+      }
+
+      if (onChange && variant === 'bare') {
+        onChange(nRef.current.values, hash)
+      }
+
+      setChecksum(hash)
 
       return false
     },
@@ -68,10 +111,19 @@ FormProps) {
     onSelectReferences: () => undefined,
   }
 
+  const ctx = {
+    variant,
+    fields,
+    values: nRef.current.values,
+    listeners,
+  }
+
   return (
     <Stack gap={32} direction="column" align="start">
       {Object.entries(fields).map(([key, field]) => {
         const { type } = field
+
+        const path = [key]
 
         if ('enum' in field) {
           return (
@@ -81,7 +133,13 @@ FormProps) {
                   width: 450,
                 }}
               >
-                <SelectInput options={field.enum} value={values[key]} />
+                <SelectInput
+                  options={field.enum}
+                  value={nRef.current.values[key]}
+                  onChange={(value) => {
+                    listeners.onChangeHandler(ctx, path, value)
+                  }}
+                />
               </styled.div>
             </FormField>
           )
@@ -95,15 +153,7 @@ FormProps) {
                   width: 450,
                 }}
               >
-                <Reference
-                  path={[key]}
-                  ctx={{
-                    variant,
-                    fields,
-                    values: values,
-                    listeners,
-                  }}
-                />
+                <Reference path={path} ctx={ctx} />
               </styled.div>
             </FormField>
           )
@@ -122,7 +172,7 @@ FormProps) {
                   copy
                   language="json"
                   onChange={() => {}}
-                  value={values[key]}
+                  value={nRef.current.values[key]}
                 />
               </styled.div>
             </FormField>
@@ -147,7 +197,7 @@ FormProps) {
                   }
                   language={field.format}
                   onChange={() => {}}
-                  value={values[key]}
+                  value={nRef.current.values[key]}
                 />
               </styled.div>
             </FormField>
@@ -162,7 +212,7 @@ FormProps) {
                   width: 450,
                 }}
               >
-                <ColorInput value={values[key]} />
+                <ColorInput value={nRef.current.values[key]} />
               </styled.div>
             </FormField>
           )
@@ -178,7 +228,11 @@ FormProps) {
               >
                 <FileInput
                   mimeType={field.contentMediaType}
-                  value={values[key] ? { src: values[key] } : undefined}
+                  value={
+                    nRef.current.values[key]
+                      ? { src: nRef.current.values[key] }
+                      : undefined
+                  }
                   onChange={(file) => {
                     console.log('uploaded file', file)
                   }}
@@ -197,7 +251,7 @@ FormProps) {
                 }}
               >
                 <TextAreaInput
-                  value={values[key] as string}
+                  value={nRef.current.values[key] as string}
                   onChange={() => {
                     // setValue(key, value)
                   }}
@@ -216,7 +270,7 @@ FormProps) {
                 }}
               >
                 <TextInput
-                  value={values[key] as string}
+                  value={nRef.current.values[key] as string}
                   onChange={() => {
                     // setValue(key, value)
                   }}
@@ -235,13 +289,13 @@ FormProps) {
                 }}
               >
                 <NumberInput
-                  value={values[key] as number}
+                  value={nRef.current.values[key] as number}
                   onChange={(v) =>
                     listeners.onChangeHandler(
                       {
                         variant,
                         fields,
-                        values: values,
+                        values: nRef.current.values[key],
                         listeners,
                       },
                       [key],
@@ -264,7 +318,7 @@ FormProps) {
               >
                 <DateInput
                   time
-                  value={values[key] as number}
+                  value={nRef.current.values[key] as number}
                   onChange={() => {}}
                 />
               </styled.div>
@@ -280,7 +334,7 @@ FormProps) {
                 ctx={{
                   variant,
                   fields,
-                  values: values,
+                  values: nRef.current.values,
                   listeners,
                 }}
               />
@@ -296,7 +350,7 @@ FormProps) {
                 ctx={{
                   variant,
                   fields,
-                  values: values,
+                  values: nRef.current.values,
                   listeners,
                 }}
               />
@@ -306,6 +360,26 @@ FormProps) {
 
         return null
       })}
+
+      {/* if in modal then use buttons else use icons */}
+      {variant !== 'bare' && nRef.current.hasChanges ? (
+        <Confirm
+          style={{
+            marginTop: -16,
+          }}
+          justify="start"
+          variant={variant}
+          onConfirm={() => {
+            // onChange(nRef.current.values, currentChecksum)
+          }}
+          onCancel={() => {
+            nRef.current.hasChanges = false
+            nRef.current.values = values
+            const hash = checksum ?? hashObjectIgnoreKeyOrder(values)
+            setChecksum(hash)
+          }}
+        />
+      ) : null}
     </Stack>
   )
 }

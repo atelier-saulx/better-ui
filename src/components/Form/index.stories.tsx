@@ -199,7 +199,7 @@ export const Set = () => {
             },
           },
         }}
-        onChange={(values) => {
+        onChange={(values, path, newValue, prevValue, field) => {
           console.log(values)
         }}
       />
@@ -435,6 +435,26 @@ const objectField: { [key: string]: BasedSchemaField } = {
       },
     },
   },
+}
+
+export const SmallForm = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Form
+        variant="small"
+        fields={{
+          options: {
+            title: 'Options',
+            description: 'Select some options',
+            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
+          },
+        }}
+        onChange={(values) => {
+          console.log(values)
+        }}
+      />
+    </div>
+  )
 }
 
 export const Object = () => {

@@ -12,7 +12,8 @@ import {
 type ConfirmProps = {
   label?: React.ReactNode
   style?: Style
-  variant?: 'buttons' | 'icons'
+  variant?: 'small' | 'regular'
+  justify?: 'center' | 'between' | 'end' | 'start'
   value?: any
   onConfirm: ((value?: any) => void) | ((value?: any) => Promise<void>)
   onCancel: (value?: any) => void
@@ -22,26 +23,27 @@ export function Confirm({
   style,
   variant,
   label,
+  justify = 'end',
   onConfirm,
   onCancel,
 }: ConfirmProps) {
-  return variant === 'icons' ? (
+  return variant === 'small' ? (
     <Stack
-      justify="end"
+      justify={justify}
       style={{
-        marginTop: 16,
-        paddingTop: 16,
+        marginTop: 4,
+        paddingTop: 4,
         marginRight: 8,
+        marginLeft: 8,
         ...style,
       }}
     >
       {label ? <Text color="secondary">{label}</Text> : null}
       <Button
         variant="icon-only"
-        onClick={() => {
+        onClick={React.useCallback(() => {
           return onConfirm()
-        }}
-        style={{ marginLeft: 16 }}
+        }, [onConfirm])}
         prefix={
           <IconClose style={{ color: getColor('content', 'secondary') }} />
         }
@@ -60,7 +62,7 @@ export function Confirm({
       />
     </Stack>
   ) : (
-    <Stack justify="end">
+    <Stack justify={justify}>
       <Button
         onClick={() => {
           return onConfirm()

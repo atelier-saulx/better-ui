@@ -72,7 +72,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       try {
         await onClick()
-      } catch {
+      } catch (err) {
+        console.error(err)
         setShaking(true)
       }
 
