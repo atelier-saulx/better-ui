@@ -21,11 +21,21 @@ export const Default: StoryObj<typeof ScrollArea> = {
           },
         }}
       >
-        <styled.div style={{ background: '#003840', height: 200 }} />
-        <styled.div style={{ background: '#005A5B', height: 200 }} />
-        <styled.div style={{ background: '#007369', height: 200 }} />
-        <styled.div style={{ background: '#008C72', height: 200 }} />
-        <styled.div style={{ background: '#02A676', height: 200 }} />
+        <styled.div
+          style={{ background: '#f6f6f6', height: 200, width: 700 }}
+        />
+        <styled.div
+          style={{ background: '#f1f1f1', height: 200, width: 700 }}
+        />
+        <styled.div
+          style={{ background: '#f9f9f9', height: 200, width: 700 }}
+        />
+        <styled.div
+          style={{ background: '#ffe596', height: 200, width: 700 }}
+        />
+        <styled.div
+          style={{ background: '#f3f3f3', height: 200, width: 700 }}
+        />
       </styled.div>
     ),
     style: { maxHeight: 324 },
