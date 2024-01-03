@@ -354,7 +354,6 @@ const objectField: { [key: string]: BasedSchemaField } = {
           picture: { type: 'string', contentMediaType: '*/*' },
         },
       },
-
       ratings: {
         title: 'Ratings',
         type: 'object',
@@ -385,6 +384,14 @@ const objectField: { [key: string]: BasedSchemaField } = {
               fromField: 'bla',
             },
             title: 'Snurp',
+            allowedTypes: ['thing'],
+          },
+          doink: {
+            type: 'reference',
+            bidirectional: {
+              fromField: 'bla',
+            },
+            title: 'Doink',
             allowedTypes: ['thing'],
           },
           lat: { type: 'string', title: 'Latitude' },
@@ -442,6 +449,7 @@ export const Object = () => {
           object: {
             location: {
               snurp: { id: 'flap', src: 'https://i.imgur.com/t1bWmmC.jpeg' },
+              doink: 'th123212',
             },
           },
           orderWithDescription: {
