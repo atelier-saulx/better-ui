@@ -36,9 +36,10 @@ const ReactStack = React.forwardRef(
           display: 'grid',
           gap,
           position: 'relative',
+          gridAutoRows: '1fr',
           gridTemplateColumns: `repeat( auto-fit,minmax(${
             gridIsNumber ? grid : 48
-          }px, 1fr)  )`,
+          }px, 1fr))`,
           '&::before': {
             content: '""',
             width: 0,
