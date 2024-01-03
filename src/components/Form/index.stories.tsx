@@ -146,8 +146,15 @@ export const Default = () => {
             description: 'A src',
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changed, checksum) => {
+          console.log(
+            'values:',
+            values,
+            'changed:',
+            changed,
+            'checksum:',
+            checksum
+          )
         }}
       />
     </div>
@@ -199,8 +206,15 @@ export const Set = () => {
             },
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changed, checksum) => {
+          console.log(
+            'values:',
+            values,
+            'changed:',
+            changed,
+            'checksum:',
+            checksum
+          )
         }}
       />
     </div>

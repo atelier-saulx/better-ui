@@ -43,9 +43,16 @@ export type FormProps = {
     field: BasedSchemaField
   ) => void
   onChange: (
-    values: FormValues,
+    values: { [key: string]: any },
+    changed: { [key: string]: any },
     checksum: number
-  ) => void | Promise<(values: FormValues, checksum: number) => void>
+  ) => void | Promise<
+    (
+      values: { [key: string]: any },
+      changed: { [key: string]: any },
+      checksum: number
+    ) => void
+  >
   fields: FormValues
   variant?: Variant
   // for later check ref types (can check ids and check allowedTypes)
@@ -62,12 +69,15 @@ export function Form({
   onChangeAtomic,
   variant = 'regular',
 }: FormProps) {
-  const nRef = useRef<{ hasChanges?: boolean; values: { [key: string]: any } }>(
-    {
-      values: values ?? {},
-      hasChanges: false,
-    }
-  )
+  const nRef = useRef<{
+    hasChanges?: boolean
+    values: { [key: string]: any }
+    changes: { [key: string]: any }
+  }>({
+    values: values ?? {},
+    changes: {},
+    hasChanges: false,
+  })
   const [currentChecksum, setChecksum] = React.useState(checksum)
 
   // may not be a good idea...
@@ -75,7 +85,7 @@ export function Form({
     if (values) {
       const hash = checksum ?? hashObjectIgnoreKeyOrder(values)
       if (currentChecksum !== hash) {
-        nRef.current = { hasChanges: false, values }
+        nRef.current = { hasChanges: false, values, changes: {} }
         setChecksum(hash)
       }
     }
@@ -91,6 +101,7 @@ export function Form({
       }
 
       setByPath(nRef.current.values, path, newValue)
+      setByPath(nRef.current.changes, path, newValue)
 
       const hash = hashObjectIgnoreKeyOrder(nRef.current.values ?? {})
 
@@ -99,7 +110,7 @@ export function Form({
       }
 
       if (onChange && variant === 'bare') {
-        onChange(nRef.current.values, hash)
+        onChange(nRef.current.values, nRef.current.changes, hash)
       }
 
       setChecksum(hash)
@@ -374,9 +385,14 @@ export function Form({
           variant={variant}
           onConfirm={async () => {
             try {
-              await onChange(nRef.current.values, currentChecksum)
+              await onChange(
+                nRef.current.values,
+                nRef.current.changes,
+                currentChecksum
+              )
               nRef.current.hasChanges = false
               nRef.current.values = values ?? {}
+              nRef.current.changes = {}
               const hash = checksum ?? hashObjectIgnoreKeyOrder(values ?? {})
               setChecksum(hash)
             } catch (err) {
@@ -386,6 +402,7 @@ export function Form({
           onCancel={() => {
             nRef.current.hasChanges = false
             nRef.current.values = values ?? {}
+            nRef.current.changes = {}
             const hash = checksum ?? hashObjectIgnoreKeyOrder(values ?? {})
             setChecksum(hash)
           }}
