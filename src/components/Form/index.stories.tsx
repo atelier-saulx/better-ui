@@ -652,8 +652,8 @@ export const Array = () => {
             values: objectField.object,
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changes) => {
+          console.log(values, changes)
         }}
       />
     </div>

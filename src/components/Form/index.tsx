@@ -24,7 +24,6 @@ import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
-  // todo support render AS
   renderAs?: (props: { field: FormSchemaField; value: any }) => ReactNode
 }
 
@@ -53,6 +52,7 @@ export type FormProps = {
       checksum: number
     ) => void
   >
+  confirmLabel?: ReactNode
   fields: FormValues
   variant?: Variant
   // for later check ref types (can check ids and check allowedTypes)
@@ -67,6 +67,7 @@ export function Form({
   checksum,
   onChange,
   onChangeAtomic,
+  confirmLabel,
   variant = 'regular',
 }: FormProps) {
   const nRef = useRef<{
@@ -381,6 +382,7 @@ export function Form({
           style={{
             marginTop: -16,
           }}
+          label={confirmLabel ?? 'Apply changes'}
           justify="start"
           variant={variant}
           onConfirm={async () => {

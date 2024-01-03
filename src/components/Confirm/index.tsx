@@ -36,11 +36,14 @@ export function Confirm({
         marginTop: 4,
         paddingTop: 4,
         marginRight: 8,
-        marginLeft: 8,
         ...style,
       }}
     >
-      {label ? <Text color="secondary">{label}</Text> : null}
+      {label ? (
+        <Text style={{ marginRight: 12 }} color="secondary">
+          {label}
+        </Text>
+      ) : null}
       <Button
         variant="icon-only"
         onClick={React.useCallback(() => {
