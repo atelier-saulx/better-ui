@@ -5,8 +5,15 @@ import {
   BasedSchemaFieldReferences,
 } from '@based/schema'
 
-type Reference = string | ({ [key: string]: any } & { id: string }) | void
-type References = (string | ({ [key: string]: any } & { id: string }))[] | void
+type Reference =
+  | string
+  | ({ [key: string]: any } & { id: string })
+  | void
+  | null
+type References =
+  | (string | ({ [key: string]: any } & { id: string }))[]
+  | void
+  | null
 
 export type Listeners = {
   onChangeHandler: (ctx: TableCtx, path: Path, newValue?: any) => boolean

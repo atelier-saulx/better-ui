@@ -1,5 +1,8 @@
 import * as React from 'react'
-import { BasedSchemaFieldReference } from '@based/schema'
+import {
+  BasedSchemaContentMediaType,
+  BasedSchemaFieldReference,
+} from '@based/schema'
 import {
   Stack,
   Button,
@@ -85,9 +88,11 @@ export function Reference({
   const marginTop = variant === 'small' ? 0 : -4
   const isLarge = variant === 'large'
   const isId = value && typeof value === 'string'
+  const id = value && typeof value === 'object' ? value.id : value
 
   let hasFile = false
   let src: string
+  let mimeType: BasedSchemaContentMediaType
 
   if (ctx.schema) {
     // go go go
@@ -98,6 +103,9 @@ export function Reference({
     if (typeof value === 'object' && value.src) {
       src = value.src
       hasFile = true
+      if (value.mimeType) {
+        mimeType = value.mimeType
+      }
     }
   }
 
@@ -108,8 +116,19 @@ export function Reference({
       field,
       ctx
     )
-    ctx.listeners.onChangeHandler(ctx, path, result)
-  }, [value])
+    if (result === undefined) {
+      return
+    }
+    let newId: string | void
+    if (typeof result === 'object') {
+      newId = result.id
+    } else {
+      newId = result
+    }
+    if (newId !== id) {
+      ctx.listeners.onChangeHandler(ctx, path, result)
+    }
+  }, [id])
 
   if (hasFile) {
     const width = isLarge ? 248 : 32
@@ -130,14 +149,13 @@ export function Reference({
             borderRadius: 4,
           }}
         >
-          <Media src={src} variant="cover" />
+          <Media src={src} variant="cover" type={mimeType} />
         </styled.div>
         <Button variant="icon-only" onClick={selectRef}>
           <Stack
             style={{ marginTop: isLarge ? 14 : 0 }}
             justify="start"
             gap={12}
-            onClick={() => {}}
           >
             {value ? (
               <InfoBadge value={value} />
@@ -152,17 +170,9 @@ export function Reference({
 
   if (isId) {
     return (
-      <Stack
-        justify="start"
-        gap={12}
-        style={{
-          marginTop,
-        }}
-      >
-        <Button variant="icon-only" onClick={selectRef}>
-          <InfoBadge value={value} />
-        </Button>
-      </Stack>
+      <Button variant="icon-only" onClick={selectRef}>
+        <InfoBadge value={value} />
+      </Button>
     )
   }
 

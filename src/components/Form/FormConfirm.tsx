@@ -18,6 +18,7 @@ export const FormConfirm = (p: {
       style={{
         marginTop: -16,
       }}
+      cancelLabel="Discard changes"
       label={p.confirmLabel ?? 'Apply changes'}
       justify="start"
       variant={p.variant}

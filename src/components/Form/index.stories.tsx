@@ -182,9 +182,18 @@ export const References = () => {
         values={{}}
         onSelectReference={async (path) => {
           // path, value, field, ctx
+
+          const newFile =
+            path[0] === 'logo'
+              ? {
+                  id: 'flapflap',
+                  src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+                }
+              : 'id12345'
+
           return open(({ close }) => {
             return (
-              <Modal onConfirm={() => close('id123345')}>
+              <Modal onConfirm={() => close(newFile)}>
                 <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
               </Modal>
             )
@@ -195,6 +204,12 @@ export const References = () => {
             title: 'Single reference',
             type: 'reference',
             description: 'A single ref',
+          },
+          logo: {
+            title: 'Single reference fronm file',
+            type: 'reference',
+            description: 'A single ref',
+            allowedTypes: ['file'],
           },
           refs: {
             title: 'Multi references',
