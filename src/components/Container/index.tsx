@@ -1,10 +1,15 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { IconChevronDown, useControllableState, color, border } from '../../index.js'
+import {
+  IconChevronDown,
+  useControllableState,
+  color,
+  border,
+} from '../../index.js'
 
 export type ContainerProps = {
   children?: React.ReactNode
-  title?: string
+  title?: string | React.ReactNode
   description?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
@@ -41,7 +46,7 @@ export function Container({
   const headerRef = React.useRef<HTMLDivElement | null>(null)
 
   return (
-    <div
+    <styled.div
       style={{
         width: '100%',
         borderRadius: 8,
@@ -118,6 +123,6 @@ export function Container({
           {children}
         </div>
       )}
-    </div>
+    </styled.div>
   )
 }
