@@ -21,6 +21,8 @@ export type FormProps = {
   validate?: (path: Path, value: any) => boolean
   values?: { [key: string]: any }
   checksum?: number
+  onSelectReference?: Listeners['onSelectReference']
+  onSelectReferences?: Listeners['onSelectReferences']
   onChangeAtomic?: (
     path: Path,
     newValue: any,
@@ -51,6 +53,8 @@ export function Form({
   checksum,
   onChange,
   onChangeAtomic,
+  onSelectReference,
+  onSelectReferences,
   confirmLabel,
   variant = 'regular',
 }: FormProps) {
@@ -97,8 +101,8 @@ export function Form({
     },
     onNew: () => false,
     onRemove: () => false,
-    onSelectReference: () => undefined,
-    onSelectReferences: () => undefined,
+    onSelectReference: onSelectReference ?? (async () => undefined),
+    onSelectReferences: onSelectReferences ?? (async () => undefined),
   }
 
   const onConfirm = React.useCallback(async () => {

@@ -362,6 +362,7 @@ export type ModalProps = {
   onOpenChange?: ModalRootProps['onOpenChange']
   children?: React.ReactNode
   onConfirm?({ close }: { close(): void }): void
+  confirmLabel?: React.ReactNode
 }
 
 export const Modal = Object.assign(
@@ -372,6 +373,7 @@ export const Modal = Object.assign(
     onOpenChange,
     children,
     onConfirm,
+    confirmLabel = 'OK',
   }: ModalProps) => {
     return (
       <Modal.Root open={open} onOpenChange={onOpenChange}>
@@ -397,7 +399,7 @@ export const Modal = Object.assign(
                       : close
                   }
                 >
-                  OK
+                  {confirmLabel}
                 </Button>
               </Modal.Actions>
             </>

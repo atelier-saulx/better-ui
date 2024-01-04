@@ -10,17 +10,17 @@ export type Listeners = {
   onNew: (ctx: TableCtx, path: Path, newValue?: any) => boolean
   onRemove: (ctx: TableCtx, path: Path, index: number) => boolean
   onSelectReference: (
-    ctx: TableCtx,
     path: Path,
+    value: string | ({ [key: string]: any } & { id: string }) | void,
     field: BasedSchemaFieldReference,
-    value?: string | ({ [key: string]: any } & { id: string })
-  ) => string | void
-  onSelectReferences: (props: {
     ctx: TableCtx
+  ) => Promise<string | void>
+  onSelectReferences: (props: {
     path: Path
+    value: (string | ({ [key: string]: any } & { id: string }))[] | void
     field: BasedSchemaFieldReferences
-    value?: (string | ({ [key: string]: any } & { id: string }))[]
-  }) => string[] | void
+    ctx: TableCtx
+  }) => Promise<string[] | void>
 }
 
 export type TableCtx = {

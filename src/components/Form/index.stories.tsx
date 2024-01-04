@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Form, border } from '../../index.js'
+import { Form, border, Modal } from '../../index.js'
 import { BasedSchemaField } from '@based/schema'
 import { styled } from 'inlines'
 
@@ -8,6 +8,13 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
 }
 
 const ts = `import * as React from 'react'
@@ -163,6 +170,8 @@ export const Default = () => {
 }
 
 export const References = () => {
+  const { open } = Modal.useModal()
+
   return (
     <styled.div
       style={{
@@ -171,6 +180,16 @@ export const References = () => {
     >
       <Form
         values={{}}
+        onSelectReference={async (path) => {
+          // path, value, field, ctx
+          return open(({ close }) => {
+            return (
+              <Modal onConfirm={() => close('id123345')}>
+                REFERENCE! {path.join('/')}
+              </Modal>
+            )
+          })
+        }}
         fields={{
           ref: {
             title: 'Single reference',

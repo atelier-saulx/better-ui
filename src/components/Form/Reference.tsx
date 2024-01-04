@@ -2,6 +2,7 @@ import * as React from 'react'
 import { BasedSchemaFieldReference } from '@based/schema'
 import {
   Stack,
+  Button,
   Badge,
   IconLink,
   Media,
@@ -47,8 +48,6 @@ const SelectBadge = ({ field }: { field: BasedSchemaFieldReference }) => {
 }
 
 const InfoBadge = ({ value }: { value: any }) => {
-  // const isObject = typeof value === 'object'
-
   if (typeof value === 'object') {
     return (
       <>
@@ -95,19 +94,25 @@ export function Reference({
   } else {
     if (field.allowedTypes?.includes('file')) {
       hasFile = true
-      // lets go its file
-      // other wise find it in ctx
     }
     if (typeof value === 'object' && value.src) {
       src = value.src
       hasFile = true
-      // go go go
     }
   }
 
+  const selectRef = React.useCallback(async () => {
+    const result = await ctx.listeners.onSelectReference(
+      path,
+      value,
+      field,
+      ctx
+    )
+    console.info('LUYUULLLZ', result)
+  }, [value])
+
   if (hasFile) {
     const width = isLarge ? 248 : 32
-
     return (
       <Stack
         align={isLarge ? 'start' : 'center'}
@@ -115,9 +120,7 @@ export function Reference({
         style={{
           marginTop,
         }}
-        onClick={() => {
-          // yes
-        }}
+        onClick={selectRef}
       >
         <styled.div
           style={{
@@ -150,22 +153,17 @@ export function Reference({
         style={{
           marginTop,
         }}
-        onClick={() => {
-          // yes
-        }}
       >
-        <InfoBadge value={value} />
+        <Button variant="icon-only" onClick={selectRef}>
+          <InfoBadge value={value} />
+        </Button>
       </Stack>
     )
   }
 
   return (
-    <Stack
-      onClick={() => {
-        // yes
-      }}
-    >
+    <Button variant="icon-only" onClick={selectRef}>
       <SelectBadge field={field} />
-    </Stack>
+    </Button>
   )
 }
