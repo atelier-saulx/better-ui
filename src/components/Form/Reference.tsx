@@ -67,7 +67,6 @@ const InfoBadge = ({ value }: { value: any }) => {
       </>
     )
   }
-
   return (
     <Badge
       prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
@@ -150,6 +149,7 @@ export function Reference({
             backgroundColor: color('background', 'neutral'),
             borderRadius: 4,
             marginBottom: isLarge ? 14 : 0,
+            marginRight: 10,
           }}
         >
           <Media src={src} variant="cover" type={mimeType} />

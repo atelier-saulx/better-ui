@@ -10,6 +10,7 @@ import {
   TextAreaInput,
   SelectInput,
   ColorInput,
+  CheckboxInput,
 } from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
@@ -42,6 +43,26 @@ export const Field = ({
         >
           <SelectInput
             options={field.enum}
+            value={ctx.values[key]}
+            onChange={(value) => {
+              ctx.listeners.onChangeHandler(ctx, path, value)
+            }}
+          />
+        </styled.div>
+      </FormField>
+    )
+  }
+
+  if (field.type === 'boolean') {
+    return (
+      <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
+        <styled.div
+          style={{
+            width: 450,
+          }}
+        >
+          <CheckboxInput
+            variant="toggle"
             value={ctx.values[key]}
             onChange={(value) => {
               ctx.listeners.onChangeHandler(ctx, path, value)

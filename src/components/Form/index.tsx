@@ -115,7 +115,7 @@ export function Form({
       nRef.current.hasChanges = false
       nRef.current.values = values ?? {}
       nRef.current.changes = {}
-      const hash = checksum ?? hashObjectIgnoreKeyOrder(values ?? {})
+      const hash = hashObjectIgnoreKeyOrder(values ?? {})
       setChecksum(hash)
     } catch (err) {
       throw err

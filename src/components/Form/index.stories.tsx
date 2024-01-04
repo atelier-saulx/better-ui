@@ -69,6 +69,11 @@ export const Default = () => {
             type: 'string',
             description: 'A name of someone',
           },
+          dope: {
+            title: 'Is it dope?',
+            type: 'boolean',
+            description: 'Dope or nah',
+          },
           number: {
             title: 'Number',
             type: 'number',
