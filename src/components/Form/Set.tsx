@@ -10,6 +10,7 @@ import {
   IconClose,
   IconPlus,
   Confirm,
+  NumberInput,
 } from '../../index.js'
 import { Path, TableCtx } from './types.js'
 import { readPath } from './utils.js'
@@ -50,7 +51,26 @@ const Tag = ({
   )
 }
 
-const NewInput = ({ onChange }: { onChange: (v: any) => void }) => {
+const NewInput = ({
+  onChange,
+  field,
+}: {
+  field: BasedSchemaFieldSet
+  onChange: (v: any) => void
+}) => {
+  if (field.items.type === 'number' || field.items.type === 'integer') {
+    return (
+      <NumberInput
+        style={{
+          marginRight: 8,
+          width: 400,
+        }}
+        onChange={onChange}
+        autoFocus
+        variant="small"
+      />
+    )
+  }
   return (
     <TextInput
       style={{
@@ -79,12 +99,10 @@ const AddNew = ({
   const [newValue, setNewValue] = React.useState<string | number>()
 
   if (addNew) {
-    const isNumber =
-      field.items.type === 'number' || field.items.type === 'integer'
-
     return (
       <Stack>
         <NewInput
+          field={field}
           onChange={(v) => {
             setNewValue(v)
           }}

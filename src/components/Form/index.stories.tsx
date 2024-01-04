@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Form, border } from '../../index.js'
 import { BasedSchemaField } from '@based/schema'
+import { styled } from 'inlines'
 
 const meta = {
   title: 'Components/Form',
@@ -161,9 +162,55 @@ export const Default = () => {
   )
 }
 
+export const References = () => {
+  return (
+    <styled.div
+      style={{
+        padding: 64,
+      }}
+    >
+      <Form
+        values={{}}
+        fields={{
+          ref: {
+            title: 'Single reference',
+            type: 'reference',
+            description: 'A single ref',
+          },
+          refs: {
+            title: 'Multi references',
+            type: 'references',
+            description: 'Multi ref',
+          },
+          object: {
+            title: 'Refs in an object',
+            type: 'object',
+            description: 'Some refs',
+            properties: {
+              ref: {
+                title: 'Single reference',
+                type: 'reference',
+                description: 'A single ref',
+              },
+              refs: {
+                title: 'Multi references',
+                type: 'references',
+                description: 'Multi ref',
+              },
+            },
+          },
+        }}
+        onChange={(values, changed, checksum) => {
+          console.info({ values, changed, checksum })
+        }}
+      />
+    </styled.div>
+  )
+}
+
 export const Set = () => {
   return (
-    <div style={{ padding: 64 }}>
+    <styled.div style={{ padding: 64 }}>
       <Form
         values={{
           set: ['a', 'b', 'c'],
@@ -217,7 +264,7 @@ export const Set = () => {
           )
         }}
       />
-    </div>
+    </styled.div>
   )
 }
 
