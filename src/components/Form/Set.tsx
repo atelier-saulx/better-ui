@@ -9,11 +9,19 @@ import {
   TextInput,
   IconClose,
   IconPlus,
+  Confirm,
 } from '../../index.js'
 import { Path, TableCtx } from './types.js'
 import { readPath } from './utils.js'
+import { BasedSchemaFieldSet } from '@based/schema'
 
-const Tag = ({ value }: { value: string | number; onRemove: () => void }) => {
+const Tag = ({
+  value,
+  onRemove,
+}: {
+  value: string | number
+  onRemove: () => void
+}) => {
   return (
     <Stack
       gap={12}
@@ -30,46 +38,111 @@ const Tag = ({ value }: { value: string | number; onRemove: () => void }) => {
       }}
     >
       <Text>{value}</Text>
-      <Button variant="icon-only">
+      <Button
+        onClick={() => {
+          onRemove()
+        }}
+        variant="icon-only"
+      >
         <IconClose />
       </Button>
     </Stack>
   )
 }
 
-export function SetField({ ctx, path }: { ctx: TableCtx; path: Path }) {
-  const { value } = readPath(ctx, path)
+const NewInput = ({ onChange }: { onChange: (v: any) => void }) => {
+  return (
+    <TextInput
+      style={{
+        marginRight: 8,
+        width: 400,
+      }}
+      onChange={onChange}
+      autoFocus
+      variant="small"
+    />
+  )
+}
+
+const AddNew = ({
+  field,
+  value,
+  ctx,
+  path,
+}: {
+  ctx: TableCtx
+  field: BasedSchemaFieldSet
+  value: (string | number)[]
+  path: Path
+}) => {
   const [addNew, setAddNew] = React.useState<boolean>(false)
+  const [newValue, setNewValue] = React.useState<string | number>()
+
+  if (addNew) {
+    const isNumber =
+      field.items.type === 'number' || field.items.type === 'integer'
+
+    return (
+      <Stack>
+        <NewInput
+          onChange={(v) => {
+            setNewValue(v)
+          }}
+        />
+        <Confirm
+          justify="start"
+          variant="small"
+          onConfirm={() => {
+            const nValue = value ? [...value, newValue] : [newValue]
+            ctx.listeners.onChangeHandler(ctx, path, nValue)
+            setNewValue(undefined)
+            setAddNew(false)
+          }}
+          onCancel={() => {
+            setNewValue(undefined)
+            setAddNew(false)
+          }}
+        />
+      </Stack>
+    )
+  }
+
+  return (
+    <Button
+      size="small"
+      onClick={() => {
+        setAddNew(true)
+      }}
+      variant="icon-only"
+      prefix={<IconPlus />}
+    >
+      Add
+    </Button>
+  )
+}
+
+export function SetField({ ctx, path }: { ctx: TableCtx; path: Path }) {
+  const { value = [], field } = readPath<BasedSchemaFieldSet>(ctx, path)
+
   return (
     <Stack direction="column" align="start">
       <Stack grid>
-        {value
-          ? value.map((v: string | number) => {
-              return <Tag key={v} value={v} onRemove={() => {}} />
-            })
-          : null}
+        {value.map((v: string | number, index: number) => {
+          return (
+            <Tag
+              key={v}
+              value={v}
+              onRemove={() => {
+                const nValue = [...value]
+                nValue.splice(index, 1)
+                ctx.listeners.onChangeHandler(ctx, path, nValue)
+              }}
+            />
+          )
+        })}
       </Stack>
       <Stack style={{ height: 52, width: 'auto' }}>
-        {addNew ? (
-          <TextInput
-            autoFocus
-            variant="small"
-            onBlur={() => {
-              setAddNew(false)
-            }}
-          />
-        ) : (
-          <Button
-            size="small"
-            onClick={() => {
-              setAddNew(true)
-            }}
-            variant="icon-only"
-            prefix={<IconPlus />}
-          >
-            Add
-          </Button>
-        )}
+        <AddNew field={field} value={value} ctx={ctx} path={path} />
       </Stack>
     </Stack>
   )

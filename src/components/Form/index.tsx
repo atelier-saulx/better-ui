@@ -1,11 +1,12 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
 import { BasedSchemaField, BasedSchema } from '@based/schema'
-import { Stack, Confirm } from '../../index.js'
+import { Stack } from '../../index.js'
 import { readPath } from './utils.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
 import { deepCopy, setByPath } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 import { Field } from './Field.js'
+import { FormConfirm } from './FormConfirm.js'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
@@ -44,33 +45,6 @@ export type FormProps = {
   schema?: BasedSchema
 }
 
-// setWalker
-
-const FormConfrim = (p: {
-  variant: Variant
-  hasChanges: boolean
-  confirmLabel?: ReactNode
-  onConfirm?: () => Promise<void>
-  onCancel?: () => void
-}) => {
-  if (!p.hasChanges || p.variant === 'bare') {
-    return null
-  }
-
-  return (
-    <Confirm
-      style={{
-        marginTop: -16,
-      }}
-      label={p.confirmLabel ?? 'Apply changes'}
-      justify="start"
-      variant={p.variant}
-      onConfirm={p.onConfirm}
-      onCancel={p.onCancel}
-    />
-  )
-}
-
 export function Form({
   fields,
   values,
@@ -91,7 +65,7 @@ export function Form({
   })
   const [currentChecksum, setChecksum] = React.useState(checksum)
 
-  // may not be a good idea...
+  // May not be a good idea...
   useEffect(() => {
     if (values) {
       const hash = checksum ?? hashObjectIgnoreKeyOrder(values)
@@ -105,27 +79,20 @@ export function Form({
   const listeners: Listeners = {
     onChangeHandler: (ctx, path, newValue) => {
       const { field, value } = readPath(ctx, path)
-
       if (!nRef.current.hasChanges) {
         nRef.current.hasChanges = true
         nRef.current.values = deepCopy(values)
       }
-
       setByPath(nRef.current.values, path, newValue)
       setByPath(nRef.current.changes, path, newValue)
-
       const hash = hashObjectIgnoreKeyOrder(nRef.current.values ?? {})
-
       if (onChangeAtomic) {
         onChangeAtomic(path, newValue, value, field)
       }
-
       if (onChange && variant === 'bare') {
         onChange(nRef.current.values, nRef.current.changes, hash)
       }
-
       setChecksum(hash)
-
       return false
     },
     onNew: () => false,
@@ -134,7 +101,7 @@ export function Form({
     onSelectReferences: () => undefined,
   }
 
-  const onConfirm = async () => {
+  const onConfirm = React.useCallback(async () => {
     try {
       await onChange(nRef.current.values, nRef.current.changes, currentChecksum)
       nRef.current.hasChanges = false
@@ -145,15 +112,15 @@ export function Form({
     } catch (err) {
       throw err
     }
-  }
+  }, [checksum])
 
-  const onCancel = () => {
+  const onCancel = React.useCallback(() => {
     nRef.current.hasChanges = false
     nRef.current.values = values ?? {}
     nRef.current.changes = {}
     const hash = checksum ?? hashObjectIgnoreKeyOrder(values ?? {})
     setChecksum(hash)
-  }
+  }, [checksum])
 
   const ctx: TableCtx = {
     variant,
@@ -167,7 +134,7 @@ export function Form({
       {Object.entries(fields).map(([key, field]) => {
         return <Field ctx={ctx} key={key} field={field} propKey={key} />
       })}
-      <FormConfrim
+      <FormConfirm
         confirmLabel={confirmLabel}
         onConfirm={onConfirm}
         onCancel={onCancel}

@@ -33,9 +33,7 @@ export function Confirm({
     <Stack
       justify={justify}
       style={{
-        marginTop: 4,
-        paddingTop: 4,
-        marginRight: 8,
+        marginRight: label ? 4 : 8,
         ...style,
       }}
     >
