@@ -186,10 +186,11 @@ export const References = () => {
           const newFile =
             path[0] === 'logo'
               ? {
+                  name: 'power',
                   id: 'flapflap',
                   src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
                 }
-              : 'id12345'
+              : { id: 'id12345', title: 'Dope!' }
 
           return open(({ close }) => {
             return (

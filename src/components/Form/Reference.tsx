@@ -54,7 +54,9 @@ const InfoBadge = ({ value }: { value: any }) => {
   if (typeof value === 'object') {
     return (
       <>
-        <Text variant="bodyStrong">{value.name ?? value.title}</Text>
+        <Text style={{ marginRight: 12 }} variant="bodyStrong">
+          {value.name ?? value.title}
+        </Text>
         <Badge
           prefix={
             <IconLink style={{ width: 16, height: 16, marginRight: 4 }} />
@@ -87,7 +89,6 @@ export function Reference({
   const { value, field } = readPath<BasedSchemaFieldReference>(ctx, path)
   const marginTop = variant === 'small' ? 0 : -4
   const isLarge = variant === 'large'
-  const isId = value && typeof value === 'string'
   const id = value && typeof value === 'object' ? value.id : value
 
   let hasFile = false
@@ -136,6 +137,7 @@ export function Reference({
       <Stack
         align={isLarge ? 'start' : 'center'}
         direction={isLarge ? 'column' : 'row'}
+        justify="start"
         style={{
           marginTop,
         }}
@@ -147,28 +149,19 @@ export function Reference({
             overflow: 'hidden',
             backgroundColor: color('background', 'neutral'),
             borderRadius: 4,
+            marginBottom: isLarge ? 14 : 0,
           }}
         >
           <Media src={src} variant="cover" type={mimeType} />
         </styled.div>
         <Button variant="icon-only" onClick={selectRef}>
-          <Stack
-            style={{ marginTop: isLarge ? 14 : 0 }}
-            justify="start"
-            gap={12}
-          >
-            {value ? (
-              <InfoBadge value={value} />
-            ) : (
-              <SelectBadge field={field} />
-            )}
-          </Stack>
+          {value ? <InfoBadge value={value} /> : <SelectBadge field={field} />}
         </Button>
       </Stack>
     )
   }
 
-  if (isId) {
+  if (id) {
     return (
       <Button variant="icon-only" onClick={selectRef}>
         <InfoBadge value={value} />
