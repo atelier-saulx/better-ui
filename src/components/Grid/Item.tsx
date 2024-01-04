@@ -20,6 +20,7 @@ export function Item({
   return (
     <styled.div
       style={{
+        height: '100%',
         padding: 16,
         display: 'flex',
         backgroundColor: color('background', 'screen'),

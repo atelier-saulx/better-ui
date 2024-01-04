@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Item } from './Item.js'
 import { color } from '../../utils/colors.js'
 import { FileDrop } from 'react-file-drop'
+import { Stack } from '../Stack/index.js'
 
 // TODO this component is a WIP, API will be changed to match the Table
 
@@ -241,6 +242,10 @@ export function Grid({
     >
       <div
         ref={containerRef}
+        // display="grid"
+
+        // gap={variant === 'column' ? 16 : 0}
+        // grid={variant === 'column' ? 200 : true}
         style={{
           backgroundColor: dragOver ? 'blue' : 'white',
           display: 'grid',
