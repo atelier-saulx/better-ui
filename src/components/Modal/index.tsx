@@ -8,6 +8,7 @@ import {
   borderRadius,
   color,
   border,
+  Text,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -133,28 +134,24 @@ export type ModalTitleProps = {
 export function Title({ children, description }: ModalTitleProps) {
   return (
     <styled.div>
-      <styled.div
+      <Text
+        color="primary"
+        variant="bodyBold"
         style={{
-          color: color('content', 'primary'),
           fontSize: 18,
-          lineHeight: '32px',
-          fontWeight: 700,
         }}
       >
         {children}
-      </styled.div>
+      </Text>
       {description && (
-        <styled.div
+        <Text
+          color="secondary"
           style={{
             marginTop: 16,
-            color: color('content', 'secondary'),
-            fontSize: 14,
-            lineHeight: '24px',
-            fontWeight: 500,
           }}
         >
           {description}
-        </styled.div>
+        </Text>
       )}
     </styled.div>
   )
