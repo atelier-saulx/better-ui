@@ -5,32 +5,26 @@ import {
   BasedSchemaFieldReferences,
 } from '@based/schema'
 
-type Reference =
-  | string
-  | ({ [key: string]: any } & { id: string })
-  | void
-  | null
-type References =
-  | (string | ({ [key: string]: any } & { id: string }))[]
-  | void
-  | null
+export type Reference = string | ({ [key: string]: any } & { id: string })
+
+export type References = Reference[]
 
 export type Listeners = {
   onChangeHandler: (ctx: TableCtx, path: Path, newValue?: any) => boolean
   onNew: (ctx: TableCtx, path: Path, newValue?: any) => boolean
   onRemove: (ctx: TableCtx, path: Path, index: number) => boolean
-  onSelectReference: (
-    path: Path,
-    value: Reference,
-    field: BasedSchemaFieldReference,
+  onSelectReference: (props: {
+    path: Path
+    value: Reference | void | null
+    field: BasedSchemaFieldReference
     ctx: TableCtx
-  ) => Promise<Reference>
+  }) => Promise<Reference | void | null>
   onSelectReferences: (props: {
     path: Path
-    value: References
+    value: References | void | null
     field: BasedSchemaFieldReferences
     ctx: TableCtx
-  }) => Promise<References>
+  }) => Promise<References | void | null>
 }
 
 export type TableCtx = {

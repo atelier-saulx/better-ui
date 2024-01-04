@@ -139,12 +139,21 @@ const AddNew = ({
   )
 }
 
-export function SetField({ ctx, path }: { ctx: TableCtx; path: Path }) {
+export function SetField({
+  ctx,
+  path,
+  variant = 'large',
+}: {
+  ctx: TableCtx
+  path: Path
+  variant?: 'large' | 'small'
+}) {
   const { value = [], field } = readPath<BasedSchemaFieldSet>(ctx, path)
+  const marginTop = variant === 'small' ? 12 : 0
 
   return (
     <Stack direction="column" align="start">
-      <Stack grid>
+      <Stack grid style={{ marginTop }} display={value.length}>
         {value.map((v: string | number, index: number) => {
           return (
             <Tag

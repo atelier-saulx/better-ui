@@ -172,6 +172,30 @@ export const Default = () => {
 export const References = () => {
   const { open } = Modal.useModal()
 
+  const getRandomRef = () => {
+    const id = (~~(Math.random() * 9999999)).toString(16)
+    const choices = [
+      {
+        name: 'power',
+        id,
+        src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+      },
+      { id, title: 'Dope!' },
+      id,
+      {
+        id,
+        title: 'Power',
+        src: 'https://i.imgur.com/t1bWmmC.jpeg',
+      },
+      {
+        id,
+        title: 'Fun',
+        src: '"https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"',
+      },
+    ]
+    return choices[Math.floor(Math.random() * choices.length)]
+  }
+
   return (
     <styled.div
       style={{
@@ -179,22 +203,35 @@ export const References = () => {
       }}
     >
       <Form
-        values={{}}
-        onSelectReference={async (path) => {
-          // path, value, field, ctx
-
-          const newFile =
-            path[0] === 'logo'
-              ? {
-                  name: 'power',
-                  id: 'flapflap',
-                  src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
-                }
-              : { id: 'id12345', title: 'Dope!' }
-
+        values={{
+          refs: [
+            { id: '212cwcwe', name: 'my snurp' },
+            {
+              id: '212cwcwe',
+              src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+            },
+            { id: '212cwcwe' },
+          ],
+        }}
+        onSelectReference={async ({ path }) => {
           return open(({ close }) => {
             return (
-              <Modal onConfirm={() => close(newFile)}>
+              <Modal onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        onSelectReferences={async ({ path }) => {
+          return open(({ close }) => {
+            const newItems: any[] = []
+            const len = ~~(Math.random() * 500)
+            for (let i = 0; i < len; i++) {
+              newItems.push(getRandomRef())
+            }
+            console.log(newItems)
+            return (
+              <Modal onConfirm={() => close(newItems)}>
                 <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
               </Modal>
             )
@@ -249,10 +286,15 @@ export const Set = () => {
       <Form
         values={{
           set: ['a', 'b', 'c'],
-          setNumber: [1, 3, 4, 5],
+          setNumber: [
+            1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          ],
           object: {
             a: ['a', 'b', 'c'],
-            b: [1, 3, 4, 5],
+            b: [
+              1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+              20,
+            ],
           },
         }}
         fields={{
@@ -280,6 +322,12 @@ export const Set = () => {
                 items: { type: 'string' },
               },
               b: {
+                title: 'Set Numbers',
+                type: 'set',
+                description: 'A set with numbers',
+                items: { type: 'number' },
+              },
+              c: {
                 title: 'Set Numbers',
                 type: 'set',
                 description: 'A set with numbers',

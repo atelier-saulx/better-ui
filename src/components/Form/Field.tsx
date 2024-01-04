@@ -17,6 +17,7 @@ import { isTable, isCode } from './utils.js'
 import { SetField } from './Set.js'
 import { Reference } from './Reference.js'
 import { TableCtx } from './types.js'
+import { References } from './References.js'
 
 export const Field = ({
   propKey: key,
@@ -61,6 +62,14 @@ export const Field = ({
         >
           <Reference path={path} ctx={ctx} />
         </styled.div>
+      </FormField>
+    )
+  }
+
+  if (field.type === 'references') {
+    return (
+      <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
+        <References path={path} ctx={ctx} />
       </FormField>
     )
   }

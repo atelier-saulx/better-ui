@@ -111,12 +111,12 @@ export function Reference({
   }
 
   const selectRef = React.useCallback(async () => {
-    const result = await ctx.listeners.onSelectReference(
+    const result = await ctx.listeners.onSelectReference({
       path,
       value,
       field,
-      ctx
-    )
+      ctx,
+    })
     if (result === undefined) {
       return
     }
