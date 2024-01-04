@@ -9,6 +9,7 @@ export type GridProps = {
   onUpload?: (e) => void
   variant?: 'row' | 'column'
   items: {
+    id: string
     index?: number
     title: string
     description?: string
@@ -63,7 +64,8 @@ export function Grid({
       return
     }
     const prefix = dragOverItem.current?.slice(0, 2)
-    if (prefix === 'di' && id !== dragOverItem.current) {
+    // if (prefix === 'di' && id !== dragOverItem.current) {
+    if (false) {
       // await client
       //   .query('db', {
       //     $id: dragOverItem.current,
@@ -83,27 +85,32 @@ export function Grid({
         const filteredItems = filterFolder(items, 'root') as any
 
         const activeIndex = filteredItems?.findIndex(
-          (item) => item.title === id
+          (item) => item.id === id
         ) as number
+
         const overIndex =
           dragOverItem.current !== 'last'
             ? (filteredItems?.findIndex(
-                (item) => item.title === dragOverItem.current
+                (item) => item.id === dragOverItem.current
               ) as number)
             : filteredItems.length
 
+        const activeItem = filteredItems[activeIndex]
+
         if (activeIndex > overIndex) {
-          filteredItems.splice(overIndex, 0, filteredItems[activeIndex])
+          filteredItems.splice(overIndex, 0, activeItem)
           filteredItems.splice(activeIndex + 1, 1)
         } else if (activeIndex < overIndex) {
-          filteredItems.splice(overIndex + 1, 0, filteredItems[activeIndex])
+          filteredItems.splice(activeIndex, 1)
+          filteredItems.splice(overIndex, 0, activeItem)
         }
 
         for (const i in filteredItems) {
           filteredItems[i].index = i
         }
-        console.log(filteredItems)
+
         setItems(filteredItems)
+
         // for (const i in filteredItems) {
         //   items[i].index = i
         //   // client.call('db:set', {
@@ -150,7 +157,7 @@ export function Grid({
       const posX = e.clientX - x
       const posY = e.clientY - y
 
-      dragItem.style.transform = `translate(${posX}px, ${posY}px)`
+      dragItem.style.transform = `translate3d(${posX}px, ${posY}px, 0px)`
 
       for (const item of otherItems) {
         const upper = dragItem.getBoundingClientRect()
@@ -177,7 +184,7 @@ export function Grid({
           dragOverItem.current = item.id
           break
         } else {
-          item.childNodes[0].style.background = ''
+          item.childNodes[0].style.background = color('background', 'screen')
           dragOverItem.current = ''
         }
       }
@@ -190,7 +197,7 @@ export function Grid({
       // document.onpointerup = null
       document.onpointermove = null
       otherItems.forEach((item) => {
-        item.childNodes[0].style.background = ''
+        item.childNodes[0].style.background = color('background', 'screen')
       })
       // otherItems.forEach((item) => {
       //   item.style.background = ''
@@ -204,17 +211,6 @@ export function Grid({
 
   return (
     <FileDrop
-      // onFrameDragEnter={(event) => console.log('onFrameDragEnter', event)}
-      // onFrameDragLeave={(event) => console.log('onFrameDragLeave', event)}
-      // onFrameDrop={(event) => {
-      //   console.log('onFrameDrop!', event)
-      //   // setDragging(false)
-      // }}
-      // onDragOver={(event) => console.log('onDragOver', event)}
-      // onDragLeave={(event) => {
-      //   console.log('onDragLeave', event)
-      //   setDragging(false)
-      // }}
       onDrop={(files, event) => {
         console.log('dropped')
         for (const i in files) {
@@ -234,7 +230,7 @@ export function Grid({
         Item
       </button> */}
         {filterFolder(items, 'root').map((item, i) => (
-          <span key={i} id={item.title} onPointerDown={(e) => dragStart(e, i)}>
+          <span key={i} id={item.id} onPointerDown={(e) => dragStart(e, i)}>
             <Item item={item} variant={variant} itemAction={itemAction} />
           </span>
         ))}

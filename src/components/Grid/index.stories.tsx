@@ -20,11 +20,13 @@ const meta: Meta<typeof Grid> = {
 
 export default meta
 
+let thing = 0
+
 const items = new Array(10).fill(null).map(() => ({
   id: faker.string.uuid().slice(0, 8),
   title: faker.system.commonFileName(),
   description: faker.lorem.words({ min: 0, max: 10 }),
-  index: faker.number.int({ max: 10, min: 0 }),
+  index: thing++,
   image: faker.image.url(),
   renderAs: faker.helpers.arrayElement(['folder', 'file', 'image']) as
     | 'folder'

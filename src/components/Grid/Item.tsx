@@ -22,6 +22,7 @@ export function Item({
       style={{
         padding: 16,
         display: 'flex',
+        backgroundColor: color('background', 'screen'),
         ...(variant === 'column' && {
           borderRadius: borderRadius('tiny'),
           border: border(),
@@ -81,6 +82,7 @@ export function Item({
                 ...textVariants.bodyStrong,
                 color: color('interactive', 'primary'),
                 textTransform: 'uppercase',
+                userSelect: 'none',
                 fontSize: variant === 'column' ? 14 : 8,
               }}
             >
