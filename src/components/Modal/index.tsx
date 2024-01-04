@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import * as ModalBase from '@radix-ui/react-dialog'
 import {
   useControllableState,
@@ -8,6 +8,7 @@ import {
   borderRadius,
   color,
   border,
+  Text,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -68,13 +69,14 @@ export function Trigger({ children }: ModalTriggerProps) {
 }
 
 export type ModalOverlayProps = {
+  style?: Style
   children:
     | (({ close }: { close: () => void }) => React.ReactNode)
     | React.ReactNode
 }
 
 export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
-  ({ children }, ref) => {
+  ({ children, style }, ref) => {
     const { open, setOpen } = useModalContext()
     if (!open) {
       return null
@@ -110,6 +112,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             flexDirection: 'column',
             boxShadow: 'var(--shadow-elevation)',
             outline: 'none',
+            ...style,
           }}
         >
           {typeof children === 'function'
@@ -125,39 +128,34 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
   }
 )
 
-export type ModalTitleProps = { title: string; description?: string }
+export type ModalTitleProps = {
+  children: React.ReactNode
+  description?: React.ReactNode
+}
 
-export function Title({ title, description }: ModalTitleProps) {
+export function Title({ children, description }: ModalTitleProps) {
   return (
-    <div
-      style={{
-        padding: '24px 32px',
-      }}
-    >
-      <div
+    <styled.div>
+      <Text
+        color="primary"
+        variant="bodyBold"
         style={{
-          color: color('content', 'primary'),
           fontSize: 18,
-          lineHeight: '32px',
-          fontWeight: 700,
         }}
       >
-        {title}
-      </div>
+        {children}
+      </Text>
       {description && (
-        <div
+        <Text
+          color="secondary"
           style={{
             marginTop: 16,
-            color: color('content', 'secondary'),
-            fontSize: 14,
-            lineHeight: '24px',
-            fontWeight: 500,
           }}
         >
           {description}
-        </div>
+        </Text>
       )}
-    </div>
+    </styled.div>
   )
 }
 
@@ -206,9 +204,12 @@ type ModalEl = React.ReactElement<
   any,
   string | React.JSXElementConstructor<any>
 >
+
+type ModelElFn = ({ close }: { close(val: any): void }) => ModalEl
+
 type UseModalRes = {
   modals: ModalEl[]
-  open(el: ModalEl): Promise<void>
+  open(el: ModalEl | ModelElFn): Promise<any>
   alert(message: string): Promise<void>
   confirm(message: string): Promise<boolean>
   prompt(message: string): Promise<string | false>
@@ -235,18 +236,27 @@ export const useModal = (): UseModalRes => {
 
   if (!ref.current) {
     let update
-    const open: UseModalRes['open'] = (el) => {
+    const open: UseModalRes['open'] = (el: any) => {
       return new Promise((resolve) => {
+        const close = (val) => {
+          const filter = (m: typeof modal) => m !== modal
+          ref.current.modals = ref.current.modals.filter(filter)
+          setModals(modals.filter(filter))
+          update?.({})
+          resolve(val)
+        }
+
+        if (typeof el === 'function') {
+          el = el({ close })
+        }
+
         const key = modalId++
         const onOpenChange = (val: boolean) => {
           if (val === false) {
-            const filter = (m: typeof modal) => m !== modal
-            ref.current.modals = ref.current.modals.filter(filter)
-            setModals(modals.filter(filter))
-            update?.({})
-            resolve()
+            close(undefined)
           }
         }
+
         const modal =
           el.type === Modal ? (
             React.cloneElement(el, {
@@ -258,6 +268,7 @@ export const useModal = (): UseModalRes => {
               {el}
             </Modal>
           )
+
         ref.current.modals.push(modal)
         if (update) {
           update({})
@@ -343,12 +354,15 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 export type ModalProps = {
-  title?: ModalTitleProps['title']
+  title?: ModalTitleProps['children']
   description?: ModalTitleProps['description']
   open?: boolean
   onOpenChange?: ModalRootProps['onOpenChange']
   children?: React.ReactNode
   onConfirm?({ close }: { close(): void }): void
+  confirmLabel?: React.ReactNode
+  variant?: 'small' | 'medium' | 'large'
+  style?: Style
 }
 
 export const Modal = Object.assign(
@@ -359,14 +373,25 @@ export const Modal = Object.assign(
     onOpenChange,
     children,
     onConfirm,
+    variant = 'small',
+    confirmLabel = 'OK',
+    style,
   }: ModalProps) => {
     return (
       <Modal.Root open={open} onOpenChange={onOpenChange}>
-        <Modal.Overlay>
+        <Modal.Overlay
+          style={{
+            width: 'calc(100vw - 48px)',
+            height: variant === 'large' ? 'calc(100vw - 60px)' : undefined,
+            maxWidth:
+              variant === 'small' ? 552 : variant === 'medium' ? 750 : 1250,
+            ...style,
+          }}
+        >
           {({ close }) => (
             <>
               {title || description ? (
-                <Modal.Title title={title} description={description} />
+                <Modal.Title description={description}>{title}</Modal.Title>
               ) : null}
               {children ? <Modal.Body>{children}</Modal.Body> : null}
               <Modal.Actions>
@@ -384,7 +409,7 @@ export const Modal = Object.assign(
                       : close
                   }
                 >
-                  OK
+                  {confirmLabel}
                 </Button>
               </Modal.Actions>
             </>

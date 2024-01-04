@@ -1,12 +1,20 @@
 import * as React from 'react'
-import { Form, border } from '../../index.js'
+import { Form, border, Modal } from '../../index.js'
 import { BasedSchemaField } from '@based/schema'
+import { styled } from 'inlines'
 
 const meta = {
   title: 'Components/Form',
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
 }
 
 const ts = `import * as React from 'react'
@@ -60,6 +68,11 @@ export const Default = () => {
             title: 'Name',
             type: 'string',
             description: 'A name of someone',
+          },
+          dope: {
+            title: 'Is it dope?',
+            type: 'boolean',
+            description: 'Dope or nah',
           },
           number: {
             title: 'Number',
@@ -146,24 +159,146 @@ export const Default = () => {
             description: 'A src',
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changed, checksum) => {
+          console.log(
+            'values:',
+            values,
+            'changed:',
+            changed,
+            'checksum:',
+            checksum
+          )
         }}
       />
     </div>
   )
 }
 
+export const References = () => {
+  const { open } = Modal.useModal()
+
+  const getRandomRef = () => {
+    const id = (~~(Math.random() * 9999999)).toString(16)
+    const choices = [
+      {
+        name: 'power',
+        id,
+        src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+      },
+      { id, title: 'Dope!' },
+      id,
+      {
+        id,
+        title: 'Power',
+        src: 'https://i.imgur.com/t1bWmmC.jpeg',
+      },
+      {
+        id,
+        title: 'Fun',
+        src: '"https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"',
+      },
+    ]
+    return choices[Math.floor(Math.random() * choices.length)]
+  }
+
+  return (
+    <styled.div
+      style={{
+        padding: 64,
+      }}
+    >
+      <Form
+        values={{
+          refs: [
+            { id: '212cwcwe', name: 'my snurp' },
+            {
+              id: '212cwcwe',
+              src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+            },
+            { id: '212cwcwe' },
+          ],
+        }}
+        onSelectReference={async ({ path }) => {
+          return open(({ close }) => {
+            return (
+              <Modal variant="large" onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        onSelectReferences={async ({ path }) => {
+          return open(({ close }) => {
+            const newItems: any[] = []
+            const len = ~~(Math.random() * 100)
+            for (let i = 0; i < len; i++) {
+              newItems.push(getRandomRef())
+            }
+            return (
+              <Modal variant="large" onConfirm={() => close(newItems)}>
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        fields={{
+          ref: {
+            title: 'Single reference',
+            type: 'reference',
+            description: 'A single ref',
+          },
+          logo: {
+            title: 'Single reference fronm file',
+            type: 'reference',
+            description: 'A single ref',
+            allowedTypes: ['file'],
+          },
+          refs: {
+            title: 'Multi references',
+            type: 'references',
+            description: 'Multi ref',
+          },
+          object: {
+            title: 'Refs in an object',
+            type: 'object',
+            description: 'Some refs',
+            properties: {
+              ref: {
+                title: 'Single reference',
+                type: 'reference',
+                description: 'A single ref',
+              },
+              refs: {
+                title: 'Multi references',
+                type: 'references',
+                description: 'Multi ref',
+              },
+            },
+          },
+        }}
+        onChange={(values, changed, checksum) => {
+          console.info({ values, changed, checksum })
+        }}
+      />
+    </styled.div>
+  )
+}
+
 export const Set = () => {
   return (
-    <div style={{ padding: 64 }}>
+    <styled.div style={{ padding: 64 }}>
       <Form
         values={{
           set: ['a', 'b', 'c'],
-          setNumber: [1, 3, 4, 5],
+          setNumber: [
+            1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          ],
           object: {
             a: ['a', 'b', 'c'],
-            b: [1, 3, 4, 5],
+            b: [
+              1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+              20,
+            ],
           },
         }}
         fields={{
@@ -196,14 +331,27 @@ export const Set = () => {
                 description: 'A set with numbers',
                 items: { type: 'number' },
               },
+              c: {
+                title: 'Set Numbers',
+                type: 'set',
+                description: 'A set with numbers',
+                items: { type: 'number' },
+              },
             },
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changed, checksum) => {
+          console.log(
+            'values:',
+            values,
+            'changed:',
+            changed,
+            'checksum:',
+            checksum
+          )
         }}
       />
-    </div>
+    </styled.div>
   )
 }
 
@@ -354,7 +502,6 @@ const objectField: { [key: string]: BasedSchemaField } = {
           picture: { type: 'string', contentMediaType: '*/*' },
         },
       },
-
       ratings: {
         title: 'Ratings',
         type: 'object',
@@ -385,6 +532,14 @@ const objectField: { [key: string]: BasedSchemaField } = {
               fromField: 'bla',
             },
             title: 'Snurp',
+            allowedTypes: ['thing'],
+          },
+          doink: {
+            type: 'reference',
+            bidirectional: {
+              fromField: 'bla',
+            },
+            title: 'Doink',
             allowedTypes: ['thing'],
           },
           lat: { type: 'string', title: 'Latitude' },
@@ -430,6 +585,26 @@ const objectField: { [key: string]: BasedSchemaField } = {
   },
 }
 
+export const SmallForm = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Form
+        variant="small"
+        fields={{
+          options: {
+            title: 'Options',
+            description: 'Select some options',
+            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
+          },
+        }}
+        onChange={(values) => {
+          console.log(values)
+        }}
+      />
+    </div>
+  )
+}
+
 export const Object = () => {
   return (
     <div style={{ padding: 64 }}>
@@ -442,6 +617,7 @@ export const Object = () => {
           object: {
             location: {
               snurp: { id: 'flap', src: 'https://i.imgur.com/t1bWmmC.jpeg' },
+              doink: 'th123212',
             },
           },
           orderWithDescription: {
@@ -610,8 +786,8 @@ export const Array = () => {
             values: objectField.object,
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changes) => {
+          console.log(values, changes)
         }}
       />
     </div>

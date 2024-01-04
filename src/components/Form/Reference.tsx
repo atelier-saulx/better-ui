@@ -1,7 +1,11 @@
 import * as React from 'react'
-import { BasedSchemaFieldReference } from '@based/schema'
+import {
+  BasedSchemaContentMediaType,
+  BasedSchemaFieldReference,
+} from '@based/schema'
 import {
   Stack,
+  Button,
   Badge,
   IconLink,
   Media,
@@ -47,12 +51,12 @@ const SelectBadge = ({ field }: { field: BasedSchemaFieldReference }) => {
 }
 
 const InfoBadge = ({ value }: { value: any }) => {
-  // const isObject = typeof value === 'object'
-
   if (typeof value === 'object') {
     return (
       <>
-        <Text variant="bodyStrong">{value.name ?? value.title}</Text>
+        <Text style={{ marginRight: 12 }} variant="bodyStrong">
+          {value.name ?? value.title}
+        </Text>
         <Badge
           prefix={
             <IconLink style={{ width: 16, height: 16, marginRight: 4 }} />
@@ -63,7 +67,6 @@ const InfoBadge = ({ value }: { value: any }) => {
       </>
     )
   }
-
   return (
     <Badge
       prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
@@ -85,38 +88,57 @@ export function Reference({
   const { value, field } = readPath<BasedSchemaFieldReference>(ctx, path)
   const marginTop = variant === 'small' ? 0 : -4
   const isLarge = variant === 'large'
-  const isId = value && typeof value === 'string'
+  const id = value && typeof value === 'object' ? value.id : value
 
   let hasFile = false
   let src: string
+  let mimeType: BasedSchemaContentMediaType
 
   if (ctx.schema) {
     // go go go
   } else {
     if (field.allowedTypes?.includes('file')) {
       hasFile = true
-      // lets go its file
-      // other wise find it in ctx
     }
     if (typeof value === 'object' && value.src) {
       src = value.src
       hasFile = true
-      // go go go
+      if (value.mimeType) {
+        mimeType = value.mimeType
+      }
     }
   }
 
+  const selectRef = React.useCallback(async () => {
+    const result = await ctx.listeners.onSelectReference({
+      path,
+      value,
+      field,
+      ctx,
+    })
+    if (result === undefined) {
+      return
+    }
+    let newId: string | void
+    if (typeof result === 'object') {
+      newId = result.id
+    } else {
+      newId = result
+    }
+    if (newId !== id) {
+      ctx.listeners.onChangeHandler(ctx, path, result)
+    }
+  }, [id])
+
   if (hasFile) {
     const width = isLarge ? 248 : 32
-
     return (
       <Stack
         align={isLarge ? 'start' : 'center'}
         direction={isLarge ? 'column' : 'row'}
+        justify="start"
         style={{
           marginTop,
-        }}
-        onClick={() => {
-          // yes
         }}
       >
         <styled.div
@@ -126,46 +148,30 @@ export function Reference({
             overflow: 'hidden',
             backgroundColor: color('background', 'neutral'),
             borderRadius: 4,
+            marginBottom: isLarge ? 14 : 0,
+            marginRight: 10,
           }}
         >
-          <Media src={src} variant="cover" />
+          <Media src={src} variant="cover" type={mimeType} />
         </styled.div>
-        <Stack
-          style={{ marginTop: isLarge ? 14 : 0 }}
-          justify="start"
-          gap={12}
-          onClick={() => {}}
-        >
+        <Button variant="icon-only" onClick={selectRef}>
           {value ? <InfoBadge value={value} /> : <SelectBadge field={field} />}
-        </Stack>
+        </Button>
       </Stack>
     )
   }
 
-  if (isId) {
+  if (id) {
     return (
-      <Stack
-        justify="start"
-        gap={12}
-        style={{
-          marginTop,
-        }}
-        onClick={() => {
-          // yes
-        }}
-      >
+      <Button variant="icon-only" onClick={selectRef}>
         <InfoBadge value={value} />
-      </Stack>
+      </Button>
     )
   }
 
   return (
-    <Stack
-      onClick={() => {
-        // yes
-      }}
-    >
+    <Button variant="icon-only" onClick={selectRef}>
       <SelectBadge field={field} />
-    </Stack>
+    </Button>
   )
 }

@@ -9,6 +9,7 @@ export type StackProps = React.HTMLProps<'div'> & {
   direction?: 'row' | 'column'
   justify?: 'center' | 'between' | 'end' | 'start'
   align?: 'center' | 'start' | 'end' | 'stretch'
+  display?: any
   gap?: 0 | 4 | 8 | 12 | 16 | 24 | 32
 }
 
@@ -24,10 +25,15 @@ const ReactStack = React.forwardRef(
       gap = grid ? 12 : 0,
       align = grid ? 'start' : 'center',
       justify = grid ? 'start' : 'between',
+      display = true,
       ...props
     }: StackProps,
     ref
   ) => {
+    if (!display) {
+      return null
+    }
+
     const gridIsNumber = typeof grid === 'number'
 
     if (grid && gridIsNumber) {
@@ -36,9 +42,10 @@ const ReactStack = React.forwardRef(
           display: 'grid',
           gap,
           position: 'relative',
+          gridAutoRows: '1fr',
           gridTemplateColumns: `repeat( auto-fit,minmax(${
             gridIsNumber ? grid : 48
-          }px, 1fr)  )`,
+          }px, 1fr))`,
           '&::before': {
             content: '""',
             width: 0,

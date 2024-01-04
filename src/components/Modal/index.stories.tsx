@@ -85,9 +85,9 @@ export const Nested = ({ level = 0 }) => {
 export const List = ({ level = 0 }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {Array.from({ length: 5 }).map(() => {
+      {Array.from({ length: 5 }).map((_, i) => {
         return (
-          <Modal.Root>
+          <Modal.Root key={i}>
             <Modal.Trigger>
               <Button>Open modal</Button>
             </Modal.Trigger>
@@ -214,6 +214,55 @@ export const ModalCtx = () => {
           Open modal with context 2
         </Button>
       </Ctx.Provider>
+    </div>
+  )
+}
+
+export const ModalConfirm = () => {
+  const { open } = Modal.useModal()
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
+      }}
+    >
+      <Button
+        onClick={async () => {
+          const result = await open(({ close }) => (
+            <Modal
+              onConfirm={() => {
+                close('yay')
+              }}
+            >
+              xxx
+            </Modal>
+          ))
+
+          console.log({ result })
+        }}
+      >
+        Open modal
+      </Button>
+      <Button
+        onClick={async () => {
+          const result = await open(({ close }) => (
+            <Button
+              onClick={() => {
+                close('supercool')
+              }}
+            >
+              cool stuff
+            </Button>
+          ))
+
+          console.log({ result })
+        }}
+      >
+        Open modal 2
+      </Button>
     </div>
   )
 }

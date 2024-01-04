@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import {
   IconViewLayoutLeft,
   Tooltip,
@@ -22,12 +22,14 @@ export type SidebarProps = {
   children: React.ReactNode
   value: string
   onChange: (value: string) => void
+  style?: Style
 }
 
 export function Sidebar({
   children,
   value: valueProp,
   onChange,
+  style,
 }: SidebarProps) {
   const isMobile = useIsMobile()
   const [open, setOpen] = React.useState(true)
@@ -51,6 +53,7 @@ export function Sidebar({
         borderRight: border(),
         padding: '16px 12px',
         '& > * + *': { marginTop: '8px' },
+        ...style,
       }}
     >
       <SidebarContext.Provider value={{ open, value, setValue }}>

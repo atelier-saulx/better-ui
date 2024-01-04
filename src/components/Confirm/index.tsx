@@ -11,8 +11,10 @@ import {
 
 type ConfirmProps = {
   label?: React.ReactNode
+  cancelLabel?: React.ReactNode
   style?: Style
-  variant?: 'buttons' | 'icons'
+  variant?: 'small' | 'regular'
+  justify?: 'center' | 'between' | 'end' | 'start'
   value?: any
   onConfirm: ((value?: any) => void) | ((value?: any) => Promise<void>)
   onCancel: (value?: any) => void
@@ -22,26 +24,29 @@ export function Confirm({
   style,
   variant,
   label,
+  cancelLabel,
+  justify = 'end',
   onConfirm,
   onCancel,
 }: ConfirmProps) {
-  return variant === 'icons' ? (
+  return variant === 'small' ? (
     <Stack
-      justify="end"
+      justify={justify}
       style={{
-        marginTop: 16,
-        paddingTop: 16,
-        marginRight: 8,
+        marginRight: label ? 4 : 8,
         ...style,
       }}
     >
-      {label ? <Text color="secondary">{label}</Text> : null}
+      {label ? (
+        <Text style={{ marginRight: 12 }} color="secondary">
+          {label}
+        </Text>
+      ) : null}
       <Button
         variant="icon-only"
-        onClick={() => {
-          return onConfirm()
-        }}
-        style={{ marginLeft: 16 }}
+        onClick={React.useCallback(() => {
+          return onCancel()
+        }, [onConfirm])}
         prefix={
           <IconClose style={{ color: getColor('content', 'secondary') }} />
         }
@@ -49,7 +54,7 @@ export function Confirm({
       <Button
         variant="icon-only"
         onClick={async () => {
-          return onCancel()
+          return onConfirm()
         }}
         style={{ marginLeft: 4 }}
         prefix={
@@ -60,23 +65,23 @@ export function Confirm({
       />
     </Stack>
   ) : (
-    <Stack justify="end">
+    <Stack justify={justify}>
       <Button
         onClick={() => {
-          return onConfirm()
+          return onCancel()
         }}
         variant="neutral"
-        style={{ marginRight: 24, marginLeft: 16 }}
+        style={{ marginRight: 16, marginLeft: 16 }}
         // displayShortcut
         // keyboardShortcut="Esc"
       >
-        Cancel
+        {cancelLabel ?? 'Cancel'}
       </Button>
       <Button
         // displayShortcut
         // keyboardShortcut="Enter"
         onClick={async () => {
-          return onCancel()
+          return onConfirm()
         }}
       >
         {label ?? 'Confirm'}
