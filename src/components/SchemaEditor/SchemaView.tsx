@@ -18,7 +18,7 @@ export const SchemaView = ({ schemaType }) => {
         </Stack>
         <AddSchemaField />
       </Stack>
-      <CheckboxInput label="Show system fields" style={{ marginBottom: 16 }} />
+      <CheckboxInput label="Show system fields" style={{ marginBottom: 24 }} />
 
       <div>FIELDS HERE</div>
     </div>
