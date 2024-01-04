@@ -185,7 +185,7 @@ export const References = () => {
           return open(({ close }) => {
             return (
               <Modal onConfirm={() => close('id123345')}>
-                REFERENCE! {path.join('/')}
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
               </Modal>
             )
           })

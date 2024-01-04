@@ -125,16 +125,15 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
   }
 )
 
-export type ModalTitleProps = { title: string; description?: string }
+export type ModalTitleProps = {
+  children: React.ReactNode
+  description?: React.ReactNode
+}
 
-export function Title({ title, description }: ModalTitleProps) {
+export function Title({ children, description }: ModalTitleProps) {
   return (
-    <div
-      style={{
-        padding: '24px 32px',
-      }}
-    >
-      <div
+    <styled.div>
+      <styled.div
         style={{
           color: color('content', 'primary'),
           fontSize: 18,
@@ -142,10 +141,10 @@ export function Title({ title, description }: ModalTitleProps) {
           fontWeight: 700,
         }}
       >
-        {title}
-      </div>
+        {children}
+      </styled.div>
       {description && (
-        <div
+        <styled.div
           style={{
             marginTop: 16,
             color: color('content', 'secondary'),
@@ -155,9 +154,9 @@ export function Title({ title, description }: ModalTitleProps) {
           }}
         >
           {description}
-        </div>
+        </styled.div>
       )}
-    </div>
+    </styled.div>
   )
 }
 
