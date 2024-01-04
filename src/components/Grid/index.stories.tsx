@@ -36,6 +36,7 @@ export const Default = () => {
   return (
     <div style={{ padding: 64 }}>
       <Grid
+        onUpload={(v) => console.log(v)}
         items={items}
         itemAction={(e) => (
           <Dropdown.Root>

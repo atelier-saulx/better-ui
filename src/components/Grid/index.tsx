@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { Item } from './Item.js'
 import { color } from '../../utils/colors.js'
+import { FileDrop } from 'react-file-drop'
 
 // TODO this component is a WIP, API will be changed to match the Table
 
 export type GridProps = {
+  onUpload?: (e) => void
   variant?: 'row' | 'column'
   items: {
     index?: number
@@ -48,6 +50,7 @@ export function Grid({
   variant = 'column',
   items: propsItems,
   itemAction,
+  onUpload,
 }: GridProps) {
   const dragOverItem = React.useRef<string>()
   const containerRef = React.useRef<any>()
@@ -200,22 +203,42 @@ export function Grid({
   }
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        display: 'grid',
-        gap: variant === 'column' ? 16 : 0,
-        gridTemplateColumns: variant === 'column' ? 'repeat(3, 1fr)' : '1fr',
+    <FileDrop
+      // onFrameDragEnter={(event) => console.log('onFrameDragEnter', event)}
+      // onFrameDragLeave={(event) => console.log('onFrameDragLeave', event)}
+      // onFrameDrop={(event) => {
+      //   console.log('onFrameDrop!', event)
+      //   // setDragging(false)
+      // }}
+      // onDragOver={(event) => console.log('onDragOver', event)}
+      // onDragLeave={(event) => {
+      //   console.log('onDragLeave', event)
+      //   setDragging(false)
+      // }}
+      onDrop={(files, event) => {
+        console.log('dropped')
+        for (const i in files) {
+          onUpload(files[i])
+        }
       }}
     >
-      {/* <button onClick={() => console.log(filterFolder(items, 'root'))}>
+      <div
+        ref={containerRef}
+        style={{
+          display: 'grid',
+          gap: variant === 'column' ? 16 : 0,
+          gridTemplateColumns: variant === 'column' ? 'repeat(3, 1fr)' : '1fr',
+        }}
+      >
+        {/* <button onClick={() => console.log(filterFolder(items, 'root'))}>
         Item
       </button> */}
-      {filterFolder(items, 'root').map((item, i) => (
-        <span id={item.title} onPointerDown={(e) => dragStart(e, i)}>
-          <Item item={item} variant={variant} itemAction={itemAction} />
-        </span>
-      ))}
-    </div>
+        {filterFolder(items, 'root').map((item, i) => (
+          <span key={i} id={item.title} onPointerDown={(e) => dragStart(e, i)}>
+            <Item item={item} variant={variant} itemAction={itemAction} />
+          </span>
+        ))}
+      </div>
+    </FileDrop>
   )
 }
