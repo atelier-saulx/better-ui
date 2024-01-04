@@ -108,7 +108,7 @@ export function Reference({
       field,
       ctx
     )
-    console.info('LUYUULLLZ', result)
+    ctx.listeners.onChangeHandler(ctx, path, result)
   }, [value])
 
   if (hasFile) {
@@ -120,7 +120,6 @@ export function Reference({
         style={{
           marginTop,
         }}
-        onClick={selectRef}
       >
         <styled.div
           style={{
@@ -133,14 +132,20 @@ export function Reference({
         >
           <Media src={src} variant="cover" />
         </styled.div>
-        <Stack
-          style={{ marginTop: isLarge ? 14 : 0 }}
-          justify="start"
-          gap={12}
-          onClick={() => {}}
-        >
-          {value ? <InfoBadge value={value} /> : <SelectBadge field={field} />}
-        </Stack>
+        <Button variant="icon-only" onClick={selectRef}>
+          <Stack
+            style={{ marginTop: isLarge ? 14 : 0 }}
+            justify="start"
+            gap={12}
+            onClick={() => {}}
+          >
+            {value ? (
+              <InfoBadge value={value} />
+            ) : (
+              <SelectBadge field={field} />
+            )}
+          </Stack>
+        </Button>
       </Stack>
     )
   }
