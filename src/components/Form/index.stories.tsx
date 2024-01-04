@@ -221,7 +221,7 @@ export const References = () => {
         onSelectReference={async ({ path }) => {
           return open(({ close }) => {
             return (
-              <Modal onConfirm={() => close(getRandomRef())}>
+              <Modal variant="large" onConfirm={() => close(getRandomRef())}>
                 <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
               </Modal>
             )
@@ -234,9 +234,8 @@ export const References = () => {
             for (let i = 0; i < len; i++) {
               newItems.push(getRandomRef())
             }
-            console.log(newItems)
             return (
-              <Modal onConfirm={() => close(newItems)}>
+              <Modal variant="large" onConfirm={() => close(newItems)}>
                 <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
               </Modal>
             )

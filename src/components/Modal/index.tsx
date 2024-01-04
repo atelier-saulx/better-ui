@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import * as ModalBase from '@radix-ui/react-dialog'
 import {
   useControllableState,
@@ -69,13 +69,14 @@ export function Trigger({ children }: ModalTriggerProps) {
 }
 
 export type ModalOverlayProps = {
+  style?: Style
   children:
     | (({ close }: { close: () => void }) => React.ReactNode)
     | React.ReactNode
 }
 
 export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
-  ({ children }, ref) => {
+  ({ children, style }, ref) => {
     const { open, setOpen } = useModalContext()
     if (!open) {
       return null
@@ -111,6 +112,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             flexDirection: 'column',
             boxShadow: 'var(--shadow-elevation)',
             outline: 'none',
+            ...style,
           }}
         >
           {typeof children === 'function'
@@ -359,6 +361,8 @@ export type ModalProps = {
   children?: React.ReactNode
   onConfirm?({ close }: { close(): void }): void
   confirmLabel?: React.ReactNode
+  variant?: 'small' | 'medium' | 'large'
+  style?: Style
 }
 
 export const Modal = Object.assign(
@@ -369,11 +373,21 @@ export const Modal = Object.assign(
     onOpenChange,
     children,
     onConfirm,
+    variant = 'small',
     confirmLabel = 'OK',
+    style,
   }: ModalProps) => {
     return (
       <Modal.Root open={open} onOpenChange={onOpenChange}>
-        <Modal.Overlay>
+        <Modal.Overlay
+          style={{
+            width: 'calc(100vw - 48px)',
+            height: variant === 'large' ? 'calc(100vw - 60px)' : undefined,
+            maxWidth:
+              variant === 'small' ? 552 : variant === 'medium' ? 750 : 1250,
+            ...style,
+          }}
+        >
           {({ close }) => (
             <>
               {title || description ? (
