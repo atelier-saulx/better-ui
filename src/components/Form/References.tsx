@@ -8,10 +8,12 @@ import {
   IconClose,
   IconPlus,
   border,
+  Media,
   borderRadius,
 } from '../../index.js'
 import { Path, TableCtx, Reference } from './types.js'
 import { readPath } from './utils.js'
+import { styled } from 'inlines'
 
 const Info = ({ value }: { value: Reference }) => {
   if (typeof value === 'object') {
@@ -27,6 +29,32 @@ const Info = ({ value }: { value: Reference }) => {
     return <Text>{value.id}</Text>
   }
   return <Text>{value}</Text>
+}
+
+const Image = ({ value }: { value: Reference }) => {
+  if (typeof value !== 'object') {
+    return null
+  }
+
+  if ('src' in value) {
+    const width = 24
+    return (
+      <styled.div
+        style={{
+          width,
+          margin: -4,
+          height: width,
+          overflow: 'hidden',
+          backgroundColor: color('background', 'neutral'),
+          borderRadius: 4,
+        }}
+      >
+        <Media src={value.src} variant="cover" type={value.mimeType} />
+      </styled.div>
+    )
+  }
+
+  return null
 }
 
 const ReferenceTag = ({
@@ -51,6 +79,7 @@ const ReferenceTag = ({
         borderRadius: borderRadius('tiny'),
       }}
     >
+      <Image value={value} />
       <Info value={value} />
       <Button
         onClick={() => {

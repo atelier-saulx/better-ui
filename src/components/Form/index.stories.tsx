@@ -225,7 +225,7 @@ export const References = () => {
         onSelectReferences={async ({ path }) => {
           return open(({ close }) => {
             const newItems: any[] = []
-            const len = ~~(Math.random() * 500)
+            const len = ~~(Math.random() * 100)
             for (let i = 0; i < len; i++) {
               newItems.push(getRandomRef())
             }
