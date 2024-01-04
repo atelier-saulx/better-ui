@@ -6,7 +6,8 @@ import { FileDrop } from 'react-file-drop'
 // TODO this component is a WIP, API will be changed to match the Table
 
 export type GridProps = {
-  onUpload?: (e) => void
+  onUpload?: (v) => void
+  onMove?: (v) => void
   variant?: 'row' | 'column'
   items: {
     id: string
@@ -21,25 +22,33 @@ export type GridProps = {
 
 const filterFolder = (data, rootId) => {
   if (data?.length < 1) return
-  const newArr = [] as any
   const indexed = [] as any
   const unindexed = [] as any
-  // for (const i in data) {
-  //   const parents = data[i].parents.filter(
-  //     (i) => i === 'root' || i.slice(0, 2) === 'di'
-  //   )
-  //   if (parents[0] === rootId) {
-  //     // if (true) {
-  //     newArr.push(data[i])
-  //   }
-  // }
+  const newArr = [] as any
+
   for (const i in data) {
-    // if (newArr[i].index) {
-    indexed.push(data[i])
-    // } else {
-    //   unindexed.push(newArr[i])
+    if (!data[i].parents) {
+      newArr.push(data[i])
+    }
+    // else {
+    //   const parents = data[i].parents.filter(
+    //     (i) => i === 'root' || i.slice(0, 2) === 'di'
+    //   )
+    //   if (parents[0] === rootId) {
+    //     // if (true) {
+    //     newArr.push(data[i])
+    //   }
     // }
   }
+
+  for (const i in newArr) {
+    if (newArr[i].index) {
+      indexed.push(newArr[i])
+    } else {
+      unindexed.push(newArr[i])
+    }
+  }
+
   indexed.sort(function (a, b) {
     return a.index - b.index
   })
@@ -52,10 +61,12 @@ export function Grid({
   items: propsItems,
   itemAction,
   onUpload,
+  onMove,
 }: GridProps) {
   const dragOverItem = React.useRef<string>()
   const containerRef = React.useRef<any>()
 
+  const [dragOver, setDragOver] = React.useState(false)
   const [items, setItems] = React.useState(propsItems)
 
   const handleDrop = async (id) => {
@@ -111,8 +122,10 @@ export function Grid({
 
         setItems(filteredItems)
 
+        onMove(filteredItems)
+
         // for (const i in filteredItems) {
-        //   items[i].index = i
+        //   // items[i].index = i
         //   // client.call('db:set', {
         //   //   $id: filteredItems[i].id,
         //   //   //temporder should be index type instead but for some reason this doenst want to cooperate if its a string???
@@ -156,8 +169,11 @@ export function Grid({
       // setSelected('')
       const posX = e.clientX - x
       const posY = e.clientY - y
-
-      dragItem.style.transform = `translate3d(${posX}px, ${posY}px, 0px)`
+      if (variant === 'column') {
+        dragItem.style.transform = `translate3d(${posX}px, ${posY}px, 0px)`
+      } else {
+        dragItem.style.transform = `translate3d(0px, ${posY}px, 0px)`
+      }
 
       for (const item of otherItems) {
         const upper = dragItem.getBoundingClientRect()
@@ -211,24 +227,28 @@ export function Grid({
 
   return (
     <FileDrop
-      onDrop={(files, event) => {
-        console.log('dropped')
+      onDrop={(files) => {
         for (const i in files) {
           onUpload(files[i])
         }
+      }}
+      onDragOver={() => {
+        setDragOver(true)
+      }}
+      onDragLeave={() => {
+        setDragOver(false)
       }}
     >
       <div
         ref={containerRef}
         style={{
+          backgroundColor: dragOver ? 'blue' : 'white',
           display: 'grid',
           gap: variant === 'column' ? 16 : 0,
           gridTemplateColumns: variant === 'column' ? 'repeat(3, 1fr)' : '1fr',
+          border: '1px solid red',
         }}
       >
-        {/* <button onClick={() => console.log(filterFolder(items, 'root'))}>
-        Item
-      </button> */}
         {filterFolder(items, 'root').map((item, i) => (
           <span key={i} id={item.id} onPointerDown={(e) => dragStart(e, i)}>
             <Item item={item} variant={variant} itemAction={itemAction} />

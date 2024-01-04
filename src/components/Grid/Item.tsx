@@ -95,6 +95,7 @@ export function Item({
             draggable={false}
             src={item.image}
             style={{
+              userSelect: 'none',
               width: '100%',
               objectFit: variant === 'column' ? 'contain' : 'cover',
               aspectRatio: '16 / 9',
@@ -123,7 +124,7 @@ export function Item({
           <Text
             variant="bodyBold"
             color="primary"
-            style={{ wordBreak: 'break-all' }}
+            style={{ wordBreak: 'break-all', userSelect: 'none' }}
           >
             {item.title}
           </Text>
@@ -142,7 +143,10 @@ export function Item({
             </div>
           )}
         </div>
-        <Text color="secondary" style={{ wordBreak: 'break-all' }}>
+        <Text
+          color="secondary"
+          style={{ wordBreak: 'break-all', userSelect: 'none' }}
+        >
           {item.description}
         </Text>
       </div>
