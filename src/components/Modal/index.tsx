@@ -352,7 +352,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 export type ModalProps = {
-  title?: ModalTitleProps['title']
+  title?: ModalTitleProps['children']
   description?: ModalTitleProps['description']
   open?: boolean
   onOpenChange?: ModalRootProps['onOpenChange']
@@ -377,7 +377,7 @@ export const Modal = Object.assign(
           {({ close }) => (
             <>
               {title || description ? (
-                <Modal.Title title={title} description={description} />
+                <Modal.Title description={description}>{title}</Modal.Title>
               ) : null}
               {children ? <Modal.Body>{children}</Modal.Body> : null}
               <Modal.Actions>
