@@ -14,6 +14,6 @@ export const Default: StoryObj<typeof Confirm> = {
 
 export const Icons: StoryObj<typeof Confirm> = {
   args: {
-    variant: 'icons',
+    variant: 'small',
   },
 }
