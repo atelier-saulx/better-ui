@@ -231,13 +231,15 @@ export const References = () => {
           ],
         }}
         onSelectReference={async ({ path }) => {
-          return open(({ close }) => {
+          const val = await open(({ close }) => {
             return (
               <Modal variant="large" onConfirm={() => close(getRandomRef())}>
                 <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
               </Modal>
             )
           })
+          console.info(val)
+          return val
         }}
         onSelectReferences={async ({ path }) => {
           return open(({ close }) => {
