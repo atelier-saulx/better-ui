@@ -81,6 +81,9 @@ export const Nested = ({ level = 0 }) => {
               <Button variant="neutral" onClick={close}>
                 Cancel
               </Button>
+              <Button variant="error" onClick={close}>
+                Cancel in red
+              </Button>
             </Modal.Actions>
           </>
         )}
