@@ -25,6 +25,7 @@ export type ThumbnailProps = {
     | 'small'
     | 'extra-small'
   shape?: 'square' | 'circle'
+  icon?: React.ReactNode
   onClick?: () => void
   count?: number
   style?: Style
@@ -36,12 +37,13 @@ export function Thumbnail({
   size = 'regular',
   shape = 'square',
   color: colorProp = 'auto',
+  icon,
   onClick,
   count,
   style,
 }: ThumbnailProps) {
   const color = React.useMemo(() => {
-    if (!text) return
+    //  if (!text) return
 
     if (colorProp === 'auto' || colorProp === 'auto-muted') {
       const colors =
@@ -99,6 +101,7 @@ export function Thumbnail({
       }}
       onClick={onClick}
     >
+      {icon && !src && !text && icon}
       {src && (
         <img
           style={{
