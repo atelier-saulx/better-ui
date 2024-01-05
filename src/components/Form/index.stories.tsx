@@ -187,6 +187,26 @@ export const Default = () => {
   )
 }
 
+const faces = new Array(50).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+}))
+
+const facesNames = new Array(50).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+  firstName: faker.person.firstName(),
+  lastName: faker.person.lastName(),
+  zodiac: faker.person.zodiacSign(),
+  city: faker.location.city(),
+}))
+
+const facesLess = new Array(20).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+  name: faker.person.firstName(),
+}))
+
 export const References = () => {
   const { open } = Modal.useModal()
 
@@ -226,6 +246,9 @@ export const References = () => {
     >
       <Form
         values={{
+          refTags: faces,
+          people: facesNames,
+          peopleLess: facesLess,
           refs: [
             'x211212',
             { id: '212cwcwe', name: 'my snurp' },
@@ -280,6 +303,20 @@ export const References = () => {
             description: 'A single ref',
             allowedTypes: ['file'],
           },
+          refTags: {
+            title: 'Multi references',
+            type: 'references',
+            description: 'Multi ref',
+          },
+          peopleLess: {
+            title: 'People',
+            type: 'references',
+          },
+          people: {
+            title: 'People',
+            type: 'references',
+          },
+
           refs: {
             title: 'Multi references',
             type: 'references',
@@ -714,7 +751,7 @@ export const Record = () => {
   )
 }
 
-export const Array = () => {
+export const Arrays = () => {
   return (
     <div style={{ padding: 64 }}>
       <Form

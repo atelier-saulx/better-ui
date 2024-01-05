@@ -11,8 +11,6 @@ const imgNames = /(avatar)|(picture)|(logo)|(photo)/
 export const getMimeType = (
   src: string
 ): BasedSchemaContentMediaType | 'directory' => {
-  console.info(src)
-
   if (src.startsWith('data:')) {
     if (imageDataRe.test(src)) {
       return 'image/*'

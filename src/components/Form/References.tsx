@@ -17,6 +17,7 @@ import { Path, TableCtx, Reference } from './types.js'
 import { readPath } from './utils.js'
 import { Cell } from './Table/Cell.js'
 import { ColStack } from './Table/ColStack.js'
+import humanizeString from 'humanize-string'
 
 const Info = ({ value }: { value: Reference }) => {
   if (typeof value === 'object') {
@@ -40,7 +41,7 @@ const Image = ({ value }: { value: Reference }) => {
   }
 
   if ('src' in value) {
-    const width = 24
+    const width = 32
     return (
       <styled.div
         style={{
@@ -74,6 +75,7 @@ const ReferenceTag = ({
       gap={12}
       justify="start"
       style={{
+        height: 40,
         width: 'auto',
         paddingTop: 2,
         paddingBottom: 2,
@@ -208,10 +210,15 @@ const RefList = ({
   const fields: string[] = []
 
   if (
-    hasFields.size === 1 ||
-    (hasFields.size === 2 && hasFields.has('id') && hasFields.has('src'))
+    hasFields.size < 3 ||
+    (hasFields.size === 3 && hasFields.has('id') && hasFields.has('src'))
   ) {
-    return <References variant="small" ctx={ctx} path={path} />
+    return (
+      <>
+        <styled.div style={{ marginTop: -24 }} />
+        <References variant="small" ctx={ctx} path={path} />
+      </>
+    )
   }
 
   for (const key of FIELDS) {
@@ -223,18 +230,18 @@ const RefList = ({
 
   for (const key of hasFields.values()) {
     fields.push(key)
-    if (fields.length >= 4) {
+    if (fields.length >= 6) {
       break
     }
   }
 
   for (const key of fields) {
     if (key === 'src') {
-      cols.push(<ImageTable />)
+      cols.push(<ImageTable key={key} />)
     } else {
       cols.push(
         <Cell border={key !== 'id'} isKey key={key} width={cellWidth(key)}>
-          {key === 'id' ? '' : key}
+          {humanizeString(key === 'id' ? '' : key)}
         </Cell>
       )
     }
