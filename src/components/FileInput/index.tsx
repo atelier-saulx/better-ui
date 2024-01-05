@@ -30,6 +30,7 @@ export type FileInputProps = {
   // FIXME: do we rly want label and formname>?
   formName?: string
   label?: string
+  description?: string
   // FIXME: should this not update with a listener? - dont waant to add the status...
   status?: Status
   progress?: number
@@ -46,6 +47,7 @@ export type FileInputProps = {
 export function FileInput({
   onChange,
   label,
+  description,
   status: statusProp,
   progress: progressProp,
   mimeType,
@@ -127,6 +129,7 @@ export function FileInput({
         {label && (
           <Text
             singleLine
+            variant="bodyBold"
             style={{
               marginBottom: 8,
             }}
@@ -183,6 +186,11 @@ export function FileInput({
           }}
         />
       </FileDrop>
+      {description !== undefined ? (
+        <Text color="secondary" variant="bodyBold" style={{ marginTop: 8 }}>
+          {description}
+        </Text>
+      ) : null}
     </styled.label>
   )
 }
