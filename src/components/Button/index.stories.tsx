@@ -1,6 +1,6 @@
 import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import { IconCopy, IconMoreVertical, Button } from '../../index.js'
+import { IconCopy, IconMoreVertical, Button, Stack, Text } from '../../index.js'
 
 /** Use buttons for clickable things */
 const meta: Meta<typeof Button> = {
@@ -16,6 +16,21 @@ export const Default: StoryObj<typeof Button> = {
     variant: 'primary',
     size: 'medium',
   },
+}
+
+export const Flap = () => {
+  return (
+    <Stack>
+      <div>
+        <Button size="large">Watup</Button>
+        <Text>BOneo8auf</Text>
+      </div>
+      <Button>
+        <IconCopy />
+        Hellow wtf yo
+      </Button>
+    </Stack>
+  )
 }
 
 export const Icon: StoryObj<typeof Button> = {
