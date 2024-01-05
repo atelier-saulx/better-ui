@@ -107,6 +107,7 @@ export function Form({
     onSelectReferences:
       onSelectReferences ??
       ((async (_, value) => value) as Listeners['onSelectReferences']),
+    onReference: () => undefined,
   }
 
   const onConfirm = React.useCallback(async () => {

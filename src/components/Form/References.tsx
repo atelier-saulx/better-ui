@@ -127,9 +127,7 @@ const RefList = ({
   if (value) {
     for (let i = 0; i < value.length; i++) {
       const cells: React.ReactNode[] = []
-
       const v = typeof value === 'object' ? value[i] : { id: value[i] }
-
       for (const key of fields.values()) {
         cells.push(
           <Cell border key={key}>

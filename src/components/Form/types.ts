@@ -25,6 +25,12 @@ export type Listeners = {
     field: BasedSchemaFieldReferences
     ctx: TableCtx
   }) => Promise<References | void | null>
+  onReference: (props: {
+    path: Path
+    value: References | void | null
+    field: BasedSchemaFieldReferences
+    ctx: TableCtx
+  }) => Promise<Reference>
 }
 
 export type TableCtx = {
