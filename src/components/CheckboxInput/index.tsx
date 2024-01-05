@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {
   textVariants,
+  Text,
   color,
   borderRadius,
   Stack,
@@ -153,25 +154,11 @@ export const CheckboxInput = React.forwardRef<
           </styled.div>
         )}
         <div>
-          {label !== undefined ? (
-            <div
-              style={{
-                color: color('content', 'primary'),
-                ...textVariants.bodyBold,
-              }}
-            >
-              {label}
-            </div>
-          ) : null}
+          {label !== undefined ? <Text variant="bodyBold">{label}</Text> : null}
           {description !== undefined ? (
-            <div
-              style={{
-                color: color('content', 'secondary'),
-                ...textVariants.bodyBold,
-              }}
-            >
+            <Text color="secondary" variant="bodyBold">
               {description}
-            </div>
+            </Text>
           ) : null}
         </div>
       </Stack>

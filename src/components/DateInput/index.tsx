@@ -48,6 +48,7 @@ export type DateInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   label?: string
+  description?: string
   style?: Style
 }
 
@@ -60,6 +61,7 @@ export function DateInput({
   variant = 'regular',
   error,
   label,
+  description,
   style,
 }: DateInputProps) {
   const [value, setValue] = useControllableState({
@@ -202,6 +204,11 @@ export function DateInput({
                   : format(value, time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'))}
             </div>
           </styled.div>
+          {description !== undefined ? (
+            <Text color="secondary" variant="bodyBold" style={{ marginTop: 8 }}>
+              {description}
+            </Text>
+          ) : null}
         </Wrapper>
       </Popover.Trigger>
       <Popover.Portal>

@@ -7,6 +7,7 @@ import {
   border,
   borderRadius,
   boxShadow,
+  Text,
   color,
 } from '../../index.js'
 import { mergeRefs } from 'react-merge-refs'
@@ -24,6 +25,7 @@ export type SelectInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
 }
 
@@ -39,6 +41,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       variant = 'regular',
       error,
       autoFocus,
+      description,
       style,
     },
     ref
@@ -145,6 +148,15 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 }}
               />
             </styled.div>
+            {description !== undefined ? (
+              <Text
+                color="secondary"
+                variant="bodyBold"
+                style={{ marginTop: 8 }}
+              >
+                {description}
+              </Text>
+            ) : null}
           </Wrapper>
         </SelectBase.Trigger>
         <SelectBase.Portal>
@@ -163,8 +175,11 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           >
             <SelectBase.Viewport style={{ padding: 8 }}>
               {options?.map((option) => {
-                const { value, label = null, prefix = null } =
-                  typeof option === 'string' ? { value: option } : option
+                const {
+                  value,
+                  label = null,
+                  prefix = null,
+                } = typeof option === 'string' ? { value: option } : option
 
                 return (
                   <SelectBase.Item key={value} value={value} asChild>

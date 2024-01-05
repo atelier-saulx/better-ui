@@ -8,6 +8,7 @@ import {
   color,
   border,
   boxShadow,
+  Text,
 } from '../../index.js'
 
 export type NumberInputProps = {
@@ -21,6 +22,7 @@ export type NumberInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
 }
 
@@ -67,6 +69,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       variant = 'regular',
       error,
       autoFocus,
+      description,
       style,
     },
     ref
@@ -118,10 +121,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 variant === 'regular'
                   ? borderRadius('small')
                   : borderRadius('tiny'),
-              border:
-                variant === 'small'
-                  ? '1px solid transparent'
-                  : border(),
+              border: variant === 'small' ? '1px solid transparent' : border(),
               color: color('content', 'primary'),
               outline: 'none',
               appearance: 'none',
@@ -134,8 +134,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               },
               '&:focus, &:focus:hover': {
                 border: '1px solid var(--interactive-primary)',
-                boxShadow:
-                  boxShadow('focus'),
+                boxShadow: boxShadow('focus'),
               },
               '&::-webkit-outer-spin-button': {
                 '-webkit-appearance': 'none',
@@ -152,8 +151,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 },
                 '&:focus, &:focus:hover': {
                   border: border('error'),
-                  boxShadow:
-                    boxShadow('error'),
+                  boxShadow: boxShadow('error'),
                 },
               }),
             }}
@@ -213,6 +211,11 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             </styled.div>
           </div>
         </div>
+        {description !== undefined ? (
+          <Text color="secondary" variant="bodyBold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </Wrapper>
     )
   }

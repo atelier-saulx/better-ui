@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { border, borderRadius, boxShadow, color } from '../../index.js'
+import { border, borderRadius, boxShadow, color, Text } from '../../index.js'
 
 export type TextAreaInputProps = {
   placeholder?: string
@@ -12,6 +12,7 @@ export type TextAreaInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
 }
 
@@ -60,6 +61,7 @@ export const TextAreaInput = React.forwardRef<
       variant = 'regular',
       error,
       autoFocus,
+      description,
       style,
     },
     ref
@@ -81,6 +83,15 @@ export const TextAreaInput = React.forwardRef<
             {label}
           </styled.span>
         )}
+        {description !== undefined ? (
+          <Text
+            color="secondary"
+            variant="bodyBold"
+            style={{ marginBottom: 8, marginTop: -6 }}
+          >
+            {description}
+          </Text>
+        ) : null}
         <styled.div
           data-value={valueRef.current}
           style={{

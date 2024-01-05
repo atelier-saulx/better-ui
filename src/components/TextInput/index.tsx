@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color, borderRadius, border, boxShadow } from '../../index.js'
+import { color, borderRadius, border, boxShadow, Text } from '../../index.js'
 
 export type TextInputProps = {
   placeholder?: string
@@ -14,6 +14,7 @@ export type TextInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
 }
 
@@ -61,6 +62,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       variant = 'regular',
       error,
       onKeyDown,
+      description,
       style,
     },
     ref
@@ -124,6 +126,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             }),
           }}
         />
+        {description !== undefined ? (
+          <Text color="secondary" variant="bodyBold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </Wrapper>
     )
   }
