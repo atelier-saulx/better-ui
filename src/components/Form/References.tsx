@@ -17,6 +17,7 @@ import { Path, TableCtx, Reference } from './types.js'
 import { readPath } from './utils.js'
 import { Cell } from './Table/Cell.js'
 import { ColStack } from './Table/ColStack.js'
+import humanizeString from 'humanize-string'
 
 const Info = ({ value }: { value: Reference }) => {
   if (typeof value === 'object') {
@@ -236,11 +237,11 @@ const RefList = ({
 
   for (const key of fields) {
     if (key === 'src') {
-      cols.push(<ImageTable />)
+      cols.push(<ImageTable key={key} />)
     } else {
       cols.push(
         <Cell border={key !== 'id'} isKey key={key} width={cellWidth(key)}>
-          {key === 'id' ? '' : key}
+          {humanizeString(key === 'id' ? '' : key)}
         </Cell>
       )
     }
