@@ -143,61 +143,40 @@ export function Grid({
   const dragStart = (e, index) => {
     if (e.button !== 0) return
     const container = containerRef.current
-    const items = [...container.childNodes]
-    const otherItems = items.filter((_, i) => i !== index)
 
-    const dragItem = items[index]
+    const containerItems = [...container.childNodes]
+    const otherItems = containerItems.filter((_, i) => i !== index)
+
+    const dragItem = containerItems[index]
+    const clone = dragItem.cloneNode(true)
+    clone.id = 'clone'
+    dragItem.after(clone)
 
     const dragBoundingRect = dragItem.getBoundingClientRect()
-    items.forEach((item) => {
-      const { top, left } = item.getBoundingClientRect()
-      item.style.top = top + 'px'
-      item.style.left = left + 'px'
-      item.style.position = 'aboslute'
-    })
 
+    clone.style.opacity = 0.4
     dragItem.style.width = dragBoundingRect.width + 'px'
     dragItem.style.height = dragBoundingRect.height + 'px'
     dragItem.style.top = dragBoundingRect.top + 'px'
     dragItem.style.left = dragBoundingRect.left + 'px'
+    dragItem.style.position = 'fixed'
     dragItem.style.pointerevents = 'none'
     dragItem.style.cursor = 'grabbing'
 
     let x = e.clientX
     let y = e.clientY
 
-    let scrollY = 0
+    window.addEventListener('pointermove', dragMove)
 
-    const movehandler = (e) => {
+    function dragMove(e) {
       const posX = e.clientX - x
-      const posY = e.clientY - y + scrollY
+      const posY = e.clientY - y
 
       if (variant === 'column') {
         dragItem.style.transform = `translate3d(${posX}px, ${posY}px, 0px)`
       } else {
         dragItem.style.transform = `translate3d(0px, ${posY}px, 0px)`
       }
-    }
-
-    const time = setInterval(movehandler, 100, e)
-    const scrollMove = () => {
-      // const posY = window.scrollY - y
-
-      scrollY = window.scrollY
-      // dragItem.style.transform = `translate3d(${
-      //   e.clientX - x
-      // }px, ${scrollY}px, 0px)`
-    }
-
-    window.addEventListener('scroll', scrollMove)
-
-    window.addEventListener('pointermove', dragMove)
-
-    function dragMove(e) {
-      clearInterval(time)
-      // setSelected('')
-
-      movehandler(e)
 
       for (const item of otherItems) {
         const upper = dragItem.getBoundingClientRect()
@@ -231,12 +210,13 @@ export function Grid({
     }
 
     window.addEventListener('pointerup', dragEnd)
+
     function dragEnd() {
       console.log('nopeee ended')
-      clearInterval(time)
+      clone.remove()
       window.removeEventListener('pointerup', dragEnd)
       window.removeEventListener('pointermove', dragMove)
-      window.removeEventListener('scroll', scrollMove)
+
       // document.onpointerup = null
       document.onpointermove = null
       otherItems.forEach((item) => {
