@@ -3,7 +3,7 @@ import { BasedSchemaField, BasedSchema } from '@based/schema'
 import { Stack } from '../../index.js'
 import { readPath } from './utils.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
-import { deepCopy, setByPath } from '@saulx/utils'
+import { deepCopy, deepMerge, setByPath } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 import { Field } from './Field.js'
 import { FormConfirm } from './FormConfirm.js'
@@ -74,11 +74,11 @@ export function Form({
     if (values) {
       const hash = checksum ?? hashObjectIgnoreKeyOrder(values)
       if (currentChecksum !== hash) {
-        nRef.current = { hasChanges: false, values, changes: {} }
+        nRef.current.values = deepMerge(deepCopy(values), nRef.current.changes)
         setChecksum(hash)
       }
     }
-  }, [checksum])
+  }, [checksum, values])
 
   const listeners: Listeners = {
     onChangeHandler: (ctx, path, newValue) => {

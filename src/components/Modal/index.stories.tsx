@@ -25,7 +25,7 @@ export const Default = () => {
         {({ close }) => (
           <>
             <Modal.Title
-              title="Add custom view"
+              children="Add custom view"
               description="This is your organisation’s name within Based. For example, you can use the name of your company or department."
             />
             <Modal.Body>
@@ -68,7 +68,7 @@ export const Nested = ({ level = 0 }) => {
       <Modal.Overlay>
         {({ close }) => (
           <>
-            <Modal.Title title={`Modal #${level}`} />
+            <Modal.Title children={`Modal #${level}`} />
             <Modal.Actions>
               <Nested level={level + 1} />
               <Button variant="neutral" onClick={close}>
@@ -94,7 +94,7 @@ export const List = ({ level = 0 }) => {
             <Modal.Overlay>
               {({ close }) => (
                 <>
-                  <Modal.Title title={`Modal #${level}`} />
+                  <Modal.Title children={`Modal #${level}`} />
                   <Modal.Actions>
                     <Nested level={level + 1} />
                     <Button variant="neutral" onClick={close}>

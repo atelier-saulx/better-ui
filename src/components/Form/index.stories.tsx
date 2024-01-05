@@ -41,9 +41,20 @@ export function Svg({ style, width = 20, height = 20 }: IconProps) {
 export default meta
 
 export const Default = () => {
+  const [cnt, setCnt] = React.useState<number>(0)
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCnt((cnt) => cnt + 1)
+    }, 100)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
   return (
     <div style={{ padding: 64 }}>
       <Form
+        checksum={cnt}
         values={{
           src: 'https://i.imgur.com/t1bWmmC.jpeg',
           code: ts,
@@ -62,6 +73,7 @@ export const Default = () => {
             id: 'idxyz',
             src: 'https://i.imgur.com/t1bWmmC.jpeg',
           },
+          number: cnt,
         }}
         fields={{
           name: {
