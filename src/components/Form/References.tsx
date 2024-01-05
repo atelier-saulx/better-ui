@@ -208,10 +208,15 @@ const RefList = ({
   const fields: string[] = []
 
   if (
-    hasFields.size === 1 ||
-    (hasFields.size === 2 && hasFields.has('id') && hasFields.has('src'))
+    hasFields.size < 3 ||
+    (hasFields.size === 3 && hasFields.has('id') && hasFields.has('src'))
   ) {
-    return <References variant="small" ctx={ctx} path={path} />
+    return (
+      <>
+        <styled.div style={{ marginTop: -24 }} />
+        <References variant="small" ctx={ctx} path={path} />
+      </>
+    )
   }
 
   for (const key of FIELDS) {
@@ -223,7 +228,7 @@ const RefList = ({
 
   for (const key of hasFields.values()) {
     fields.push(key)
-    if (fields.length >= 4) {
+    if (fields.length >= 6) {
       break
     }
   }
