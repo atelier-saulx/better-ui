@@ -132,27 +132,22 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
 export type ModalTitleProps = {
   children: React.ReactNode
   description?: React.ReactNode
+  style?: Style
 }
 
-export function Title({ children, description }: ModalTitleProps) {
+export function Title({ children, description, style }: ModalTitleProps) {
   return (
-    <styled.div>
+    <styled.div style={{ padding: '20px 32px', ...style }}>
       <Text
         color="primary"
-        variant="bodyBold"
-        style={{
-          fontSize: 18,
-        }}
+        variant="bodyStrong"
+        size={18}
+        style={{ marginBottom: 12 }}
       >
         {children}
       </Text>
       {description && (
-        <Text
-          color="secondary"
-          style={{
-            marginTop: 16,
-          }}
-        >
+        <Text color="secondary" variant="bodyBold">
           {description}
         </Text>
       )}
@@ -163,9 +158,14 @@ export function Title({ children, description }: ModalTitleProps) {
 export type ModalMessageProps = {
   variant?: 'warning' | 'error' | 'informative' | 'positive' | 'neutral'
   message?: React.ReactNode
+  style?: Style
 }
 
-export function Message({ variant = 'neutral', message }) {
+export function Message({
+  variant = 'neutral',
+  message,
+  style,
+}: ModalMessageProps) {
   return (
     <styled.div
       style={{
@@ -184,6 +184,7 @@ export function Message({ variant = 'neutral', message }) {
             : variant === 'positive'
             ? color('semantic-background', 'positive-muted')
             : color('semantic-background', 'neutral-muted'),
+        ...style,
       }}
     >
       <IconAlertFill

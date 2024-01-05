@@ -25,14 +25,16 @@ export const Default = () => {
         {({ close }) => (
           <>
             <Modal.Title
+              //  style={{ background: 'lightgrey',  }}
               children="Add custom view"
               description="This is your organisation’s name within Based. For example, you can use the name of your company or department."
             />
             <Modal.Body>
-              {/* <styled.div
+              <styled.div
                 style={{
                   '& > * + *': {
                     marginTop: '24px',
+                    marginBottom: '24px',
                   },
                 }}
               >
@@ -44,10 +46,10 @@ export const Default = () => {
                     { label: 'Hungarian', value: 'hungarian', prefix: '🇭🇺' },
                   ]}
                 />
-              </styled.div> */}
+              </styled.div>
               <Modal.Message
                 message="You are about to update the view"
-                variant="neutral"
+                variant="positive"
               />
             </Modal.Body>
 
@@ -122,7 +124,16 @@ export const Open = () => {
   return (
     <Button
       onClick={() => {
-        modal.open(<Modal title="xxx">Imma body</Modal>)
+        modal.open(
+          <Modal title="xxx">
+            Imma body
+            <Modal.Message
+              variant="warning"
+              message="just a silly warning"
+              style={{ marginTop: 20 }}
+            />
+          </Modal>
+        )
       }}
     >
       Open
