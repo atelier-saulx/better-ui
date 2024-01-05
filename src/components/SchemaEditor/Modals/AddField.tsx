@@ -7,6 +7,7 @@ import { TextInput } from '../../TextInput/index.js'
 import { Container } from '../../Container/index.js'
 import { Thumbnail } from '../../Thumbnail/index.js'
 import { FieldModal } from './FieldModal.js'
+import { Stack } from '../../Stack/index.js'
 
 export const AddField = ({}) => {
   const [searchValue, setSearchValue] = React.useState('')
@@ -15,47 +16,58 @@ export const AddField = ({}) => {
   return (
     <Modal.Root>
       <Modal.Trigger>
-        <Button size="small">
-          <IconPlus /> Add Field
+        <Button size="small" variant="primary-transparent">
+          <IconPlus style={{ marginRight: 8 }} /> Add Field
         </Button>
       </Modal.Trigger>
-      <Modal.Overlay>
+      <Modal.Overlay
+        style={{
+          width: 'calc(100vw - 48px)',
+          maxWidth: 750,
+        }}
+      >
         {({ close }) => (
           <div style={{ padding: 24, overflow: 'overlay' }}>
-            <Text>Add a new field to your schema type</Text>
+            <Text variant="bodyStrong" style={{ marginBottom: 8 }}>
+              Add a new field to your schema type
+            </Text>
             <TextInput
               placeholder="Search for a field"
               onChange={(v) => setSearchValue(v)}
-              style={{ marginBottom: 12 }}
+              style={{ marginBottom: 24 }}
             />
-            {SCHEMA_FIELDS.filter(
-              (item) =>
-                item.label.toLowerCase().includes(searchValue.toLowerCase()) ||
-                item.description
-                  .toLowerCase()
-                  .includes(searchValue.toLowerCase())
-            ).map((item, idx) => (
-              <Container
-                key={idx}
-                title={item.label}
-                description={item.description}
-                prefix={<Thumbnail text={item.label} color="auto-muted" />}
-                style={{ marginBottom: 8 }}
-                onClick={async () => {
-                  close()
-                  const result = await open(({ close }) => (
-                    <Modal
-                      onConfirm={() => {
-                        close('close this')
-                      }}
-                    >
-                      <FieldModal fieldType={item.label} />
-                    </Modal>
-                  ))
-                  console.log({ result })
-                }}
-              />
-            ))}
+            <Stack gap={12} grid>
+              {SCHEMA_FIELDS.filter(
+                (item) =>
+                  item.label
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase()) ||
+                  item.description
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase())
+              ).map((item, idx) => (
+                <Container
+                  style={{ width: 334 }}
+                  key={idx}
+                  title={item.label}
+                  description={item.description}
+                  prefix={<Thumbnail text={item.label} color="auto-muted" />}
+                  onClick={async () => {
+                    close()
+                    const result = await open(({ close }) => (
+                      <Modal
+                        onConfirm={() => {
+                          close('close this')
+                        }}
+                      >
+                        <FieldModal fieldType={item.label} />
+                      </Modal>
+                    ))
+                    console.log({ result })
+                  }}
+                />
+              ))}
+            </Stack>
           </div>
         )}
       </Modal.Overlay>

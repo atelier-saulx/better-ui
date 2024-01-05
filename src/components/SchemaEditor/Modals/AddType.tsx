@@ -22,7 +22,7 @@ export const AddType = () => {
 
   return (
     <Button
-      style={{ marginBottom: '32px' }}
+      style={{ marginBottom: '32px', padding: '6px 12px' }}
       onClick={async () => {
         const result = await open(({ close }) => (
           <Modal
@@ -59,8 +59,9 @@ export const AddType = () => {
         console.log({ result })
       }}
       variant="neutral"
+      size="small"
     >
-      <IconPlus />
+      <IconPlus style={{ marginRight: 8 }} />
       Add a new type
     </Button>
   )

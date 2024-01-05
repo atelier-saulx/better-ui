@@ -53,6 +53,8 @@ export const Default = () => {
           },
         },
       },
+      cows: {},
+      dogs: {},
     },
   }
 

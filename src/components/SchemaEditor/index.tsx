@@ -1,7 +1,6 @@
 import * as React from 'react'
-// import { Style, styled } from 'inlines'
-import { AddType } from './Modals/AddType.js'
 import { SchemaView } from './SchemaView.js'
+import { SchemaSideBar } from './SchemaSideBar.js'
 
 export type SchemaEditorProps = {
   schema: { types: {} }
@@ -9,8 +8,8 @@ export type SchemaEditorProps = {
 
 export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
   return (
-    <div style={{ width: 676, height: 676 }}>
-      <AddType />
+    <div style={{ width: 767, height: 676, display: 'flex' }}>
+      <SchemaSideBar types={schema.types} />
       <SchemaView schemaType={schema.types} />
     </div>
   )

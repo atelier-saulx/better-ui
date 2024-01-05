@@ -12,7 +12,7 @@ export const SchemaView = ({ schemaType }) => {
   let schemaTypeName = Object.keys(schemaType)[0]
 
   return (
-    <div>
+    <div style={{ width: '100%', padding: 32 }}>
       <Stack style={{ marginBottom: 16 }}>
         <Stack gap={16} style={{ justifyContent: 'flex-start', width: 'auto' }}>
           <Text variant="bodyBold">{schemaTypeName}</Text>
