@@ -13,7 +13,7 @@ import {
   color,
   IconSearch,
 } from '../../index.js'
-import { Path, TableCtx } from './types.js'
+import { Path, Reference, TableCtx } from './types.js'
 import { readPath } from './utils.js'
 import { styled } from 'inlines'
 
@@ -50,85 +50,59 @@ const SelectBadge = ({ field }: { field: BasedSchemaFieldReference }) => {
   )
 }
 
-const InfoBadge = ({ value }: { value: any }) => {
-  if (typeof value === 'object') {
-    return (
-      <>
-        <Text style={{ marginRight: 12 }} variant="bodyStrong">
-          {value.name ?? value.title}
-        </Text>
-        <Badge
-          prefix={
-            <IconLink style={{ width: 16, height: 16, marginRight: 4 }} />
-          }
-        >
-          {value.id}
-        </Badge>
-      </>
-    )
-  }
+const Id = (p: { id: string; onClick: () => void }) => {
   return (
-    <Badge
-      prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
-    >
-      {value}
-    </Badge>
+    <Button onClick={p.onClick} variant="icon-only">
+      <Badge
+        prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
+      >
+        {p.id}
+      </Badge>
+    </Button>
   )
 }
 
-export function Reference({
-  ctx,
-  path,
-  variant = 'large',
-}: {
-  ctx: TableCtx
-  path: Path
-  variant?: 'large' | 'small'
-}) {
-  const { value, field } = readPath<BasedSchemaFieldReference>(ctx, path)
-  const marginTop = variant === 'small' ? 0 : -4
-  const isLarge = variant === 'large'
-  const id = value && typeof value === 'object' ? value.id : value
+const Info = (p: { value: Reference; onClick: () => void }) => {
+  if (typeof p.value === 'object') {
+    return (
+      <>
+        <Text style={{ marginRight: 12 }} variant="bodyStrong">
+          {p.value.name ?? p.value.title}
+        </Text>
+        <Id id={p.value.id} onClick={p.onClick} />
+      </>
+    )
+  }
+  return <Id id={p.value} onClick={p.onClick} />
+}
 
+export const Image = (p: {
+  ctx: TableCtx
+  value: Reference
+  field: BasedSchemaFieldReference
+  variant: 'large' | 'small'
+}) => {
   let hasFile = false
   let src: string
   let mimeType: BasedSchemaContentMediaType
 
-  if (ctx.schema) {
+  const marginTop = p.variant === 'small' ? 0 : -4
+  const isLarge = p.variant === 'large'
+
+  if (p.ctx.schema) {
     // go go go
   } else {
-    if (field.allowedTypes?.includes('file')) {
+    if (p.field.allowedTypes?.includes('file')) {
       hasFile = true
     }
-    if (typeof value === 'object' && value.src) {
-      src = value.src
+    if (typeof p.value === 'object' && p.value.src) {
+      src = p.value.src
       hasFile = true
-      if (value.mimeType) {
-        mimeType = value.mimeType
+      if (p.value.mimeType) {
+        mimeType = p.value.mimeType
       }
     }
   }
-
-  const selectRef = React.useCallback(async () => {
-    const result = await ctx.listeners.onSelectReference({
-      path,
-      value,
-      field,
-      ctx,
-    })
-    if (result === undefined) {
-      return
-    }
-    let newId: string | void
-    if (typeof result === 'object') {
-      newId = result.id
-    } else {
-      newId = result
-    }
-    if (newId !== id) {
-      ctx.listeners.onChangeHandler(ctx, path, result)
-    }
-  }, [id])
 
   if (hasFile) {
     const width = isLarge ? 248 : 32
@@ -154,18 +128,72 @@ export function Reference({
         >
           <Media src={src} variant="cover" type={mimeType} />
         </styled.div>
-        <Button variant="icon-only" onClick={selectRef}>
-          {value ? <InfoBadge value={value} /> : <SelectBadge field={field} />}
-        </Button>
       </Stack>
     )
   }
 
+  return null
+}
+
+export function Reference({
+  ctx,
+  path,
+  variant = 'large',
+}: {
+  ctx: TableCtx
+  path: Path
+  variant?: 'large' | 'small'
+}) {
+  const { value, field } = readPath<BasedSchemaFieldReference>(ctx, path)
+  const isLarge = variant === 'large'
+  const id = value && typeof value === 'object' ? value.id : value
+
+  const selectRef = React.useCallback(async () => {
+    const result = await ctx.listeners.onSelectReference({
+      path,
+      value,
+      field,
+      ctx,
+    })
+    if (result === undefined) {
+      return
+    }
+    let newId: string | void
+    if (typeof result === 'object') {
+      newId = result.id
+    } else {
+      newId = result
+    }
+    if (newId !== id) {
+      ctx.listeners.onChangeHandler(ctx, path, result)
+    }
+  }, [id])
+
   if (id) {
     return (
-      <Button variant="icon-only" onClick={selectRef}>
-        <InfoBadge value={value} />
-      </Button>
+      <Stack direction={isLarge ? 'column' : 'row'}>
+        <Image ctx={ctx} variant={variant} field={field} value={value} />
+        <Stack justify={isLarge ? 'start' : 'between'}>
+          <Info
+            value={value}
+            onClick={() => {
+              ctx.listeners.onClickReference({
+                path,
+                value,
+                field,
+                ctx,
+              })
+            }}
+          />
+          <Button
+            style={{ marginLeft: 8 }}
+            variant="icon-only"
+            onClick={selectRef}
+          >
+            <SelectBadge field={field} />
+          </Button>
+        </Stack>
+      </Stack>
     )
   }
 

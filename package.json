@@ -1,7 +1,7 @@
 {
   "name": "@based/ui",
   "type": "module",
-  "version": "6.0.0-alpha",
+  "version": "6.0.1-alpha",
   "scripts": {
     "dev": "concurrently 'npx tsc -w' 'storybook dev -p 6006'",
     "build": "rm -rf dist && npx tsc && cp -r ./src/styles ./dist/styles",

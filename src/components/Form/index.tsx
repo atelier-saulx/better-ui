@@ -23,7 +23,7 @@ export type FormProps = {
   checksum?: number
   onSelectReference?: Listeners['onSelectReference']
   onSelectReferences?: Listeners['onSelectReferences']
-  onReference?: Listeners['onReference']
+  onClickReference?: Listeners['onClickReference']
   onChangeAtomic?: (
     path: Path,
     newValue: any,
@@ -57,7 +57,7 @@ export function Form({
   onSelectReference,
   onSelectReferences,
   confirmLabel,
-  onReference,
+  onClickReference,
   variant = 'regular',
 }: FormProps) {
   const nRef = useRef<{
@@ -101,7 +101,7 @@ export function Form({
       setChecksum(hash)
       return false
     },
-    onReference: onReference ?? (() => undefined),
+    onClickReference: onClickReference ?? (() => undefined),
     onSelectReference:
       onSelectReference ??
       ((async (_, value) => value) as Listeners['onSelectReference']),
