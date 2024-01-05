@@ -62,7 +62,7 @@ export const AddType = () => {
       size="small"
     >
       <IconPlus style={{ marginRight: 8 }} />
-      Add a new type
+      Add type
     </Button>
   )
 }

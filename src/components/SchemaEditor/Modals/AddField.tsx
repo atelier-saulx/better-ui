@@ -7,7 +7,7 @@ import { TextInput } from '../../TextInput/index.js'
 import { Container } from '../../Container/index.js'
 import { Thumbnail } from '../../Thumbnail/index.js'
 import { FieldModal } from './FieldModal.js'
-import { Stack } from '../../Stack/index.js'
+import { color } from '../../../utils/colors.js'
 
 export const AddField = ({}) => {
   const [searchValue, setSearchValue] = React.useState('')
@@ -33,10 +33,17 @@ export const AddField = ({}) => {
             </Text>
             <TextInput
               placeholder="Search for a field"
+              value={searchValue}
               onChange={(v) => setSearchValue(v)}
-              style={{ marginBottom: 24 }}
+              style={{
+                marginBottom: 16,
+                '& input': {
+                  background: color('semantic-background', 'neutral-muted'),
+                  border: '1px solid transparent !important',
+                },
+              }}
             />
-            <Stack gap={12} grid>
+            <div>
               {SCHEMA_FIELDS.filter(
                 (item) =>
                   item.label
@@ -47,13 +54,25 @@ export const AddField = ({}) => {
                     .includes(searchValue.toLowerCase())
               ).map((item, idx) => (
                 <Container
-                  style={{ width: 334 }}
+                  style={{
+                    maxWidth: 334,
+                    width: '48%',
+                    display: 'inline-block',
+                    margin: '1%',
+                  }}
                   key={idx}
                   title={item.label}
                   description={item.description}
-                  prefix={<Thumbnail text={item.label} color="auto-muted" />}
+                  prefix={
+                    <Thumbnail
+                      text={item.label}
+                      color="auto-muted"
+                      style={{ marginRight: 4 }}
+                    />
+                  }
                   onClick={async () => {
                     close()
+                    setSearchValue('')
                     const result = await open(({ close }) => (
                       <Modal
                         onConfirm={() => {
@@ -67,7 +86,7 @@ export const AddField = ({}) => {
                   }}
                 />
               ))}
-            </Stack>
+            </div>
           </div>
         )}
       </Modal.Overlay>
@@ -88,7 +107,7 @@ export const SCHEMA_FIELDS = [
   },
   {
     label: 'Rich Text',
-    description: 'Stored as JSON and seperate field for HTML ',
+    description: 'Texteditor with styling controls',
   },
   {
     label: 'Number',
