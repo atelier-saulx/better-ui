@@ -20,7 +20,7 @@ export const SchemaView = ({ schemaType }) => {
   return (
     <div style={{ marginTop: 32 }}>
       <Stack style={{ marginBottom: 16 }}>
-        <Stack gap={16} style={{ justifyContent: 'flex-start' }}>
+        <Stack gap={16} style={{ justifyContent: 'flex-start', width: 'auto' }}>
           <Text variant="bodyBold">{Object.keys(schemaType)[0]} </Text>
           <Dropdown.Root>
             <Dropdown.Trigger>
