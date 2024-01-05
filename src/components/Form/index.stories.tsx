@@ -1,12 +1,21 @@
 import * as React from 'react'
-import { Form, border } from '../../index.js'
+import { Form, border, Modal } from '../../index.js'
 import { BasedSchemaField } from '@based/schema'
+import { styled } from 'inlines'
+import { faker } from '@faker-js/faker'
 
 const meta = {
   title: 'Components/Form',
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
 }
 
 const ts = `import * as React from 'react'
@@ -33,9 +42,20 @@ export function Svg({ style, width = 20, height = 20 }: IconProps) {
 export default meta
 
 export const Default = () => {
+  const [cnt, setCnt] = React.useState<number>(0)
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCnt((cnt) => cnt + 1)
+    }, 100)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
   return (
     <div style={{ padding: 64 }}>
       <Form
+        checksum={cnt}
         values={{
           src: 'https://i.imgur.com/t1bWmmC.jpeg',
           code: ts,
@@ -54,12 +74,18 @@ export const Default = () => {
             id: 'idxyz',
             src: 'https://i.imgur.com/t1bWmmC.jpeg',
           },
+          number: cnt,
         }}
         fields={{
           name: {
             title: 'Name',
             type: 'string',
             description: 'A name of someone',
+          },
+          dope: {
+            title: 'Is it dope?',
+            type: 'boolean',
+            description: 'Dope or nah',
           },
           number: {
             title: 'Number',
@@ -161,16 +187,145 @@ export const Default = () => {
   )
 }
 
+export const References = () => {
+  const { open } = Modal.useModal()
+
+  const getRandomRef = () => {
+    const id = faker.string.uuid().slice(0, 8)
+    const choices = [
+      {
+        id,
+        src: faker.image.avatar(),
+        name: faker.person.fullName(),
+      },
+      { id, title: faker.lorem.sentence(3) },
+      id,
+      {
+        id,
+        status: faker.lorem.words(1),
+        title: faker.lorem.sentence(3),
+        src: faker.image.avatar(),
+        number: faker.number.int(10),
+        name: faker.person.fullName(),
+      },
+      {
+        id,
+        src: faker.image.avatar(),
+        name: faker.person.fullName(),
+        status: faker.lorem.words(1),
+      },
+    ]
+    return choices[Math.floor(Math.random() * choices.length)]
+  }
+
+  return (
+    <styled.div
+      style={{
+        padding: 64,
+      }}
+    >
+      <Form
+        values={{
+          refs: [
+            'x211212',
+            { id: '212cwcwe', name: 'my snurp' },
+            {
+              id: '212cwcwe',
+              src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+            },
+            { id: '212cwcwe' },
+          ],
+        }}
+        onClickReference={async ({ path }) => {
+          open(({ close }) => {
+            return (
+              <Modal onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        onSelectReference={async ({ path }) => {
+          return open(({ close }) => {
+            return (
+              <Modal variant="large" onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        onSelectReferences={async ({ path }) => {
+          return open(({ close }) => {
+            const newItems: any[] = []
+            const len = ~~(Math.random() * 100)
+            for (let i = 0; i < len; i++) {
+              newItems.push(getRandomRef())
+            }
+            return (
+              <Modal variant="large" onConfirm={() => close(newItems)}>
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        fields={{
+          ref: {
+            title: 'Single reference',
+            type: 'reference',
+            description: 'A single ref',
+          },
+          logo: {
+            title: 'Single reference fronm file',
+            type: 'reference',
+            description: 'A single ref',
+            allowedTypes: ['file'],
+          },
+          refs: {
+            title: 'Multi references',
+            type: 'references',
+            description: 'Multi ref',
+          },
+          object: {
+            title: 'Refs in an object',
+            type: 'object',
+            description: 'Some refs',
+            properties: {
+              ref: {
+                title: 'Single reference',
+                type: 'reference',
+                description: 'A single ref',
+              },
+              refs: {
+                title: 'Multi references',
+                type: 'references',
+                description: 'Multi ref',
+              },
+            },
+          },
+        }}
+        onChange={(values, changed, checksum) => {
+          console.info({ values, changed, checksum })
+        }}
+      />
+    </styled.div>
+  )
+}
+
 export const Set = () => {
   return (
-    <div style={{ padding: 64 }}>
+    <styled.div style={{ padding: 64 }}>
       <Form
         values={{
           set: ['a', 'b', 'c'],
-          setNumber: [1, 3, 4, 5],
+          setNumber: [
+            1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          ],
           object: {
             a: ['a', 'b', 'c'],
-            b: [1, 3, 4, 5],
+            b: [
+              1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+              20,
+            ],
           },
         }}
         fields={{
@@ -203,6 +358,12 @@ export const Set = () => {
                 description: 'A set with numbers',
                 items: { type: 'number' },
               },
+              c: {
+                title: 'Set Numbers',
+                type: 'set',
+                description: 'A set with numbers',
+                items: { type: 'number' },
+              },
             },
           },
         }}
@@ -217,7 +378,7 @@ export const Set = () => {
           )
         }}
       />
-    </div>
+    </styled.div>
   )
 }
 
@@ -652,8 +813,8 @@ export const Array = () => {
             values: objectField.object,
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changes) => {
+          console.log(values, changes)
         }}
       />
     </div>

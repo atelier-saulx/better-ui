@@ -3,7 +3,6 @@ import { hash } from '@saulx/hash'
 import { styled, Style } from 'inlines'
 import {
   IconCheckLarge,
-  IconCopy,
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
   SemanticVariant,
@@ -19,6 +18,7 @@ export type BadgeProps = {
   prefix?: React.ReactNode
   suffix?: React.ReactNode
   style?: Style
+  noCheckedIcon?: boolean
 }
 
 export function Badge({
@@ -27,6 +27,7 @@ export function Badge({
   color: colorProp = 'informative',
   size = 'regular',
   prefix,
+  noCheckedIcon,
   suffix,
   style,
 }: BadgeProps) {
@@ -36,21 +37,33 @@ export function Badge({
     if (colorProp === 'auto' || colorProp === 'auto-muted') {
       const colors =
         colorProp === 'auto' ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS
-
       const index =
         Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) + 1
-
       return colors[index]
     }
-
     return colorProp
   }, [colorProp, children])
+
+  if (showCheck && !noCheckedIcon) {
+    const icon = (
+      <IconCheckLarge
+        height={size === 'regular' ? 16 : 12}
+        width={size === 'regular' ? 16 : 12}
+      />
+    )
+    if (prefix && !suffix) {
+      prefix = icon
+    } else {
+      suffix = icon
+    }
+  }
 
   return (
     <styled.div
       onClick={
         copyValue
-          ? () => {
+          ? (e: Event) => {
+              e.stopPropagation()
               navigator.clipboard.writeText(copyValue)
               setShowCheck(true)
             }
@@ -79,13 +92,7 @@ export function Badge({
         }),
         ...(copyValue && {
           cursor: 'copy',
-          '&:hover': {
-            borderTopRightRadius: '0 !important',
-            borderBottomRightRadius: '0 !important',
-          },
-          '&:hover > .badge-copyable': {
-            display: 'flex !important',
-          },
+          userSelect: 'none',
         }),
         ...style,
       }}
@@ -96,43 +103,6 @@ export function Badge({
       {prefix && prefix}
       {children}
       {suffix && suffix}
-      {copyValue && (
-        <span
-          className="badge-copyable"
-          style={{
-            display: 'none',
-            justifyContent: 'center',
-            alignItems: 'center',
-            ...(size === 'regular' && {
-              height: '24px',
-            }),
-            ...(size === 'small' && {
-              height: '20px',
-            }),
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            transform: 'translateX(100%)',
-            color: getColor('semantic-color', color),
-            background: getColor('semantic-background', color),
-            borderTopRightRadius: borderRadius('large'),
-            borderBottomRightRadius: borderRadius('large'),
-            padding: '0 8px 0 0',
-          }}
-        >
-          {showCheck ? (
-            <IconCheckLarge
-              height={size === 'regular' ? 16 : 12}
-              width={size === 'regular' ? 16 : 12}
-            />
-          ) : (
-            <IconCopy
-              height={size === 'regular' ? 16 : 12}
-              width={size === 'regular' ? 16 : 12}
-            />
-          )}
-        </span>
-      )}
     </styled.div>
   )
 }

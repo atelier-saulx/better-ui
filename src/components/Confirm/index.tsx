@@ -33,14 +33,15 @@ export function Confirm({
     <Stack
       justify={justify}
       style={{
-        marginTop: 4,
-        paddingTop: 4,
-        marginRight: 8,
-        marginLeft: 8,
+        marginRight: label ? 4 : 8,
         ...style,
       }}
     >
-      {label ? <Text color="secondary">{label}</Text> : null}
+      {label ? (
+        <Text style={{ marginRight: 12 }} color="secondary">
+          {label}
+        </Text>
+      ) : null}
       <Button
         variant="icon-only"
         onClick={React.useCallback(() => {

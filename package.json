@@ -1,7 +1,7 @@
 {
-  "name": "better-ui",
+  "name": "@based/ui",
   "type": "module",
-  "version": "0.0.1",
+  "version": "6.0.1-alpha",
   "scripts": {
     "dev": "concurrently 'npx tsc -w' 'storybook dev -p 6006'",
     "build": "rm -rf dist && npx tsc && cp -r ./src/styles ./dist/styles",
@@ -9,6 +9,11 @@
   },
   "main": "./dist/index.js",
   "prettier": "@saulx/prettier-config",
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
   "dependencies": {
     "@based/client": "^5.0.0",
     "@based/react": "^5.0.0",

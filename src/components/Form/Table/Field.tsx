@@ -16,6 +16,7 @@ import { TableCtx, Path } from '../types.js'
 import { Table } from './index.js'
 import { SetField } from '../Set.js'
 import { Reference } from '../Reference.js'
+import { References } from '../References.js'
 
 export const Padder = ({
   children,
@@ -84,12 +85,8 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
 
   if (field.type === 'set') {
     return (
-      <Padder
-        style={{
-          marginTop: 16,
-        }}
-      >
-        <SetField ctx={ctx} path={path} />
+      <Padder>
+        <SetField variant="small" ctx={ctx} path={path} />
       </Padder>
     )
   }
@@ -219,6 +216,14 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
 
   if (field.type === 'array') {
     return <Table ctx={ctx} path={path} />
+  }
+
+  if (field.type === 'references') {
+    return (
+      <Padder>
+        <References variant="small" ctx={ctx} path={path} />
+      </Padder>
+    )
   }
 
   return (

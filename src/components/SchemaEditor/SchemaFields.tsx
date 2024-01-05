@@ -10,6 +10,7 @@ import { Modal } from '../Modal/index.js'
 import { FieldModal } from './Modals/FieldModal.js'
 import { Text } from '../Text/index.js'
 import { color as getColor } from '../../utils/colors.js'
+import { DeleteFieldModal } from './Modals/DeleteFieldModal.js'
 
 type SchemaItem = {
   name: string
@@ -77,8 +78,6 @@ export const SchemaFields = ({ fields }) => {
 
   React.useEffect(() => {
     setArray(parseFields(fields))
-
-    console.log('Whats the array now??', array)
   }, [
     fields,
     //routeType
@@ -140,24 +139,7 @@ export const SchemaFields = ({ fields }) => {
 
                   <Dropdown.Item
                     onClick={() => {
-                      modal.open(
-                        <Modal title={`Delete ${item.label}`}>
-                          <styled.div
-                            style={{
-                              padding: 12,
-                              borderRadius: 4,
-                              backgroundColor: getColor(
-                                'semantic-background',
-                                'error-muted'
-                              ),
-                            }}
-                          >
-                            <Text variant="bodyBold">
-                              Are you sure you want to delete {item.label}?
-                            </Text>
-                          </styled.div>
-                        </Modal>
-                      )
+                      modal.open(<DeleteFieldModal item={item} close={close} />)
                     }}
                   >
                     Delete

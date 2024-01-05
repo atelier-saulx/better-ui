@@ -108,7 +108,7 @@ const MediaInner = ({
     )
   }
 
-  const fileText =
+  let fileText =
     type && type !== '*/*'
       ? type?.split('/')[1]
       : src?.split('.').pop() ?? (
@@ -125,6 +125,10 @@ const MediaInner = ({
             }}
           />
         )
+
+  if (typeof fileText === 'string' && fileText.length > 4) {
+    fileText = fileText.slice(-4)
+  }
 
   return (
     <div
