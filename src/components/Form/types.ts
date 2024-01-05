@@ -26,7 +26,7 @@ export type Listeners = {
   }) => Promise<References | void | null>
   onClickReference: (props: {
     path: Path
-    value: References | void | null
+    value: Reference
     field: BasedSchemaFieldReferences | BasedSchemaFieldReference
     ctx: TableCtx
   }) => ReturnType<ButtonProps['onClick']>

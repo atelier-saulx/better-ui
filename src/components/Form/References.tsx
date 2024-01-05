@@ -63,9 +63,11 @@ const Image = ({ value }: { value: Reference }) => {
 const ReferenceTag = ({
   value,
   onRemove,
+  onClickReference,
 }: {
   value: Reference
   onRemove: () => void
+  onClickReference: (ref: Reference) => void
 }) => {
   return (
     <Stack
@@ -81,6 +83,9 @@ const ReferenceTag = ({
         border: border(),
         backgroundColor: color('background', 'muted'),
         borderRadius: borderRadius('tiny'),
+      }}
+      onClick={() => {
+        onClickReference(value)
       }}
     >
       <Image value={value} />
@@ -107,8 +112,10 @@ const ImageTableStyle = (p: { children?: React.ReactNode }) => {
     <Cell
       border
       style={{
-        width: 48,
+        width: 52,
         height: 48,
+        paddingLeft: 8,
+        paddingRight: 8,
         flexShrink: 0,
         flexGrow: 0,
       }}
@@ -121,7 +128,6 @@ const ImageTableStyle = (p: { children?: React.ReactNode }) => {
             overflow: 'hidden',
             backgroundColor: color('background', 'neutral'),
             borderRadius: 4,
-            marginLeft: 4,
           }}
         >
           {p.children}
@@ -146,70 +152,80 @@ const CellContent = (p: { k: string; value: any }) => {
   if (p.k === 'src') {
     return <ImageTable value={p.value} />
   }
-
   const fieldValue = p.value[p.k]
-
   return (
     <Cell border key={p.k} width={cellWidth(p.k)}>
-      <styled.div
+      <Stack
+        justify={p.k === 'id' ? 'end' : 'start'}
         style={{
           paddingLeft: 18,
           paddingRight: 18,
         }}
       >
         {p.k === 'id' ? (
-          <Badge noCheckedIcon copyValue={fieldValue} color="informative-muted">
-            {fieldValue}
-          </Badge>
+          <Badge color="informative-muted">{fieldValue}</Badge>
         ) : (
-          fieldValue ?? null
+          <Text singleLine style={{ maxWidth: 300 }}>
+            {fieldValue}
+          </Text>
         )}
-      </styled.div>
+      </Stack>
     </Cell>
   )
 }
 
+const FIELDS = ['id', 'src', 'name', 'title']
+
 const RefList = ({
   value,
   onNew,
+  ctx,
+  path,
+  onRemove,
+  onClickReference,
 }: {
   value: Reference[]
   onNew: () => Promise<any>
+  onRemove: (index: number) => void
+  onClickReference: (ref: Reference) => void
+  ctx: TableCtx
+  path: Path
 }) => {
   const rows: React.ReactNode[] = []
   const cols: React.ReactNode[] = [,]
-
-  let hasSrc = false
-  let hasName = false
-  let hasTitle = false
+  const hasFields: Set<string> = new Set(['id'])
 
   for (const v of value) {
     if (typeof v === 'object') {
-      if ('src' in v) {
-        hasSrc = true
-      }
-      if (!hasTitle && 'name' in v) {
-        hasName = true
-      }
-      if ('title' in v) {
-        hasTitle = true
-        hasName = false
+      for (const k in v) {
+        if (typeof v[k] !== 'object') {
+          hasFields.add(k)
+        }
       }
     }
   }
 
-  const fields: string[] = ['id']
+  const fields: string[] = []
 
-  if (hasSrc) {
-    fields.unshift('src')
+  if (
+    hasFields.size === 1 ||
+    (hasFields.size === 2 && hasFields.has('id') && hasFields.has('src'))
+  ) {
+    return <References variant="small" ctx={ctx} path={path} />
   }
 
-  if (hasName) {
-    fields.push('name')
+  for (const key of FIELDS) {
+    if (hasFields.has(key)) {
+      hasFields.delete(key)
+      fields.push(key)
+    }
   }
 
-  if (hasTitle) {
-    fields.push('title')
+  for (const key of hasFields.values()) {
+    fields.push(key)
+    if (fields.length >= 4) {
+      break
+    }
   }
 
   for (const key of fields) {
@@ -217,8 +233,8 @@ const RefList = ({
       cols.push(<ImageTable />)
     } else {
       cols.push(
-        <Cell border isKey key={key} width={cellWidth(key)}>
-          {key}
+        <Cell border={key !== 'id'} isKey key={key} width={cellWidth(key)}>
+          {key === 'id' ? '' : key}
         </Cell>
       )
     }
@@ -226,17 +242,40 @@ const RefList = ({
 
   if (value) {
     for (let i = 0; i < value.length; i++) {
-      const v = typeof value === 'object' ? value[i] : { id: value[i] }
+      const v = typeof value[i] === 'object' ? value[i] : { id: value[i] }
       rows.push(
         <ColStack
+          onClick={() => onClickReference(value[i])}
           key={i}
           style={{
             borderBottom: border(),
+            '& >:nth-last-child(2)': {
+              borderRight: '0px solid transparent !important',
+            },
+            '& >:nth-last-child(1)': {
+              opacity: 0,
+              transition: 'opacity 0.1s',
+            },
+
+            '&:hover': {
+              backgroundColor: `${color('background', 'muted')} !important`,
+              '& >:nth-last-child(1)': {
+                opacity: 1,
+              },
+            },
           }}
         >
-          {fields.map((k) => (
-            <CellContent key={k} k={k} value={v} />
-          ))}
+          {fields.map((k) => {
+            return <CellContent key={k} k={k} value={v} />
+          })}
+          <Button
+            onClick={() => {
+              onRemove(i)
+            }}
+            variant="icon-only"
+          >
+            <IconClose style={{ marginRight: 8, marginLeft: 8 }} />
+          </Button>
         </ColStack>
       )
     }
@@ -244,16 +283,26 @@ const RefList = ({
 
   return (
     <Stack justify="start" align="start" direction="column">
-      {cols.length ? (
-        <ColStack
+      <ColStack
+        style={{
+          background: color('background', 'muted'),
+          borderBottom: border(),
+          '& >:nth-last-child(2)': {
+            borderRight: '0px solid transparent !important',
+          },
+        }}
+      >
+        {cols}
+        <Button
+          onClick={() => {}}
           style={{
-            background: color('background', 'muted'),
-            borderBottom: border(),
+            opacity: 0,
           }}
+          variant="icon-only"
         >
-          {cols}
-        </ColStack>
-      ) : null}
+          <IconClose style={{ marginRight: 8, marginLeft: 8 }} />
+        </Button>
+      </ColStack>
       {rows}
       <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
         <Button
@@ -293,8 +342,32 @@ export function References({
     }
   }, [])
 
+  const removeItem = (index: number) => {
+    const nValue = [...value]
+    nValue.splice(index, 1)
+    ctx.listeners.onChangeHandler(ctx, path, nValue)
+  }
+
+  const clickRef = (value) => {
+    ctx.listeners.onClickReference({
+      path,
+      value,
+      field,
+      ctx,
+    })
+  }
+
   if (variant === 'large') {
-    return <RefList value={value} onNew={addNew} />
+    return (
+      <RefList
+        onClickReference={clickRef}
+        ctx={ctx}
+        path={path}
+        onRemove={removeItem}
+        value={value}
+        onNew={addNew}
+      />
+    )
   }
 
   return (
@@ -303,12 +376,11 @@ export function References({
         {value.map((v: Reference, index: number) => {
           return (
             <ReferenceTag
+              onClickReference={clickRef}
               key={index}
               value={v}
               onRemove={() => {
-                const nValue = [...value]
-                nValue.splice(index, 1)
-                ctx.listeners.onChangeHandler(ctx, path, nValue)
+                removeItem(index)
               }}
             />
           )
