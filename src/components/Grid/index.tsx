@@ -168,9 +168,25 @@ export function Grid({
 
     let scrollY = 0
 
-    const scrollMove = (e) => {
+    const movehandler = (e) => {
+      const posX = e.clientX - x
+      const posY = e.clientY - y + scrollY
+
+      if (variant === 'column') {
+        dragItem.style.transform = `translate3d(${posX}px, ${posY}px, 0px)`
+      } else {
+        dragItem.style.transform = `translate3d(0px, ${posY}px, 0px)`
+      }
+    }
+
+    const time = setInterval(movehandler, 100, e)
+    const scrollMove = () => {
       // const posY = window.scrollY - y
+
       scrollY = window.scrollY
+      // dragItem.style.transform = `translate3d(${
+      //   e.clientX - x
+      // }px, ${scrollY}px, 0px)`
     }
 
     window.addEventListener('scroll', scrollMove)
@@ -178,14 +194,10 @@ export function Grid({
     window.addEventListener('pointermove', dragMove)
 
     function dragMove(e) {
+      clearInterval(time)
       // setSelected('')
-      const posX = e.clientX - x
-      const posY = e.clientY - y + scrollY
-      if (variant === 'column') {
-        dragItem.style.transform = `translate3d(${posX}px, ${posY}px, 0px)`
-      } else {
-        dragItem.style.transform = `translate3d(0px, ${posY}px, 0px)`
-      }
+
+      movehandler(e)
 
       for (const item of otherItems) {
         const upper = dragItem.getBoundingClientRect()
@@ -221,6 +233,7 @@ export function Grid({
     window.addEventListener('pointerup', dragEnd)
     function dragEnd() {
       console.log('nopeee ended')
+      clearInterval(time)
       window.removeEventListener('pointerup', dragEnd)
       window.removeEventListener('pointermove', dragMove)
       window.removeEventListener('scroll', scrollMove)
