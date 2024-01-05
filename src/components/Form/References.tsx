@@ -236,7 +236,7 @@ const RefList = ({
 
   for (const key of fields) {
     if (key === 'src') {
-      cols.push(<ImageTable />)
+      cols.push(<ImageTable key={key} />)
     } else {
       cols.push(
         <Cell border={key !== 'id'} isKey key={key} width={cellWidth(key)}>
