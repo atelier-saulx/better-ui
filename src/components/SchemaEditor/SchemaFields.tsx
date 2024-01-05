@@ -8,8 +8,6 @@ import { Dropdown } from '../Dropdown/index.js'
 import { IconMoreHorizontal } from '../Icons/index.js'
 import { Modal } from '../Modal/index.js'
 import { FieldModal } from './Modals/FieldModal.js'
-import { Text } from '../Text/index.js'
-import { color as getColor } from '../../utils/colors.js'
 import { DeleteFieldModal } from './Modals/DeleteFieldModal.js'
 
 type SchemaItem = {

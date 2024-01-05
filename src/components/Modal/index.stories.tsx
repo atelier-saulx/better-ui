@@ -68,7 +68,7 @@ export const Nested = ({ level = 0 }) => {
       <Modal.Overlay>
         {({ close }) => (
           <>
-            <Modal.Title children={`Modal #${level}`} />
+            {/* <Modal.Title children={`Modal #${level}`} /> */}
             <Modal.Actions>
               <Nested level={level + 1} />
               <Button variant="neutral" onClick={close}>
