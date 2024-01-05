@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Item } from './Item.js'
-import { color } from '../../utils/colors.js'
+import { borderRadius, color } from '../../utils/colors.js'
 import { FileDrop } from 'react-file-drop'
 import { Stack } from '../Stack/index.js'
 
@@ -243,15 +243,17 @@ export function Grid({
       <div
         ref={containerRef}
         // display="grid"
-
         // gap={variant === 'column' ? 16 : 0}
         // grid={variant === 'column' ? 200 : true}
         style={{
-          backgroundColor: dragOver ? 'blue' : 'white',
+          padding: 20,
+          borderRadius: borderRadius('small'),
+          backgroundColor: dragOver
+            ? color('background', 'neutral')
+            : color('background', 'screen'),
           display: 'grid',
           gap: variant === 'column' ? 16 : 0,
           gridTemplateColumns: variant === 'column' ? 'repeat(3, 1fr)' : '1fr',
-          border: '1px solid red',
         }}
       >
         {filterFolder(items, 'root').map((item, i) => (
