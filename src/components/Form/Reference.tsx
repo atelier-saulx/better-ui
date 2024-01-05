@@ -193,7 +193,7 @@ export function Reference({
     return (
       <Stack justify="start" direction={isLarge ? 'column' : 'row'}>
         <Image ctx={ctx} isLarge={isLarge} field={field} value={value} />
-        <Stack gap={12} justify={isLarge ? 'start' : 'between'}>
+        <Stack gap={isLarge ? 12 : 0} justify={isLarge ? 'start' : 'between'}>
           <Info
             value={value}
             onClick={() => {

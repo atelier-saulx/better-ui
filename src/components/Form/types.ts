@@ -4,6 +4,7 @@ import {
   BasedSchemaFieldReference,
   BasedSchemaFieldReferences,
 } from '@based/schema'
+import { ButtonProps } from '../Button/index.js'
 
 export type Reference = string | ({ [key: string]: any } & { id: string })
 
@@ -28,7 +29,7 @@ export type Listeners = {
     value: References | void | null
     field: BasedSchemaFieldReferences | BasedSchemaFieldReference
     ctx: TableCtx
-  }) => Promise<Reference>
+  }) => ReturnType<ButtonProps['onClick']>
 }
 
 export type TableCtx = {

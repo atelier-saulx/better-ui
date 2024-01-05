@@ -230,16 +230,23 @@ export const References = () => {
             { id: '212cwcwe' },
           ],
         }}
+        onClickReference={async ({ path }) => {
+          open(({ close }) => {
+            return (
+              <Modal onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
         onSelectReference={async ({ path }) => {
-          const val = await open(({ close }) => {
+          return open(({ close }) => {
             return (
               <Modal variant="large" onConfirm={() => close(getRandomRef())}>
                 <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
               </Modal>
             )
           })
-          console.info(val)
-          return val
         }}
         onSelectReferences={async ({ path }) => {
           return open(({ close }) => {

@@ -1,11 +1,13 @@
 import * as React from 'react'
 import { BasedSchemaFieldReferences } from '@based/schema'
+import { styled } from 'inlines'
 import {
   Stack,
   Button,
   Text,
   color,
   IconClose,
+  Badge,
   IconPlus,
   border,
   Media,
@@ -13,7 +15,6 @@ import {
 } from '../../index.js'
 import { Path, TableCtx, Reference } from './types.js'
 import { readPath } from './utils.js'
-import { styled } from 'inlines'
 import { Cell } from './Table/Cell.js'
 import { ColStack } from './Table/ColStack.js'
 
@@ -44,11 +45,11 @@ const Image = ({ value }: { value: Reference }) => {
       <styled.div
         style={{
           width,
-          margin: -4,
           height: width,
           overflow: 'hidden',
           backgroundColor: color('background', 'neutral'),
           borderRadius: 4,
+          marginLeft: -4,
         }}
       >
         <Media src={value.src} variant="cover" type={value.mimeType} />
@@ -72,7 +73,8 @@ const ReferenceTag = ({
       justify="start"
       style={{
         width: 'auto',
-        padding: 2,
+        paddingTop: 2,
+        paddingBottom: 2,
         color: color('content', 'secondary'),
         paddingLeft: 8,
         paddingRight: 8,
@@ -95,6 +97,78 @@ const ReferenceTag = ({
   )
 }
 
+const cellWidth = (key: string) => {
+  if (key === 'id') {
+    return 120
+  }
+}
+const ImageTableStyle = (p: { children?: React.ReactNode }) => {
+  return (
+    <Cell
+      border
+      style={{
+        width: 48,
+        height: 48,
+        flexShrink: 0,
+        flexGrow: 0,
+      }}
+    >
+      {p.children ? (
+        <styled.div
+          style={{
+            width: 36,
+            height: 36,
+            overflow: 'hidden',
+            backgroundColor: color('background', 'neutral'),
+            borderRadius: 4,
+            marginLeft: 4,
+          }}
+        >
+          {p.children}
+        </styled.div>
+      ) : null}
+    </Cell>
+  )
+}
+
+const ImageTable = ({ value }: { value?: Reference }) => {
+  if (typeof value === 'object' && 'src' in value) {
+    return (
+      <ImageTableStyle>
+        <Media src={value.src} variant="cover" type={value.mimeType} />
+      </ImageTableStyle>
+    )
+  }
+  return <ImageTableStyle />
+}
+
+const CellContent = (p: { k: string; value: any }) => {
+  if (p.k === 'src') {
+    return <ImageTable value={p.value} />
+  }
+
+  const fieldValue = p.value[p.k]
+
+  return (
+    <Cell border key={p.k} width={cellWidth(p.k)}>
+      <styled.div
+        style={{
+          paddingLeft: 18,
+          paddingRight: 18,
+        }}
+      >
+        {p.k === 'id' ? (
+          <Badge noCheckedIcon copyValue={fieldValue} color="informative-muted">
+            {fieldValue}
+          </Badge>
+        ) : (
+          fieldValue ?? null
+        )}
+      </styled.div>
+    </Cell>
+  )
+}
+
 const RefList = ({
   value,
   onNew,
@@ -103,45 +177,56 @@ const RefList = ({
   onNew: () => Promise<any>
 }) => {
   const rows: React.ReactNode[] = []
-  const cols: React.ReactNode[] = []
+  const cols: React.ReactNode[] = [,]
 
-  const fields = new Set(['id'])
+  let hasSrc = false
+  let hasName = false
+  let hasTitle = false
 
   for (const v of value) {
     if (typeof v === 'object') {
-      const keys = Object.keys(v)
-      for (const k of keys) {
-        fields.add(k)
+      if ('src' in v) {
+        hasSrc = true
+      }
+      if (!hasTitle && 'name' in v) {
+        hasName = true
+      }
+      if ('title' in v) {
+        hasTitle = true
+        hasName = false
       }
     }
   }
 
-  for (const key of fields.values()) {
-    cols.push(
-      <Cell border isKey key={key}>
-        {key}
-      </Cell>
-    )
+  const fields: string[] = ['id']
+
+  if (hasSrc) {
+    fields.unshift('src')
+  }
+
+  if (hasName) {
+    fields.push('name')
+  }
+
+  if (hasTitle) {
+    fields.push('title')
+  }
+
+  for (const key of fields) {
+    if (key === 'src') {
+      cols.push(<ImageTable />)
+    } else {
+      cols.push(
+        <Cell border isKey key={key} width={cellWidth(key)}>
+          {key}
+        </Cell>
+      )
+    }
   }
 
   if (value) {
     for (let i = 0; i < value.length; i++) {
-      const cells: React.ReactNode[] = []
       const v = typeof value === 'object' ? value[i] : { id: value[i] }
-      for (const key of fields.values()) {
-        cells.push(
-          <Cell border key={key}>
-            <styled.div
-              style={{
-                paddingLeft: 12,
-                paddingRight: 12,
-              }}
-            >
-              {key === 'src' ? <Image value={v} /> : v[key] ?? null}
-            </styled.div>
-          </Cell>
-        )
-      }
       rows.push(
         <ColStack
           key={i}
@@ -149,21 +234,16 @@ const RefList = ({
             borderBottom: border(),
           }}
         >
-          {cells}
+          {fields.map((k) => (
+            <CellContent key={k} k={k} value={v} />
+          ))}
         </ColStack>
       )
     }
   }
 
   return (
-    <Stack
-      justify="start"
-      align="start"
-      direction="column"
-      style={{
-        borderBottom: border(),
-      }}
-    >
+    <Stack justify="start" align="start" direction="column">
       {cols.length ? (
         <ColStack
           style={{
