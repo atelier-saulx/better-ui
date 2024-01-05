@@ -61,11 +61,7 @@ export function Root({
 export type ModalTriggerProps = { children: React.ReactNode }
 
 export function Trigger({ children }: ModalTriggerProps) {
-  return (
-    <ModalBase.Trigger asChild>
-      <div>{children}</div>
-    </ModalBase.Trigger>
-  )
+  return <ModalBase.Trigger asChild>{children}</ModalBase.Trigger>
 }
 
 export type ModalOverlayProps = {
