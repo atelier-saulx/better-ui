@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Modal, Button, TextInput, SelectInput, Text } from '../../index.js'
+import { Modal, Button, TextInput, SelectInput } from '../../index.js'
 import { styled } from 'inlines'
 
 const meta = {
