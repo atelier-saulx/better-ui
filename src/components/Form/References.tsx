@@ -40,7 +40,7 @@ const Image = ({ value }: { value: Reference }) => {
   }
 
   if ('src' in value) {
-    const width = 24
+    const width = 32
     return (
       <styled.div
         style={{
@@ -74,6 +74,7 @@ const ReferenceTag = ({
       gap={12}
       justify="start"
       style={{
+        height: 40,
         width: 'auto',
         paddingTop: 2,
         paddingBottom: 2,
