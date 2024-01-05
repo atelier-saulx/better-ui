@@ -16,9 +16,11 @@ export function Item({
   }
   itemAction?: (item: any) => React.ReactNode
   variant?: 'row' | 'column'
+  setSelected?: React.Dispatch<React.SetStateAction<string>>
 }) {
   return (
     <styled.div
+      // onClick={}
       style={{
         height: '100%',
         padding: 16,

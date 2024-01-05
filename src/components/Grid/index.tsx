@@ -69,6 +69,7 @@ export function Grid({
 
   const [dragOver, setDragOver] = React.useState(false)
   const [items, setItems] = React.useState(propsItems)
+  const [selected, setSelected] = React.useState('')
 
   const handleDrop = async (id) => {
     // setDragging(false)
@@ -78,6 +79,7 @@ export function Grid({
     const prefix = dragOverItem.current?.slice(0, 2)
     // if (prefix === 'di' && id !== dragOverItem.current) {
     if (false) {
+      //PUT IT INSIDE FOLDER HERE
       // await client
       //   .query('db', {
       //     $id: dragOverItem.current,
@@ -164,12 +166,21 @@ export function Grid({
     let x = e.clientX
     let y = e.clientY
 
+    let scrollY = 0
+
+    const scrollMove = (e) => {
+      // const posY = window.scrollY - y
+      scrollY = window.scrollY
+    }
+
+    window.addEventListener('scroll', scrollMove)
+
     window.addEventListener('pointermove', dragMove)
 
     function dragMove(e) {
       // setSelected('')
       const posX = e.clientX - x
-      const posY = e.clientY - y
+      const posY = e.clientY - y + scrollY
       if (variant === 'column') {
         dragItem.style.transform = `translate3d(${posX}px, ${posY}px, 0px)`
       } else {
@@ -209,8 +220,10 @@ export function Grid({
 
     window.addEventListener('pointerup', dragEnd)
     function dragEnd() {
+      console.log('nopeee ended')
       window.removeEventListener('pointerup', dragEnd)
       window.removeEventListener('pointermove', dragMove)
+      window.removeEventListener('scroll', scrollMove)
       // document.onpointerup = null
       document.onpointermove = null
       otherItems.forEach((item) => {
@@ -257,8 +270,18 @@ export function Grid({
         }}
       >
         {filterFolder(items, 'root').map((item, i) => (
-          <span key={i} id={item.id} onPointerDown={(e) => dragStart(e, i)}>
-            <Item item={item} variant={variant} itemAction={itemAction} />
+          <span
+            key={i}
+            id={item.id}
+            onPointerDown={(e) => dragStart(e, i)}
+            style={{ cursor: 'pointer' }}
+          >
+            <Item
+              item={item}
+              variant={variant}
+              itemAction={itemAction}
+              setSelected={setSelected}
+            />
           </span>
         ))}
       </div>
