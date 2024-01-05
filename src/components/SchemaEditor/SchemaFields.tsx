@@ -3,12 +3,8 @@ import { styled } from 'inlines'
 import { Container } from '../Container/index.js'
 import { Thumbnail } from '../Thumbnail/index.js'
 import { Badge } from '../Badge/index.js'
-import { Button } from '../Button/index.js'
-import { Dropdown } from '../Dropdown/index.js'
-import { IconMoreHorizontal } from '../Icons/index.js'
-import { Modal } from '../Modal/index.js'
-import { FieldModal } from './Modals/FieldModal.js'
-import { DeleteFieldModal } from './Modals/DeleteFieldModal.js'
+import { FieldOptions } from './Modals/FieldOptions.js'
+import { CheckboxInput } from '../CheckboxInput/index.js'
 
 type SchemaItem = {
   name: string
@@ -67,9 +63,6 @@ const parseFields = (fields) => {
 export const SchemaFields = ({ fields }) => {
   console.log('hellow??', fields)
 
-  const { open } = Modal.useModal()
-  const modal = Modal.useModal()
-
   const [array, setArray] = React.useState<
     SchemaItem[] | unindexedSchemaItem[] | any
   >(parseFields(fields))
@@ -83,6 +76,7 @@ export const SchemaFields = ({ fields }) => {
 
   return (
     <styled.div style={{ marginTop: 16 }}>
+      <CheckboxInput label="Show system fields" style={{ marginBottom: 24 }} />
       {fields &&
         array?.map((item, idx) => (
           <Container
@@ -108,43 +102,7 @@ export const SchemaFields = ({ fields }) => {
                 style={{ marginRight: 16 }}
               />
             }
-            suffix={
-              <Dropdown.Root>
-                <Dropdown.Trigger>
-                  <Button variant="neutral-transparent" shape="square">
-                    <IconMoreHorizontal />
-                  </Button>
-                </Dropdown.Trigger>
-                <Dropdown.Items>
-                  <Dropdown.Item
-                    onClick={async () => {
-                      const result = await open(({ close }) => (
-                        <Modal
-                          onConfirm={() => {
-                            close('close this')
-                          }}
-                        >
-                          {/* Field modal add prefilled field */}
-                          <FieldModal fieldType={item.type} />
-                        </Modal>
-                      ))
-
-                      console.log(result)
-                    }}
-                  >
-                    Edit
-                  </Dropdown.Item>
-
-                  <Dropdown.Item
-                    onClick={() => {
-                      modal.open(<DeleteFieldModal item={item} close={close} />)
-                    }}
-                  >
-                    Delete
-                  </Dropdown.Item>
-                </Dropdown.Items>
-              </Dropdown.Root>
-            }
+            suffix={<FieldOptions item={item} />}
           />
         ))}
     </styled.div>

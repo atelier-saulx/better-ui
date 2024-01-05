@@ -8,7 +8,7 @@ import { Container } from '../../Container/index.js'
 import { Thumbnail } from '../../Thumbnail/index.js'
 import { FieldModal } from './FieldModal.js'
 
-export const AddSchemaField = ({}) => {
+export const AddField = ({}) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
 

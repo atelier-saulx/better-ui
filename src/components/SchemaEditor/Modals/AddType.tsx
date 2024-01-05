@@ -7,7 +7,7 @@ import { Button } from '../../Button/index.js'
 import { Modal } from '../../Modal/index.js'
 import { IconPlus } from '../../Icons/index.js'
 
-export const AddSchemaType = () => {
+export const AddType = () => {
   const { open } = Modal.useModal()
 
   type typeObjProps = {
@@ -22,6 +22,7 @@ export const AddSchemaType = () => {
 
   return (
     <Button
+      style={{ marginBottom: '32px' }}
       onClick={async () => {
         const result = await open(({ close }) => (
           <Modal

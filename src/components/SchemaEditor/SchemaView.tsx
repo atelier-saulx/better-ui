@@ -1,48 +1,27 @@
 import * as React from 'react'
 import { Text } from '../Text/index.js'
-import { Button } from '../Button/index.js'
-import {
-  IconEdit,
-  IconMoreHorizontal,
-  IconCopy,
-  IconFunction,
-  IconDelete,
-} from '../Icons/index.js'
 import { Stack } from '../Stack/index.js'
-import { AddSchemaField } from './Modals/AddSchemaField.js'
-import { CheckboxInput } from '../CheckboxInput/index.js'
+import { AddField } from './Modals/AddField.js'
 import { SchemaFields } from './SchemaFields.js'
-import { Dropdown } from '../Dropdown/index.js'
+import { TypeOptions } from './Modals/TypeOptions.js'
 
 export const SchemaView = ({ schemaType }) => {
   console.log('🦞', schemaType)
 
+  // get name from route
+  let schemaTypeName = Object.keys(schemaType)[0]
+
   return (
-    <div style={{ marginTop: 32 }}>
+    <div>
       <Stack style={{ marginBottom: 16 }}>
         <Stack gap={16} style={{ justifyContent: 'flex-start', width: 'auto' }}>
-          <Text variant="bodyBold">{Object.keys(schemaType)[0]} </Text>
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconEdit />}>Edit name</Dropdown.Item>
-              <Dropdown.Item icon={<IconCopy />}>Clone type</Dropdown.Item>
-              <Dropdown.Item icon={<IconFunction />}>
-                Advanced edit
-              </Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete type</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
+          <Text variant="bodyBold">{schemaTypeName}</Text>
+          <TypeOptions />
         </Stack>
-        <AddSchemaField />
+        <AddField />
       </Stack>
-      <CheckboxInput label="Show system fields" style={{ marginBottom: 24 }} />
 
-      <SchemaFields fields={schemaType[Object.keys(schemaType)[0]].fields} />
+      <SchemaFields fields={schemaType[schemaTypeName].fields} />
     </div>
   )
 }
