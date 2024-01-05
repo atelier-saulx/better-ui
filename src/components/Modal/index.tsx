@@ -9,6 +9,7 @@ import {
   color,
   border,
   Text,
+  IconAlertFill,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -155,6 +156,52 @@ export function Title({ children, description }: ModalTitleProps) {
           {description}
         </Text>
       )}
+    </styled.div>
+  )
+}
+
+export type ModalMessageProps = {
+  variant?: 'warning' | 'error' | 'informative' | 'positive' | 'neutral'
+  message?: React.ReactNode
+}
+
+export function Message({ variant = 'neutral', message }) {
+  return (
+    <styled.div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        borderRadius: 4,
+        padding: '12px 16px',
+        width: '100%',
+        backgroundColor:
+          variant === 'error'
+            ? color('semantic-background', 'error-muted')
+            : variant === 'warning'
+            ? color('semantic-background', 'warning-muted')
+            : variant === 'informative'
+            ? color('semantic-background', 'informative-muted')
+            : variant === 'positive'
+            ? color('semantic-background', 'positive-muted')
+            : color('semantic-background', 'neutral-muted'),
+      }}
+    >
+      <IconAlertFill
+        style={{
+          marginRight: 12,
+          color:
+            variant === 'error'
+              ? color('semantic-background', 'error')
+              : variant === 'warning'
+              ? color('semantic-background', 'warning')
+              : variant === 'informative'
+              ? color('semantic-background', 'informative')
+              : variant === 'positive'
+              ? color('semantic-background', 'positive')
+              : color('semantic-background', 'neutral'),
+        }}
+      />
+      <Text variant="bodyBold">{message}</Text>
     </styled.div>
   )
 }
@@ -394,6 +441,7 @@ export const Modal = Object.assign(
                 <Modal.Title description={description}>{title}</Modal.Title>
               ) : null}
               {children ? <Modal.Body>{children}</Modal.Body> : null}
+
               <Modal.Actions>
                 {onConfirm && (
                   <Button variant="neutral" onClick={close}>
@@ -426,6 +474,7 @@ export const Modal = Object.assign(
     Overlay,
     Title,
     Body,
+    Message,
     Actions,
   }
 )

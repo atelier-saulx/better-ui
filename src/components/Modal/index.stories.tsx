@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Modal, Button, TextInput, SelectInput } from '../../index.js'
+import { Modal, Button, TextInput, SelectInput, Text } from '../../index.js'
 import { styled } from 'inlines'
 
 const meta = {
@@ -29,7 +29,7 @@ export const Default = () => {
               description="This is your organisation’s name within Based. For example, you can use the name of your company or department."
             />
             <Modal.Body>
-              <styled.div
+              {/* <styled.div
                 style={{
                   '& > * + *': {
                     marginTop: '24px',
@@ -44,8 +44,13 @@ export const Default = () => {
                     { label: 'Hungarian', value: 'hungarian', prefix: '🇭🇺' },
                   ]}
                 />
-              </styled.div>
+              </styled.div> */}
+              <Modal.Message
+                message="You are about to update the view"
+                variant="neutral"
+              />
             </Modal.Body>
+
             <Modal.Actions>
               <Button variant="neutral" onClick={close}>
                 Cancel
