@@ -11,8 +11,6 @@ export type References = Reference[]
 
 export type Listeners = {
   onChangeHandler: (ctx: TableCtx, path: Path, newValue?: any) => boolean
-  onNew: (ctx: TableCtx, path: Path, newValue?: any) => boolean
-  onRemove: (ctx: TableCtx, path: Path, index: number) => boolean
   onSelectReference: (props: {
     path: Path
     value: Reference | void | null

@@ -9,6 +9,11 @@
   },
   "main": "./dist/index.js",
   "prettier": "@saulx/prettier-config",
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
   "dependencies": {
     "@based/client": "^5.0.0",
     "@based/react": "^5.0.0",
