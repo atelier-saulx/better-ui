@@ -10,6 +10,7 @@ export type StackProps = React.HTMLProps<'div'> & {
   justify?: 'center' | 'between' | 'end' | 'start'
   align?: 'center' | 'start' | 'end' | 'stretch'
   display?: any
+  fitContent?: boolean
   gap?: 0 | 4 | 8 | 12 | 16 | 24 | 32
 }
 
@@ -26,6 +27,7 @@ const ReactStack = React.forwardRef(
       align = grid ? 'start' : 'center',
       justify = grid ? 'start' : 'between',
       display = true,
+      fitContent,
       ...props
     }: StackProps,
     ref
@@ -70,7 +72,7 @@ const ReactStack = React.forwardRef(
           flexDirection: direction,
           gap,
           flexWrap: grid ? 'wrap' : wrap || undefined,
-          width: '100%',
+          width: fitContent ? 'auto' : '100%',
           alignItems: align,
           justifyContent: justify === 'between' ? 'space-between' : justify,
           ...style,
