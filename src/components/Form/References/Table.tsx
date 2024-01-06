@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { BasedSchemaFieldReferences } from '@based/schema'
 import { styled } from 'inlines'
 import {
   Stack,
@@ -11,98 +10,12 @@ import {
   IconPlus,
   border,
   Media,
-  borderRadius,
-} from '../../index.js'
-import { Path, TableCtx, Reference } from './types.js'
-import { readPath } from './utils.js'
-import { Cell } from './Table/Cell.js'
-import { ColStack } from './Table/ColStack.js'
+} from '../../../index.js'
+import { Path, TableCtx, Reference } from '../types.js'
+import { Cell } from '../Table/Cell.js'
+import { ColStack } from '../Table/ColStack.js'
 import humanizeString from 'humanize-string'
-
-const Info = ({ value }: { value: Reference }) => {
-  if (typeof value === 'object') {
-    const title = value.name ?? value.title
-    if (title) {
-      return (
-        <>
-          <Text variant="bodyStrong">{title}</Text>
-          <Text>{value.id}</Text>
-        </>
-      )
-    }
-    return <Text>{value.id}</Text>
-  }
-  return <Text>{value}</Text>
-}
-
-const Image = ({ value }: { value: Reference }) => {
-  if (typeof value !== 'object') {
-    return null
-  }
-
-  if ('src' in value) {
-    const width = 32
-    return (
-      <styled.div
-        style={{
-          width,
-          height: width,
-          overflow: 'hidden',
-          backgroundColor: color('background', 'neutral'),
-          borderRadius: 4,
-          marginLeft: -4,
-        }}
-      >
-        <Media src={value.src} variant="cover" type={value.mimeType} />
-      </styled.div>
-    )
-  }
-
-  return null
-}
-
-const ReferenceTag = ({
-  value,
-  onRemove,
-  onClickReference,
-}: {
-  value: Reference
-  onRemove: () => void
-  onClickReference: (ref: Reference) => void
-}) => {
-  return (
-    <Stack
-      gap={12}
-      justify="start"
-      style={{
-        height: 40,
-        width: 'auto',
-        paddingTop: 2,
-        paddingBottom: 2,
-        color: color('content', 'secondary'),
-        paddingLeft: 8,
-        paddingRight: 8,
-        border: border(),
-        backgroundColor: color('background', 'muted'),
-        borderRadius: borderRadius('tiny'),
-      }}
-      onClick={() => {
-        onClickReference(value)
-      }}
-    >
-      <Image value={value} />
-      <Info value={value} />
-      <Button
-        onClick={() => {
-          onRemove()
-        }}
-        variant="icon-only"
-      >
-        <IconClose />
-      </Button>
-    </Stack>
-  )
-}
+import { References } from './index.js'
 
 const cellWidth = (key: string) => {
   if (key === 'id') {
@@ -178,7 +91,7 @@ const CellContent = (p: { k: string; value: any }) => {
 
 const FIELDS = ['id', 'src', 'name', 'title']
 
-const RefList = ({
+export const ReferencesTable = ({
   value,
   onNew,
   ctx,
@@ -321,88 +234,6 @@ const RefList = ({
           Add
         </Button>
       </styled.div>
-    </Stack>
-  )
-}
-
-export function References({
-  ctx,
-  path,
-  variant = 'large',
-}: {
-  ctx: TableCtx
-  path: Path
-  variant?: 'large' | 'small'
-}) {
-  const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
-
-  const addNew = React.useCallback(async () => {
-    const result = await ctx.listeners.onSelectReferences({
-      path,
-      value,
-      field,
-      ctx,
-    })
-
-    if (Array.isArray(result)) {
-      ctx.listeners.onChangeHandler(ctx, path, [...value, ...result])
-    }
-  }, [])
-
-  const removeItem = (index: number) => {
-    const nValue = [...value]
-    nValue.splice(index, 1)
-    ctx.listeners.onChangeHandler(ctx, path, nValue)
-  }
-
-  const clickRef = (value) => {
-    ctx.listeners.onClickReference({
-      path,
-      value,
-      field,
-      ctx,
-    })
-  }
-
-  if (variant === 'large') {
-    return (
-      <RefList
-        onClickReference={clickRef}
-        ctx={ctx}
-        path={path}
-        onRemove={removeItem}
-        value={value}
-        onNew={addNew}
-      />
-    )
-  }
-
-  return (
-    <Stack direction="column" align="start">
-      <Stack grid style={{ marginTop: 12 }} display={value.length}>
-        {value.map((v: Reference, index: number) => {
-          return (
-            <ReferenceTag
-              onClickReference={clickRef}
-              key={index}
-              value={v}
-              onRemove={() => {
-                removeItem(index)
-              }}
-            />
-          )
-        })}
-      </Stack>
-      <Stack style={{ height: 52, width: 'auto' }}>
-        <Button
-          size="small"
-          onClick={addNew}
-          variant="icon-only"
-          prefix={<IconPlus />}
-        >
-          Add
-        </Button>
-      </Stack>
     </Stack>
   )
 }

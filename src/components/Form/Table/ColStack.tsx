@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 import { Stack, StackProps } from '../../../index.js'
 
-export const ColStack = ({ style, ...props }: StackProps) => {
+export const ColStack = ({
+  style,
+  onAction,
+  ...props
+}: { onAction?: MouseEventHandler<'div'> } & StackProps) => {
   return (
     <Stack
       style={{
@@ -10,6 +14,7 @@ export const ColStack = ({ style, ...props }: StackProps) => {
           borderRight: '0px solid transparent !important',
         },
       }}
+      onClick={onAction}
       justify="start"
       {...props}
     />
