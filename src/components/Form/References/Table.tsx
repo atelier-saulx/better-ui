@@ -5,7 +5,6 @@ import {
   Button,
   Text,
   color,
-  IconClose,
   Badge,
   IconPlus,
   border,
@@ -167,35 +166,16 @@ export const ReferencesTable = ({
         <ColStack
           onClick={() => onClickReference(value[i])}
           key={i}
+          onRemove={() => {
+            onRemove(i)
+          }}
           style={{
             borderBottom: border(),
-            '& >:nth-last-child(2)': {
-              borderRight: '0px solid transparent !important',
-            },
-            '& >:nth-last-child(1)': {
-              opacity: 0,
-              transition: 'opacity 0.1s',
-            },
-
-            '&:hover': {
-              backgroundColor: `${color('background', 'muted')} !important`,
-              '& >:nth-last-child(1)': {
-                opacity: 1,
-              },
-            },
           }}
         >
           {fields.map((k) => {
             return <CellContent key={k} k={k} value={v} />
           })}
-          <Button
-            onClick={() => {
-              onRemove(i)
-            }}
-            variant="icon-only"
-          >
-            <IconClose style={{ marginRight: 8, marginLeft: 8 }} />
-          </Button>
         </ColStack>
       )
     }
@@ -203,26 +183,7 @@ export const ReferencesTable = ({
 
   return (
     <Stack justify="start" align="start" direction="column">
-      <ColStack
-        style={{
-          background: color('background', 'muted'),
-          borderBottom: border(),
-          '& >:nth-last-child(2)': {
-            borderRight: '0px solid transparent !important',
-          },
-        }}
-      >
-        {cols}
-        <Button
-          onClick={() => {}}
-          style={{
-            opacity: 0,
-          }}
-          variant="icon-only"
-        >
-          <IconClose style={{ marginRight: 8, marginLeft: 8 }} />
-        </Button>
-      </ColStack>
+      <ColStack header>{cols}</ColStack>
       {rows}
       <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
         <Button
