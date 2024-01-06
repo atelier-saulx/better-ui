@@ -21,6 +21,7 @@ const cellWidth = (key: string) => {
     return 120
   }
 }
+
 const ImageTableStyle = (p: { children?: React.ReactNode }) => {
   return (
     <Cell
