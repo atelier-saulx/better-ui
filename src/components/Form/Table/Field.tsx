@@ -16,7 +16,7 @@ import { TableCtx, Path } from '../types.js'
 import { Table } from './index.js'
 import { SetField } from '../Set.js'
 import { Reference } from '../Reference.js'
-import { References } from '../References.js'
+import { References } from '../References/index.js'
 
 export const Padder = ({
   children,

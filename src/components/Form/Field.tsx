@@ -18,7 +18,7 @@ import { isTable, isCode } from './utils.js'
 import { SetField } from './Set.js'
 import { Reference } from './Reference.js'
 import { TableCtx } from './types.js'
-import { References } from './References.js'
+import { References } from './References/index.js'
 
 export const Field = ({
   propKey: key,
