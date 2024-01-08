@@ -4,17 +4,17 @@ import type { Meta } from '@storybook/react'
 import based from '@based/client'
 import { Provider, useQuery, useClient, useAuthState } from '@based/react'
 
+const client = based({
+  org: 'demo',
+  project: 'demo',
+  env: 'production',
+})
+
 const meta: Meta<typeof SchemaEditor> = {
   title: 'Based/SchemaEditor',
   decorators: [
     (Story) => (
-      <Provider
-        client={based({
-          org: 'demo',
-          project: 'demo',
-          env: 'production',
-        })}
-      >
+      <Provider client={client}>
         <Modal.Provider>
           <Story />
         </Modal.Provider>
@@ -62,10 +62,19 @@ export const Default = () => {
   // get a schema
   const client = useClient()
 
-  const { data: schema, loading: loadingSchema } = useQuery('db:schema')
+  const { data, loading: loadingSchema, ...props } = useQuery('db:schema')
 
   console.log('🦐', authState)
-  console.log('🐠', client, schema, loadingSchema)
+  console.log('🐠', client, data, loadingSchema, props)
+
+  const test = async () => {
+    const data = await client.query('db:schema').get()
+    console.info('w8 ff', data)
+  }
+
+  test()
+
+  console.log(client.query('db:schema').cache?.v)
 
   return <SchemaEditor schema={example} />
 }
