@@ -9,6 +9,7 @@ import {
   boxShadow,
   Text,
   color,
+  useControllableState,
 } from '../../index.js'
 import { mergeRefs } from 'react-merge-refs'
 
@@ -27,6 +28,7 @@ export type SelectInputProps = {
   autoFocus?: boolean
   description?: string
   style?: Style
+  checksum?: number
 }
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
@@ -43,13 +45,19 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       autoFocus,
       description,
       style,
+      checksum,
     },
     ref
   ) => {
     const Wrapper = label ? styled.label : styled.div
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
 
-    // TODO: Use useControllableState
+    const [state, setState] = useControllableState({
+      value,
+      defaultValue,
+      onChange,
+      checksum,
+    })
 
     React.useEffect(() => {
       if (autoFocus && wrapperRef.current) {
@@ -58,11 +66,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
     }, [autoFocus])
 
     return (
-      <SelectBase.Root
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={onChange}
-      >
+      <SelectBase.Root value={state} onValueChange={setState}>
         <SelectBase.Trigger asChild>
           <Wrapper
             style={{
