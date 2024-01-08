@@ -13,6 +13,7 @@ export type CheckboxInputProps = {
   value?: boolean
   defaultValue?: boolean
   onChange?: (checked: boolean) => void
+  checksum?: number
   formName?: string
   label?: string
   description?: string
@@ -28,7 +29,8 @@ export const CheckboxInput = React.forwardRef<
   (
     {
       value: valueProp,
-      defaultValue = false,
+      checksum,
+      defaultValue,
       onChange,
       formName,
       label,
@@ -40,9 +42,10 @@ export const CheckboxInput = React.forwardRef<
     ref
   ) => {
     const [value, setValue] = useControllableState({
-      prop: valueProp,
-      defaultProp: defaultValue,
+      value: valueProp,
       onChange,
+      defaultValue,
+      checksum,
     })
     const [focused, setFocused] = React.useState(false)
 

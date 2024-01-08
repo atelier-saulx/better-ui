@@ -12,6 +12,7 @@ import { styled, Style } from 'inlines'
 export type ColorInputProps = {
   value?: string
   defaultValue?: string
+  checksum?: number
   onChange?: (value: string) => void
   label?: string
   variant?: 'regular' | 'small'
@@ -33,12 +34,14 @@ export function ColorInput({
   value: valueProp,
   defaultValue: defaultValueProp,
   onChange,
+  checksum,
   style,
 }: ColorInputProps) {
   const [value, setValue] = useControllableState({
-    prop: valueProp,
-    defaultProp: defaultValueProp,
+    value: valueProp,
+    defaultValue: defaultValueProp,
     onChange,
+    checksum,
   })
   const [hue, setHue] = React.useState(0)
   const [alpha, setAlpha] = React.useState(1)
@@ -89,6 +92,12 @@ export function ColorInput({
     inputRef.current.value = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`
   }, [position, hue, alpha])
 
+  React.useEffect(() => {
+    if (value || (inputRef.current.value && !value)) {
+      inputRef.current.value = value
+    }
+  }, [value])
+
   return (
     <styled.div
       style={{
@@ -131,14 +140,11 @@ export function ColorInput({
             if (rgbRegex.test(newRawValue)) {
               const newRGBA = rgbToRgba(newRawValue)
               setValue(newRGBA)
-              inputRef.current.value = newRGBA
             } else if (rgbaRegex.test(newRawValue)) {
               setValue(newRawValue)
-              inputRef.current.value = newRawValue
             } else if (hexRegex.test(newRawValue)) {
               const newRGBA = hexToRGBA(newRawValue)
               setValue(newRGBA)
-              inputRef.current.value = newRGBA
             }
           }}
           style={{

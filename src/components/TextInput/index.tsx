@@ -1,12 +1,19 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color, borderRadius, border, boxShadow } from '../../index.js'
+import {
+  color,
+  borderRadius,
+  border,
+  boxShadow,
+  useControllableState,
+} from '../../index.js'
 
 export type TextInputProps = {
   placeholder?: string
   value?: string
   defaultValue?: string
   onChange?: (value: string) => void
+  checksum?: number
   onBlur?: () => void
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   formName?: string
@@ -54,6 +61,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       value,
       defaultValue,
       onChange,
+      checksum,
       formName,
       label,
       onBlur,
@@ -65,6 +73,12 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     },
     ref
   ) => {
+    const [state, setState] = useControllableState({
+      value,
+      onChange,
+      checksum,
+    })
+
     return (
       <Wrapper label={label} style={style}>
         {label && (
@@ -81,10 +95,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         )}
         <styled.input
           autoFocus={autoFocus}
-          value={value}
+          value={state}
           defaultValue={defaultValue}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            onChange?.(e.target.value)
+            e.stopPropagation()
+            setState(e.target.value)
           }}
           onBlur={onBlur}
           onKeyDown={onKeyDown}

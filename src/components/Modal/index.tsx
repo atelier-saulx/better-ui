@@ -39,8 +39,8 @@ export function Root({
   defaultOpen,
 }: ModalRootProps) {
   const [open, setOpen] = useControllableState({
-    prop: openProp,
-    defaultProp: defaultOpen || false,
+    value: openProp,
+    defaultValue: defaultOpen || false,
     onChange: onOpenChange,
   })
 

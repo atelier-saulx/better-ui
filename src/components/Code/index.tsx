@@ -43,6 +43,7 @@ export type CodeProps = {
     | string
   onChange?: (value: string) => void
   variant?: 'regular' | 'small' // border
+  checksum?: number
 }
 
 export const Code = ({
@@ -55,12 +56,14 @@ export const Code = ({
   color = 'muted',
   copy,
   language = 'js',
+  checksum,
 }: CodeProps) => {
   const [isFocus, setFocus] = useState(false)
   const [value, setValue] = useControllableState({
-    prop: valueProp,
-    defaultProp: placeholder,
+    value: valueProp,
+    defaultValue: placeholder,
     onChange: onChangeProp,
+    checksum,
   })
   const [, copyIt] = useCopyToClipboard((value as string) ?? '')
   const isSmall = variant === 'small'

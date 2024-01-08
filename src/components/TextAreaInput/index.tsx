@@ -1,6 +1,12 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { border, borderRadius, boxShadow, color } from '../../index.js'
+import {
+  border,
+  borderRadius,
+  boxShadow,
+  color,
+  useControllableState,
+} from '../../index.js'
 
 export type TextAreaInputProps = {
   placeholder?: string
@@ -13,6 +19,7 @@ export type TextAreaInputProps = {
   error?: boolean
   autoFocus?: boolean
   style?: Style
+  checksum?: number
 }
 
 const Wrapper = ({
@@ -61,11 +68,16 @@ export const TextAreaInput = React.forwardRef<
       error,
       autoFocus,
       style,
+      checksum,
     },
     ref
   ) => {
-    const rerender = React.useState({})[1]
-    const valueRef = React.useRef(value ?? defaultValue ?? '')
+    const [state, setState] = useControllableState({
+      value,
+      defaultValue,
+      onChange,
+      checksum,
+    })
 
     return (
       <Wrapper label={label} style={style}>
@@ -82,7 +94,7 @@ export const TextAreaInput = React.forwardRef<
           </styled.span>
         )}
         <styled.div
-          data-value={valueRef.current}
+          data-value={state}
           style={{
             position: 'relative',
             display: 'grid',
@@ -105,9 +117,7 @@ export const TextAreaInput = React.forwardRef<
             value={value}
             defaultValue={defaultValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              onChange?.(e.target.value)
-              valueRef.current = e.target.value
-              rerender({})
+              setState(e.target.value)
             }}
             autoFocus={autoFocus}
             ref={ref}

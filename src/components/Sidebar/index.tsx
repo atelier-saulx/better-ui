@@ -34,7 +34,7 @@ export function Sidebar({
   const isMobile = useIsMobile()
   const [open, setOpen] = React.useState(true)
   const [value = '', setValue] = useControllableState({
-    prop: valueProp,
+    value: valueProp,
     onChange,
   })
 
