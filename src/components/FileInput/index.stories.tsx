@@ -20,6 +20,8 @@ export const Default = () => {
       onChange={(file) => {
         console.log('file', file)
       }}
+      label="upload some file"
+      description="drop a file in here"
     />
   )
 }

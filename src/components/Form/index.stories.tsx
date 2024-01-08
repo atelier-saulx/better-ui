@@ -743,8 +743,12 @@ export const Record = () => {
             values: objectField.object,
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changed, checksum) => {
+          console.log({
+            values,
+            changed,
+            checksum,
+          })
         }}
       />
     </div>

@@ -5,6 +5,8 @@ type UseControllableStateParams<T> = {
   defaultValue?: T | undefined
   onChange?: (state: T) => void
   checksum?: number // this controlls change from outside with a checksum
+  prop?: boolean | any
+  defaultProp?: boolean
 }
 
 export function useControllableState<T>({
@@ -17,6 +19,7 @@ export function useControllableState<T>({
     value?: T
     onChange?: typeof onChange
     checksum?: number
+    newValue?: T
   }>({
     value,
     checksum,
@@ -25,11 +28,23 @@ export function useControllableState<T>({
 
   const [newValue, setNewValue] = React.useState<T>(value ?? defaultValue)
 
-  const update = React.useCallback((v: T) => {
-    // TODO: if object make it into a checksum to check for change
-    ref.current.onChange?.(v)
-    setNewValue(v)
-  }, [])
+  ref.current.newValue = newValue
+
+  const update: (v: T | ((v: T) => T)) => T = React.useCallback(
+    (v: T | ((v: T) => T)) => {
+      // TODO: if object make it into a checksum to check for change
+      if (typeof v === 'function') {
+        // @ts-ignore too hard to understand 🧠
+        const n = v(ref.current.newValue)
+        ref.current.onChange?.(n)
+        return n
+      }
+      ref.current.onChange?.(v)
+      setNewValue(v)
+      return v
+    },
+    []
+  )
 
   if (checksum !== undefined) {
     React.useEffect(() => {

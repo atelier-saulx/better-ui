@@ -159,7 +159,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                       <div
                         style={{
                           whiteSpace: 'nowrap',
-                          ...textVariants.bodyBold,
+                          ...textVariants['body-bold'],
                         }}
                       >
                         {toast.text}
@@ -168,7 +168,10 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                     </>
                   ) : (
                     <div
-                      style={{ whiteSpace: 'nowrap', ...textVariants.bodyBold }}
+                      style={{
+                        whiteSpace: 'nowrap',
+                        ...textVariants['body-bold'],
+                      }}
                     >
                       {toast}
                     </div>

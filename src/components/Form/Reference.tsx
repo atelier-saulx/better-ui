@@ -41,7 +41,7 @@ const Select = (p: {
           {p.field.allowedTypes.map((v, i) => {
             const type = typeof v === 'object' ? v.type : v
             return (
-              <Text color="inherit" key={i} variant="bodyStrong">
+              <Text color="inherit" key={i} variant="body-strong">
                 {type}
               </Text>
             )
@@ -91,7 +91,7 @@ const Info = (p: { value: Reference; onClick: () => void }) => {
   if (typeof p.value === 'object') {
     return (
       <Stack justify="start" fitContent>
-        <Text style={{ marginRight: 12 }} variant="bodyStrong">
+        <Text style={{ marginRight: 12 }} variant="body-strong">
           {p.value.name ?? p.value.title}
         </Text>
         <Id id={p.value.id} onClick={p.onClick} />

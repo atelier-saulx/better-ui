@@ -28,9 +28,8 @@ const KeyInput = (p: {
       value={p.value}
       autoFocus={p.value === ''}
       onBlur={useCallback(() => {
-        if (changeRef.current !== p.value) {
+        if (changeRef.current !== p.value || changeRef.current === '') {
           if (changeRef.current === '') {
-            // remove
             const nValue = {
               ...p.valueRef.current,
             }
@@ -43,6 +42,9 @@ const KeyInput = (p: {
             const rowValue = nValue[p.value]
             delete nValue[p.value]
             nValue[changeRef.current] = rowValue
+
+            console.info('??? hello', p.value, '--->', nValue)
+
             p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
           }
           changeRef.current = ''
@@ -60,6 +62,8 @@ export function Record({ ctx, path }: TableProps) {
   const valuesField = field.values
 
   const valueRef = useRef<typeof value>()
+
+  console.info('NEW VALUE', path, valueRef.current)
   valueRef.current = value
 
   const rows: ReactNode[] = []
@@ -76,7 +80,13 @@ export function Record({ ctx, path }: TableProps) {
     })
   }, [])
 
-  // const removeItem = (key: string) => {}
+  const removeItem = (key: string) => {
+    const nValue = {
+      ...valueRef.current,
+    }
+    delete nValue[key]
+    ctx.listeners.onChangeHandler(ctx, path, nValue)
+  }
 
   if (valuesField.type === 'object' && useCols(valuesField)) {
     for (const key in valuesField.properties) {
@@ -100,11 +110,10 @@ export function Record({ ctx, path }: TableProps) {
             </Cell>
           )
         }
-
         rows.push(
           <ColStack
             onRemove={() => {
-              // lullz
+              removeItem(key)
             }}
             key={key}
             style={{

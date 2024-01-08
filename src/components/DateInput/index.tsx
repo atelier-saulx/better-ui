@@ -49,6 +49,7 @@ export type DateInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   label?: string
+  description?: string
   style?: Style
 }
 
@@ -62,6 +63,7 @@ export function DateInput({
   variant = 'regular',
   error,
   label,
+  description,
   style,
 }: DateInputProps) {
   const [value, setValue] = useControllableState({
@@ -205,6 +207,15 @@ export function DateInput({
                   : format(value, time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'))}
             </div>
           </styled.div>
+          {description !== undefined ? (
+            <Text
+              color="secondary"
+              variant="body-bold"
+              style={{ marginTop: 8 }}
+            >
+              {description}
+            </Text>
+          ) : null}
         </Wrapper>
       </Popover.Trigger>
       <Popover.Portal>
@@ -230,7 +241,7 @@ export function DateInput({
                 alignItems: 'center',
               }}
             >
-              <Text variant="bodyStrong">
+              <Text variant="body-strong">
                 {format(currentMonth, 'MMMM yyyy')}
               </Text>
               <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
@@ -317,7 +328,7 @@ export function DateInput({
                     borderBottomLeftRadius: borderRadius('tiny'),
                     borderTopRightRadius: borderRadius('tiny'),
                     borderBottomRightRadius: borderRadius('tiny'),
-                    ...textVariants.bodyBold,
+                    ...textVariants['body-bold'],
                     ...((!range || (range && !pendingRangePart)) && {
                       '&:hover': {
                         background: color('background', 'neutral'),

@@ -131,6 +131,7 @@ export const Expandable: StoryObj<typeof Container> = {
     title: 'This is a title',
     description: 'This is a description',
     expandable: true,
+    expanded: true,
     prefix: <Thumbnail text="AB" />,
     suffix: (
       <Dropdown.Root>

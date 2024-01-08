@@ -39,10 +39,10 @@ export function Container({
     divider = !!(title ?? description ?? prefix ?? suffix)
   }
 
-  const [expanded, setExpanded] = useControllableState({
-    value: expandedProp,
-    defaultValue: false,
-    onChange: onExpandedChange,
+  const [expanded, setExpanded] = useControllableState<(v: boolean) => void>({
+    prop: expandedProp as boolean,
+    defaultProp: false,
+    onChange: onExpandedChange as () => void,
   })
   const headerRef = React.useRef<HTMLDivElement | null>(null)
 
@@ -78,7 +78,8 @@ export function Container({
             onClick?.()
 
             if (expandable) {
-              setExpanded(!expanded)
+              // setExpanded(!expanded)
+              setExpanded((p) => !p)
             }
           }
         }}

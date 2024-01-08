@@ -8,6 +8,7 @@ import {
   color,
   border,
   boxShadow,
+  Text,
 } from '../../index.js'
 
 export type NumberInputProps = {
@@ -22,6 +23,7 @@ export type NumberInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
 }
 
@@ -69,6 +71,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       variant = 'regular',
       error,
       autoFocus,
+      description,
       style,
     },
     ref
@@ -212,6 +215,11 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             </styled.div>
           </div>
         </div>
+        {description !== undefined ? (
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </Wrapper>
     )
   }

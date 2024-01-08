@@ -9,6 +9,7 @@ import {
   color,
   border,
   Text,
+  IconAlertFill,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -127,30 +128,72 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
 export type ModalTitleProps = {
   children: React.ReactNode
   description?: React.ReactNode
+  style?: Style
 }
 
-export function Title({ children, description }: ModalTitleProps) {
+export function Title({ children, description, style }: ModalTitleProps) {
   return (
-    <styled.div>
-      <Text
-        color="primary"
-        variant="bodyBold"
-        style={{
-          fontSize: 18,
-        }}
-      >
+    <styled.div style={{ padding: '20px 32px', ...style }}>
+      <Text color="primary" variant="h5" style={{ marginBottom: 12 }}>
         {children}
       </Text>
       {description && (
-        <Text
-          color="secondary"
-          style={{
-            marginTop: 16,
-          }}
-        >
+        <Text color="secondary" variant="body-bold">
           {description}
         </Text>
       )}
+    </styled.div>
+  )
+}
+
+export type ModalMessageProps = {
+  variant?: 'warning' | 'error' | 'informative' | 'positive' | 'neutral'
+  message?: React.ReactNode
+  style?: Style
+}
+
+export function Message({
+  variant = 'neutral',
+  message,
+  style,
+}: ModalMessageProps) {
+  return (
+    <styled.div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        borderRadius: 4,
+        padding: '12px 16px',
+        width: '100%',
+        backgroundColor:
+          variant === 'error'
+            ? color('semantic-background', 'error-muted')
+            : variant === 'warning'
+            ? color('semantic-background', 'warning-muted')
+            : variant === 'informative'
+            ? color('semantic-background', 'informative-muted')
+            : variant === 'positive'
+            ? color('semantic-background', 'positive-muted')
+            : color('semantic-background', 'neutral-muted'),
+        ...style,
+      }}
+    >
+      <IconAlertFill
+        style={{
+          marginRight: 12,
+          color:
+            variant === 'error'
+              ? color('semantic-background', 'error')
+              : variant === 'warning'
+              ? color('semantic-background', 'warning')
+              : variant === 'informative'
+              ? color('semantic-background', 'informative')
+              : variant === 'positive'
+              ? color('semantic-background', 'positive')
+              : color('semantic-background', 'neutral'),
+        }}
+      />
+      <Text variant="body-bold">{message}</Text>
     </styled.div>
   )
 }
@@ -390,6 +433,7 @@ export const Modal = Object.assign(
                 <Modal.Title description={description}>{title}</Modal.Title>
               ) : null}
               {children ? <Modal.Body>{children}</Modal.Body> : null}
+
               <Modal.Actions>
                 {onConfirm && (
                   <Button variant="neutral" onClick={close}>
@@ -422,6 +466,7 @@ export const Modal = Object.assign(
     Overlay,
     Title,
     Body,
+    Message,
     Actions,
   }
 )

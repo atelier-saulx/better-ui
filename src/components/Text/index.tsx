@@ -3,29 +3,144 @@ import { Style, styled } from 'inlines'
 import { color as getColor } from '../../index.js'
 
 export const textVariants = {
+  h1: {
+    defaultTag: 'h1',
+    fontWeight: 700,
+    fontSize: '48px',
+    letterSpacing: '-1%',
+    lineHeight: '64px',
+  },
+  h2: {
+    defaultTag: 'h2',
+    fontWeight: 700,
+    fontSize: '40px',
+    letterSpacing: '-1%',
+    lineHeight: '54px',
+  },
+  h3: {
+    defaultTag: 'h3',
+    fontWeight: 700,
+    fontSize: '32px',
+    letterSpacing: '-1%',
+    lineHeight: '44px',
+  },
+  h4: {
+    defaultTag: 'h4',
+    fontWeight: 700,
+    fontSize: '24px',
+    letterSpacing: '-1%',
+    lineHeight: '36px',
+  },
+  h5: {
+    defaultTag: 'h5',
+    fontWeight: 700,
+    fontSize: '18px',
+    letterSpacing: '-1%',
+    lineHeight: '32px',
+  },
   body: {
-    fontSize: 14,
+    defaultTag: 'p',
     fontWeight: 400,
-    lineHeight: `24px`,
     letterSpacing: '-0.14px',
+    lineHeight: `24px`,
+    fontSize: '14px',
   },
-  bodyBold: {
-    fontSize: 14,
+  'body-bold': {
+    defaultTag: 'p',
     fontWeight: 500,
-    lineHeight: `24px`,
     letterSpacing: '-0.14px',
+    lineHeight: `24px`,
+    fontSize: '14px',
   },
-  bodyStrong: {
-    fontSize: 14,
+  'body-strong': {
+    defaultTag: 'p',
     fontWeight: 600,
-    lineHeight: `24px`,
     letterSpacing: '-0.14px',
+    lineHeight: `24px`,
+    fontSize: '14px',
   },
+  'body-small': {
+    defaultTag: 'p',
+    fontWeight: 400,
+    fontSize: '12px',
+    letterSpacing: '-0.14px',
+    lineHeight: `20px`,
+  },
+  'body-small-bold': {
+    defaultTag: 'p',
+    fontWeight: 500,
+    letterSpacing: '-0.14px',
+    fontSize: '12px',
+    lineHeight: `20px`,
+  },
+  'body-small-strong': {
+    defaultTag: 'p',
+    fontWeight: 600,
+    letterSpacing: '-0.14px',
+    fontSize: '12px',
+    lineHeight: `20px`,
+  },
+  'body-large': {
+    defaultTag: 'p',
+    fontWeight: 400,
+    fontSize: '16px',
+    letterSpacing: '-0.14px',
+    lineHeight: `28px`,
+  },
+  'body-large-bold': {
+    defaultTag: 'p',
+    fontWeight: 500,
+    letterSpacing: '-0.14px',
+    fontSize: '16px',
+    lineHeight: `28px`,
+  },
+  'body-large-strong': {
+    defaultTag: 'p',
+    fontWeight: 600,
+    letterSpacing: '-0.14px',
+    fontSize: '16px',
+    lineHeight: `28px`,
+  },
+  caption: {
+    defaultTag: 'span',
+    fontWeight: 400,
+    fontSize: '10px',
+    lineHeight: '16px',
+    letterSpacing: '-1%',
+    textTransform: 'uppercase',
+  },
+  'caption-bold': {
+    defaultTag: 'span',
+    fontWeight: 500,
+    fontSize: '10px',
+    lineHeight: '16px',
+    letterSpacing: '-1%',
+    textTransform: 'uppercase',
+  },
+  'caption-strong': {
+    defaultTag: 'span',
+    fontWeight: 600,
+    fontSize: '10px',
+    lineHeight: '16px',
+    letterSpacing: '-1%',
+    textTransform: 'uppercase',
+  },
+}
+
+const selectFromTag: Partial<
+  Record<TextProps['as'], keyof typeof textVariants>
+> = {}
+
+for (const variant in textVariants) {
+  if (!selectFromTag[textVariants[variant].defaultTag]) {
+    selectFromTag[textVariants[variant].defaultTag] = variant
+  }
 }
 
 export type TextProps = {
   children: React.ReactNode
-  as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4'
+  as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
+  weight?: 'normal' | 'bold' | 'strong'
   style?: Style
   color?: 'primary' | 'secondary' | 'inverted' | 'inherit'
   variant?: keyof typeof textVariants
@@ -35,15 +150,22 @@ export type TextProps = {
 export const Text = React.forwardRef<HTMLElement, TextProps>(
   (
     {
-      as = 'p',
+      as,
       variant = 'body',
       color = 'primary',
       style,
       children,
       singleLine,
+      weight,
     },
     ref
   ) => {
+    if (variant && !as) {
+      // @ts-ignore too dificult 🧠🎉
+      as = textVariants[variant].defaultTag
+    } else if (as && !variant) {
+      variant = selectFromTag[as]
+    }
     return React.createElement(styled[as], {
       children,
       ref,
@@ -53,7 +175,14 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
         color: color === 'inherit' ? 'inherit' : getColor('content', color),
         fontFamily: 'inherit',
         ...textVariants[variant],
-        ...style,
+        fontWeight:
+          weight === 'normal'
+            ? 400
+            : weight === 'bold'
+            ? 500
+            : weight === 'strong'
+            ? 600
+            : textVariants[variant].fontWeight,
         ...(singleLine
           ? {
               textOverflow: 'ellipsis',
@@ -61,6 +190,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
               whiteSpace: 'nowrap',
             }
           : {}),
+        ...style,
       },
     })
   }

@@ -5,6 +5,7 @@ import {
   borderRadius,
   color,
   boxShadow,
+  Text,
 } from '../../index.js'
 import * as Popover from '@radix-ui/react-popover'
 import { styled, Style } from 'inlines'
@@ -17,6 +18,7 @@ export type ColorInputProps = {
   label?: string
   variant?: 'regular' | 'small'
   error?: boolean
+  description?: string
   style?: Style
 }
 
@@ -33,6 +35,7 @@ export function ColorInput({
   error,
   value: valueProp,
   defaultValue: defaultValueProp,
+  description,
   onChange,
   checksum,
   style,
@@ -119,17 +122,11 @@ export function ColorInput({
       }}
     >
       {label && (
-        <styled.span
-          style={{
-            marginBottom: 8,
-            fontSize: 14,
-            lineHeight: '24px',
-            fontWeight: 500,
-          }}
-        >
+        <Text variant="body-bold" style={{ marginBottom: 8 }}>
           {label}
-        </styled.span>
+        </Text>
       )}
+
       <div style={{ position: 'relative' }}>
         <styled.input
           ref={inputRef}
@@ -370,6 +367,11 @@ export function ColorInput({
             </Popover.Content>
           </Popover.Portal>
         </Popover.Root>
+        {description !== undefined ? (
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </div>
     </styled.div>
   )
