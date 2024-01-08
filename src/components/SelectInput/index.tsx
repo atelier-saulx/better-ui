@@ -46,6 +46,8 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
     const Wrapper = label ? styled.label : styled.div
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
 
+    // TODO: Use useControllableState
+
     React.useEffect(() => {
       if (autoFocus && wrapperRef.current) {
         wrapperRef.current.focus()
@@ -163,8 +165,11 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           >
             <SelectBase.Viewport style={{ padding: 8 }}>
               {options?.map((option) => {
-                const { value, label = null, prefix = null } =
-                  typeof option === 'string' ? { value: option } : option
+                const {
+                  value,
+                  label = null,
+                  prefix = null,
+                } = typeof option === 'string' ? { value: option } : option
 
                 return (
                   <SelectBase.Item key={value} value={value} asChild>

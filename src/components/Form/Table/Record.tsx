@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useRef } from 'react'
 import { styled } from 'inlines'
 import {
   Stack,
@@ -15,9 +15,32 @@ import { Field } from './Field.js'
 import { BasedSchemaFieldRecord } from '@based/schema'
 import { ColStack } from './ColStack.js'
 
+const KeyInput = (p: { value: string; onChange: (value: string) => void }) => {
+  const changeRef = useRef('')
+  return (
+    <TextInput
+      variant="small"
+      value={p.value}
+      autoFocus={p.value === ''}
+      onBlur={() => {
+        if (changeRef.current !== p.value) {
+          p.onChange(changeRef.current)
+          changeRef.current = ''
+        }
+      }}
+      onChange={(v) => {
+        changeRef.current = v
+      }}
+    />
+  )
+}
+
 export function Record({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldRecord>(ctx, path)
   const valuesField = field.values
+
+  const vRef = useRef<typeof value>()
+  vRef.current = value
 
   const rows: ReactNode[] = []
   const cols: ReactNode[] = [
@@ -26,20 +49,14 @@ export function Record({ ctx, path }: TableProps) {
     </Cell>,
   ]
 
-  const [newKey, setNewKey] = useState<undefined | string>()
-
-  // state and select it
-
   const addNew = React.useCallback(async () => {
     ctx.listeners.onChangeHandler(ctx, path, {
-      ...value,
+      ...vRef.current,
       '': createNewEmptyValue(field.values),
     })
-
-    // setNewKey('')
   }, [])
 
-  const removeItem = (key: string) => {}
+  // const removeItem = (key: string) => {}
 
   if (valuesField.type === 'object' && useCols(valuesField)) {
     for (const key in valuesField.properties) {
@@ -51,16 +68,28 @@ export function Record({ ctx, path }: TableProps) {
     }
     if (value) {
       for (const key in value) {
-        const isNew = key === ''
         const cells: ReactNode[] = [
           <Cell width={200} border isKey key="key">
-            <TextInput
-              variant="small"
+            <KeyInput
               value={key}
-              autoFocus={isNew}
-              onBlur={() => {}}
-              onChange={() => {
-                // bla
+              onChange={(newKey) => {
+                if (newKey === '') {
+                  // remove
+                  const nValue = {
+                    ...vRef.current,
+                  }
+                  delete nValue['']
+                  ctx.listeners.onChangeHandler(ctx, path, nValue)
+                } else {
+                  console.log(newKey, '???')
+                  const nValue = {
+                    ...vRef.current,
+                  }
+                  const p = nValue[key]
+                  delete nValue[key]
+                  nValue[newKey] = p
+                  ctx.listeners.onChangeHandler(ctx, path, nValue)
+                }
               }}
             />
           </Cell>,

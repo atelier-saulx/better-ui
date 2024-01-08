@@ -30,6 +30,7 @@ export const CheckboxInput = React.forwardRef<
     {
       value: valueProp,
       checksum,
+      defaultValue,
       onChange,
       formName,
       label,
@@ -43,6 +44,7 @@ export const CheckboxInput = React.forwardRef<
     const [value, setValue] = useControllableState({
       value: valueProp,
       onChange,
+      defaultValue,
       checksum,
     })
     const [focused, setFocused] = React.useState(false)

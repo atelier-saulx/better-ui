@@ -13,6 +13,7 @@ export type TextInputProps = {
   value?: string
   defaultValue?: string
   onChange?: (value: string) => void
+  checksum?: number
   onBlur?: () => void
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   formName?: string
@@ -60,6 +61,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       value,
       defaultValue,
       onChange,
+      checksum,
       formName,
       label,
       onBlur,
@@ -74,6 +76,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     const [state, setState] = useControllableState({
       value,
       onChange,
+      checksum,
     })
 
     return (
@@ -95,6 +98,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           value={state}
           defaultValue={defaultValue}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            e.stopPropagation()
             setState(e.target.value)
           }}
           onBlur={onBlur}
