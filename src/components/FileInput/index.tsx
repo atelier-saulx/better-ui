@@ -129,7 +129,7 @@ export function FileInput({
         {label && (
           <Text
             singleLine
-            variant="bodyBold"
+            variant="body-bold"
             style={{
               marginBottom: 8,
             }}
@@ -187,7 +187,7 @@ export function FileInput({
         />
       </FileDrop>
       {description !== undefined ? (
-        <Text color="secondary" variant="bodyBold" style={{ marginTop: 8 }}>
+        <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
           {description}
         </Text>
       ) : null}

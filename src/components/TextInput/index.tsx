@@ -143,7 +143,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           }}
         />
         {description !== undefined ? (
-          <Text color="secondary" variant="bodyBold" style={{ marginTop: 8 }}>
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
             {description}
           </Text>
         ) : null}

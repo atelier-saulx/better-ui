@@ -161,7 +161,7 @@ export function Thumbnail({
             border: border(),
             padding: '0 4px',
             borderRadius: borderRadius('full'),
-            ...textVariants.bodyStrong,
+            ...textVariants['body-strong'],
             lineHeight: '18px',
             transform: 'translate(30%, -30%)',
           }}

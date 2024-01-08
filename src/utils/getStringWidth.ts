@@ -3,7 +3,7 @@ import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 type Chars = { [key: string]: number }
 
 type FontStyle = {
-  fontSize: number
+  fontSize?: number
   fontFamily: string
   letterSpacing?: string
   lineHeight?: string | number

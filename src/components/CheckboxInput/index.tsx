@@ -156,9 +156,11 @@ export const CheckboxInput = React.forwardRef<
           </styled.div>
         )}
         <div>
-          {label !== undefined ? <Text variant="bodyBold">{label}</Text> : null}
+          {label !== undefined ? (
+            <Text variant="body-bold">{label}</Text>
+          ) : null}
           {description !== undefined ? (
-            <Text color="secondary" variant="bodyBold">
+            <Text color="secondary" variant="body-bold">
               {description}
             </Text>
           ) : null}

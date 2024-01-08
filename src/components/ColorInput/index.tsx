@@ -122,12 +122,7 @@ export function ColorInput({
       }}
     >
       {label && (
-        <Text
-          variant="bodyBold"
-          style={{
-            marginBottom: 8,
-          }}
-        >
+        <Text variant="body-bold" style={{ marginBottom: 8 }}>
           {label}
         </Text>
       )}
@@ -373,7 +368,7 @@ export function ColorInput({
           </Popover.Portal>
         </Popover.Root>
         {description !== undefined ? (
-          <Text color="secondary" variant="bodyBold" style={{ marginTop: 8 }}>
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
             {description}
           </Text>
         ) : null}

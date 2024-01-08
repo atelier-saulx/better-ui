@@ -208,7 +208,11 @@ export function DateInput({
             </div>
           </styled.div>
           {description !== undefined ? (
-            <Text color="secondary" variant="bodyBold" style={{ marginTop: 8 }}>
+            <Text
+              color="secondary"
+              variant="body-bold"
+              style={{ marginTop: 8 }}
+            >
               {description}
             </Text>
           ) : null}
@@ -237,7 +241,7 @@ export function DateInput({
                 alignItems: 'center',
               }}
             >
-              <Text variant="bodyStrong">
+              <Text variant="body-strong">
                 {format(currentMonth, 'MMMM yyyy')}
               </Text>
               <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
@@ -324,7 +328,7 @@ export function DateInput({
                     borderBottomLeftRadius: borderRadius('tiny'),
                     borderTopRightRadius: borderRadius('tiny'),
                     borderBottomRightRadius: borderRadius('tiny'),
-                    ...textVariants.bodyBold,
+                    ...textVariants['body-bold'],
                     ...((!range || (range && !pendingRangePart)) && {
                       '&:hover': {
                         background: color('background', 'neutral'),

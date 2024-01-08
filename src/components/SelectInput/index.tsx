@@ -157,7 +157,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             {description !== undefined ? (
               <Text
                 color="secondary"
-                variant="bodyBold"
+                variant="body-bold"
                 style={{ marginTop: 8 }}
               >
                 {description}

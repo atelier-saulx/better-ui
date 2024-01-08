@@ -11,8 +11,7 @@ export default meta
 export const Default: StoryObj<typeof Text> = {
   args: {
     children: 'Have a nice day!',
-    variant: 'bodyStrong',
+    variant: 'body-strong',
     as: 'h3',
-    size: 24,
   },
 }

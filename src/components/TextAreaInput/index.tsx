@@ -99,7 +99,7 @@ export const TextAreaInput = React.forwardRef<
         {description !== undefined ? (
           <Text
             color="secondary"
-            variant="bodyBold"
+            variant="body-bold"
             style={{ marginBottom: 8, marginTop: -6 }}
           >
             {description}

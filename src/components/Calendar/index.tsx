@@ -52,7 +52,7 @@ export function Calendar(_: CalendarProps) {
           justifyContent: 'space-between',
           alignItems: 'center',
           paddingBottom: 24,
-          ...textVariants.bodyBold,
+          ...textVariants['body-strong'],
           fontSize: 16,
         }}
       >
@@ -96,7 +96,7 @@ export function Calendar(_: CalendarProps) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              ...textVariants.bodyBold,
+              ...textVariants['body-bold'],
               fontSize: 16,
             }}
           >

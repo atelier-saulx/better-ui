@@ -216,7 +216,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           </div>
         </div>
         {description !== undefined ? (
-          <Text color="secondary" variant="bodyBold" style={{ marginTop: 8 }}>
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
             {description}
           </Text>
         ) : null}

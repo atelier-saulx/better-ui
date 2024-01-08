@@ -166,7 +166,7 @@ export function Video({ src, thumbnail }: VideoProps) {
           left: 12,
           bottom: 12,
           color: '#ffffff',
-          ...textVariants.bodyBold,
+          ...textVariants['body-bold'],
         }}
       >
         {formatSeconds(percentage * duration) + ' / ' + formatSeconds(duration)}

@@ -134,16 +134,11 @@ export type ModalTitleProps = {
 export function Title({ children, description, style }: ModalTitleProps) {
   return (
     <styled.div style={{ padding: '20px 32px', ...style }}>
-      <Text
-        color="primary"
-        variant="bodyStrong"
-        size={18}
-        style={{ marginBottom: 12 }}
-      >
+      <Text color="primary" variant="h5" style={{ marginBottom: 12 }}>
         {children}
       </Text>
       {description && (
-        <Text color="secondary" variant="bodyBold">
+        <Text color="secondary" variant="body-bold">
           {description}
         </Text>
       )}
@@ -198,7 +193,7 @@ export function Message({
               : color('semantic-background', 'neutral'),
         }}
       />
-      <Text variant="bodyBold">{message}</Text>
+      <Text variant="body-bold">{message}</Text>
     </styled.div>
   )
 }
