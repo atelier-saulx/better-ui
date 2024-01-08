@@ -134,7 +134,6 @@ export function Title({ children, description }: ModalTitleProps) {
     <styled.div>
       <Text
         color="primary"
-        variant="bodyBold"
         style={{
           fontSize: 18,
         }}

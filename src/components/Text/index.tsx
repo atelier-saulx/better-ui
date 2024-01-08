@@ -8,19 +8,32 @@ export const textVariants = {
     fontWeight: 400,
     lineHeight: `24px`,
     letterSpacing: '-0.14px',
+    defaultTag: 'p',
   },
   bodyBold: {
     fontSize: 14,
     fontWeight: 500,
     lineHeight: `24px`,
     letterSpacing: '-0.14px',
+    defaultTag: 'p',
   },
   bodyStrong: {
     fontSize: 14,
     fontWeight: 600,
     lineHeight: `24px`,
     letterSpacing: '-0.14px',
+    defaultTag: 'p',
   },
+}
+
+const selectFromTag: Partial<
+  Record<TextProps['as'], keyof typeof textVariants>
+> = {}
+
+for (const variant in textVariants) {
+  if (!selectFromTag[textVariants[variant].defaultTag]) {
+    selectFromTag[textVariants[variant].defaultTag] = variant
+  }
 }
 
 export type TextProps = {
@@ -33,17 +46,13 @@ export type TextProps = {
 }
 
 export const Text = React.forwardRef<HTMLElement, TextProps>(
-  (
-    {
-      as = 'p',
-      variant = 'body',
-      color = 'primary',
-      style,
-      children,
-      singleLine,
-    },
-    ref
-  ) => {
+  ({ as, variant, color = 'primary', style, children, singleLine }, ref) => {
+    if (variant && !as) {
+      // @ts-ignore too dificult 🧠🎉
+      as = textVariants[variant].defaultTag
+    } else if (as && !variant) {
+      variant = selectFromTag[as]
+    }
     return React.createElement(styled[as], {
       children,
       ref,
