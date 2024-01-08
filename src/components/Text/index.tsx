@@ -107,6 +107,7 @@ export const textVariants = {
     fontSize: '10px',
     lineHeight: '16px',
     letterSpacing: '-1%',
+    textTransform: 'uppercase',
   },
   'caption-bold': {
     defaultTag: 'span',
@@ -114,6 +115,7 @@ export const textVariants = {
     fontSize: '10px',
     lineHeight: '16px',
     letterSpacing: '-1%',
+    textTransform: 'uppercase',
   },
   'caption-strong': {
     defaultTag: 'span',
@@ -121,6 +123,7 @@ export const textVariants = {
     fontSize: '10px',
     lineHeight: '16px',
     letterSpacing: '-1%',
+    textTransform: 'uppercase',
   },
 }
 
@@ -137,7 +140,7 @@ for (const variant in textVariants) {
 export type TextProps = {
   children: React.ReactNode
   as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4'
-  weight?: 'normal' | 'medium' | 'strong'
+  weight?: 'normal' | 'bold' | 'strong'
   style?: Style
   color?: 'primary' | 'secondary' | 'inverted' | 'inherit'
   variant?: keyof typeof textVariants
@@ -167,7 +170,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
         fontWeight:
           weight === 'normal'
             ? 400
-            : weight === 'medium'
+            : weight === 'bold'
             ? 500
             : weight === 'strong'
             ? 600
