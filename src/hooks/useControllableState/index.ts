@@ -26,7 +26,7 @@ export function useControllableState<T>({
   const [newValue, setNewValue] = React.useState<T>(value ?? defaultValue)
 
   const update = React.useCallback((str: T) => {
-    ref.current.onChange(str)
+    ref.current.onChange?.(str)
     setNewValue(str)
   }, [])
 
