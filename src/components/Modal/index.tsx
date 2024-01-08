@@ -40,7 +40,6 @@ export function Root({
   defaultOpen,
 }: ModalRootProps) {
   const [open, setOpen] = useControllableState({
-    // @ts-ignore
     prop: openProp,
     defaultProp: defaultOpen || false,
     onChange: onOpenChange,
