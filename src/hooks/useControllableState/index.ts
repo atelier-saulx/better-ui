@@ -5,7 +5,7 @@ type UseControllableStateParams<T> = {
   defaultValue?: T | undefined
   onChange?: (state: T) => void
   checksum?: number // this controlls change from outside with a checksum
-  prop?: any
+  prop?: boolean | any
   defaultProp?: boolean
 }
 

@@ -7,16 +7,22 @@ export const textVariants = {
     fontWeight: 400,
     lineHeight: `24px`,
     letterSpacing: '-0.14px',
+    fontFamily: 'inherit',
+    fontSize: 14,
   },
   bodyBold: {
     fontWeight: 500,
     lineHeight: `24px`,
     letterSpacing: '-0.14px',
+    fontFamily: 'inherit',
+    fontSize: 14,
   },
   bodyStrong: {
     fontWeight: 600,
     lineHeight: `24px`,
     letterSpacing: '-0.14px',
+    fontFamily: 'inherit',
+    fontSize: 14,
   },
 }
 
