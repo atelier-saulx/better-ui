@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from 'react'
+import React, { ReactNode, useCallback, useRef } from 'react'
 import { styled } from 'inlines'
 import {
   Stack,
@@ -8,31 +8,49 @@ import {
   IconPlus,
   TextInput,
 } from '../../../index.js'
-import { TableProps } from '../types.js'
+import { Path, TableCtx, TableProps } from '../types.js'
 import { readPath, useCols, createNewEmptyValue } from '../utils.js'
 import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { BasedSchemaFieldRecord } from '@based/schema'
 import { ColStack } from './ColStack.js'
 
-const KeyInput = (p: { value: string; onChange: (value: string) => void }) => {
+const KeyInput = (p: {
+  value: string
+  ctx: TableCtx
+  path: Path
+  valueRef: { current: { [key: string]: any } }
+}) => {
   const changeRef = useRef('')
   return (
     <TextInput
       variant="small"
       value={p.value}
       autoFocus={p.value === ''}
-      onBlur={() => {
-        console.info('W>S', '???', p.value, changeRef.current)
+      onBlur={useCallback(() => {
         if (changeRef.current !== p.value) {
-          p.onChange(changeRef.current)
+          if (changeRef.current === '') {
+            // remove
+            const nValue = {
+              ...p.valueRef.current,
+            }
+            delete nValue['']
+            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
+          } else {
+            const nValue = {
+              ...p.valueRef.current,
+            }
+            const rowValue = nValue[p.value]
+            delete nValue[p.value]
+            nValue[changeRef.current] = rowValue
+            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
+          }
           changeRef.current = ''
         }
-      }}
-      onChange={(v) => {
-        console.info('-====>', v)
+      }, [])}
+      onChange={useCallback((v) => {
         changeRef.current = v
-      }}
+      }, [])}
     />
   )
 }
@@ -41,8 +59,8 @@ export function Record({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldRecord>(ctx, path)
   const valuesField = field.values
 
-  const vRef = useRef<typeof value>()
-  vRef.current = value
+  const valueRef = useRef<typeof value>()
+  valueRef.current = value
 
   const rows: ReactNode[] = []
   const cols: ReactNode[] = [
@@ -53,7 +71,7 @@ export function Record({ ctx, path }: TableProps) {
 
   const addNew = React.useCallback(async () => {
     ctx.listeners.onChangeHandler(ctx, path, {
-      ...vRef.current,
+      ...valueRef.current,
       '': createNewEmptyValue(field.values),
     })
   }, [])
@@ -72,28 +90,7 @@ export function Record({ ctx, path }: TableProps) {
       for (const key in value) {
         const cells: ReactNode[] = [
           <Cell width={200} border isKey key="key">
-            <KeyInput
-              value={key}
-              onChange={(newKey) => {
-                if (newKey === '') {
-                  // remove
-                  const nValue = {
-                    ...vRef.current,
-                  }
-                  delete nValue['']
-                  ctx.listeners.onChangeHandler(ctx, path, nValue)
-                } else {
-                  console.log(newKey, '???')
-                  const nValue = {
-                    ...vRef.current,
-                  }
-                  const p = nValue[key]
-                  delete nValue[key]
-                  nValue[newKey] = p
-                  ctx.listeners.onChangeHandler(ctx, path, nValue)
-                }
-              }}
-            />
+            <KeyInput valueRef={valueRef} value={key} ctx={ctx} path={path} />
           </Cell>,
         ]
         for (const k in valuesField.properties) {
