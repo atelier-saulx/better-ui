@@ -7,7 +7,7 @@ type FontStyle = {
   fontFamily: string
   letterSpacing?: string
   lineHeight?: string | number
-  fontWeight?: number | string
+  fontWeight: number
 }
 
 const memoizeMap: Map<number, Chars> = new Map()

@@ -147,7 +147,11 @@ export function Grid({ variant = 'column', items, itemAction }: GridProps) {
                 </div>
               )}
             </div>
-            <Text color="secondary" style={{ wordBreak: 'break-all' }}>
+            <Text
+              color="secondary"
+              variant="body"
+              style={{ wordBreak: 'break-all' }}
+            >
               {item.description}
             </Text>
           </div>

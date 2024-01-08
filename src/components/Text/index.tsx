@@ -149,7 +149,15 @@ export type TextProps = {
 
 export const Text = React.forwardRef<HTMLElement, TextProps>(
   (
-    { as, variant, color = 'primary', style, children, singleLine, weight },
+    {
+      as,
+      variant = 'body',
+      color = 'primary',
+      style,
+      children,
+      singleLine,
+      weight,
+    },
     ref
   ) => {
     if (variant && !as) {
