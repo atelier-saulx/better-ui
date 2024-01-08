@@ -43,18 +43,21 @@ export const textVariants = {
     fontWeight: 400,
     letterSpacing: '-0.14px',
     lineHeight: `24px`,
+    fontSize: '14px',
   },
   'body-bold': {
     defaultTag: 'p',
     fontWeight: 500,
     letterSpacing: '-0.14px',
     lineHeight: `24px`,
+    fontSize: '14px',
   },
   'body-strong': {
     defaultTag: 'p',
     fontWeight: 600,
     letterSpacing: '-0.14px',
     lineHeight: `24px`,
+    fontSize: '14px',
   },
   'body-small': {
     defaultTag: 'p',
@@ -168,7 +171,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
             ? 500
             : weight === 'strong'
             ? 600
-            : 'inherit',
+            : textVariants[variant].fontWeight,
         ...(singleLine
           ? {
               textOverflow: 'ellipsis',
