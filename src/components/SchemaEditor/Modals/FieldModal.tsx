@@ -40,7 +40,7 @@ export const FieldModal = ({ fieldType }) => {
 
   return (
     <>
-      <Text variant="bodyBold">{fieldType}</Text>
+      <Text variant="body-bold">{fieldType}</Text>
       <Stack
         style={{ justifyContent: 'flex-start', margin: '12px 0px' }}
         gap={16}

@@ -61,7 +61,7 @@ const parseFields = (fields) => {
 }
 
 export const SchemaFields = ({ fields }) => {
-  console.log('hellow??', fields)
+  // console.log('hellow??', fields)
 
   const [array, setArray] = React.useState<
     SchemaItem[] | unindexedSchemaItem[] | any

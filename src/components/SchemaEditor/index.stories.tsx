@@ -2,7 +2,7 @@ import * as React from 'react'
 import { SchemaEditor, Modal } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
-import { Provider, useQuery, useClient } from '@based/react'
+import { Provider, useQuery, useClient, useAuthState } from '@based/react'
 
 const meta: Meta<typeof SchemaEditor> = {
   title: 'Based/SchemaEditor',
@@ -58,12 +58,14 @@ export const Default = () => {
     },
   }
 
+  const authState = useAuthState()
   // get a schema
   const client = useClient()
 
   const { data: schema, loading: loadingSchema } = useQuery('db:schema')
 
-  console.log(client, schema, loadingSchema)
+  console.log('🦐', authState)
+  console.log('🐠', client, schema, loadingSchema)
 
   return <SchemaEditor schema={example} />
 }

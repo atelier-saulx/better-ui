@@ -28,7 +28,7 @@ export const AddField = ({}) => {
       >
         {({ close }) => (
           <div style={{ padding: 24, overflow: 'overlay' }}>
-            <Text variant="bodyStrong" style={{ marginBottom: 8 }}>
+            <Text variant="body-strong" style={{ marginBottom: 8 }}>
               Add a new field to your schema type
             </Text>
             <TextInput

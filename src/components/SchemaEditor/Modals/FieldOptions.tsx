@@ -41,7 +41,7 @@ export const FieldOptions = ({ item }) => {
           onClick={() => {
             modal.open(
               <Modal>
-                <Text variant="bodyBold">
+                <Text variant="body-bold">
                   Are you sure you want to delete {item.label}?
                 </Text>
 

@@ -45,6 +45,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "@faker-js/faker": "^8.3.1",
+    "@based/cli": "^5.12.2",
+    "@based/functions": "^2.2.2",
     "@saulx/prettier-config": "^1.0.0",
     "@saulx/tsconfig": "1.0.6",
     "@storybook/addon-controls": "^7.5.3",

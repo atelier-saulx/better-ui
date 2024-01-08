@@ -32,7 +32,7 @@ export const AddType = () => {
           >
             <Stack gap={12} grid>
               <div>
-                <Text variant="bodyBold">Create a new type</Text>
+                <Text variant="body-bold">Create a new type</Text>
                 <Text color="secondary">
                   Add your own custom type to the schema.
                 </Text>

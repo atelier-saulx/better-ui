@@ -6,7 +6,7 @@ import { SchemaFields } from './SchemaFields.js'
 import { TypeOptions } from './Modals/TypeOptions.js'
 
 export const SchemaView = ({ schemaType }) => {
-  console.log('🦞', schemaType)
+  // console.log('🦞', schemaType)
 
   // get name from route
   let schemaTypeName = Object.keys(schemaType)[0]
@@ -15,7 +15,7 @@ export const SchemaView = ({ schemaType }) => {
     <div style={{ width: '100%', padding: 32 }}>
       <Stack style={{ marginBottom: 16 }}>
         <Stack gap={16} style={{ justifyContent: 'flex-start', width: 'auto' }}>
-          <Text variant="bodyBold">{schemaTypeName}</Text>
+          <Text variant="body-bold">{schemaTypeName}</Text>
           <TypeOptions />
         </Stack>
         <AddField />

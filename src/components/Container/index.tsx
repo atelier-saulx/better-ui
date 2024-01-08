@@ -6,6 +6,7 @@ import {
   color,
   border,
   Text,
+  textVariants,
 } from '../../index.js'
 
 export type ContainerProps = {
@@ -90,9 +91,9 @@ export function Container({
         {prefix && <div>{prefix}</div>}
         <div>
           {title && (
-            <Text variant="bodyStrong" style={{ marginBottom: -4 }}>
+            <div style={{ marginBottom: -4, ...textVariants['body-strong'] }}>
               {title}
-            </Text>
+            </div>
           )}
           {description && <Text color="secondary">{description}</Text>}
         </div>
