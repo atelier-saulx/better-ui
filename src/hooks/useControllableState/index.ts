@@ -32,7 +32,7 @@ export function useControllableState<T>({
     (v: T | ((v: T) => T)) => {
       // TODO: if object make it into a checksum to check for change
       if (typeof v === 'function') {
-        // @ts-ignore
+        // @ts-ignore too hard to understand 🧠
         const n = v(ref.current.newValue)
         ref.current.onChange?.(n)
         return n
