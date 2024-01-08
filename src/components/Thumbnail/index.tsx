@@ -25,8 +25,10 @@ export type ThumbnailProps = {
     | 'small'
     | 'extra-small'
   shape?: 'square' | 'circle'
+  icon?: React.ReactNode
   onClick?: () => void
   count?: number
+  outline?: boolean
   style?: Style
 }
 
@@ -36,25 +38,36 @@ export function Thumbnail({
   size = 'regular',
   shape = 'square',
   color: colorProp = 'auto',
+  icon,
   onClick,
   count,
+  outline,
   style,
 }: ThumbnailProps) {
   const color = React.useMemo(() => {
-    if (!text) return
+    //  if (!text) return
 
     if (colorProp === 'auto' || colorProp === 'auto-muted') {
       const colors =
         colorProp === 'auto' ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS
 
       const index =
-        Math.floor(Math.abs(Math.sin(hash(text))) * (colors.length - 1)) + 1
+        Math.floor(
+          Math.abs(Math.sin(hash(text || icon?.toString() || 'xxx'))) *
+            (colors.length - 1)
+        ) + 1
 
       return colors[index]
     }
 
     return colorProp
   }, [colorProp, text])
+
+  let borderColor
+
+  if (color.includes('muted')) {
+    borderColor = color.substring(0, color.length - 6)
+  }
 
   return (
     <div
@@ -63,6 +76,10 @@ export function Thumbnail({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        border:
+          color.includes('muted') && outline
+            ? `1px solid ${getColor('semantic-background', borderColor)}`
+            : `0px solid transparent`,
         color: getColor('semantic-color', color),
         background: getColor('semantic-background', color),
         ...(shape === 'square' && {
@@ -99,6 +116,7 @@ export function Thumbnail({
       }}
       onClick={onClick}
     >
+      {icon && !src && !text && icon}
       {src && (
         <img
           style={{
@@ -158,7 +176,7 @@ export function Thumbnail({
             border: border(),
             padding: '0 4px',
             borderRadius: borderRadius('full'),
-            ...textVariants.bodyStrong,
+            ...textVariants['body-strong'],
             lineHeight: '18px',
             transform: 'translate(30%, -30%)',
           }}

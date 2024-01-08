@@ -7,6 +7,7 @@ import {
   border,
   borderRadius,
   boxShadow,
+  Text,
   color,
   useControllableState,
 } from '../../index.js'
@@ -25,6 +26,7 @@ export type SelectInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
   checksum?: number
 }
@@ -41,6 +43,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       variant = 'regular',
       error,
       autoFocus,
+      description,
       style,
       checksum,
     },
@@ -151,6 +154,15 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 }}
               />
             </styled.div>
+            {description !== undefined ? (
+              <Text
+                color="secondary"
+                variant="body-bold"
+                style={{ marginTop: 8 }}
+              >
+                {description}
+              </Text>
+            ) : null}
           </Wrapper>
         </SelectBase.Trigger>
         <SelectBase.Portal>

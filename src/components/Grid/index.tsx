@@ -86,7 +86,7 @@ export function Grid({ variant = 'column', items, itemAction }: GridProps) {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    ...textVariants.bodyStrong,
+                    ...textVariants['body-strong'],
                     color: color('interactive', 'primary'),
                     textTransform: 'uppercase',
                     fontSize: variant === 'column' ? 14 : 8,
@@ -126,7 +126,7 @@ export function Grid({ variant = 'column', items, itemAction }: GridProps) {
               }}
             >
               <Text
-                variant="bodyBold"
+                variant="body-bold"
                 color="primary"
                 style={{ wordBreak: 'break-all' }}
               >
@@ -147,7 +147,11 @@ export function Grid({ variant = 'column', items, itemAction }: GridProps) {
                 </div>
               )}
             </div>
-            <Text color="secondary" style={{ wordBreak: 'break-all' }}>
+            <Text
+              color="secondary"
+              variant="body"
+              style={{ wordBreak: 'break-all' }}
+            >
               {item.description}
             </Text>
           </div>

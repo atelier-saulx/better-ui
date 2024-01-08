@@ -5,6 +5,7 @@ import {
   borderRadius,
   boxShadow,
   color,
+  Text,
   useControllableState,
 } from '../../index.js'
 
@@ -18,6 +19,7 @@ export type TextAreaInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
   checksum?: number
 }
@@ -67,6 +69,7 @@ export const TextAreaInput = React.forwardRef<
       variant = 'regular',
       error,
       autoFocus,
+      description,
       style,
       checksum,
     },
@@ -93,6 +96,15 @@ export const TextAreaInput = React.forwardRef<
             {label}
           </styled.span>
         )}
+        {description !== undefined ? (
+          <Text
+            color="secondary"
+            variant="body-bold"
+            style={{ marginBottom: 8, marginTop: -6 }}
+          >
+            {description}
+          </Text>
+        ) : null}
         <styled.div
           data-value={state}
           style={{

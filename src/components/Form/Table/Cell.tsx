@@ -33,7 +33,7 @@ export function Cell({
         justify="start"
         style={{
           minHeight: 48,
-          ...textVariants.bodyBold,
+          ...textVariants['body-bold'],
         }}
       >
         {children}

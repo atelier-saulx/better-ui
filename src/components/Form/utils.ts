@@ -34,7 +34,7 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
       const k = getTitle(key, prop)
       const keyWidth =
         getStringWidth(String(k), {
-          ...textVariants.bodyBold,
+          ...textVariants['body-bold'],
           fontFamily: 'Inter, system-ui',
         }) + 40
       if (keyWidth > maxWidth) {
@@ -43,7 +43,7 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
       if (description) {
         const descriptionWidth =
           getStringWidth(description, {
-            ...textVariants.body,
+            ...textVariants['body'],
             fontFamily: 'Inter, system-ui',
           }) + 40
         if (descriptionWidth > maxWidth) {

@@ -157,7 +157,7 @@ const MediaInner = ({
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          ...textVariants.bodyStrong,
+          ...textVariants['body-strong'],
           color: color('interactive', 'primary'),
           textTransform: 'uppercase',
           fontSize: size === 'small' ? 7 : size === 'medium' ? 14 : 24,

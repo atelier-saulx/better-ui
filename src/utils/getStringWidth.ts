@@ -3,11 +3,11 @@ import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 type Chars = { [key: string]: number }
 
 type FontStyle = {
-  fontSize: number
+  fontSize?: number | string
   fontFamily: string
   letterSpacing?: string
   lineHeight?: string | number
-  fontWeight?: number | string
+  fontWeight: number
 }
 
 const memoizeMap: Map<number, Chars> = new Map()
@@ -25,7 +25,7 @@ const drawChar = (
     ctx.font = `normal normal ${fontWeight} ${fontSize}px ${fontFamily}`
     return ctx.measureText(char).width
   } else {
-    return fontSize
+    return fontSize as number
   }
 }
 

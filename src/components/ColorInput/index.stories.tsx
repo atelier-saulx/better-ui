@@ -13,6 +13,7 @@ export const Default = () => {
       onChange={(value) => {
         console.log('onchange', value)
       }}
+      description="put color on"
     />
   )
 }

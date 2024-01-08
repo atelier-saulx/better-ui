@@ -6,6 +6,7 @@ import {
   border,
   boxShadow,
   useControllableState,
+  Text,
 } from '../../index.js'
 
 export type TextInputProps = {
@@ -21,6 +22,7 @@ export type TextInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
 }
 
@@ -69,6 +71,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       variant = 'regular',
       error,
       onKeyDown,
+      description,
       style,
     },
     ref
@@ -139,6 +142,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             }),
           }}
         />
+        {description !== undefined ? (
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </Wrapper>
     )
   }
