@@ -77,7 +77,7 @@ export function Container({
             onClick?.()
 
             if (expandable) {
-              setExpanded((p) => !p)
+              setExpanded(!expanded)
             }
           }
         }}
