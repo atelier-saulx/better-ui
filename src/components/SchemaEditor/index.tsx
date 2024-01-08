@@ -7,10 +7,16 @@ export type SchemaEditorProps = {
 }
 
 export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
+  const [active, setActive] = React.useState('')
+
   return (
     <div style={{ width: 767, height: 676, display: 'flex' }}>
-      <SchemaSideBar types={schema.types} />
-      <SchemaView schemaType={schema.types} />
+      <SchemaSideBar
+        types={schema.types}
+        active={active}
+        setActive={setActive}
+      />
+      <SchemaView schemaTypes={schema.types} typeName={active} />
     </div>
   )
 }
