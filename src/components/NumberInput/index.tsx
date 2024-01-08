@@ -16,6 +16,7 @@ export type NumberInputProps = {
   value?: number
   defaultValue?: number
   onChange?: (value: number) => void
+  checksum?: number
   formName?: string
   label?: string
   step?: number
@@ -63,6 +64,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       value: valueProp,
       defaultValue: defaultValueProp,
       onChange,
+      checksum,
       formName,
       label,
       step = 1,
@@ -75,9 +77,10 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     ref
   ) => {
     const [value, setValue] = useControllableState<number>({
-      prop: valueProp,
-      defaultProp: defaultValueProp,
+      value: valueProp,
+      defaultValue: defaultValueProp,
       onChange,
+      checksum,
     })
 
     return (
@@ -100,6 +103,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             autoFocus={autoFocus}
             value={value ?? ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              e.stopPropagation()
               const numberValue = parseFloat(e.target.value)
               if (isNaN(numberValue)) {
                 setValue(undefined)

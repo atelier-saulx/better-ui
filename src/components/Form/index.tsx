@@ -23,6 +23,7 @@ export type FormProps = {
   checksum?: number
   onSelectReference?: Listeners['onSelectReference']
   onSelectReferences?: Listeners['onSelectReferences']
+  onClickReference?: Listeners['onClickReference']
   onChangeAtomic?: (
     path: Path,
     newValue: any,
@@ -56,6 +57,7 @@ export function Form({
   onSelectReference,
   onSelectReferences,
   confirmLabel,
+  onClickReference,
   variant = 'regular',
 }: FormProps) {
   const nRef = useRef<{
@@ -99,15 +101,13 @@ export function Form({
       setChecksum(hash)
       return false
     },
-    onNew: () => false,
-    onRemove: () => false,
+    onClickReference: onClickReference ?? (() => undefined),
     onSelectReference:
       onSelectReference ??
       ((async (_, value) => value) as Listeners['onSelectReference']),
     onSelectReferences:
       onSelectReferences ??
       ((async (_, value) => value) as Listeners['onSelectReferences']),
-    onReference: () => undefined,
   }
 
   const onConfirm = React.useCallback(async () => {

@@ -40,6 +40,7 @@ export function Root({
   defaultOpen,
 }: ModalRootProps) {
   const [open, setOpen] = useControllableState({
+    // @ts-ignore
     prop: openProp,
     defaultProp: defaultOpen || false,
     onChange: onOpenChange,
@@ -62,11 +63,7 @@ export function Root({
 export type ModalTriggerProps = { children: React.ReactNode }
 
 export function Trigger({ children }: ModalTriggerProps) {
-  return (
-    <ModalBase.Trigger asChild>
-      <div>{children}</div>
-    </ModalBase.Trigger>
-  )
+  return <ModalBase.Trigger asChild>{children}</ModalBase.Trigger>
 }
 
 export type ModalOverlayProps = {

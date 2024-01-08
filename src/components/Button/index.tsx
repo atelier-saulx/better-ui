@@ -63,23 +63,27 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const [shaking, setShaking] = React.useState(false)
     useKeyboardShortcut(keyboardShortcut, onClick)
 
-    const handleClick = React.useCallback(async () => {
-      if (!onClick || disabled) return
+    const handleClick = React.useCallback(
+      async (e: Event) => {
+        e.stopPropagation()
+        if (!onClick || disabled) return
 
-      const loadingDelayTimeout = setTimeout(() => {
-        setLoading(true)
-      }, 100)
+        const loadingDelayTimeout = setTimeout(() => {
+          setLoading(true)
+        }, 100)
 
-      try {
-        await onClick()
-      } catch (err) {
-        console.error(err)
-        setShaking(true)
-      }
+        try {
+          await onClick(e)
+        } catch (err) {
+          console.error(err)
+          setShaking(true)
+        }
 
-      setLoading(false)
-      clearTimeout(loadingDelayTimeout)
-    }, [onClick, disabled])
+        setLoading(false)
+        clearTimeout(loadingDelayTimeout)
+      },
+      [onClick, disabled]
+    )
 
     return (
       <styled.button

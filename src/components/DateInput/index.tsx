@@ -44,6 +44,7 @@ export type DateInputProps = {
   time?: boolean
   value?: DateInputValue
   defaultValue?: DateInputValue
+  checksum?: number
   onChange?: (value: DateInputValue) => void
   variant?: 'regular' | 'small'
   error?: boolean
@@ -58,6 +59,7 @@ export function DateInput({
   value: valueProp,
   defaultValue: defaultValueProp,
   onChange,
+  checksum,
   variant = 'regular',
   error,
   label,
@@ -65,9 +67,10 @@ export function DateInput({
   style,
 }: DateInputProps) {
   const [value, setValue] = useControllableState({
-    prop: valueProp,
-    defaultProp: defaultValueProp,
+    value: valueProp,
+    defaultValue: defaultValueProp,
     onChange,
+    checksum,
   })
   const [currentMonth, setCurrentMonth] = React.useState(new Date())
   const [hoveredDate, setHoveredDate] = React.useState<Date | null>(null)

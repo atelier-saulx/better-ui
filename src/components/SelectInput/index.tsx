@@ -49,6 +49,8 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
     const Wrapper = label ? styled.label : styled.div
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
 
+    // TODO: Use useControllableState
+
     React.useEffect(() => {
       if (autoFocus && wrapperRef.current) {
         wrapperRef.current.focus()

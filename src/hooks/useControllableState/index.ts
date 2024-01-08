@@ -1,60 +1,52 @@
 import * as React from 'react'
-import { useCallbackRef } from '../useCallbackRef/index.js'
-
-function useUncontrolledState<T>({
-  defaultProp,
-  onChange,
-}: Omit<UseControllableStateParams<T>, 'prop'>) {
-  const uncontrolledState = React.useState<T | undefined>(defaultProp)
-  const [value] = uncontrolledState
-  const prevValueRef = React.useRef(value)
-  const handleChange = useCallbackRef(onChange)
-
-  React.useEffect(() => {
-    if (prevValueRef.current !== value) {
-      handleChange(value as T)
-      prevValueRef.current = value
-    }
-  }, [value, prevValueRef, handleChange])
-
-  return uncontrolledState
-}
 
 type UseControllableStateParams<T> = {
-  prop?: T | undefined
-  defaultProp?: T | undefined
+  value?: T | undefined
+  defaultValue?: T | undefined
   onChange?: (state: T) => void
+  checksum?: number // this controlls change from outside with a checksum
 }
 
-type SetStateFn<T> = (prevState?: T) => T
-
 export function useControllableState<T>({
-  prop,
-  defaultProp,
+  value,
   onChange = () => {},
+  checksum,
+  defaultValue,
 }: UseControllableStateParams<T>) {
-  const [uncontrolledProp, setUncontrolledProp] = useUncontrolledState({
-    defaultProp,
-    onChange,
+  const ref = React.useRef<{
+    value?: T
+    onChange?: typeof onChange
+    checksum?: number
+  }>({
+    value,
+    checksum,
   })
-  const isControlled = prop !== undefined
-  const value = isControlled ? prop : uncontrolledProp
-  const handleChange = useCallbackRef(onChange)
+  ref.current.onChange = onChange
 
-  const setValue: React.Dispatch<React.SetStateAction<T | undefined>> =
-    React.useCallback(
-      (nextValue) => {
-        if (isControlled) {
-          const setter = nextValue as SetStateFn<T>
-          const value =
-            typeof nextValue === 'function' ? setter(prop) : nextValue
-          if (value !== prop) handleChange(value as T)
-        } else {
-          setUncontrolledProp(nextValue)
-        }
-      },
-      [isControlled, prop, setUncontrolledProp, handleChange]
-    )
+  const [newValue, setNewValue] = React.useState<T>(value ?? defaultValue)
 
-  return [value, setValue] as const
+  const update = React.useCallback((v: T) => {
+    // TODO: if object make it into a checksum to check for change
+    ref.current.onChange?.(v)
+    setNewValue(v)
+  }, [])
+
+  if (checksum !== undefined) {
+    React.useEffect(() => {
+      if (checksum !== ref.current.checksum) {
+        setNewValue(value === undefined && defaultValue ? defaultValue : value)
+        ref.current.value = value
+        ref.current.checksum = checksum
+      }
+    }, [checksum, defaultValue])
+  } else {
+    React.useEffect(() => {
+      if (value !== ref.current.value) {
+        setNewValue(value === undefined && defaultValue ? defaultValue : value)
+        ref.current.value = value
+      }
+    }, [value, defaultValue])
+  }
+
+  return [newValue ?? ref.current.value, update] as const
 }

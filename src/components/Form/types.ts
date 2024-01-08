@@ -4,6 +4,7 @@ import {
   BasedSchemaFieldReference,
   BasedSchemaFieldReferences,
 } from '@based/schema'
+import { ButtonProps } from '../Button/index.js'
 
 export type Reference = string | ({ [key: string]: any } & { id: string })
 
@@ -11,8 +12,6 @@ export type References = Reference[]
 
 export type Listeners = {
   onChangeHandler: (ctx: TableCtx, path: Path, newValue?: any) => boolean
-  onNew: (ctx: TableCtx, path: Path, newValue?: any) => boolean
-  onRemove: (ctx: TableCtx, path: Path, index: number) => boolean
   onSelectReference: (props: {
     path: Path
     value: Reference | void | null
@@ -25,12 +24,12 @@ export type Listeners = {
     field: BasedSchemaFieldReferences
     ctx: TableCtx
   }) => Promise<References | void | null>
-  onReference: (props: {
+  onClickReference: (props: {
     path: Path
-    value: References | void | null
-    field: BasedSchemaFieldReferences
+    value: Reference
+    field: BasedSchemaFieldReferences | BasedSchemaFieldReference
     ctx: TableCtx
-  }) => Promise<Reference>
+  }) => ReturnType<ButtonProps['onClick']>
 }
 
 export type TableCtx = {

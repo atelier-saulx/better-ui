@@ -13,6 +13,7 @@ import { styled, Style } from 'inlines'
 export type ColorInputProps = {
   value?: string
   defaultValue?: string
+  checksum?: number
   onChange?: (value: string) => void
   label?: string
   variant?: 'regular' | 'small'
@@ -36,12 +37,14 @@ export function ColorInput({
   defaultValue: defaultValueProp,
   description,
   onChange,
+  checksum,
   style,
 }: ColorInputProps) {
   const [value, setValue] = useControllableState({
-    prop: valueProp,
-    defaultProp: defaultValueProp,
+    value: valueProp,
+    defaultValue: defaultValueProp,
     onChange,
+    checksum,
   })
   const [hue, setHue] = React.useState(0)
   const [alpha, setAlpha] = React.useState(1)
