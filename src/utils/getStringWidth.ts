@@ -3,7 +3,7 @@ import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 type Chars = { [key: string]: number }
 
 type FontStyle = {
-  fontSize?: number
+  fontSize?: number | string
   fontFamily: string
   letterSpacing?: string
   lineHeight?: string | number
@@ -25,7 +25,7 @@ const drawChar = (
     ctx.font = `normal normal ${fontWeight} ${fontSize}px ${fontFamily}`
     return ctx.measureText(char).width
   } else {
-    return fontSize
+    return fontSize as number
   }
 }
 
