@@ -23,21 +23,17 @@ export function useControllableState<T>({
   })
   ref.current.onChange = onChange
 
-  const [parsedValue, setParsedValue] = React.useState<T>(value ?? defaultValue)
+  const [newValue, setNewValue] = React.useState<T>(value ?? defaultValue)
 
   const update = React.useCallback((str: T) => {
     ref.current.onChange(str)
-    setParsedValue(str)
+    setNewValue(str)
   }, [])
 
   if (checksum !== undefined) {
     React.useEffect(() => {
       if (checksum !== ref.current.checksum) {
-        if (value === undefined && defaultValue) {
-          setParsedValue(defaultValue)
-        } else {
-          setParsedValue(value)
-        }
+        setNewValue(value === undefined && defaultValue ? defaultValue : value)
         ref.current.value = value
         ref.current.checksum = checksum
       }
@@ -45,15 +41,11 @@ export function useControllableState<T>({
   } else {
     React.useEffect(() => {
       if (value !== ref.current.value) {
-        if (value === undefined && defaultValue) {
-          setParsedValue(defaultValue)
-        } else {
-          setParsedValue(value)
-        }
+        setNewValue(value === undefined && defaultValue ? defaultValue : value)
         ref.current.value = value
       }
     }, [value, defaultValue])
   }
 
-  return [parsedValue ?? ref.current.value, update] as const
+  return [newValue ?? ref.current.value, update] as const
 }
