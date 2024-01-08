@@ -42,6 +42,9 @@ const KeyInput = (p: {
             const rowValue = nValue[p.value]
             delete nValue[p.value]
             nValue[changeRef.current] = rowValue
+
+            console.info('??? hello', p.value, '--->', nValue)
+
             p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
           }
           changeRef.current = ''
@@ -59,6 +62,8 @@ export function Record({ ctx, path }: TableProps) {
   const valuesField = field.values
 
   const valueRef = useRef<typeof value>()
+
+  console.info('NEW VALUE', path, valueRef.current)
   valueRef.current = value
 
   const rows: ReactNode[] = []

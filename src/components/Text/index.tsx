@@ -7,23 +7,30 @@ export const textVariants = {
     fontWeight: 400,
     lineHeight: `24px`,
     letterSpacing: '-0.14px',
-    fontFamily: 'inherit',
-    fontSize: 14,
+    defaultTag: 'p',
   },
   bodyBold: {
     fontWeight: 500,
     lineHeight: `24px`,
     letterSpacing: '-0.14px',
-    fontFamily: 'inherit',
-    fontSize: 14,
+    defaultTag: 'p',
   },
   bodyStrong: {
     fontWeight: 600,
     lineHeight: `24px`,
     letterSpacing: '-0.14px',
-    fontFamily: 'inherit',
-    fontSize: 14,
+    defaultTag: 'p',
   },
+}
+
+const selectFromTag: Partial<
+  Record<TextProps['as'], keyof typeof textVariants>
+> = {}
+
+for (const variant in textVariants) {
+  if (!selectFromTag[textVariants[variant].defaultTag]) {
+    selectFromTag[textVariants[variant].defaultTag] = variant
+  }
 }
 
 export type TextProps = {
@@ -56,18 +63,13 @@ export type TextProps = {
 }
 
 export const Text = React.forwardRef<HTMLElement, TextProps>(
-  (
-    {
-      as = 'p',
-      variant = 'body',
-      color = 'primary',
-      style,
-      size = 14,
-      children,
-      singleLine,
-    },
-    ref
-  ) => {
+  ({ as, variant, color = 'primary', style, children, singleLine }, ref) => {
+    if (variant && !as) {
+      // @ts-ignore too dificult 🧠🎉
+      as = textVariants[variant].defaultTag
+    } else if (as && !variant) {
+      variant = selectFromTag[as]
+    }
     return React.createElement(styled[as], {
       children,
       ref,
@@ -77,28 +79,6 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
         color: color === 'inherit' ? 'inherit' : getColor('content', color),
         fontFamily: 'inherit',
         ...textVariants[variant],
-        fontSize: `${size}px`,
-        lineHeight:
-          size <= 10
-            ? '16px'
-            : size <= 12
-            ? '20px'
-            : size <= 14
-            ? '24px'
-            : size <= 16
-            ? '28px'
-            : size <= 18
-            ? '32px'
-            : size <= 24
-            ? '36px'
-            : size <= 32
-            ? '44px'
-            : size <= 40
-            ? '56px'
-            : size <= 72
-            ? '64px'
-            : 'inherit',
-        ...style,
         ...(singleLine
           ? {
               textOverflow: 'ellipsis',
@@ -106,6 +86,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
               whiteSpace: 'nowrap',
             }
           : {}),
+        ...style,
       },
     })
   }
