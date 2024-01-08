@@ -92,6 +92,10 @@ export function ColorInput({
     inputRef.current.value = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`
   }, [position, hue, alpha])
 
+  React.useEffect(() => {
+    inputRef.current.value = value
+  }, [value])
+
   return (
     <styled.div
       style={{
@@ -134,14 +138,11 @@ export function ColorInput({
             if (rgbRegex.test(newRawValue)) {
               const newRGBA = rgbToRgba(newRawValue)
               setValue(newRGBA)
-              inputRef.current.value = newRGBA
             } else if (rgbaRegex.test(newRawValue)) {
               setValue(newRawValue)
-              inputRef.current.value = newRawValue
             } else if (hexRegex.test(newRawValue)) {
               const newRGBA = hexToRGBA(newRawValue)
               setValue(newRGBA)
-              inputRef.current.value = newRGBA
             }
           }}
           style={{
