@@ -93,7 +93,9 @@ export function ColorInput({
   }, [position, hue, alpha])
 
   React.useEffect(() => {
-    inputRef.current.value = value
+    if (value || (inputRef.current.value && !value)) {
+      inputRef.current.value = value
+    }
   }, [value])
 
   return (
