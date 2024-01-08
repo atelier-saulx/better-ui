@@ -63,7 +63,7 @@ export const bodylarge: StoryObj<typeof Text> = {
 export const bodySmall: StoryObj<typeof Text> = {
   args: {
     children: 'Have a nice day!',
-    variant: 'body-large',
+    variant: 'body-small',
   },
 }
 
