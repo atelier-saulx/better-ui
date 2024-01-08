@@ -58,8 +58,8 @@ export const Code = ({
 }: CodeProps) => {
   const [isFocus, setFocus] = useState(false)
   const [value, setValue] = useControllableState({
-    prop: valueProp,
-    defaultProp: placeholder,
+    value: valueProp,
+    defaultValue: placeholder,
     onChange: onChangeProp,
   })
   const [, copyIt] = useCopyToClipboard((value as string) ?? '')

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { styled } from 'inlines'
 import {
   Stack,
@@ -9,7 +9,7 @@ import {
   TextInput,
 } from '../../../index.js'
 import { TableProps } from '../types.js'
-import { readPath, useCols } from '../utils.js'
+import { readPath, useCols, createNewEmptyValue } from '../utils.js'
 import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { BasedSchemaFieldRecord } from '@based/schema'
@@ -26,6 +26,21 @@ export function Record({ ctx, path }: TableProps) {
     </Cell>,
   ]
 
+  const [newKey, setNewKey] = useState<undefined | string>()
+
+  // state and select it
+
+  const addNew = React.useCallback(async () => {
+    ctx.listeners.onChangeHandler(ctx, path, {
+      ...value,
+      '': createNewEmptyValue(field.values),
+    })
+
+    // setNewKey('')
+  }, [])
+
+  const removeItem = (key: string) => {}
+
   if (valuesField.type === 'object' && useCols(valuesField)) {
     for (const key in valuesField.properties) {
       cols.push(
@@ -36,9 +51,18 @@ export function Record({ ctx, path }: TableProps) {
     }
     if (value) {
       for (const key in value) {
+        const isNew = key === ''
         const cells: ReactNode[] = [
           <Cell width={200} border isKey key="key">
-            <TextInput variant="small" value={key} />
+            <TextInput
+              variant="small"
+              value={key}
+              autoFocus={isNew}
+              onBlur={() => {}}
+              onChange={() => {
+                // bla
+              }}
+            />
           </Cell>,
         ]
         for (const k in valuesField.properties) {
@@ -51,6 +75,9 @@ export function Record({ ctx, path }: TableProps) {
 
         rows.push(
           <ColStack
+            onRemove={() => {
+              // lullz
+            }}
             key={key}
             style={{
               borderBottom: border(),
@@ -62,7 +89,7 @@ export function Record({ ctx, path }: TableProps) {
       }
     }
   } else {
-    const borderBottom = valuesField.type === 'object' ? false : true
+    const deepObject = valuesField.type === 'object'
     cols.push(
       <Cell isKey border key={'value'}>
         Value
@@ -71,7 +98,20 @@ export function Record({ ctx, path }: TableProps) {
     if (value) {
       for (const key in value) {
         rows.push(
-          <ColStack align="stretch" key={key}>
+          <ColStack
+            style={{
+              borderBottom: deepObject ? null : border(),
+            }}
+            align="stretch"
+            key={key}
+            onRemove={
+              !deepObject
+                ? () => {
+                    // lullz
+                  }
+                : null
+            }
+          >
             <Cell
               width={200}
               border
@@ -80,16 +120,12 @@ export function Record({ ctx, path }: TableProps) {
               style={{
                 paddingRight: 10,
                 paddingLeft: 10,
-                borderBottom: border(),
+                borderBottom: deepObject ? border() : null,
               }}
             >
               <TextInput variant="small" value={key} />
             </Cell>
-            <Cell
-              style={{
-                borderBottom: borderBottom ? border() : null,
-              }}
-            >
+            <Cell>
               <Field ctx={ctx} path={[...path, key]} />
             </Cell>
           </ColStack>
@@ -105,6 +141,7 @@ export function Record({ ctx, path }: TableProps) {
           background: color('background', 'muted'),
           borderBottom: border(),
         }}
+        header
       >
         {cols}
       </ColStack>
@@ -114,6 +151,7 @@ export function Record({ ctx, path }: TableProps) {
           size="small"
           variant="neutral-transparent"
           prefix={<IconPlus />}
+          onClick={addNew}
         >
           Add
         </Button>
