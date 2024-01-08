@@ -28,6 +28,7 @@ export type ThumbnailProps = {
   icon?: React.ReactNode
   onClick?: () => void
   count?: number
+  outline?: boolean
   style?: Style
 }
 
@@ -40,6 +41,7 @@ export function Thumbnail({
   icon,
   onClick,
   count,
+  outline,
   style,
 }: ThumbnailProps) {
   const color = React.useMemo(() => {
@@ -50,13 +52,22 @@ export function Thumbnail({
         colorProp === 'auto' ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS
 
       const index =
-        Math.floor(Math.abs(Math.sin(hash(text))) * (colors.length - 1)) + 1
+        Math.floor(
+          Math.abs(Math.sin(hash(text || icon?.toString() || 'xxx'))) *
+            (colors.length - 1)
+        ) + 1
 
       return colors[index]
     }
 
     return colorProp
   }, [colorProp, text])
+
+  let borderColor
+
+  if (color.includes('muted')) {
+    borderColor = color.substring(0, color.length - 6)
+  }
 
   return (
     <div
@@ -65,6 +76,10 @@ export function Thumbnail({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        border:
+          color.includes('muted') && outline
+            ? `1px solid ${getColor('semantic-background', borderColor)}`
+            : `0px solid transparent`,
         color: getColor('semantic-color', color),
         background: getColor('semantic-background', color),
         ...(shape === 'square' && {
