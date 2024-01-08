@@ -22,7 +22,14 @@ export function useControllableState<T>({
     checksum,
   })
   ref.current.onChange = onChange
+
   const [parsedValue, setParsedValue] = React.useState<T>(value ?? defaultValue)
+
+  const update = React.useCallback((str: T) => {
+    ref.current.onChange(str)
+    setParsedValue(str)
+  }, [])
+
   if (checksum !== undefined) {
     React.useEffect(() => {
       if (checksum !== ref.current.checksum) {
@@ -48,5 +55,5 @@ export function useControllableState<T>({
     }, [value, defaultValue])
   }
 
-  return [parsedValue ?? ref.current.value, setParsedValue] as const
+  return [parsedValue ?? ref.current.value, update] as const
 }

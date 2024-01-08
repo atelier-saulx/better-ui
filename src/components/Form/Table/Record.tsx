@@ -23,12 +23,14 @@ const KeyInput = (p: { value: string; onChange: (value: string) => void }) => {
       value={p.value}
       autoFocus={p.value === ''}
       onBlur={() => {
+        console.info('W>S', '???', p.value, changeRef.current)
         if (changeRef.current !== p.value) {
           p.onChange(changeRef.current)
           changeRef.current = ''
         }
       }}
       onChange={(v) => {
+        console.info('-====>', v)
         changeRef.current = v
       }}
     />
