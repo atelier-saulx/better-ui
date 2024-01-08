@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "humanize-string": "^3.0.0",
+    "kabouter": "1.4.6",
     "@based/client": "^5.0.0",
     "@based/react": "^5.0.0",
     "@based/schema": "^2.2.10",
