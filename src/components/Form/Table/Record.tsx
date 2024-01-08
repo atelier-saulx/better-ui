@@ -28,9 +28,8 @@ const KeyInput = (p: {
       value={p.value}
       autoFocus={p.value === ''}
       onBlur={useCallback(() => {
-        if (changeRef.current !== p.value) {
+        if (changeRef.current !== p.value || changeRef.current === '') {
           if (changeRef.current === '') {
-            // remove
             const nValue = {
               ...p.valueRef.current,
             }
@@ -76,7 +75,13 @@ export function Record({ ctx, path }: TableProps) {
     })
   }, [])
 
-  // const removeItem = (key: string) => {}
+  const removeItem = (key: string) => {
+    const nValue = {
+      ...valueRef.current,
+    }
+    delete nValue[key]
+    ctx.listeners.onChangeHandler(ctx, path, nValue)
+  }
 
   if (valuesField.type === 'object' && useCols(valuesField)) {
     for (const key in valuesField.properties) {
@@ -100,11 +105,10 @@ export function Record({ ctx, path }: TableProps) {
             </Cell>
           )
         }
-
         rows.push(
           <ColStack
             onRemove={() => {
-              // lullz
+              removeItem(key)
             }}
             key={key}
             style={{
