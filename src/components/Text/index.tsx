@@ -62,7 +62,6 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
         color: color === 'inherit' ? 'inherit' : getColor('content', color),
         fontFamily: 'inherit',
         ...textVariants[variant],
-        ...style,
         ...(singleLine
           ? {
               textOverflow: 'ellipsis',
@@ -70,6 +69,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
               whiteSpace: 'nowrap',
             }
           : {}),
+        ...style,
       },
     })
   }
