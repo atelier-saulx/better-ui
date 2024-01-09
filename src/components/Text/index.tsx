@@ -54,7 +54,7 @@ export const textVariants = {
   caption: {
     defaultTag: 'span',
     defaultColor: 'secondary',
-    fontWeight: 400,
+    fontWeight: 600,
     fontSize: '12px',
     lineHeight: '20px',
     letterSpacing: '-0.12px',
