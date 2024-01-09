@@ -36,7 +36,7 @@ const Select = (p: {
   )
 
   const body = (
-    <Stack gap={4}>
+    <Stack gap={2}>
       {p.field.allowedTypes ? (
         <>
           Select{' '}
@@ -93,7 +93,7 @@ const Info = (p: { value: Reference; onClick: () => void }) => {
   if (typeof p.value === 'object') {
     return (
       <Stack justify="start" fitContent>
-        <Text style={{ marginRight: 12 }} variant="body-strong">
+        <Text style={{ marginRight: 12 }} variant="body-bold">
           {p.value.name ?? p.value.title}
         </Text>
         <Id id={p.value.id} onClick={p.onClick} />
