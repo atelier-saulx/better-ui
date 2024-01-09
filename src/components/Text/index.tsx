@@ -28,7 +28,7 @@ export const textVariants = {
     lineHeight: '32px',
   },
   body: {
-    defaultColor: 'secondary',
+    defaultColor: 'primary',
     defaultTag: 'p',
     fontWeight: 500,
     letterSpacing: '-0.14px',
@@ -36,7 +36,7 @@ export const textVariants = {
     fontSize: '14px',
   },
   'body-bold': {
-    defaultColor: 'secondary',
+    defaultColor: 'primary',
     defaultTag: 'p',
     fontWeight: 600,
     letterSpacing: '-0.14px',
@@ -44,7 +44,7 @@ export const textVariants = {
     fontSize: '14px',
   },
   'body-strong': {
-    defaultColor: 'secondary',
+    defaultColor: 'primary',
     defaultTag: 'p',
     fontWeight: 700,
     letterSpacing: '-0.14px',
@@ -77,9 +77,28 @@ export type TextProps = {
   as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
   weight?: 'normal' | 'bold' | 'strong'
   style?: Style
-  color?: 'primary' | 'secondary' | 'inverted' | 'inverted-muted'
+  color?: 'primary' | 'secondary' | 'inverted' | 'inverted-muted' | 'inherit'
   variant?: keyof typeof textVariants
   singleLine?: boolean
+}
+
+const selectColor = (
+  variant: TextProps['variant'],
+  color?: TextProps['color']
+): string => {
+  if (color === 'inherit') {
+    return color
+  }
+
+  if (color) {
+    return getColor('content', color)
+  }
+
+  return getColor(
+    'content',
+    // @ts-ignore too dificult 🧠🎉
+    textVariants[variant].defaultColor
+  )
 }
 
 export const Text = React.forwardRef<HTMLElement, TextProps>(
@@ -93,18 +112,14 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
     } else if (as && !variant) {
       variant = selectFromTag[as]
     }
+
     return React.createElement(styled[as], {
       children,
       ref,
       style: {
         margin: 0,
         padding: 0,
-        color: color
-          ? getColor('content', color)
-          : getColor(
-              'content',
-              textVariants[variant].defaultColor as TextProps['color']
-            ),
+        color: selectColor(variant, color),
         fontFamily: 'inherit',
         ...textVariants[variant],
         fontWeight:

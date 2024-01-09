@@ -161,9 +161,12 @@ export function FileInput({
             try {
               setInternalStatus('uploading')
               setFile(file)
-              setInternalProgress(100)
-              setInternalStatus('success')
-              onChange?.(file, setInternalProgress)
+              onChange?.(file, (p) => {
+                setInternalProgress(p)
+                if (p === 100) {
+                  setInternalStatus('success')
+                }
+              })
             } catch {
               setInternalStatus('error')
               setFile(null)

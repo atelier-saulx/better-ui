@@ -175,8 +175,7 @@ export const Field = ({
             mimeType={field.contentMediaType}
             value={ctx.values[key] ? { src: ctx.values[key] } : undefined}
             onChange={async (file, updateProgress) => {
-              // has to be handled better...
-              await ctx.listeners.onFileUpload(
+              const result = await ctx.listeners.onFileUpload(
                 {
                   ctx,
                   path,
@@ -185,7 +184,7 @@ export const Field = ({
                 },
                 updateProgress
               )
-              // make sure file input gets same controll / setup
+              ctx.listeners.onChangeHandler(ctx, path, result)
             }}
           />
         </styled.div>

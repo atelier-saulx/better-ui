@@ -40,6 +40,19 @@ export function Svg({ style, width = 20, height = 20 }: IconProps) {
 }
 `
 
+const fileUpload = async ({ value }, updateProgress) => {
+  if (!value) {
+    return undefined
+  }
+  let p = 0
+  while (p < 100) {
+    p += 10
+    updateProgress(p)
+    await wait(100)
+  }
+  return 'https://i.imgur.com/DRmh6S9.jpeg'
+}
+
 export default meta
 
 export const Default = () => {
@@ -57,14 +70,7 @@ export const Default = () => {
     <div style={{ padding: 64 }}>
       <Form
         checksum={cnt}
-        onFileUpload={async (_, updateProgress) => {
-          let p = 0
-          while (p <= 100) {
-            p += 1
-            updateProgress(p)
-            await wait(100)
-          }
-        }}
+        onFileUpload={fileUpload}
         values={{
           src: 'https://i.imgur.com/t1bWmmC.jpeg',
           code: ts,
@@ -682,6 +688,7 @@ export const Object = () => {
   return (
     <div style={{ padding: 64 }}>
       <Form
+        onFileUpload={fileUpload}
         variant="small"
         values={{
           ratings: {
