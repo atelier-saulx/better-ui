@@ -148,6 +148,7 @@ export function ColorInput({
             display: 'flex',
             alignItems: 'center',
             gap: 10,
+            background: 'none',
             fontSize: 14,
             lineHeight: '24px',
             fontWeight: 500,

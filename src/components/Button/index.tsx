@@ -31,6 +31,7 @@ export type ButtonProps = {
   onClick?: (e?: any) => void | Promise<void>
   onMouseEnter?: React.MouseEventHandler
   onMouseLeave?: React.MouseEventHandler
+  onPointerDown?: React.PointerEventHandler
   onFocus?: React.FocusEventHandler
   onBlur?: React.FocusEventHandler
   style?: Style
@@ -51,6 +52,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       suffix,
       onMouseEnter,
       onMouseLeave,
+      onPointerDown,
       onFocus,
       onBlur,
       className,
@@ -204,6 +206,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onAnimationEnd={() => {
           setShaking(false)
         }}
+        onPointerDown={onPointerDown}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onFocus={onFocus}

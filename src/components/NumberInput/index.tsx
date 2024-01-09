@@ -117,6 +117,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             placeholder={placeholder}
             step={step}
             style={{
+              background: 'none',
               fontSize: 14,
               lineHeight: '24px',
               width: '100%',

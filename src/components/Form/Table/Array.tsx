@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useRef } from 'react'
-import { BasedSchemaFieldArray } from '@based/schema'
+import { BasedSchemaFieldArray, BasedSchemaFieldObject } from '@based/schema'
 import { styled } from 'inlines'
 import {
   Stack,
@@ -11,8 +11,10 @@ import {
   IconPlus,
   Badge,
   IconClose,
+  IconDragDropHorizontal,
+  ButtonProps,
 } from '../../../index.js'
-import { TableProps } from '../types.js'
+import { Path, TableCtx, TableProps } from '../types.js'
 import {
   getIdentifierField,
   isIterable,
@@ -26,6 +28,86 @@ import {
 import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { ColStack } from './ColStack.js'
+
+const IconDrag = (p: ButtonProps) => {
+  return (
+    <Button
+      variant="icon-only"
+      style={
+        p.style ?? {
+          opacity: 0.5,
+          marginLeft: 8,
+          '&:hover': {
+            opacity: 1,
+          },
+          marginRight: 0,
+          cursor: 'grab',
+        }
+      }
+      {...p}
+    >
+      <IconDragDropHorizontal />
+    </Button>
+  )
+}
+
+export const CollRow = (p: {
+  field: BasedSchemaFieldObject
+  ctx: TableCtx
+  path: Path
+  index: number
+  removeItem: (index: number) => void
+}) => {
+  const i = p.index
+  const cells: ReactNode[] = []
+
+  const ref = useRef<HTMLElement>()
+  const ref2 = useRef<HTMLElement>()
+
+  for (const key in p.field.properties) {
+    cells.push(
+      <Cell border key={key}>
+        <Field ctx={p.ctx} path={[...p.path, i, key]} />
+      </Cell>
+    )
+  }
+
+  return (
+    <ColStack
+      ref={ref}
+      onRemove={() => {
+        p.removeItem(i)
+      }}
+      style={{
+        borderBottom: border(),
+      }}
+      onDragStart={(e) => {
+        const elem = (ref2.current = document.createElement('div'))
+        elem.id = 'drag-ghost'
+        elem.innerHTML = `<div style="padding:12px;background:${color(
+          'background',
+          'neutral'
+        )}">Dragging ${i}</div>`
+        elem.style.position = 'absolute'
+        elem.style.top = '-1000px'
+        elem.style.paddingLeft = '32px'
+        document.body.appendChild(elem)
+        e.dataTransfer.setDragImage(elem, 0, 0)
+      }}
+      onDragEnd={() => {
+        document.body.removeChild(ref2.current)
+        ref.current.draggable = false
+      }}
+    >
+      <IconDrag
+        onPointerDown={() => {
+          ref.current.draggable = true
+        }}
+      />
+      {cells}
+    </ColStack>
+  )
+}
 
 export function Array({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
@@ -52,6 +134,7 @@ export function Array({ ctx, path }: TableProps) {
   }
 
   if (isCols) {
+    cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
     for (const key in valuesField.properties) {
       cols.push(
         <Cell border isKey key={key}>
@@ -61,26 +144,15 @@ export function Array({ ctx, path }: TableProps) {
     }
     if (value) {
       for (let i = 0; i < value.length; i++) {
-        const cells: ReactNode[] = []
-        for (const key in valuesField.properties) {
-          cells.push(
-            <Cell border key={key}>
-              <Field ctx={ctx} path={[...path, i, key]} />
-            </Cell>
-          )
-        }
         rows.push(
-          <ColStack
-            onRemove={() => {
-              removeItem(i)
-            }}
+          <CollRow
             key={i}
-            style={{
-              borderBottom: border(),
-            }}
-          >
-            {cells}
-          </ColStack>
+            field={valuesField}
+            index={i}
+            ctx={ctx}
+            path={path}
+            removeItem={removeItem}
+          />
         )
       }
     }
