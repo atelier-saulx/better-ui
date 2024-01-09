@@ -21,6 +21,7 @@ export type ButtonProps = {
     | 'neutral-link'
     | 'error'
     | 'icon-only'
+  className?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
   size?: 'large' | 'medium' | 'small'
@@ -52,6 +53,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onMouseLeave,
       onFocus,
       onBlur,
+      className,
       disabled,
       style,
       keyboardShortcut,
@@ -87,6 +89,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <styled.button
+        className={className}
         ref={ref}
         type={type}
         style={{

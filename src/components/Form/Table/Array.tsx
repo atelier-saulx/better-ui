@@ -10,6 +10,7 @@ import {
   IconChevronRight,
   IconPlus,
   Badge,
+  IconClose,
 } from '../../../index.js'
 import { TableProps } from '../types.js'
 import {
@@ -87,17 +88,18 @@ export function Array({ ctx, path }: TableProps) {
     if (isSmallField(valuesField)) {
       for (let i = 0; i < value.length; i++) {
         rows.push(
-          <Stack
+          <ColStack
             justify="start"
             key={i}
             style={{
               borderBottom: border(),
             }}
+            onRemove={() => removeItem(i)}
           >
             <Cell>
               <Field ctx={ctx} path={[...path, i]} />
             </Cell>
-          </Stack>
+          </ColStack>
         )
       }
     } else {
@@ -122,8 +124,15 @@ export function Array({ ctx, path }: TableProps) {
               cursor: 'pointer',
               background: color('background', 'muted'),
               borderBottom: border(),
+              '&:hover button': {
+                opacity: '1 !important',
+              },
               '&:hover': {
                 background: color('background', 'neutral'),
+                '.remove': {
+                  border: '1px solid red',
+                  opacity: '1 !important',
+                },
               },
             }}
           >
@@ -151,12 +160,23 @@ export function Array({ ctx, path }: TableProps) {
                   <Badge color="neutral-muted">{i + 1}</Badge>
                   {title}
                 </Stack>
-                {isIterable(valuesField) ? (
-                  <Badge color="neutral-muted">
-                    {item?.length} Item
-                    {item?.length === 1 ? '' : 's'}
-                  </Badge>
-                ) : null}
+                <Stack fitContent justify="end" gap={8}>
+                  <Button
+                    variant="icon-only"
+                    style={{ opacity: 0 }}
+                    onClick={() => {
+                      removeItem(i)
+                    }}
+                  >
+                    <IconClose />
+                  </Button>
+                  {isIterable(valuesField) ? (
+                    <Badge color="neutral-muted">
+                      {item?.length} Item
+                      {item?.length === 1 ? '' : 's'}
+                    </Badge>
+                  ) : null}
+                </Stack>
               </Stack>
             </Cell>
           </Stack>
