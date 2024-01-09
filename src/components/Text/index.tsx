@@ -3,126 +3,61 @@ import { Style, styled } from 'inlines'
 import { color as getColor } from '../../index.js'
 
 export const textVariants = {
-  h1: {
+  title: {
+    defaultColor: 'primary',
     defaultTag: 'h1',
+    fontSize: 40,
     fontWeight: 700,
-    fontSize: '48px',
-    letterSpacing: '-1%',
-    lineHeight: '64px',
+    letterSpacing: '0.4px',
+    lineHeight: '56px',
   },
-  h2: {
+  'title-page': {
+    defaultColor: 'primary',
     defaultTag: 'h2',
+    fontSize: 24,
     fontWeight: 700,
-    fontSize: '40px',
-    letterSpacing: '-1%',
-    lineHeight: '54px',
-  },
-  h3: {
-    defaultTag: 'h3',
-    fontWeight: 700,
-    fontSize: '32px',
-    letterSpacing: '-1%',
-    lineHeight: '44px',
-  },
-  h4: {
-    defaultTag: 'h4',
-    fontWeight: 700,
-    fontSize: '24px',
-    letterSpacing: '-1%',
+    letterSpacing: '-0.24px',
     lineHeight: '36px',
   },
-  h5: {
-    defaultTag: 'h5',
+  'title-modal': {
+    defaultColor: 'primary',
+    defaultTag: 'h3',
+    fontSize: 18,
     fontWeight: 700,
-    fontSize: '18px',
-    letterSpacing: '-1%',
+    letterSpacing: '-0.18px',
     lineHeight: '32px',
   },
   body: {
+    defaultColor: 'secondary',
     defaultTag: 'p',
-    fontWeight: 400,
+    fontWeight: 500,
     letterSpacing: '-0.14px',
     lineHeight: `24px`,
     fontSize: '14px',
   },
   'body-bold': {
+    defaultColor: 'secondary',
     defaultTag: 'p',
-    fontWeight: 500,
+    fontWeight: 600,
     letterSpacing: '-0.14px',
     lineHeight: `24px`,
     fontSize: '14px',
   },
   'body-strong': {
+    defaultColor: 'secondary',
     defaultTag: 'p',
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: '-0.14px',
     lineHeight: `24px`,
     fontSize: '14px',
   },
-  'body-small': {
-    defaultTag: 'p',
-    fontWeight: 400,
-    fontSize: '12px',
-    letterSpacing: '-0.14px',
-    lineHeight: `20px`,
-  },
-  'body-small-bold': {
-    defaultTag: 'p',
-    fontWeight: 500,
-    letterSpacing: '-0.14px',
-    fontSize: '12px',
-    lineHeight: `20px`,
-  },
-  'body-small-strong': {
-    defaultTag: 'p',
-    fontWeight: 600,
-    letterSpacing: '-0.14px',
-    fontSize: '12px',
-    lineHeight: `20px`,
-  },
-  'body-large': {
-    defaultTag: 'p',
-    fontWeight: 400,
-    fontSize: '16px',
-    letterSpacing: '-0.14px',
-    lineHeight: `28px`,
-  },
-  'body-large-bold': {
-    defaultTag: 'p',
-    fontWeight: 500,
-    letterSpacing: '-0.14px',
-    fontSize: '16px',
-    lineHeight: `28px`,
-  },
-  'body-large-strong': {
-    defaultTag: 'p',
-    fontWeight: 600,
-    letterSpacing: '-0.14px',
-    fontSize: '16px',
-    lineHeight: `28px`,
-  },
   caption: {
     defaultTag: 'span',
-    fontWeight: 400,
-    fontSize: '10px',
-    lineHeight: '16px',
-    letterSpacing: '-1%',
-    textTransform: 'uppercase',
-  },
-  'caption-bold': {
-    defaultTag: 'span',
-    fontWeight: 500,
-    fontSize: '10px',
-    lineHeight: '16px',
-    letterSpacing: '-1%',
-    textTransform: 'uppercase',
-  },
-  'caption-strong': {
-    defaultTag: 'span',
+    defaultColor: 'secondary',
     fontWeight: 600,
-    fontSize: '10px',
-    lineHeight: '16px',
-    letterSpacing: '-1%',
+    fontSize: '12px',
+    lineHeight: '20px',
+    letterSpacing: '-0.12px',
     textTransform: 'uppercase',
   },
 }
@@ -142,22 +77,14 @@ export type TextProps = {
   as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
   weight?: 'normal' | 'bold' | 'strong'
   style?: Style
-  color?: 'primary' | 'secondary' | 'inverted' | 'inherit'
+  color?: 'primary' | 'secondary' | 'inverted' | 'inverted-muted'
   variant?: keyof typeof textVariants
   singleLine?: boolean
 }
 
 export const Text = React.forwardRef<HTMLElement, TextProps>(
   (
-    {
-      as,
-      variant = 'body',
-      color = 'primary',
-      style,
-      children,
-      singleLine,
-      weight,
-    },
+    { as, variant = 'body', color, style, children, singleLine, weight },
     ref
   ) => {
     if (variant && !as) {
@@ -172,7 +99,12 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
       style: {
         margin: 0,
         padding: 0,
-        color: color === 'inherit' ? 'inherit' : getColor('content', color),
+        color: color
+          ? getColor('content', color)
+          : getColor(
+              'content',
+              textVariants[variant].defaultColor as TextProps['color']
+            ),
         fontFamily: 'inherit',
         ...textVariants[variant],
         fontWeight:

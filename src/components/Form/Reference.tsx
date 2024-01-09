@@ -43,7 +43,7 @@ const Select = (p: {
           {p.field.allowedTypes.map((v, i) => {
             const type = typeof v === 'object' ? v.type : v
             return (
-              <Text color="inherit" key={i} variant="body-strong">
+              <Text key={i} variant="body-strong">
                 {type}
               </Text>
             )

@@ -12,36 +12,44 @@ export const Body: StoryObj<typeof Text> = {
   args: {
     children: 'Have a nice day!',
     variant: 'body',
+    color: 'secondary',
   },
 }
 
-export const h1: StoryObj<typeof Text> = {
+export const title: StoryObj<typeof Text> = {
   args: {
     children: 'Have a nice day!',
-    variant: 'h1',
+    variant: 'title',
   },
 }
 
-export const h2: StoryObj<typeof Text> = {
+export const titlePage: StoryObj<typeof Text> = {
   args: {
     children: 'Have a nice day!',
-    variant: 'h2',
+    variant: 'title-page',
     weight: 'strong',
     as: 'h2',
   },
 }
 
-export const h4: StoryObj<typeof Text> = {
+export const titleModal: StoryObj<typeof Text> = {
   args: {
     children: 'Have a nice day!',
-    variant: 'h4',
+    variant: 'title-modal',
   },
 }
 
-export const h5: StoryObj<typeof Text> = {
+export const bodyBold: StoryObj<typeof Text> = {
   args: {
     children: 'Have a nice day!',
-    variant: 'h5',
+    variant: 'body-bold',
+  },
+}
+
+export const bodyStrong: StoryObj<typeof Text> = {
+  args: {
+    children: 'Have a nice day!',
+    variant: 'body-strong',
   },
 }
 
@@ -49,28 +57,5 @@ export const caption: StoryObj<typeof Text> = {
   args: {
     children: 'Have a nice day!',
     variant: 'caption',
-    weight: 'bold',
-  },
-}
-
-export const bodylarge: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'body-large',
-  },
-}
-
-export const bodySmall: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'body-small',
-  },
-}
-
-export const secondarycolor: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'body-bold',
-    color: 'secondary',
   },
 }

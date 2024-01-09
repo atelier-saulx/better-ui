@@ -134,7 +134,7 @@ export type ModalTitleProps = {
 export function Title({ children, description, style }: ModalTitleProps) {
   return (
     <styled.div style={{ padding: '20px 32px', ...style }}>
-      <Text color="primary" variant="h5" style={{ marginBottom: 12 }}>
+      <Text color="primary" variant="title-modal" style={{ marginBottom: 12 }}>
         {children}
       </Text>
       {description && (
