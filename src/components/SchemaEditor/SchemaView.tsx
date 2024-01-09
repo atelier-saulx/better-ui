@@ -9,8 +9,15 @@ export const SchemaView = ({ schemaTypes, typeName }) => {
   return (
     <div style={{ width: '100%', padding: 32 }}>
       <Stack style={{ marginBottom: 16 }}>
-        <Stack gap={16} style={{ justifyContent: 'flex-start', width: 'auto' }}>
-          <Text variant="body-bold">{typeName}</Text>
+        <Stack
+          gap={16}
+          style={{
+            justifyContent: 'flex-start',
+            width: 'auto',
+            alignItems: 'center',
+          }}
+        >
+          <Text variant="title-page">{typeName}</Text>
           <TypeOptions />
         </Stack>
         <AddField />

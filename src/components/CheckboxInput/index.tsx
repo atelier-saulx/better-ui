@@ -50,7 +50,16 @@ export const CheckboxInput = React.forwardRef<
     const [focused, setFocused] = React.useState(false)
 
     return (
-      <Stack as="label" justify="start" align="start" gap={12} style={style}>
+      <Stack
+        as="label"
+        justify="start"
+        align="start"
+        gap={12}
+        style={{
+          cursor: 'pointer',
+          ...style,
+        }}
+      >
         <styled.input
           ref={ref}
           name={formName}
