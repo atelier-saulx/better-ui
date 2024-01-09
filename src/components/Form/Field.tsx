@@ -175,7 +175,6 @@ export const Field = ({
             mimeType={field.contentMediaType}
             value={ctx.values[key] ? { src: ctx.values[key] } : undefined}
             onChange={async (file, updateProgress) => {
-              // has to be handled better...
               const result = await ctx.listeners.onFileUpload(
                 {
                   ctx,

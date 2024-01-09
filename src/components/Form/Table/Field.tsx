@@ -99,8 +99,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
           mimeType={field.contentMediaType}
           value={value ? { src: value } : undefined}
           onChange={async (file, updateProgress) => {
-            // has to be handled better...
-            await ctx.listeners.onFileUpload(
+            const result = await ctx.listeners.onFileUpload(
               {
                 ctx,
                 path,
@@ -109,7 +108,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
               },
               updateProgress
             )
-            // make sure file input gets same controll / setup
+            ctx.listeners.onChangeHandler(ctx, path, result)
           }}
         />
       </Padder>
