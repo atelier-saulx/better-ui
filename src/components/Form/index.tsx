@@ -24,6 +24,7 @@ export type FormProps = {
   onSelectReference?: Listeners['onSelectReference']
   onSelectReferences?: Listeners['onSelectReferences']
   onClickReference?: Listeners['onClickReference']
+  onFileUpload?: Listeners['onFileUpload']
   onChangeAtomic?: (
     path: Path,
     newValue: any,
@@ -57,6 +58,7 @@ export function Form({
   onSelectReference,
   onSelectReferences,
   confirmLabel,
+  onFileUpload,
   onClickReference,
   variant = 'regular',
 }: FormProps) {
@@ -101,6 +103,7 @@ export function Form({
       setChecksum(hash)
       return false
     },
+    onFileUpload: onFileUpload ?? (async () => undefined),
     onClickReference: onClickReference ?? (() => undefined),
     onSelectReference:
       onSelectReference ??

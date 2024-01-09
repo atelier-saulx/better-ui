@@ -174,12 +174,18 @@ export const Field = ({
           <FileInput
             mimeType={field.contentMediaType}
             value={ctx.values[key] ? { src: ctx.values[key] } : undefined}
-            onChange={(file) => {
+            onChange={async (file, updateProgress) => {
               // has to be handled better...
-              console.warn(
-                'uploaded file not there yet... (needs special handler)',
-                file
+              await ctx.listeners.onFileUpload(
+                {
+                  ctx,
+                  path,
+                  value: file,
+                  field,
+                },
+                updateProgress
               )
+              // make sure file input gets same controll / setup
             }}
           />
         </styled.div>

@@ -26,7 +26,7 @@ type Variant = 'regular' | 'small' | 'no-preview'
 
 // Global file upload hook to based to see upload progress
 export type FileInputProps = {
-  onChange?: (file?: File) => void
+  onChange?: (file: File | void, updateProgress: (p: number) => void) => void
   // FIXME: do we rly want label and formname>?
   formName?: string
   label?: string
@@ -163,7 +163,7 @@ export function FileInput({
               setFile(file)
               setInternalProgress(100)
               setInternalStatus('success')
-              onChange?.(file)
+              onChange?.(file, setInternalProgress)
             } catch {
               setInternalStatus('error')
               setFile(null)
@@ -263,7 +263,9 @@ function Status({
   setInternalStatus: React.Dispatch<React.SetStateAction<Status>>
   setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>
   setInternalProgress: React.Dispatch<React.SetStateAction<number>>
-  onChange: ((file?: File) => void) | undefined
+  onChange:
+    | ((file: File | void, updateProgress: (p: number) => void) => void)
+    | undefined
   inputRef: React.MutableRefObject<HTMLInputElement | null>
 }) {
   const [filePreview, setFilePreview] = React.useState<string | null>(null)
@@ -372,7 +374,7 @@ function Status({
                   setInternalStatus('initial')
                   setFile(null)
                   setInternalProgress(0)
-                  onChange?.()
+                  onChange?.(undefined, setInternalProgress)
                   if (inputRef.current) {
                     inputRef.current.value = ''
                   }

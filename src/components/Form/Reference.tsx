@@ -18,6 +18,8 @@ import { Path, Reference, TableCtx } from './types.js'
 import { readPath } from './utils.js'
 import { styled } from 'inlines'
 
+// TODO: handle file
+
 const Select = (p: {
   field: BasedSchemaFieldReference
   onClick: ButtonProps['onClick']
