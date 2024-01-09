@@ -31,6 +31,7 @@ export type FormProps = {
     prevValue: any,
     field: BasedSchemaField
   ) => void
+  onChangeTransform?: (val: any, path: Path, field: BasedSchemaField) => any
   onChange: (
     values: { [key: string]: any },
     changed: { [key: string]: any },
@@ -58,6 +59,7 @@ export function Form({
   onSelectReference,
   onSelectReferences,
   confirmLabel,
+  onChangeTransform,
   onFileUpload,
   onClickReference,
   variant = 'regular',
@@ -87,16 +89,26 @@ export function Form({
   const listeners: Listeners = {
     onChangeHandler: (ctx, path, newValue) => {
       const { field, value } = readPath(ctx, path)
+
+      if (onChangeTransform) {
+        newValue = onChangeTransform(newValue, path, field)
+      }
+
       if (!nRef.current.hasChanges) {
         nRef.current.hasChanges = true
         nRef.current.values = deepCopy(values)
       }
+
       setByPath(nRef.current.values, path, newValue)
       setByPath(nRef.current.changes, path, newValue)
+
       const hash = hashObjectIgnoreKeyOrder(nRef.current.values ?? {})
+
       if (onChangeAtomic) {
         onChangeAtomic(path, newValue, value, field)
       }
+
+      // TODO: change this
       if (onChange && variant === 'bare') {
         onChange(nRef.current.values, nRef.current.changes, hash)
       }

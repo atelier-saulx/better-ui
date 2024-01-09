@@ -57,13 +57,18 @@ export const Default = () => {
     <div style={{ padding: 64 }}>
       <Form
         checksum={cnt}
-        onFileUpload={async (_, updateProgress) => {
+        onFileUpload={async ({ value }, updateProgress) => {
+          if (!value) {
+            return undefined
+          }
           let p = 0
-          while (p <= 100) {
-            p += 1
+          while (p < 100) {
+            p += 2
+            console.info(p)
             updateProgress(p)
             await wait(100)
           }
+          return 'https://i.imgur.com/DRmh6S9.jpeg'
         }}
         values={{
           src: 'https://i.imgur.com/t1bWmmC.jpeg',
