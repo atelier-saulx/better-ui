@@ -28,7 +28,7 @@ export const textVariants = {
     lineHeight: '32px',
   },
   body: {
-    defaultColor: 'secondary',
+    defaultColor: 'primary',
     defaultTag: 'p',
     fontWeight: 500,
     letterSpacing: '-0.14px',
@@ -36,7 +36,7 @@ export const textVariants = {
     fontSize: '14px',
   },
   'body-bold': {
-    defaultColor: 'secondary',
+    defaultColor: 'primary',
     defaultTag: 'p',
     fontWeight: 600,
     letterSpacing: '-0.14px',
@@ -44,7 +44,7 @@ export const textVariants = {
     fontSize: '14px',
   },
   'body-strong': {
-    defaultColor: 'secondary',
+    defaultColor: 'primary',
     defaultTag: 'p',
     fontWeight: 700,
     letterSpacing: '-0.14px',
@@ -93,6 +93,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
     } else if (as && !variant) {
       variant = selectFromTag[as]
     }
+
     return React.createElement(styled[as], {
       children,
       ref,

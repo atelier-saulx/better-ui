@@ -155,9 +155,13 @@ export function Form({
 
   return (
     <Stack gap={32} direction="column" align="start">
-      {Object.entries(fields).map(([key, field]) => {
-        return <Field ctx={ctx} key={key} field={field} propKey={key} />
-      })}
+      {Object.entries(fields)
+        .sort(([, a], [, b]) => {
+          return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
+        })
+        .map(([key, field]) => {
+          return <Field ctx={ctx} key={key} field={field} propKey={key} />
+        })}
       <FormConfirm
         confirmLabel={confirmLabel}
         onConfirm={onConfirm}
