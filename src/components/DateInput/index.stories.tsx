@@ -10,6 +10,7 @@ export const SingleDate = () => {
   return (
     <DateInput
       label="Single date"
+      description="Select a date"
       onChange={(value) => {
         console.log(value)
       }}

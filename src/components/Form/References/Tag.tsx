@@ -18,7 +18,7 @@ const Info = ({ value }: { value: Reference }) => {
     if (title) {
       return (
         <>
-          <Text variant="bodyStrong">{title}</Text>
+          <Text variant="body-strong">{title}</Text>
           <Text>{value.id}</Text>
         </>
       )

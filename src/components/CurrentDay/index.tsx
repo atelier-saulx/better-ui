@@ -23,7 +23,7 @@ export function CurrentDay({ value }: CurrentDayProps) {
       <div style={{ ...textVariants.body, fontSize: 16 }}>
         {format(new Date(value), 'MMM')}
       </div>
-      <div style={{ ...textVariants.bodyStrong, fontSize: 20 }}>
+      <div style={{ ...textVariants['body-strong'], fontSize: 20 }}>
         {format(new Date(value), 'd')}
       </div>
     </div>

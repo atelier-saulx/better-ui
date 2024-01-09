@@ -25,6 +25,7 @@ export const Default = () => {
         {({ close }) => (
           <>
             <Modal.Title
+              //  style={{ background: 'lightgrey',  }}
               children="Add custom view"
               description="This is your organisation’s name within Based. For example, you can use the name of your company or department."
             />
@@ -33,6 +34,7 @@ export const Default = () => {
                 style={{
                   '& > * + *': {
                     marginTop: '24px',
+                    marginBottom: '24px',
                   },
                 }}
               >
@@ -45,7 +47,12 @@ export const Default = () => {
                   ]}
                 />
               </styled.div>
+              <Modal.Message
+                message="You are about to update the view"
+                variant="positive"
+              />
             </Modal.Body>
+
             <Modal.Actions>
               <Button variant="neutral" onClick={close}>
                 Cancel
@@ -73,6 +80,9 @@ export const Nested = ({ level = 0 }) => {
               <Nested level={level + 1} />
               <Button variant="neutral" onClick={close}>
                 Cancel
+              </Button>
+              <Button variant="error" onClick={close}>
+                Cancel in red
               </Button>
             </Modal.Actions>
           </>
@@ -117,7 +127,16 @@ export const Open = () => {
   return (
     <Button
       onClick={() => {
-        modal.open(<Modal title="xxx">Imma body</Modal>)
+        modal.open(
+          <Modal title="xxx">
+            Imma body
+            <Modal.Message
+              variant="warning"
+              message="just a silly warning"
+              style={{ marginTop: 20 }}
+            />
+          </Modal>
+        )
       }}
     >
       Open
