@@ -10,7 +10,7 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
   const [active, setActive] = React.useState('')
 
   return (
-    <div style={{ width: 767, height: 676, display: 'flex' }}>
+    <div style={{ width: 676, minHeight: 676, display: 'flex' }}>
       <SchemaSideBar
         types={schema.types}
         active={active}

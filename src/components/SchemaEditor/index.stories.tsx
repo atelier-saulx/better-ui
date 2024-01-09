@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { SchemaEditor, Modal } from '../../index.js'
+import { SchemaEditor, Modal, Page } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
 import { Provider, useClient, useQuery } from '@based/react'
@@ -16,7 +16,9 @@ const meta: Meta<typeof SchemaEditor> = {
     (Story) => (
       <Provider client={client}>
         <Modal.Provider>
-          <Story />
+          <Page>
+            <Story />
+          </Page>
         </Modal.Provider>
       </Provider>
     ),

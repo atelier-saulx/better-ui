@@ -3,7 +3,7 @@ import { styled } from 'inlines'
 import { Container } from '../Container/index.js'
 import { Thumbnail } from '../Thumbnail/index.js'
 import { Badge } from '../Badge/index.js'
-import { FieldOptions } from './Modals/FieldOptions.js'
+import { FieldEditAndDelete } from './Modals/FieldEditAndDelete.js'
 import { CheckboxInput } from '../CheckboxInput/index.js'
 
 type SchemaItem = {
@@ -102,7 +102,7 @@ export const SchemaFields = ({ fields }) => {
                 style={{ marginRight: 16 }}
               />
             }
-            suffix={<FieldOptions item={item} />}
+            suffix={<FieldEditAndDelete item={item} />}
           />
         ))}
     </styled.div>

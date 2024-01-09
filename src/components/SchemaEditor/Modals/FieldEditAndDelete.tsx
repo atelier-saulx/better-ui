@@ -6,7 +6,7 @@ import { Dropdown } from '../../Dropdown/index.js'
 import { IconMoreHorizontal } from '../../Icons/index.js'
 import { FieldModal } from './FieldModal.js'
 
-export const FieldOptions = ({ item }) => {
+export const FieldEditAndDelete = ({ item }) => {
   const { open } = Modal.useModal()
   const modal = Modal.useModal()
 
