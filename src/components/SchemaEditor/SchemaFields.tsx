@@ -5,6 +5,7 @@ import { Thumbnail } from '../Thumbnail/index.js'
 import { Badge } from '../Badge/index.js'
 import { FieldEditAndDelete } from './Modals/FieldEditAndDelete.js'
 import { CheckboxInput } from '../CheckboxInput/index.js'
+import { SCHEMA_FIELDS, SYSTEM_FIELDS } from './constants.js'
 
 type SchemaItem = {
   name: string
@@ -61,7 +62,7 @@ const parseFields = (fields) => {
 }
 
 export const SchemaFields = ({ fields }) => {
-  // console.log('hellow??', fields)
+  const [showSystemFields, setShowSystemFields] = React.useState(false)
 
   const [array, setArray] = React.useState<
     SchemaItem[] | unindexedSchemaItem[] | any
@@ -71,40 +72,56 @@ export const SchemaFields = ({ fields }) => {
     setArray(parseFields(fields))
   }, [
     fields,
-    //routeType
+    // routeType
   ])
 
   return (
     <styled.div style={{ marginTop: 16 }}>
-      <CheckboxInput label="Show system fields" style={{ marginBottom: 24 }} />
+      <CheckboxInput
+        label="Show system fields"
+        style={{ marginBottom: 24 }}
+        value={showSystemFields}
+        onChange={(v) => setShowSystemFields(v)}
+      />
       {fields &&
-        array?.map((item, idx) => (
-          <Container
-            style={{
-              marginBottom: 8,
-              '& > div:first-child': {
-                padding: '8px !important',
-              },
-            }}
-            key={idx}
-            title={
-              <React.Fragment>
-                {item.label}{' '}
-                <Badge color="neutral-muted" style={{ marginLeft: 16 }}>
-                  {item.type}
-                </Badge>{' '}
-              </React.Fragment>
-            }
-            prefix={
-              <Thumbnail
-                text={item.type}
-                color="informative-muted"
-                style={{ marginRight: 16 }}
-              />
-            }
-            suffix={<FieldEditAndDelete item={item} />}
-          />
-        ))}
+        array
+          ?.filter((item) =>
+            showSystemFields ? item : !SYSTEM_FIELDS.includes(item.label)
+          )
+          .map((item, idx) => (
+            <Container
+              style={{
+                marginBottom: 8,
+                '& > div:first-child': {
+                  padding: '8px !important',
+                },
+                opacity: SYSTEM_FIELDS.includes(item.label) ? 0.5 : 1,
+              }}
+              key={idx}
+              title={
+                <React.Fragment>
+                  {item.label}{' '}
+                  <Badge
+                    color={SCHEMA_FIELDS[item.type]?.color}
+                    style={{ marginLeft: 16, marginRight: 16 }}
+                  >
+                    {item.type}
+                  </Badge>{' '}
+                  {SYSTEM_FIELDS.includes(item.label) ? (
+                    <Badge color="neutral-muted">System</Badge>
+                  ) : null}
+                </React.Fragment>
+              }
+              prefix={
+                <Thumbnail
+                  icon={SCHEMA_FIELDS[item.type]?.icon}
+                  color={SCHEMA_FIELDS[item.type]?.color}
+                  style={{ marginRight: 16 }}
+                />
+              }
+              suffix={<FieldEditAndDelete item={item} />}
+            />
+          ))}
     </styled.div>
   )
 }

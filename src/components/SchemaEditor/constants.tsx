@@ -1,112 +1,160 @@
 import * as React from 'react'
 import {
   IconDns,
+  IconEmail,
   IconFormatBold,
   IconFunction,
   IconHelpFill,
   IconKey,
   IconLink,
   IconQuote,
+  IconTag,
   IconText,
   IconTimeClock,
+  IconLabel,
   IconTurnOff,
+  IconGlobe,
 } from '../Icons/index.js'
 
-export const SCHEMA_FIELDS = [
-  {
+export const SCHEMA_FIELDS = {
+  string: {
     label: 'String',
     description: 'Non internationalized string',
     icon: <IconQuote />,
     color: 'informative-muted',
   },
-  {
+  text: {
     label: 'Text',
     description: 'Text with formatting',
     icon: <IconText />,
     color: 'informative-muted',
   },
-  {
+  richtext: {
     label: 'Rich Text',
     description: 'Texteditor with styling controls',
     icon: <IconFormatBold />,
     color: 'informative-muted',
   },
-  {
+  number: {
     label: 'Number',
     description: 'A Float',
     icon: <IconHelpFill />,
     color: 'positive-muted',
   },
-  {
+  int: {
     label: 'Int',
     description: 'Whole numbers',
     icon: <IconHelpFill />,
     color: 'positive-muted',
   },
-  {
+  timestamp: {
     label: 'Timestamp',
     description: 'Timestamp',
     icon: <IconTimeClock />,
     color: 'positive-muted',
   },
-  {
+  boolean: {
     label: 'Boolean',
     description: 'True or False',
     icon: <IconTurnOff />,
     color: 'error-muted',
   },
-  {
+  enum: {
     label: 'Enum',
     description: 'Set of named constants',
     icon: <IconDns />,
     color: 'warning-muted',
   },
-  {
+  array: {
     label: 'Array',
     description: 'A collection of similar types',
     icon: <IconDns />,
     color: 'warning-muted',
   },
-  {
+  object: {
     label: 'Object',
     description: 'Multiple types',
     icon: <IconKey />,
     color: 'warning-muted',
   },
-  {
+  record: {
     label: 'Record',
     description: 'Fixed collection',
     icon: <IconDns />,
     color: 'warning-muted',
   },
-  {
+  set: {
     label: 'Set',
     description: 'Collection of unique values',
     icon: <IconDns />,
     color: 'warning-muted',
   },
-  {
+  json: {
     label: 'JSON',
     description: 'A JSON object',
     icon: <IconHelpFill />,
     color: 'warning-muted',
   },
-  {
+  cardinality: {
     label: 'Cardinality',
     description: 'From math',
     icon: <IconFunction />,
     color: 'warning-muted',
   },
-  {
+  reference: {
     label: 'Reference',
     description: 'Single Ref',
     icon: <IconLink />,
     color: 'neutral-muted',
   },
-  {
+  references: {
     label: 'References',
     description: 'Multiple Refs',
     icon: <IconLink />,
     color: 'neutral-muted',
   },
+  // dont add these to add field modal, filter them out
+  id: {
+    label: 'Id',
+    description: 'id',
+    icon: <IconTag />,
+    color: 'neutral-muted',
+  },
+  type: {
+    label: 'Type',
+    description: 'type',
+    icon: <IconLabel />,
+    color: 'neutral-muted',
+  },
+  email: {
+    label: 'Email',
+    description: 'email',
+    icon: <IconEmail />,
+    color: 'neutral-muted',
+  },
+  digest: {
+    label: 'Digest',
+    description: 'password',
+    icon: <IconHelpFill />,
+    color: 'neutral-muted',
+  },
+  url: {
+    label: 'url',
+    description: 'url',
+    icon: <IconGlobe />,
+    color: 'neutral-muted',
+  },
+}
+
+export const SYSTEM_FIELDS = [
+  'type',
+  'ancestors',
+  'descendants',
+  'id',
+  'aliases',
+  'createdAt',
+  'parents',
+  'updatedBy',
+  'updatedAt',
+  'children',
 ]

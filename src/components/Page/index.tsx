@@ -7,12 +7,10 @@ export type PageProps = {
   style?: Style
 }
 
-export const Page = React.forwardRef<HTMLElement, PageProps>(
-  ({ children, style }, ref) => {
-    return (
-      <ScrollArea style={{ padding: 32, ...style }}>
-        <styled.div ref={ref}>{children}</styled.div>
-      </ScrollArea>
-    )
-  }
-)
+export const Page = React.forwardRef(({ children, style }: PageProps, ref) => {
+  return (
+    <ScrollArea style={{ padding: 32, ...style }}>
+      <styled.div ref={ref}>{children}</styled.div>
+    </ScrollArea>
+  )
+})

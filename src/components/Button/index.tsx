@@ -21,6 +21,7 @@ export type ButtonProps = {
     | 'neutral-link'
     | 'error'
     | 'icon-only'
+  className?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
   size?: 'large' | 'medium' | 'small'
@@ -30,6 +31,7 @@ export type ButtonProps = {
   onClick?: (e?: any) => void | Promise<void>
   onMouseEnter?: React.MouseEventHandler
   onMouseLeave?: React.MouseEventHandler
+  onPointerDown?: React.PointerEventHandler
   onFocus?: React.FocusEventHandler
   onBlur?: React.FocusEventHandler
   style?: Style
@@ -50,8 +52,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       suffix,
       onMouseEnter,
       onMouseLeave,
+      onPointerDown,
       onFocus,
       onBlur,
+      className,
       disabled,
       style,
       keyboardShortcut,
@@ -87,6 +91,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <styled.button
+        className={className}
         ref={ref}
         type={type}
         style={{
@@ -201,6 +206,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onAnimationEnd={() => {
           setShaking(false)
         }}
+        onPointerDown={onPointerDown}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onFocus={onFocus}

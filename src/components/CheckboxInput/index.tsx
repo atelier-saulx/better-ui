@@ -51,7 +51,7 @@ export const CheckboxInput = React.forwardRef<
 
     return (
       <Stack as="label" justify="start" align="start" gap={12} style={style}>
-        <input
+        <styled.input
           ref={ref}
           name={formName}
           type="checkbox"
@@ -59,6 +59,7 @@ export const CheckboxInput = React.forwardRef<
             position: 'absolute',
             width: 1,
             height: 1,
+            background: 'none',
             padding: 0,
             margin: -1,
             overflow: 'hidden',
