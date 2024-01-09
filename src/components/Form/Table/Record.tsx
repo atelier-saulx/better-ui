@@ -14,6 +14,7 @@ import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { BasedSchemaFieldRecord } from '@based/schema'
 import { ColStack } from './ColStack.js'
+import { deepCopy } from '@saulx/utils'
 
 const KeyInput = (p: {
   value: string
@@ -30,21 +31,14 @@ const KeyInput = (p: {
       onBlur={useCallback(() => {
         if (changeRef.current !== p.value || changeRef.current === '') {
           if (changeRef.current === '') {
-            const nValue = {
-              ...p.valueRef.current,
-            }
+            const nValue = deepCopy(p.valueRef.current)
             delete nValue['']
             p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
           } else {
-            const nValue = {
-              ...p.valueRef.current,
-            }
+            const nValue = deepCopy(p.valueRef.current)
             const rowValue = nValue[p.value]
             delete nValue[p.value]
             nValue[changeRef.current] = rowValue
-
-            console.info('??? hello', p.value, '--->', nValue)
-
             p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
           }
           changeRef.current = ''
@@ -60,10 +54,7 @@ const KeyInput = (p: {
 export function Record({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldRecord>(ctx, path)
   const valuesField = field.values
-
   const valueRef = useRef<typeof value>()
-
-  console.info('NEW VALUE', path, valueRef.current)
   valueRef.current = value
 
   const rows: ReactNode[] = []
