@@ -3,7 +3,7 @@ import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 type Chars = { [key: string]: number }
 
 type FontStyle = {
-  fontSize?: number | string
+  fontSize?: string
   fontFamily: string
   letterSpacing?: string
   lineHeight?: string | number
@@ -19,13 +19,13 @@ const drawChar = (
   if (typeof window !== 'undefined') {
     const ctx = document.createElement('canvas').getContext('2d')
     if (letterSpacing) {
-      // @ts-ignore
+      // @ts-ignore does exist...
       ctx.letterSpacing = letterSpacing
     }
-    ctx.font = `normal normal ${fontWeight} ${fontSize}px ${fontFamily}`
+    ctx.font = `normal normal ${fontWeight} ${fontSize} ${fontFamily}`
     return ctx.measureText(char).width
   } else {
-    return fontSize as number
+    return Number(fontSize.replace('px', ''))
   }
 }
 
