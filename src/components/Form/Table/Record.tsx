@@ -7,6 +7,7 @@ import {
   Button,
   IconPlus,
   TextInput,
+  IconClose,
 } from '../../../index.js'
 import { Path, TableCtx, TableProps } from '../types.js'
 import { readPath, useCols, createNewEmptyValue } from '../utils.js'
@@ -14,6 +15,7 @@ import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { BasedSchemaFieldRecord } from '@based/schema'
 import { ColStack } from './ColStack.js'
+import { deepCopy } from '@saulx/utils'
 
 const KeyInput = (p: {
   value: string
@@ -30,21 +32,14 @@ const KeyInput = (p: {
       onBlur={useCallback(() => {
         if (changeRef.current !== p.value || changeRef.current === '') {
           if (changeRef.current === '') {
-            const nValue = {
-              ...p.valueRef.current,
-            }
+            const nValue = deepCopy(p.valueRef.current)
             delete nValue['']
             p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
           } else {
-            const nValue = {
-              ...p.valueRef.current,
-            }
+            const nValue = deepCopy(p.valueRef.current)
             const rowValue = nValue[p.value]
             delete nValue[p.value]
             nValue[changeRef.current] = rowValue
-
-            console.info('??? hello', p.value, '--->', nValue)
-
             p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
           }
           changeRef.current = ''
@@ -60,18 +55,11 @@ const KeyInput = (p: {
 export function Record({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldRecord>(ctx, path)
   const valuesField = field.values
-
   const valueRef = useRef<typeof value>()
-
-  console.info('NEW VALUE', path, valueRef.current)
   valueRef.current = value
 
   const rows: ReactNode[] = []
-  const cols: ReactNode[] = [
-    <Cell width={200} isKey border key={'key'}>
-      Key
-    </Cell>,
-  ]
+  const cols: ReactNode[] = []
 
   const addNew = React.useCallback(async () => {
     ctx.listeners.onChangeHandler(ctx, path, {
@@ -89,6 +77,12 @@ export function Record({ ctx, path }: TableProps) {
   }
 
   if (valuesField.type === 'object' && useCols(valuesField)) {
+    cols.push(
+      <Cell width={200} isKey border key={'key'}>
+        Key
+      </Cell>
+    )
+
     for (const key in valuesField.properties) {
       cols.push(
         <Cell border isKey key={key}>
@@ -99,7 +93,15 @@ export function Record({ ctx, path }: TableProps) {
     if (value) {
       for (const key in value) {
         const cells: ReactNode[] = [
-          <Cell width={200} border isKey key="key">
+          <Cell
+            width={200}
+            border
+            isKey
+            key="key"
+            style={{
+              paddingRight: 10,
+            }}
+          >
             <KeyInput valueRef={valueRef} value={key} ctx={ctx} path={path} />
           </Cell>,
         ]
@@ -127,40 +129,63 @@ export function Record({ ctx, path }: TableProps) {
     }
   } else {
     const deepObject = valuesField.type === 'object'
+
     cols.push(
+      <Cell width={deepObject ? 250 : 200} isKey border key={'key'}>
+        Key
+      </Cell>,
       <Cell isKey border key={'value'}>
         Value
       </Cell>
     )
+
     if (value) {
       for (const key in value) {
         rows.push(
           <ColStack
             style={{
               borderBottom: deepObject ? null : border(),
+              '&:hover': {
+                '& > :first-child': {
+                  '& > :first-child > :first-child': {
+                    border: '1px solid red',
+                    opacity: '1 !important',
+                  },
+                },
+              },
             }}
             align="stretch"
             key={key}
             onRemove={
               !deepObject
                 ? () => {
-                    // lullz
+                    removeItem(key)
                   }
                 : null
             }
           >
             <Cell
-              width={200}
+              width={deepObject ? 250 : 200}
               border
               isKey
               key={'key'}
               style={{
-                paddingRight: 10,
+                paddingRight: deepObject ? 20 : 10,
                 paddingLeft: 10,
                 borderBottom: deepObject ? border() : null,
               }}
             >
-              <TextInput variant="small" value={key} />
+              {deepObject ? (
+                <Button
+                  onClick={() => {
+                    removeItem(key)
+                  }}
+                  style={{ opacity: 0 }}
+                  variant="icon-only"
+                  prefix={<IconClose />}
+                ></Button>
+              ) : null}
+              <KeyInput valueRef={valueRef} value={key} ctx={ctx} path={path} />
             </Cell>
             <Cell>
               <Field ctx={ctx} path={[...path, key]} />

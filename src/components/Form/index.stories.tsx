@@ -3,6 +3,7 @@ import { Form, border, Modal } from '../../index.js'
 import { BasedSchemaField } from '@based/schema'
 import { styled } from 'inlines'
 import { faker } from '@faker-js/faker'
+import { wait } from '@saulx/utils'
 
 const meta = {
   title: 'Components/Form',
@@ -56,6 +57,14 @@ export const Default = () => {
     <div style={{ padding: 64 }}>
       <Form
         checksum={cnt}
+        onFileUpload={async (_, updateProgress) => {
+          let p = 0
+          while (p <= 100) {
+            p += 1
+            updateProgress(p)
+            await wait(100)
+          }
+        }}
         values={{
           src: 'https://i.imgur.com/t1bWmmC.jpeg',
           code: ts,

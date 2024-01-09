@@ -15,6 +15,10 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const subscriptions = useRef<
     (ReturnType<typeof BasedQuery.prototype.subscribe> | null)[]
   >([])
+
+  // TODO: refactor to not use useCallbackref and remove it (has less useRef calls)
+  // refactor so it uses 1 useRef x5 less fn calls and gc
+
   const dataChecksums = useRef<number[]>([])
   const fetchingMore = useRef(false)
   const queryFn = useCallbackRef(props.queryFn)

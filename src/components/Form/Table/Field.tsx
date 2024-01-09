@@ -98,8 +98,18 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
           variant="small"
           mimeType={field.contentMediaType}
           value={value ? { src: value } : undefined}
-          onChange={(file) => {
-            console.log('uploaded file', file)
+          onChange={async (file, updateProgress) => {
+            // has to be handled better...
+            await ctx.listeners.onFileUpload(
+              {
+                ctx,
+                path,
+                value: file,
+                field,
+              },
+              updateProgress
+            )
+            // make sure file input gets same controll / setup
           }}
         />
       </Padder>

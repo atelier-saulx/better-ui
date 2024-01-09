@@ -3,6 +3,7 @@ import {
   BasedSchemaField,
   BasedSchemaFieldReference,
   BasedSchemaFieldReferences,
+  BasedSchemaFieldString,
 } from '@based/schema'
 import { ButtonProps } from '../Button/index.js'
 
@@ -30,6 +31,15 @@ export type Listeners = {
     field: BasedSchemaFieldReferences | BasedSchemaFieldReference
     ctx: TableCtx
   }) => ReturnType<ButtonProps['onClick']>
+  onFileUpload: (
+    props: {
+      path: Path
+      value: File | void
+      field: BasedSchemaFieldString | BasedSchemaFieldReference
+      ctx: TableCtx
+    },
+    updateProgress: (p: number) => void
+  ) => Promise<Reference | string | void | null>
 }
 
 export type TableCtx = {
