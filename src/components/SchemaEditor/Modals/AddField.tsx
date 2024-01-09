@@ -1,18 +1,14 @@
 import * as React from 'react'
 import { Button } from '../../Button/index.js'
-import {
-  IconFormatBold,
-  IconPlus,
-  IconQuote,
-  IconText,
-} from '../../Icons/index.js'
+import { IconPlus } from '../../Icons/index.js'
 import { Modal } from '../../Modal/index.js'
 import { Text } from '../../Text/index.js'
 import { TextInput } from '../../TextInput/index.js'
 import { Container } from '../../Container/index.js'
 import { Thumbnail } from '../../Thumbnail/index.js'
 import { FieldModal } from './FieldModal.js'
-import { color } from '../../../utils/colors.js'
+import { SemanticVariant, color } from '../../../utils/colors.js'
+import { SCHEMA_FIELDS } from '../constants.js'
 
 export const AddField = ({}) => {
   const [searchValue, setSearchValue] = React.useState('')
@@ -71,7 +67,7 @@ export const AddField = ({}) => {
                   prefix={
                     <Thumbnail
                       icon={item?.icon}
-                      color={item?.color}
+                      color={item?.color as SemanticVariant}
                       style={{ marginRight: 4 }}
                     />
                   }
@@ -98,88 +94,3 @@ export const AddField = ({}) => {
     </Modal.Root>
   )
 }
-
-// ;'neutral' |
-//   'informative' |
-//   'positive' |
-//   'warning' |
-//   'error' |
-//   'auto-muted' |
-//   'neutral-muted' |
-//   'informative-muted' |
-//   'positive-muted' |
-//   'warning-muted' |
-//   'error-muted'
-
-export const SCHEMA_FIELDS = [
-  {
-    label: 'String',
-    description: 'Non internationalized string',
-    icon: <IconQuote />,
-    color: 'informative-muted',
-  },
-  {
-    label: 'Text',
-    description: 'Text with formatting',
-    icon: <IconText />,
-    color: 'informative-muted',
-  },
-  {
-    label: 'Rich Text',
-    description: 'Texteditor with styling controls',
-    icon: <IconFormatBold />,
-    color: 'informative-muted',
-  },
-  {
-    label: 'Number',
-    description: 'A Float',
-  },
-  {
-    label: 'Int',
-    description: 'Whole numbers',
-  },
-  {
-    label: 'Enum',
-    description: 'Set of named constants',
-  },
-  {
-    label: 'Boolean',
-    description: 'True or False',
-  },
-  {
-    label: 'Timestamp',
-    description: 'Timestamp',
-  },
-  {
-    label: 'Array',
-    description: 'A collection of similar types',
-  },
-  {
-    label: 'Object',
-    description: 'Multiple types',
-  },
-  {
-    label: 'Record',
-    description: 'Fixed collection',
-  },
-  {
-    label: 'Set',
-    description: 'Collection of unique values',
-  },
-  {
-    label: 'JSON',
-    description: 'A JSON object',
-  },
-  {
-    label: 'Reference',
-    description: 'Single Ref',
-  },
-  {
-    label: 'References',
-    description: 'Multiple Refs',
-  },
-  {
-    label: 'Cardinality',
-    description: 'From math',
-  },
-]
