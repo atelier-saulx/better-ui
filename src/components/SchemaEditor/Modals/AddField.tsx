@@ -16,7 +16,13 @@ export const AddField = ({}) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
 
+  const modal = Modal.useModal()
+
   const [newFieldData, setNewFieldData] = React.useState({})
+
+  React.useEffect(() => {
+    console.log('🌍🌺', newFieldData)
+  }, [newFieldData])
 
   return (
     <Modal.Root>
@@ -77,23 +83,16 @@ export const AddField = ({}) => {
                         style={{ marginRight: 4 }}
                       />
                     }
-                    onClick={async () => {
+                    onClick={() => {
                       close()
                       setSearchValue('')
-                      const result = await open(({ close }) => (
-                        <Modal
-                          onConfirm={() => {
-                            console.log('NEW FIELD DATA', newFieldData)
-                            close(newFieldData)
-                          }}
-                        >
-                          <FieldModal
-                            fieldType={SCHEMA_FIELDS[item].label}
-                            setNewFieldData={setNewFieldData}
-                          />
-                        </Modal>
-                      ))
-                      console.log({ result })
+
+                      modal.open(
+                        <FieldModal
+                          fieldType={SCHEMA_FIELDS[item].label}
+                          setNewFieldData={setNewFieldData}
+                        />
+                      )
                     }}
                   />
                 ))}
