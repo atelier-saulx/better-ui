@@ -16,10 +16,6 @@ export const AddField = ({}) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
 
-  const modal = Modal.useModal()
-
-  const { confirm, alert } = Modal.useModal()
-
   const [newFieldData, setNewFieldData] = React.useState({})
 
   React.useEffect(() => {
