@@ -1,6 +1,11 @@
 import * as React from 'react'
 import { Button } from '../../Button/index.js'
-import { IconPlus } from '../../Icons/index.js'
+import {
+  IconFormatBold,
+  IconPlus,
+  IconQuote,
+  IconText,
+} from '../../Icons/index.js'
 import { Modal } from '../../Modal/index.js'
 import { Text } from '../../Text/index.js'
 import { TextInput } from '../../TextInput/index.js'
@@ -28,7 +33,7 @@ export const AddField = ({}) => {
       >
         {({ close }) => (
           <div style={{ padding: 24, overflow: 'overlay' }}>
-            <Text variant="body-strong" style={{ marginBottom: 8 }}>
+            <Text variant="title-modal" style={{ marginBottom: 16 }}>
               Add a new field to your schema type
             </Text>
             <TextInput
@@ -65,8 +70,8 @@ export const AddField = ({}) => {
                   description={item.description}
                   prefix={
                     <Thumbnail
-                      text={item.label}
-                      color="auto-muted"
+                      icon={item?.icon}
+                      color={item?.color}
                       style={{ marginRight: 4 }}
                     />
                   }
@@ -94,20 +99,36 @@ export const AddField = ({}) => {
   )
 }
 
+// ;'neutral' |
+//   'informative' |
+//   'positive' |
+//   'warning' |
+//   'error' |
+//   'auto-muted' |
+//   'neutral-muted' |
+//   'informative-muted' |
+//   'positive-muted' |
+//   'warning-muted' |
+//   'error-muted'
+
 export const SCHEMA_FIELDS = [
   {
     label: 'String',
     description: 'Non internationalized string',
-    //   icon: <IconQuote />,
-    //   color: 'brand',
+    icon: <IconQuote />,
+    color: 'informative-muted',
   },
   {
     label: 'Text',
     description: 'Text with formatting',
+    icon: <IconText />,
+    color: 'informative-muted',
   },
   {
     label: 'Rich Text',
     description: 'Texteditor with styling controls',
+    icon: <IconFormatBold />,
+    color: 'informative-muted',
   },
   {
     label: 'Number',
