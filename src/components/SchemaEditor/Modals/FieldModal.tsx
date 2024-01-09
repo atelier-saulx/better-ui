@@ -44,9 +44,14 @@ const metaReducer = (state, action) => {
   }
 }
 
-export const FieldModal = ({ fieldType }) => {
+export const FieldModal = ({ fieldType, setNewFieldData }) => {
   const [meta, setMeta] = React.useReducer(metaReducer, {})
   const [tabIndex, setTabIndex] = React.useState(1)
+
+  React.useEffect(() => {
+    setNewFieldData(meta)
+    console.log('🔥', meta)
+  }, [meta])
 
   return (
     <>

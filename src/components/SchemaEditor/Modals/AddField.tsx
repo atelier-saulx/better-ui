@@ -16,6 +16,8 @@ export const AddField = ({}) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
 
+  const [newFieldData, setNewFieldData] = React.useState({})
+
   return (
     <Modal.Root>
       <Modal.Trigger>
@@ -81,10 +83,14 @@ export const AddField = ({}) => {
                       const result = await open(({ close }) => (
                         <Modal
                           onConfirm={() => {
-                            close('close this')
+                            console.log('NEW FIELD DATA', newFieldData)
+                            close(newFieldData)
                           }}
                         >
-                          <FieldModal fieldType={SCHEMA_FIELDS[item].label} />
+                          <FieldModal
+                            fieldType={SCHEMA_FIELDS[item].label}
+                            setNewFieldData={setNewFieldData}
+                          />
                         </Modal>
                       ))
                       console.log({ result })
