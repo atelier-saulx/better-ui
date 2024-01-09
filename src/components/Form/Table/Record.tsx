@@ -7,6 +7,7 @@ import {
   Button,
   IconPlus,
   TextInput,
+  IconClose,
 } from '../../../index.js'
 import { Path, TableCtx, TableProps } from '../types.js'
 import { readPath, useCols, createNewEmptyValue } from '../utils.js'
@@ -58,11 +59,7 @@ export function Record({ ctx, path }: TableProps) {
   valueRef.current = value
 
   const rows: ReactNode[] = []
-  const cols: ReactNode[] = [
-    <Cell width={200} isKey border key={'key'}>
-      Key
-    </Cell>,
-  ]
+  const cols: ReactNode[] = []
 
   const addNew = React.useCallback(async () => {
     ctx.listeners.onChangeHandler(ctx, path, {
@@ -80,6 +77,12 @@ export function Record({ ctx, path }: TableProps) {
   }
 
   if (valuesField.type === 'object' && useCols(valuesField)) {
+    cols.push(
+      <Cell width={200} isKey border key={'key'}>
+        Key
+      </Cell>
+    )
+
     for (const key in valuesField.properties) {
       cols.push(
         <Cell border isKey key={key}>
@@ -90,7 +93,15 @@ export function Record({ ctx, path }: TableProps) {
     if (value) {
       for (const key in value) {
         const cells: ReactNode[] = [
-          <Cell width={200} border isKey key="key">
+          <Cell
+            width={200}
+            border
+            isKey
+            key="key"
+            style={{
+              paddingRight: 10,
+            }}
+          >
             <KeyInput valueRef={valueRef} value={key} ctx={ctx} path={path} />
           </Cell>,
         ]
@@ -118,40 +129,63 @@ export function Record({ ctx, path }: TableProps) {
     }
   } else {
     const deepObject = valuesField.type === 'object'
+
     cols.push(
+      <Cell width={deepObject ? 250 : 200} isKey border key={'key'}>
+        Key
+      </Cell>,
       <Cell isKey border key={'value'}>
         Value
       </Cell>
     )
+
     if (value) {
       for (const key in value) {
         rows.push(
           <ColStack
             style={{
               borderBottom: deepObject ? null : border(),
+              '&:hover': {
+                '& > :first-child': {
+                  '& > :first-child > :first-child': {
+                    border: '1px solid red',
+                    opacity: '1 !important',
+                  },
+                },
+              },
             }}
             align="stretch"
             key={key}
             onRemove={
               !deepObject
                 ? () => {
-                    // lullz
+                    removeItem(key)
                   }
                 : null
             }
           >
             <Cell
-              width={200}
+              width={deepObject ? 250 : 200}
               border
               isKey
               key={'key'}
               style={{
-                paddingRight: 10,
+                paddingRight: deepObject ? 20 : 10,
                 paddingLeft: 10,
                 borderBottom: deepObject ? border() : null,
               }}
             >
-              <TextInput variant="small" value={key} />
+              {deepObject ? (
+                <Button
+                  onClick={() => {
+                    removeItem(key)
+                  }}
+                  style={{ opacity: 0 }}
+                  variant="icon-only"
+                  prefix={<IconClose />}
+                ></Button>
+              ) : null}
+              <KeyInput valueRef={valueRef} value={key} ctx={ctx} path={path} />
             </Cell>
             <Cell>
               <Field ctx={ctx} path={[...path, key]} />
