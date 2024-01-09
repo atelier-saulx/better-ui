@@ -135,7 +135,7 @@ export function Record({ ctx, path }: TableProps) {
             onRemove={
               !deepObject
                 ? () => {
-                    // lullz
+                    removeItem(key)
                   }
                 : null
             }
@@ -151,7 +151,7 @@ export function Record({ ctx, path }: TableProps) {
                 borderBottom: deepObject ? border() : null,
               }}
             >
-              <TextInput variant="small" value={key} />
+              <KeyInput valueRef={valueRef} value={key} ctx={ctx} path={path} />
             </Cell>
             <Cell>
               <Field ctx={ctx} path={[...path, key]} />
