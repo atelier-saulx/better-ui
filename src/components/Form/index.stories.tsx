@@ -871,7 +871,7 @@ export const Arrays = () => {
           },
         }}
         onChange={(values, changes) => {
-          console.log(values, changes)
+          console.log({ values, changes })
         }}
       />
     </div>

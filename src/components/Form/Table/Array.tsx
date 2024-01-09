@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useState, useRef } from 'react'
 import { BasedSchemaFieldArray } from '@based/schema'
 import { styled } from 'inlines'
 import {
@@ -20,6 +20,7 @@ import {
   useCols,
   isSmallField,
   getTitle,
+  createNewEmptyValue,
 } from '../utils.js'
 import { Cell } from './Cell.js'
 import { Field } from './Field.js'
@@ -32,6 +33,22 @@ export function Array({ ctx, path }: TableProps) {
   const cols: ReactNode[] = []
   const isCols = valuesField.type === 'object' && useCols(valuesField)
   const [openIndex, setIndex] = useState(0)
+
+  const valueRef = useRef<typeof value>()
+  valueRef.current = value
+
+  const addNew = React.useCallback(async () => {
+    ctx.listeners.onChangeHandler(ctx, path, [
+      ...valueRef.current,
+      createNewEmptyValue(field.values),
+    ])
+  }, [])
+
+  const removeItem = (index: number) => {
+    const nValue = [...valueRef.current]
+    nValue.splice(index, 1)
+    ctx.listeners.onChangeHandler(ctx, path, nValue)
+  }
 
   if (isCols) {
     for (const key in valuesField.properties) {
@@ -53,6 +70,9 @@ export function Array({ ctx, path }: TableProps) {
         }
         rows.push(
           <ColStack
+            onRemove={() => {
+              removeItem(i)
+            }}
             key={i}
             style={{
               borderBottom: border(),
@@ -92,7 +112,7 @@ export function Array({ ctx, path }: TableProps) {
         rows.push(
           // @ts-ignore TODO: fix type in inlines
           <Stack
-            key={i + 1}
+            key={'_' + i + 1}
             onClick={() => {
               setIndex(isOpen ? -1 : i)
             }}
@@ -165,6 +185,7 @@ export function Array({ ctx, path }: TableProps) {
     >
       {cols.length ? (
         <ColStack
+          header
           style={{
             background: color('background', 'muted'),
             borderBottom: border(),
@@ -179,6 +200,7 @@ export function Array({ ctx, path }: TableProps) {
           size="small"
           variant="neutral-transparent"
           prefix={<IconPlus />}
+          onClick={addNew}
         >
           Add
         </Button>
