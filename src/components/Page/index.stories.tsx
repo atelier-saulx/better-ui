@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Page } from '../../index.js'
+import { Page, Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { styled } from 'inlines'
 
@@ -22,6 +22,7 @@ export const Default: StoryObj<typeof Page> = {
         }}
       >
         <styled.div style={{ background: '#f5f5f5', height: 200 }}>
+          <Text variant="body">xx</Text>
           🦍
         </styled.div>
         <styled.div style={{ background: '#afafaf' }}>🐳</styled.div>
