@@ -26,7 +26,7 @@ export const AddField = ({}) => {
       <Modal.Overlay
         style={{
           width: 'calc(100vw - 48px)',
-          maxWidth: 750,
+          maxWidth: 736,
         }}
       >
         {({ close }) => (

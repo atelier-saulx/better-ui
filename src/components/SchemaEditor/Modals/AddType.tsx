@@ -6,63 +6,93 @@ import { Stack } from '../../Stack/index.js'
 import { Button } from '../../Button/index.js'
 import { Modal } from '../../Modal/index.js'
 import { IconPlus } from '../../Icons/index.js'
+import { useClient } from '@based/react'
 
 export const AddType = () => {
-  const { open } = Modal.useModal()
+  const [typeName, setTypeName] = React.useState('')
+  const [displayName, setDisplayName] = React.useState('')
+  const [description, setDescription] = React.useState('')
 
-  type typeObjProps = {
-    name?: string
-    meta: { name?: string; displayName?: string; description?: string }
-  }
-
-  // todo @yves fix typescript any here
-  const [typeObj, setTypeObj] = React.useState<typeObjProps | any>({
-    meta: {},
-  })
+  const client = useClient()
 
   return (
-    <Button
-      style={{ marginBottom: '32px', padding: '6px 12px' }}
-      onClick={async () => {
-        const result = await open(({ close }) => (
-          <Modal
-            onConfirm={() => {
-              close(typeObj)
-            }}
-          >
-            <Stack gap={12} grid>
-              <div>
-                <Text variant="body-bold">Create a new type</Text>
-                <Text color="secondary">
-                  Add your own custom type to the schema.
-                </Text>
-              </div>
-              <TextInput
-                label="Type name"
-                onChange={(v) => {
-                  setTypeObj((typeObj.name = v))
-                  setTypeObj((typeObj.meta.name = v))
+    <Modal.Root>
+      <Modal.Trigger>
+        <Button
+          variant="neutral"
+          style={{ marginBottom: '32px', padding: '6px 12px' }}
+        >
+          <IconPlus style={{ marginRight: 8 }} /> Add Type
+        </Button>
+      </Modal.Trigger>
+      <Modal.Overlay>
+        {({ close }) => (
+          <>
+            <Modal.Title
+              children="Create a new type"
+              description="Add your own custom type to the schema."
+            />
+            <Modal.Body>
+              <Stack gap={12} grid>
+                <div>
+                  <Text variant="body-bold">Create a new type</Text>
+                  <Text color="secondary">
+                    Add your own custom type to the schema.
+                  </Text>
+                </div>
+                <TextInput
+                  label="Type name"
+                  onChange={(v) => {
+                    setTypeName(v)
+                  }}
+                  value={typeName}
+                />
+                <TextInput
+                  label="Display name (plural)"
+                  onChange={(v) => setDisplayName(v)}
+                  value={displayName}
+                />
+                <TextAreaInput
+                  label="Description"
+                  onChange={(v) => setDescription(v)}
+                  value={description}
+                />
+              </Stack>
+            </Modal.Body>
+
+            <Modal.Actions>
+              <Button variant="neutral" onClick={close}>
+                Cancel
+              </Button>
+              <Button
+                onClick={async () => {
+                  const type = typeName
+                  const typeSchema = {
+                    meta: {
+                      name: typeName,
+                      displayName: displayName || typeName,
+                      description: description,
+                    },
+                  }
+
+                  await client.call('db:set-schema', {
+                    mutate: true,
+                    schema: {
+                      types: {
+                        [type]: typeSchema,
+                      },
+                    },
+                  })
+
+                  close()
                 }}
-                value={typeObj.name}
-              />
-              <TextInput
-                label="Display name (plural)"
-                onChange={(v) => setTypeObj((typeObj.meta.displayName = v))}
-              />
-              <TextAreaInput
-                label="Description"
-                onChange={(v) => setTypeObj((typeObj.meta.description = v))}
-              />
-            </Stack>
-          </Modal>
-        ))
-        console.log({ result })
-      }}
-      variant="neutral"
-      size="small"
-    >
-      <IconPlus style={{ marginRight: 8 }} />
-      Add type
-    </Button>
+              >
+                Create
+              </Button>
+            </Modal.Actions>
+          </>
+        )}
+      </Modal.Overlay>
+    </Modal.Root>
   )
 }
