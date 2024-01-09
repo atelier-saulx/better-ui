@@ -18,6 +18,8 @@ export const AddField = ({}) => {
 
   const modal = Modal.useModal()
 
+  const { confirm, alert } = Modal.useModal()
+
   const [newFieldData, setNewFieldData] = React.useState({})
 
   React.useEffect(() => {
@@ -83,16 +85,19 @@ export const AddField = ({}) => {
                         style={{ marginRight: 4 }}
                       />
                     }
-                    onClick={() => {
+                    onClick={async () => {
                       close()
                       setSearchValue('')
+                      const result = await open(({ close }) => (
+                        <Modal onConfirm={() => close('xxx')}>
+                          <FieldModal
+                            fieldType={SCHEMA_FIELDS[item].label}
+                            setNewFieldData={setNewFieldData}
+                          />
+                        </Modal>
+                      ))
 
-                      modal.open(
-                        <FieldModal
-                          fieldType={SCHEMA_FIELDS[item].label}
-                          setNewFieldData={setNewFieldData}
-                        />
-                      )
+                      console.log('ClosedFLAP', result)
                     }}
                   />
                 ))}
