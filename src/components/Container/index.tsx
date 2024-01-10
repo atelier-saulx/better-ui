@@ -11,13 +11,8 @@ import {
 
 export type ContainerProps = {
   children?: React.ReactNode
-<<<<<<< HEAD
-  title?: string | React.ReactNode
-  description?: string
-=======
   title?: React.ReactNode
   description?: React.ReactNode
->>>>>>> 6a3c9e7e8ad3e03fe5818a03f2777f2b04a70865
   prefix?: React.ReactNode
   suffix?: React.ReactNode
   expandable?: boolean
@@ -84,8 +79,8 @@ export function Container({
             onClick?.()
 
             if (expandable) {
-              // setExpanded(!expanded)
-              setExpanded((p) => !p)
+              setExpanded(!expanded)
+              // setExpanded((p) => !p)
             }
           }
         }}
