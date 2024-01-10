@@ -10,6 +10,8 @@ export const FieldEditAndDelete = ({ item }) => {
   const { open } = Modal.useModal()
   const modal = Modal.useModal()
 
+  console.log(item)
+
   return (
     <Dropdown.Root>
       <Dropdown.Trigger>
@@ -19,20 +21,20 @@ export const FieldEditAndDelete = ({ item }) => {
       </Dropdown.Trigger>
       <Dropdown.Items>
         <Dropdown.Item
-          onClick={async () => {
-            const result = await open(({ close }) => (
-              <Modal
-                onConfirm={() => {
-                  close('close this')
-                }}
-              >
-                {/* Field modal add prefilled field */}
-                <FieldModal fieldType={item.type} />
-              </Modal>
-            ))
+        //   onClick={async () => {
+        //     const result = await open(({ close }) => (
+        //       <Modal
+        //         onConfirm={() => {
+        //           close('close this')
+        //         }}
+        //       >
+        //         {/* Field modal add prefilled field */}
+        //         <FieldModal fieldType={item.type} />
+        //       </Modal>
+        //     ))
 
-            console.log(result)
-          }}
+        //     console.log(result)
+        //   }}
         >
           Edit
         </Dropdown.Item>

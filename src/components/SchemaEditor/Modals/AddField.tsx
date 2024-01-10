@@ -12,15 +12,9 @@ import { SCHEMA_FIELDS } from '../constants.js'
 
 const filterOutTheseFields = ['id', 'type', 'email', 'digest', 'url']
 
-export const AddField = ({}) => {
+export const AddField = ({ typeName }) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
-
-  const [newFieldData, setNewFieldData] = React.useState({})
-
-  React.useEffect(() => {
-    console.log('🌍🌺', newFieldData)
-  }, [newFieldData])
 
   return (
     <Modal.Root>
@@ -84,11 +78,12 @@ export const AddField = ({}) => {
                     onClick={async () => {
                       close()
                       setSearchValue('')
+
                       const result = await open(({ close }) => (
                         <Modal onConfirm={() => close('xxx')}>
                           <FieldModal
                             fieldType={SCHEMA_FIELDS[item].label}
-                            setNewFieldData={setNewFieldData}
+                            typeName={typeName}
                           />
                         </Modal>
                       ))

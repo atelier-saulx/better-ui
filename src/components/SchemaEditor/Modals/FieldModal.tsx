@@ -8,6 +8,7 @@ import { Button } from '../../Button/index.js'
 import { SelectInput } from '../../SelectInput/index.js'
 import { NumberInput } from '../../NumberInput/index.js'
 import { styled } from 'inlines'
+import { Modal } from '../../Modal/index.js'
 import {
   CONTENTMEDIATYPES_ARRAY,
   CONTENT_MEDIA_ENCODINGS,
@@ -18,6 +19,7 @@ import {
   STRING_FORMAT_DISPLAY_OPTIONS,
   STRING_FORMAT_OPTIONS,
 } from '../constants.js'
+import { useClient } from '@based/react'
 
 type SpecificOptionsProps = {
   fieldType: string
@@ -44,14 +46,13 @@ const metaReducer = (state, action) => {
   }
 }
 
-export const FieldModal = ({ fieldType, setNewFieldData }) => {
+export const FieldModal = ({ fieldType, typeName }) => {
   const [meta, setMeta] = React.useReducer(metaReducer, {})
   const [tabIndex, setTabIndex] = React.useState(1)
 
-  React.useEffect(() => {
-    setNewFieldData(meta)
-    console.log('🔥', meta)
-  }, [meta])
+  console.log(typeName)
+
+  const client = useClient()
 
   return (
     <>
@@ -87,6 +88,51 @@ export const FieldModal = ({ fieldType, setNewFieldData }) => {
           setMeta={setMeta}
         />
       )}
+      <Modal.Actions>
+        <Button
+          onClick={async () => {
+            console.log(meta)
+
+            // Set The new field with meta data..
+            // let fields = {
+            //   [meta.name || meta.displayName.toLowerCase()]: {
+            //     type: fieldType.toLowerCase(),
+            //     //      label: meta.name || meta.displayName.toLowerCase(),
+            //     // id:
+            //     //   fieldType.toLowerCase() === 'array'
+            //     //     ? undefined
+            //     //     : meta.name || meta.displayName.toLowerCase(),
+            //     // properties:
+            //     //   fieldType.toLowerCase() === 'object' ? {} : undefined,
+            //     // values: fieldType.toLowerCase() === 'record' ? [] : undefined,
+            //     // index:
+            //     //   fieldType.toLowerCase() === 'array'
+            //     //     ? undefined
+            //     //     : thisSpecificField?.index || newIndex,
+            //     meta: meta,
+            //   },
+            // }
+
+            await client.call('db:set-schema', {
+              mutate: true,
+              schema: {
+                types: {
+                  [typeName]: {
+                    fields: {
+                      [meta.name || meta.displayName.toLowerCase()]: {
+                        type: fieldType.toLowerCase(),
+                        meta: meta,
+                      },
+                    },
+                  },
+                },
+              },
+            })
+          }}
+        >
+          Add Field
+        </Button>
+      </Modal.Actions>
     </>
   )
 }

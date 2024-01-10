@@ -135,6 +135,9 @@ export const Open = () => {
               message="just a silly warning"
               style={{ marginTop: 20 }}
             />
+            <Modal.Actions>
+              <Button>Snurp</Button>
+            </Modal.Actions>
           </Modal>
         )
       }}
