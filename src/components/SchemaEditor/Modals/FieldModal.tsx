@@ -93,6 +93,7 @@ export const FieldModal = ({ fieldType, typeName }) => {
           onClick={async () => {
             console.log('--> yo WTF', meta)
 
+            let fields
             // Set The new field with meta data..
             // let fields = {
             //   [meta.name || meta.displayName.toLowerCase()]: {
@@ -112,18 +113,29 @@ export const FieldModal = ({ fieldType, typeName }) => {
             //     meta: meta,
             //   },
             // }
+            if (fieldType.toLowerCase() === 'object') {
+              fields = {
+                [meta.name || meta.displayName.toLowerCase()]: {
+                  type: fieldType.toLowerCase(),
+                  meta: meta,
+                  properties: {},
+                },
+              }
+            } else {
+              fields = {
+                [meta.name || meta.displayName.toLowerCase()]: {
+                  type: fieldType.toLowerCase(),
+                  meta: meta,
+                },
+              }
+            }
 
             await client.call('db:set-schema', {
               mutate: true,
               schema: {
                 types: {
                   [typeName]: {
-                    fields: {
-                      [meta.name || meta.displayName.toLowerCase()]: {
-                        type: fieldType.toLowerCase(),
-                        meta: meta,
-                      },
-                    },
+                    fields: fields,
                   },
                 },
               },

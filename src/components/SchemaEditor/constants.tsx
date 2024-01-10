@@ -154,7 +154,6 @@ export const SYSTEM_FIELDS = [
   'aliases',
   'createdAt',
   'parents',
-  'updatedBy',
   'updatedAt',
   'children',
 ]

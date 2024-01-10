@@ -4,7 +4,8 @@ import { Button } from '../../Button/index.js'
 import { Dropdown } from '../../Dropdown/index.js'
 import { IconMoreHorizontal } from '../../Icons/index.js'
 // import { FieldModal } from './FieldModal.js'
-import { useClient } from '@based/react'
+import { useClient, useQuery } from '@based/react'
+import { findPath } from '../utils/findPath.js'
 
 export const FieldEditAndDelete = ({ item, typeName }) => {
   // const { open } = Modal.useModal()
@@ -12,7 +13,12 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
 
   const client = useClient()
 
-  console.log(item)
+  const { data, loading } = useQuery('db:schema')
+
+  const nestedPath = findPath(
+    data.types[typeName].fields,
+    item.name || item.meta.name
+  )
 
   return (
     <Dropdown.Root>
@@ -91,18 +97,27 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
           onClick={() => {
             modal.open(
               <Modal
-                title={`Are you sure you want to delete ${item.label}?`}
+                title={`Are you sure you want to delete ${
+                  item?.name || item.meta.name
+                }?`}
                 onConfirm={async () => {
                   console.log('delete this')
+
+                  nestedPath.push(item?.name || item.meta?.name)
+                  const keys = nestedPath
+                  let fields = keys
+                    .reverse()
+                    .reduce((res, key) => ({ [key]: res }), { $delete: true })
+
+                  // fields = [result]   { $delete: true}
+                  console.log('hallow?', fields)
 
                   await client.call('db:set-schema', {
                     mutate: true,
                     schema: {
                       types: {
                         [typeName]: {
-                          fields: {
-                            [item.name]: { $delete: true },
-                          },
+                          fields: fields,
                         },
                       },
                     },
@@ -113,7 +128,9 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
               >
                 <Modal.Message
                   variant="error"
-                  message={`you are about to delete the field: ${item.label} `}
+                  message={`you are about to delete the field: ${
+                    item?.name || item.meta.name
+                  } `}
                   style={{ marginTop: 20, marginBottom: 20 }}
                 />
               </Modal>

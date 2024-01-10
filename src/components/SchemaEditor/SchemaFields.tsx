@@ -85,7 +85,9 @@ export const SchemaFields = ({ fields, typeName }) => {
       {fields &&
         array
           ?.filter((item) =>
-            showSystemFields ? item : !SYSTEM_FIELDS.includes(item.label)
+            showSystemFields
+              ? item
+              : !SYSTEM_FIELDS.includes(item.name || item.label)
           )
           .map((item, idx) => (
             <SingleFieldContainer item={item} typeName={typeName} key={idx} />
