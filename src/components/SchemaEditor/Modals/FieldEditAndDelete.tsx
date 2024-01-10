@@ -3,7 +3,7 @@ import { Modal } from '../../Modal/index.js'
 import { Button } from '../../Button/index.js'
 import { Dropdown } from '../../Dropdown/index.js'
 import { IconMoreHorizontal } from '../../Icons/index.js'
-import { FieldModal } from './FieldModal.js'
+// import { FieldModal } from './FieldModal.js'
 import { useClient } from '@based/react'
 
 export const FieldEditAndDelete = ({ item, typeName }) => {
