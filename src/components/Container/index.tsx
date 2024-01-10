@@ -38,7 +38,7 @@ export function Container({
     divider = !!(title ?? description ?? prefix ?? suffix)
   }
 
-  const [expanded, setExpanded] = useControllableState<(v: boolean) => void>({
+  const [expanded, setExpanded] = useControllableState<boolean>({
     prop: expandedProp as boolean,
     defaultProp: false,
     onChange: onExpandedChange as () => void,
@@ -77,8 +77,7 @@ export function Container({
             onClick?.()
 
             if (expandable) {
-              // setExpanded(!expanded)
-              setExpanded((p) => !p)
+              setExpanded(!expanded)
             }
           }
         }}
