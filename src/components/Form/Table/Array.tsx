@@ -99,16 +99,19 @@ export const CollRow = (p: {
   }
 
   return (
-    <styled.div
+    <div
       style={{
         width: '100%',
       }}
-      onDrop={() => {
-        console.info('?!@!@!@?')
+      onDrop={(e) => {
+        e.preventDefault()
+        const d = e.dataTransfer.getData('text/plain')
+        console.info('?!@!@!@?', d)
         p.changeIndex(draggingIndex, p.index)
         setDragOver(0)
       }}
-      onDragOver={() => {
+      onDragOver={(e) => {
+        e.preventDefault()
         if (draggingIndex !== p.index) {
           setDragOver(draggingIndex > p.index ? -1 : 1)
         }
@@ -141,6 +144,9 @@ export const CollRow = (p: {
         />
       </Stack>
       <ColStack
+        onDrop={() => {
+          console.info('??????????')
+        }}
         onRemove={() => {
           p.removeItem(i)
         }}
@@ -177,6 +183,7 @@ export const CollRow = (p: {
             )
             document.body.appendChild(elem)
             e.dataTransfer.setDragImage(elem, 0, 0)
+            e.dataTransfer.setData('text/plain', p.index)
             draggingIndex = p.index
           }}
           onDragEnd={() => {
@@ -207,7 +214,7 @@ export const CollRow = (p: {
           }}
         />
       </Stack>
-    </styled.div>
+    </div>
   )
 }
 

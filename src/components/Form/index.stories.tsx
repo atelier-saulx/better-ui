@@ -779,7 +779,8 @@ export const Arrays = () => {
           simpleArray: ['hello'],
           array: [
             {
-              powerful: 'rgb(78,56,188)',
+              price: 2,
+              powerful: 'rgb(188,56,0)',
             },
             {
               powerful: 'rgb(78,56,188)',
