@@ -1,11 +1,8 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { Container } from '../Container/index.js'
-import { Thumbnail } from '../Thumbnail/index.js'
-import { Badge } from '../Badge/index.js'
-import { FieldEditAndDelete } from './Modals/FieldEditAndDelete.js'
 import { CheckboxInput } from '../CheckboxInput/index.js'
-import { SCHEMA_FIELDS, SYSTEM_FIELDS } from './constants.js'
+import { SYSTEM_FIELDS } from './constants.js'
+import { SingleFieldContainer } from './SingleFieldContainer.js'
 
 type SchemaItem = {
   name: string
@@ -75,6 +72,8 @@ export const SchemaFields = ({ fields, typeName }) => {
     // routeType
   ])
 
+  console.log('Fields --> ', fields)
+
   return (
     <styled.div style={{ marginTop: 16 }}>
       <CheckboxInput
@@ -89,38 +88,7 @@ export const SchemaFields = ({ fields, typeName }) => {
             showSystemFields ? item : !SYSTEM_FIELDS.includes(item.label)
           )
           .map((item, idx) => (
-            <Container
-              style={{
-                marginBottom: 8,
-                '& > div:first-child': {
-                  padding: '8px !important',
-                },
-                opacity: SYSTEM_FIELDS.includes(item.label) ? 0.5 : 1,
-              }}
-              key={idx}
-              title={
-                <React.Fragment>
-                  {item.label}{' '}
-                  <Badge
-                    color={SCHEMA_FIELDS[item.type]?.color}
-                    style={{ marginLeft: 16, marginRight: 16 }}
-                  >
-                    {item.type}
-                  </Badge>{' '}
-                  {SYSTEM_FIELDS.includes(item.label) ? (
-                    <Badge color="neutral-muted">System</Badge>
-                  ) : null}
-                </React.Fragment>
-              }
-              prefix={
-                <Thumbnail
-                  icon={SCHEMA_FIELDS[item.type]?.icon}
-                  color={SCHEMA_FIELDS[item.type]?.color}
-                  style={{ marginRight: 16 }}
-                />
-              }
-              suffix={<FieldEditAndDelete item={item} typeName={typeName} />}
-            />
+            <SingleFieldContainer item={item} typeName={typeName} key={idx} />
           ))}
     </styled.div>
   )
