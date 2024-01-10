@@ -61,7 +61,7 @@ const parseFields = (fields) => {
   return [...indexedArray, ...array]
 }
 
-export const SchemaFields = ({ fields }) => {
+export const SchemaFields = ({ fields, typeName }) => {
   const [showSystemFields, setShowSystemFields] = React.useState(false)
 
   const [array, setArray] = React.useState<
@@ -119,7 +119,7 @@ export const SchemaFields = ({ fields }) => {
                   style={{ marginRight: 16 }}
                 />
               }
-              suffix={<FieldEditAndDelete item={item} />}
+              suffix={<FieldEditAndDelete item={item} typeName={typeName} />}
             />
           ))}
     </styled.div>

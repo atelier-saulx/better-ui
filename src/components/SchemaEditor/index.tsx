@@ -35,7 +35,7 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
           <AddField typeName={active} />
         </Stack>
 
-        <SchemaFields fields={schema.types[active]?.fields} />
+        <SchemaFields fields={schema.types[active]?.fields} typeName={active} />
       </div>
     </div>
   )

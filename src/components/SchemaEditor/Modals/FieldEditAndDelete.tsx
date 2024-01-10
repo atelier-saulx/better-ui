@@ -5,10 +5,13 @@ import { Button } from '../../Button/index.js'
 import { Dropdown } from '../../Dropdown/index.js'
 import { IconMoreHorizontal } from '../../Icons/index.js'
 import { FieldModal } from './FieldModal.js'
+import { useClient } from '@based/react'
 
-export const FieldEditAndDelete = ({ item }) => {
+export const FieldEditAndDelete = ({ item, typeName }) => {
   const { open } = Modal.useModal()
   const modal = Modal.useModal()
+
+  const client = useClient()
 
   console.log(item)
 
@@ -42,22 +45,31 @@ export const FieldEditAndDelete = ({ item }) => {
         <Dropdown.Item
           onClick={() => {
             modal.open(
-              <Modal>
-                <Text variant="body-bold">
-                  Are you sure you want to delete {item.label}?
-                </Text>
+              <Modal
+                title={`Are you sure you want to delete ${item.label}?`}
+                onConfirm={async () => {
+                  close()
+                  console.log('delete this')
 
-                <Modal.Actions>
-                  <Button
-                    variant="error"
-                    onClick={() => {
-                      console.log('delete this field')
-                      close()
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </Modal.Actions>
+                  await client.call('db:set-schema', {
+                    mutate: true,
+                    schema: {
+                      types: {
+                        [typeName]: {
+                          fields: {
+                            [item.name]: { $delete: true },
+                          },
+                        },
+                      },
+                    },
+                  })
+                }}
+              >
+                <Modal.Message
+                  variant="error"
+                  message={`you are about to delete the field: ${item.label} `}
+                  style={{ marginTop: 20, marginBottom: 20 }}
+                />
               </Modal>
             )
           }}
