@@ -829,6 +829,34 @@ export const Arrays = () => {
               },
             ],
           ],
+          sequences: [
+            {
+              name: 'Countdown',
+              pages: [
+                {
+                  name: 'Countdown',
+                  id: 'p1',
+                },
+              ],
+            },
+            {
+              name: 'Voting starts',
+              pages: [
+                {
+                  name: 'welcome',
+                  id: 'p1',
+                },
+                {
+                  name: 'vote!',
+                  id: 'p3',
+                },
+                {
+                  name: 'bye',
+                  id: 'p2',
+                },
+              ],
+            },
+          ],
         }}
         fields={{
           simpleArray: {
@@ -842,6 +870,16 @@ export const Arrays = () => {
             description: 'some things',
             type: 'array',
             values: objectField.ratings,
+          },
+          sequences: {
+            type: 'array',
+            values: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                pages: { type: 'references' },
+              },
+            },
           },
           nestedArray: {
             title: 'Nested things',

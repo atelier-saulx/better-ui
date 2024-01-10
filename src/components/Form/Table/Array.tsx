@@ -75,7 +75,6 @@ export const CollRow = (p: {
   const i = p.index
   const cells: ReactNode[] = []
 
-  const ref = useRef<HTMLElement>()
   const ref2 = useRef<HTMLElement>()
 
   const [isDragOver, setDragOver] = useState(0)
@@ -104,9 +103,9 @@ export const CollRow = (p: {
       style={{
         width: '100%',
       }}
-      onDrop={(e) => {
-        const index = Number(e.dataTransfer.getData('index'))
-        p.changeIndex(index, i)
+      onDrop={() => {
+        console.info('?!@!@!@?')
+        p.changeIndex(draggingIndex, p.index)
         setDragOver(0)
       }}
       onDragOver={() => {
@@ -120,61 +119,28 @@ export const CollRow = (p: {
       onDragExit={() => {
         setDragOver(0)
       }}
-      onDragStart={(e) => {
-        const elem = (ref2.current = document.createElement('div'))
-        elem.id = 'drag-ghost'
-        elem.style.position = 'absolute'
-        elem.style.top = '-1000px'
-        elem.style.paddingLeft = '32px'
-        render(
-          <Stack
-            gap={4}
-            justify="start"
-            style={{
-              background: color('background', 'screen'),
-              paddingTop: 8,
-              paddingBottom: 8,
-              paddingLeft: 16,
-              paddingRight: 16,
-              borderRadius: borderRadius('small'),
-            }}
-          >
-            <Badge>{i + 1}</Badge>
-            {src ? <Media src={src} /> : null}
-            <Text variant="body-bold">{name}</Text>
-          </Stack>,
-          elem
-        )
-        document.body.appendChild(elem)
-        e.dataTransfer.setDragImage(elem, 0, 0)
-        draggingIndex = p.index
-        e.dataTransfer.setData('index', p.index)
-      }}
-      onDragEnd={() => {
-        document.body.removeChild(ref2.current)
-        ref.current.draggable = false
-      }}
     >
       <Stack
         style={{
           height: isDragOver === -1 ? 24 : 0,
           width: '100%',
+          overflow: 'hidden',
           transition: 'height 0.2s',
+          // transitionDelay: '0.2s',
           borderBottom: isDragOver === -1 ? border() : null,
         }}
       >
-        {isDragOver === -1 ? (
-          <styled.div
-            style={{
-              width: '100%',
-              height: 2,
-              backgroundColor: color('interactive', 'primary'),
-            }}
-          />
-        ) : null}
+        <styled.div
+          style={{
+            width: '100%',
+            height: 2,
+            opacity: isDragOver === -1 ? 1 : 0,
+            transition: 'opacity 0.2s',
+            backgroundColor: color('interactive', 'primary'),
+          }}
+        />
       </Stack>
       <ColStack
-        ref={ref}
         onRemove={() => {
           p.removeItem(i)
         }}
@@ -182,30 +148,64 @@ export const CollRow = (p: {
           borderBottom: border(),
         }}
       >
-        <IconDrag
-          onPointerDown={() => {
-            ref.current.draggable = true
+        <styled.div
+          draggable
+          onDragStart={(e) => {
+            const elem = (ref2.current = document.createElement('div'))
+            elem.id = 'drag-ghost'
+            elem.style.position = 'absolute'
+            elem.style.top = '-1000px'
+            elem.style.paddingLeft = '32px'
+            render(
+              <Stack
+                gap={4}
+                justify="start"
+                style={{
+                  background: color('background', 'screen'),
+                  paddingTop: 8,
+                  paddingBottom: 8,
+                  paddingLeft: 16,
+                  paddingRight: 16,
+                  borderRadius: borderRadius('small'),
+                }}
+              >
+                <Badge>{i + 1}</Badge>
+                {src ? <Media src={src} /> : null}
+                <Text variant="body-bold">{name}</Text>
+              </Stack>,
+              elem
+            )
+            document.body.appendChild(elem)
+            e.dataTransfer.setDragImage(elem, 0, 0)
+            draggingIndex = p.index
           }}
-        />
+          onDragEnd={() => {
+            document.body.removeChild(ref2.current)
+          }}
+        >
+          <IconDrag />
+        </styled.div>
         {cells}
       </ColStack>
       <Stack
         style={{
           height: isDragOver === 1 ? 24 : 0,
+          overflow: 'hidden',
           width: '100%',
+          // transitionDelay: '0.2s',
           transition: 'height 0.2s',
           borderBottom: isDragOver === 1 ? border() : null,
         }}
       >
-        {isDragOver === 1 ? (
-          <styled.div
-            style={{
-              width: '100%',
-              height: 2,
-              backgroundColor: color('interactive', 'primary'),
-            }}
-          />
-        ) : null}
+        <styled.div
+          style={{
+            width: '100%',
+            height: 2,
+            opacity: isDragOver === 1 ? 1 : 0,
+            transition: 'opacity 0.2s',
+            backgroundColor: color('interactive', 'primary'),
+          }}
+        />
       </Stack>
     </styled.div>
   )
