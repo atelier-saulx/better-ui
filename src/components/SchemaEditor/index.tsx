@@ -30,7 +30,7 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
             }}
           >
             <Text variant="title-page">{active}</Text>
-            <TypeOptions />
+            <TypeOptions typeName={active} />
           </Stack>
           <AddField typeName={active} />
         </Stack>

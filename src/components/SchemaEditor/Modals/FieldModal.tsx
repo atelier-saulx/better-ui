@@ -91,7 +91,7 @@ export const FieldModal = ({ fieldType, typeName }) => {
       <Modal.Actions>
         <Button
           onClick={async () => {
-            console.log(meta)
+            console.log('--> yo WTF', meta)
 
             // Set The new field with meta data..
             // let fields = {
