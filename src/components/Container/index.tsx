@@ -9,8 +9,8 @@ import {
 
 export type ContainerProps = {
   children?: React.ReactNode
-  title?: string
-  description?: string
+  title?: React.ReactNode
+  description?: React.ReactNode
   prefix?: React.ReactNode
   suffix?: React.ReactNode
   expandable?: boolean

@@ -5,6 +5,7 @@ import {
   Stack,
   border,
   color,
+  Text,
   Button,
   IconChevronDown,
   IconChevronRight,
@@ -13,6 +14,8 @@ import {
   IconClose,
   IconDragDropHorizontal,
   ButtonProps,
+  borderRadius,
+  Media,
 } from '../../../index.js'
 import { Path, TableCtx, TableProps } from '../types.js'
 import {
@@ -28,6 +31,7 @@ import {
 import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { ColStack } from './ColStack.js'
+import { render } from 'react-dom'
 
 const IconDrag = (p: ButtonProps) => {
   return (
@@ -51,20 +55,43 @@ const IconDrag = (p: ButtonProps) => {
   )
 }
 
+let draggingIndex = 0
+
 export const CollRow = (p: {
   field: BasedSchemaFieldObject
   ctx: TableCtx
   path: Path
   index: number
   removeItem: (index: number) => void
+  changeIndex: (fromIndex: number, toIndex: number) => void
+  value: any
 }) => {
+  // own drag handler + table index for seq
+  // currentDragTarget (an fn on ctx)
+  // ctx.getDragTarget = { path, field etc }
+  // ctx.setDragTarget = { path, field etc }
+  // ctx.id
+
   const i = p.index
   const cells: ReactNode[] = []
 
   const ref = useRef<HTMLElement>()
   const ref2 = useRef<HTMLElement>()
 
+  const [isDragOver, setDragOver] = useState(0)
+
+  let name: string = ''
+  let src: string = ''
+
   for (const key in p.field.properties) {
+    if (p.value) {
+      if (key === 'name' || key === 'title') {
+        name = p.value[key]
+      } else if (key === 'src') {
+        src = p.value.src
+      }
+    }
+
     cells.push(
       <Cell border key={key}>
         <Field ctx={p.ctx} path={[...p.path, i, key]} />
@@ -73,39 +100,114 @@ export const CollRow = (p: {
   }
 
   return (
-    <ColStack
-      ref={ref}
-      onRemove={() => {
-        p.removeItem(i)
-      }}
+    <styled.div
       style={{
-        borderBottom: border(),
+        width: '100%',
+      }}
+      onDrop={(e) => {
+        const index = Number(e.dataTransfer.getData('index'))
+        p.changeIndex(index, i)
+        setDragOver(0)
+      }}
+      onDragOver={() => {
+        if (draggingIndex !== p.index) {
+          setDragOver(draggingIndex > p.index ? -1 : 1)
+        }
+      }}
+      onDragLeave={() => {
+        setDragOver(0)
+      }}
+      onDragExit={() => {
+        setDragOver(0)
       }}
       onDragStart={(e) => {
         const elem = (ref2.current = document.createElement('div'))
         elem.id = 'drag-ghost'
-        elem.innerHTML = `<div style="padding:12px;background:${color(
-          'background',
-          'neutral'
-        )}">Dragging ${i}</div>`
         elem.style.position = 'absolute'
         elem.style.top = '-1000px'
         elem.style.paddingLeft = '32px'
+        render(
+          <Stack
+            gap={4}
+            justify="start"
+            style={{
+              background: color('background', 'screen'),
+              paddingTop: 8,
+              paddingBottom: 8,
+              paddingLeft: 16,
+              paddingRight: 16,
+              borderRadius: borderRadius('small'),
+            }}
+          >
+            <Badge>{i + 1}</Badge>
+            {src ? <Media src={src} /> : null}
+            <Text variant="body-bold">{name}</Text>
+          </Stack>,
+          elem
+        )
         document.body.appendChild(elem)
         e.dataTransfer.setDragImage(elem, 0, 0)
+        draggingIndex = p.index
+        e.dataTransfer.setData('index', p.index)
       }}
       onDragEnd={() => {
         document.body.removeChild(ref2.current)
         ref.current.draggable = false
       }}
     >
-      <IconDrag
-        onPointerDown={() => {
-          ref.current.draggable = true
+      <Stack
+        style={{
+          height: isDragOver === -1 ? 24 : 0,
+          width: '100%',
+          transition: 'height 0.2s',
+          borderBottom: isDragOver === -1 ? border() : null,
         }}
-      />
-      {cells}
-    </ColStack>
+      >
+        {isDragOver === -1 ? (
+          <styled.div
+            style={{
+              width: '100%',
+              height: 2,
+              backgroundColor: color('interactive', 'primary'),
+            }}
+          />
+        ) : null}
+      </Stack>
+      <ColStack
+        ref={ref}
+        onRemove={() => {
+          p.removeItem(i)
+        }}
+        style={{
+          borderBottom: border(),
+        }}
+      >
+        <IconDrag
+          onPointerDown={() => {
+            ref.current.draggable = true
+          }}
+        />
+        {cells}
+      </ColStack>
+      <Stack
+        style={{
+          height: isDragOver === 1 ? 24 : 0,
+          width: '100%',
+          transition: 'height 0.2s',
+          borderBottom: isDragOver === 1 ? border() : null,
+        }}
+      >
+        {isDragOver === 1 ? (
+          <styled.div
+            style={{
+              width: '100%',
+              height: 2,
+              backgroundColor: color('interactive', 'primary'),
+            }}
+          />
+        ) : null}
+      </Stack>
+    </styled.div>
   )
 }
 
@@ -115,7 +217,8 @@ export function Array({ ctx, path }: TableProps) {
   const rows: ReactNode[] = []
   const cols: ReactNode[] = []
   const isCols = valuesField.type === 'object' && useCols(valuesField)
-  const [openIndex, setIndex] = useState(0)
+  const [openCnt, setIndex] = useState<number>(0)
+  const openIndexes = useRef<Set<number>>(new Set())
 
   const valueRef = useRef<typeof value>()
   valueRef.current = value
@@ -126,6 +229,17 @@ export function Array({ ctx, path }: TableProps) {
       createNewEmptyValue(field.values),
     ])
   }, [])
+
+  const changeIndex = React.useCallback(
+    async (fromIndex: number, toIndex: number) => {
+      const n = [...valueRef.current]
+      const target = n[fromIndex]
+      n.splice(fromIndex, 1)
+      n.splice(toIndex, 0, target)
+      ctx.listeners.onChangeHandler(ctx, path, n)
+    },
+    []
+  )
 
   const removeItem = (index: number) => {
     const nValue = [...valueRef.current]
@@ -146,7 +260,9 @@ export function Array({ ctx, path }: TableProps) {
       for (let i = 0; i < value.length; i++) {
         rows.push(
           <CollRow
+            changeIndex={changeIndex}
             key={i}
+            value={value[i]}
             field={valuesField}
             index={i}
             ctx={ctx}
@@ -179,7 +295,7 @@ export function Array({ ctx, path }: TableProps) {
         valuesField.type === 'object' && getIdentifierField(valuesField)
 
       for (let i = 0; i < value.length; i++) {
-        const isOpen = openIndex === i
+        const isOpen = openIndexes.current.has(i)
         const item = value?.[i]
         const title: ReactNode = field ? item?.[field] : valuesField.title
 
@@ -188,7 +304,12 @@ export function Array({ ctx, path }: TableProps) {
           <Stack
             key={'_' + i + 1}
             onClick={() => {
-              setIndex(isOpen ? -1 : i)
+              if (isOpen) {
+                openIndexes.current.delete(i)
+              } else {
+                openIndexes.current.add(i)
+              }
+              setIndex(openCnt + 1)
             }}
             justify="start"
             style={{
