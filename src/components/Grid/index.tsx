@@ -125,7 +125,7 @@ export function Grid({
 
         setItems(filteredItems)
 
-        onMove(filteredItems)
+        onMove?.(filteredItems)
 
         // for (const i in filteredItems) {
         //   // items[i].index = i
