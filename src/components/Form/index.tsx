@@ -198,7 +198,7 @@ export const Form = ({
         onConfirm={onConfirm}
         onCancel={onCancel}
         hasChanges={nRef.current.hasChanges}
-        variant={confirm ? 'no-confirm' : variant}
+        variant={variant}
       />
     </Stack>
   )
