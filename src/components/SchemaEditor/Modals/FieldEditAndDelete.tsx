@@ -15,11 +15,6 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
 
   const { data, loading } = useQuery('db:schema')
 
-  const nestedPath = findPath(
-    data.types[typeName].fields,
-    item.name || item.meta.name
-  )
-
   return (
     <Dropdown.Root>
       <Dropdown.Trigger>
@@ -36,23 +31,38 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                 confirmLabel="Delete"
                 confirmVariant="error"
                 onConfirm={async () => {
-                  console.log('delete this')
+                  const nestedPath = findPath(
+                    data.types[typeName].fields,
+                    item.name || item.meta.name
+                  )
 
                   nestedPath.push(item?.name || item.meta?.name)
-                  const keys = nestedPath
-                  let fields = keys
-                    .reverse()
-                    .reduce((res, key) => ({ [key]: res }), { $delete: true })
 
-                  // fields = [result]   { $delete: true}
-                  console.log('hallow?', fields)
+                  const currentFields = data.types[typeName].fields
+                  const fields = {}
+
+                  let from = currentFields
+                  let dest = fields
+                  let i = 0
+                  const l = nestedPath.length
+
+                  while (i < l) {
+                    const key = nestedPath[i++]
+
+                    dest[key] = { ...from[key] }
+                    dest = dest[key]
+                    from = from[key]
+                  }
+
+                  // @ts-ignore
+                  dest.$delete = true
 
                   await client.call('db:set-schema', {
                     mutate: true,
                     schema: {
                       types: {
                         [typeName]: {
-                          fields: fields,
+                          fields,
                         },
                       },
                     },

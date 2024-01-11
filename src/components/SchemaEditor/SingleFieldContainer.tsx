@@ -9,7 +9,7 @@ import { Stack } from '../Stack/index.js'
 
 // for some recursion in objects
 export const SingleFieldContainer = ({ item, typeName }) => {
-  console.log('item??0', item)
+  // console.log('item??0', item)
 
   return (
     <Container
