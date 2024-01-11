@@ -14,6 +14,7 @@ import { TextInput } from '../../TextInput/index.js'
 import { Text } from '../../Text/index.js'
 import { EditType } from './EditType.js'
 import { CloneType } from './CloneType.js'
+import { AdvancedEditType } from './AdvancedEditType.js'
 
 export const TypeOptions = ({ typeName }) => {
   const modal = Modal.useModal()
@@ -50,7 +51,16 @@ export const TypeOptions = ({ typeName }) => {
         >
           Clone type
         </Dropdown.Item>
-        <Dropdown.Item icon={<IconFunction />}>Advanced edit</Dropdown.Item>
+        <Dropdown.Item
+          icon={<IconFunction />}
+          onClick={() => {
+            modal.open(({ close }) => {
+              return <AdvancedEditType onConfirm={close} typeName={typeName} />
+            })
+          }}
+        >
+          Advanced edit
+        </Dropdown.Item>
         {/* DELETE TYPE */}
         <Dropdown.Item
           icon={<IconDelete />}
