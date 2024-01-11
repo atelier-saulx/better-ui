@@ -13,8 +13,7 @@ export const DeleteType = ({ onConfirm, typeName, setActive }) => {
   return (
     <Modal
       confirmLabel="Delete"
-      confirmDisabled={testString !== typeName}
-      confirmVariant="error"
+      confirmProps={{ disabled: testString !== typeName, variant: 'error' }}
       onConfirm={async () => {
         await client.call('db:set-schema', {
           mutate: true,
