@@ -9,7 +9,7 @@ import { findPath } from '../utils/findPath.js'
 
 export const FieldEditAndDelete = ({ item, typeName }) => {
   // const { open } = Modal.useModal()
-  const modal = Modal.useModal()
+  const { open } = Modal.useModal()
 
   const client = useClient()
 
@@ -46,60 +46,15 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
         >
           Edit
         </Dropdown.Item>
-        {/* 
-        <Modal.Root>
-          <Modal.Trigger>
-            <Dropdown.Item>Delete</Dropdown.Item>
-          </Modal.Trigger>
-          <Modal.Overlay>
-            {({ close }) => (
-              <>
-                <Modal.Title
-                  children={`Are you sure you want to delete ${item.label}?`}
-                />
 
-                <Modal.Message
-                  variant="error"
-                  message={`you are about to delete the field: ${item.label} `}
-                  style={{ marginTop: 20, marginBottom: 20 }}
-                />
-                <Modal.Actions>
-                  <Button variant="neutral" onClick={close}>
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="error"
-                    onClick={async () => {
-                      await client.call('db:set-schema', {
-                        mutate: true,
-                        schema: {
-                          types: {
-                            [typeName]: {
-                              fields: {
-                                [item.name]: { $delete: true },
-                              },
-                            },
-                          },
-                        },
-                      })
-
-                      close()
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </Modal.Actions>
-              </>
-            )}
-          </Modal.Overlay>
-        </Modal.Root> */}
         <Dropdown.Item
-          onClick={() => {
-            modal.open(
+          onClick={async () => {
+            const deleteThis = await open(({ close }) => (
               <Modal
                 title={`Are you sure you want to delete ${
                   item?.name || item.meta.name
                 }?`}
+                confirmLabel="Delete"
                 onConfirm={async () => {
                   console.log('delete this')
 
@@ -122,8 +77,7 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                       },
                     },
                   })
-
-                  close()
+                  close('yo')
                 }}
               >
                 <Modal.Message
@@ -134,7 +88,8 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                   style={{ marginTop: 20, marginBottom: 20 }}
                 />
               </Modal>
-            )
+            ))
+            console.log('deltea', deleteThis)
           }}
         >
           Delete

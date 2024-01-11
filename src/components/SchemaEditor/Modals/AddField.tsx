@@ -79,16 +79,16 @@ export const AddField = ({ typeName }) => {
                       close()
                       setSearchValue('')
 
-                      const result = await open(({ close }) => (
-                        <Modal onConfirm={() => close('xxx')}>
-                          <FieldModal
-                            fieldType={SCHEMA_FIELDS[item].label}
-                            typeName={typeName}
-                          />
-                        </Modal>
+                      const fieldMeta = await open(({ close }) => (
+                        <FieldModal
+                          fieldType={SCHEMA_FIELDS[item].label}
+                          typeName={typeName}
+                          onConfirm={close}
+                        />
                       ))
 
-                      console.log('ClosedFLAP', result)
+                      console.log('BBBB', fieldMeta)
+                      // console.log('ClosedFLAP', result)
                     }}
                   />
                 ))}

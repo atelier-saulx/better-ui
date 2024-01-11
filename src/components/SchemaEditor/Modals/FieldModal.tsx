@@ -46,7 +46,7 @@ const metaReducer = (state, action) => {
   }
 }
 
-export const FieldModal = ({ fieldType, typeName }) => {
+export const FieldModal = ({ fieldType, typeName, onConfirm }) => {
   const [meta, setMeta] = React.useReducer(metaReducer, {})
   const [tabIndex, setTabIndex] = React.useState(1)
 
@@ -55,7 +55,60 @@ export const FieldModal = ({ fieldType, typeName }) => {
   const client = useClient()
 
   return (
-    <>
+    <Modal
+      confirmLabel="Add Field"
+      onConfirm={async () => {
+        let fields
+        // Set The new field with meta data..
+        // let fields = {
+        //   [meta.name || meta.displayName.toLowerCase()]: {
+        //     type: fieldType.toLowerCase(),
+        //     //      label: meta.name || meta.displayName.toLowerCase(),
+        //     // id:
+        //     //   fieldType.toLowerCase() === 'array'
+        //     //     ? undefined
+        //     //     : meta.name || meta.displayName.toLowerCase(),
+        //     // properties:
+        //     //   fieldType.toLowerCase() === 'object' ? {} : undefined,
+        //     // values: fieldType.toLowerCase() === 'record' ? [] : undefined,
+        //     // index:
+        //     //   fieldType.toLowerCase() === 'array'
+        //     //     ? undefined
+        //     //     : thisSpecificField?.index || newIndex,
+        //     meta: meta,
+        //   },
+        // }
+        if (fieldType.toLowerCase() === 'object') {
+          fields = {
+            [meta.name || meta.displayName.toLowerCase()]: {
+              type: fieldType.toLowerCase(),
+              meta: meta,
+              properties: {},
+            },
+          }
+        } else {
+          fields = {
+            [meta.name || meta.displayName.toLowerCase()]: {
+              type: fieldType.toLowerCase(),
+              meta: meta,
+            },
+          }
+        }
+
+        await client.call('db:set-schema', {
+          mutate: true,
+          schema: {
+            types: {
+              [typeName]: {
+                fields: fields,
+              },
+            },
+          },
+        })
+
+        onConfirm(meta)
+      }}
+    >
       <Text variant="title-modal">{fieldType}</Text>
       <Stack
         style={{ justifyContent: 'flex-start', margin: '12px 0px' }}
@@ -88,64 +141,7 @@ export const FieldModal = ({ fieldType, typeName }) => {
           setMeta={setMeta}
         />
       )}
-      <Modal.Actions>
-        <Button
-          onClick={async () => {
-            console.log('--> yo WTF', meta)
-
-            let fields
-            // Set The new field with meta data..
-            // let fields = {
-            //   [meta.name || meta.displayName.toLowerCase()]: {
-            //     type: fieldType.toLowerCase(),
-            //     //      label: meta.name || meta.displayName.toLowerCase(),
-            //     // id:
-            //     //   fieldType.toLowerCase() === 'array'
-            //     //     ? undefined
-            //     //     : meta.name || meta.displayName.toLowerCase(),
-            //     // properties:
-            //     //   fieldType.toLowerCase() === 'object' ? {} : undefined,
-            //     // values: fieldType.toLowerCase() === 'record' ? [] : undefined,
-            //     // index:
-            //     //   fieldType.toLowerCase() === 'array'
-            //     //     ? undefined
-            //     //     : thisSpecificField?.index || newIndex,
-            //     meta: meta,
-            //   },
-            // }
-            if (fieldType.toLowerCase() === 'object') {
-              fields = {
-                [meta.name || meta.displayName.toLowerCase()]: {
-                  type: fieldType.toLowerCase(),
-                  meta: meta,
-                  properties: {},
-                },
-              }
-            } else {
-              fields = {
-                [meta.name || meta.displayName.toLowerCase()]: {
-                  type: fieldType.toLowerCase(),
-                  meta: meta,
-                },
-              }
-            }
-
-            await client.call('db:set-schema', {
-              mutate: true,
-              schema: {
-                types: {
-                  [typeName]: {
-                    fields: fields,
-                  },
-                },
-              },
-            })
-          }}
-        >
-          Add Field
-        </Button>
-      </Modal.Actions>
-    </>
+    </Modal>
   )
 }
 

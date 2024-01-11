@@ -296,17 +296,10 @@ export const useModal = (): UseModalRes => {
           }
         }
 
-        const modal =
-          el.type === Modal ? (
-            React.cloneElement(el, {
-              key,
-              onOpenChange,
-            })
-          ) : (
-            <Modal key={key} onOpenChange={onOpenChange}>
-              {el}
-            </Modal>
-          )
+        const modal = React.cloneElement(el, {
+          key,
+          onOpenChange,
+        })
 
         ref.current.modals.push(modal)
         if (update) {
