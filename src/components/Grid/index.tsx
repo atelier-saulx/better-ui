@@ -150,14 +150,14 @@ export function Grid({
     const otherItems = containerItems.filter((_, i) => i !== index)
 
     const dragItem = containerItems[index]
-    const clone = dragItem.cloneNode(true)
-    clone.id = 'clone'
+    // const clone = dragItem.cloneNode(true)
+    // clone.id = 'clone'
     //see below
     // dragItem.after(clone)
 
     const dragBoundingRect = dragItem.getBoundingClientRect()
 
-    clone.style.opacity = 0.4
+    // clone.style.opacity = 0.4
     dragItem.style.width = dragBoundingRect.width + 'px'
     dragItem.style.height = dragBoundingRect.height + 'px'
     dragItem.style.top = dragBoundingRect.top + 'px'
@@ -219,7 +219,7 @@ export function Grid({
     window.addEventListener('pointerup', dragEnd)
 
     function dragEnd() {
-      clone.remove()
+      // clone.remove()
       window.removeEventListener('pointerup', dragEnd)
       window.removeEventListener('pointermove', dragMove)
 
@@ -248,14 +248,14 @@ export function Grid({
     const otherItems = containerItems.filter((_, i) => i !== index)
 
     const dragItem = containerItems[index]
-    const clone = dragItem.cloneNode(true)
-    clone.id = 'clone'
+    // const clone = dragItem.cloneNode(true)
+    // clone.id = 'clone'
     //see below
     // dragItem.after(clone)
 
     const dragBoundingRect = dragItem.getBoundingClientRect()
 
-    clone.style.opacity = 0.4
+    // clone.style.opacity = 0.4
     dragItem.style.width = dragBoundingRect.width + 'px'
     dragItem.style.height = dragBoundingRect.height + 'px'
     dragItem.style.top = dragBoundingRect.top + 'px'
@@ -308,11 +308,10 @@ export function Grid({
         }
       }
     }
-
     window.addEventListener('touchend', touchEnd)
 
     function touchEnd() {
-      clone.remove()
+      // clone.remove()
       window.removeEventListener('pointerup', touchEnd)
       window.removeEventListener('pointermove', touchMove)
 
@@ -365,13 +364,13 @@ export function Grid({
           <span
             key={i}
             id={item.id}
-            onMouseDown={(e) => dragStart(e, i)}
+            // onMouseDown={(e) => dragStart(e, i)}
             onTouchStart={(e) => {
               e.stopPropagation()
               // e.preventDefault()
               touchStart(e, i)
             }}
-            style={{ cursor: 'pointer', border: '1px solid red' }}
+            style={{ cursor: 'pointer' }}
           >
             <Item
               item={item}
