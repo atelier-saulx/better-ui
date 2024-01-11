@@ -22,12 +22,12 @@ export default meta
 
 let thing = 0
 
-const items = new Array(10).fill(null).map(() => ({
+const propItems = new Array(10).fill(null).map(() => ({
   id: faker.string.uuid().slice(0, 8),
   title: faker.system.commonFileName(),
   description: faker.lorem.words({ min: 0, max: 10 }),
   index: thing++,
-  image: faker.image.url(),
+  image: faker.image.urlLoremFlickr({ category: 'cats' }),
   renderAs: faker.helpers.arrayElement(['folder', 'file', 'image']) as
     | 'folder'
     | 'file'
@@ -35,6 +35,9 @@ const items = new Array(10).fill(null).map(() => ({
 }))
 
 export const Default = () => {
+  const [items, setItems] = React.useState(propItems)
+  console.log(items.length)
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -53,11 +56,19 @@ export const Default = () => {
               </Button>
             </Dropdown.Trigger>
             <Dropdown.Items>
-              <Dropdown.Item onClick={() => console.log(e)} icon={<IconCopy />}>
+              <Dropdown.Item
+                onClick={() =>
+                  setItems([
+                    ...items,
+                    { ...e, id: faker.string.uuid().slice(0, 8) },
+                  ])
+                }
+                icon={<IconCopy />}
+              >
                 Duplicate
               </Dropdown.Item>
               <Dropdown.Item
-                onClick={() => console.log(e)}
+                onClick={() => setItems((v) => v.filter((i) => i.id !== e.id))}
                 icon={<IconDelete />}
               >
                 Delete
@@ -71,12 +82,14 @@ export const Default = () => {
 }
 
 export const Row = () => {
+  const [items, setItems] = React.useState(propItems)
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
         items={items}
         variant="row"
-        itemAction={() => (
+        itemAction={(e) => (
           <Dropdown.Root>
             <Dropdown.Trigger>
               <Button variant="icon-only">
@@ -84,8 +97,23 @@ export const Row = () => {
               </Button>
             </Dropdown.Trigger>
             <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+              <Dropdown.Item
+                onClick={() =>
+                  setItems([
+                    ...items,
+                    { ...e, id: faker.string.uuid().slice(0, 8) },
+                  ])
+                }
+                icon={<IconCopy />}
+              >
+                Duplicate
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => setItems((v) => v.filter((i) => i.id !== e.id))}
+                icon={<IconDelete />}
+              >
+                Delete
+              </Dropdown.Item>
             </Dropdown.Items>
           </Dropdown.Root>
         )}
