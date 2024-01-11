@@ -32,7 +32,7 @@ export type FormProps = {
     field: BasedSchemaField
   ) => void
   onChangeTransform?: (val: any, path: Path, field: BasedSchemaField) => any
-  onChange: (
+  onChange?: (
     values: { [key: string]: any },
     changed: { [key: string]: any },
     checksum: number
