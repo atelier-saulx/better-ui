@@ -70,7 +70,6 @@ export const AddField = ({
   // if nested or Edit find the specific item field
   // get schema
   const { data, loading } = useQuery('db:schema')
-  console.log(loading)
 
   React.useEffect(() => {
     console.log(meta, 'meta chagnd')
@@ -120,16 +119,12 @@ export const AddField = ({
         // find the fieldItem
         const nestedFields = {}
         if (fieldItem) {
-          console.log('FieldITem 🦐', fieldItem)
-
           const nestedPath = findPath(
             data.types[typeName].fields,
             fieldItem?.name || fieldItem.meta.name
           )
 
           nestedPath.push(fieldItem?.name || fieldItem.meta?.name)
-
-          console.log('PATH???🦍 ', nestedPath)
 
           const currentFields = data.types[typeName].fields
 
@@ -150,13 +145,7 @@ export const AddField = ({
           dest.properties = fields
 
           fields = nestedFields
-          console.log('🤡 --> new', fields)
         }
-
-        // if (Object.keys(nestedFields).length !== 0) {
-        //   fields = nestedFields
-        //   console.log('ARRG', fields)
-        // }
 
         await client.call('db:set-schema', {
           mutate: true,
@@ -228,7 +217,7 @@ const GeneralOptions = ({ meta, setMeta }: GeneralOptionsProps) => {
       />
       <TextAreaInput
         label="Description"
-        // description="Displays a hint for content editors"
+        //   description="Displays a hint for content editors"
         value={meta?.description}
         onChange={(v) => setMeta({ field: 'description', value: v })}
       />

@@ -7,6 +7,7 @@ import { Text } from '../../Text/index.js'
 // import { FieldModal } from './FieldModal.js'
 import { useClient, useQuery } from '@based/react'
 import { findPath } from '../utils/findPath.js'
+import { AddField } from './AddField.js'
 
 export const FieldEditAndDelete = ({ item, typeName }) => {
   const { open } = Modal.useModal()
@@ -14,7 +15,6 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
   const client = useClient()
 
   const { data, loading } = useQuery('db:schema')
-  console.log('loading', loading)
 
   return (
     <Dropdown.Root>
@@ -24,7 +24,15 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Items>
-        <Dropdown.Item>Edit</Dropdown.Item>
+        {/* EDIT A FIELD  lets use ADDField modal */}
+        <Dropdown.Item
+          onClick={async () => {
+            open(<AddField typeName={typeName} fieldType={item?.type} />)
+          }}
+        >
+          Edit
+        </Dropdown.Item>
+        {/* DELETE A FIELD */}
         <Dropdown.Item
           onClick={async () => {
             const deleteThis = await open(({ close }) => (
