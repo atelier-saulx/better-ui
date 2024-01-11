@@ -11,6 +11,7 @@ import {
 import { Modal } from '../../Modal/index.js'
 import { useClient } from '@based/react'
 import { TextInput } from '../../TextInput/index.js'
+import { Text } from '../../Text/index.js'
 
 export const TypeOptions = ({ typeName }) => {
   const modal = Modal.useModal()
@@ -30,53 +31,50 @@ export const TypeOptions = ({ typeName }) => {
         <Dropdown.Item icon={<IconEdit />}>Edit name</Dropdown.Item>
         <Dropdown.Item icon={<IconCopy />}>Clone type</Dropdown.Item>
         <Dropdown.Item icon={<IconFunction />}>Advanced edit</Dropdown.Item>
-
+        {/* DELETE TYPE */}
         <Dropdown.Item
           icon={<IconDelete />}
           onClick={() => {
-            modal.open(
-              <Modal title={`Are you sure you want to delete ${typeName}?`}>
-                <Modal.Message
-                  variant="error"
-                  message={`you are about to delete the type: ${typeName} and all of it's children`}
-                  style={{ marginTop: 20, marginBottom: 20 }}
-                />
-
-                <TextInput
-                  label={`type ${typeName} to confirm the deleting of this type.`}
-                  value={deleteString}
-                  onChange={(v) => setDeleteString(v)}
-                  autoFocus
-                />
-
-                <Modal.Actions>
-                  <Button
-                    variant="error"
-                    onClick={async () => {
-                      console.log('delete this', deleteString)
-
-                      // if (deleteString === typeName) {
-                      console.log('👍')
-                      await client.call('db:set-schema', {
-                        mutate: true,
-                        schema: {
-                          types: {
-                            [typeName]: {
-                              $delete: true,
-                            },
+            modal.open(({ close }) => {
+              return (
+                <Modal
+                  confirmLabel="Delete"
+                  confirmVariant="error"
+                  confirmDisabled={deleteString !== typeName}
+                  onConfirm={async () => {
+                    await client.call('db:set-schema', {
+                      mutate: true,
+                      schema: {
+                        types: {
+                          [typeName]: {
+                            $delete: true,
                           },
                         },
-                      })
-                      // }
-                      setDeleteString('')
-                      close()
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </Modal.Actions>
-              </Modal>
-            )
+                      },
+                    })
+
+                    setDeleteString('')
+                    close('close')
+                    // TODO @yves
+                    console.log('CHANGE ROUTE')
+                  }}
+                >
+                  <Text variant="title-modal">{`Are you sure you want to delete ${typeName}?`}</Text>
+                  <Modal.Message
+                    variant="error"
+                    message={`you are about to delete the type: ${typeName} and all of it's children`}
+                    style={{ marginTop: 20, marginBottom: 20 }}
+                  />
+
+                  <TextInput
+                    label={`type ${typeName} to confirm the deleting of this type.`}
+                    value={deleteString}
+                    onChange={(v) => setDeleteString(v)}
+                    autoFocus
+                  />
+                </Modal>
+              )
+            })
           }}
         >
           Delete type

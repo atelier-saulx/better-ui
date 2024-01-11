@@ -72,7 +72,7 @@ export const SchemaFields = ({ fields, typeName }) => {
     // routeType
   ])
 
-  console.log('Fields --> ', fields)
+  // console.log('Fields --> ', fields)
 
   return (
     <styled.div style={{ marginTop: 16 }}>
@@ -89,6 +89,8 @@ export const SchemaFields = ({ fields, typeName }) => {
               ? item
               : !SYSTEM_FIELDS.includes(item.name || item.label)
           )
+          // sort alphabetically for now @yves todo
+          .sort((a, b) => a?.name.localeCompare(b?.name))
           .map((item, idx) => (
             <SingleFieldContainer item={item} typeName={typeName} key={idx} />
           ))}

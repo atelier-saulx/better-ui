@@ -7,11 +7,13 @@ export const SchemaSideBar = ({ types, active, setActive }) => {
     <div>
       <Sidebar value={active} onChange={setActive} style={{ maxWidth: 212 }}>
         <AddType />
-        {Object.keys(types).map((item, idx) => (
-          <SidebarItem key={idx} value={item}>
-            {item}
-          </SidebarItem>
-        ))}
+        {Object.keys(types)
+          .sort((a, b) => a.localeCompare(b))
+          .map((item, idx) => (
+            <SidebarItem key={idx} value={item}>
+              {item}
+            </SidebarItem>
+          ))}
       </Sidebar>
     </div>
   )
