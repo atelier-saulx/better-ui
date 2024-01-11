@@ -154,6 +154,8 @@ export function Grid({
 
     const dragBoundingRect = dragItem.getBoundingClientRect()
 
+    console.log(dragBoundingRect.top, dragBoundingRect.left)
+
     clone.style.opacity = 0.4
     dragItem.style.width = dragBoundingRect.width + 'px'
     dragItem.style.height = dragBoundingRect.height + 'px'
@@ -212,7 +214,6 @@ export function Grid({
     window.addEventListener('pointerup', dragEnd)
 
     function dragEnd() {
-      console.log('nopeee ended')
       clone.remove()
       window.removeEventListener('pointerup', dragEnd)
       window.removeEventListener('pointermove', dragMove)
@@ -225,7 +226,7 @@ export function Grid({
       // otherItems.forEach((item) => {
       //   item.style.background = ''
       // })
-      dragItem.style = ''
+      // dragItem.style = ''
 
       dragItem.style.cursor = 'pointer'
       handleDrop(dragItem.id)

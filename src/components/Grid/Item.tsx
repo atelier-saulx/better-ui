@@ -82,7 +82,7 @@ export function Item({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                ...textVariants.bodyStrong,
+                ...textVariants['body-strong'],
                 color: color('interactive', 'primary'),
                 textTransform: 'uppercase',
                 userSelect: 'none',
@@ -125,7 +125,7 @@ export function Item({
           }}
         >
           <Text
-            variant="bodyBold"
+            variant="body-strong"
             color="primary"
             style={{ wordBreak: 'break-all', userSelect: 'none' }}
           >
