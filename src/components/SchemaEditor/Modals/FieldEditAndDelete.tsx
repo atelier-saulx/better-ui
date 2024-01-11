@@ -3,12 +3,12 @@ import { Modal } from '../../Modal/index.js'
 import { Button } from '../../Button/index.js'
 import { Dropdown } from '../../Dropdown/index.js'
 import { IconMoreHorizontal } from '../../Icons/index.js'
+import { Text } from '../../Text/index.js'
 // import { FieldModal } from './FieldModal.js'
 import { useClient, useQuery } from '@based/react'
 import { findPath } from '../utils/findPath.js'
 
 export const FieldEditAndDelete = ({ item, typeName }) => {
-  // const { open } = Modal.useModal()
   const { open } = Modal.useModal()
 
   const client = useClient()
@@ -28,33 +28,13 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Items>
-        <Dropdown.Item
-        //   onClick={async () => {
-        //     const result = await open(({ close }) => (
-        //       <Modal
-        //         onConfirm={() => {
-        //           close('close this')
-        //         }}
-        //       >
-        //         {/* Field modal add prefilled field */}
-        //         <FieldModal fieldType={item.type} />
-        //       </Modal>
-        //     ))
-
-        //     console.log(result)
-        //   }}
-        >
-          Edit
-        </Dropdown.Item>
-
+        <Dropdown.Item>Edit</Dropdown.Item>
         <Dropdown.Item
           onClick={async () => {
             const deleteThis = await open(({ close }) => (
               <Modal
-                title={`Are you sure you want to delete ${
-                  item?.name || item.meta.name
-                }?`}
                 confirmLabel="Delete"
+                confirmVariant="error"
                 onConfirm={async () => {
                   console.log('delete this')
 
@@ -77,19 +57,21 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                       },
                     },
                   })
-                  close('yo')
+                  close('close it')
                 }}
               >
+                <Text variant="title-modal">{`Are you sure you want to delete ${
+                  item?.name || item.meta.name
+                }?`}</Text>
                 <Modal.Message
                   variant="error"
                   message={`you are about to delete the field: ${
                     item?.name || item.meta.name
                   } `}
-                  style={{ marginTop: 20, marginBottom: 20 }}
+                  style={{ marginTop: 24, marginBottom: 20 }}
                 />
               </Modal>
             ))
-            console.log('deltea', deleteThis)
           }}
         >
           Delete

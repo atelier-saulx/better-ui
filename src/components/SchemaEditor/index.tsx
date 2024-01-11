@@ -3,7 +3,7 @@ import { SchemaSideBar } from './SchemaSideBar.js'
 import { Text, Stack } from '../../index.js'
 import { SchemaFields } from './SchemaFields.js'
 import { TypeOptions } from './Modals/TypeOptions.js'
-import { AddField } from './Modals/AddField.js'
+import { SelectNewField } from './Modals/SelectNewField.js'
 
 export type SchemaEditorProps = {
   schema: { types: {} }
@@ -32,7 +32,7 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
             <Text variant="title-page">{active}</Text>
             <TypeOptions typeName={active} />
           </Stack>
-          <AddField typeName={active} />
+          <SelectNewField typeName={active} />
         </Stack>
 
         <SchemaFields fields={schema.types[active]?.fields} typeName={active} />
