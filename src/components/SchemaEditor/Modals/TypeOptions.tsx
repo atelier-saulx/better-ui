@@ -13,6 +13,7 @@ import { useClient } from '@based/react'
 import { TextInput } from '../../TextInput/index.js'
 import { Text } from '../../Text/index.js'
 import { EditType } from './EditType.js'
+import { CloneType } from './CloneType.js'
 
 export const TypeOptions = ({ typeName }) => {
   const modal = Modal.useModal()
@@ -39,7 +40,16 @@ export const TypeOptions = ({ typeName }) => {
         >
           Edit
         </Dropdown.Item>
-        <Dropdown.Item icon={<IconCopy />}>Clone type</Dropdown.Item>
+        <Dropdown.Item
+          icon={<IconCopy />}
+          onClick={() => {
+            modal.open(({ close }) => {
+              return <CloneType onConfirm={close} typeName={typeName} />
+            })
+          }}
+        >
+          Clone type
+        </Dropdown.Item>
         <Dropdown.Item icon={<IconFunction />}>Advanced edit</Dropdown.Item>
         {/* DELETE TYPE */}
         <Dropdown.Item

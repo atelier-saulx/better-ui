@@ -6,7 +6,8 @@ import { Stack } from '../../Stack/index.js'
 import { Modal } from '../../Modal/index.js'
 import { useClient, useQuery } from '@based/react'
 
-export const EditType = ({ onConfirm, typeName }) => {
+export const CloneType = ({ onConfirm, typeName }) => {
+  const [name, setName] = React.useState(typeName + '-copy')
   const [displayName, setDisplayName] = React.useState('')
   const [description, setDescription] = React.useState('')
 
@@ -14,31 +15,21 @@ export const EditType = ({ onConfirm, typeName }) => {
 
   const { data, loading } = useQuery('db:schema')
 
-  React.useEffect(() => {
-    if (!loading) {
-      setDisplayName(data.types[typeName].meta?.displayName)
-      setDescription(data.types[typeName].meta?.description)
-    }
-  }, [loading])
-
   return (
     <Modal
-      confirmLabel="Edit"
+      confirmLabel="Copy"
       onConfirm={async () => {
-        const type = typeName
-        const typeSchema = {
-          meta: {
-            name: typeName,
-            displayName: displayName,
-            description: description,
-          },
-        }
-
         await client.call('db:set-schema', {
           mutate: true,
           schema: {
             types: {
-              [type]: typeSchema,
+              [name]: {
+                meta: {
+                  displayName: displayName,
+                  description: description,
+                },
+                fields: data.types[typeName].fields,
+              },
             },
           },
         })
@@ -47,11 +38,11 @@ export const EditType = ({ onConfirm, typeName }) => {
       }}
     >
       <Stack gap={12} grid>
-        <Text variant="title-modal">Edit this {typeName}</Text>
+        <Text variant="title-modal">Clone {typeName}</Text>
         <TextInput
           label="Type name"
-          // disabled
-          value={typeName}
+          onChange={(v) => setName(v)}
+          value={name}
         />
         <TextInput
           label="Display name (plural)"
