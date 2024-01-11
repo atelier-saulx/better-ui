@@ -33,6 +33,11 @@ export const SingleFieldContainer = ({ item, typeName }) => {
           {SYSTEM_FIELDS.includes(item?.name || item.meta.name) ? (
             <Badge color="neutral-muted">System</Badge>
           ) : null}
+          {(item.meta?.display || item.meta?.format) && (
+            <Badge color="neutral" style={{ marginRight: 16 }}>
+              {item.meta.format || item.meta.display}
+            </Badge>
+          )}
         </React.Fragment>
       }
       prefix={

@@ -12,6 +12,7 @@ import { Modal } from '../../Modal/index.js'
 import { useClient } from '@based/react'
 import { TextInput } from '../../TextInput/index.js'
 import { Text } from '../../Text/index.js'
+import { EditType } from './EditType.js'
 
 export const TypeOptions = ({ typeName }) => {
   const modal = Modal.useModal()
@@ -28,7 +29,16 @@ export const TypeOptions = ({ typeName }) => {
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Items>
-        <Dropdown.Item icon={<IconEdit />}>Edit name</Dropdown.Item>
+        <Dropdown.Item
+          icon={<IconEdit />}
+          onClick={() => {
+            modal.open(({ close }) => {
+              return <EditType onConfirm={close} typeName={typeName} />
+            })
+          }}
+        >
+          Edit
+        </Dropdown.Item>
         <Dropdown.Item icon={<IconCopy />}>Clone type</Dropdown.Item>
         <Dropdown.Item icon={<IconFunction />}>Advanced edit</Dropdown.Item>
         {/* DELETE TYPE */}

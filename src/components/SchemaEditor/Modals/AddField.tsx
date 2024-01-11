@@ -160,7 +160,7 @@ export const AddField = ({
           fields = nestedFields
         }
 
-        console.log('🦎', fields)
+        // console.log('🦎', fields)
 
         await client.call('db:set-schema', {
           mutate: true,

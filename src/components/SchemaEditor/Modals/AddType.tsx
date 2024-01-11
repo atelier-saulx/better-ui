@@ -28,14 +28,10 @@ export const AddType = () => {
       <Modal.Overlay>
         {({ close }) => (
           <>
-            <Modal.Title
-              children="Create a new type"
-              description="Add your own custom type to the schema."
-            />
             <Modal.Body>
               <Stack gap={12} grid>
                 <div>
-                  <Text variant="body-bold">Create a new type</Text>
+                  <Text variant="title-modal">Create a new type</Text>
                   <Text color="secondary">
                     Add your own custom type to the schema.
                   </Text>

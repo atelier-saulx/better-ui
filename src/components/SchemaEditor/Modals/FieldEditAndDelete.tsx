@@ -4,7 +4,6 @@ import { Button } from '../../Button/index.js'
 import { Dropdown } from '../../Dropdown/index.js'
 import { IconMoreHorizontal } from '../../Icons/index.js'
 import { Text } from '../../Text/index.js'
-// import { FieldModal } from './FieldModal.js'
 import { useClient, useQuery } from '@based/react'
 import { findPath } from '../utils/findPath.js'
 import { AddField } from './AddField.js'
@@ -24,7 +23,6 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Items>
-        {/* EDIT A FIELD  lets abuse the AddField modal */}
         <Dropdown.Item
           onClick={async () => {
             const fieldMeta = await open(({ close }) => (
@@ -36,13 +34,11 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                 onConfirm={close}
               />
             ))
-
-            console.log('ARGH 🫄🏻', fieldMeta)
+            console.log('fieldmeta', fieldMeta)
           }}
         >
           Edit
         </Dropdown.Item>
-        {/* DELETE A FIELD */}
         <Dropdown.Item
           onClick={async () => {
             const deleteThis = await open(({ close }) => (
