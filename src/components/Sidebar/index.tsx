@@ -23,6 +23,7 @@ export type SidebarProps = {
   value: string
   onChange: (value: string) => void
   style?: Style
+  collapsable?: boolean
 }
 
 export function Sidebar({
@@ -30,6 +31,7 @@ export function Sidebar({
   value: valueProp,
   onChange,
   style,
+  collapsable = true,
 }: SidebarProps) {
   const isMobile = useIsMobile()
   const [open, setOpen] = React.useState(true)
@@ -59,22 +61,24 @@ export function Sidebar({
       <SidebarContext.Provider value={{ open, value, setValue }}>
         {children}
       </SidebarContext.Provider>
-      <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
-        <Tooltip
-          content={open ? 'Collapse sidebar' : 'Expand sidebar'}
-          side={open ? 'top' : 'right'}
-        >
-          <Button
-            variant="neutral-transparent"
-            shape="square"
-            onClick={() => {
-              setOpen((p) => !p)
-            }}
+      {collapsable ? (
+        <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
+          <Tooltip
+            content={open ? 'Collapse sidebar' : 'Expand sidebar'}
+            side={open ? 'top' : 'right'}
           >
-            <IconViewLayoutLeft />
-          </Button>
-        </Tooltip>
-      </div>
+            <Button
+              variant="neutral-transparent"
+              shape="square"
+              onClick={() => {
+                setOpen((p) => !p)
+              }}
+            >
+              <IconViewLayoutLeft />
+            </Button>
+          </Tooltip>
+        </div>
+      ) : null}
     </styled.aside>
   )
 }

@@ -18,6 +18,7 @@ type FormValues = {
 }
 
 export type FormProps = {
+  autoFocus?: boolean
   validate?: (path: Path, value: any, field: BasedSchemaField) => boolean
   values?: { [key: string]: any }
   checksum?: number
@@ -71,6 +72,7 @@ export const Form = ({
   onChangeTransform,
   formRef,
   onFileUpload,
+  autoFocus,
   validate,
   onClickReference,
   variant = 'regular',
@@ -197,8 +199,16 @@ export const Form = ({
         .sort(([, a], [, b]) => {
           return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
         })
-        .map(([key, field]) => {
-          return <Field ctx={ctx} key={key} field={field} propKey={key} />
+        .map(([key, field], i) => {
+          return (
+            <Field
+              ctx={ctx}
+              key={key}
+              field={field}
+              propKey={key}
+              autoFocus={autoFocus && i === 0}
+            />
+          )
         })}
       <FormConfirm
         confirmLabel={confirmLabel}

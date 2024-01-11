@@ -24,11 +24,14 @@ export const Field = ({
   propKey: key,
   field,
   ctx,
+  autoFocus,
 }: {
   propKey: string
   field: BasedSchemaField
   ctx: TableCtx
+  autoFocus?: boolean
 }) => {
+  console.log({ key, field, autoFocus })
   const { type } = field
 
   const path = [key]
@@ -42,6 +45,7 @@ export const Field = ({
           }}
         >
           <SelectInput
+            autoFocus={autoFocus}
             options={field.enum}
             value={ctx.values[key]}
             onChange={(value) => {
@@ -62,6 +66,7 @@ export const Field = ({
           }}
         >
           <CheckboxInput
+            autoFocus={autoFocus}
             variant="toggle"
             value={ctx.values[key]}
             onChange={(value) => {
@@ -201,6 +206,7 @@ export const Field = ({
           }}
         >
           <TextAreaInput
+            autoFocus={autoFocus}
             value={ctx.values[key] as string}
             onChange={(value) => {
               ctx.listeners.onChangeHandler(ctx, path, value)
@@ -220,6 +226,7 @@ export const Field = ({
           }}
         >
           <TextInput
+            autoFocus={autoFocus}
             value={ctx.values[key] as string}
             onChange={(value) => {
               ctx.listeners.onChangeHandler(ctx, path, value)
@@ -239,6 +246,7 @@ export const Field = ({
           }}
         >
           <NumberInput
+            autoFocus={autoFocus}
             value={ctx.values[key] as number}
             onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
           />
