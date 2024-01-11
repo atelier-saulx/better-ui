@@ -54,4 +54,4 @@ export type Path = (string | number)[]
 
 export type TableProps = { ctx: TableCtx; path: Path }
 
-export type Variant = 'regular' | 'small' | 'bare'
+export type Variant = 'regular' | 'small' | 'bare' | 'no-confirm'

@@ -48,9 +48,18 @@ export type FormProps = {
   variant?: Variant
   // for later check ref types (can check ids and check allowedTypes)
   schema?: BasedSchema
+  formRef?: {
+    current: {
+      confirm: () => Promise<FormValues>
+      discard: () => void
+      hasChanges?: boolean
+      values: { [key: string]: any }
+      changes: { [key: string]: any }
+    }
+  }
 }
 
-export function Form({
+export const Form = ({
   fields,
   values,
   checksum,
@@ -60,10 +69,11 @@ export function Form({
   onSelectReferences,
   confirmLabel,
   onChangeTransform,
+  formRef,
   onFileUpload,
   onClickReference,
   variant = 'regular',
-}: FormProps) {
+}: FormProps) => {
   const nRef = useRef<{
     hasChanges?: boolean
     values: { [key: string]: any }
@@ -74,6 +84,48 @@ export function Form({
     hasChanges: false,
   })
   const [currentChecksum, setChecksum] = React.useState(checksum)
+
+  const onConfirm = React.useCallback(async () => {
+    try {
+      await onChange(nRef.current.values, nRef.current.changes, currentChecksum)
+      nRef.current.hasChanges = false
+      nRef.current.values = values ?? {}
+      nRef.current.changes = {}
+      const hash = hashObjectIgnoreKeyOrder(values ?? {})
+      setChecksum(hash)
+    } catch (err) {
+      throw err
+    }
+  }, [checksum])
+
+  const onCancel = React.useCallback(() => {
+    nRef.current.hasChanges = false
+    nRef.current.values = values ?? {}
+    nRef.current.changes = {}
+    const hash = checksum ?? hashObjectIgnoreKeyOrder(values ?? {})
+    setChecksum(hash)
+  }, [checksum])
+
+  if (formRef) {
+    if (!formRef.current) {
+      // @ts-ignore
+      formRef.current = {}
+    }
+    // opt later
+    Object.assign(
+      formRef.current,
+      {
+        confirm: async () => {
+          await onConfirm()
+          return nRef.current.values
+        },
+        discard: () => {
+          onCancel()
+        },
+      },
+      nRef.current
+    )
+  }
 
   // May not be a good idea...
   useEffect(() => {
@@ -109,7 +161,7 @@ export function Form({
       }
 
       // TODO: change this
-      if (onChange && variant === 'bare') {
+      if (onChange && (variant === 'bare' || variant === 'no-confirm')) {
         onChange(nRef.current.values, nRef.current.changes, hash)
       }
       setChecksum(hash)
@@ -124,27 +176,6 @@ export function Form({
       onSelectReferences ??
       ((async (_, value) => value) as Listeners['onSelectReferences']),
   }
-
-  const onConfirm = React.useCallback(async () => {
-    try {
-      await onChange(nRef.current.values, nRef.current.changes, currentChecksum)
-      nRef.current.hasChanges = false
-      nRef.current.values = values ?? {}
-      nRef.current.changes = {}
-      const hash = hashObjectIgnoreKeyOrder(values ?? {})
-      setChecksum(hash)
-    } catch (err) {
-      throw err
-    }
-  }, [checksum])
-
-  const onCancel = React.useCallback(() => {
-    nRef.current.hasChanges = false
-    nRef.current.values = values ?? {}
-    nRef.current.changes = {}
-    const hash = checksum ?? hashObjectIgnoreKeyOrder(values ?? {})
-    setChecksum(hash)
-  }, [checksum])
 
   const ctx: TableCtx = {
     variant,
@@ -167,7 +198,7 @@ export function Form({
         onConfirm={onConfirm}
         onCancel={onCancel}
         hasChanges={nRef.current.hasChanges}
-        variant={variant}
+        variant={confirm ? 'no-confirm' : variant}
       />
     </Stack>
   )

@@ -10,7 +10,7 @@ export const FormConfirm = (p: {
   onConfirm?: () => Promise<void>
   onCancel?: () => void
 }) => {
-  if (!p.hasChanges || p.variant === 'bare') {
+  if (!p.hasChanges || p.variant === 'bare' || p.variant === 'no-confirm') {
     return null
   }
   return (
