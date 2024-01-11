@@ -38,6 +38,7 @@ type SpecificOptionsProps = {
 
 type GeneralOptionsProps = {
   setMeta: ({}) => void
+  editItem?: any
   meta?: any
 }
 
@@ -67,9 +68,6 @@ export const AddField = ({
     editItem ? editItem.meta : {}
   )
   const [tabIndex, setTabIndex] = React.useState(1)
-
-  console.log(typeName)
-  console.log('fielditem 🐳', editItem)
 
   const client = useClient()
 
@@ -122,15 +120,20 @@ export const AddField = ({
           }
         }
 
-        // find the fieldItem
         const nestedFields = {}
-        if (fieldItem) {
+        if (fieldItem || editItem) {
+          if (editItem) {
+            fieldItem = editItem
+          }
+
           const nestedPath = findPath(
             data.types[typeName].fields,
-            fieldItem?.name || fieldItem.meta.name
+            fieldItem?.name || fieldItem.meta?.name
           )
 
-          nestedPath.push(fieldItem?.name || fieldItem.meta?.name)
+          if (!editItem) {
+            nestedPath.push(fieldItem?.name || fieldItem.meta?.name)
+          }
 
           const currentFields = data.types[typeName].fields
 
@@ -147,8 +150,12 @@ export const AddField = ({
             from = from[key]
           }
 
-          // @ts-ignore // add the field to here
-          dest.properties = fields
+          if (editItem) {
+            dest[editItem.meta.name] = fields[editItem.meta.name]
+          } else {
+            // @ts-ignore // add the field to here
+            dest.properties = fields
+          }
 
           fields = nestedFields
         }
@@ -193,7 +200,9 @@ export const AddField = ({
           <></>
         )}
       </Stack>
-      {tabIndex === 1 && <GeneralOptions meta={meta} setMeta={setMeta} />}
+      {tabIndex === 1 && (
+        <GeneralOptions meta={meta} setMeta={setMeta} editItem={editItem} />
+      )}
       {tabIndex === 2 && (
         <SpecificOptions
           fieldType={fieldType.toLowerCase()}
@@ -205,7 +214,7 @@ export const AddField = ({
   )
 }
 
-const GeneralOptions = ({ meta, setMeta }: GeneralOptionsProps) => {
+const GeneralOptions = ({ meta, setMeta, editItem }: GeneralOptionsProps) => {
   return (
     <Stack gap={12} grid>
       <TextInput
@@ -214,14 +223,20 @@ const GeneralOptions = ({ meta, setMeta }: GeneralOptionsProps) => {
         value={meta?.displayName}
         onChange={(v) => {
           setMeta({ field: 'displayName', value: v })
-          setMeta({ field: 'name', value: v.toLocaleLowerCase() })
+          if (!editItem) {
+            setMeta({ field: 'name', value: v.toLocaleLowerCase() })
+          }
         }}
       />
       <TextInput
         label="Field Name"
         //  description="API field-name used in the sdk and clients"
         value={meta?.name || meta?.displayName?.toLowerCase() || ''}
-        onChange={(v) => setMeta({ field: 'name', value: v })}
+        onChange={(v) => {
+          if (!editItem) {
+            setMeta({ field: 'name', value: v })
+          }
+        }}
       />
       <TextAreaInput
         label="Description"

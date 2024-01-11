@@ -24,13 +24,14 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Items>
-        {/* EDIT A FIELD  lets use ADDField modal */}
+        {/* EDIT A FIELD  lets abuse the AddField modal */}
         <Dropdown.Item
           onClick={async () => {
             const fieldMeta = await open(({ close }) => (
               <AddField
                 typeName={typeName}
                 fieldType={item?.type}
+                // use edit item for edit options
                 editItem={item}
                 onConfirm={close}
               />
