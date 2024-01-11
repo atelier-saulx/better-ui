@@ -31,9 +31,7 @@ export const Field = ({
   ctx: TableCtx
   autoFocus?: boolean
 }) => {
-  console.log({ key, field, autoFocus })
   const { type } = field
-
   const path = [key]
 
   if ('enum' in field) {
