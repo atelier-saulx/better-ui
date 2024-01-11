@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useContext, createContext } from 'react'
 import { styled, Style } from 'inlines'
 import * as ModalBase from '@radix-ui/react-dialog'
 import {
@@ -10,6 +10,7 @@ import {
   border,
   Text,
   IconAlertFill,
+  ButtonProps,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -25,6 +26,8 @@ const ModalContext = React.createContext<UseModalContextProps>({
 export const useModalContext = () => {
   return React.useContext(ModalContext)
 }
+
+const OnOpenChangeContext = createContext(null)
 
 export type ModalRootProps = {
   children: React.ReactNode
@@ -303,9 +306,9 @@ export const useModal = (): UseModalRes => {
               onOpenChange,
             })
           ) : (
-            <Modal key={key} onOpenChange={onOpenChange}>
+            <OnOpenChangeContext.Provider key={key} value={onOpenChange}>
               {el}
-            </Modal>
+            </OnOpenChangeContext.Provider>
           )
 
         ref.current.modals.push(modal)
@@ -402,6 +405,8 @@ export type ModalProps = {
   confirmLabel?: React.ReactNode
   variant?: 'small' | 'medium' | 'large'
   style?: Style
+  confirmDisabled?: ButtonProps['disabled']
+  confirmVariant?: ButtonProps['variant']
 }
 
 export const Modal = Object.assign(
@@ -414,10 +419,15 @@ export const Modal = Object.assign(
     onConfirm,
     variant = 'small',
     confirmLabel = 'OK',
+    confirmVariant,
     style,
+    confirmDisabled,
   }: ModalProps) => {
     return (
-      <Modal.Root open={open} onOpenChange={onOpenChange}>
+      <Modal.Root
+        open={open}
+        onOpenChange={onOpenChange || useContext(OnOpenChangeContext)}
+      >
         <Modal.Overlay
           style={{
             width: 'calc(100vw - 48px)',
@@ -441,6 +451,8 @@ export const Modal = Object.assign(
                   </Button>
                 )}
                 <Button
+                  variant={confirmVariant}
+                  disabled={confirmDisabled}
                   onClick={
                     onConfirm
                       ? () => {
