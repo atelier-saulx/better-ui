@@ -215,7 +215,10 @@ const GeneralOptions = ({ meta, setMeta }: GeneralOptionsProps) => {
         label="Display name"
         // description="Name that will be displayed in the interface"
         value={meta?.displayName}
-        onChange={(v) => setMeta({ field: 'displayName', value: v })}
+        onChange={(v) => {
+          setMeta({ field: 'displayName', value: v })
+          setMeta({ field: 'name', value: v.toLocaleLowerCase() })
+        }}
       />
       <TextInput
         label="Field Name"
