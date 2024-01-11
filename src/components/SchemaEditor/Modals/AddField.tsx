@@ -27,6 +27,7 @@ type AddFieldProps = {
   typeName: string
   onConfirm?: (v: any) => void
   fieldItem?: any
+  editItem?: any
 }
 
 type SpecificOptionsProps = {
@@ -59,11 +60,16 @@ export const AddField = ({
   typeName,
   onConfirm,
   fieldItem,
+  editItem,
 }: AddFieldProps) => {
-  const [meta, setMeta] = React.useReducer(metaReducer, {})
+  const [meta, setMeta] = React.useReducer(
+    metaReducer,
+    editItem ? editItem.meta : {}
+  )
   const [tabIndex, setTabIndex] = React.useState(1)
 
   console.log(typeName)
+  console.log('fielditem 🐳', editItem)
 
   const client = useClient()
 
@@ -77,7 +83,7 @@ export const AddField = ({
 
   return (
     <Modal
-      confirmLabel="Add Field"
+      confirmLabel={editItem ? 'Edit' : 'Add Field'}
       onConfirm={async () => {
         let fields
         // Set The new field with meta data..
@@ -146,6 +152,8 @@ export const AddField = ({
 
           fields = nestedFields
         }
+
+        console.log('🦎', fields)
 
         await client.call('db:set-schema', {
           mutate: true,

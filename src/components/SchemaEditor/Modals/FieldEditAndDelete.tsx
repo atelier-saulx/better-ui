@@ -27,7 +27,16 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
         {/* EDIT A FIELD  lets use ADDField modal */}
         <Dropdown.Item
           onClick={async () => {
-            open(<AddField typeName={typeName} fieldType={item?.type} />)
+            const fieldMeta = await open(({ close }) => (
+              <AddField
+                typeName={typeName}
+                fieldType={item?.type}
+                editItem={item}
+                onConfirm={close}
+              />
+            ))
+
+            console.log('ARGH 🫄🏻', fieldMeta)
           }}
         >
           Edit
