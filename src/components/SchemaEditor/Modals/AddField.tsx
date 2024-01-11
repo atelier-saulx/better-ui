@@ -73,7 +73,7 @@ export const AddField = ({
 
   // if nested or Edit find the specific item field
   // get schema
-  const { data, loading } = useQuery('db:schema')
+  const { data } = useQuery('db:schema')
 
   React.useEffect(() => {
     console.log(meta, 'meta chagnd')

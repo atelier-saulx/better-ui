@@ -8,7 +8,7 @@ import { Modal } from '../../Modal/index.js'
 import { IconPlus } from '../../Icons/index.js'
 import { useClient } from '@based/react'
 
-export const AddType = () => {
+export const AddType = ({ setActive }) => {
   const [typeName, setTypeName] = React.useState('')
   const [displayName, setDisplayName] = React.useState('')
   const [description, setDescription] = React.useState('')
@@ -80,6 +80,7 @@ export const AddType = () => {
                     },
                   })
 
+                  setActive(typeName)
                   close()
                 }}
               >

@@ -9,19 +9,13 @@ import {
   IconDelete,
 } from '../../Icons/index.js'
 import { Modal } from '../../Modal/index.js'
-import { useClient } from '@based/react'
-import { TextInput } from '../../TextInput/index.js'
-import { Text } from '../../Text/index.js'
 import { EditType } from './EditType.js'
 import { CloneType } from './CloneType.js'
 import { AdvancedEditType } from './AdvancedEditType.js'
+import { DeleteType } from './DeleteType.js'
 
-export const TypeOptions = ({ typeName }) => {
+export const TypeOptions = ({ typeName, setActive }) => {
   const modal = Modal.useModal()
-
-  const client = useClient()
-
-  const [deleteString, setDeleteString] = React.useState('')
 
   return (
     <Dropdown.Root>
@@ -67,47 +61,16 @@ export const TypeOptions = ({ typeName }) => {
           onClick={() => {
             modal.open(({ close }) => {
               return (
-                <Modal
-                  confirmLabel="Delete"
-                  confirmVariant="error"
-                  confirmDisabled={deleteString !== typeName}
-                  onConfirm={async () => {
-                    await client.call('db:set-schema', {
-                      mutate: true,
-                      schema: {
-                        types: {
-                          [typeName]: {
-                            $delete: true,
-                          },
-                        },
-                      },
-                    })
-
-                    setDeleteString('')
-                    close('close')
-                    // TODO @yves
-                    console.log('CHANGE ROUTE')
-                  }}
-                >
-                  <Text variant="title-modal">{`Are you sure you want to delete ${typeName}?`}</Text>
-                  <Modal.Message
-                    variant="error"
-                    message={`you are about to delete the type: ${typeName} and all of it's children`}
-                    style={{ marginTop: 20, marginBottom: 20 }}
-                  />
-
-                  <TextInput
-                    label={`type ${typeName} to confirm the deleting of this type.`}
-                    value={deleteString}
-                    onChange={(v) => setDeleteString(v)}
-                    autoFocus
-                  />
-                </Modal>
+                <DeleteType
+                  onConfirm={close}
+                  typeName={typeName}
+                  setActive={setActive}
+                />
               )
             })
           }}
         >
-          Delete type
+          Delete
         </Dropdown.Item>
       </Dropdown.Items>
     </Dropdown.Root>

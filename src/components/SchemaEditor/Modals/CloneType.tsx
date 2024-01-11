@@ -13,7 +13,7 @@ export const CloneType = ({ onConfirm, typeName }) => {
 
   const client = useClient()
 
-  const { data, loading } = useQuery('db:schema')
+  const { data } = useQuery('db:schema')
 
   return (
     <Modal
