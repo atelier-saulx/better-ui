@@ -18,7 +18,7 @@ type FormValues = {
 }
 
 export type FormProps = {
-  validate?: (path: Path, value: any) => boolean
+  validate?: (path: Path, value: any, field: BasedSchemaField) => boolean
   values?: { [key: string]: any }
   checksum?: number
   onSelectReference?: Listeners['onSelectReference']
@@ -71,6 +71,7 @@ export const Form = ({
   onChangeTransform,
   formRef,
   onFileUpload,
+  validate,
   onClickReference,
   variant = 'regular',
 }: FormProps) => {
@@ -145,6 +146,12 @@ export const Form = ({
       if (onChangeTransform) {
         newValue = onChangeTransform(newValue, path, field)
       }
+
+      // if (validate) {
+      //   if (!validate(path, value, field)) {
+      //     return true
+      //   }
+      // }
 
       if (!nRef.current.hasChanges) {
         nRef.current.hasChanges = true
