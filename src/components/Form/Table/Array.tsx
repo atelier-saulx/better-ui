@@ -227,8 +227,10 @@ export function Array({ ctx, path }: TableProps) {
   const [openCnt, setIndex] = useState<number>(0)
   const openIndexes = useRef<Set<number>>(new Set())
 
+  console.log({ ctx, path, value })
+
   const valueRef = useRef<typeof value>()
-  valueRef.current = value
+  valueRef.current = value || []
 
   const addNew = React.useCallback(async () => {
     ctx.listeners.onChangeHandler(ctx, path, [
