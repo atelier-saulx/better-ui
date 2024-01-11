@@ -10,6 +10,7 @@ import {
   border,
   Text,
   IconAlertFill,
+  ButtonProps,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -404,7 +405,8 @@ export type ModalProps = {
   confirmLabel?: React.ReactNode
   variant?: 'small' | 'medium' | 'large'
   style?: Style
-  disabled?: boolean
+  confirmDisabled?: ButtonProps['disabled']
+  confirmVariant?: ButtonProps['variant']
 }
 
 export const Modal = Object.assign(
@@ -417,8 +419,9 @@ export const Modal = Object.assign(
     onConfirm,
     variant = 'small',
     confirmLabel = 'OK',
+    confirmVariant,
     style,
-    disabled,
+    confirmDisabled,
   }: ModalProps) => {
     return (
       <Modal.Root
@@ -448,7 +451,8 @@ export const Modal = Object.assign(
                   </Button>
                 )}
                 <Button
-                  disabled={disabled}
+                  variant={confirmVariant}
+                  disabled={confirmDisabled}
                   onClick={
                     onConfirm
                       ? () => {
