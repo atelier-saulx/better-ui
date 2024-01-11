@@ -3,7 +3,7 @@ import { BasedSchemaField, BasedSchema } from '@based/schema'
 import { Stack } from '../../index.js'
 import { readPath } from './utils.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
-import { deepCopy, setByPath } from '@saulx/utils'
+import { deepCopy, deepMerge, setByPath } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 import { Field } from './Field.js'
 import { FormConfirm } from './FormConfirm.js'
@@ -23,12 +23,15 @@ export type FormProps = {
   checksum?: number
   onSelectReference?: Listeners['onSelectReference']
   onSelectReferences?: Listeners['onSelectReferences']
+  onClickReference?: Listeners['onClickReference']
+  onFileUpload?: Listeners['onFileUpload']
   onChangeAtomic?: (
     path: Path,
     newValue: any,
     prevValue: any,
     field: BasedSchemaField
   ) => void
+  onChangeTransform?: (val: any, path: Path, field: BasedSchemaField) => any
   onChange: (
     values: { [key: string]: any },
     changed: { [key: string]: any },
@@ -56,6 +59,9 @@ export function Form({
   onSelectReference,
   onSelectReferences,
   confirmLabel,
+  onChangeTransform,
+  onFileUpload,
+  onClickReference,
   variant = 'regular',
 }: FormProps) {
   const nRef = useRef<{
@@ -74,33 +80,43 @@ export function Form({
     if (values) {
       const hash = checksum ?? hashObjectIgnoreKeyOrder(values)
       if (currentChecksum !== hash) {
-        nRef.current = { hasChanges: false, values, changes: {} }
+        nRef.current.values = deepMerge(deepCopy(values), nRef.current.changes)
         setChecksum(hash)
       }
     }
-  }, [checksum])
+  }, [checksum, values])
 
   const listeners: Listeners = {
     onChangeHandler: (ctx, path, newValue) => {
       const { field, value } = readPath(ctx, path)
+
+      if (onChangeTransform) {
+        newValue = onChangeTransform(newValue, path, field)
+      }
+
       if (!nRef.current.hasChanges) {
         nRef.current.hasChanges = true
         nRef.current.values = deepCopy(values)
       }
+
       setByPath(nRef.current.values, path, newValue)
       setByPath(nRef.current.changes, path, newValue)
+
       const hash = hashObjectIgnoreKeyOrder(nRef.current.values ?? {})
+
       if (onChangeAtomic) {
         onChangeAtomic(path, newValue, value, field)
       }
+
+      // TODO: change this
       if (onChange && variant === 'bare') {
         onChange(nRef.current.values, nRef.current.changes, hash)
       }
       setChecksum(hash)
       return false
     },
-    onNew: () => false,
-    onRemove: () => false,
+    onFileUpload: onFileUpload ?? (async () => undefined),
+    onClickReference: onClickReference ?? (() => undefined),
     onSelectReference:
       onSelectReference ??
       ((async (_, value) => value) as Listeners['onSelectReference']),
@@ -139,9 +155,13 @@ export function Form({
 
   return (
     <Stack gap={32} direction="column" align="start">
-      {Object.entries(fields).map(([key, field]) => {
-        return <Field ctx={ctx} key={key} field={field} propKey={key} />
-      })}
+      {Object.entries(fields)
+        .sort(([, a], [, b]) => {
+          return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
+        })
+        .map(([key, field]) => {
+          return <Field ctx={ctx} key={key} field={field} propKey={key} />
+        })}
       <FormConfirm
         confirmLabel={confirmLabel}
         onConfirm={onConfirm}

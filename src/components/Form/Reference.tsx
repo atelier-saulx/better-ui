@@ -11,33 +11,39 @@ import {
   Media,
   Text,
   color,
+  ButtonProps,
   IconSearch,
 } from '../../index.js'
-import { Path, TableCtx } from './types.js'
+import { Path, Reference, TableCtx } from './types.js'
 import { readPath } from './utils.js'
 import { styled } from 'inlines'
 
-const SelectBadge = ({ field }: { field: BasedSchemaFieldReference }) => {
-  return (
-    <Badge
-      color="informative-muted"
-      prefix={
-        <IconSearch
-          style={{
-            width: 16,
-            height: 16,
-            marginRight: 4,
-          }}
-        />
-      }
-    >
-      {field.allowedTypes ? (
+// TODO: handle file
+
+const Select = (p: {
+  field: BasedSchemaFieldReference
+  onClick: ButtonProps['onClick']
+  badge?: boolean
+}) => {
+  const icon = (
+    <IconSearch
+      style={{
+        width: 16,
+        height: 16,
+        marginRight: 4,
+      }}
+    />
+  )
+
+  const body = (
+    <Stack gap={2}>
+      {p.field.allowedTypes ? (
         <>
           Select{' '}
-          {field.allowedTypes.map((v, i) => {
+          {p.field.allowedTypes.map((v, i) => {
             const type = typeof v === 'object' ? v.type : v
             return (
-              <Text color="inherit" key={i} variant="bodyStrong">
+              <Text key={i} variant="body-bold" color="inherit">
                 {type}
               </Text>
             )
@@ -46,34 +52,109 @@ const SelectBadge = ({ field }: { field: BasedSchemaFieldReference }) => {
       ) : (
         'Select item'
       )}
-    </Badge>
+    </Stack>
+  )
+
+  if (p.badge) {
+    return (
+      <Button variant="icon-only" onClick={p.onClick}>
+        <Badge color="informative-muted" prefix={icon}>
+          {body}
+        </Badge>
+      </Button>
+    )
+  }
+
+  return (
+    <Button
+      size="small"
+      variant="neutral-transparent"
+      onClick={p.onClick}
+      prefix={icon}
+    >
+      {body}
+    </Button>
   )
 }
 
-const InfoBadge = ({ value }: { value: any }) => {
-  if (typeof value === 'object') {
+const Id = (p: { id: string; onClick: () => void }) => {
+  return (
+    <Button onClick={p.onClick} variant="icon-only">
+      <Badge
+        prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
+      >
+        {p.id}
+      </Badge>
+    </Button>
+  )
+}
+
+const Info = (p: { value: Reference; onClick: () => void }) => {
+  if (typeof p.value === 'object') {
     return (
-      <>
-        <Text style={{ marginRight: 12 }} variant="bodyStrong">
-          {value.name ?? value.title}
+      <Stack justify="start" fitContent>
+        <Text style={{ marginRight: 12 }} variant="body-bold">
+          {p.value.name ?? p.value.title}
         </Text>
-        <Badge
-          prefix={
-            <IconLink style={{ width: 16, height: 16, marginRight: 4 }} />
-          }
-        >
-          {value.id}
-        </Badge>
-      </>
+        <Id id={p.value.id} onClick={p.onClick} />
+      </Stack>
     )
   }
-  return (
-    <Badge
-      prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
-    >
-      {value}
-    </Badge>
-  )
+  return <Id id={p.value} onClick={p.onClick} />
+}
+
+export const Image = (p: {
+  ctx: TableCtx
+  value: Reference
+  field: BasedSchemaFieldReference
+  isLarge: boolean
+}) => {
+  let hasFile = false
+  let src: string
+  let mimeType: BasedSchemaContentMediaType
+
+  if (p.field.allowedTypes?.includes('file')) {
+    hasFile = true
+  }
+
+  if (typeof p.value === 'object' && p.value.src) {
+    src = p.value.src
+    hasFile = true
+    if (p.value.mimeType) {
+      mimeType = p.value.mimeType
+    }
+  }
+
+  if (hasFile) {
+    const width = p.isLarge ? 248 : 32
+    return (
+      <Stack
+        align={p.isLarge ? 'start' : 'center'}
+        direction={p.isLarge ? 'column' : 'row'}
+        justify="start"
+        fitContent
+        style={{
+          marginTop: p.isLarge ? 0 : -4,
+        }}
+      >
+        <styled.div
+          style={{
+            width,
+            height: width,
+            overflow: 'hidden',
+            backgroundColor: color('background', 'neutral'),
+            borderRadius: 4,
+            marginBottom: p.isLarge ? 14 : 0,
+            marginRight: 10,
+          }}
+        >
+          <Media src={src} variant="cover" type={mimeType} />
+        </styled.div>
+      </Stack>
+    )
+  }
+
+  return null
 }
 
 export function Reference({
@@ -86,28 +167,8 @@ export function Reference({
   variant?: 'large' | 'small'
 }) {
   const { value, field } = readPath<BasedSchemaFieldReference>(ctx, path)
-  const marginTop = variant === 'small' ? 0 : -4
   const isLarge = variant === 'large'
   const id = value && typeof value === 'object' ? value.id : value
-
-  let hasFile = false
-  let src: string
-  let mimeType: BasedSchemaContentMediaType
-
-  if (ctx.schema) {
-    // go go go
-  } else {
-    if (field.allowedTypes?.includes('file')) {
-      hasFile = true
-    }
-    if (typeof value === 'object' && value.src) {
-      src = value.src
-      hasFile = true
-      if (value.mimeType) {
-        mimeType = value.mimeType
-      }
-    }
-  }
 
   const selectRef = React.useCallback(async () => {
     const result = await ctx.listeners.onSelectReference({
@@ -130,48 +191,27 @@ export function Reference({
     }
   }, [id])
 
-  if (hasFile) {
-    const width = isLarge ? 248 : 32
+  if (id) {
     return (
-      <Stack
-        align={isLarge ? 'start' : 'center'}
-        direction={isLarge ? 'column' : 'row'}
-        justify="start"
-        style={{
-          marginTop,
-        }}
-      >
-        <styled.div
-          style={{
-            width,
-            height: width,
-            overflow: 'hidden',
-            backgroundColor: color('background', 'neutral'),
-            borderRadius: 4,
-            marginBottom: isLarge ? 14 : 0,
-            marginRight: 10,
-          }}
-        >
-          <Media src={src} variant="cover" type={mimeType} />
-        </styled.div>
-        <Button variant="icon-only" onClick={selectRef}>
-          {value ? <InfoBadge value={value} /> : <SelectBadge field={field} />}
-        </Button>
+      <Stack justify="start" direction={isLarge ? 'column' : 'row'}>
+        <Image ctx={ctx} isLarge={isLarge} field={field} value={value} />
+        <Stack gap={isLarge ? 12 : 0} justify={isLarge ? 'start' : 'between'}>
+          <Info
+            value={value}
+            onClick={() => {
+              ctx.listeners.onClickReference({
+                path,
+                value,
+                field,
+                ctx,
+              })
+            }}
+          />
+          <Select badge={isLarge} field={field} onClick={selectRef} />
+        </Stack>
       </Stack>
     )
   }
 
-  if (id) {
-    return (
-      <Button variant="icon-only" onClick={selectRef}>
-        <InfoBadge value={value} />
-      </Button>
-    )
-  }
-
-  return (
-    <Button variant="icon-only" onClick={selectRef}>
-      <SelectBadge field={field} />
-    </Button>
-  )
+  return <Select field={field} onClick={selectRef} />
 }

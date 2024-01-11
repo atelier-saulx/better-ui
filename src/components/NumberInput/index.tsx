@@ -8,6 +8,7 @@ import {
   color,
   border,
   boxShadow,
+  Text,
 } from '../../index.js'
 
 export type NumberInputProps = {
@@ -15,12 +16,14 @@ export type NumberInputProps = {
   value?: number
   defaultValue?: number
   onChange?: (value: number) => void
+  checksum?: number
   formName?: string
   label?: string
   step?: number
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
 }
 
@@ -61,20 +64,23 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       value: valueProp,
       defaultValue: defaultValueProp,
       onChange,
+      checksum,
       formName,
       label,
       step = 1,
       variant = 'regular',
       error,
       autoFocus,
+      description,
       style,
     },
     ref
   ) => {
     const [value, setValue] = useControllableState<number>({
-      prop: valueProp,
-      defaultProp: defaultValueProp,
+      value: valueProp,
+      defaultValue: defaultValueProp,
       onChange,
+      checksum,
     })
 
     return (
@@ -97,6 +103,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             autoFocus={autoFocus}
             value={value ?? ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              e.stopPropagation()
               const numberValue = parseFloat(e.target.value)
               if (isNaN(numberValue)) {
                 setValue(undefined)
@@ -110,6 +117,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             placeholder={placeholder}
             step={step}
             style={{
+              background: 'none',
               fontSize: 14,
               lineHeight: '24px',
               width: '100%',
@@ -118,10 +126,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 variant === 'regular'
                   ? borderRadius('small')
                   : borderRadius('tiny'),
-              border:
-                variant === 'small'
-                  ? '1px solid transparent'
-                  : border(),
+              border: variant === 'small' ? '1px solid transparent' : border(),
               color: color('content', 'primary'),
               outline: 'none',
               appearance: 'none',
@@ -134,8 +139,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               },
               '&:focus, &:focus:hover': {
                 border: '1px solid var(--interactive-primary)',
-                boxShadow:
-                  boxShadow('focus'),
+                boxShadow: boxShadow('focus'),
               },
               '&::-webkit-outer-spin-button': {
                 '-webkit-appearance': 'none',
@@ -152,8 +156,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 },
                 '&:focus, &:focus:hover': {
                   border: border('error'),
-                  boxShadow:
-                    boxShadow('error'),
+                  boxShadow: boxShadow('error'),
                 },
               }),
             }}
@@ -213,6 +216,11 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             </styled.div>
           </div>
         </div>
+        {description !== undefined ? (
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </Wrapper>
     )
   }

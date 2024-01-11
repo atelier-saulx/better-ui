@@ -1,10 +1,12 @@
 import { BasedSchemaContentMediaType } from '@based/schema'
 
-const imageDataRe = /^data:image\/(png|jpg|jpeg|gif|dds);base64/
-const extensionImageRe = /\.(png|jpg|jpeg|gif|dds)$/
+const imageDataRe = /^data:image\/(png|jpg|jpeg|gif|dds|svg);base64/
+const extensionImageRe = /\.(png|jpg|jpeg|gif|dds|svg)$/
 
 const videoDataRe = /^data:video\/(webm|mov|mp4|hls|dash|ts);base64/
 const extensionVideoRe = /\.(webm|mov|mp4|hls|dash|ts)$/
+
+const imgNames = /(avatar)|(picture)|(logo)|(photo)/
 
 export const getMimeType = (
   src: string
@@ -19,7 +21,7 @@ export const getMimeType = (
     }
   }
 
-  if (extensionImageRe.test(src)) {
+  if (extensionImageRe.test(src) || imgNames.test(src)) {
     return 'image/*'
   }
 

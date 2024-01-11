@@ -3,7 +3,9 @@ import {
   BasedSchemaField,
   BasedSchemaFieldReference,
   BasedSchemaFieldReferences,
+  BasedSchemaFieldString,
 } from '@based/schema'
+import { ButtonProps } from '../Button/index.js'
 
 export type Reference = string | ({ [key: string]: any } & { id: string })
 
@@ -11,8 +13,6 @@ export type References = Reference[]
 
 export type Listeners = {
   onChangeHandler: (ctx: TableCtx, path: Path, newValue?: any) => boolean
-  onNew: (ctx: TableCtx, path: Path, newValue?: any) => boolean
-  onRemove: (ctx: TableCtx, path: Path, index: number) => boolean
   onSelectReference: (props: {
     path: Path
     value: Reference | void | null
@@ -25,6 +25,21 @@ export type Listeners = {
     field: BasedSchemaFieldReferences
     ctx: TableCtx
   }) => Promise<References | void | null>
+  onClickReference: (props: {
+    path: Path
+    value: Reference
+    field: BasedSchemaFieldReferences | BasedSchemaFieldReference
+    ctx: TableCtx
+  }) => ReturnType<ButtonProps['onClick']>
+  onFileUpload: (
+    props: {
+      path: Path
+      value: File | void
+      field: BasedSchemaFieldString | BasedSchemaFieldReference
+      ctx: TableCtx
+    },
+    updateProgress: (p: number) => void
+  ) => Promise<Reference | string | void | null>
 }
 
 export type TableCtx = {

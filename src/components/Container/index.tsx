@@ -1,11 +1,16 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { IconChevronDown, useControllableState, color, border } from '../../index.js'
+import {
+  IconChevronDown,
+  useControllableState,
+  color,
+  border,
+} from '../../index.js'
 
 export type ContainerProps = {
   children?: React.ReactNode
-  title?: string
-  description?: string
+  title?: React.ReactNode
+  description?: React.ReactNode
   prefix?: React.ReactNode
   suffix?: React.ReactNode
   expandable?: boolean
@@ -33,10 +38,10 @@ export function Container({
     divider = !!(title ?? description ?? prefix ?? suffix)
   }
 
-  const [expanded, setExpanded] = useControllableState({
-    prop: expandedProp,
+  const [expanded, setExpanded] = useControllableState<boolean>({
+    prop: expandedProp as boolean,
     defaultProp: false,
-    onChange: onExpandedChange,
+    onChange: onExpandedChange as () => void,
   })
   const headerRef = React.useRef<HTMLDivElement | null>(null)
 
@@ -72,7 +77,7 @@ export function Container({
             onClick?.()
 
             if (expandable) {
-              setExpanded((p) => !p)
+              setExpanded(!expanded)
             }
           }
         }}

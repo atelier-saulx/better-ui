@@ -18,7 +18,7 @@ import { isTable, isCode } from './utils.js'
 import { SetField } from './Set.js'
 import { Reference } from './Reference.js'
 import { TableCtx } from './types.js'
-import { References } from './References.js'
+import { References } from './References/index.js'
 
 export const Field = ({
   propKey: key,
@@ -174,12 +174,17 @@ export const Field = ({
           <FileInput
             mimeType={field.contentMediaType}
             value={ctx.values[key] ? { src: ctx.values[key] } : undefined}
-            onChange={(file) => {
-              // has to be handled better...
-              console.warn(
-                'uploaded file not there yet... (needs special handler)',
-                file
+            onChange={async (file, updateProgress) => {
+              const result = await ctx.listeners.onFileUpload(
+                {
+                  ctx,
+                  path,
+                  value: file,
+                  field,
+                },
+                updateProgress
               )
+              ctx.listeners.onChangeHandler(ctx, path, result)
             }}
           />
         </styled.div>

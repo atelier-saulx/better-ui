@@ -108,10 +108,9 @@ const InfiniteQueryContent = () => {
           <Modal.Overlay>
             {({ close }) => (
               <>
-                <Modal.Title
-                  title={`Deleting item #${itemToDelete}`}
-                  description="Are you sure? This action cannot be undone."
-                />
+                <Modal.Title description="Are you sure? This action cannot be undone.">
+                  Deleting item #{itemToDelete}
+                </Modal.Title>
                 <Modal.Actions>
                   <Button onClick={close} variant="neutral">
                     Cancel

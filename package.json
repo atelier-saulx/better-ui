@@ -1,7 +1,7 @@
 {
-  "name": "better-ui",
+  "name": "@based/ui",
   "type": "module",
-  "version": "0.0.1",
+  "version": "6.0.2-alpha",
   "scripts": {
     "dev": "concurrently 'npx tsc -w' 'storybook dev -p 6006'",
     "build": "rm -rf dist && npx tsc && cp -r ./src/styles ./dist/styles",
@@ -9,7 +9,13 @@
   },
   "main": "./dist/index.js",
   "prettier": "@saulx/prettier-config",
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
   "dependencies": {
+    "humanize-string": "^3.0.0",
     "@based/client": "^5.0.0",
     "@based/react": "^5.0.0",
     "@based/schema": "^2.2.10",
@@ -18,6 +24,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@radix-ui/react-scroll-area": "^1.0.5",
     "@saulx/hash": "^3.0.0",
     "@saulx/utils": "^4.1.0",
     "@tanstack/react-table": "8.10.7",

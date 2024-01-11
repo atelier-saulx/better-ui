@@ -1,12 +1,20 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color, borderRadius, border, boxShadow } from '../../index.js'
+import {
+  color,
+  borderRadius,
+  border,
+  boxShadow,
+  useControllableState,
+  Text,
+} from '../../index.js'
 
 export type TextInputProps = {
   placeholder?: string
   value?: string
   defaultValue?: string
   onChange?: (value: string) => void
+  checksum?: number
   onBlur?: () => void
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   formName?: string
@@ -14,6 +22,7 @@ export type TextInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
 }
 
@@ -54,6 +63,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       value,
       defaultValue,
       onChange,
+      checksum,
       formName,
       label,
       onBlur,
@@ -61,10 +71,17 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       variant = 'regular',
       error,
       onKeyDown,
+      description,
       style,
     },
     ref
   ) => {
+    const [state, setState] = useControllableState({
+      value,
+      onChange,
+      checksum,
+    })
+
     return (
       <Wrapper label={label} style={style}>
         {label && (
@@ -81,10 +98,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         )}
         <styled.input
           autoFocus={autoFocus}
-          value={value}
+          value={state}
           defaultValue={defaultValue}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            onChange?.(e.target.value)
+            e.stopPropagation()
+            setState(e.target.value)
           }}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
@@ -92,6 +110,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           name={formName}
           placeholder={placeholder}
           style={{
+            background: 'none',
             fontSize: 14,
             lineHeight: '24px',
             width: '100%',
@@ -124,6 +143,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             }),
           }}
         />
+        {description !== undefined ? (
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </Wrapper>
     )
   }

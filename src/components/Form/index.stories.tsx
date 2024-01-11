@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Form, border, Modal } from '../../index.js'
 import { BasedSchemaField } from '@based/schema'
 import { styled } from 'inlines'
+import { faker } from '@faker-js/faker'
+import { wait } from '@saulx/utils'
 
 const meta = {
   title: 'Components/Form',
@@ -38,12 +40,37 @@ export function Svg({ style, width = 20, height = 20 }: IconProps) {
 }
 `
 
+const fileUpload = async ({ value }, updateProgress) => {
+  if (!value) {
+    return undefined
+  }
+  let p = 0
+  while (p < 100) {
+    p += 10
+    updateProgress(p)
+    await wait(100)
+  }
+  return 'https://i.imgur.com/DRmh6S9.jpeg'
+}
+
 export default meta
 
 export const Default = () => {
+  const [cnt, setCnt] = React.useState<number>(0)
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCnt((cnt) => cnt + 1)
+    }, 100)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
   return (
     <div style={{ padding: 64 }}>
       <Form
+        checksum={cnt}
+        onFileUpload={fileUpload}
         values={{
           src: 'https://i.imgur.com/t1bWmmC.jpeg',
           code: ts,
@@ -62,6 +89,7 @@ export const Default = () => {
             id: 'idxyz',
             src: 'https://i.imgur.com/t1bWmmC.jpeg',
           },
+          number: cnt,
         }}
         fields={{
           name: {
@@ -174,28 +202,52 @@ export const Default = () => {
   )
 }
 
+const faces = new Array(50).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+}))
+
+const facesNames = new Array(50).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+  firstName: faker.person.firstName(),
+  lastName: faker.person.lastName(),
+  zodiac: faker.person.zodiacSign(),
+  city: faker.location.city(),
+}))
+
+const facesLess = new Array(20).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+  name: faker.person.firstName(),
+}))
+
 export const References = () => {
   const { open } = Modal.useModal()
 
   const getRandomRef = () => {
-    const id = (~~(Math.random() * 9999999)).toString(16)
+    const id = faker.string.uuid().slice(0, 8)
     const choices = [
       {
-        name: 'power',
         id,
-        src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+        src: faker.image.avatar(),
+        name: faker.person.fullName(),
       },
-      { id, title: 'Dope!' },
+      { id, title: faker.lorem.sentence(3) },
       id,
       {
         id,
-        title: 'Power',
-        src: 'https://i.imgur.com/t1bWmmC.jpeg',
+        status: faker.lorem.words(1),
+        title: faker.lorem.sentence(3),
+        src: faker.image.avatar(),
+        number: faker.number.int(10),
+        name: faker.person.fullName(),
       },
       {
         id,
-        title: 'Fun',
-        src: '"https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"',
+        src: faker.image.avatar(),
+        name: faker.person.fullName(),
+        status: faker.lorem.words(1),
       },
     ]
     return choices[Math.floor(Math.random() * choices.length)]
@@ -209,7 +261,11 @@ export const References = () => {
     >
       <Form
         values={{
+          refTags: faces,
+          people: facesNames,
+          peopleLess: facesLess,
           refs: [
+            'x211212',
             { id: '212cwcwe', name: 'my snurp' },
             {
               id: '212cwcwe',
@@ -217,6 +273,15 @@ export const References = () => {
             },
             { id: '212cwcwe' },
           ],
+        }}
+        onClickReference={async ({ path }) => {
+          open(({ close }) => {
+            return (
+              <Modal onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
+              </Modal>
+            )
+          })
         }}
         onSelectReference={async ({ path }) => {
           return open(({ close }) => {
@@ -253,6 +318,20 @@ export const References = () => {
             description: 'A single ref',
             allowedTypes: ['file'],
           },
+          refTags: {
+            title: 'Multi references',
+            type: 'references',
+            description: 'Multi ref',
+          },
+          peopleLess: {
+            title: 'People',
+            type: 'references',
+          },
+          people: {
+            title: 'People',
+            type: 'references',
+          },
+
           refs: {
             title: 'Multi references',
             type: 'references',
@@ -609,6 +688,7 @@ export const Object = () => {
   return (
     <div style={{ padding: 64 }}>
       <Form
+        onFileUpload={fileUpload}
         variant="small"
         values={{
           ratings: {
@@ -679,15 +759,19 @@ export const Record = () => {
             values: objectField.object,
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changed, checksum) => {
+          console.log({
+            values,
+            changed,
+            checksum,
+          })
         }}
       />
     </div>
   )
 }
 
-export const Array = () => {
+export const Arrays = () => {
   return (
     <div style={{ padding: 64 }}>
       <Form
@@ -695,7 +779,8 @@ export const Array = () => {
           simpleArray: ['hello'],
           array: [
             {
-              powerful: 'rgb(78,56,188)',
+              price: 2,
+              powerful: 'rgb(188,56,0)',
             },
             {
               powerful: 'rgb(78,56,188)',
@@ -745,6 +830,34 @@ export const Array = () => {
               },
             ],
           ],
+          sequences: [
+            {
+              name: 'Countdown',
+              pages: [
+                {
+                  name: 'Countdown',
+                  id: 'p1',
+                },
+              ],
+            },
+            {
+              name: 'Voting starts',
+              pages: [
+                {
+                  name: 'welcome',
+                  id: 'p1',
+                },
+                {
+                  name: 'vote!',
+                  id: 'p3',
+                },
+                {
+                  name: 'bye',
+                  id: 'p2',
+                },
+              ],
+            },
+          ],
         }}
         fields={{
           simpleArray: {
@@ -758,6 +871,16 @@ export const Array = () => {
             description: 'some things',
             type: 'array',
             values: objectField.ratings,
+          },
+          sequences: {
+            type: 'array',
+            values: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                pages: { type: 'references' },
+              },
+            },
           },
           nestedArray: {
             title: 'Nested things',
@@ -787,7 +910,7 @@ export const Array = () => {
           },
         }}
         onChange={(values, changes) => {
-          console.log(values, changes)
+          console.log({ values, changes })
         }}
       />
     </div>

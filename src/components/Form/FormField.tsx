@@ -44,7 +44,7 @@ export function FormField({
     >
       {variant !== 'bare' ? (
         <div>
-          <Text variant="bodyStrong">{name}</Text>
+          <Text variant="body-bold">{name}</Text>
           {field.description && (
             <Text style={{ marginTop: -2 }} color="secondary">
               {field.description}

@@ -34,7 +34,7 @@ export function Sidebar({
   const isMobile = useIsMobile()
   const [open, setOpen] = React.useState(true)
   const [value = '', setValue] = useControllableState({
-    prop: valueProp,
+    value: valueProp,
     onChange,
   })
 
@@ -180,7 +180,7 @@ export function SidebarGroup({ title, children }: SidebarGroupProps) {
         style={{
           paddingLeft: '4px',
           paddingRight: '4px',
-          ...textVariants.bodyStrong,
+          ...textVariants['body-strong'],
           color: color('content', 'secondary'),
           textTransform: 'uppercase',
           opacity: open ? 1 : 0,

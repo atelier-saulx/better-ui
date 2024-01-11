@@ -44,10 +44,12 @@ export type DateInputProps = {
   time?: boolean
   value?: DateInputValue
   defaultValue?: DateInputValue
+  checksum?: number
   onChange?: (value: DateInputValue) => void
   variant?: 'regular' | 'small'
   error?: boolean
   label?: string
+  description?: string
   style?: Style
 }
 
@@ -57,15 +59,18 @@ export function DateInput({
   value: valueProp,
   defaultValue: defaultValueProp,
   onChange,
+  checksum,
   variant = 'regular',
   error,
   label,
+  description,
   style,
 }: DateInputProps) {
   const [value, setValue] = useControllableState({
-    prop: valueProp,
-    defaultProp: defaultValueProp,
+    value: valueProp,
+    defaultValue: defaultValueProp,
     onChange,
+    checksum,
   })
   const [currentMonth, setCurrentMonth] = React.useState(new Date())
   const [hoveredDate, setHoveredDate] = React.useState<Date | null>(null)
@@ -202,6 +207,15 @@ export function DateInput({
                   : format(value, time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'))}
             </div>
           </styled.div>
+          {description !== undefined ? (
+            <Text
+              color="secondary"
+              variant="body-bold"
+              style={{ marginTop: 8 }}
+            >
+              {description}
+            </Text>
+          ) : null}
         </Wrapper>
       </Popover.Trigger>
       <Popover.Portal>
@@ -227,7 +241,7 @@ export function DateInput({
                 alignItems: 'center',
               }}
             >
-              <Text variant="bodyStrong">
+              <Text variant="body-strong">
                 {format(currentMonth, 'MMMM yyyy')}
               </Text>
               <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
@@ -314,7 +328,7 @@ export function DateInput({
                     borderBottomLeftRadius: borderRadius('tiny'),
                     borderTopRightRadius: borderRadius('tiny'),
                     borderBottomRightRadius: borderRadius('tiny'),
-                    ...textVariants.bodyBold,
+                    ...textVariants['body-bold'],
                     ...((!range || (range && !pendingRangePart)) && {
                       '&:hover': {
                         background: color('background', 'neutral'),

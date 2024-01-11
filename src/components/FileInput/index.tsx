@@ -26,10 +26,11 @@ type Variant = 'regular' | 'small' | 'no-preview'
 
 // Global file upload hook to based to see upload progress
 export type FileInputProps = {
-  onChange?: (file?: File) => void
+  onChange?: (file: File | void, updateProgress: (p: number) => void) => void
   // FIXME: do we rly want label and formname>?
   formName?: string
   label?: string
+  description?: string
   // FIXME: should this not update with a listener? - dont waant to add the status...
   status?: Status
   progress?: number
@@ -46,6 +47,7 @@ export type FileInputProps = {
 export function FileInput({
   onChange,
   label,
+  description,
   status: statusProp,
   progress: progressProp,
   mimeType,
@@ -127,6 +129,7 @@ export function FileInput({
         {label && (
           <Text
             singleLine
+            variant="body-bold"
             style={{
               marginBottom: 8,
             }}
@@ -158,9 +161,12 @@ export function FileInput({
             try {
               setInternalStatus('uploading')
               setFile(file)
-              setInternalProgress(100)
-              setInternalStatus('success')
-              onChange?.(file)
+              onChange?.(file, (p) => {
+                setInternalProgress(p)
+                if (p === 100) {
+                  setInternalStatus('success')
+                }
+              })
             } catch {
               setInternalStatus('error')
               setFile(null)
@@ -183,6 +189,11 @@ export function FileInput({
           }}
         />
       </FileDrop>
+      {description !== undefined ? (
+        <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+          {description}
+        </Text>
+      ) : null}
     </styled.label>
   )
 }
@@ -255,7 +266,9 @@ function Status({
   setInternalStatus: React.Dispatch<React.SetStateAction<Status>>
   setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>
   setInternalProgress: React.Dispatch<React.SetStateAction<number>>
-  onChange: ((file?: File) => void) | undefined
+  onChange:
+    | ((file: File | void, updateProgress: (p: number) => void) => void)
+    | undefined
   inputRef: React.MutableRefObject<HTMLInputElement | null>
 }) {
   const [filePreview, setFilePreview] = React.useState<string | null>(null)
@@ -364,7 +377,7 @@ function Status({
                   setInternalStatus('initial')
                   setFile(null)
                   setInternalProgress(0)
-                  onChange?.()
+                  onChange?.(undefined, setInternalProgress)
                   if (inputRef.current) {
                     inputRef.current.value = ''
                   }

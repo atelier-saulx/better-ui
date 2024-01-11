@@ -16,7 +16,7 @@ import { TableCtx, Path } from '../types.js'
 import { Table } from './index.js'
 import { SetField } from '../Set.js'
 import { Reference } from '../Reference.js'
-import { References } from '../References.js'
+import { References } from '../References/index.js'
 
 export const Padder = ({
   children,
@@ -98,8 +98,17 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
           variant="small"
           mimeType={field.contentMediaType}
           value={value ? { src: value } : undefined}
-          onChange={(file) => {
-            console.log('uploaded file', file)
+          onChange={async (file, updateProgress) => {
+            const result = await ctx.listeners.onFileUpload(
+              {
+                ctx,
+                path,
+                value: file,
+                field,
+              },
+              updateProgress
+            )
+            ctx.listeners.onChangeHandler(ctx, path, result)
           }}
         />
       </Padder>

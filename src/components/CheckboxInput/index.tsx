@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {
-  textVariants,
+  Text,
   color,
   borderRadius,
   Stack,
@@ -13,6 +13,7 @@ export type CheckboxInputProps = {
   value?: boolean
   defaultValue?: boolean
   onChange?: (checked: boolean) => void
+  checksum?: number
   formName?: string
   label?: string
   description?: string
@@ -28,7 +29,8 @@ export const CheckboxInput = React.forwardRef<
   (
     {
       value: valueProp,
-      defaultValue = false,
+      checksum,
+      defaultValue,
       onChange,
       formName,
       label,
@@ -40,15 +42,16 @@ export const CheckboxInput = React.forwardRef<
     ref
   ) => {
     const [value, setValue] = useControllableState({
-      prop: valueProp,
-      defaultProp: defaultValue,
+      value: valueProp,
       onChange,
+      defaultValue,
+      checksum,
     })
     const [focused, setFocused] = React.useState(false)
 
     return (
       <Stack as="label" justify="start" align="start" gap={12} style={style}>
-        <input
+        <styled.input
           ref={ref}
           name={formName}
           type="checkbox"
@@ -56,6 +59,7 @@ export const CheckboxInput = React.forwardRef<
             position: 'absolute',
             width: 1,
             height: 1,
+            background: 'none',
             padding: 0,
             margin: -1,
             overflow: 'hidden',
@@ -154,24 +158,12 @@ export const CheckboxInput = React.forwardRef<
         )}
         <div>
           {label !== undefined ? (
-            <div
-              style={{
-                color: color('content', 'primary'),
-                ...textVariants.bodyBold,
-              }}
-            >
-              {label}
-            </div>
+            <Text variant="body-bold">{label}</Text>
           ) : null}
           {description !== undefined ? (
-            <div
-              style={{
-                color: color('content', 'secondary'),
-                ...textVariants.bodyBold,
-              }}
-            >
+            <Text color="secondary" variant="body-bold">
               {description}
-            </div>
+            </Text>
           ) : null}
         </div>
       </Stack>
