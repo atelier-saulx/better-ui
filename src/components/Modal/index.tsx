@@ -405,8 +405,7 @@ export type ModalProps = {
   confirmLabel?: React.ReactNode
   variant?: 'small' | 'medium' | 'large'
   style?: Style
-  confirmDisabled?: ButtonProps['disabled']
-  confirmVariant?: ButtonProps['variant']
+  confirmProps?: ButtonProps
 }
 
 export const Modal = Object.assign(
@@ -419,9 +418,8 @@ export const Modal = Object.assign(
     onConfirm,
     variant = 'small',
     confirmLabel = 'OK',
-    confirmVariant,
+    confirmProps,
     style,
-    confirmDisabled,
   }: ModalProps) => {
     return (
       <Modal.Root
@@ -451,8 +449,7 @@ export const Modal = Object.assign(
                   </Button>
                 )}
                 <Button
-                  variant={confirmVariant}
-                  disabled={confirmDisabled}
+                  keyboardShortcut="Enter"
                   onClick={
                     onConfirm
                       ? () => {
@@ -460,6 +457,7 @@ export const Modal = Object.assign(
                         }
                       : close
                   }
+                  {...confirmProps}
                 >
                   {confirmLabel}
                 </Button>
