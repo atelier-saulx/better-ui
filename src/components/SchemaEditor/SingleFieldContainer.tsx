@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Container } from '../Container/index.js'
 import { Thumbnail } from '../Thumbnail/index.js'
-import { Button } from '../Button/index.js'
 import { Badge } from '../Badge/index.js'
 import { FieldEditAndDelete } from './Modals/FieldEditAndDelete.js'
 import { SCHEMA_FIELDS, SYSTEM_FIELDS } from './constants.js'
 import { Stack } from '../Stack/index.js'
+import { SelectNewField } from './Modals/SelectNewField.js'
 
 // for some recursion in objects
 export const SingleFieldContainer = ({ item, typeName }) => {
@@ -45,9 +45,7 @@ export const SingleFieldContainer = ({ item, typeName }) => {
       suffix={
         <Stack gap={12}>
           {item.type === 'object' && (
-            <Button variant="primary-transparent" size="small">
-              Add Field
-            </Button>
+            <SelectNewField typeName={typeName} fieldItem={item} />
           )}
           <FieldEditAndDelete item={item} typeName={typeName} />
         </Stack>

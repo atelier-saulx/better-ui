@@ -14,6 +14,7 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
   const client = useClient()
 
   const { data, loading } = useQuery('db:schema')
+  console.log('loading', loading)
 
   return (
     <Dropdown.Root>
@@ -68,6 +69,7 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                     },
                   })
                   close('close it')
+                  console.log(deleteThis)
                 }}
               >
                 <Text variant="title-modal">{`Are you sure you want to delete ${

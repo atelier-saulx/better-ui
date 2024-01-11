@@ -19,7 +19,15 @@ import {
   STRING_FORMAT_DISPLAY_OPTIONS,
   STRING_FORMAT_OPTIONS,
 } from '../constants.js'
-import { useClient } from '@based/react'
+import { useClient, useQuery } from '@based/react'
+import { findPath } from '../utils/findPath.js'
+
+type AddFieldProps = {
+  fieldType: string
+  typeName: string
+  onConfirm?: (v: any) => void
+  fieldItem?: any
+}
 
 type SpecificOptionsProps = {
   fieldType: string
@@ -46,13 +54,27 @@ const metaReducer = (state, action) => {
   }
 }
 
-export const AddField = ({ fieldType, typeName, onConfirm }) => {
+export const AddField = ({
+  fieldType,
+  typeName,
+  onConfirm,
+  fieldItem,
+}: AddFieldProps) => {
   const [meta, setMeta] = React.useReducer(metaReducer, {})
   const [tabIndex, setTabIndex] = React.useState(1)
 
   console.log(typeName)
 
   const client = useClient()
+
+  // if nested or Edit find the specific item field
+  // get schema
+  const { data, loading } = useQuery('db:schema')
+  console.log(loading)
+
+  React.useEffect(() => {
+    console.log(meta, 'meta chagnd')
+  }, [meta])
 
   return (
     <Modal
@@ -94,6 +116,47 @@ export const AddField = ({ fieldType, typeName, onConfirm }) => {
             },
           }
         }
+
+        // find the fieldItem
+        const nestedFields = {}
+        if (fieldItem) {
+          console.log('FieldITem 🦐', fieldItem)
+
+          const nestedPath = findPath(
+            data.types[typeName].fields,
+            fieldItem?.name || fieldItem.meta.name
+          )
+
+          nestedPath.push(fieldItem?.name || fieldItem.meta?.name)
+
+          console.log('PATH???🦍 ', nestedPath)
+
+          const currentFields = data.types[typeName].fields
+
+          let from = currentFields
+          let dest = nestedFields
+          let i = 0
+          const l = nestedPath.length
+
+          while (i < l) {
+            const key = nestedPath[i++]
+
+            dest[key] = { ...from[key] }
+            dest = dest[key]
+            from = from[key]
+          }
+
+          // @ts-ignore // add the field to here
+          dest.properties = fields
+
+          fields = nestedFields
+          console.log('🤡 --> new', fields)
+        }
+
+        // if (Object.keys(nestedFields).length !== 0) {
+        //   fields = nestedFields
+        //   console.log('ARRG', fields)
+        // }
 
         await client.call('db:set-schema', {
           mutate: true,

@@ -12,7 +12,15 @@ import { SCHEMA_FIELDS } from '../constants.js'
 
 const filterOutTheseFields = ['id', 'type', 'email', 'digest', 'url']
 
-export const SelectNewField = ({ typeName }) => {
+type SelectNewFieldProps = {
+  typeName: string
+  fieldItem?: {}
+}
+
+export const SelectNewField = ({
+  typeName,
+  fieldItem,
+}: SelectNewFieldProps) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
 
@@ -84,6 +92,8 @@ export const SelectNewField = ({ typeName }) => {
                           fieldType={SCHEMA_FIELDS[item].label}
                           typeName={typeName}
                           onConfirm={close}
+                          // if nested
+                          fieldItem={fieldItem}
                         />
                       ))
 
