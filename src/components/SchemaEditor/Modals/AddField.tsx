@@ -161,7 +161,7 @@ export const AddField = ({
           fields = nestedFields
         }
 
-        // console.log('🦎', fields)
+        console.log('🦎 Try to Set these fields', fields)
 
         await client.call('db:set-schema', {
           mutate: true,
@@ -189,7 +189,9 @@ export const AddField = ({
           General
         </Button>
         {fieldType.toLowerCase() !== 'boolean' &&
+        fieldType.toLowerCase() !== 'array' &&
         fieldType.toLowerCase() !== 'cardinality' &&
+        fieldType.toLowerCase() !== 'enum' &&
         fieldType.toLowerCase() !== 'json' ? (
           <Button
             variant={tabIndex === 2 ? 'primary-link' : 'neutral-link'}
@@ -232,6 +234,7 @@ const GeneralOptions = ({ meta, setMeta, editItem }: GeneralOptionsProps) => {
       <TextInput
         label="Field Name"
         //  description="API field-name used in the sdk and clients"
+        disabled={editItem}
         value={meta?.name || meta?.displayName?.toLowerCase() || ''}
         onChange={(v) => {
           if (!editItem) {

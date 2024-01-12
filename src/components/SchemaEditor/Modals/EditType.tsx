@@ -48,11 +48,7 @@ export const EditType = ({ onConfirm, typeName }) => {
     >
       <Stack gap={12} grid>
         <Text variant="title-modal">Edit this {typeName}</Text>
-        <TextInput
-          label="Type name"
-          // disabled
-          value={typeName}
-        />
+        <TextInput label="Type name" disabled value={typeName} />
         <TextInput
           label="Display name (plural)"
           onChange={(v) => setDisplayName(v)}
