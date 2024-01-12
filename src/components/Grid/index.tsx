@@ -262,7 +262,7 @@ export function Grid({
     dragItem.style.left = dragBoundingRect.left + 'px'
 
     window.addEventListener('touchmove', touchMove)
-
+    console.log(dragItem)
     let x = touches.pageX
     let y = touches.pageY
 
@@ -313,7 +313,7 @@ export function Grid({
     function touchEnd() {
       // clone.remove()
       window.removeEventListener('pointerup', touchEnd)
-      window.removeEventListener('pointermove', touchMove)
+      // window.removeEventListener('pointermove', touchMove)
 
       // document.onpointerup = null
       document.onpointermove = null
