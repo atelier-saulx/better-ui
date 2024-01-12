@@ -81,6 +81,9 @@ export const AddType = ({ setActive }) => {
                   })
 
                   setActive(typeName)
+                  setTypeName('')
+                  setDisplayName('')
+                  setDescription('')
                   close()
                 }}
               >

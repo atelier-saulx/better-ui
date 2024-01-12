@@ -104,7 +104,15 @@ export const AddField = ({
         //     meta: meta,
         //   },
         // }
-        if (fieldType.toLowerCase() === 'object') {
+        if (fieldType.toLowerCase() === 'record') {
+          fields = {
+            [meta.name || meta.displayName.toLowerCase()]: {
+              type: fieldType.toLowerCase(),
+              meta: meta,
+              values: [],
+            },
+          }
+        } else if (fieldType.toLowerCase() === 'object') {
           fields = {
             [meta.name || meta.displayName.toLowerCase()]: {
               type: fieldType.toLowerCase(),
@@ -192,6 +200,8 @@ export const AddField = ({
         fieldType.toLowerCase() !== 'array' &&
         fieldType.toLowerCase() !== 'cardinality' &&
         fieldType.toLowerCase() !== 'enum' &&
+        fieldType.toLowerCase() !== 'reference' &&
+        fieldType.toLowerCase() !== 'references' &&
         fieldType.toLowerCase() !== 'json' ? (
           <Button
             variant={tabIndex === 2 ? 'primary-link' : 'neutral-link'}
