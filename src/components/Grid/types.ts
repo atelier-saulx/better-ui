@@ -10,9 +10,9 @@ export type GridProps = {
   sortable?: boolean
   // fires on change
   onChange?: (value: Item[]) => void
-  items: Item[]
+  items?: Item[]
   itemAction?: (item: Item) => React.ReactNode
   onItemClick?: (item: Item) => void
   onDrop?: (dropTarget: Item, dragTarget: Item) => Promise<boolean>
-  onDragOverOpen: (dropTarget: Item, dragTarget: Item) => Promise<boolean>
+  onDragOverOpen?: (dropTarget: Item, dragTarget: Item) => Promise<boolean>
 }

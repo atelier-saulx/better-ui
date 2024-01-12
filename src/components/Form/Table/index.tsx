@@ -14,7 +14,7 @@ import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { Record } from './Record.js'
 import { Object } from './Object.js'
-import { Array } from './Array/Array.js'
+import { Array } from './Array/index.js'
 
 function Title({
   ctx,
