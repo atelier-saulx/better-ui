@@ -65,6 +65,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const [loading, setLoading] = React.useState(false)
     const [shaking, setShaking] = React.useState(false)
+
     useKeyboardShortcut(keyboardShortcut, onClick)
 
     const handleClick = React.useCallback(
@@ -252,20 +253,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             alignItems: 'center',
           }}
         >
-          {prefix && prefix}
-          <span
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {children}
-          </span>
+          {prefix}
+          {children && (
+            <span
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {children}
+            </span>
+          )}
           {displayKeyboardShortcut && keyboardShortcut && (
             <KeyboardShortcut shortcut={keyboardShortcut} />
           )}
-          {suffix && suffix}
+          {suffix}
         </div>
       </styled.button>
     )
