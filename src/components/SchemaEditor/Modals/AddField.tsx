@@ -130,7 +130,10 @@ export const AddField = ({
               properties: {},
             },
           }
-        } else if (fieldType.toLowerCase() === 'array') {
+        } else if (
+          fieldType.toLowerCase() === 'array' ||
+          fieldType.toLowerCase() === 'set'
+        ) {
           fields = {
             [meta.name || meta.displayName.toLowerCase()]: {
               type: fieldType.toLowerCase(),
@@ -460,9 +463,9 @@ const SpecificOptions = ({
           options={DATE_FORMAT_OPTIONS}
           onChange={(v) => setMeta({ field: 'display', value: v })}
         />
-      ) : fieldType === 'array' ? (
+      ) : fieldType === 'array' || fieldType === 'set' ? (
         <SelectInput
-          label="Array options"
+          label={fieldType === 'array' ? 'Array options' : 'Set options'}
           value={items?.type}
           options={ARRAY_OPTIONS}
           onChange={(v) => setItems({ type: v })}
