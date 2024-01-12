@@ -192,8 +192,6 @@ export const isCode = (format: any): boolean => {
 }
 
 export const createNewEmptyValue = ({ type }: BasedSchemaField): any => {
-  console.log(type)
-
   if (type === 'array' || type === 'set' || type === 'references') {
     return []
   }
