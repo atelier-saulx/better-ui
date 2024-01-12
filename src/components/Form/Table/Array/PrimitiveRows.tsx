@@ -6,25 +6,23 @@ import { ColStack } from '../ColStack.js'
 import { RowProps } from './types.js'
 
 export function PrimitiveRows(p: RowProps) {
-  if (p.value) {
-    const rows: ReactNode[] = []
-    for (let i = 0; i < p.value.length; i++) {
-      rows.push(
-        <ColStack
-          justify="start"
-          key={i}
-          style={{
-            borderBottom: border(),
-          }}
-          onRemove={() => p.removeItem(i)}
-        >
-          <Cell>
-            <Field ctx={p.ctx} path={[...p.path, i]} />
-          </Cell>
-        </ColStack>
-      )
-      return rows
-    }
+  const rows: ReactNode[] = []
+  const len = p.value.length
+  for (let i = 0; i < len; i++) {
+    rows.push(
+      <ColStack
+        justify="start"
+        key={i}
+        style={{
+          borderBottom: border(),
+        }}
+        onRemove={() => p.removeItem(i)}
+      >
+        <Cell>
+          <Field ctx={p.ctx} path={[...p.path, i]} />
+        </Cell>
+      </ColStack>
+    )
   }
-  return null
+  return <>{rows}</>
 }
