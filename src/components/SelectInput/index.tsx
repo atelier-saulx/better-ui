@@ -27,6 +27,7 @@ export type SelectInputProps = {
   error?: boolean
   autoFocus?: boolean
   description?: string
+  disabled?: boolean
   style?: Style
   checksum?: number
 }
@@ -44,6 +45,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       error,
       autoFocus,
       description,
+      disabled,
       style,
       checksum,
     },
@@ -66,10 +68,16 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
     }, [autoFocus])
 
     return (
-      <SelectBase.Root value={state} onValueChange={setState}>
+      <SelectBase.Root
+        value={state}
+        onValueChange={setState}
+        disabled={disabled}
+      >
         <SelectBase.Trigger asChild>
           <Wrapper
             style={{
+              cursor: disabled ? 'not-allowed' : 'default',
+              opacity: disabled ? 0.6 : 1,
               display: 'flex',
               flexDirection: 'column',
               width: '100%',
@@ -104,7 +112,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             )}
             <styled.div
               autoFocus={autoFocus}
-              tabIndex={0}
+              tabIndex={disabled ? '-1' : 0}
               ref={mergeRefs([wrapperRef, ref])}
               style={{
                 position: 'relative',
@@ -216,7 +224,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       <SelectBase.ItemText>
                         {prefix && (
                           <div
-                            style={{ display: 'inline-block', marginRight: 8 }}
+                            style={{
+                              display: 'inline-block',
+                              marginRight: 8,
+                            }}
                           >
                             {prefix}
                           </div>
