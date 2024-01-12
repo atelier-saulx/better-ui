@@ -43,7 +43,7 @@ export function Sidebar({
   })
 
   React.useEffect(() => {
-    if (isMobile) {
+    if (isMobile && collapsable) {
       setOpen(false)
     }
   }, [isMobile])

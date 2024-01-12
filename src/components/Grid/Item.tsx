@@ -1,46 +1,17 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { Text, border, borderRadius, color, textVariants } from '../../index.js'
+import { Text, borderRadius, color, textVariants } from '../../index.js'
 import { Folder, Paper } from '../Icons/extras.js'
+import { Item, GridProps } from './types.js'
 
-export function Item({
-  item,
-  itemAction,
-  variant,
-}: {
-  item: {
-    title: string
-    description?: string
-    renderAs: 'folder' | 'file' | 'image'
-    [key: string]: any
-  }
-  itemAction?: (item: any) => React.ReactNode
-  variant?: 'row' | 'column'
-  setSelected?: React.Dispatch<React.SetStateAction<string>>
-}) {
+export const GridItem = (p: {
+  item: Item
+  variant: GridProps['variant']
+  itemAction: GridProps['itemAction']
+}) => {
   return (
-    <styled.div
-      // onClick={}
-      style={{
-        height: '100%',
-        padding: 16,
-        display: 'flex',
-        backgroundColor: color('background', 'screen'),
-        ...(variant === 'column' && {
-          borderRadius: borderRadius('tiny'),
-          border: border(),
-          flexDirection: 'column',
-        }),
-        ...(variant === 'row' && {
-          borderBottom: border(),
-          flexDirection: 'row',
-        }),
-        // '&:hover .optionsButton': {
-        //   opacity: '100% !important',
-        // },
-      }}
-    >
-      <div
+    <>
+      <styled.div
         style={{
           background: color('background', 'neutral'),
           borderRadius: borderRadius('tiny'),
@@ -48,12 +19,12 @@ export function Item({
           justifyContent: 'center',
           alignItems: 'center',
           flexShrink: 0,
-          ...(variant === 'column' && {
+          ...(p.variant === 'column' && {
             aspectRatio: '16 / 9',
             width: '100%',
             marginBottom: 12,
           }),
-          ...(variant === 'row' && {
+          ...(p.variant === 'row' && {
             marginLeft: -16,
             marginRight: 12,
             height: 48,
@@ -62,11 +33,11 @@ export function Item({
           }),
         }}
       >
-        {item.renderAs === 'folder' && (
-          <Folder style={{ height: variant === 'column' ? 64 : 28 }} />
+        {p.item.renderAs === 'folder' && (
+          <Folder style={{ height: p.variant === 'column' ? 64 : 28 }} />
         )}
-        {item.renderAs === 'file' && (
-          <div
+        {p.item.renderAs === 'file' && (
+          <styled.div
             style={{
               position: 'relative',
               display: 'flex',
@@ -74,8 +45,8 @@ export function Item({
               alignItems: 'center',
             }}
           >
-            <Paper style={{ height: variant === 'column' ? 76 : 32 }} />
-            <div
+            <Paper style={{ height: p.variant === 'column' ? 76 : 32 }} />
+            <styled.div
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -85,29 +56,26 @@ export function Item({
                 ...textVariants['body-strong'],
                 color: color('interactive', 'primary'),
                 textTransform: 'uppercase',
-                userSelect: 'none',
-                fontSize: variant === 'column' ? 14 : 8,
+                fontSize: p.variant === 'column' ? 14 : 8,
               }}
             >
-              {item.title.split('.')[1]}
-            </div>
-          </div>
+              {p.item.title.split('.')[1]}
+            </styled.div>
+          </styled.div>
         )}
-        {item.renderAs === 'image' && (
+        {p.item.renderAs === 'image' && (
           <img
-            draggable={false}
-            src={item.image}
+            src={p.item.image}
             style={{
-              userSelect: 'none',
               width: '100%',
-              objectFit: variant === 'column' ? 'contain' : 'cover',
+              objectFit: p.variant === 'column' ? 'contain' : 'cover',
               aspectRatio: '16 / 9',
-              padding: variant === 'column' ? 16 : 0,
+              padding: p.variant === 'column' ? 16 : 0,
             }}
           />
         )}
-      </div>
-      <div
+      </styled.div>
+      <styled.div
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -116,7 +84,7 @@ export function Item({
           minHeight: 48,
         }}
       >
-        <div
+        <styled.div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -125,49 +93,48 @@ export function Item({
           }}
         >
           <Text
-            variant="body-strong"
+            variant="body-bold"
             color="primary"
-            style={{ wordBreak: 'break-all', userSelect: 'none' }}
+            style={{ wordBreak: 'break-all' }}
           >
-            {item.title}
+            {p.item.title}
           </Text>
-          {variant === 'column' && itemAction && (
-            <div
+          {p.variant === 'column' && p.itemAction && (
+            <styled.div
               className="optionsButton"
               style={{
                 display: 'flex',
-                // opacity: 0,
                 alignItems: 'center',
                 justifyContent: 'center',
                 paddingLeft: 12,
               }}
             >
-              {itemAction(item)}
-            </div>
+              {p.itemAction(p.item)}
+            </styled.div>
           )}
-        </div>
+        </styled.div>
         <Text
           color="secondary"
-          style={{ wordBreak: 'break-all', userSelect: 'none' }}
+          variant="body"
+          style={{ wordBreak: 'break-all' }}
         >
-          {item.description}
+          {p.item.description}
         </Text>
-      </div>
-      {variant === 'row' && itemAction && (
+      </styled.div>
+      {p.variant === 'row' && p.itemAction && (
         <styled.div
           className="optionsButton"
           style={{
             display: 'flex',
-            // opacity: 0,
             alignItems: 'center',
             justifyContent: 'center',
             paddingLeft: 12,
             marginLeft: 'auto',
           }}
         >
-          {itemAction(item)}
+          {p.itemAction(p.item)}
         </styled.div>
       )}
-    </styled.div>
+    </>
   )
 }

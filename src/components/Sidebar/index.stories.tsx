@@ -29,7 +29,12 @@ export const Default = () => {
 
   return (
     <div style={{ height: '100vh', width: '100%' }}>
-      <Sidebar value={active} onChange={setActive} collapsed>
+      <Sidebar
+        value={active}
+        onChange={setActive}
+        collapsable={false}
+        collapsed={false}
+      >
         <SidebarItem value="overview" icon={<IconViewBoxes />}>
           Overview
         </SidebarItem>
