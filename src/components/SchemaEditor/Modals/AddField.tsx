@@ -82,6 +82,7 @@ export const AddField = ({
   return (
     <Modal
       confirmLabel={editItem ? 'Edit' : 'Add Field'}
+      confirmProps={{ disabled: !meta.name }}
       onConfirm={async () => {
         let fields
         // Set The new field with meta data..
@@ -365,9 +366,7 @@ const SpecificOptions = ({
             />
           </styled.div>
         </>
-      ) : fieldType === 'number' ||
-        fieldType === 'int' ||
-        fieldType === 'timestamp' ? (
+      ) : fieldType === 'number' || fieldType === 'int' ? (
         // NUMBER
         <>
           <styled.div style={{ display: 'flex', gap: 16 }}>
@@ -409,15 +408,14 @@ const SpecificOptions = ({
               onChange={(v) => setMeta({ field: 'display', value: v })}
             />
           )}
-          {fieldType === 'timestamp' && (
-            <SelectInput
-              label="Display Date Format"
-              value={meta?.display}
-              options={DATE_FORMAT_OPTIONS}
-              onChange={(v) => setMeta({ field: 'display', value: v })}
-            />
-          )}
         </>
+      ) : fieldType === 'timestamp' ? (
+        <SelectInput
+          label="Display Date Format"
+          value={meta?.display}
+          options={DATE_FORMAT_OPTIONS}
+          onChange={(v) => setMeta({ field: 'display', value: v })}
+        />
       ) : (
         '🙈'
       )}
