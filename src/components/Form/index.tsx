@@ -71,7 +71,6 @@ export const Form = ({
   onChangeTransform,
   formRef,
   onFileUpload,
-  validate,
   onClickReference,
   variant = 'regular',
 }: FormProps) => {
