@@ -77,3 +77,31 @@ export const Row = () => {
     </div>
   )
 }
+
+export const SortableRow = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Grid
+        items={items}
+        sortable
+        onChange={(items) => {
+          console.info(items)
+        }}
+        variant="row"
+        itemAction={() => (
+          <Dropdown.Root>
+            <Dropdown.Trigger>
+              <Button variant="icon-only">
+                <IconMoreHorizontal />
+              </Button>
+            </Dropdown.Trigger>
+            <Dropdown.Items>
+              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
+              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown.Root>
+        )}
+      />
+    </div>
+  )
+}
