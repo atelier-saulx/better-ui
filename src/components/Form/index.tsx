@@ -73,7 +73,7 @@ export const Form = ({
   formRef,
   onFileUpload,
   autoFocus,
-  validate,
+  // validate,
   onClickReference,
   variant = 'regular',
 }: FormProps) => {

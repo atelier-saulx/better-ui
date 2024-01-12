@@ -13,7 +13,7 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
 
   const client = useClient()
 
-  const { data, loading } = useQuery('db:schema')
+  const { data } = useQuery('db:schema')
 
   return (
     <Dropdown.Root>
@@ -44,7 +44,7 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
             const deleteThis = await open(({ close }) => (
               <Modal
                 confirmLabel="Delete"
-                confirmVariant="error"
+                confirmProps={{ variant: 'error' }}
                 onConfirm={async () => {
                   const nestedPath = findPath(
                     data.types[typeName].fields,
