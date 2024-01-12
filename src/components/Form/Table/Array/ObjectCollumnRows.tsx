@@ -181,23 +181,20 @@ const CollRow = (p: {
 }
 
 export const ObjectCollsRows = (p: RowProps) => {
-  if (p.value) {
-    const rows: ReactNode[] = []
-    for (let i = 0; i < p.value.length; i++) {
-      rows.push(
-        <CollRow
-          changeIndex={p.changeIndex}
-          key={i}
-          value={p.value[i]}
-          field={p.field.values as BasedSchemaFieldObject}
-          index={i}
-          ctx={p.ctx}
-          path={p.path}
-          removeItem={p.removeItem}
-        />
-      )
-    }
-    return rows
+  const rows: ReactNode[] = []
+  for (let i = 0; i < p.value.length; i++) {
+    rows.push(
+      <CollRow
+        changeIndex={p.changeIndex}
+        key={i}
+        value={p.value[i]}
+        field={p.field.values as BasedSchemaFieldObject}
+        index={i}
+        ctx={p.ctx}
+        path={p.path}
+        removeItem={p.removeItem}
+      />
+    )
   }
-  return null
+  return rows
 }
