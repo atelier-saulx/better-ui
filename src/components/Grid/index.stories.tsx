@@ -41,12 +41,12 @@ export const Default = () => {
   return (
     <div style={{ padding: 64 }}>
       <Grid
-        onUpload={(v) => console.log(v)}
-        onMove={(v) => {
-          for (const i in v) {
-            console.log(v[i].index)
-          }
-        }}
+        // onUpload={(v) => console.log(v)}
+        // onMove={(v) => {
+        //   for (const i in v) {
+        //     console.log(v[i].index)
+        //   }
+        // }}
         items={items}
         itemAction={(e) => (
           <Dropdown.Root>

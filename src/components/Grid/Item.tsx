@@ -1,6 +1,13 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { Text, borderRadius, color, textVariants } from '../../index.js'
+import {
+  Stack,
+  Text,
+  border,
+  borderRadius,
+  color,
+  textVariants,
+} from '../../index.js'
 import { Folder, Paper } from '../Icons/extras.js'
 import { Item, GridProps } from './types.js'
 
@@ -8,9 +15,55 @@ export const GridItem = (p: {
   item: Item
   variant: GridProps['variant']
   itemAction: GridProps['itemAction']
+  index
+  draggingIndex
+  setDraggingIndex
 }) => {
+  const [isDragOver, setDragOver] = React.useState(0)
+
   return (
-    <>
+    // <Stack
+    //   direction="column"
+    //   // draggable={false}
+    //   onDragOver={(e) => {
+    //     e.preventDefault()
+    //     if (p.draggingIndex !== p.index) {
+    //       setDragOver(p.draggingIndex > p.index ? -1 : 1)
+    //     }
+    //     console.log(isDragOver)
+    //   }}
+    //   onDrop={(e) => {
+    //     e.preventDefault()
+    //     setDragOver(0)
+    //   }}
+    //   onDragLeave={() => {
+    //     setDragOver(0)
+    //   }}
+    //   onDragExit={() => {
+    //     setDragOver(0)
+    //   }}
+    // >
+    //   <Stack
+    //     style={{
+    //       height: isDragOver === -1 ? 24 : 0,
+    //       width: '100%',
+    //       overflow: 'hidden',
+    //       transition: 'height 0.2s',
+    //       transitionDelay: '0.2s',
+    //       borderBottom: isDragOver === -1 ? border() : null,
+    //     }}
+    //   >
+    //     <styled.div
+    //       style={{
+    //         width: '100%',
+    //         height: 2,
+    //         opacity: isDragOver === -1 ? 1 : 0,
+    //         transition: 'opacity 0.2s',
+    //         backgroundColor: color('interactive', 'primary'),
+    //       }}
+    //     />
+    //   </Stack>
+    <Stack direction={p.variant}>
       <styled.div
         style={{
           background: color('background', 'neutral'),
@@ -45,7 +98,12 @@ export const GridItem = (p: {
               alignItems: 'center',
             }}
           >
-            <Paper style={{ height: p.variant === 'column' ? 76 : 32 }} />
+            <Paper
+              style={{
+                height: p.variant === 'column' ? 76 : 32,
+                userSelect: 'none',
+              }}
+            />
             <styled.div
               style={{
                 position: 'absolute',
@@ -65,8 +123,10 @@ export const GridItem = (p: {
         )}
         {p.item.renderAs === 'image' && (
           <img
+            draggable={false}
             src={p.item.image}
             style={{
+              userSelect: 'none',
               width: '100%',
               objectFit: p.variant === 'column' ? 'contain' : 'cover',
               aspectRatio: '16 / 9',
@@ -95,7 +155,7 @@ export const GridItem = (p: {
           <Text
             variant="body-bold"
             color="primary"
-            style={{ wordBreak: 'break-all' }}
+            style={{ wordBreak: 'break-all', userSelect: 'none' }}
           >
             {p.item.title}
           </Text>
@@ -116,7 +176,7 @@ export const GridItem = (p: {
         <Text
           color="secondary"
           variant="body"
-          style={{ wordBreak: 'break-all' }}
+          style={{ wordBreak: 'break-all', userSelect: 'none' }}
         >
           {p.item.description}
         </Text>
@@ -135,6 +195,27 @@ export const GridItem = (p: {
           {p.itemAction(p.item)}
         </styled.div>
       )}
-    </>
+    </Stack>
+    //   <Stack
+    //     style={{
+    //       height: isDragOver === 1 ? 24 : 0,
+    //       width: '100%',
+    //       overflow: 'hidden',
+    //       transition: 'height 0.2s',
+    //       transitionDelay: '0.2s',
+    //       borderBottom: isDragOver === -1 ? border() : null,
+    //     }}
+    //   >
+    //     <styled.div
+    //       style={{
+    //         width: '100%',
+    //         height: 2,
+    //         opacity: isDragOver === 1 ? 1 : 0,
+    //         transition: 'opacity 0.2s',
+    //         backgroundColor: color('interactive', 'primary'),
+    //       }}
+    //     />
+    //   </Stack>
+    // </Stack>
   )
 }
