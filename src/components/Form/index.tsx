@@ -86,6 +86,7 @@ export const Form = ({
     changes: {},
     hasChanges: false,
   })
+
   const [currentChecksum, setChecksum] = React.useState(checksum)
 
   const onConfirm = React.useCallback(async () => {

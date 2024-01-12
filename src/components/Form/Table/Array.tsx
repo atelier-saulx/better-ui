@@ -226,9 +226,6 @@ export function Array({ ctx, path }: TableProps) {
   const isCols = valuesField.type === 'object' && useCols(valuesField)
   const [openCnt, setIndex] = useState<number>(0)
   const openIndexes = useRef<Set<number>>(new Set())
-
-  console.log({ ctx, path, value })
-
   const valueRef = useRef<typeof value>()
   valueRef.current = value || []
 
