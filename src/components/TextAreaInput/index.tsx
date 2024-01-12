@@ -146,7 +146,7 @@ export const TextAreaInput = React.forwardRef<
           }}
         >
           <styled.textarea
-            tabindex={disabled ? '-1' : 0}
+            tabIndex={disabled ? '-1' : 0}
             value={value}
             defaultValue={defaultValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

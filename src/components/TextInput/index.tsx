@@ -116,7 +116,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           </styled.span>
         )}
         <styled.input
-          tabindex={disabled ? '-1' : 'auto'}
+          tabIndex={disabled ? '-1' : 'auto'}
           autoFocus={autoFocus}
           value={state}
           defaultValue={defaultValue}
