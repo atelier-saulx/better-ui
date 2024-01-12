@@ -22,6 +22,7 @@ export const Default = () => {
       }}
       label="upload some file"
       description="drop a file in here"
+      // disabled
     />
   )
 }

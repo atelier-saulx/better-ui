@@ -19,6 +19,7 @@ export type CheckboxInputProps = {
   description?: string
   variant?: 'checkbox' | 'toggle'
   autoFocus?: boolean
+  disabled?: boolean
   style?: Style
 }
 
@@ -37,6 +38,7 @@ export const CheckboxInput = React.forwardRef<
       description,
       variant = 'checkbox',
       autoFocus,
+      disabled,
       style,
     },
     ref
@@ -50,7 +52,17 @@ export const CheckboxInput = React.forwardRef<
     const [focused, setFocused] = React.useState(false)
 
     return (
-      <Stack as="label" justify="start" align="start" gap={12} style={style}>
+      <Stack
+        as="label"
+        justify="start"
+        align="start"
+        gap={12}
+        style={{
+          opacity: disabled ? 0.6 : 1,
+          cursor: disabled ? 'not-allowed' : 'default',
+          ...style,
+        }}
+      >
         <styled.input
           ref={ref}
           name={formName}
@@ -69,11 +81,15 @@ export const CheckboxInput = React.forwardRef<
           }}
           checked={value}
           onChange={(e) => {
-            setValue(e.target.checked)
+            if (!disabled) {
+              setValue(e.target.checked)
+            }
           }}
           autoFocus={autoFocus}
           onFocus={() => {
-            setFocused(true)
+            if (!disabled) {
+              setFocused(true)
+            }
           }}
           onBlur={() => {
             setFocused(false)

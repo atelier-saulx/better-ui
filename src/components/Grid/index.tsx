@@ -2,19 +2,14 @@ import * as React from 'react'
 import { styled } from 'inlines'
 import { border, borderRadius, color } from '../../index.js'
 import { GridItem } from './Item.js'
-import { GridProps, Item } from './types.js'
+import { GridProps } from './types.js'
 
 // TODO this component is a WIP, API will be changed to match the Table
 
-export type GridProps = {
-  variant?: 'row' | 'column'
-  items: {
-    title: string
-    description?: string
-    renderAs: 'folder' | 'file' | 'image'
-    [key: string]: any
-  }[]
-  itemAction?: (item: any) => React.ReactNode
+const isReactNode = (
+  renderAs: string | React.ReactNode
+): renderAs is React.ReactNode => {
+  return typeof renderAs !== 'string'
 }
 
 export function Grid({
@@ -47,27 +42,15 @@ GridProps) {
             }),
           }}
         >
-          {isItem(item) ? (
-            <span
-              key={i}
-              id={item.id}
-              // onMouseDown={(e) => dragStart(e, i)}
-              onTouchStart={(e) => {
-                e.stopPropagation()
-                // e.preventDefault()
-                touchStart(e, i)
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              <GridItem
-                variant={variant}
-                key={i}
-                item={item}
-                itemAction={itemAction}
-              />
-            </span>
+          {isReactNode(item.renderAs) ? (
+            item.renderAs
           ) : (
-            item
+            <GridItem
+              variant={variant}
+              key={i}
+              item={item}
+              itemAction={itemAction}
+            />
           )}
         </styled.div>
       ))}
