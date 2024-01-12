@@ -13,6 +13,7 @@ export const Default: StoryObj<typeof TextAreaInput> = {
     placeholder: 'Placeholder text',
     label: 'Label',
     description: 'Enter some text if you wish',
+    disabled: false,
   },
 }
 

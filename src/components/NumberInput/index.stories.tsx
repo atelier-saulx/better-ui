@@ -17,7 +17,7 @@ export const Default: StoryObj<typeof NumberInput> = {
     onChange: (value) => {
       console.log(value)
     },
-    disabled: true,
+    disabled: false,
   },
 }
 
