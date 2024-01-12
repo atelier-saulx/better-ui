@@ -12,11 +12,7 @@ export function Root({ children }: DropdownRootProps) {
 export type DropdownTriggerProps = { children: React.ReactNode }
 
 export function Trigger({ children }: DropdownTriggerProps) {
-  return (
-    <DropdownBase.Trigger asChild>
-      <div>{children}</div>
-    </DropdownBase.Trigger>
-  )
+  return <DropdownBase.Trigger asChild>{children}</DropdownBase.Trigger>
 }
 
 export type DropdownItemsProps = { children: React.ReactNode }

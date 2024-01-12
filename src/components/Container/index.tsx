@@ -19,6 +19,7 @@ export type ContainerProps = {
   onClick?: () => void
   divider?: boolean
   style?: Style
+  bodyStyle?: Style
 }
 
 export function Container({
@@ -33,6 +34,7 @@ export function Container({
   onExpandedChange,
   divider,
   style,
+  bodyStyle,
 }: ContainerProps) {
   if (divider === undefined) {
     divider = !!(title ?? description ?? prefix ?? suffix)
@@ -112,16 +114,17 @@ export function Container({
         {suffix && <div style={{ marginLeft: 'auto' }}>{suffix}</div>}
       </styled.div>
       {children && (!expandable || expanded) && (
-        <div
+        <styled.div
           style={{
             padding: 16,
             ...(divider && {
               borderTop: border(),
             }),
+            ...bodyStyle,
           }}
         >
           {children}
-        </div>
+        </styled.div>
       )}
     </div>
   )

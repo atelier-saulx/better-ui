@@ -29,7 +29,12 @@ export const Default = () => {
 
   return (
     <div style={{ height: '100vh', width: '100%' }}>
-      <Sidebar value={active} onChange={setActive}>
+      <Sidebar
+        value={active}
+        onChange={setActive}
+        collapsable={false}
+        collapsed={false}
+      >
         <SidebarItem value="overview" icon={<IconViewBoxes />}>
           Overview
         </SidebarItem>
@@ -42,6 +47,9 @@ export const Default = () => {
         <SidebarItem value="stats" icon={<IconChartBar />}>
           Statistics
         </SidebarItem>
+        <SidebarItem value="about">About</SidebarItem>
+        <SidebarItem value="blog">Blog</SidebarItem>
+        <SidebarItem value="contact">Contact</SidebarItem>
       </Sidebar>
     </div>
   )
