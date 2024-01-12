@@ -24,6 +24,7 @@ export type SidebarProps = {
   onChange: (value: string) => void
   style?: Style
   collapsable?: boolean
+  collapsed?: boolean
 }
 
 export function Sidebar({
@@ -32,9 +33,10 @@ export function Sidebar({
   onChange,
   style,
   collapsable = true,
+  collapsed = false,
 }: SidebarProps) {
   const isMobile = useIsMobile()
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(collapsed ? false : true)
   const [value = '', setValue] = useControllableState({
     value: valueProp,
     onChange,
@@ -153,8 +155,9 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
             setValue(value)
           }}
           variant="neutral-transparent"
+          style={{ fontSize: 14 }}
         >
-          {icon}
+          {icon ? icon : children.substring(0, 2) + '...'}
         </Button>
       </Tooltip>
     </styled.div>
