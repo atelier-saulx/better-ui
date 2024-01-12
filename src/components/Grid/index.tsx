@@ -2,12 +2,14 @@ import * as React from 'react'
 import { styled } from 'inlines'
 import { border, borderRadius } from '../../index.js'
 import { GridItem } from './Item.js'
-import { GridProps, Item } from './types.js'
+import { GridProps } from './types.js'
 
 // TODO this component is a WIP, API will be changed to match the Table
 
-const isItem = (item: Item | React.ReactNode): item is Item => {
-  return !React.isValidElement(item)
+const isReactNode = (
+  renderAs: string | React.ReactNode
+): renderAs is React.ReactNode => {
+  return typeof renderAs !== 'string'
 }
 
 export function Grid({
@@ -40,15 +42,15 @@ GridProps) {
             }),
           }}
         >
-          {isItem(item) ? (
+          {isReactNode(item.renderAs) ? (
+            item.renderAs
+          ) : (
             <GridItem
               variant={variant}
               key={i}
               item={item}
               itemAction={itemAction}
             />
-          ) : (
-            item
           )}
         </styled.div>
       ))}
