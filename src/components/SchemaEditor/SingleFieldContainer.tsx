@@ -12,6 +12,10 @@ import { SelectNewField } from './Modals/SelectNewField.js'
 export const SingleFieldContainer = ({ item, typeName }) => {
   // console.log('item??0', item)
 
+  if (item.format === 'rich-text') {
+    item.type = 'richtext'
+  }
+
   return (
     <Container
       style={{
@@ -36,6 +40,7 @@ export const SingleFieldContainer = ({ item, typeName }) => {
               {item.meta.format || item.meta.display}
             </Badge>
           )}
+          {item?.items && <Badge color="neutral">{item.items.type}</Badge>}
         </Stack>
       }
       prefix={

@@ -475,3 +475,11 @@ export const DATE_FORMAT_OPTIONS = [
   { value: 'time' },
   { value: 'time-precise' },
 ]
+
+export const ARRAY_OPTIONS = [
+  // { value: 'digest', label: 'Digest' },
+  { value: 'float' },
+  { value: 'int' },
+  { value: 'object' },
+  { value: 'string' },
+]

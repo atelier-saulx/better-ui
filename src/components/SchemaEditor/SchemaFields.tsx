@@ -13,6 +13,8 @@ type SchemaItem = {
   label: string
   index?: number
   properties: {}
+  format?: string
+  items?: { type: string }
 }
 type unindexedSchemaItem = Omit<SchemaItem, 'index'>
 
@@ -24,9 +26,9 @@ const parseFields = (fields) => {
 
   // TODO: sort on index or meta index DRAG drop @yves
   for (const i in type) {
-    //  console.log('🔫 meta', type[i]?.meta, 'index', type[i]?.index, type[i])
+    // console.log('🔫 meta', type[i]?.meta, 'index', type[i]?.index, type[i])
     if (type[i].hasOwnProperty('meta')) {
-      // console.log('REACh 🔥')
+      console.log('REACh 🔥')
       indexedArray.push({
         name: i,
         meta: type[i].meta,
@@ -36,6 +38,8 @@ const parseFields = (fields) => {
         index: type[i]?.index,
         // index: type[i].meta.index,
         properties: type[i].properties,
+        format: type[i].format,
+        items: type[i].items,
       })
     } else if (!type[i].index) {
       console.log('REACh 🐧')
@@ -47,6 +51,8 @@ const parseFields = (fields) => {
         label: i,
         // index: type[i]?.index,
         properties: type[i].properties,
+        format: type[i].format,
+        items: type[i].items,
       })
     }
   }

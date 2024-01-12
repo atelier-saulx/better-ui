@@ -10,6 +10,7 @@ import { NumberInput } from '../../NumberInput/index.js'
 import { styled } from 'inlines'
 import { Modal } from '../../Modal/index.js'
 import {
+  ARRAY_OPTIONS,
   CONTENTMEDIATYPES_ARRAY,
   CONTENT_MEDIA_ENCODINGS,
   CONTENT_MEDIA_TYPES,
@@ -33,6 +34,8 @@ type AddFieldProps = {
 type SpecificOptionsProps = {
   fieldType: string
   setMeta: ({}) => void
+  setItems: ({}) => void
+  items?: any
   meta?: any
 }
 
@@ -68,16 +71,23 @@ export const AddField = ({
     editItem ? editItem.meta : {}
   )
   const [tabIndex, setTabIndex] = React.useState(1)
+  // for arrays
+  const [items, setItems] = React.useState(
+    editItem ? editItem?.items : { type: 'string' }
+  )
 
   const client = useClient()
+
+  console.log(fieldItem, 'fieldItem')
+  console.log(editItem, 'editItem')
 
   // if nested or Edit find the specific item field
   // get schema
   const { data } = useQuery('db:schema')
 
-  React.useEffect(() => {
-    console.log(meta, 'meta chagnd')
-  }, [meta])
+  // React.useEffect(() => {
+  //   console.log(meta, 'meta chagnd')
+  // }, [meta])
 
   return (
     <Modal
@@ -118,6 +128,22 @@ export const AddField = ({
               type: fieldType.toLowerCase(),
               meta: meta,
               properties: {},
+            },
+          }
+        } else if (fieldType.toLowerCase() === 'array') {
+          fields = {
+            [meta.name || meta.displayName.toLowerCase()]: {
+              type: fieldType.toLowerCase(),
+              meta: meta,
+              items: items,
+            },
+          }
+        } else if (fieldType.toLowerCase() === 'rich text') {
+          fields = {
+            [meta.name || meta.displayName.toLowerCase()]: {
+              type: 'json',
+              meta: meta,
+              format: 'rich-text',
             },
           }
         } else {
@@ -197,7 +223,6 @@ export const AddField = ({
           General
         </Button>
         {fieldType.toLowerCase() !== 'boolean' &&
-        fieldType.toLowerCase() !== 'array' &&
         fieldType.toLowerCase() !== 'cardinality' &&
         fieldType.toLowerCase() !== 'enum' &&
         fieldType.toLowerCase() !== 'reference' &&
@@ -221,6 +246,8 @@ export const AddField = ({
           fieldType={fieldType.toLowerCase()}
           meta={meta}
           setMeta={setMeta}
+          setItems={setItems}
+          items={items}
         />
       )}
     </Modal>
@@ -301,7 +328,11 @@ const SpecificOptions = ({
   fieldType,
   meta,
   setMeta,
+  setItems,
+  items,
 }: SpecificOptionsProps) => {
+  console.log('What is itesm', items)
+
   return (
     // STRING & // TEXT
     <Stack grid gap={12}>
@@ -428,6 +459,13 @@ const SpecificOptions = ({
           value={meta?.display}
           options={DATE_FORMAT_OPTIONS}
           onChange={(v) => setMeta({ field: 'display', value: v })}
+        />
+      ) : fieldType === 'array' ? (
+        <SelectInput
+          label="Array options"
+          value={items?.type}
+          options={ARRAY_OPTIONS}
+          onChange={(v) => setItems({ type: v })}
         />
       ) : (
         '🙈'
