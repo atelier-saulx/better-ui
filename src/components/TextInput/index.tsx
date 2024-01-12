@@ -23,16 +23,19 @@ export type TextInputProps = {
   error?: boolean
   autoFocus?: boolean
   description?: string
+  disabled?: boolean
   style?: Style
 }
 
 const Wrapper = ({
   label,
   children,
+  disabled,
   style,
 }: {
   label?: string
   children: React.ReactNode
+  disabled?: boolean
   style?: Style
 }) => {
   if (label) {
@@ -44,16 +47,31 @@ const Wrapper = ({
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
+                opacity: disabled ? 0.6 : 1,
+                cursor: disabled ? 'not-allowed' : 'default',
               }
             : undefined
         }
+        onClick={(e) => (disabled ? e.preventDefault() : console.log(e))}
       >
         {children}
       </styled.label>
     )
   }
 
-  return <styled.div style={{ width: '100%', ...style }}>{children}</styled.div>
+  return (
+    <styled.div
+      style={{
+        width: '100%',
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
+        ...style,
+      }}
+      onClick={(e) => (disabled ? e.preventDefault() : console.log(e))}
+    >
+      {children}
+    </styled.div>
+  )
 }
 
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
@@ -72,6 +90,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       error,
       onKeyDown,
       description,
+      disabled,
       style,
     },
     ref
@@ -83,7 +102,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     })
 
     return (
-      <Wrapper label={label} style={style}>
+      <Wrapper label={label} disabled={disabled} style={style}>
         {label && (
           <styled.span
             style={{
@@ -97,6 +116,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           </styled.span>
         )}
         <styled.input
+          tabindex={disabled ? '-1' : 'auto'}
           autoFocus={autoFocus}
           value={state}
           defaultValue={defaultValue}
@@ -110,6 +130,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           name={formName}
           placeholder={placeholder}
           style={{
+            pointerEvents: disabled ? 'none' : 'default',
             background: 'none',
             fontSize: 14,
             lineHeight: '24px',

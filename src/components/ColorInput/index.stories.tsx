@@ -25,3 +25,7 @@ export const Small = () => {
 export const Error = () => {
   return <ColorInput error />
 }
+
+export const Disabled = () => {
+  return <ColorInput disabled />
+}
