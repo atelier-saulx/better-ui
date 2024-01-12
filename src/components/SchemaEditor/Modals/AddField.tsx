@@ -78,16 +78,7 @@ export const AddField = ({
 
   const client = useClient()
 
-  console.log(fieldItem, 'fieldItem')
-  console.log(editItem, 'editItem')
-
-  // if nested or Edit find the specific item field
-  // get schema
   const { data } = useQuery('db:schema')
-
-  // React.useEffect(() => {
-  //   console.log(meta, 'meta chagnd')
-  // }, [meta])
 
   return (
     <Modal
@@ -95,25 +86,7 @@ export const AddField = ({
       confirmProps={{ disabled: !meta.name }}
       onConfirm={async () => {
         let fields
-        // Set The new field with meta data..
-        // let fields = {
-        //   [meta.name || meta.displayName.toLowerCase()]: {
-        //     type: fieldType.toLowerCase(),
-        //     //      label: meta.name || meta.displayName.toLowerCase(),
-        //     // id:
-        //     //   fieldType.toLowerCase() === 'array'
-        //     //     ? undefined
-        //     //     : meta.name || meta.displayName.toLowerCase(),
-        //     // properties:
-        //     //   fieldType.toLowerCase() === 'object' ? {} : undefined,
-        //     // values: fieldType.toLowerCase() === 'record' ? [] : undefined,
-        //     // index:
-        //     //   fieldType.toLowerCase() === 'array'
-        //     //     ? undefined
-        //     //     : thisSpecificField?.index || newIndex,
-        //     meta: meta,
-        //   },
-        // }
+
         if (fieldType.toLowerCase() === 'record') {
           fields = {
             [meta.name || meta.displayName.toLowerCase()]: {
@@ -376,6 +349,11 @@ const SpecificOptions = ({
           />
           <styled.div style={{ display: 'flex', gap: 16 }}>
             <SelectInput
+              placeholder={
+                !CONTENTMEDIATYPES_ARRAY.includes(meta.contentMediaType)
+                  ? 'custom'
+                  : ''
+              }
               label="Content Media Types"
               value={meta?.contentMediaType}
               options={CONTENT_MEDIA_TYPES}
@@ -383,7 +361,7 @@ const SpecificOptions = ({
             />
             {!CONTENTMEDIATYPES_ARRAY.includes(meta?.contentMediaType) && (
               <TextInput
-                label="Custom ContentMediaType"
+                label="Custom MediaType"
                 value={meta?.contentMediaType}
                 onChange={(v) =>
                   setMeta({ field: 'contentMediaType', value: v })
