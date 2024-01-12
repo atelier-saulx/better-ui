@@ -39,7 +39,7 @@ export type Listeners = {
       ctx: TableCtx
     },
     updateProgress: (p: number) => void
-  ) => Promise<Reference | string | void | null>
+  ) => Promise<Reference | string | void | null | File>
 }
 
 export type TableCtx = {
