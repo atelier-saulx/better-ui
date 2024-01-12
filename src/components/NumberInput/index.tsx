@@ -119,7 +119,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
         <div style={{ position: 'relative' }}>
           <styled.input
             type="number"
-            tabindex={disabled ? '-1' : 'auto'}
+            tabIndex={disabled ? '-1' : 'auto'}
             autoFocus={autoFocus}
             value={value ?? ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

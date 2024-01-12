@@ -133,7 +133,7 @@ export function ColorInput({
 
       <div style={{ position: 'relative' }}>
         <styled.input
-          tabindex={disabled ? '-1' : 'auto'}
+          tabIndex={disabled ? '-1' : 'auto'}
           ref={inputRef}
           defaultValue={value}
           onChange={(e) => {
