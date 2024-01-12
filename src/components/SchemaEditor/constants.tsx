@@ -263,6 +263,7 @@ export const STRING_FORMAT_DISPLAY_OPTIONS = [
   { value: 'lowercase' },
   { value: 'uppercase' },
   { value: 'capitalize' },
+  { value: null, label: 'unset' },
 ]
 
 export const NUMBER_DISPLAY_FORMAT_OPTIONS = [

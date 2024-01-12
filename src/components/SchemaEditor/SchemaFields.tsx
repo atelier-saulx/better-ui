@@ -22,9 +22,7 @@ const parseFields = (fields) => {
   const array = [] as unindexedSchemaItem[]
   const type = fields
 
-  // console.log('indexed array ---->', indexedArray)
-  // console.log('unindex', array)
-
+  // TODO: sort on index or meta index DRAG drop @yves
   for (const i in type) {
     //  console.log('🔫 meta', type[i]?.meta, 'index', type[i]?.index, type[i])
     if (type[i].hasOwnProperty('meta')) {
@@ -67,12 +65,7 @@ export const SchemaFields = ({ fields, typeName }) => {
 
   React.useEffect(() => {
     setArray(parseFields(fields))
-  }, [
-    fields,
-    // routeType
-  ])
-
-  // console.log('Fields --> ', fields)
+  }, [fields])
 
   return (
     <styled.div style={{ marginTop: 16 }}>

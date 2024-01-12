@@ -14,5 +14,5 @@ export type GridProps = {
   itemAction?: (item: Item) => React.ReactNode
   onItemClick?: (item: Item) => void
   onDrop?: (dropTarget: Item, dragTarget: Item) => Promise<boolean>
-  onDragOverOpen: (dropTarget: Item, dragTarget: Item) => Promise<boolean>
+  onDragOverOpen?: (dropTarget: Item, dragTarget: Item) => Promise<boolean>
 }

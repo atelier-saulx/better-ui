@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Container } from '../Container/index.js'
 import { Thumbnail } from '../Thumbnail/index.js'
 import { Badge } from '../Badge/index.js'
+import { Text } from '../Text/index.js'
 import { FieldEditAndDelete } from './Modals/FieldEditAndDelete.js'
 import { SCHEMA_FIELDS, SYSTEM_FIELDS } from './constants.js'
 import { Stack } from '../Stack/index.js'
@@ -22,29 +23,26 @@ export const SingleFieldContainer = ({ item, typeName }) => {
       }}
       // key={idx}
       title={
-        <React.Fragment>
-          {item?.name || item.meta.name}{' '}
-          <Badge
-            color={SCHEMA_FIELDS[item.type]?.color}
-            style={{ marginLeft: 16, marginRight: 16 }}
-          >
+        <Stack gap={12}>
+          <Text variant="body-bold">{item?.name || item.meta.name}</Text>
+          <Badge color={SCHEMA_FIELDS[item.type]?.color}>
             {item.type}
           </Badge>{' '}
           {SYSTEM_FIELDS.includes(item?.name || item.meta.name) ? (
             <Badge color="neutral-muted">System</Badge>
           ) : null}
           {(item.meta?.display || item.meta?.format) && (
-            <Badge color="neutral" style={{ marginRight: 16 }}>
+            <Badge color="neutral">
               {item.meta.format || item.meta.display}
             </Badge>
           )}
-        </React.Fragment>
+        </Stack>
       }
       prefix={
         <Thumbnail
           icon={SCHEMA_FIELDS[item.type]?.icon}
           color={SCHEMA_FIELDS[item.type]?.color}
-          style={{ marginRight: 16 }}
+          style={{ marginRight: 12 }}
         />
       }
       suffix={

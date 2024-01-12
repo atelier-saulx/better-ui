@@ -295,8 +295,7 @@ const SpecificOptions = ({
         <>
           {fieldType === 'text' && (
             // @ts-ignore
-            <Input
-              type="multi-select"
+            <SelectInput
               label="Languages"
               options={LANG_SELECT_OPTIONS}
               value={meta?.languages}
