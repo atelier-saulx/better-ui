@@ -29,3 +29,11 @@ export const Error: StoryObj<typeof TextInput> = {
     error: true,
   },
 }
+
+export const Disabled: StoryObj<typeof TextInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    label: 'Label',
+    disabled: true,
+  },
+}

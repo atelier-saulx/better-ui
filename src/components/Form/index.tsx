@@ -17,6 +17,18 @@ type FormValues = {
   [key: string]: FormSchemaField
 }
 
+type FormOnChange = (
+  values: { [key: string]: any },
+  changed: { [key: string]: any },
+  checksum: number
+) => void
+
+type FormOnChangeAsync = (
+  values: { [key: string]: any },
+  changed: { [key: string]: any },
+  checksum: number
+) => Promise<void>
+
 export type FormProps = {
   autoFocus?: boolean
   validate?: (path: Path, value: any, field: BasedSchemaField) => boolean
@@ -33,17 +45,7 @@ export type FormProps = {
     field: BasedSchemaField
   ) => void
   onChangeTransform?: (val: any, path: Path, field: BasedSchemaField) => any
-  onChange?: (
-    values: { [key: string]: any },
-    changed: { [key: string]: any },
-    checksum: number
-  ) => void | Promise<
-    (
-      values: { [key: string]: any },
-      changed: { [key: string]: any },
-      checksum: number
-    ) => void
-  >
+  onChange?: FormOnChange | FormOnChangeAsync
   confirmLabel?: ReactNode
   fields: FormValues
   variant?: Variant

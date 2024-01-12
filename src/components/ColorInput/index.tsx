@@ -19,6 +19,7 @@ export type ColorInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   description?: string
+  disabled?: boolean
   style?: Style
 }
 
@@ -38,6 +39,7 @@ export function ColorInput({
   description,
   onChange,
   checksum,
+  disabled,
   style,
 }: ColorInputProps) {
   const [value, setValue] = useControllableState({
@@ -107,6 +109,8 @@ export function ColorInput({
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
         '&[data-state="open"] > div': {
           border: '1px solid var(--interactive-primary) !important',
           boxShadow:
@@ -129,6 +133,7 @@ export function ColorInput({
 
       <div style={{ position: 'relative' }}>
         <styled.input
+          tabindex={disabled ? '-1' : 'auto'}
           ref={inputRef}
           defaultValue={value}
           onChange={(e) => {
@@ -145,6 +150,7 @@ export function ColorInput({
             }
           }}
           style={{
+            pointerEvents: disabled ? 'none' : 'auto',
             display: 'flex',
             alignItems: 'center',
             gap: 10,
@@ -183,7 +189,7 @@ export function ColorInput({
         />
         <Popover.Root>
           <Popover.Trigger asChild>
-            <div>
+            <div style={{ pointerEvents: disabled ? 'none' : 'auto' }}>
               {value && (
                 <div
                   style={{

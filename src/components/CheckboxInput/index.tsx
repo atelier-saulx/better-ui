@@ -19,6 +19,7 @@ export type CheckboxInputProps = {
   description?: string
   variant?: 'checkbox' | 'toggle'
   autoFocus?: boolean
+  disabled?: boolean
   style?: Style
 }
 
@@ -37,6 +38,7 @@ export const CheckboxInput = React.forwardRef<
       description,
       variant = 'checkbox',
       autoFocus,
+      disabled,
       style,
     },
     ref
@@ -56,7 +58,8 @@ export const CheckboxInput = React.forwardRef<
         align="start"
         gap={12}
         style={{
-          cursor: 'pointer',
+          opacity: disabled ? 0.6 : 1,
+          cursor: disabled ? 'not-allowed' : 'pointer',
           ...style,
         }}
       >
@@ -78,11 +81,15 @@ export const CheckboxInput = React.forwardRef<
           }}
           checked={value}
           onChange={(e) => {
-            setValue(e.target.checked)
+            if (!disabled) {
+              setValue(e.target.checked)
+            }
           }}
           autoFocus={autoFocus}
           onFocus={() => {
-            setFocused(true)
+            if (!disabled) {
+              setFocused(true)
+            }
           }}
           onBlur={() => {
             setFocused(false)

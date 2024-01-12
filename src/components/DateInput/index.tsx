@@ -50,6 +50,7 @@ export type DateInputProps = {
   error?: boolean
   label?: string
   description?: string
+  disabled?: boolean
   style?: Style
 }
 
@@ -64,6 +65,7 @@ export function DateInput({
   error,
   label,
   description,
+  disabled,
   style,
 }: DateInputProps) {
   const [value, setValue] = useControllableState({
@@ -127,6 +129,8 @@ export function DateInput({
         <Wrapper
           style={{
             display: 'flex',
+            opacity: disabled ? 0.6 : 1,
+            cursor: disabled ? 'not-allowed' : 'default',
             flexDirection: 'column',
             width: '100%',
             '&[data-state="open"] > div': {
@@ -142,6 +146,7 @@ export function DateInput({
             }),
             ...style,
           }}
+          onClick={(e) => (disabled ? e.preventDefault() : null)}
         >
           {label && (
             <styled.span
@@ -578,6 +583,7 @@ export function DateInput({
                     <Text>End time</Text>
                     <div style={{ width: 80 }}>
                       <TextInput
+                        disabled={disabled}
                         ref={endTimeInputRef}
                         placeholder="11:00"
                         variant="small"

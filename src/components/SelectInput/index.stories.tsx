@@ -13,6 +13,7 @@ export const Default: StoryObj<typeof SelectInput> = {
     placeholder: 'Select something',
     label: 'Favourite fruit',
     description: 'What is your favourite?',
+    disabled: false,
     options: [
       {
         label: 'Orange',
