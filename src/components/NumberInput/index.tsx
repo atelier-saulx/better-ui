@@ -24,16 +24,19 @@ export type NumberInputProps = {
   error?: boolean
   autoFocus?: boolean
   description?: string
+  disabled?: boolean
   style?: Style
 }
 
 const Wrapper = ({
   label,
   children,
+  disabled,
   style,
 }: {
   label?: string
   children: React.ReactNode
+  disabled?: boolean
   style?: Style
 }) => {
   if (label) {
@@ -45,16 +48,31 @@ const Wrapper = ({
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
+                opacity: disabled ? 0.6 : 1,
+                cursor: disabled ? 'not-allowed' : 'default',
               }
             : undefined
         }
+        onClick={(e) => (disabled ? e.preventDefault() : null)}
       >
         {children}
       </styled.label>
     )
   }
 
-  return <styled.div style={{ width: '100%', ...style }}>{children}</styled.div>
+  return (
+    <styled.div
+      style={{
+        width: '100%',
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
+        ...style,
+      }}
+      onClick={(e) => (disabled ? e.preventDefault() : null)}
+    >
+      {children}
+    </styled.div>
+  )
 }
 
 export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
@@ -72,6 +90,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       error,
       autoFocus,
       description,
+      disabled,
       style,
     },
     ref
@@ -84,7 +103,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     })
 
     return (
-      <Wrapper label={label} style={style}>
+      <Wrapper label={label} disabled={disabled} style={style}>
         {label && (
           <styled.span
             style={{
@@ -100,6 +119,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
         <div style={{ position: 'relative' }}>
           <styled.input
             type="number"
+            tabIndex={disabled ? '-1' : 'auto'}
             autoFocus={autoFocus}
             value={value ?? ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,6 +137,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             placeholder={placeholder}
             step={step}
             style={{
+              pointerEvents: disabled ? 'none' : 'default',
               background: 'none',
               fontSize: 14,
               lineHeight: '24px',
@@ -186,7 +207,9 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 e.preventDefault()
                 if (typeof value !== 'number') return
 
-                setValue(value + step)
+                if (!disabled) {
+                  setValue(value + step)
+                }
               }}
             >
               <IconSmallArrowheadTop
@@ -206,7 +229,9 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 e.preventDefault()
                 if (typeof value !== 'number') return
 
-                setValue(value - step)
+                if (!disabled) {
+                  setValue(value - step)
+                }
               }}
             >
               <IconSmallArrowheadDown

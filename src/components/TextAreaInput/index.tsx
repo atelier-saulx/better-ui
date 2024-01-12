@@ -21,16 +21,19 @@ export type TextAreaInputProps = {
   autoFocus?: boolean
   description?: string
   style?: Style
+  disabled?: boolean
   checksum?: number
 }
 
 const Wrapper = ({
   label,
   children,
+  disabled,
   style,
 }: {
   label?: string
   children: React.ReactNode
+  disabled?: boolean
   style?: Style
 }) => {
   if (label) {
@@ -42,16 +45,31 @@ const Wrapper = ({
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
+                opacity: disabled ? 0.6 : 1,
+                cursor: disabled ? 'not-allowed' : 'default',
               }
             : undefined
         }
+        onClick={(e) => (disabled ? e.preventDefault() : null)}
       >
         {children}
       </styled.label>
     )
   }
 
-  return <styled.div style={{ width: '100%', ...style }}>{children}</styled.div>
+  return (
+    <styled.div
+      style={{
+        width: '100%',
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
+        ...style,
+      }}
+      onClick={(e) => (disabled ? e.preventDefault() : null)}
+    >
+      {children}
+    </styled.div>
+  )
 }
 
 export const TextAreaInput = React.forwardRef<
@@ -70,6 +88,7 @@ export const TextAreaInput = React.forwardRef<
       error,
       autoFocus,
       description,
+      disabled,
       style,
       checksum,
     },
@@ -83,7 +102,7 @@ export const TextAreaInput = React.forwardRef<
     })
 
     return (
-      <Wrapper label={label} style={style}>
+      <Wrapper label={label} disabled={disabled} style={style}>
         {label && (
           <styled.span
             style={{
@@ -108,6 +127,7 @@ export const TextAreaInput = React.forwardRef<
         <styled.div
           data-value={state}
           style={{
+            pointerEvents: disabled ? 'none' : 'default',
             position: 'relative',
             display: 'grid',
             width: '100%',
@@ -126,6 +146,7 @@ export const TextAreaInput = React.forwardRef<
           }}
         >
           <styled.textarea
+            tabIndex={disabled ? '-1' : 0}
             value={value}
             defaultValue={defaultValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

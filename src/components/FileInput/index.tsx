@@ -41,6 +41,7 @@ export type FileInputProps = {
     src?: string
   }
   variant?: Variant
+  disabled?: boolean
   style?: Style
 }
 
@@ -53,6 +54,7 @@ export function FileInput({
   mimeType,
   value,
   variant = 'regular',
+  disabled,
   style,
 }: FileInputProps) {
   // Allow paste of url as well...
@@ -99,6 +101,7 @@ export function FileInput({
   return (
     <styled.label
       style={{
+        opacity: disabled ? 0.6 : 1,
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
@@ -107,6 +110,8 @@ export function FileInput({
           dragOver && variant !== 'small'
             ? color('background', 'neutral')
             : null,
+        // cursor: disabled ? 'not-allowed' : 'default',
+        pointerEvents: disabled ? 'none' : 'auto',
         ...style,
       }}
       {...listeners}
@@ -152,6 +157,7 @@ export function FileInput({
           />
         }
         <styled.input
+          tabIndex={disabled ? '-1' : 0}
           ref={inputRef}
           type="file"
           accept={mimeType}
