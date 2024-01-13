@@ -27,13 +27,6 @@ function Rows(p: RowProps & { isCols: boolean }) {
   return <NestedObjectRows {...p} />
 }
 
-// created at refs
-// label
-// drag drag
-// src in array
-// change change back checsum needs to be reset dont show confirm
-// checksum not giving bit weird
-
 export function Array({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
   const valuesField = field.values
