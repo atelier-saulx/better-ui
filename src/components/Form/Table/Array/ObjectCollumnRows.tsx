@@ -67,7 +67,7 @@ const CollRow = (p: {
       }}
       onDrop={(e) => {
         e.preventDefault()
-        const d = e.dataTransfer.getData('text/plain')
+        // const d = e.dataTransfer.getData('text/plain')
         p.changeIndex(draggingIndex, p.index)
         setDragOver(0)
       }}
