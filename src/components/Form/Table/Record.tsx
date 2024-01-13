@@ -10,7 +10,7 @@ import {
   IconClose,
 } from '../../../index.js'
 import { Path, TableCtx, TableProps } from '../types.js'
-import { readPath, useCols, createNewEmptyValue } from '../utils.js'
+import { readPath, canUseColumns, createNewEmptyValue } from '../utils.js'
 import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { BasedSchemaFieldRecord } from '@based/schema'
@@ -76,7 +76,7 @@ export function Record({ ctx, path }: TableProps) {
     ctx.listeners.onChangeHandler(ctx, path, nValue)
   }
 
-  if (valuesField.type === 'object' && useCols(valuesField)) {
+  if (valuesField.type === 'object' && canUseColumns(valuesField)) {
     cols.push(
       <Cell width={200} isKey border key={'key'}>
         Key

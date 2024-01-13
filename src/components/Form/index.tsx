@@ -1,12 +1,12 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
 import { BasedSchemaField, BasedSchema } from '@based/schema'
 import { Stack } from '../../index.js'
-import { readPath } from './utils.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
-import { deepCopy, deepMerge, setByPath } from '@saulx/utils'
+import { deepCopy, deepMerge } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 import { Field } from './Field.js'
 import { FormConfirm } from './FormConfirm.js'
+import { useListeners } from './useListeners.js'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
@@ -28,6 +28,12 @@ type FormOnChangeAsync = (
   changed: { [key: string]: any },
   checksum: number
 ) => Promise<void>
+
+export type ValueRef = {
+  hasChanges?: boolean
+  values: { [key: string]: any }
+  changes: { [key: string]: any }
+}
 
 export type FormProps = {
   autoFocus?: boolean
@@ -62,143 +68,89 @@ export type FormProps = {
   }
 }
 
-export const Form = ({
-  fields,
-  values,
-  checksum,
-  onChange,
-  onChangeAtomic,
-  onSelectReference,
-  onSelectReferences,
-  confirmLabel,
-  onChangeTransform,
-  formRef,
-  onFileUpload,
-  autoFocus,
-  // validate,
-  onClickReference,
-  variant = 'regular',
-}: FormProps) => {
-  const nRef = useRef<{
-    hasChanges?: boolean
-    values: { [key: string]: any }
-    changes: { [key: string]: any }
-  }>({
-    values: values ?? {},
+export const Form = (p: FormProps) => {
+  const valueRef = useRef<ValueRef>({
+    values: p.values ?? {},
     changes: {},
     hasChanges: false,
   })
 
-  const [currentChecksum, setChecksum] = React.useState(checksum)
+  const [currentChecksum, setChecksum] = React.useState(p.checksum)
 
   const onConfirm = React.useCallback(async () => {
     try {
-      await onChange(nRef.current.values, nRef.current.changes, currentChecksum)
-      nRef.current.hasChanges = false
-      nRef.current.values = values ?? {}
-      nRef.current.changes = {}
-      const hash = hashObjectIgnoreKeyOrder(values ?? {})
+      await p.onChange(
+        valueRef.current.values,
+        valueRef.current.changes,
+        currentChecksum
+      )
+      valueRef.current.hasChanges = false
+      valueRef.current.values = p.values ?? {}
+      valueRef.current.changes = {}
+      const hash = hashObjectIgnoreKeyOrder(p.values ?? {})
       setChecksum(hash)
     } catch (err) {
       throw err
     }
-  }, [checksum])
+  }, [p.checksum])
 
   const onCancel = React.useCallback(() => {
-    nRef.current.hasChanges = false
-    nRef.current.values = values ?? {}
-    nRef.current.changes = {}
-    const hash = checksum ?? hashObjectIgnoreKeyOrder(values ?? {})
+    valueRef.current.hasChanges = false
+    valueRef.current.values = p.values ?? {}
+    valueRef.current.changes = {}
+    const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values ?? {})
     setChecksum(hash)
-  }, [checksum])
+  }, [p.checksum])
 
-  if (formRef) {
-    if (!formRef.current) {
+  // create ref
+  if (p.formRef) {
+    if (!p.formRef.current) {
       // @ts-ignore
       formRef.current = {}
     }
-    // opt later
+    // optimize later
     Object.assign(
-      formRef.current,
+      p.formRef.current,
       {
         confirm: async () => {
           await onConfirm()
-          return nRef.current.values
+          return valueRef.current.values
         },
         discard: () => {
           onCancel()
         },
       },
-      nRef.current
+      valueRef.current
     )
   }
 
   // May not be a good idea...
   useEffect(() => {
-    if (values) {
-      const hash = checksum ?? hashObjectIgnoreKeyOrder(values)
+    if (p.values) {
+      const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values)
       if (currentChecksum !== hash) {
-        nRef.current.values = deepMerge(deepCopy(values), nRef.current.changes)
+        valueRef.current.values = deepMerge(
+          deepCopy(p.values),
+          valueRef.current.changes
+        )
         setChecksum(hash)
       }
     }
-  }, [checksum, values])
+  }, [p.checksum, p.values])
 
-  const listeners: Listeners = {
-    onChangeHandler: (ctx, path, newValue) => {
-      const { field, value } = readPath(ctx, path)
-
-      if (onChangeTransform) {
-        newValue = onChangeTransform(newValue, path, field)
-      }
-
-      // if (validate) {
-      //   if (!validate(path, value, field)) {
-      //     return true
-      //   }
-      // }
-
-      if (!nRef.current.hasChanges) {
-        nRef.current.hasChanges = true
-        nRef.current.values = deepCopy(values)
-      }
-
-      setByPath(nRef.current.values, path, newValue)
-      setByPath(nRef.current.changes, path, newValue)
-
-      const hash = hashObjectIgnoreKeyOrder(nRef.current.values ?? {})
-
-      if (onChangeAtomic) {
-        onChangeAtomic(path, newValue, value, field)
-      }
-
-      // TODO: change this
-      if (onChange && (variant === 'bare' || variant === 'no-confirm')) {
-        onChange(nRef.current.values, nRef.current.changes, hash)
-      }
-      setChecksum(hash)
-      return false
-    },
-    onFileUpload: onFileUpload ?? (async () => undefined),
-    onClickReference: onClickReference ?? (() => undefined),
-    onSelectReference:
-      onSelectReference ??
-      ((async (_, value) => value) as Listeners['onSelectReference']),
-    onSelectReferences:
-      onSelectReferences ??
-      ((async (_, value) => value) as Listeners['onSelectReferences']),
-  }
+  // Memoize this
+  const listeners = useListeners(valueRef, setChecksum, p)
 
   const ctx: TableCtx = {
-    variant,
-    fields,
-    values: nRef.current.values,
+    variant: p.variant,
+    fields: p.fields,
+    values: valueRef.current.values,
     listeners,
   }
 
   return (
     <Stack gap={32} direction="column" align="start">
-      {Object.entries(fields)
+      {Object.entries(p.fields)
         .sort(([, a], [, b]) => {
           return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
         })
@@ -209,16 +161,16 @@ export const Form = ({
               key={key}
               field={field}
               propKey={key}
-              autoFocus={autoFocus && i === 0}
+              autoFocus={p.autoFocus && i === 0}
             />
           )
         })}
       <FormConfirm
-        confirmLabel={confirmLabel}
+        confirmLabel={p.confirmLabel}
         onConfirm={onConfirm}
         onCancel={onCancel}
-        hasChanges={nRef.current.hasChanges}
-        variant={variant}
+        hasChanges={valueRef.current.hasChanges}
+        variant={p.variant}
       />
     </Stack>
   )

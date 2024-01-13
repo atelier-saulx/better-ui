@@ -5,7 +5,7 @@ import { Stack, border, color, Button, IconPlus } from '../../../../index.js'
 import { TableProps } from '../../types.js'
 import {
   readPath,
-  useCols,
+  canUseColumns,
   isSmallField,
   getTitle,
   createNewEmptyValue,
@@ -38,7 +38,7 @@ export function Array({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
   const valuesField = field.values
   const cols: ReactNode[] = []
-  const isCols = valuesField.type === 'object' && useCols(valuesField)
+  const isCols = valuesField.type === 'object' && canUseColumns(valuesField)
 
   const valueRef = useRef<typeof value>()
   valueRef.current = value || []

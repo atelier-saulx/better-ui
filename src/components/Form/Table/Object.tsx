@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { Stack, border, color } from '../../../index.js'
 import { BasedSchemaFieldObject } from '@based/schema'
 import { TableProps } from '../types.js'
-import { readPath, useCols, getTitle } from '../utils.js'
+import { readPath, canUseColumns, getTitle } from '../utils.js'
 import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { Table } from './index.js'
@@ -10,7 +10,7 @@ import { ColStack } from './ColStack.js'
 
 export function Object({ ctx, path }: TableProps) {
   const { field } = readPath<BasedSchemaFieldObject>(ctx, path)
-  const cols = useCols(field)
+  const cols = canUseColumns(field)
 
   if (cols) {
     const cells: ReactNode[] = []
