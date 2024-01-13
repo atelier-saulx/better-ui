@@ -68,7 +68,6 @@ const CollRow = (p: {
       onDrop={(e) => {
         e.preventDefault()
         const d = e.dataTransfer.getData('text/plain')
-        console.info('?!@!@!@?', d)
         p.changeIndex(draggingIndex, p.index)
         setDragOver(0)
       }}
@@ -107,7 +106,7 @@ const CollRow = (p: {
       </Stack>
       <ColStack
         onDrop={() => {
-          console.info('??????????')
+          // console.info('??????????')
         }}
         onRemove={() => {
           p.removeItem(i)
