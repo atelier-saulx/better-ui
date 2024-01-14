@@ -71,31 +71,27 @@ export function FileInput({
   // can be a bit nicer
   React.useEffect(() => {
     if (value?.src) {
-      if (value.src === 'string') {
-        fetch(value?.src)
-          .then((r) => r.blob())
-          .then((blob) => {
-            const end = value.src?.split('/') ?? []
-            const n: string = end[end.length - 1] ?? ''
-            const extension = (n.split('.')[1] ?? '').toLowerCase()
-            setInternalStatus('success')
-            const mime =
-              value.mimeType ??
-              (extension === 'jpg' ||
-                extension === 'jpeg' ||
-                extension === 'png' ||
-                extension === 'gif')
-                ? `image/${extension}`
-                : ''
-            const file = new File([blob], value.name ?? n, {
-              type: mime,
-            })
-
-            setFile(file)
+      fetch(value?.src)
+        .then((r) => r.blob())
+        .then((blob) => {
+          const end = value.src?.split('/') ?? []
+          const n: string = end[end.length - 1] ?? ''
+          const extension = (n.split('.')[1] ?? '').toLowerCase()
+          setInternalStatus('success')
+          const mime =
+            value.mimeType ??
+            (extension === 'jpg' ||
+              extension === 'jpeg' ||
+              extension === 'png' ||
+              extension === 'gif')
+              ? `image/${extension}`
+              : ''
+          const file = new File([blob], value.name ?? n, {
+            type: mime,
           })
-      } else {
-        setFile(value.src as any)
-      }
+
+          setFile(file)
+        })
     }
   }, [value?.src])
 
