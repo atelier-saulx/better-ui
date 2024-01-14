@@ -6,13 +6,12 @@ import {
   IconChevronDown,
   IconChevronTop,
   border,
-  borderRadius,
   useControllableState,
   TextInput,
   boxShadow,
 } from '../../index.js'
 import { textVariants } from '../../components/Text/index.js'
-import { color } from '../../utils/colors.js'
+import { borderRadius, color } from '../../utils/colors.js'
 import { styled, Style } from 'inlines'
 import {
   addMonths,
