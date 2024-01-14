@@ -106,7 +106,7 @@ export const Form = (p: FormProps) => {
   if (p.formRef) {
     if (!p.formRef.current) {
       // @ts-ignore
-      formRef.current = {}
+      p.formRef.current = {}
     }
     // optimize later
     Object.assign(
