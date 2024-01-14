@@ -103,6 +103,10 @@ export const isTable = (field: BasedSchemaField): boolean => {
 }
 
 export const isSmallField = (field: BasedSchemaField): boolean => {
+  if (!field) {
+    return true
+  }
+
   const { type } = field
 
   if (
