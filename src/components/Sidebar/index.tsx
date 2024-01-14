@@ -36,11 +36,15 @@ export function Sidebar({
   collapsed = false,
 }: SidebarProps) {
   const isMobile = useIsMobile()
-  const [open, setOpen] = React.useState(collapsed ? false : true)
+  let [open, setOpen] = React.useState(false)
   const [value = '', setValue] = useControllableState({
     value: valueProp,
     onChange,
   })
+
+  if (collapsed !== undefined) {
+    open = !collapsed
+  }
 
   React.useEffect(() => {
     if (isMobile && collapsable) {
