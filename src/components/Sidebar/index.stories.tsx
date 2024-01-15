@@ -29,12 +29,7 @@ export const Default = () => {
 
   return (
     <div style={{ height: '100vh', width: '100%' }}>
-      <Sidebar
-        value={active}
-        onChange={setActive}
-        collapsable={false}
-        collapsed={false}
-      >
+      <Sidebar value={active} onValueChange={setActive}>
         <SidebarItem value="overview" icon={<IconViewBoxes />}>
           Overview
         </SidebarItem>
@@ -60,7 +55,7 @@ export const WithGroups = () => {
 
   return (
     <div style={{ height: '100vh', width: '100%' }}>
-      <Sidebar value={active} onChange={setActive}>
+      <Sidebar value={active} onValueChange={setActive}>
         <SidebarGroup title="Database">
           <SidebarItem value="overview" icon={<IconViewDashboard />}>
             Overview
@@ -84,4 +79,66 @@ export const WithGroups = () => {
       </Sidebar>
     </div>
   )
+}
+
+export const Multiple = () => {
+  const [active, setActive] = React.useState(null)
+  const [open, setOpen] = React.useState(true)
+
+  return (
+    <div style={{ height: '100vh', width: '100%', display: 'flex' }}>
+      <Sidebar
+        value={active}
+        onValueChange={(newActive) => {
+          if (['complex'].includes(newActive)) {
+            setOpen(false)
+          } else {
+            setOpen(true)
+          }
+
+          setActive(newActive)
+        }}
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <SidebarItem value="simple" icon={<IconLayerThree />}>
+          Simple page
+        </SidebarItem>
+        <SidebarItem value="complex" icon={<IconViewDashboard />}>
+          Complex page
+        </SidebarItem>
+      </Sidebar>
+
+      {active === 'simple' && <SimplePage />}
+      {active === 'complex' && <ComplexPage />}
+    </div>
+  )
+}
+
+const ComplexPage = () => {
+  const [active, setActive] = React.useState('one')
+
+  return (
+    <div style={{ display: 'flex' }}>
+      <Sidebar value={active} onValueChange={setActive} collapsable={false}>
+        <SidebarItem value="one" icon={<IconUsers />}>
+          Nested page #1
+        </SidebarItem>
+        <SidebarItem value="two" icon={<IconSettings />}>
+          Nested page #2
+        </SidebarItem>
+      </Sidebar>
+
+      {active === 'one' && (
+        <div style={{ padding: 32 }}>complex one content</div>
+      )}
+      {active === 'two' && (
+        <div style={{ padding: 32 }}>complex two content</div>
+      )}
+    </div>
+  )
+}
+
+const SimplePage = () => {
+  return <div style={{ padding: 32 }}>simple page content</div>
 }

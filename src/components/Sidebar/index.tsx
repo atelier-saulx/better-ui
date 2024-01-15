@@ -20,31 +20,32 @@ const SidebarContext = React.createContext({
 
 export type SidebarProps = {
   children: React.ReactNode
-  value: string
-  onChange: (value: string) => void
+  open?: boolean
+  onOpenChange?: (value: boolean) => void
+  value?: string
+  onValueChange?: (value: string) => void
   style?: Style
   collapsable?: boolean
-  collapsed?: boolean
 }
 
 export function Sidebar({
   children,
   value: valueProp,
-  onChange,
+  onValueChange,
+  open: openProp = true,
+  onOpenChange,
   style,
   collapsable = true,
-  collapsed = false,
 }: SidebarProps) {
   const isMobile = useIsMobile()
-  let [open, setOpen] = React.useState(false)
-  const [value = '', setValue] = useControllableState({
-    value: valueProp,
-    onChange,
+  let [open, setOpen] = useControllableState({
+    value: openProp,
+    onChange: onOpenChange,
   })
-
-  if (collapsed !== undefined) {
-    open = !collapsed
-  }
+  const [value, setValue] = useControllableState({
+    value: valueProp,
+    onChange: onValueChange,
+  })
 
   React.useEffect(() => {
     if (isMobile && collapsable) {
@@ -77,7 +78,7 @@ export function Sidebar({
               variant="neutral-transparent"
               shape="square"
               onClick={() => {
-                setOpen((p) => !p)
+                setOpen(!open)
               }}
             >
               <IconViewLayoutLeft />
@@ -159,7 +160,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
             setValue(value)
           }}
           variant="neutral-transparent"
-          style={{ fontSize: 14 }}
+          style={{ fontSize: 14, fontWeight: 600, height: 40, width: 40 }}
         >
           {icon ? icon : children.substring(0, 2) + '...'}
         </Button>
@@ -195,6 +196,7 @@ export function SidebarGroup({ title, children }: SidebarGroupProps) {
           color: color('content', 'secondary'),
           textTransform: 'uppercase',
           opacity: open ? 1 : 0,
+          height: 24,
         }}
       >
         {title}
