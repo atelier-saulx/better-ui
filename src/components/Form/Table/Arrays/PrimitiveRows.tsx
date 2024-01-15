@@ -7,7 +7,7 @@ import { RowProps } from './types.js'
 
 export function PrimitiveRows(p: RowProps) {
   const rows: ReactNode[] = []
-  const len = p.value.length
+  const len = p.value.value.length
   for (let i = 0; i < len; i++) {
     rows.push(
       <ColStack

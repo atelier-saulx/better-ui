@@ -101,6 +101,8 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       checksum,
     })
 
+    console.info('--------->', value, state)
+
     return (
       <Wrapper label={label} disabled={disabled} style={style}>
         {label && (

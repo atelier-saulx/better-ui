@@ -181,11 +181,11 @@ const CollRow = (p: {
 
 export const ObjectCollsRows = (p: RowProps) => {
   const rows: ReactNode[] = []
-  for (let i = 0; i < p.value.length; i++) {
+  for (let i = 0; i < p.value.value.length; i++) {
     rows.push(
       <CollRow
         changeIndex={p.changeIndex}
-        key={i}
+        key={p.value.orderId + '_' + i}
         value={p.value[i]}
         field={p.field.values as BasedSchemaFieldObject}
         index={i}
