@@ -27,14 +27,16 @@ function Rows(p: RowProps & { isCols: boolean }) {
   return <NestedObjectRows {...p} />
 }
 
-export function Array({ ctx, path }: TableProps) {
+export function Arrays({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
   const valuesField = field.values
   const cols: ReactNode[] = []
   const isCols = valuesField.type === 'object' && canUseColumns(valuesField)
 
   const valueRef = useRef<typeof value>()
-  valueRef.current = value || []
+  valueRef.current = Array.isArray(value) ? value : []
+
+  console.info(valueRef.current)
 
   const addNew = React.useCallback(() => {
     ctx.listeners.onChangeHandler(ctx, path, [

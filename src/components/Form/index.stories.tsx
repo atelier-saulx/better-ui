@@ -860,6 +860,12 @@ export const Arrays = () => {
           ],
         }}
         fields={{
+          emptyArray: {
+            title: 'Empty array',
+            description: 'some things',
+            type: 'array',
+            values: objectField.ratings,
+          },
           simpleArray: {
             type: 'array',
             values: {
