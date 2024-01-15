@@ -37,6 +37,7 @@ export * from './components/Grid/index.js'
 export * from './components/Header/index.js'
 export * from './components/Sidebar/index.js'
 export * from './components/Table/index.js'
+export * from './components/Layout/index.js'
 
 export { Modal } from './components/Modal/index.js'
 export { Dropdown } from './components/Dropdown/index.js'
