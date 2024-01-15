@@ -211,8 +211,9 @@ const facesNames = new Array(50).fill(null).map(() => ({
   src: faker.image.avatar(),
   id: faker.string.uuid().slice(0, 8),
   firstName: faker.person.firstName(),
-  lastName: faker.person.lastName(),
-  zodiac: faker.person.zodiacSign(),
+  createdAt: faker.date.recent().valueOf(),
+  lastUpdated: faker.date.recent().valueOf(),
+  powerTime: faker.date.recent().valueOf(),
   city: faker.location.city(),
 }))
 

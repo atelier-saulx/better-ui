@@ -15,6 +15,7 @@ import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
 import humanizeString from 'humanize-string'
 import { References } from './index.js'
+import { display } from '@based/schema'
 
 const cellWidth = (key: string) => {
   if (key === 'id') {
@@ -63,6 +64,20 @@ const ImageTable = ({ value }: { value?: Reference }) => {
   return <ImageTableStyle />
 }
 
+const parse = (key: string, value: any): string | number => {
+  if (/(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)) {
+    if (!value || typeof value === 'number') {
+      return !value
+        ? ''
+        : display(value, {
+            type: 'timestamp',
+            display: 'human',
+          })
+    }
+  }
+  return value
+}
+
 const CellContent = (p: { k: string; value: any }) => {
   if (p.k === 'src') {
     return <ImageTable value={p.value} />
@@ -81,7 +96,7 @@ const CellContent = (p: { k: string; value: any }) => {
           <Badge color="informative-muted">{fieldValue}</Badge>
         ) : (
           <Text singleLine style={{ maxWidth: 300 }}>
-            {fieldValue}
+            {parse(p.k, fieldValue) ?? ''}
           </Text>
         )}
       </Stack>
