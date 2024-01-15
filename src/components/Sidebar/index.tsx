@@ -18,8 +18,14 @@ const SidebarContext = React.createContext({
   setValue: (_?: string) => {},
 })
 
+type SidebarItem = {
+  icon?: React.ReactNode
+  value: string
+  label: string
+}
+
 export type SidebarProps = {
-  children: React.ReactNode
+  data?: SidebarItem[] | { [key: string]: SidebarItem[] }
   open?: boolean
   onOpenChange?: (value: boolean) => void
   value?: string
@@ -29,7 +35,7 @@ export type SidebarProps = {
 }
 
 export function Sidebar({
-  children,
+  data,
   value: valueProp,
   onValueChange,
   open: openProp = true,
@@ -66,7 +72,21 @@ export function Sidebar({
       }}
     >
       <SidebarContext.Provider value={{ open, value, setValue }}>
-        {children}
+        {Array.isArray(data)
+          ? data.map((e) => (
+              <SidebarItem icon={e.icon} value={e.value}>
+                {e.label}
+              </SidebarItem>
+            ))
+          : Object.entries(data).map(([title, items]) => (
+              <SidebarGroup title={title}>
+                {items.map((e) => (
+                  <SidebarItem icon={e.icon} value={e.value}>
+                    {e.label}
+                  </SidebarItem>
+                ))}
+              </SidebarGroup>
+            ))}
       </SidebarContext.Provider>
       {collapsable ? (
         <div style={{ position: 'absolute', bottom: 16, right: 12 }}>

@@ -5,12 +5,9 @@ import {
   LayoutContent,
   Header,
   Sidebar,
-  SidebarItem,
   IconSettings,
   IconUsers,
   IconViewBoxes,
-  IconDownload,
-  IconAlarmClock,
 } from '../../index.js'
 
 const meta: Meta<typeof Layout> = {
@@ -32,14 +29,15 @@ const PageB = () => {
 
   return (
     <>
-      <Sidebar value={page} onValueChange={setPage} collapsable={false}>
-        <SidebarItem icon={<IconAlarmClock />} value="x">
-          Nested X
-        </SidebarItem>
-        <SidebarItem icon={<IconDownload />} value="y">
-          Nested Y
-        </SidebarItem>
-      </Sidebar>
+      <Sidebar
+        data={[
+          { label: 'Nested X', value: 'x' },
+          { label: 'Nested Y', value: 'y' },
+        ]}
+        value={page}
+        onValueChange={setPage}
+        collapsable={false}
+      />
 
       {page === 'x' && <LayoutContent>nested x</LayoutContent>}
       {page === 'y' && <LayoutContent>nested y</LayoutContent>}
@@ -65,6 +63,11 @@ export const Default = () => {
       }
     >
       <Sidebar
+        data={[
+          { label: 'Overview', value: 'a', icon: <IconViewBoxes /> },
+          { label: 'Users', value: 'b', icon: <IconUsers /> },
+          { label: 'Settings', value: 'c', icon: <IconSettings /> },
+        ]}
         value={page}
         onValueChange={(newValue) => {
           setPage(newValue)
@@ -76,17 +79,7 @@ export const Default = () => {
         collapsable={false}
         open={open}
         onOpenChange={setOpen}
-      >
-        <SidebarItem value="a" icon={<IconViewBoxes />}>
-          Overview
-        </SidebarItem>
-        <SidebarItem value="b" icon={<IconUsers />}>
-          Users
-        </SidebarItem>
-        <SidebarItem value="c" icon={<IconSettings />}>
-          Settings
-        </SidebarItem>
-      </Sidebar>
+      />
 
       {page === 'a' && <PageA />}
       {page === 'b' && <PageB />}
