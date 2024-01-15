@@ -11,7 +11,19 @@ export type Reference = string | ({ [key: string]: any } & { id: string })
 
 export type References = Reference[]
 
+export type DragTarget = {
+  data?: any
+  path?: Path
+  isValue?: boolean // oppiste of is file
+}
+
 export type Listeners = {
+  getDragTarget: () => DragTarget
+  setDragTarget: (t: DragTarget) => DragTarget
+
+  // on drop (allow file drops)
+  // onDrop: (dragTarget: DragTarget, ctx: TableCtx) => Promise<void>
+
   onChangeHandler: (ctx: TableCtx, path: Path, newValue?: any) => boolean
   onSelectReference: (props: {
     path: Path

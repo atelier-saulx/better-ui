@@ -5,7 +5,7 @@ import { Stack, border, color, Button, IconPlus } from '../../../../index.js'
 import { TableProps } from '../../types.js'
 import {
   readPath,
-  useCols,
+  canUseColumns,
   isSmallField,
   getTitle,
   createNewEmptyValue,
@@ -27,18 +27,11 @@ function Rows(p: RowProps & { isCols: boolean }) {
   return <NestedObjectRows {...p} />
 }
 
-// created at refs
-// label
-// drag drag
-// src in array
-// change change back checsum needs to be reset dont show confirm
-// checksum not giving bit weird
-
 export function Array({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
   const valuesField = field.values
   const cols: ReactNode[] = []
-  const isCols = valuesField.type === 'object' && useCols(valuesField)
+  const isCols = valuesField.type === 'object' && canUseColumns(valuesField)
 
   const valueRef = useRef<typeof value>()
   valueRef.current = value || []

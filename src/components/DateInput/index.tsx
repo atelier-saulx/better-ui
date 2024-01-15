@@ -2,17 +2,16 @@ import * as React from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import {
   Text,
-  textVariants,
   IconCalendar,
   IconChevronDown,
   IconChevronTop,
   border,
-  borderRadius,
-  color,
   useControllableState,
   TextInput,
   boxShadow,
 } from '../../index.js'
+import { textVariants } from '../../components/Text/index.js'
+import { borderRadius, color } from '../../utils/colors.js'
 import { styled, Style } from 'inlines'
 import {
   addMonths,
@@ -53,6 +52,36 @@ export type DateInputProps = {
   disabled?: boolean
   style?: Style
 }
+
+const DateTextButton = styled('button', {
+  background: 'transparent',
+  border: 'none',
+  color: color('content', 'primary'),
+  margin: 0,
+  padding: '4px 16px',
+  textAlign: 'left',
+  ...textVariants.body,
+  '&:hover': {
+    background: color('background', 'neutral'),
+  },
+})
+
+const DateMonthButton = styled('button', {
+  alignItems: 'center',
+  background: 'transparent',
+  border: 'none',
+  borderRadius: borderRadius('tiny'),
+  display: 'flex',
+  height: 24,
+  justifyContent: 'center',
+  margin: 0,
+  padding: 0,
+  width: 24,
+  '&:hover': {
+    background: color('background', 'neutral'),
+  },
+  ...textVariants.body,
+})
 
 export function DateInput({
   range = false,
@@ -250,52 +279,20 @@ export function DateInput({
                 {format(currentMonth, 'MMMM yyyy')}
               </Text>
               <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-                <styled.button
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: 0,
-                    margin: 0,
-                    border: 'none',
-                    background: 'transparent',
-                    width: 24,
-                    height: 24,
-                    borderRadius: borderRadius('tiny'),
-                    '&:hover': {
-                      background: color('background', 'neutral'),
-                    },
-                    ...textVariants.body,
-                  }}
+                <DateMonthButton
                   onClick={() => {
                     setCurrentMonth(addMonths(currentMonth, -1))
                   }}
                 >
                   <IconChevronDown />
-                </styled.button>
-                <styled.button
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: 0,
-                    margin: 0,
-                    border: 'none',
-                    background: 'transparent',
-                    width: 24,
-                    height: 24,
-                    borderRadius: borderRadius('tiny'),
-                    '&:hover': {
-                      background: color('background', 'neutral'),
-                    },
-                    ...textVariants.body,
-                  }}
+                </DateMonthButton>
+                <DateMonthButton
                   onClick={() => {
                     setCurrentMonth(addMonths(currentMonth, 1))
                   }}
                 >
                   <IconChevronTop />
-                </styled.button>
+                </DateMonthButton>
               </div>
             </div>
             <div
@@ -631,38 +628,21 @@ export function DateInput({
                   marginRight: -16,
                 }}
               >
-                <styled.button
-                  style={{
-                    margin: 0,
-                    border: 'none',
-                    background: 'transparent',
-                    padding: '4px 16px',
-                    textAlign: 'left',
-                    color: color('content', 'primary'),
-                    ...textVariants.body,
-                    '&:hover': {
-                      background: color('background', 'neutral'),
-                    },
+                <DateTextButton
+                  onClick={() => {
+                    setValue(Date.now())
                   }}
+                >
+                  Now
+                </DateTextButton>
+                <DateTextButton
                   onClick={() => {
                     setValue(startOfDay(new Date()).getTime())
                   }}
                 >
                   Today
-                </styled.button>
-                <styled.button
-                  style={{
-                    margin: 0,
-                    border: 'none',
-                    background: 'transparent',
-                    padding: '4px 16px',
-                    textAlign: 'left',
-                    color: color('content', 'primary'),
-                    ...textVariants.body,
-                    '&:hover': {
-                      background: color('background', 'neutral'),
-                    },
-                  }}
+                </DateTextButton>
+                <DateTextButton
                   onClick={() => {
                     if (!value) {
                       setValue(addDays(new Date(), +1).getTime())
@@ -675,20 +655,9 @@ export function DateInput({
                   }}
                 >
                   Select next date
-                </styled.button>
+                </DateTextButton>
 
-                <styled.button
-                  style={{
-                    margin: 0,
-                    border: 'none',
-                    background: 'transparent',
-                    padding: '4px 16px',
-                    textAlign: 'left',
-                    ...textVariants.body,
-                    '&:hover': {
-                      background: color('background', 'neutral'),
-                    },
-                  }}
+                <DateTextButton
                   onClick={() => {
                     if (!value) {
                       setValue(addDays(new Date(), -1).getTime())
@@ -701,7 +670,7 @@ export function DateInput({
                   }}
                 >
                   Select previous date
-                </styled.button>
+                </DateTextButton>
               </div>
             )}
             <styled.div
@@ -714,19 +683,7 @@ export function DateInput({
                 marginRight: -16,
               }}
             >
-              <styled.button
-                style={{
-                  margin: 0,
-                  border: 'none',
-                  background: 'transparent',
-                  padding: '4px 16px',
-                  textAlign: 'left',
-                  color: color('content', 'primary'),
-                  ...textVariants.body,
-                  '&:hover': {
-                    background: color('background', 'neutral'),
-                  },
-                }}
+              <DateTextButton
                 onClick={() => {
                   setCurrentMonth(new Date())
                   setValue(undefined)
@@ -735,7 +692,7 @@ export function DateInput({
                 }}
               >
                 Clear
-              </styled.button>
+              </DateTextButton>
             </styled.div>
           </div>
         </Popover.Content>
