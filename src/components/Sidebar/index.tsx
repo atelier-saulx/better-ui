@@ -63,6 +63,7 @@ export function Sidebar({
   return (
     <styled.aside
       style={{
+        flexShrink: 0,
         position: 'relative',
         width: open ? 248 : 65,
         height: '100%',

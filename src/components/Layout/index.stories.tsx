@@ -2,12 +2,13 @@ import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import {
   Layout,
-  LayoutContent,
+  Page,
   Header,
   Sidebar,
   IconSettings,
   IconUsers,
   IconViewBoxes,
+  Text,
 } from '../../index.js'
 
 const meta: Meta<typeof Layout> = {
@@ -21,7 +22,19 @@ const meta: Meta<typeof Layout> = {
 export default meta
 
 const PageA = () => {
-  return <LayoutContent>page A content</LayoutContent>
+  return (
+    <Page>
+      {Array.from({ length: 30 }).map((_, i) => (
+        <Text
+          key={i}
+          variant="body-strong"
+          style={{ fontSize: 64, lineHeight: '64px' }}
+        >
+          Page A content
+        </Text>
+      ))}
+    </Page>
+  )
 }
 
 const PageB = () => {
@@ -39,14 +52,14 @@ const PageB = () => {
         collapsable={false}
       />
 
-      {page === 'x' && <LayoutContent>nested x</LayoutContent>}
-      {page === 'y' && <LayoutContent>nested y</LayoutContent>}
+      {page === 'x' && <Page>nested x</Page>}
+      {page === 'y' && <Page>nested y</Page>}
     </>
   )
 }
 
 const PageC = () => {
-  return <LayoutContent>page C content</LayoutContent>
+  return <Page>page C content</Page>
 }
 
 export const Default = () => {
@@ -76,7 +89,6 @@ export const Default = () => {
           // (page b has a nested sidebar, others don't)
           setOpen(!['b'].includes(newValue))
         }}
-        collapsable={false}
         open={open}
         onOpenChange={setOpen}
       />
