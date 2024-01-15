@@ -64,9 +64,9 @@ export const Default = () => {
     >
       <Sidebar
         data={[
-          { label: 'Overview', value: 'a', icon: <IconViewBoxes /> },
-          { label: 'Users', value: 'b', icon: <IconUsers /> },
-          { label: 'Settings', value: 'c', icon: <IconSettings /> },
+          { label: 'Overview', value: 'a', prefix: <IconViewBoxes /> },
+          { label: 'Users', value: 'b', prefix: <IconUsers /> },
+          { label: 'Settings', value: 'c', prefix: <IconSettings /> },
         ]}
         value={page}
         onValueChange={(newValue) => {

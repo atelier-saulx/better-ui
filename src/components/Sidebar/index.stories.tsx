@@ -1,5 +1,12 @@
 import * as React from 'react'
-import { Sidebar, IconViewBoxes, IconEdit, IconUsers } from '../../index.js'
+import {
+  Sidebar,
+  IconViewBoxes,
+  IconEdit,
+  IconUsers,
+  IconAlert,
+  Badge,
+} from '../../index.js'
 import type { Meta } from '@storybook/react'
 
 const meta: Meta<typeof Sidebar> = {
@@ -17,9 +24,19 @@ export const Default = () => {
     <div style={{ height: '100vh', width: '100%' }}>
       <Sidebar
         data={[
-          { label: 'Overview', value: 'overview', icon: <IconViewBoxes /> },
-          { label: 'Content', value: 'content', icon: <IconEdit /> },
-          { label: 'Users', value: 'users', icon: <IconUsers /> },
+          {
+            label: 'Overview',
+            value: 'overview',
+            prefix: <IconViewBoxes />,
+            suffix: <Badge color="informative-muted">12</Badge>,
+          },
+          {
+            label: 'Content',
+            value: 'content',
+            prefix: <IconEdit />,
+            suffix: <IconAlert />,
+          },
+          { label: 'Users', value: 'users', prefix: <IconUsers /> },
         ]}
       />
     </div>
@@ -32,10 +49,10 @@ export const WithGroups = () => {
       <Sidebar
         data={{
           Database: [
-            { label: 'Overview', value: 'overview', icon: <IconViewBoxes /> },
-            { label: 'Content', value: 'content', icon: <IconEdit /> },
+            { label: 'Overview', value: 'overview', prefix: <IconViewBoxes /> },
+            { label: 'Content', value: 'content', prefix: <IconEdit /> },
           ],
-          Other: [{ label: 'Users', value: 'users', icon: <IconUsers /> }],
+          Other: [{ label: 'Users', value: 'users', prefix: <IconUsers /> }],
         }}
       />
     </div>
