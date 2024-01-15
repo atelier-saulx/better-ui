@@ -6,6 +6,11 @@ import {
   Header,
   Sidebar,
   SidebarItem,
+  IconSettings,
+  IconUsers,
+  IconViewBoxes,
+  IconDownload,
+  IconAlarmClock,
 } from '../../index.js'
 
 const meta: Meta<typeof Layout> = {
@@ -28,8 +33,12 @@ const PageB = () => {
   return (
     <>
       <Sidebar value={page} onValueChange={setPage} collapsable={false}>
-        <SidebarItem value="x">Nested X</SidebarItem>
-        <SidebarItem value="y">Nested Y</SidebarItem>
+        <SidebarItem icon={<IconAlarmClock />} value="x">
+          Nested X
+        </SidebarItem>
+        <SidebarItem icon={<IconDownload />} value="y">
+          Nested Y
+        </SidebarItem>
       </Sidebar>
 
       {page === 'x' && <LayoutContent>nested x</LayoutContent>}
@@ -44,6 +53,7 @@ const PageC = () => {
 
 export const Default = () => {
   const [page, setPage] = React.useState('a')
+  const [open, setOpen] = React.useState(true)
 
   return (
     <Layout
@@ -54,10 +64,28 @@ export const Default = () => {
         />
       }
     >
-      <Sidebar value={page} onValueChange={setPage} collapsable={false}>
-        <SidebarItem value="a">Page A</SidebarItem>
-        <SidebarItem value="b">Page B</SidebarItem>
-        <SidebarItem value="c">Page C</SidebarItem>
+      <Sidebar
+        value={page}
+        onValueChange={(newValue) => {
+          setPage(newValue)
+
+          // if the new value is in this list then we close the sidebar otherwise open
+          // (page b has a nested sidebar, others don't)
+          setOpen(!['b'].includes(newValue))
+        }}
+        collapsable={false}
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <SidebarItem value="a" icon={<IconViewBoxes />}>
+          Overview
+        </SidebarItem>
+        <SidebarItem value="b" icon={<IconUsers />}>
+          Users
+        </SidebarItem>
+        <SidebarItem value="c" icon={<IconSettings />}>
+          Settings
+        </SidebarItem>
       </Sidebar>
 
       {page === 'a' && <PageA />}
