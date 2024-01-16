@@ -64,16 +64,19 @@ const ImageTable = ({ value }: { value?: Reference }) => {
   return <ImageTableStyle />
 }
 
-const parse = (key: string, value: any): string | number => {
-  if (/(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)) {
-    if (!value || typeof value === 'number') {
-      return !value
-        ? ''
-        : display(value, {
-            type: 'timestamp',
-            display: 'human',
-          })
-    }
+const parse = (key: string, value: string | number): string | number => {
+  if (value === undefined || value === '') {
+    return ''
+  }
+  if (
+    typeof value === 'number' &&
+    /(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)
+  ) {
+    const formated = display(Number(), {
+      type: 'timestamp',
+      display: 'human',
+    })
+    return String(formated)
   }
   return value
 }
@@ -96,7 +99,7 @@ const CellContent = (p: { k: string; value: any }) => {
           <Badge color="informative-muted">{fieldValue}</Badge>
         ) : (
           <Text singleLine style={{ maxWidth: 300 }}>
-            {parse(p.k, fieldValue) ?? ''}
+            {parse(p.k, fieldValue)}
           </Text>
         )}
       </Stack>
