@@ -5,15 +5,23 @@ import { AddType } from './Modals/AddType.js'
 export const SchemaSideBar = ({ types, active, setActive }) => {
   return (
     <div>
-      <Sidebar value={active} onChange={setActive} style={{ maxWidth: 212 }}>
-        <AddType setActive={setActive} />
-        {Object.keys(types)
-          .sort((a, b) => a.localeCompare(b))
-          .map((item, idx) => (
-            <SidebarItem key={idx} value={item}>
-              {item}
-            </SidebarItem>
-          ))}
+      <Sidebar
+        // value={active}
+        // onChange={setActive}
+        style={{ maxWidth: 212 }}
+        data={
+          Object.keys(types)
+            .sort((a, b) => a.localeCompare(b))
+            .map((item, idx) => ({
+              label: item,
+              value: item,
+            }))
+          // <SidebarItem key={idx} value={item}>
+          //   {item}
+          // </SidebarItem>
+        }
+      >
+        {/* <AddType setActive={setActive} /> */}
       </Sidebar>
     </div>
   )

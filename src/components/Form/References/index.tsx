@@ -47,6 +47,7 @@ export function References({
 
   if (variant === 'large') {
     return (
+      // @ts-ignore
       <ReferencesTable
         onClickReference={clickRef}
         ctx={ctx}
