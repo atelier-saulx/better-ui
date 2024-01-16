@@ -18,33 +18,41 @@ const SidebarContext = React.createContext({
   setValue: (_?: string) => {},
 })
 
-export type SidebarProps = {
-  children: React.ReactNode
+type SidebarItem = {
+  prefix?: React.ReactNode
+  suffix?: React.ReactNode
   value: string
-  onChange: (value: string) => void
+  label: string
+}
+
+export type SidebarProps = {
+  data?: SidebarItem[] | { [key: string]: SidebarItem[] }
+  open?: boolean
+  onOpenChange?: (value: boolean) => void
+  value?: string
+  onValueChange?: (value: string) => void
   style?: Style
   collapsable?: boolean
-  collapsed?: boolean
 }
 
 export function Sidebar({
-  children,
+  data,
   value: valueProp,
-  onChange,
+  onValueChange,
+  open: openProp = true,
+  onOpenChange,
   style,
   collapsable = true,
-  collapsed = false,
 }: SidebarProps) {
   const isMobile = useIsMobile()
-  let [open, setOpen] = React.useState(false)
-  const [value = '', setValue] = useControllableState({
-    value: valueProp,
-    onChange,
+  let [open, setOpen] = useControllableState({
+    value: openProp,
+    onChange: onOpenChange,
   })
-
-  if (collapsed !== undefined) {
-    open = !collapsed
-  }
+  const [value, setValue] = useControllableState({
+    value: valueProp,
+    onChange: onValueChange,
+  })
 
   React.useEffect(() => {
     if (isMobile && collapsable) {
@@ -55,6 +63,7 @@ export function Sidebar({
   return (
     <styled.aside
       style={{
+        flexShrink: 0,
         position: 'relative',
         width: open ? 248 : 65,
         height: '100%',
@@ -65,7 +74,25 @@ export function Sidebar({
       }}
     >
       <SidebarContext.Provider value={{ open, value, setValue }}>
-        {children}
+        {Array.isArray(data)
+          ? data.map((e) => (
+              <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
+                {e.label}
+              </SidebarItem>
+            ))
+          : Object.entries(data).map(([title, items]) => (
+              <SidebarGroup title={title}>
+                {items.map((e) => (
+                  <SidebarItem
+                    prefix={e.prefix}
+                    suffix={e.suffix}
+                    value={e.value}
+                  >
+                    {e.label}
+                  </SidebarItem>
+                ))}
+              </SidebarGroup>
+            ))}
       </SidebarContext.Provider>
       {collapsable ? (
         <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
@@ -77,7 +104,7 @@ export function Sidebar({
               variant="neutral-transparent"
               shape="square"
               onClick={() => {
-                setOpen((p) => !p)
+                setOpen(!open)
               }}
             >
               <IconViewLayoutLeft />
@@ -90,12 +117,18 @@ export function Sidebar({
 }
 
 export type SidebarItemProps = {
-  icon?: React.ReactNode
+  prefix?: React.ReactNode
+  suffix?: React.ReactNode
   children: string
   value: string
 }
 
-export function SidebarItem({ children, icon, value }: SidebarItemProps) {
+export function SidebarItem({
+  children,
+  prefix,
+  suffix,
+  value,
+}: SidebarItemProps) {
   const {
     open,
     value: sidebarValue,
@@ -125,7 +158,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
           setValue(value)
         }}
       >
-        {icon}
+        {prefix}
         <span
           style={{
             color: color('content', 'primary'),
@@ -135,6 +168,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
         >
           {children}
         </span>
+        <span style={{ marginLeft: 'auto' }}>{suffix}</span>
       </styled.div>
     )
   }
@@ -159,9 +193,9 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
             setValue(value)
           }}
           variant="neutral-transparent"
-          style={{ fontSize: 14 }}
+          style={{ fontSize: 14, fontWeight: 600, height: 40, width: 40 }}
         >
-          {icon ? icon : children.substring(0, 2) + '...'}
+          {prefix ? prefix : children.substring(0, 2) + '...'}
         </Button>
       </Tooltip>
     </styled.div>
@@ -195,6 +229,7 @@ export function SidebarGroup({ title, children }: SidebarGroupProps) {
           color: color('content', 'secondary'),
           textTransform: 'uppercase',
           opacity: open ? 1 : 0,
+          height: 24,
         }}
       >
         {title}

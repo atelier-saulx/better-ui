@@ -54,7 +54,7 @@ export const ScrollArea = ({
       : 'var(--border-default)'
 
   return (
-    <RxScrollArea.Root type={display}>
+    <RxScrollArea.Root type={display} style={{ width: '100%' }}>
       <RxScrollArea.Viewport
         style={{
           width: '100%',

@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  Button,
-  IconDragDropHorizontal,
-  ButtonProps,
-} from '../../../../index.js'
+import { Button, IconDragDropHorizontal, ButtonProps } from '../../index.js'
 
 export const IconDrag = (p: ButtonProps) => {
   return (

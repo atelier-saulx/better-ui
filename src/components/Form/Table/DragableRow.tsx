@@ -9,18 +9,15 @@ import {
   Badge,
   borderRadius,
   Media,
-} from '../../../../index.js'
-import { Path, TableCtx } from '../../types.js'
-import { Cell } from '../Cell.js'
-import { Field } from '../Field.js'
-import { ColStack } from '../ColStack.js'
+} from '../../../index.js'
+import { Path, TableCtx } from '../types.js'
+import { ColStack } from './ColStack.js'
 import { render } from 'react-dom'
-import { IconDrag } from './IconDrag.js'
-import { RowProps } from './types.js'
+import { IconDrag } from '../IconDrag.js'
 
 let draggingIndex = 0
 
-const CollRow = (p: {
+export const DragableRow = (p: {
   field: BasedSchemaFieldObject
   ctx: TableCtx
   path: Path
@@ -28,43 +25,43 @@ const CollRow = (p: {
   removeItem: (index: number) => void
   changeIndex: (fromIndex: number, toIndex: number) => void
   value: any
+  cells: ReactNode[]
+  name?: string
+  src?: string
+  onClick?: () => void
+  draggable?: boolean
 }) => {
-  // own drag handler + table index for seq
-  // currentDragTarget (an fn on ctx)
-  // ctx.getDragTarget = { path, field etc }
-  // ctx.setDragTarget = { path, field etc }
-  // ctx.id
   const i = p.index
-  const cells: ReactNode[] = []
-
   const ref2 = useRef<HTMLElement>()
-
   const [isDragOver, setDragOver] = useState(0)
 
-  let name: string = ''
-  let src: string = ''
+  let name: string = p.name ?? ''
+  let src: string = p.src ?? ''
 
-  for (const key in p.field.properties) {
-    if (p.value) {
-      if (key === 'name' || key === 'title') {
-        name = p.value[key]
-      } else if (key === 'src') {
-        src = p.value.src
-      }
-    }
-
-    cells.push(
-      <Cell border key={key}>
-        <Field ctx={p.ctx} path={[...p.path, i, key]} />
-      </Cell>
+  if (!p.draggable) {
+    return (
+      <ColStack
+        onDrop={() => {
+          // console.info('??????????')
+        }}
+        onRemove={() => {
+          p.removeItem(i)
+        }}
+        style={{
+          borderBottom: border(),
+        }}
+      >
+        {p.cells}
+      </ColStack>
     )
   }
 
   return (
-    <div
+    <styled.div
       style={{
         width: '100%',
       }}
+      onClick={p.onClick}
       onDrop={(e) => {
         e.preventDefault()
         // const d = e.dataTransfer.getData('text/plain')
@@ -153,14 +150,13 @@ const CollRow = (p: {
         >
           <IconDrag />
         </styled.div>
-        {cells}
+        {p.cells}
       </ColStack>
       <Stack
         style={{
           height: isDragOver === 1 ? 24 : 0,
           overflow: 'hidden',
           width: '100%',
-          // transitionDelay: '0.2s',
           transition: 'height 0.2s',
           borderBottom: isDragOver === 1 ? border() : null,
         }}
@@ -175,25 +171,6 @@ const CollRow = (p: {
           }}
         />
       </Stack>
-    </div>
+    </styled.div>
   )
-}
-
-export const ObjectCollsRows = (p: RowProps) => {
-  const rows: ReactNode[] = []
-  for (let i = 0; i < p.value.length; i++) {
-    rows.push(
-      <CollRow
-        changeIndex={p.changeIndex}
-        key={i}
-        value={p.value[i]}
-        field={p.field.values as BasedSchemaFieldObject}
-        index={i}
-        ctx={p.ctx}
-        path={p.path}
-        removeItem={p.removeItem}
-      />
-    )
-  }
-  return rows
 }

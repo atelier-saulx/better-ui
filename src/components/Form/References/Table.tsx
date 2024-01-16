@@ -7,7 +7,6 @@ import {
   color,
   Badge,
   IconPlus,
-  border,
   Media,
 } from '../../../index.js'
 import { Path, TableCtx, Reference } from '../types.js'
@@ -15,6 +14,12 @@ import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
 import humanizeString from 'humanize-string'
 import { References } from './index.js'
+import {
+  BasedSchemaFieldObject,
+  BasedSchemaFieldReferences,
+  display,
+} from '@based/schema'
+import { DragableRow } from '../Table/DragableRow.js'
 
 const cellWidth = (key: string) => {
   if (key === 'id') {
@@ -63,6 +68,23 @@ const ImageTable = ({ value }: { value?: Reference }) => {
   return <ImageTableStyle />
 }
 
+const parse = (key: string, value: string | number): string | number => {
+  if (value === undefined || value === '') {
+    return ''
+  }
+  if (
+    typeof value === 'number' &&
+    /(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)
+  ) {
+    const formated = display(Number(value), {
+      type: 'timestamp',
+      display: 'human',
+    })
+    return String(formated)
+  }
+  return value
+}
+
 const CellContent = (p: { k: string; value: any }) => {
   if (p.k === 'src') {
     return <ImageTable value={p.value} />
@@ -81,7 +103,7 @@ const CellContent = (p: { k: string; value: any }) => {
           <Badge color="informative-muted">{fieldValue}</Badge>
         ) : (
           <Text singleLine style={{ maxWidth: 300 }}>
-            {fieldValue}
+            {parse(p.k, fieldValue)}
           </Text>
         )}
       </Stack>
@@ -97,8 +119,10 @@ export const ReferencesTable = ({
   ctx,
   path,
   onRemove,
+  field,
   onClickReference,
 }: {
+  field: BasedSchemaFieldReferences
   value: Reference[]
   onNew: () => Promise<any>
   onRemove: (index: number) => void
@@ -148,7 +172,16 @@ export const ReferencesTable = ({
     }
   }
 
+  const objectSchema: BasedSchemaFieldObject = {
+    type: 'object',
+    properties: {},
+  }
+
+  cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
+
   for (const key of fields) {
+    // objectSchema.properties[key] = { type: }
+
     if (key === 'src') {
       cols.push(<ImageTable key={key} />)
     } else {
@@ -162,22 +195,26 @@ export const ReferencesTable = ({
 
   if (value) {
     for (let i = 0; i < value.length; i++) {
-      const v = typeof value[i] === 'object' ? value[i] : { id: value[i] }
+      const v =
+        typeof value[i] === 'object' ? value[i] : { id: value[i] as string }
       rows.push(
-        <ColStack
-          onClick={() => onClickReference(value[i])}
+        <DragableRow
+          draggable={field.sortable}
+          changeIndex={() => {}}
+          value={v}
+          index={i}
           key={i}
-          onRemove={() => {
-            onRemove(i)
-          }}
-          style={{
-            borderBottom: border(),
-          }}
-        >
-          {fields.map((k) => {
+          cells={fields.map((k) => {
             return <CellContent key={k} k={k} value={v} />
           })}
-        </ColStack>
+          removeItem={onRemove}
+          onClick={() => {
+            onClickReference(v)
+          }}
+          field={objectSchema}
+          ctx={ctx}
+          path={path}
+        />
       )
     }
   }

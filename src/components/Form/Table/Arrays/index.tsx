@@ -15,7 +15,7 @@ import { ColStack } from '../ColStack.js'
 import { ObjectCollsRows } from './ObjectCollumnRows.js'
 import { NestedObjectRows } from './NestedObjectRows.js'
 import { PrimitiveRows } from './PrimitiveRows.js'
-import { RowProps } from './types.js'
+import { RowProps, ValueRef } from './types.js'
 
 function Rows(p: RowProps & { isCols: boolean }) {
   if (p.isCols) {
@@ -27,25 +27,26 @@ function Rows(p: RowProps & { isCols: boolean }) {
   return <NestedObjectRows {...p} />
 }
 
-export function Array({ ctx, path }: TableProps) {
+export function Arrays({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
   const valuesField = field.values
   const cols: ReactNode[] = []
   const isCols = valuesField.type === 'object' && canUseColumns(valuesField)
 
-  const valueRef = useRef<typeof value>()
-  valueRef.current = value || []
+  const valueRef = useRef<ValueRef>({ orderId: 0, value: [] })
+  valueRef.current.value = Array.isArray(value) ? value : []
 
   const addNew = React.useCallback(() => {
     ctx.listeners.onChangeHandler(ctx, path, [
-      ...valueRef.current,
+      ...valueRef.current.value,
       createNewEmptyValue(field.values),
     ])
   }, [])
 
   const changeIndex = React.useCallback(
     (fromIndex: number, toIndex: number) => {
-      const n = [...valueRef.current]
+      valueRef.current.orderId++
+      const n = [...valueRef.current.value]
       const target = n[fromIndex]
       n.splice(fromIndex, 1)
       n.splice(toIndex, 0, target)
@@ -54,11 +55,11 @@ export function Array({ ctx, path }: TableProps) {
     []
   )
 
-  const removeItem = (index: number) => {
-    const nValue = [...valueRef.current]
+  const removeItem = React.useCallback((index: number) => {
+    const nValue = [...valueRef.current.value]
     nValue.splice(index, 1)
     ctx.listeners.onChangeHandler(ctx, path, nValue)
-  }
+  }, [])
 
   if (isCols) {
     cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)

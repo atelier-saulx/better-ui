@@ -23,7 +23,7 @@ export function NestedObjectRows(p: RowProps) {
   const field =
     p.field.values.type === 'object' && getIdentifierField(p.field.values)
 
-  for (let i = 0; i < p.value.length; i++) {
+  for (let i = 0; i < p.value.value.length; i++) {
     const isOpen = openIndexes.current.has(i)
     const item = p.value?.[i]
     const title: ReactNode = field ? item?.[field] : p.field.values.title
