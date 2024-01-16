@@ -41,9 +41,6 @@ export const DragableRow = (p: {
   if (!p.draggable) {
     return (
       <ColStack
-        onDrop={() => {
-          // console.info('??????????')
-        }}
         onRemove={() => {
           p.removeItem(i)
         }}
@@ -64,7 +61,6 @@ export const DragableRow = (p: {
       onClick={p.onClick}
       onDrop={(e) => {
         e.preventDefault()
-        // const d = e.dataTransfer.getData('text/plain')
         p.changeIndex(draggingIndex, p.index)
         setDragOver(0)
       }}

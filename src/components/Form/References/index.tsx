@@ -84,6 +84,8 @@ export function References({
         {value.map((v: Reference, index: number) => {
           return (
             <ReferenceTag
+              index={index}
+              changeIndex={changeIndex}
               draggable={field.sortable}
               onClickReference={clickRef}
               key={index}

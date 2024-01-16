@@ -55,12 +55,18 @@ const Image = ({ value }: { value: Reference }) => {
   return null
 }
 
+let draggingIndex = 0
+
 export const ReferenceTag = ({
   value,
   onRemove,
+  index,
+  changeIndex,
   onClickReference,
   draggable,
 }: {
+  index: number
+  changeIndex: (fromIndex: number, toIndex: number) => void
   draggable?: boolean
   value: Reference
   onRemove: () => void
@@ -69,32 +75,74 @@ export const ReferenceTag = ({
   const ref = React.useRef({
     dragOver: false,
     isDragging: false,
+    moved: [],
   })
+
+  const elem = React.useRef<any>()
+
   const update = useUpdate()
 
   const drag = draggable
     ? {
+        onDrop: (e) => {
+          e.preventDefault()
+          for (const elem of ref.current.moved) {
+            elem.style.transform = `translate(0px,0px)`
+          }
+          ref.current.dragOver = false
+          ref.current.moved = []
+          changeIndex(draggingIndex, index)
+          ref.current.isDragging = false
+          update()
+        },
         onDragStart: () => {
+          draggingIndex = index
           ref.current.isDragging = true
           update()
         },
-        onDragOver: () => {
+        onDragOver: (e) => {
+          e.preventDefault()
           ref.current.dragOver = true
+          const y = elem.current.getBoundingClientRect().y
+          let nextSibling = elem.current.nextElementSibling
+          while (nextSibling) {
+            nextSibling.style.transform = `translate(16px,0px)`
+            ref.current.moved.push(nextSibling)
+            nextSibling = nextSibling.nextElementSibling
+            if (nextSibling && nextSibling.getBoundingClientRect().y !== y) {
+              break
+            }
+          }
           update()
         },
         onDragLeave: () => {
+          for (const elem of ref.current.moved) {
+            elem.style.transform = `translate(0px,0px)`
+          }
+          ref.current.moved = []
           ref.current.dragOver = false
           update()
         },
         onDragEnd: () => {
           ref.current.isDragging = false
+          update()
+        },
+        onDragExit: () => {
+          ref.current.isDragging = false
+          update()
         },
         draggable: true,
       }
     : {}
 
   return (
-    <Stack>
+    <Stack
+      fitContent
+      ref={elem}
+      style={{
+        transition: 'transform 0.2s',
+      }}
+    >
       <Stack
         gap={12}
         justify="start"
@@ -130,6 +178,9 @@ export const ReferenceTag = ({
       </Stack>
       <styled.div
         style={{
+          transition: 'transform 0.2s, opacity 0.5s',
+          transform: ref.current.dragOver ? `translate(16px,0px)` : null,
+          opacity: ref.current.dragOver ? 1 : 0,
           width: 2,
           height: 40,
           background: color('interactive', 'primary'),
