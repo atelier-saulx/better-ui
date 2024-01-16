@@ -75,18 +75,24 @@ export function Sidebar({
     >
       <SidebarContext.Provider value={{ open, value, setValue }}>
         {Array.isArray(data)
-          ? data.map((e) => (
-              <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
+          ? data.map((e, idx) => (
+              <SidebarItem
+                prefix={e.prefix}
+                suffix={e.suffix}
+                value={e.value}
+                key={idx}
+              >
                 {e.label}
               </SidebarItem>
             ))
           : Object.entries(data).map(([title, items]) => (
               <SidebarGroup title={title}>
-                {items.map((e) => (
+                {items.map((e, idx) => (
                   <SidebarItem
                     prefix={e.prefix}
                     suffix={e.suffix}
                     value={e.value}
+                    key={idx}
                   >
                     {e.label}
                   </SidebarItem>

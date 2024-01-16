@@ -1,28 +1,27 @@
 import * as React from 'react'
-import { Sidebar, SidebarItem } from '../Sidebar/index.js'
+import { Sidebar } from '../Sidebar/index.js'
 import { AddType } from './Modals/AddType.js'
 
 export const SchemaSideBar = ({ types, active, setActive }) => {
+  console.log(types)
+
+  const sidebarData = Object.keys(types)
+    .sort((a, b) => a.localeCompare(b))
+    .map((item, idx) => ({
+      key: idx,
+      label: item,
+      value: item,
+    }))
+
   return (
     <div>
+      <AddType setActive={setActive} />
       <Sidebar
-        // value={active}
-        // onChange={setActive}
+        value={active}
+        onValueChange={(v) => setActive(v)}
         style={{ maxWidth: 212 }}
-        data={
-          Object.keys(types)
-            .sort((a, b) => a.localeCompare(b))
-            .map((item, idx) => ({
-              label: item,
-              value: item,
-            }))
-          // <SidebarItem key={idx} value={item}>
-          //   {item}
-          // </SidebarItem>
-        }
-      >
-        {/* <AddType setActive={setActive} /> */}
-      </Sidebar>
+        data={sidebarData}
+      ></Sidebar>
     </div>
   )
 }

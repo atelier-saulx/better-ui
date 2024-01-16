@@ -24,46 +24,41 @@ const parseFields = (fields) => {
   const array = [] as unindexedSchemaItem[]
   const type = fields
 
-  // TODO: sort on index or meta index DRAG drop @yves
+  //get all existing indexes
+  const allCurrentIndexes = [] as number[]
   for (const i in type) {
-    // console.log('🔫 meta', type[i]?.meta, 'index', type[i]?.index, type[i])
-    if (type[i].hasOwnProperty('meta')) {
-      console.log('REACh 🔥')
-      indexedArray.push({
-        name: i,
-        meta: type[i].meta,
-        // id: i,
-        type: type[i].type,
-        label: i,
-        index: type[i]?.index,
-        // index: type[i].meta.index,
-        properties: type[i].properties,
-        format: type[i].format,
-        items: type[i].items,
-      })
-    } else if (!type[i].index) {
-      console.log('REACh 🐧')
-      array.push({
-        name: i,
-        meta: type[i].meta,
-        // id: i,
-        type: type[i].type,
-        label: i,
-        // index: type[i]?.index,
-        properties: type[i].properties,
-        format: type[i].format,
-        items: type[i].items,
-      })
+    if (type[i].index) {
+      allCurrentIndexes.push(type[i].index as number)
+    } else {
+      // else start at 0
+      allCurrentIndexes.push(0)
     }
   }
 
-  indexedArray.sort((a, b) => a.meta.index - b.meta.index)
+  for (const i in type) {
+    let newName = i || type[i].meta.name
+    if (type[i].index) {
+      indexedArray.push({ ...type[i], name: newName })
+    } else {
+      // give an index
+      let newIndex = Math.max(...allCurrentIndexes) + 1
+      indexedArray.push({ ...type[i], name: newName, index: newIndex })
+      allCurrentIndexes.push(newIndex)
+    }
+  }
+
+  indexedArray.sort((a, b) => a.index - b.index)
+
+  console.log(indexedArray, '🥱 ????')
 
   return [...indexedArray, ...array]
 }
 
 export const SchemaFields = ({ fields, typeName }) => {
   const [showSystemFields, setShowSystemFields] = React.useState(false)
+
+  // TODO set these indexes in the Schema @yves
+  // Also the drag and drop changes
 
   const [array, setArray] = React.useState<
     SchemaItem[] | unindexedSchemaItem[] | any
@@ -88,10 +83,14 @@ export const SchemaFields = ({ fields, typeName }) => {
               ? item
               : !SYSTEM_FIELDS.includes(item.name || item.label)
           )
-          // sort alphabetically for now @yves todo
-          .sort((a, b) => a?.name.localeCompare(b?.name))
           .map((item, idx) => (
-            <SingleFieldContainer item={item} typeName={typeName} key={idx} />
+            <SingleFieldContainer
+              item={item}
+              typeName={typeName}
+              key={idx}
+              index={item?.index}
+              changeIndex={() => {}}
+            />
           ))}
     </styled.div>
   )
