@@ -35,7 +35,7 @@ export const CollRow = (p: {
     )
   }
 
-  return <DragableRow name={name} src={src} {...p} cells={cells} />
+  return <DragableRow draggable name={name} src={src} {...p} cells={cells} />
 }
 
 export const ObjectCollsRows = (p: RowProps) => {

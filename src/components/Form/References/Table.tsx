@@ -14,7 +14,11 @@ import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
 import humanizeString from 'humanize-string'
 import { References } from './index.js'
-import { BasedSchemaFieldObject, display } from '@based/schema'
+import {
+  BasedSchemaFieldObject,
+  BasedSchemaFieldReferences,
+  display,
+} from '@based/schema'
 import { DragableRow } from '../Table/DragableRow.js'
 
 const cellWidth = (key: string) => {
@@ -115,8 +119,10 @@ export const ReferencesTable = ({
   ctx,
   path,
   onRemove,
+  field,
   onClickReference,
 }: {
+  field: BasedSchemaFieldReferences
   value: Reference[]
   onNew: () => Promise<any>
   onRemove: (index: number) => void
@@ -193,6 +199,7 @@ export const ReferencesTable = ({
         typeof value[i] === 'object' ? value[i] : { id: value[i] as string }
       rows.push(
         <DragableRow
+          draggable={field.sortable}
           changeIndex={() => {}}
           value={v}
           index={i}

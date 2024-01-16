@@ -29,6 +29,7 @@ export const DragableRow = (p: {
   name?: string
   src?: string
   onClick?: () => void
+  draggable?: boolean
 }) => {
   const i = p.index
   const ref2 = useRef<HTMLElement>()
@@ -36,6 +37,24 @@ export const DragableRow = (p: {
 
   let name: string = p.name ?? ''
   let src: string = p.src ?? ''
+
+  if (!p.draggable) {
+    return (
+      <ColStack
+        onDrop={() => {
+          // console.info('??????????')
+        }}
+        onRemove={() => {
+          p.removeItem(i)
+        }}
+        style={{
+          borderBottom: border(),
+        }}
+      >
+        {p.cells}
+      </ColStack>
+    )
+  }
 
   return (
     <styled.div
