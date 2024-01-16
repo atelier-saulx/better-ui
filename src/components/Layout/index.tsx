@@ -28,22 +28,3 @@ export function Layout({ header, children }: LayoutProps) {
     </styled.div>
   )
 }
-
-export type LayoutContentProps = {
-  children: React.ReactNode
-}
-
-export function LayoutContent({ children }: LayoutContentProps) {
-  return (
-    <div
-      style={{
-        flex: 1,
-        height: '100%',
-        width: '100%',
-        overflowY: 'auto',
-      }}
-    >
-      <div style={{ padding: 32 }}>{children}</div>
-    </div>
-  )
-}

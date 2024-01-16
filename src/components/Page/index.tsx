@@ -5,12 +5,13 @@ import { ScrollArea } from '../ScrollArea/index.js'
 export type PageProps = {
   children: React.ReactNode
   style?: Style
+  padding?: number
 }
 
-export const Page = React.forwardRef(({ children, style }: PageProps, ref) => {
+export const Page = ({ children, padding = 32, style }: PageProps) => {
   return (
-    <ScrollArea style={{ padding: 32, ...style }}>
-      <styled.div ref={ref}>{children}</styled.div>
+    <ScrollArea style={{ padding, flex: '1' }}>
+      <styled.div style={style}>{children}</styled.div>
     </ScrollArea>
   )
-})
+}

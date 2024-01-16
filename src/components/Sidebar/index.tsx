@@ -18,8 +18,15 @@ const SidebarContext = React.createContext({
   setValue: (_?: string) => {},
 })
 
+type SidebarItem = {
+  prefix?: React.ReactNode
+  suffix?: React.ReactNode
+  value: string
+  label: string
+}
+
 export type SidebarProps = {
-  children: React.ReactNode
+  data?: SidebarItem[] | { [key: string]: SidebarItem[] }
   open?: boolean
   onOpenChange?: (value: boolean) => void
   value?: string
@@ -29,7 +36,7 @@ export type SidebarProps = {
 }
 
 export function Sidebar({
-  children,
+  data,
   value: valueProp,
   onValueChange,
   open: openProp = true,
@@ -56,6 +63,7 @@ export function Sidebar({
   return (
     <styled.aside
       style={{
+        flexShrink: 0,
         position: 'relative',
         width: open ? 248 : 65,
         height: '100%',
@@ -66,7 +74,25 @@ export function Sidebar({
       }}
     >
       <SidebarContext.Provider value={{ open, value, setValue }}>
-        {children}
+        {Array.isArray(data)
+          ? data.map((e) => (
+              <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
+                {e.label}
+              </SidebarItem>
+            ))
+          : Object.entries(data).map(([title, items]) => (
+              <SidebarGroup title={title}>
+                {items.map((e) => (
+                  <SidebarItem
+                    prefix={e.prefix}
+                    suffix={e.suffix}
+                    value={e.value}
+                  >
+                    {e.label}
+                  </SidebarItem>
+                ))}
+              </SidebarGroup>
+            ))}
       </SidebarContext.Provider>
       {collapsable ? (
         <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
@@ -91,12 +117,18 @@ export function Sidebar({
 }
 
 export type SidebarItemProps = {
-  icon?: React.ReactNode
+  prefix?: React.ReactNode
+  suffix?: React.ReactNode
   children: string
   value: string
 }
 
-export function SidebarItem({ children, icon, value }: SidebarItemProps) {
+export function SidebarItem({
+  children,
+  prefix,
+  suffix,
+  value,
+}: SidebarItemProps) {
   const {
     open,
     value: sidebarValue,
@@ -126,7 +158,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
           setValue(value)
         }}
       >
-        {icon}
+        {prefix}
         <span
           style={{
             color: color('content', 'primary'),
@@ -136,6 +168,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
         >
           {children}
         </span>
+        <span style={{ marginLeft: 'auto' }}>{suffix}</span>
       </styled.div>
     )
   }
@@ -162,7 +195,7 @@ export function SidebarItem({ children, icon, value }: SidebarItemProps) {
           variant="neutral-transparent"
           style={{ fontSize: 14, fontWeight: 600, height: 40, width: 40 }}
         >
-          {icon ? icon : children.substring(0, 2) + '...'}
+          {prefix ? prefix : children.substring(0, 2) + '...'}
         </Button>
       </Tooltip>
     </styled.div>

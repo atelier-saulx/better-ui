@@ -2,15 +2,13 @@ import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import {
   Layout,
-  LayoutContent,
+  Page,
   Header,
   Sidebar,
-  SidebarItem,
   IconSettings,
   IconUsers,
   IconViewBoxes,
-  IconDownload,
-  IconAlarmClock,
+  Text,
 } from '../../index.js'
 
 const meta: Meta<typeof Layout> = {
@@ -24,7 +22,19 @@ const meta: Meta<typeof Layout> = {
 export default meta
 
 const PageA = () => {
-  return <LayoutContent>page A content</LayoutContent>
+  return (
+    <Page>
+      {Array.from({ length: 30 }).map((_, i) => (
+        <Text
+          key={i}
+          variant="body-strong"
+          style={{ fontSize: 64, lineHeight: '64px' }}
+        >
+          Page A content
+        </Text>
+      ))}
+    </Page>
+  )
 }
 
 const PageB = () => {
@@ -32,23 +42,24 @@ const PageB = () => {
 
   return (
     <>
-      <Sidebar value={page} onValueChange={setPage} collapsable={false}>
-        <SidebarItem icon={<IconAlarmClock />} value="x">
-          Nested X
-        </SidebarItem>
-        <SidebarItem icon={<IconDownload />} value="y">
-          Nested Y
-        </SidebarItem>
-      </Sidebar>
+      <Sidebar
+        data={[
+          { label: 'Nested X', value: 'x' },
+          { label: 'Nested Y', value: 'y' },
+        ]}
+        value={page}
+        onValueChange={setPage}
+        collapsable={false}
+      />
 
-      {page === 'x' && <LayoutContent>nested x</LayoutContent>}
-      {page === 'y' && <LayoutContent>nested y</LayoutContent>}
+      {page === 'x' && <Page>nested x</Page>}
+      {page === 'y' && <Page>nested y</Page>}
     </>
   )
 }
 
 const PageC = () => {
-  return <LayoutContent>page C content</LayoutContent>
+  return <Page>page C content</Page>
 }
 
 export const Default = () => {
@@ -65,6 +76,11 @@ export const Default = () => {
       }
     >
       <Sidebar
+        data={[
+          { label: 'Overview', value: 'a', prefix: <IconViewBoxes /> },
+          { label: 'Users', value: 'b', prefix: <IconUsers /> },
+          { label: 'Settings', value: 'c', prefix: <IconSettings /> },
+        ]}
         value={page}
         onValueChange={(newValue) => {
           setPage(newValue)
@@ -73,20 +89,9 @@ export const Default = () => {
           // (page b has a nested sidebar, others don't)
           setOpen(!['b'].includes(newValue))
         }}
-        collapsable={false}
         open={open}
         onOpenChange={setOpen}
-      >
-        <SidebarItem value="a" icon={<IconViewBoxes />}>
-          Overview
-        </SidebarItem>
-        <SidebarItem value="b" icon={<IconUsers />}>
-          Users
-        </SidebarItem>
-        <SidebarItem value="c" icon={<IconSettings />}>
-          Settings
-        </SidebarItem>
-      </Sidebar>
+      />
 
       {page === 'a' && <PageA />}
       {page === 'b' && <PageB />}
