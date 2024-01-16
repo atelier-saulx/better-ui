@@ -7,7 +7,6 @@ import {
   color,
   Badge,
   IconPlus,
-  border,
   Media,
 } from '../../../index.js'
 import { Path, TableCtx, Reference } from '../types.js'
@@ -15,7 +14,8 @@ import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
 import humanizeString from 'humanize-string'
 import { References } from './index.js'
-import { display } from '@based/schema'
+import { BasedSchemaFieldObject, display } from '@based/schema'
+import { DragableRow } from '../Table/DragableRow.js'
 
 const cellWidth = (key: string) => {
   if (key === 'id') {
@@ -166,7 +166,14 @@ export const ReferencesTable = ({
     }
   }
 
+  const objectSchema: BasedSchemaFieldObject = {
+    type: 'object',
+    properties: {},
+  }
+
   for (const key of fields) {
+    // objectSchema.properties[key] = { type: }
+
     if (key === 'src') {
       cols.push(<ImageTable key={key} />)
     } else {
@@ -180,22 +187,25 @@ export const ReferencesTable = ({
 
   if (value) {
     for (let i = 0; i < value.length; i++) {
-      const v = typeof value[i] === 'object' ? value[i] : { id: value[i] }
+      const v =
+        typeof value[i] === 'object' ? value[i] : { id: value[i] as string }
       rows.push(
-        <ColStack
-          onClick={() => onClickReference(value[i])}
+        <DragableRow
+          changeIndex={() => {}}
+          value={v}
+          index={i}
           key={i}
-          onRemove={() => {
-            onRemove(i)
-          }}
-          style={{
-            borderBottom: border(),
-          }}
-        >
-          {fields.map((k) => {
+          cells={fields.map((k) => {
             return <CellContent key={k} k={k} value={v} />
           })}
-        </ColStack>
+          removeItem={onRemove}
+          onClick={() => {
+            onClickReference(v)
+          }}
+          field={objectSchema}
+          ctx={ctx}
+          path={path}
+        />
       )
     }
   }
