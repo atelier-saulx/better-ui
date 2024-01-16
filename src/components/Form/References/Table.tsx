@@ -171,6 +171,8 @@ export const ReferencesTable = ({
     properties: {},
   }
 
+  cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
+
   for (const key of fields) {
     // objectSchema.properties[key] = { type: }
 
