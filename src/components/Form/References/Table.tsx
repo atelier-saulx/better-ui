@@ -72,14 +72,10 @@ const parse = (key: string, value: string | number): string | number => {
     typeof value === 'number' &&
     /(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)
   ) {
-    console.info(value)
-
     const formated = display(Number(value), {
       type: 'timestamp',
       display: 'human',
     })
-
-    console.info(formated)
     return String(formated)
   }
   return value
