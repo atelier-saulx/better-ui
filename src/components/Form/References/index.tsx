@@ -5,6 +5,7 @@ import { Path, TableCtx, Reference } from '../types.js'
 import { readPath } from '../utils.js'
 import { ReferencesTable } from './Table.js'
 import { ReferenceTag } from './Tag.js'
+import { ValueRef } from '../Table/Arrays/types.js'
 
 export function References({
   ctx,
@@ -16,25 +17,42 @@ export function References({
   variant?: 'large' | 'small'
 }) {
   const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
+  const valueRef = React.useRef<ValueRef>({ orderId: 0, value })
+  valueRef.current.value = value
 
   const addNew = React.useCallback(async () => {
     const result = await ctx.listeners.onSelectReferences({
       path,
-      value,
+      value: valueRef.current.value,
       field,
       ctx,
     })
 
     if (Array.isArray(result)) {
-      ctx.listeners.onChangeHandler(ctx, path, [...value, ...result])
+      ctx.listeners.onChangeHandler(ctx, path, [
+        ...valueRef.current.value,
+        ...result,
+      ])
     }
   }, [])
 
-  const removeItem = (index: number) => {
-    const nValue = [...value]
+  const changeIndex = React.useCallback(
+    (fromIndex: number, toIndex: number) => {
+      valueRef.current.orderId++
+      const n = [...valueRef.current.value]
+      const target = n[fromIndex]
+      n.splice(fromIndex, 1)
+      n.splice(toIndex, 0, target)
+      ctx.listeners.onChangeHandler(ctx, path, n)
+    },
+    []
+  )
+
+  const removeItem = React.useCallback((index: number) => {
+    const nValue = [...valueRef.current.value]
     nValue.splice(index, 1)
     ctx.listeners.onChangeHandler(ctx, path, nValue)
-  }
+  }, [])
 
   const clickRef = (value) => {
     ctx.listeners.onClickReference({
@@ -48,12 +66,14 @@ export function References({
   if (variant === 'large') {
     return (
       <ReferencesTable
+        field={field}
         onClickReference={clickRef}
         ctx={ctx}
         path={path}
         onRemove={removeItem}
         value={value}
         onNew={addNew}
+        changeIndex={changeIndex}
       />
     )
   }
@@ -64,6 +84,7 @@ export function References({
         {value.map((v: Reference, index: number) => {
           return (
             <ReferenceTag
+              draggable={field.sortable}
               onClickReference={clickRef}
               key={index}
               value={v}
