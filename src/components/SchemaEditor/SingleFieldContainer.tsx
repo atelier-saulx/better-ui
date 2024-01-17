@@ -78,7 +78,6 @@ export const SingleFieldContainer = ({
               }}
             >
               <Badge>{item?.name}</Badge>
-
               <Text variant="body-bold">dragging</Text>
             </Stack>,
             elem
@@ -92,6 +91,26 @@ export const SingleFieldContainer = ({
           document.body.removeChild(ref2.current)
         }}
       >
+        {/* purple dropline above */}
+        <Stack
+          style={{
+            height: isDragOver === -1 ? 24 : 0,
+            width: '100%',
+            overflow: 'hidden',
+            transition: 'height 0.2s',
+            marginTop: isDragOver === -1 ? -8 : 0,
+          }}
+        >
+          <styled.div
+            style={{
+              width: '100%',
+              height: 2,
+              opacity: isDragOver === -1 ? 1 : 0,
+              transition: 'opacity 0.2s',
+              backgroundColor: color('interactive', 'primary'),
+            }}
+          />
+        </Stack>
         <Container
           style={{
             marginBottom: 8,
@@ -151,6 +170,26 @@ export const SingleFieldContainer = ({
               />
             ))}
         </Container>
+        {/* purple dropline below */}
+        <Stack
+          style={{
+            height: isDragOver === 1 ? 24 : 0,
+            overflow: 'hidden',
+            width: '100%',
+            transition: 'height 0.2s',
+            marginTop: isDragOver === 1 ? '-8px' : 0,
+          }}
+        >
+          <styled.div
+            style={{
+              width: '100%',
+              height: 2,
+              opacity: isDragOver === 1 ? 1 : 0,
+              transition: 'opacity 0.2s',
+              backgroundColor: color('interactive', 'primary'),
+            }}
+          />
+        </Stack>
       </styled.div>
     </styled.div>
   )
