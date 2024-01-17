@@ -95,13 +95,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     },
     ref
   ) => {
-    const [state, setState] = useControllableState({
+    const [state = '', setState] = useControllableState({
       value,
       onChange,
       checksum,
     })
-
-    console.info('--------->', value, state)
 
     return (
       <Wrapper label={label} disabled={disabled} style={style}>

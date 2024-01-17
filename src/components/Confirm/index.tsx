@@ -29,49 +29,53 @@ export function Confirm({
   onConfirm,
   onCancel,
 }: ConfirmProps) {
-  return variant === 'small' ? (
-    <Stack
-      justify={justify}
-      style={{
-        marginRight: label ? 4 : 8,
-        ...style,
-      }}
-    >
-      {label ? (
-        <Text style={{ marginRight: 12 }} color="secondary">
-          {label}
-        </Text>
-      ) : null}
-      <Button
-        variant="icon-only"
-        onClick={React.useCallback(() => {
-          return onCancel()
-        }, [onConfirm])}
-        prefix={
-          <IconClose style={{ color: getColor('content', 'secondary') }} />
-        }
-      />
-      <Button
-        variant="icon-only"
-        onClick={async () => {
-          return onConfirm()
+  if (variant === 'small') {
+    return (
+      <Stack
+        justify={justify}
+        style={{
+          marginRight: label ? 4 : 8,
+          ...style,
         }}
-        style={{ marginLeft: 4 }}
-        prefix={
-          <IconCheckLarge
-            style={{ color: getColor('interactive', 'primary') }}
-          />
-        }
-      />
-    </Stack>
-  ) : (
-    <Stack justify={justify}>
+      >
+        {label ? (
+          <Text style={{ marginRight: 12 }} color="secondary">
+            {label}
+          </Text>
+        ) : null}
+        <Button
+          variant="icon-only"
+          onClick={React.useCallback(() => {
+            return onCancel()
+          }, [onConfirm])}
+          prefix={
+            <IconClose style={{ color: getColor('content', 'secondary') }} />
+          }
+        />
+        <Button
+          variant="icon-only"
+          onClick={async () => {
+            return onConfirm()
+          }}
+          style={{ marginLeft: 4 }}
+          prefix={
+            <IconCheckLarge
+              style={{ color: getColor('interactive', 'primary') }}
+            />
+          }
+        />
+      </Stack>
+    )
+  }
+
+  return (
+    <Stack justify={justify} style={style}>
       <Button
         onClick={() => {
           return onCancel()
         }}
         variant="neutral"
-        style={{ marginRight: 16, marginLeft: 16 }}
+        style={{ marginRight: 16 }}
         // displayShortcut
         // keyboardShortcut="Esc"
       >

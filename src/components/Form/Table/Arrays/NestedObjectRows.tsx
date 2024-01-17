@@ -13,6 +13,7 @@ import { getIdentifierField, isIterable, readParentType } from '../../utils.js'
 import { Cell } from '../Cell.js'
 import { Field } from '../Field.js'
 import { RowProps } from './types.js'
+import { DragableRow } from '../DragableRow.js'
 
 export function NestedObjectRows(p: RowProps) {
   const [openCnt, setIndex] = useState<number>(0)
@@ -28,9 +29,13 @@ export function NestedObjectRows(p: RowProps) {
     const item = p.value?.[i]
     const title: ReactNode = field ? item?.[field] : p.field.values.title
 
+    // DragableRow
+
     rows.push(
-      // @ts-ignore TODO: fix type in inlines
-      <Stack
+      <DragableRow
+        {...p}
+        index={i}
+        draggable
         key={'_' + i + 1}
         onClick={() => {
           if (isOpen) {
@@ -40,7 +45,6 @@ export function NestedObjectRows(p: RowProps) {
           }
           setIndex(openCnt + 1)
         }}
-        justify="start"
         style={{
           userSelect: 'none',
           cursor: 'pointer',
@@ -57,51 +61,52 @@ export function NestedObjectRows(p: RowProps) {
             },
           },
         }}
-      >
-        <Cell
-          isKey
-          style={{
-            paddingLeft: readParentType(p.ctx, p.path) === 'array' ? 30 : 20,
-          }}
-        >
-          {isOpen ? (
-            <IconChevronDown
-              style={{
-                marginRight: 8,
-              }}
-            />
-          ) : (
-            <IconChevronRight
-              style={{
-                marginRight: 8,
-              }}
-            />
-          )}
-          <Stack gap={16} style={{ paddingRight: 12 }}>
-            <Stack gap={16} justify="start">
-              <Badge color="neutral-muted">{i + 1}</Badge>
-              {title}
-            </Stack>
-            <Stack fitContent justify="end" gap={8}>
-              <Button
-                variant="icon-only"
-                style={{ opacity: 0 }}
-                onClick={() => {
-                  p.removeItem(i)
+        cells={[
+          <Cell
+            isKey
+            style={{
+              paddingLeft: readParentType(p.ctx, p.path) === 'array' ? 30 : 20,
+            }}
+          >
+            {isOpen ? (
+              <IconChevronDown
+                style={{
+                  marginRight: 8,
                 }}
-              >
-                <IconClose />
-              </Button>
-              {isIterable(p.field.values) ? (
-                <Badge color="neutral-muted">
-                  {item?.length} Item
-                  {item?.length === 1 ? '' : 's'}
-                </Badge>
-              ) : null}
+              />
+            ) : (
+              <IconChevronRight
+                style={{
+                  marginRight: 8,
+                }}
+              />
+            )}
+            <Stack gap={16} style={{ paddingRight: 12 }}>
+              <Stack gap={16} justify="start">
+                <Badge color="neutral-muted">{i + 1}</Badge>
+                {title}
+              </Stack>
+              <Stack fitContent justify="end" gap={8}>
+                <Button
+                  variant="icon-only"
+                  style={{ opacity: 0 }}
+                  onClick={() => {
+                    p.removeItem(i)
+                  }}
+                >
+                  <IconClose />
+                </Button>
+                {isIterable(p.field.values) ? (
+                  <Badge color="neutral-muted">
+                    {item?.length} Item
+                    {item?.length === 1 ? '' : 's'}
+                  </Badge>
+                ) : null}
+              </Stack>
             </Stack>
-          </Stack>
-        </Cell>
-      </Stack>
+          </Cell>,
+        ]}
+      />
     )
     if (isOpen) {
       rows.push(

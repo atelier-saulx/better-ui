@@ -13,6 +13,7 @@ import {
   color,
   ButtonProps,
   IconSearch,
+  IconClose,
 } from '../../index.js'
 import { Path, Reference, TableCtx } from './types.js'
 import { readPath } from './utils.js'
@@ -93,7 +94,7 @@ const Info = (p: { value: Reference; onClick: () => void }) => {
   if (typeof p.value === 'object') {
     return (
       <Stack justify="start" fitContent>
-        <Text style={{ marginRight: 12 }} variant="body-bold">
+        <Text singleLine style={{ marginRight: 12 }} variant="body-bold">
           {p.value.name ?? p.value.title}
         </Text>
         <Id id={p.value.id} onClick={p.onClick} />
@@ -207,7 +208,17 @@ export function Reference({
               })
             }}
           />
-          <Select badge={isLarge} field={field} onClick={selectRef} />
+          <Stack justify="end" gap={8}>
+            <Select badge={isLarge} field={field} onClick={selectRef} />
+            <Button
+              onClick={() => {
+                ctx.listeners.onChangeHandler(ctx, path, null)
+              }}
+              variant="icon-only"
+            >
+              <IconClose />
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
     )

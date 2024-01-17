@@ -95,7 +95,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     },
     ref
   ) => {
-    const [value, setValue] = useControllableState<number>({
+    const [value = '', setValue] = useControllableState<number>({
       value: valueProp,
       defaultValue: defaultValueProp,
       onChange,

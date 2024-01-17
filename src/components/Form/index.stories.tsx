@@ -322,6 +322,7 @@ export const References = () => {
           refTags: {
             title: 'Multi references',
             type: 'references',
+            sortable: true,
             description: 'Multi ref',
           },
           peopleLess: {
@@ -329,14 +330,15 @@ export const References = () => {
             type: 'references',
           },
           people: {
-            title: 'People',
+            sortable: true,
+            title: 'People time',
             type: 'references',
           },
-
           refs: {
             title: 'Multi references',
             type: 'references',
             description: 'Multi ref',
+            sortable: true,
           },
           object: {
             title: 'Refs in an object',
@@ -356,8 +358,8 @@ export const References = () => {
             },
           },
         }}
-        onChange={(values, changed, checksum) => {
-          console.info({ values, changed, checksum })
+        onChange={(values, changed, checksum, based) => {
+          console.info({ values, changed, checksum, based })
         }}
       />
     </styled.div>
@@ -916,8 +918,8 @@ export const Arrays = () => {
             values: objectField.object,
           },
         }}
-        onChange={(values, changes) => {
-          console.log({ values, changes })
+        onChange={(values, changes, checksum, based) => {
+          console.log({ values, changes, checksum, based })
         }}
       />
     </div>

@@ -2,11 +2,12 @@ import React, { ReactNode, useEffect, useRef } from 'react'
 import { BasedSchemaField, BasedSchema } from '@based/schema'
 import { Stack } from '../../index.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
-import { deepCopy, deepMerge } from '@saulx/utils'
+import { deepCopy, deepMergeArrays } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 import { Field } from './Field.js'
 import { FormConfirm } from './FormConfirm.js'
 import { useListeners } from './useListeners.js'
+import { createBasedObject } from './createBasedObject.js'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
@@ -20,13 +21,15 @@ type FormValues = {
 type FormOnChange = (
   values: { [key: string]: any },
   changed: { [key: string]: any },
-  checksum: number
+  checksum: number,
+  based: { [key: string]: any }
 ) => void
 
 type FormOnChangeAsync = (
   values: { [key: string]: any },
   changed: { [key: string]: any },
-  checksum: number
+  checksum: number,
+  based: { [key: string]: any }
 ) => Promise<void>
 
 export type ValueRef = {
@@ -79,15 +82,17 @@ export const Form = (p: FormProps) => {
 
   const onConfirm = React.useCallback(async () => {
     try {
+      const hash = hashObjectIgnoreKeyOrder(p.values ?? {})
+
       await p.onChange(
         valueRef.current.values,
         valueRef.current.changes,
-        currentChecksum
+        hash,
+        createBasedObject(ctx, valueRef.current.changes)
       )
       valueRef.current.hasChanges = false
       valueRef.current.values = p.values ?? {}
       valueRef.current.changes = {}
-      const hash = hashObjectIgnoreKeyOrder(p.values ?? {})
       setChecksum(hash)
     } catch (err) {
       throw err
@@ -129,7 +134,7 @@ export const Form = (p: FormProps) => {
     if (p.values) {
       const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values)
       if (currentChecksum !== hash) {
-        valueRef.current.values = deepMerge(
+        valueRef.current.values = deepMergeArrays(
           deepCopy(p.values),
           valueRef.current.changes
         )

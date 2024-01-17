@@ -43,7 +43,7 @@ export const CheckboxInput = React.forwardRef<
     },
     ref
   ) => {
-    const [value, setValue] = useControllableState({
+    const [value = false, setValue] = useControllableState({
       value: valueProp,
       onChange,
       defaultValue,

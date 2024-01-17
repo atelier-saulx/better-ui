@@ -4,6 +4,7 @@ import { Listeners, DragTarget } from './types.js'
 import { readPath } from './utils.js'
 import { deepCopy, setByPath } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
+import { createBasedObject } from './createBasedObject.js'
 
 export const useListeners = (
   valueRef: MutableRefObject<ValueRef>,
@@ -26,12 +27,6 @@ export const useListeners = (
           newValue = p.onChangeTransform(newValue, path, field)
         }
 
-        // if (validate) {
-        //   if (!validate(path, value, field)) {
-        //     return true
-        //   }
-        // }
-
         if (!valueRef.current.hasChanges) {
           valueRef.current.hasChanges = true
           valueRef.current.values = deepCopy(p.values)
@@ -50,7 +45,12 @@ export const useListeners = (
           p.onChange &&
           (p.variant === 'bare' || p.variant === 'no-confirm')
         ) {
-          p.onChange(valueRef.current.values, valueRef.current.changes, hash)
+          p.onChange(
+            valueRef.current.values,
+            valueRef.current.changes,
+            hash,
+            createBasedObject(ctx, valueRef.current.changes)
+          )
         }
 
         setChecksum(hash)
@@ -61,7 +61,11 @@ export const useListeners = (
           return p.onFileUpload(props, updateHandler)
         }
       },
-      onClickReference: () => {},
+      onClickReference: (props) => {
+        if (p.onClickReference) {
+          return p.onClickReference(props)
+        }
+      },
       onSelectReference: (props) => {
         if (p.onSelectReference) {
           return p.onSelectReference(props)
