@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useRef, useCallback } from 'react'
-import { BasedSchemaFieldObject } from '@based/schema'
+import { BasedSchemaField } from '@based/schema'
 import { styled } from 'inlines'
 import {
   Stack,
@@ -28,7 +28,7 @@ type DragRefValue = {
 type DragRef = React.MutableRefObject<DragRefValue>
 
 type DragableRowProps = {
-  field: BasedSchemaFieldObject
+  field: BasedSchemaField
   ctx: TableCtx
   path: Path
   index: number
@@ -79,10 +79,13 @@ const DraggableColStack = (p: DragableRowProps) => {
   })
   const [isDragOver, setDragOver] = useState(0)
 
-  const key = getIdentifierField(p.field)
-
-  if (p.value) {
-    ref.current.name = key ? p.value[key] : ''
+  if (p.field.type === 'object') {
+    const key = getIdentifierField(p.field)
+    if (p.value) {
+      ref.current.name = key ? p.value[key] : ''
+    }
+  } else {
+    ref.current.name = ''
   }
 
   return (
