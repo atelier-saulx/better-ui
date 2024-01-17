@@ -16,7 +16,6 @@ import { render } from 'react-dom'
 import { IconDrag } from '../IconDrag.js'
 import { getIdentifierField } from '../utils.js'
 
-// tmp
 let draggingIndex = 0
 
 type DragRefValue = {
@@ -62,7 +61,9 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
         borderRadius: borderRadius('small'),
       }}
     >
-      <Badge>{ref.current.index + 1}</Badge>
+      {!ref.current.name && ref.current.src ? (
+        <Badge>{ref.current.index + 1}</Badge>
+      ) : null}
       {ref.current.src ? <Media src={ref.current.src} /> : null}
       <Text variant="body-bold">{ref.current.name}</Text>
     </Stack>,
@@ -188,6 +189,7 @@ export const DragableRow = (p: DragableRowProps) => {
         style={{
           borderBottom: border(),
         }}
+        onClick={p.onClick}
       >
         {p.cells}
       </ColStack>

@@ -95,6 +95,19 @@ export const getIdentifierField = (
   }
 }
 
+export const getIdentifierFieldValue = (
+  value: any,
+  skipFields?: string[]
+): string | void => {
+  if (typeof value === 'object') {
+    for (const str of IDENTIFIER_FIELDS) {
+      if (str in value && !skipFields?.includes(str)) {
+        return value[str]
+      }
+    }
+  }
+}
+
 export const isTable = (field: BasedSchemaField): boolean => {
   const { type } = field
   if (type === 'object' || type === 'record' || type === 'array') {
