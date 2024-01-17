@@ -55,7 +55,11 @@ export const useListeners = (
           return p.onFileUpload(props, updateHandler)
         }
       },
-      onClickReference: () => {},
+      onClickReference: (props) => {
+        if (p.onClickReference) {
+          return p.onClickReference(props)
+        }
+      },
       onSelectReference: (props) => {
         if (p.onSelectReference) {
           return p.onSelectReference(props)

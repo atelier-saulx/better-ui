@@ -167,16 +167,18 @@ export const ReferencesTable = ({
     }
   }
 
-  for (const key of hasFields.values()) {
-    fields.push(key)
-    if (fields.length >= 6) {
-      break
-    }
-  }
-
   const objectSchema: BasedSchemaFieldObject = {
     type: 'object',
     properties: {},
+  }
+
+  for (const key of hasFields.values()) {
+    fields.push(key)
+    // make this a bit better
+    objectSchema.properties[key] = {
+      type: 'string',
+      contentMediaType: key === 'src' ? 'image/*' : null,
+    }
   }
 
   if (field.sortable) {

@@ -54,14 +54,14 @@ export function References({
     ctx.listeners.onChangeHandler(ctx, path, nValue)
   }, [])
 
-  const clickRef = (value) => {
+  const clickRef = React.useCallback((value) => {
     ctx.listeners.onClickReference({
       path,
       value,
       field,
       ctx,
     })
-  }
+  }, [])
 
   if (variant === 'large') {
     return (
