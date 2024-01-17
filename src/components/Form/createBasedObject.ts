@@ -38,6 +38,8 @@ export const createBasedObject = (
         }
       }
       return nV
+    } else if (obj === null) {
+      return { $delete: true }
     } else if (typeof obj === 'object') {
       const nS = {}
       for (const key in obj) {
@@ -45,7 +47,7 @@ export const createBasedObject = (
       }
     }
 
-    return obj
+    return s
   }
 
   walk(changes, bObject, [])

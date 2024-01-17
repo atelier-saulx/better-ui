@@ -358,8 +358,8 @@ export const References = () => {
             },
           },
         }}
-        onChange={(values, changed, checksum) => {
-          console.info({ values, changed, checksum })
+        onChange={(values, changed, checksum, based) => {
+          console.info({ values, changed, checksum, based })
         }}
       />
     </styled.div>
