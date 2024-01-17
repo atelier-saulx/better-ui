@@ -33,6 +33,9 @@ export type SidebarProps = {
   onValueChange?: (value: string) => void
   style?: Style
   collapsable?: boolean
+  children?: React.ReactNode
+  header?: React.ReactNode
+  footer?: React.ReactNode
 }
 
 export function Sidebar({
@@ -43,6 +46,9 @@ export function Sidebar({
   onOpenChange,
   style,
   collapsable = true,
+  children,
+  header,
+  footer,
 }: SidebarProps) {
   const isMobile = useIsMobile()
   let [open, setOpen] = useControllableState({
@@ -60,6 +66,23 @@ export function Sidebar({
     }
   }, [isMobile])
 
+  children ??=
+    data && Array.isArray(data)
+      ? data.map((e) => (
+          <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
+            {e.label}
+          </SidebarItem>
+        ))
+      : Object.entries(data).map(([title, items]) => (
+          <SidebarGroup title={title}>
+            {items.map((e) => (
+              <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
+                {e.label}
+              </SidebarItem>
+            ))}
+          </SidebarGroup>
+        ))
+
   return (
     <styled.aside
       style={{
@@ -73,7 +96,9 @@ export function Sidebar({
         ...style,
       }}
     >
+      {header}
       <SidebarContext.Provider value={{ open, value, setValue }}>
+<<<<<<< HEAD
         {Array.isArray(data)
           ? data.map((e, idx) => (
               <SidebarItem
@@ -99,6 +124,9 @@ export function Sidebar({
                 ))}
               </SidebarGroup>
             ))}
+=======
+        {children}
+>>>>>>> 0f440b2926b2bdd627dde1901a9840d2d5954891
       </SidebarContext.Provider>
       {collapsable ? (
         <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
@@ -118,6 +146,19 @@ export function Sidebar({
           </Tooltip>
         </div>
       ) : null}
+
+      {footer && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: open ? 16 : 64,
+            left: 12,
+            maxWidth: open ? '100%' : 40,
+          }}
+        >
+          {footer}
+        </div>
+      )}
     </styled.aside>
   )
 }

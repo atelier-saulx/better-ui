@@ -216,7 +216,12 @@ export function Media({
 
   return (
     <styled.div
-      style={{ width: '100%', height: '100%', ...style, overflow: 'hidden' }}
+      style={{
+        width: '100%',
+        height: '100%',
+        ...style,
+        overflow: 'hidden',
+      }}
       ref={containerRef}
     >
       <MediaInner

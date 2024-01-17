@@ -173,7 +173,11 @@ export const ReferencesTable = ({
   }
 
   for (const key of hasFields.values()) {
+    // choose certain fields over others.. make util
     fields.push(key)
+    if (fields.length > 5) {
+      break
+    }
     // make this a bit better
     objectSchema.properties[key] = {
       type: 'string',

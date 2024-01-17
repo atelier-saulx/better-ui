@@ -12,10 +12,11 @@ import {
   borderRadius,
 } from '../../../index.js'
 import { Reference } from '../types.js'
+import { getIdentifierFieldValue } from '../utils.js'
 
 const Info = ({ value }: { value: Reference }) => {
   if (typeof value === 'object') {
-    const title = value.name ?? value.title
+    const title = getIdentifierFieldValue(value, ['id'])
     if (title) {
       return (
         <>

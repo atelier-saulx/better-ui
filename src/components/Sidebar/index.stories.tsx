@@ -6,6 +6,7 @@ import {
   IconUsers,
   IconAlert,
   Badge,
+  Text,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
 
@@ -23,6 +24,7 @@ export const Default = () => {
   return (
     <div style={{ height: '100vh', width: '100%' }}>
       <Sidebar
+        header={<Text singleLine>header header header</Text>}
         data={[
           {
             label: 'Overview',
@@ -38,6 +40,11 @@ export const Default = () => {
           },
           { label: 'Users', value: 'users', prefix: <IconUsers /> },
         ]}
+        footer={
+          <Text singleLine style={{ background: 'yellow', padding: 12 }}>
+            footer footer footer
+          </Text>
+        }
       />
     </div>
   )
