@@ -34,6 +34,8 @@ export type SidebarProps = {
   style?: Style
   collapsable?: boolean
   children?: React.ReactNode
+  header?: React.ReactNode
+  footer?: React.ReactNode
 }
 
 export function Sidebar({
@@ -45,6 +47,8 @@ export function Sidebar({
   style,
   collapsable = true,
   children,
+  header,
+  footer,
 }: SidebarProps) {
   const isMobile = useIsMobile()
   let [open, setOpen] = useControllableState({
@@ -92,6 +96,7 @@ export function Sidebar({
         ...style,
       }}
     >
+      {header}
       <SidebarContext.Provider value={{ open, value, setValue }}>
         {children}
       </SidebarContext.Provider>
@@ -113,6 +118,19 @@ export function Sidebar({
           </Tooltip>
         </div>
       ) : null}
+
+      {footer && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: open ? 16 : 64,
+            left: 12,
+            maxWidth: open ? '100%' : 40,
+          }}
+        >
+          {footer}
+        </div>
+      )}
     </styled.aside>
   )
 }
