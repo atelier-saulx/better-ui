@@ -208,15 +208,17 @@ export function Reference({
               })
             }}
           />
-          <Select badge={isLarge} field={field} onClick={selectRef} />
-          <Button
-            onClick={() => {
-              ctx.listeners.onChangeHandler(ctx, path, null)
-            }}
-            variant="icon-only"
-          >
-            <IconClose />
-          </Button>
+          <Stack justify="end">
+            <Select badge={isLarge} field={field} onClick={selectRef} />
+            <Button
+              onClick={() => {
+                ctx.listeners.onChangeHandler(ctx, path, null)
+              }}
+              variant="icon-only"
+            >
+              <IconClose />
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
     )
