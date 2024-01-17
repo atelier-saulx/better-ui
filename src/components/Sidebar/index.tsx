@@ -119,16 +119,18 @@ export function Sidebar({
         </div>
       ) : null}
 
-      <div
-        style={{
-          position: 'absolute',
-          bottom: open ? 16 : 64,
-          left: 12,
-          maxWidth: open ? '100%' : 40,
-        }}
-      >
-        {footer}
-      </div>
+      {footer && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: open ? 16 : 64,
+            left: 12,
+            maxWidth: open ? '100%' : 40,
+          }}
+        >
+          {footer}
+        </div>
+      )}
     </styled.aside>
   )
 }
