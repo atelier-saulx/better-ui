@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, useRef, useCallback } from 'react'
 import { BasedSchemaField } from '@based/schema'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import {
   Stack,
   border,
@@ -32,8 +32,10 @@ type DragableRowProps = {
   ctx: TableCtx
   path: Path
   index: number
+  header?: boolean
   value: any
   cells: ReactNode[]
+  style?: Style
   draggable?: boolean
   removeItem: (index: number) => void
   changeIndex: (fromIndex: number, toIndex: number) => void
@@ -132,8 +134,10 @@ const DraggableColStack = (p: DragableRowProps) => {
         />
       </Stack>
       <ColStack
+        header={p.header}
         style={{
           borderBottom: border(),
+          ...p.style,
         }}
         onRemove={useCallback(() => {
           ref.current.removeItem(p.index)
