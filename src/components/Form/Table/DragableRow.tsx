@@ -14,6 +14,7 @@ import { Path, TableCtx } from '../types.js'
 import { ColStack } from './ColStack.js'
 import { render } from 'react-dom'
 import { IconDrag } from '../IconDrag.js'
+import { getIdentifierField } from '../utils.js'
 
 // tmp
 let draggingIndex = 0
@@ -83,14 +84,11 @@ const DraggableColStack = (p: DragableRowProps) => {
   })
   const [isDragOver, setDragOver] = useState(0)
 
-  for (const key in p.field.properties) {
-    if (p.value) {
-      if (key === 'name' || key === 'title') {
-        ref.current.name = p.value[key]
-      } else if (key === 'src') {
-        ref.current.src = p.value.src
-      }
-    }
+  const key = getIdentifierField(p.field)
+
+  if (p.value) {
+    ref.current.name = key ? p.value[key] : ''
+    ref.current.src = p.value.src ?? ''
   }
 
   return (
