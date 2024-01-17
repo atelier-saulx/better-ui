@@ -33,6 +33,7 @@ export type SidebarProps = {
   onValueChange?: (value: string) => void
   style?: Style
   collapsable?: boolean
+  children?: React.ReactNode
 }
 
 export function Sidebar({
@@ -43,6 +44,7 @@ export function Sidebar({
   onOpenChange,
   style,
   collapsable = true,
+  children,
 }: SidebarProps) {
   const isMobile = useIsMobile()
   let [open, setOpen] = useControllableState({
@@ -60,6 +62,23 @@ export function Sidebar({
     }
   }, [isMobile])
 
+  children ??=
+    data && Array.isArray(data)
+      ? data.map((e) => (
+          <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
+            {e.label}
+          </SidebarItem>
+        ))
+      : Object.entries(data).map(([title, items]) => (
+          <SidebarGroup title={title}>
+            {items.map((e) => (
+              <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
+                {e.label}
+              </SidebarItem>
+            ))}
+          </SidebarGroup>
+        ))
+
   return (
     <styled.aside
       style={{
@@ -74,25 +93,7 @@ export function Sidebar({
       }}
     >
       <SidebarContext.Provider value={{ open, value, setValue }}>
-        {Array.isArray(data)
-          ? data.map((e) => (
-              <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
-                {e.label}
-              </SidebarItem>
-            ))
-          : Object.entries(data).map(([title, items]) => (
-              <SidebarGroup title={title}>
-                {items.map((e) => (
-                  <SidebarItem
-                    prefix={e.prefix}
-                    suffix={e.suffix}
-                    value={e.value}
-                  >
-                    {e.label}
-                  </SidebarItem>
-                ))}
-              </SidebarGroup>
-            ))}
+        {children}
       </SidebarContext.Provider>
       {collapsable ? (
         <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
