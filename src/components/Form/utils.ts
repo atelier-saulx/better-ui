@@ -2,6 +2,17 @@ import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
 import { TableCtx, Path } from './types.js'
 import { getStringWidth, textVariants } from '../../index.js'
 
+const IDENTIFIER_FIELDS = [
+  'name',
+  'title',
+  'firstName',
+  'email',
+  'phone',
+  'id',
+  'price',
+  'type',
+]
+
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
   path: Path
@@ -73,16 +84,6 @@ export const canUseColumns = (field: BasedSchemaFieldObject): boolean => {
   }
   return true
 }
-
-const IDENTIFIER_FIELDS = [
-  'name',
-  'title',
-  'email',
-  'phone',
-  'id',
-  'price',
-  'type',
-]
 
 export const getIdentifierField = (
   field: BasedSchemaFieldObject

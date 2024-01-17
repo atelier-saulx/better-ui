@@ -26,12 +26,6 @@ export const useListeners = (
           newValue = p.onChangeTransform(newValue, path, field)
         }
 
-        // if (validate) {
-        //   if (!validate(path, value, field)) {
-        //     return true
-        //   }
-        // }
-
         if (!valueRef.current.hasChanges) {
           valueRef.current.hasChanges = true
           valueRef.current.values = deepCopy(p.values)
@@ -61,7 +55,11 @@ export const useListeners = (
           return p.onFileUpload(props, updateHandler)
         }
       },
-      onClickReference: () => {},
+      onClickReference: (props) => {
+        if (p.onClickReference) {
+          return p.onClickReference(props)
+        }
+      },
       onSelectReference: (props) => {
         if (p.onSelectReference) {
           return p.onSelectReference(props)

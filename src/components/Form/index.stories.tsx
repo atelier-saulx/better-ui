@@ -322,6 +322,7 @@ export const References = () => {
           refTags: {
             title: 'Multi references',
             type: 'references',
+            sortable: true,
             description: 'Multi ref',
           },
           peopleLess: {
@@ -329,14 +330,15 @@ export const References = () => {
             type: 'references',
           },
           people: {
-            title: 'People',
+            sortable: true,
+            title: 'People time',
             type: 'references',
           },
-
           refs: {
             title: 'Multi references',
             type: 'references',
             description: 'Multi ref',
+            sortable: true,
           },
           object: {
             title: 'Refs in an object',

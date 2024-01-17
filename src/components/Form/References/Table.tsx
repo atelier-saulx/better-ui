@@ -121,6 +121,7 @@ export const ReferencesTable = ({
   onRemove,
   field,
   onClickReference,
+  changeIndex,
 }: {
   field: BasedSchemaFieldReferences
   value: Reference[]
@@ -129,6 +130,7 @@ export const ReferencesTable = ({
   onClickReference: (ref: Reference) => void
   ctx: TableCtx
   path: Path
+  changeIndex: (fromIndex: number, toIndex: number) => void
 }) => {
   const rows: React.ReactNode[] = []
   const cols: React.ReactNode[] = [,]
@@ -165,19 +167,23 @@ export const ReferencesTable = ({
     }
   }
 
-  for (const key of hasFields.values()) {
-    fields.push(key)
-    if (fields.length >= 6) {
-      break
-    }
-  }
-
   const objectSchema: BasedSchemaFieldObject = {
     type: 'object',
     properties: {},
   }
 
-  cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
+  for (const key of hasFields.values()) {
+    fields.push(key)
+    // make this a bit better
+    objectSchema.properties[key] = {
+      type: 'string',
+      contentMediaType: key === 'src' ? 'image/*' : null,
+    }
+  }
+
+  if (field.sortable) {
+    cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
+  }
 
   for (const key of fields) {
     // objectSchema.properties[key] = { type: }
@@ -200,7 +206,7 @@ export const ReferencesTable = ({
       rows.push(
         <DragableRow
           draggable={field.sortable}
-          changeIndex={() => {}}
+          changeIndex={changeIndex}
           value={v}
           index={i}
           key={i}
