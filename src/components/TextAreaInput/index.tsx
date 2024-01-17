@@ -94,7 +94,7 @@ export const TextAreaInput = React.forwardRef<
     },
     ref
   ) => {
-    const [state, setState] = useControllableState({
+    const [state = '', setState] = useControllableState({
       value,
       defaultValue,
       onChange,
