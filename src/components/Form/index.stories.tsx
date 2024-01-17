@@ -358,8 +358,8 @@ export const References = () => {
             },
           },
         }}
-        onChange={(values, changed, checksum) => {
-          console.info({ values, changed, checksum })
+        onChange={(values, changed, checksum, based) => {
+          console.info({ values, changed, checksum, based })
         }}
       />
     </styled.div>
@@ -918,8 +918,8 @@ export const Arrays = () => {
             values: objectField.object,
           },
         }}
-        onChange={(values, changes) => {
-          console.log({ values, changes })
+        onChange={(values, changes, checksum, based) => {
+          console.log({ values, changes, checksum, based })
         }}
       />
     </div>

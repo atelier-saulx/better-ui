@@ -1,9 +1,10 @@
 import { MutableRefObject, useMemo } from 'react'
 import { FormProps, ValueRef } from './index.js'
 import { Listeners, DragTarget } from './types.js'
-import { readPath, readParentType } from './utils.js'
-import { deepCopy, getByPath, setByPath } from '@saulx/utils'
+import { readPath } from './utils.js'
+import { deepCopy, setByPath } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
+import { createBasedObject } from './createBasedObject.js'
 
 export const useListeners = (
   valueRef: MutableRefObject<ValueRef>,
@@ -31,20 +32,6 @@ export const useListeners = (
           valueRef.current.values = deepCopy(p.values)
         }
 
-        // may want to get rid of this in the future
-        if (
-          typeof path[path.length - 2] === 'number' &&
-          readParentType(ctx, path) === 'object' &&
-          readParentType(ctx, path, 2) === 'array' &&
-          !getByPath(valueRef.current.changes, path.slice(0, -1))
-        ) {
-          const p = path.slice(0, -1)
-          const v = getByPath(ctx.values, p)
-          if (v) {
-            setByPath(valueRef.current.changes, path.slice(0, -1), v)
-          }
-        }
-
         setByPath(valueRef.current.values, path, newValue)
         setByPath(valueRef.current.changes, path, newValue)
 
@@ -58,7 +45,12 @@ export const useListeners = (
           p.onChange &&
           (p.variant === 'bare' || p.variant === 'no-confirm')
         ) {
-          p.onChange(valueRef.current.values, valueRef.current.changes, hash)
+          p.onChange(
+            valueRef.current.values,
+            valueRef.current.changes,
+            hash,
+            createBasedObject(ctx, valueRef.current.changes)
+          )
         }
 
         setChecksum(hash)
