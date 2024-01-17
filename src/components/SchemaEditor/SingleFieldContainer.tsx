@@ -29,8 +29,6 @@ export const SingleFieldContainer = ({
   index,
   changeIndex,
 }: SingleFieldContainerProps) => {
-  // console.log('item??0', item)
-
   if (item.format === 'rich-text') {
     item.type = 'richtext'
   }
@@ -107,10 +105,8 @@ export const SingleFieldContainer = ({
               ? 0.5
               : 1,
           }}
-          // key={idx}
           title={
             <Stack gap={12}>
-              {item?.index}
               <Text variant="body-bold">{item?.name || item?.meta.name}</Text>
               <Badge color={SCHEMA_FIELDS[item.type]?.color}>
                 {item.type}

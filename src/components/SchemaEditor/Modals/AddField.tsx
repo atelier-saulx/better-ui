@@ -171,8 +171,6 @@ export const AddField = ({
           fields = nestedFields
         }
 
-        console.log('🦎 Try to Set these fields', fields)
-
         await client.call('db:set-schema', {
           mutate: true,
           schema: {
@@ -235,7 +233,6 @@ const GeneralOptions = ({ meta, setMeta, editItem }: GeneralOptionsProps) => {
     <Stack gap={12} grid>
       <TextInput
         label="Display name"
-        // description="Name that will be displayed in the interface"
         value={meta?.displayName}
         onChange={(v) => {
           setMeta({ field: 'displayName', value: v })
@@ -246,7 +243,6 @@ const GeneralOptions = ({ meta, setMeta, editItem }: GeneralOptionsProps) => {
       />
       <TextInput
         label="Field Name"
-        //  description="API field-name used in the sdk and clients"
         disabled={editItem}
         value={meta?.name || meta?.displayName?.toLowerCase() || ''}
         onChange={(v) => {
@@ -257,7 +253,6 @@ const GeneralOptions = ({ meta, setMeta, editItem }: GeneralOptionsProps) => {
       />
       <TextAreaInput
         label="Description"
-        //   description="Displays a hint for content editors"
         value={meta?.description}
         onChange={(v) => setMeta({ field: 'description', value: v })}
       />

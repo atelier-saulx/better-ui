@@ -21,12 +21,9 @@ type unindexedSchemaItem = Omit<SchemaItem, 'index'>
 
 // for indexing items for drag drop
 const parseFields = (fields) => {
-  console.log('INCOMKING', fields)
-
   if (!fields) return
   const indexedArray = [] as SchemaItem[]
   const type = fields
-
   //get all existing indexes
   const allCurrentIndexes = [] as number[]
 
@@ -53,9 +50,6 @@ const parseFields = (fields) => {
   }
 
   indexedArray.sort((a, b) => a.index - b.index)
-
-  console.log(indexedArray, '🥱 ????')
-
   return [...indexedArray]
 }
 
@@ -73,31 +67,21 @@ export const SchemaFields = ({ fields, typeName }) => {
   }, [fields])
 
   const changeIndex = async (fromIndex: number, toIndex: number) => {
-    console.log('from:', fromIndex, 'to index', toIndex)
-
     // set A new Array where the index is change
     const n = [...array]
     const target = n[fromIndex]
-    console.log('target', target)
     n.splice(fromIndex, 1)
     n.splice(toIndex, 0, target)
 
-    // use there index in the array
+    // use their index in the array
     for (let i = 0; i < n.length; i++) {
       n[i].index = i
     }
-
-    console.log('N and now?? 🤡', n)
 
     const fields = new Object()
     for (let i = 0; i < n.length; i++) {
       fields[n[i].name] = n[i]
     }
-
-    // must set this in schema now
-    setArray([...n])
-
-    console.log('new fucking fields then', fields)
 
     await client.call('db:set-schema', {
       mutate: true,
