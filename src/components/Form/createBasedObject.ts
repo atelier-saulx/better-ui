@@ -17,6 +17,8 @@ export const createBasedObject = (
 
       let nV: any
 
+      // also check for length differences...
+
       let j = 0
       for (let i = 0; i < obj.length; i++) {
         if (obj[i] !== undefined) {
@@ -28,8 +30,8 @@ export const createBasedObject = (
           }
           j++
         }
-        if (j > 1) {
-          console.info('have to do other stuff... prob copy the array')
+        if (j > 1 || (value && obj.length < value.length)) {
+          // console.info('have to do other stuff... prob copy the array')
           // check if we have
           // - a push
           // - a single remove
