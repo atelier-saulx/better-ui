@@ -15,19 +15,8 @@ export const CollRow = (p: {
   changeIndex: (fromIndex: number, toIndex: number) => void
   value: any
 }) => {
-  let name: string = ''
-  let src: string = ''
-
   const cells: ReactNode[] = []
   for (const key in p.field.properties) {
-    if (p.value) {
-      if (key === 'name' || key === 'title') {
-        name = p.value[key]
-      } else if (key === 'src') {
-        src = p.value.src
-      }
-    }
-
     cells.push(
       <Cell border key={key}>
         <Field ctx={p.ctx} path={[...p.path, p.index, key]} />
@@ -35,7 +24,7 @@ export const CollRow = (p: {
     )
   }
 
-  return <DragableRow draggable name={name} src={src} {...p} cells={cells} />
+  return <DragableRow draggable {...p} cells={cells} />
 }
 
 export const ObjectCollsRows = (p: RowProps) => {

@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useRef } from 'react'
+import React, { ReactNode, useState, useRef, useCallback } from 'react'
 import { BasedSchemaFieldObject } from '@based/schema'
 import { styled } from 'inlines'
 import {
@@ -15,42 +15,82 @@ import { ColStack } from './ColStack.js'
 import { render } from 'react-dom'
 import { IconDrag } from '../IconDrag.js'
 
+// tmp
 let draggingIndex = 0
 
-export const DragableRow = (p: {
+type DragRefValue = {
+  elem?: HTMLElement
+  name: string
+  src: string
+  index: number
+  removeItem: (index: number) => void
+  changeIndex: (fromIndex: number, toIndex: number) => void
+}
+
+type DragRef = React.MutableRefObject<DragRefValue>
+
+type DragableRowProps = {
   field: BasedSchemaFieldObject
   ctx: TableCtx
   path: Path
   index: number
-  removeItem: (index: number) => void
-  changeIndex: (fromIndex: number, toIndex: number) => void
   value: any
   cells: ReactNode[]
-  name?: string
-  src?: string
-  onClick?: () => void
   draggable?: boolean
-}) => {
-  const i = p.index
-  const ref2 = useRef<HTMLElement>()
+  removeItem: (index: number) => void
+  changeIndex: (fromIndex: number, toIndex: number) => void
+  onClick?: () => void
+}
+
+const dragHandler = (e: DragEvent, ref: DragRef) => {
+  const elem = (ref.current.elem = document.createElement('div'))
+  elem.id = 'drag-ghost'
+  elem.style.position = 'absolute'
+  elem.style.top = '-1000px'
+  elem.style.paddingLeft = '32px'
+  render(
+    <Stack
+      gap={4}
+      justify="start"
+      style={{
+        background: color('background', 'screen'),
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 16,
+        paddingRight: 16,
+        borderRadius: borderRadius('small'),
+      }}
+    >
+      <Badge>{ref.current.index + 1}</Badge>
+      {ref.current.src ? <Media src={ref.current.src} /> : null}
+      <Text variant="body-bold">{ref.current.name}</Text>
+    </Stack>,
+    elem
+  )
+  document.body.appendChild(elem)
+  e.dataTransfer.setDragImage(elem, 0, 0)
+  e.dataTransfer.setData('text/plain', String(ref.current.index))
+  draggingIndex = ref.current.index
+}
+
+const DraggableColStack = (p: DragableRowProps) => {
+  const ref = useRef<DragRefValue>({
+    index: p.index,
+    name: '',
+    src: '',
+    removeItem: p.removeItem,
+    changeIndex: p.changeIndex,
+  })
   const [isDragOver, setDragOver] = useState(0)
 
-  let name: string = p.name ?? ''
-  let src: string = p.src ?? ''
-
-  if (!p.draggable) {
-    return (
-      <ColStack
-        onRemove={() => {
-          p.removeItem(i)
-        }}
-        style={{
-          borderBottom: border(),
-        }}
-      >
-        {p.cells}
-      </ColStack>
-    )
+  for (const key in p.field.properties) {
+    if (p.value) {
+      if (key === 'name' || key === 'title') {
+        ref.current.name = p.value[key]
+      } else if (key === 'src') {
+        ref.current.src = p.value.src
+      }
+    }
   }
 
   return (
@@ -59,23 +99,23 @@ export const DragableRow = (p: {
         width: '100%',
       }}
       onClick={p.onClick}
-      onDrop={(e) => {
+      onDrop={useCallback((e) => {
         e.preventDefault()
-        p.changeIndex(draggingIndex, p.index)
+        ref.current.changeIndex(draggingIndex, p.index)
         setDragOver(0)
-      }}
-      onDragOver={(e) => {
+      }, [])}
+      onDragOver={useCallback((e) => {
         e.preventDefault()
-        if (draggingIndex !== p.index) {
-          setDragOver(draggingIndex > p.index ? -1 : 1)
+        if (draggingIndex !== ref.current.index) {
+          setDragOver(draggingIndex > ref.current.index ? -1 : 1)
         }
-      }}
-      onDragLeave={() => {
+      }, [])}
+      onDragLeave={useCallback(() => {
         setDragOver(0)
-      }}
-      onDragExit={() => {
+      }, [])}
+      onDragExit={useCallback(() => {
         setDragOver(0)
-      }}
+      }, [])}
     >
       <Stack
         style={{
@@ -83,7 +123,6 @@ export const DragableRow = (p: {
           width: '100%',
           overflow: 'hidden',
           transition: 'height 0.2s',
-          // transitionDelay: '0.2s',
           borderBottom: isDragOver === -1 ? border() : null,
         }}
       >
@@ -98,51 +137,21 @@ export const DragableRow = (p: {
         />
       </Stack>
       <ColStack
-        onDrop={() => {
-          // console.info('??????????')
-        }}
-        onRemove={() => {
-          p.removeItem(i)
-        }}
         style={{
           borderBottom: border(),
         }}
+        onRemove={useCallback(() => {
+          ref.current.removeItem(p.index)
+        }, [])}
       >
         <styled.div
           draggable
-          onDragStart={(e) => {
-            const elem = (ref2.current = document.createElement('div'))
-            elem.id = 'drag-ghost'
-            elem.style.position = 'absolute'
-            elem.style.top = '-1000px'
-            elem.style.paddingLeft = '32px'
-            render(
-              <Stack
-                gap={4}
-                justify="start"
-                style={{
-                  background: color('background', 'screen'),
-                  paddingTop: 8,
-                  paddingBottom: 8,
-                  paddingLeft: 16,
-                  paddingRight: 16,
-                  borderRadius: borderRadius('small'),
-                }}
-              >
-                <Badge>{i + 1}</Badge>
-                {src ? <Media src={src} /> : null}
-                <Text variant="body-bold">{name}</Text>
-              </Stack>,
-              elem
-            )
-            document.body.appendChild(elem)
-            e.dataTransfer.setDragImage(elem, 0, 0)
-            e.dataTransfer.setData('text/plain', p.index)
-            draggingIndex = p.index
-          }}
-          onDragEnd={() => {
-            document.body.removeChild(ref2.current)
-          }}
+          onDragStart={useCallback((e) => {
+            dragHandler(e, ref)
+          }, [])}
+          onDragEnd={useCallback(() => {
+            document.body.removeChild(ref.current.elem)
+          }, [])}
         >
           <IconDrag />
         </styled.div>
@@ -169,4 +178,22 @@ export const DragableRow = (p: {
       </Stack>
     </styled.div>
   )
+}
+
+export const DragableRow = (p: DragableRowProps) => {
+  if (!p.draggable) {
+    return (
+      <ColStack
+        onRemove={() => {
+          p.removeItem(p.index)
+        }}
+        style={{
+          borderBottom: border(),
+        }}
+      >
+        {p.cells}
+      </ColStack>
+    )
+  }
+  return <DraggableColStack {...p} />
 }
