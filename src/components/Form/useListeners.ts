@@ -1,9 +1,30 @@
 import { MutableRefObject, useMemo } from 'react'
 import { FormProps, ValueRef } from './index.js'
-import { Listeners, DragTarget } from './types.js'
+import { Listeners, DragTarget, TableCtx, Path } from './types.js'
 import { readPath, readParentType } from './utils.js'
 import { deepCopy, getByPath, setByPath } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
+
+const checkIfFromArray = (
+  ctx: TableCtx,
+  path: Path,
+  changes: ValueRef['changes']
+): boolean => {
+  if (typeof path[path.length - 2] !== 'number') {
+    return false
+  }
+  const parentType = readParentType(ctx, path)
+  if (parentType !== 'array' && parentType === 'object') {
+    return false
+  }
+  if (readParentType(ctx, path, 2) !== 'array') {
+    return false
+  }
+  if (getByPath(changes, path.slice(0, -1))) {
+    return false
+  }
+  return true
+}
 
 export const useListeners = (
   valueRef: MutableRefObject<ValueRef>,
@@ -31,13 +52,7 @@ export const useListeners = (
           valueRef.current.values = deepCopy(p.values)
         }
 
-        // may want to get rid of this in the future
-        if (
-          typeof path[path.length - 2] === 'number' &&
-          readParentType(ctx, path) === 'object' &&
-          readParentType(ctx, path, 2) === 'array' &&
-          !getByPath(valueRef.current.changes, path.slice(0, -1))
-        ) {
+        if (checkIfFromArray(ctx, path, valueRef.current.changes)) {
           const p = path.slice(0, -1)
           const v = getByPath(ctx.values, p)
           if (v) {
