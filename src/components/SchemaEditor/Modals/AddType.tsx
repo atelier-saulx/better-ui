@@ -7,6 +7,8 @@ import { Button } from '../../Button/index.js'
 import { Modal } from '../../Modal/index.js'
 import { IconPlus } from '../../Icons/index.js'
 import { useClient } from '@based/react'
+import { styled } from 'inlines'
+import { border, color } from '../../../utils/colors.js'
 
 export const AddType = ({ setActive }) => {
   const [typeName, setTypeName] = React.useState('')
@@ -18,12 +20,33 @@ export const AddType = ({ setActive }) => {
   return (
     <Modal.Root>
       <Modal.Trigger>
-        <Button
-          variant="neutral"
-          style={{ marginBottom: '32px', padding: '6px 12px' }}
+        <styled.p
+          style={{
+            defaultColor: 'primary',
+            defaultTag: 'p',
+            fontWeight: 600,
+            letterSpacing: '-0.14px',
+            lineHeight: `24px`,
+            fontSize: '14px',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            alignItems: 'center',
+            border: border(),
+            padding: '8px 8px',
+            borderRadius: 8,
+            maxWidth: 124,
+            marginBottom: '16px',
+            marginBlockStart: '0em',
+            '&:hover': {
+              background: color('background', 'neutral'),
+              border: border('hover'),
+            },
+          }}
         >
-          <IconPlus style={{ marginRight: 8 }} /> Add Type
-        </Button>
+          <IconPlus style={{ marginRight: 10, marginBottom: '-5px' }} /> Add
+          Type
+        </styled.p>
       </Modal.Trigger>
       <Modal.Overlay>
         {({ close }) => (

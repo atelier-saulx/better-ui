@@ -98,35 +98,7 @@ export function Sidebar({
     >
       {header}
       <SidebarContext.Provider value={{ open, value, setValue }}>
-<<<<<<< HEAD
-        {Array.isArray(data)
-          ? data.map((e, idx) => (
-              <SidebarItem
-                prefix={e.prefix}
-                suffix={e.suffix}
-                value={e.value}
-                key={idx}
-              >
-                {e.label}
-              </SidebarItem>
-            ))
-          : Object.entries(data).map(([title, items]) => (
-              <SidebarGroup title={title}>
-                {items.map((e, idx) => (
-                  <SidebarItem
-                    prefix={e.prefix}
-                    suffix={e.suffix}
-                    value={e.value}
-                    key={idx}
-                  >
-                    {e.label}
-                  </SidebarItem>
-                ))}
-              </SidebarGroup>
-            ))}
-=======
         {children}
->>>>>>> 0f440b2926b2bdd627dde1901a9840d2d5954891
       </SidebarContext.Provider>
       {collapsable ? (
         <div style={{ position: 'absolute', bottom: 16, right: 12 }}>

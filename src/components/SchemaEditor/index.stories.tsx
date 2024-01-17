@@ -16,7 +16,7 @@ const meta: Meta<typeof SchemaEditor> = {
     (Story) => (
       <Provider client={client}>
         <Modal.Provider>
-          <Page style={{ width: 1024 }}>
+          <Page style={{ width: 900 }}>
             <Story />
           </Page>
         </Modal.Provider>
