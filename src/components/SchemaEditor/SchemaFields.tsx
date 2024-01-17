@@ -28,7 +28,7 @@ const parseFields = (fields) => {
   const allCurrentIndexes = [] as number[]
 
   for (const i in type) {
-    if (typeof type[i].index === 'number') {
+    if (type[i].index) {
       allCurrentIndexes.push(type[i].index as number)
     } else {
       // else start at 0
@@ -43,6 +43,7 @@ const parseFields = (fields) => {
       indexedArray.push({ ...type[i], name: newName, index: +type[i].index })
     } else {
       // give an index
+      console.log('hellow ??')
       let newIndex = Math.max(...allCurrentIndexes) + 1
       indexedArray.push({ ...type[i], name: newName, index: +newIndex })
       allCurrentIndexes.push(newIndex)
@@ -82,6 +83,9 @@ export const SchemaFields = ({ fields, typeName }) => {
     for (let i = 0; i < n.length; i++) {
       fields[n[i].name] = n[i]
     }
+
+    // for that instant feeling of dropping
+    setArray([...n])
 
     await client.call('db:set-schema', {
       mutate: true,

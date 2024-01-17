@@ -79,7 +79,7 @@ export const SingleFieldContainer = ({
             >
               <Badge>{item?.name}</Badge>
 
-              <Text variant="body-bold">xxxx</Text>
+              <Text variant="body-bold">dragging</Text>
             </Stack>,
             elem
           )
