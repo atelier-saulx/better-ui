@@ -8,7 +8,6 @@ import {
   Text,
   Badge,
   borderRadius,
-  Media,
 } from '../../../index.js'
 import { Path, TableCtx } from '../types.js'
 import { ColStack } from './ColStack.js'
@@ -21,7 +20,6 @@ let draggingIndex = 0
 type DragRefValue = {
   elem?: HTMLElement
   name: string
-  src: string
   index: number
   removeItem: (index: number) => void
   changeIndex: (fromIndex: number, toIndex: number) => void
@@ -61,10 +59,7 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
         borderRadius: borderRadius('small'),
       }}
     >
-      {!ref.current.name && ref.current.src ? (
-        <Badge>{ref.current.index + 1}</Badge>
-      ) : null}
-      {ref.current.src ? <Media src={ref.current.src} /> : null}
+      {!ref.current.name ? <Badge>{ref.current.index + 1}</Badge> : null}
       <Text variant="body-bold">{ref.current.name}</Text>
     </Stack>,
     elem
@@ -79,7 +74,6 @@ const DraggableColStack = (p: DragableRowProps) => {
   const ref = useRef<DragRefValue>({
     index: p.index,
     name: '',
-    src: '',
     removeItem: p.removeItem,
     changeIndex: p.changeIndex,
   })
@@ -89,7 +83,6 @@ const DraggableColStack = (p: DragableRowProps) => {
 
   if (p.value) {
     ref.current.name = key ? p.value[key] : ''
-    ref.current.src = p.value.src ?? ''
   }
 
   return (
