@@ -40,7 +40,6 @@ export * from './components/Table/index.js'
 export * from './components/Layout/index.js'
 
 export { Modal } from './components/Modal/index.js'
-export { Dropdown } from './components/Dropdown/index.js'
 
 export * from './utils/colors.js'
 export * from './utils/getMimeType.js'
