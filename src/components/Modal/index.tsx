@@ -253,7 +253,7 @@ type UseModalRes = {
   modals: ModalEl[]
   open(el: ModalEl | ModelElFn): Promise<any>
   alert(message: string): Promise<void>
-  confirm(message: string): Promise<boolean>
+  confirm(msgOrTitle: string, msg?: string): Promise<boolean>
   prompt(message: string): Promise<string | false>
   Provider(): React.ReactNode
 }
@@ -348,16 +348,18 @@ export const useModal = (): UseModalRes => {
 
         return confirmed || false
       },
-      async confirm(message) {
+      async confirm(msgOrTitle, msg) {
         let ok = false
+        let title = (msg && msgOrTitle) || null
         await open(
           <Modal
+            title={title}
             onConfirm={({ close }) => {
               ok = true
               close()
             }}
           >
-            {message}
+            {msg || msgOrTitle}
           </Modal>
         )
         return ok
