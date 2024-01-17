@@ -208,7 +208,7 @@ export function Reference({
               })
             }}
           />
-          <Stack justify="end">
+          <Stack justify="end" gap={8}>
             <Select badge={isLarge} field={field} onClick={selectRef} />
             <Button
               onClick={() => {
