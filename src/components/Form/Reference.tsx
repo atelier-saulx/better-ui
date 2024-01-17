@@ -94,7 +94,7 @@ const Info = (p: { value: Reference; onClick: () => void }) => {
   if (typeof p.value === 'object') {
     return (
       <Stack justify="start" fitContent>
-        <Text style={{ marginRight: 12 }} variant="body-bold">
+        <Text singleLine style={{ marginRight: 12 }} variant="body-bold">
           {p.value.name ?? p.value.title}
         </Text>
         <Id id={p.value.id} onClick={p.onClick} />
