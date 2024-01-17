@@ -13,15 +13,6 @@ import { render } from 'react-dom'
 import { color } from '../../utils/colors.js'
 import { borderRadius } from '../../utils/colors.js'
 
-// const changeIndex = React.useCallback((fromIndex: number, toIndex: number) => {
-//   valueRef.current.orderId++
-//   const n = [...valueRef.current.value]
-//   const target = n[fromIndex]
-//   n.splice(fromIndex, 1)
-//   n.splice(toIndex, 0, target)
-//   ctx.listeners.onChangeHandler(ctx, path, n)
-// }, [])
-
 type SingleFieldContainerProps = {
   item: any
   typeName: string
@@ -51,9 +42,7 @@ export const SingleFieldContainer = ({
     <styled.div
       onDrop={(e) => {
         e.preventDefault()
-        // const d = e.dataTransfer.getData('text/plain')
         changeIndex(draggingIndex, index)
-        console.log('🗣 Dropped ' + draggingIndex + ' on index:', index)
         setDragOver(0)
       }}
       onDragOver={(e) => {
@@ -111,6 +100,9 @@ export const SingleFieldContainer = ({
             '& > div:first-child': {
               padding: '8px !important',
             },
+            backgroundColor: isDragOver
+              ? color('background', 'muted')
+              : 'transparent',
             opacity: SYSTEM_FIELDS.includes(item?.name || item.meta.name)
               ? 0.5
               : 1,
@@ -118,7 +110,7 @@ export const SingleFieldContainer = ({
           // key={idx}
           title={
             <Stack gap={12}>
-              {item?.index || item.meta?.index}
+              {item?.index}
               <Text variant="body-bold">{item?.name || item?.meta.name}</Text>
               <Badge color={SCHEMA_FIELDS[item.type]?.color}>
                 {item.type}
