@@ -13,6 +13,7 @@ import {
   color,
   ButtonProps,
   IconSearch,
+  IconClose,
 } from '../../index.js'
 import { Path, Reference, TableCtx } from './types.js'
 import { readPath } from './utils.js'
@@ -208,6 +209,14 @@ export function Reference({
             }}
           />
           <Select badge={isLarge} field={field} onClick={selectRef} />
+          <Button
+            onClick={() => {
+              ctx.listeners.onChangeHandler(ctx, path, null)
+            }}
+            variant="icon-only"
+          >
+            <IconClose />
+          </Button>
         </Stack>
       </Stack>
     )

@@ -39,8 +39,9 @@ export const createBasedObject = (
       }
       return nV
     } else if (typeof obj === 'object') {
+      const nS = {}
       for (const key in obj) {
-        s[key] = walk(obj[key], s[key], [...path, key])
+        s[key] = walk(obj[key], nS, [...path, key])
       }
     }
 
