@@ -1,5 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 import { Style, styled } from 'inlines'
+import { formatCode } from './prettier.js'
+import type { Config } from 'prettier'
 
 import {
   Button,
@@ -32,6 +34,7 @@ export type CodeProps = {
   header?: ReactNode
   color?: Color['background']
   copy?: boolean
+  prettier?: boolean | Config // prettier config
   language?:
     | 'typescript'
     | 'javascript'
@@ -53,6 +56,7 @@ export const Code = ({
   style,
   header,
   variant,
+  prettier,
   color = 'muted',
   copy,
   language = 'js',
@@ -123,7 +127,11 @@ export const Code = ({
         }
         onBlur={
           onChangeProp
-            ? () => {
+            ? async () => {
+
+              if (prettier) {
+                setValue(await formatCode(value, typeof prettier === 'boolean' ? {} : prettier))
+              }
                 setFocus(false)
               }
             : undefined
