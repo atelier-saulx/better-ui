@@ -12,6 +12,8 @@ import {
   useControllableState,
   useCopyToClipboard,
   boxShadow,
+  Stack,
+  IconFormatAlignLeft,
 } from '../../index.js'
 
 import Editor from './ReactSimpleEditor.js'
@@ -69,6 +71,8 @@ export const Code = ({
     onChange: onChangeProp,
     checksum,
   })
+
+  const [isError, setError] = useState('')
   const [, copyIt] = useCopyToClipboard((value as string) ?? '')
   const isSmall = variant === 'small'
   const contentColor =
@@ -87,8 +91,8 @@ export const Code = ({
         border: isFocus
           ? border('focus', 1)
           : isSmall
-          ? `1px solid transparent`
-          : border(),
+            ? `1px solid transparent`
+            : border(),
         boxShadow: isFocus ? boxShadow('focus') : undefined,
         ...style,
       }}
@@ -106,7 +110,9 @@ export const Code = ({
       <Editor
         //@ts-ignore
         value={value}
-        onValueChange={(v) => setValue(v)}
+        onValueChange={async (v) => {
+          setValue(v)
+        }}
         highlight={(code) => {
           try {
             const selectLang =
@@ -128,13 +134,21 @@ export const Code = ({
         onBlur={
           onChangeProp
             ? async () => {
-
-              if (prettier) {
-                setValue(await formatCode(value, typeof prettier === 'boolean' ? {} : prettier))
-              }
                 setFocus(false)
+
+                if (prettier) {
+                  setValue(
+                    await formatCode(value, prettier, language, setError),
+                  )
+                }
               }
-            : undefined
+            : async () => {
+                if (prettier) {
+                  setValue(
+                    await formatCode(value, prettier, language, setError),
+                  )
+                }
+              }
         }
         style={{
           pointerEvents: !setValue ? 'none' : 'auto',
@@ -145,20 +159,35 @@ export const Code = ({
           outline: 'none !important',
         }}
       />
-      {copy ? (
-        <Button
-          variant="icon-only"
-          onClick={() => copyIt()}
-          style={{
-            position: 'absolute',
-            top: isSmall ? 8 : 16,
-            right: isSmall ? 8 : 16,
-            color: contentColor,
-          }}
-        >
-          <IconCopy style={{ width: 18, height: 18 }} />
-        </Button>
-      ) : null}
+      <styled.div
+        style={{
+          display: 'flex',
+          flexGap: 4,
+          position: 'absolute',
+          top: isSmall ? 8 : 16,
+          right: isSmall ? 8 : 16,
+          color: isError ? 'red' : contentColor,
+        }}
+      >
+        {prettier ? (
+          <Button
+            keyboardShortcut="Cmd+F"
+            variant="icon-only"
+            onClick={async () => {
+              await setValue(
+                await formatCode(value, prettier, language, setError),
+              )
+            }}
+          >
+            <IconFormatAlignLeft style={{ width: 18, height: 18 }} />
+          </Button>
+        ) : null}
+        {copy ? (
+          <Button variant="icon-only" onClick={() => copyIt()}>
+            <IconCopy style={{ width: 18, height: 18 }} />
+          </Button>
+        ) : null}
+      </styled.div>
     </styled.div>
   )
 }

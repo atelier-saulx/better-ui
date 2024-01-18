@@ -1,15 +1,49 @@
 import type { Config } from 'prettier'
-import load from 'load-script'
+import load from 'simple-load-script'
 
-let prettier: any
+type Load = (url: string, confg: any) => Promise<any>
+const loadScript: Load = <any>load
+
+let prettierLoaded: any
+
+const PLUGINS: string[] = ['typescript', 'estree', 'babel']
 
 export const formatCode = async (
   code: string,
-  config: Config
+  config: Config | boolean,
+  language: string,
+  setError: (str: string) => void,
 ): Promise<string> => {
-  if (!prettier) {
-    // @ts-ignore
-    prettier = await load('https://unpkg.com/prettier@3.2.4/standalone.js')
+  if (!prettierLoaded) {
+    prettierLoaded = await loadScript('https://unpkg.com/prettier@3.2.4', {
+      inBody: true,
+    })
+
+    await Promise.all(
+      PLUGINS.map((plugin) => {
+        return loadScript(
+          `https://unpkg.com/prettier@3.2.4/plugins/${plugin}.js`,
+          {
+            inBody: true,
+          },
+        )
+      }),
+    )
   }
-  return prettier.format(code, config)
+
+  if (typeof config === 'boolean') {
+    config = {
+      parser: !PLUGINS.includes(language) ? 'babel' : language,
+      plugins: global.prettierPlugins,
+    }
+  }
+
+  try {
+    const v = await global.prettier.format(code, config)
+    setError('')
+    return v
+  } catch (err) {
+    setError(err.message)
+    return code
+  }
 }

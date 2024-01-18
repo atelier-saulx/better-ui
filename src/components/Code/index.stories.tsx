@@ -42,6 +42,19 @@ export const Default: StoryObj<typeof Code> = {
   },
 }
 
+export const Prettier: StoryObj<typeof Code> = {
+  args: {
+    value: ts,
+    language: 'typescript',
+    color: 'inverted',
+    prettier: true
+  },
+  argTypes: {
+    color: { control: 'select' },
+  },
+}
+
+
 export const CopyButton: StoryObj<typeof Code> = {
   args: {
     value: json,
