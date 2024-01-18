@@ -106,7 +106,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
                 value: file,
                 field,
               },
-              updateProgress
+              updateProgress,
             )
             ctx.listeners.onChangeHandler(ctx, path, result)
           }}
@@ -145,6 +145,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
         <Code
           color="screen"
           language={field.format}
+          prettier
           onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
           value={value}
           variant="small"
