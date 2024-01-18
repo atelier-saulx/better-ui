@@ -13,7 +13,7 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
   const [active, setActive] = React.useState('')
 
   return (
-    <div style={{ minHeight: 676, display: 'flex' }}>
+    <div style={{ minHeight: '100%', display: 'flex' }}>
       <SchemaSideBar
         types={schema.types}
         active={active}
@@ -22,7 +22,6 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
       <div style={{ width: '100%', padding: 32 }}>
         {active ? (
           <>
-            {' '}
             <Stack style={{ marginBottom: 16 }}>
               <Stack
                 gap={16}
