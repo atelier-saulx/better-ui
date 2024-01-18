@@ -41,7 +41,10 @@ export const formatCode = async (
   }
 
   try {
-    const v = await global.prettier.format(code, config)
+    let v = await global.prettier.format(code, config)
+    if (config.parser === 'typescript') {
+      v = v.replace(/^;/, '')
+    }
     setError('')
     return v
   } catch (err) {
