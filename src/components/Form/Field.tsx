@@ -136,6 +136,7 @@ export const Field = ({
                 ? 'muted'
                 : 'inverted'
             }
+            prettier
             language={field.format}
             onChange={(value) => {
               ctx.listeners.onChangeHandler(ctx, path, value)
@@ -185,7 +186,7 @@ export const Field = ({
                   value: file,
                   field,
                 },
-                updateProgress
+                updateProgress,
               )
               ctx.listeners.onChangeHandler(ctx, path, result)
             }}

@@ -33,6 +33,7 @@
     "date-fns": "^2.30.0",
     "hls.js": "^1.4.14",
     "inlines": "0.4.0-alpha.1",
+    "simple-load-script": "^2.0.0",
     "prismjs": "^1.29.0",
     "react-file-drop": "^3.1.6",
     "react-merge-refs": "^2.1.1"
@@ -47,7 +48,7 @@
     "@faker-js/faker": "^8.3.1",
     "@based/cli": "^5.12.2",
     "@based/functions": "^2.2.2",
-    "@saulx/prettier-config": "^1.0.0",
+    "@saulx/prettier-config": "^2.0.0",
     "@saulx/tsconfig": "1.0.6",
     "@storybook/addon-controls": "^7.5.3",
     "@storybook/addon-docs": "^7.6.4",
@@ -61,7 +62,7 @@
     "pascal-case": "^4.0.0",
     "postcss": "^8.4.31",
     "postcss-preset-env": "^9.3.0",
-    "prettier": "^2.2.1",
+    "prettier": "^3.2.4",
     "storybook": "^7.6.6",
     "typescript": "^5.3.3",
     "undici": "^6.0.1"
