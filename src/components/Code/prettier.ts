@@ -33,8 +33,10 @@ export const formatCode = async (
 
   if (typeof config === 'boolean') {
     config = {
-      parser: !PLUGINS.includes(language) ? 'babel' : language,
+      parser: !PLUGINS.includes(language) ? 'typescript' : language,
       plugins: global.prettierPlugins,
+      singleQuote: true,
+      semi: false,
     }
   }
 

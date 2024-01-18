@@ -12,7 +12,6 @@ import {
   useControllableState,
   useCopyToClipboard,
   boxShadow,
-  Stack,
   IconFormatAlignLeft,
 } from '../../index.js'
 
@@ -162,7 +161,6 @@ export const Code = ({
       <styled.div
         style={{
           display: 'flex',
-          flexGap: 4,
           position: 'absolute',
           top: isSmall ? 8 : 16,
           right: isSmall ? 8 : 16,
@@ -183,7 +181,11 @@ export const Code = ({
           </Button>
         ) : null}
         {copy ? (
-          <Button variant="icon-only" onClick={() => copyIt()}>
+          <Button
+            style={{ marginLeft: 6 }}
+            variant="icon-only"
+            onClick={() => copyIt()}
+          >
             <IconCopy style={{ width: 18, height: 18 }} />
           </Button>
         ) : null}
