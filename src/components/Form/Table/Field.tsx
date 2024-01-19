@@ -134,7 +134,10 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     )
   }
 
-  if (field.type === 'string' && isCode(field.format)) {
+  if (
+    (field.type === 'string' || field.type === 'text') &&
+    isCode(field.format)
+  ) {
     return (
       <Padder
         style={{
@@ -166,7 +169,10 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     )
   }
 
-  if (field.type === 'string' && field.format === 'rgbColor') {
+  if (
+    (field.type === 'string' || field.type === 'text') &&
+    field.format === 'rgbColor'
+  ) {
     return (
       <Padder>
         <ColorInput
@@ -178,7 +184,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     )
   }
 
-  if (field.type === 'string' && field.multiline) {
+  if ((field.type === 'string' || field.type === 'text') && field.multiline) {
     return (
       <Padder
         style={{
@@ -195,7 +201,7 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     )
   }
 
-  if (field.type === 'string') {
+  if (field.type === 'string' || field.type === 'text') {
     return (
       <Padder>
         <TextInput

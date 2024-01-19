@@ -196,7 +196,7 @@ export const Field = ({
     )
   }
 
-  if (type === 'string' && field.multiline) {
+  if ((type === 'string' || type === 'text') && field.multiline) {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
@@ -216,7 +216,7 @@ export const Field = ({
     )
   }
 
-  if (type === 'string') {
+  if (type === 'string' || type === 'text') {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
