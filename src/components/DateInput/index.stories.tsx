@@ -2,7 +2,7 @@ import * as React from 'react'
 import { DateInput } from '../../index.js'
 
 const meta = {
-  title: 'Inputs/DateInput ',
+  title: 'Inputs/DateInput',
 }
 export default meta
 
