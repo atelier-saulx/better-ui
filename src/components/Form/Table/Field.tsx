@@ -41,7 +41,7 @@ export const Padder = ({
 
 export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field } = readPath(ctx, path)
-
+  console.log('RENDER', field)
   if ('enum' in field) {
     return (
       <Padder>
@@ -208,13 +208,16 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   }
 
   if (field.type === 'timestamp') {
+    console.log('RERENDER TIMESTAMP')
     return (
       <Padder>
         <DateInput
           time
           variant="small"
           value={value}
-          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+          onChange={(v) => {
+            ctx.listeners.onChangeHandler(ctx, path, v)
+          }}
         />
       </Padder>
     )

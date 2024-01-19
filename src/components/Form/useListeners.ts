@@ -9,7 +9,8 @@ import { createBasedObject } from './createBasedObject.js'
 export const useListeners = (
   valueRef: MutableRefObject<ValueRef>,
   setChecksum: (checksum: number) => void,
-  p: FormProps
+  p: FormProps,
+  update: () => void
 ): Listeners => {
   // Memoize this
   const listeners: Listeners = useMemo(() => {
@@ -20,7 +21,7 @@ export const useListeners = (
         currentDragTarget = t
         return t
       },
-      onChangeHandler: (ctx, path, newValue) => {
+      onChangeHandler: (ctx, path, newValue, forceUpdate) => {
         const { field, value } = readPath(ctx, path)
 
         if (p.onChangeTransform) {
@@ -51,6 +52,10 @@ export const useListeners = (
             hash,
             createBasedObject(ctx, valueRef.current.changes)
           )
+        }
+
+        if (forceUpdate) {
+         update() 
         }
 
         setChecksum(hash)

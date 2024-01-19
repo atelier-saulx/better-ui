@@ -24,7 +24,7 @@ export type Listeners = {
   // on drop (allow file drops)
   // onDrop: (dragTarget: DragTarget, ctx: TableCtx) => Promise<void>
 
-  onChangeHandler: (ctx: TableCtx, path: Path, newValue?: any) => boolean
+  onChangeHandler: (ctx: TableCtx, path: Path, newValue?: any, forceUpdate?: boolean) => boolean
   onSelectReference: (props: {
     path: Path
     value: Reference | void | null
