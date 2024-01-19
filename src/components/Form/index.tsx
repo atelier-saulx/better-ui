@@ -8,6 +8,7 @@ import { Field } from './Field.js'
 import { FormConfirm } from './FormConfirm.js'
 import { useListeners } from './useListeners.js'
 import { createBasedObject } from './createBasedObject.js'
+import { useUpdate } from '@based/ui'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
@@ -80,36 +81,44 @@ export const Form = (p: FormProps) => {
     hasChanges: false,
   })
 
+  const update = useUpdate()
+
   valueRef.current.props = p
 
   const [currentChecksum, setChecksum] = React.useState(p.checksum)
 
   const onConfirm = React.useCallback(async () => {
     try {
-      const hash = hashObjectIgnoreKeyOrder(p.values ?? {})
+      const hash = hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
 
-      await p.onChange(
+      await valueRef.current.props.onChange(
         valueRef.current.values,
         valueRef.current.changes,
         hash,
         createBasedObject(ctx, valueRef.current.changes),
       )
       valueRef.current.hasChanges = false
-      valueRef.current.values = p.values ?? {}
+      valueRef.current.values = valueRef.current.props.values ?? {}
       valueRef.current.changes = {}
       setChecksum(hash)
+      // Force update
+      update()
     } catch (err) {
       throw err
     }
-  }, [p.checksum])
+  }, [])
 
   const onCancel = React.useCallback(() => {
     valueRef.current.hasChanges = false
-    valueRef.current.values = p.values ?? {}
+    valueRef.current.values = valueRef.current.props.values ?? {}
     valueRef.current.changes = {}
-    const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values ?? {})
+    const hash =
+      p.checksum ??
+      hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
     setChecksum(hash)
-  }, [p.checksum])
+    // Force update
+    update()
+  }, [])
 
   // create ref
   if (p.formRef) {
@@ -136,14 +145,12 @@ export const Form = (p: FormProps) => {
   // May not be a good idea...
   useEffect(() => {
     if (p.values) {
-      const hash = hashObjectIgnoreKeyOrder(p.values)
+      const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values)
       if (currentChecksum !== hash) {
         valueRef.current.values = deepMergeArrays(
           deepCopy(p.values),
           valueRef.current.changes,
         )
-        console.info('hello new...', p.values, valueRef.current.values, hash)
-
         setChecksum(hash)
       }
     }
