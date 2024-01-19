@@ -1,4 +1,4 @@
-import { stories } from './stories.js'
+import { parsedStories } from './stories.js'
 import React, { FC, useEffect, useState, ReactNode } from 'react'
 import { render } from 'react-dom'
 import {
@@ -6,6 +6,7 @@ import {
   Page,
   Layout,
   Sidebar,
+  Button,
   Stack,
   Container,
   Code,
@@ -19,13 +20,10 @@ const genCode = (
   name: string,
 ) => {
   const componentName = component.name ?? name
-
   let str = `;<${componentName}`
   let children = ''
-
   for (const key in args) {
     const arg = args[key]
-
     if (key === 'children') {
       if (typeof arg === 'object' && typeof arg !== 'function') {
         if (Array.isArray(arg)) {
@@ -52,13 +50,11 @@ const genCode = (
       }
     }
   }
-
   if (children) {
     str += `>${children}</${componentName}>`
   } else {
     str += '/>'
   }
-
   formatCode(str, true, 'typescript', (err) => {
     // setCode(err)
   }).then((v) => {
@@ -140,14 +136,18 @@ const Example = (p: {
 }
 
 const Story = (p: { story: any }) => {
-  const title = p.story.default.title.split('/')[1]
-  const description = p.story.default.description ?? ''
+  const story = p.story.story
 
-  const keys = Object.keys(p.story).filter(
+  const title = story.default.title.split('/')[1]
+  const description = story.default.description ?? ''
+
+  const keys = Object.keys(story).filter(
     (v) => v !== 'default' && v !== 'Default',
   )
 
-  const defExample = p.story.Default
+  const defExample = story.Default
+
+  // "vscode://file${path}:${line}:${column}"
 
   return (
     <Page>
@@ -162,18 +162,26 @@ const Story = (p: { story: any }) => {
             minWidth: 700,
           }}
         >
-          <div>
+          <div style={{ marginBottom: -32 }}>
             <Text variant="title-page">{title}</Text>
             <Text variant="body-light" color="secondary">
               {description}
             </Text>
+            <Button
+              onClick={() => {
+                window.open(`vscode://file${p.story.path}`)
+              }}
+              variant="neutral-link"
+            >
+              <Text variant="body-light">{p.story.path.split('/src/')[1]}</Text>
+            </Button>
           </div>
 
           {defExample ? (
             <Example
               componentName={title}
-              decorators={p.story.default.decorators}
-              component={p.story.default.component}
+              decorators={story.default.decorators}
+              component={story.default.component}
               title="Default"
               story={defExample}
             />
@@ -182,10 +190,10 @@ const Story = (p: { story: any }) => {
             return (
               <Example
                 componentName={title}
-                decorators={p.story.default.decorators}
-                component={p.story.default.component}
+                decorators={story.default.decorators}
+                component={story.default.component}
                 title={v}
-                story={p.story[v]}
+                story={story[v]}
               />
             )
           })}
@@ -208,19 +216,19 @@ const App = () => {
     })
   }, [])
 
-  for (const story of stories) {
-    if (!story.default['title']) {
+  for (const story of parsedStories) {
+    if (!story.story.default['title']) {
       continue
     }
 
-    const [section, component] = story.default.title.split('/')
+    const [section, component] = story.story.default.title.split('/')
 
     if (!menuData[section]) {
       menuData[section] = []
     }
 
     menuData[section].push({
-      value: story.default.title,
+      value: story.story.default.title,
       label: component,
     })
 
@@ -229,7 +237,7 @@ const App = () => {
     })
   }
 
-  const story = stories.find((s) => s.default.title === location)
+  const story = parsedStories.find((s) => s.story.default.title === location)
 
   return (
     <Layout>

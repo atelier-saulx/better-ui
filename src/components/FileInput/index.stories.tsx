@@ -10,7 +10,7 @@ const client = based({
 })
 
 const meta = {
-  title: 'Atoms/Inputs/FileInput',
+  title: 'Inputs/FileInput',
 }
 export default meta
 
