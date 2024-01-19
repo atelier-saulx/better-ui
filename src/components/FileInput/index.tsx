@@ -317,7 +317,7 @@ function Status({
               }}
             >
               <Media
-                type={file.type as BasedSchemaContentMediaType}
+                type={file?.type as BasedSchemaContentMediaType}
                 src={filePreview}
                 variant="cover"
               />
