@@ -3,7 +3,7 @@
   "type": "module",
   "version": "6.0.4-alpha",
   "scripts": {
-    "dev": "npx ts-node --esm ./scripts/playground/index.ts && npx esbuild ./scripts/playground/playground.tsx --outdir=./scripts/playground/out/ --bundle --serve --watch --servedir=./scripts/playground/out --platform=browser --sourcemaps",
+    "dev": "npx ts-node --esm ./scripts/playground/index.ts && npx esbuild ./scripts/playground/playground.tsx --outdir=./scripts/playground/out/ --bundle --serve --watch --servedir=./scripts/playground/out --platform=browser --sourcemap",
     "ts-watch": "npx tsc -w",
     "build": "rm -rf dist && npx tsc && cp -r ./src/styles ./dist/styles",
     "build-storybook": "storybook build"
