@@ -11,7 +11,7 @@ export type StackProps = React.HTMLProps<'div'> & {
   align?: 'center' | 'start' | 'end' | 'stretch'
   display?: any
   fitContent?: boolean
-  gap?: 0 | 2 | 4 | 8 | 12 | 16 | 24 | 32
+  gap?: 0 | 2 | 4 | 8 | 12 | 16 | 24 | 32 | 64
 }
 
 const ReactStack = React.forwardRef(
@@ -30,7 +30,7 @@ const ReactStack = React.forwardRef(
       fitContent,
       ...props
     }: StackProps,
-    ref
+    ref,
   ) => {
     if (!display) {
       return null
@@ -82,7 +82,7 @@ const ReactStack = React.forwardRef(
         ref,
       })
     }
-  }
+  },
 )
 
 type StackComponent = (props: StackProps) => React.ReactNode

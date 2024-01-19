@@ -48,7 +48,7 @@ export function Container({
   const headerRef = React.useRef<HTMLDivElement | null>(null)
 
   return (
-    <div
+    <styled.div
       style={{
         width: '100%',
         borderRadius: 8,
@@ -59,7 +59,7 @@ export function Container({
       <styled.div
         ref={headerRef}
         style={{
-          display: 'flex',
+          display: !expandable && !divider ? 'none' : 'flex',
           alignItems: 'center',
           gap: 8,
           padding: 16,
@@ -90,7 +90,7 @@ export function Container({
         {prefix && <div>{prefix}</div>}
         <div>
           {title && (
-            <div
+            <styled.div
               style={{
                 fontSize: 14,
                 fontWeight: 600,
@@ -98,20 +98,22 @@ export function Container({
               }}
             >
               {title}
-            </div>
+            </styled.div>
           )}
           {description && (
-            <div
+            <styled.div
               style={{
                 fontSize: 14,
                 color: color('content', 'secondary'),
               }}
             >
               {description}
-            </div>
+            </styled.div>
           )}
         </div>
-        {suffix && <div style={{ marginLeft: 'auto' }}>{suffix}</div>}
+        {suffix && (
+          <styled.div style={{ marginLeft: 'auto' }}>{suffix}</styled.div>
+        )}
       </styled.div>
       {children && (!expandable || expanded) && (
         <styled.div
@@ -126,6 +128,6 @@ export function Container({
           {children}
         </styled.div>
       )}
-    </div>
+    </styled.div>
   )
 }

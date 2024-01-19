@@ -27,6 +27,14 @@ export const textVariants = {
     letterSpacing: '-0.18px',
     lineHeight: '32px',
   },
+  'body-light': {
+    defaultColor: 'secondary',
+    defaultTag: 'p',
+    fontWeight: 400,
+    letterSpacing: '-0.14px',
+    lineHeight: `24px`,
+    fontSize: '14px',
+  },
   body: {
     defaultColor: 'primary',
     defaultTag: 'p',
@@ -84,7 +92,7 @@ export type TextProps = {
 
 const selectColor = (
   variant: TextProps['variant'],
-  color?: TextProps['color']
+  color?: TextProps['color'],
 ): string => {
   if (color === 'inherit') {
     return color
@@ -97,14 +105,14 @@ const selectColor = (
   return getColor(
     'content',
     // @ts-ignore too dificult 🧠🎉
-    textVariants[variant].defaultColor
+    textVariants[variant].defaultColor,
   )
 }
 
 export const Text = React.forwardRef<HTMLElement, TextProps>(
   (
     { as, variant = 'body', color, style, children, singleLine, weight },
-    ref
+    ref,
   ) => {
     if (variant && !as) {
       // @ts-ignore too dificult 🧠🎉
@@ -126,10 +134,10 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
           weight === 'normal'
             ? 400
             : weight === 'bold'
-            ? 500
-            : weight === 'strong'
-            ? 600
-            : textVariants[variant].fontWeight,
+              ? 500
+              : weight === 'strong'
+                ? 600
+                : textVariants[variant].fontWeight,
         ...(singleLine
           ? {
               textOverflow: 'ellipsis',
@@ -140,5 +148,5 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
         ...style,
       },
     })
-  }
+  },
 )
