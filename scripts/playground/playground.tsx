@@ -1,20 +1,39 @@
 import { stories } from './stories.js'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState, ReactNode } from 'react'
 import { render } from 'react-dom'
-import { Text, Page, Layout, Sidebar, Stack, Button, Container } from '../../'
+import { Text, Page, Layout, Sidebar, Stack, Container } from '../../'
 
-const Example = (p: { title: string; story: any; component?: FC }) => {
+const Example = (p: {
+  title: string
+  story: any
+  component?: FC
+  decorators: ((s: (p: any) => ReactNode) => ReactNode)[]
+}) => {
   let body: any
-
-  console.log(p.story)
 
   if (p.story.args) {
     if (!p.component) {
       return <Text>Cannot find component</Text>
     }
-    body = React.createElement(p.component, p.story.args)
+    if (p.decorators) {
+      for (const d of p.decorators) {
+        body = d((sProps) =>
+          // @ts-ignore
+          React.createElement(p.component, { ...p.story.args, ...sProps }),
+        )
+      }
+    } else {
+      body = React.createElement(p.component, p.story.args)
+    }
   } else {
-    body = React.createElement(p.story)
+    if (p.decorators) {
+      for (const d of p.decorators) {
+        console.info(d)
+        body = d((sProps) => React.createElement(p.story, sProps))
+      }
+    } else {
+      body = React.createElement(p.story)
+    }
   }
 
   return (
@@ -63,6 +82,7 @@ const Story = (p: { story: any }) => {
 
           {defExample ? (
             <Example
+              decorators={p.story.default.decorators}
               component={p.story.default.component}
               title="Default"
               story={defExample}
@@ -71,6 +91,7 @@ const Story = (p: { story: any }) => {
           {keys.map((v) => {
             return (
               <Example
+                decorators={p.story.default.decorators}
                 component={p.story.default.component}
                 title={v}
                 story={p.story[v]}

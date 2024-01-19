@@ -1,30 +1,20 @@
-// import esbuild from 'esbuild'
-
 import { dirname, join, relative } from 'path'
 import { fileURLToPath } from 'url'
 import { writeFileSync } from 'fs'
 import { hash } from '@saulx/hash'
-
 import klaw from 'klaw'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-
 const SRC_DIR = join(__dirname, '../../src')
 const TOP_DIR = join(__dirname, '../..')
-
 const getStories = () => {
   let items: string[] = []
   klaw(SRC_DIR)
     .on('data', (item) => items.push(item.path))
     .on('end', () => {
       const files = items.filter((f) => /\.stories\.[a-z]{1,4}$/.test(f))
-      // .filter((v) => {
-      //   return v.includes('Badge')
-      // })
-
       const m: any = {}
       const fileIds: string[] = []
-
       let file = files
         .map((f) => {
           const id = 'f' + hash(f)
@@ -41,15 +31,3 @@ const getStories = () => {
 }
 
 console.log(getStories())
-
-// watcher
-
-// new EventSource('/esbuild').addEventListener('change', () => location.reload())
-
-// Start esbuild's server on a random local port
-// let ctx = await esbuild.context({})
-
-// The return value tells us where esbuild's local server is
-// const server = await ctx.serve({ servedir: SRC_DIR })
-
-// console.info(server)
