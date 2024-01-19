@@ -67,7 +67,7 @@ const KEYCODE_ESCAPE = 27
 const HISTORY_LIMIT = 100
 const HISTORY_TIME_GAP = 3000
 
-const isWindows = 'navigator' in global && /Win/i.test(navigator.platform)
+const isglobals = 'navigator' in global && /Win/i.test(navigator.platform)
 const isMacLike =
   'navigator' in global && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
 
@@ -449,11 +449,11 @@ export default class Editor extends React.Component<Props, State> {
       (isMacLike
         ? // Trigger redo with ⌘+Shift+Z on Mac
           e.metaKey && e.keyCode === KEYCODE_Z && e.shiftKey
-        : isWindows
-        ? // Trigger redo with Ctrl+Y on Windows
-          e.ctrlKey && e.keyCode === KEYCODE_Y
-        : // Trigger redo with Ctrl+Shift+Z on other platforms
-          e.ctrlKey && e.keyCode === KEYCODE_Z && e.shiftKey) &&
+        : isglobals
+          ? // Trigger redo with Ctrl+Y on globals
+            e.ctrlKey && e.keyCode === KEYCODE_Y
+          : // Trigger redo with Ctrl+Shift+Z on other platforms
+            e.ctrlKey && e.keyCode === KEYCODE_Z && e.shiftKey) &&
       !e.altKey
     ) {
       e.preventDefault()
@@ -482,7 +482,7 @@ export default class Editor extends React.Component<Props, State> {
         selectionStart,
         selectionEnd,
       },
-      true
+      true,
     )
 
     this.props.onValueChange(value)

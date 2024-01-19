@@ -35,8 +35,8 @@ export function Video({ src, thumbnail }: VideoProps) {
     if (shouldRestartVideoAfterDragEnd.current) {
       videoRef.current.play()
     }
-    window.removeEventListener('mousemove', handleMouseMove)
-    window.removeEventListener('mouseup', handleMouseUp)
+    global.removeEventListener('mousemove', handleMouseMove)
+    global.removeEventListener('mouseup', handleMouseUp)
     setMouseDown(false)
   }
 
@@ -197,8 +197,8 @@ export function Video({ src, thumbnail }: VideoProps) {
           shouldRestartVideoAfterDragEnd.current = !videoRef.current.paused
           videoRef.current.pause()
 
-          window.addEventListener('mousemove', handleMouseMove)
-          window.addEventListener('mouseup', handleMouseUp)
+          global.addEventListener('mousemove', handleMouseMove)
+          global.addEventListener('mouseup', handleMouseUp)
         }}
       >
         <div

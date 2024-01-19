@@ -24,7 +24,7 @@ import { FileDrop } from 'react-file-drop'
 type Status = 'initial' | 'uploading' | 'success' | 'error'
 type Variant = 'regular' | 'small' | 'no-preview'
 
-// Global file upload hook to based to see upload progress
+// global file upload hook to based to see upload progress
 export type FileInputProps = {
   onChange?: (file: File | void, updateProgress: (p: number) => void) => void
   // FIXME: do we rly want label and formname>?
@@ -359,7 +359,7 @@ function Status({
                 onClick={() => {
                   if (!file) return
                   const url = URL.createObjectURL(file)
-                  window.open(url, '_blank', 'noopener,noreferrer')
+                  global.open(url, '_blank', 'noopener,noreferrer')
                 }}
               >
                 <Text singleLine>Open in new tab</Text>

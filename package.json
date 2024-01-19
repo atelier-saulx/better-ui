@@ -3,6 +3,7 @@
   "type": "module",
   "version": "6.0.4-alpha",
   "scripts": {
+    "dev-new": "npx ts-node --esm ./scripts/playground/index.ts",
     "dev": "concurrently 'npx tsc -w' 'storybook dev -p 6006'",
     "build": "rm -rf dist && npx tsc && cp -r ./src/styles ./dist/styles",
     "build-storybook": "storybook build"
@@ -42,14 +43,17 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "kabouter": "~1.4.6",
+    "@storybook/react": "^7.6.10",
+    "@types/klaw": "^3.0.6",
+    "klaw": "^4.1.0",
+    "@types/fs-extra": "^11.0.4",
+    "ts-node": "^10.9.2",
+    "fs-extra": "^11.2.0",
+    "esbuild": "^0.19.11",
     "@faker-js/faker": "^8.3.1",
     "@saulx/prettier-config": "^2.0.0",
     "@saulx/tsconfig": "1.0.6",
-    "@storybook/addon-controls": "^7.5.3",
-    "@storybook/addon-docs": "^7.6.4",
-    "@storybook/addon-viewport": "^7.5.3",
-    "@storybook/react": "^7.6.7",
-    "@storybook/react-webpack5": "^7.5.3",
     "@types/prismjs": "^1.26.3",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.17",
@@ -60,7 +64,6 @@
     "prettier": "^3.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.6.6",
     "typescript": "^5.3.3",
     "undici": "^6.0.1"
   }
