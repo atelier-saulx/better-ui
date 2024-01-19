@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Text } from '../../index.js'
 import { styled } from 'inlines'
 
-// TODO add legend
 export type PieGraphProps = {
   data: { label: string; value: number; color: string }[]
 }

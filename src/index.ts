@@ -31,6 +31,7 @@ export * from './components/Toast/index.js'
 export * from './components/Tooltip/index.js'
 export * from './components/Video/index.js'
 export * from './components/PieGraph/index.js'
+export * from './components/BarGraph/index.js'
 
 export * from './components/Container/index.js'
 export * from './components/Form/index.js'
