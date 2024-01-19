@@ -43,7 +43,11 @@ const genCode = (
         if (arg._store && arg.props) {
           str += ` ${key}={icon}`
         } else {
-          str += ` ${key}={${JSON.stringify(arg)}}`
+          if (Array.isArray(arg) && arg.length > 10) {
+            str += ` ${key}={${JSON.stringify(arg.slice(0, 10)).slice(0, -1)},MoreItems${arg.length - 10} ]}`
+          } else {
+            str += ` ${key}={${JSON.stringify(arg)}}`
+          }
         }
       } else {
         str += ` ${key}={${String(args[key])}}`
@@ -146,8 +150,6 @@ const Story = (p: { story: any }) => {
   )
 
   const defExample = story.Default
-
-  // "vscode://file${path}:${line}:${column}"
 
   return (
     <Page>
