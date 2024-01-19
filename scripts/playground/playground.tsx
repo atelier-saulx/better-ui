@@ -44,7 +44,7 @@ const genCode = (
           str += ` ${key}={icon}`
         } else {
           if (Array.isArray(arg) && arg.length > 10) {
-            str += ` ${key}={${JSON.stringify(arg.slice(0, 10)).slice(0, -1)},MoreItems${arg.length - 10} ]}`
+            str += ` ${key}={${JSON.stringify(arg.slice(0, 10)).slice(0, -1)},...more]}`
           } else {
             str += ` ${key}={${JSON.stringify(arg)}}`
           }
