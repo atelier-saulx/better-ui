@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
 import { BasedSchemaField, BasedSchema } from '@based/schema'
-import { Stack } from '../../index.js'
+import { Stack, useUpdate } from '../../index.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
 import { deepCopy, deepMergeArrays } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
@@ -8,7 +8,6 @@ import { Field } from './Field.js'
 import { FormConfirm } from './FormConfirm.js'
 import { useListeners } from './useListeners.js'
 import { createBasedObject } from './createBasedObject.js'
-import { useUpdate } from '@based/ui'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
