@@ -22,19 +22,20 @@ type FormOnChange = (
   values: { [key: string]: any },
   changed: { [key: string]: any },
   checksum: number,
-  based: { [key: string]: any }
+  based: { [key: string]: any },
 ) => void
 
 type FormOnChangeAsync = (
   values: { [key: string]: any },
   changed: { [key: string]: any },
   checksum: number,
-  based: { [key: string]: any }
+  based: { [key: string]: any },
 ) => Promise<void>
 
 export type ValueRef = {
   hasChanges?: boolean
   values: { [key: string]: any }
+  props: FormProps
   changes: { [key: string]: any }
 }
 
@@ -51,7 +52,7 @@ export type FormProps = {
     path: Path,
     newValue: any,
     prevValue: any,
-    field: BasedSchemaField
+    field: BasedSchemaField,
   ) => void
   onChangeTransform?: (val: any, path: Path, field: BasedSchemaField) => any
   onChange?: FormOnChange | FormOnChangeAsync
@@ -75,8 +76,11 @@ export const Form = (p: FormProps) => {
   const valueRef = useRef<ValueRef>({
     values: p.values ?? {},
     changes: {},
+    props: p,
     hasChanges: false,
   })
+
+  valueRef.current.props = p
 
   const [currentChecksum, setChecksum] = React.useState(p.checksum)
 
@@ -88,7 +92,7 @@ export const Form = (p: FormProps) => {
         valueRef.current.values,
         valueRef.current.changes,
         hash,
-        createBasedObject(ctx, valueRef.current.changes)
+        createBasedObject(ctx, valueRef.current.changes),
       )
       valueRef.current.hasChanges = false
       valueRef.current.values = p.values ?? {}
@@ -125,26 +129,28 @@ export const Form = (p: FormProps) => {
           onCancel()
         },
       },
-      valueRef.current
+      valueRef.current,
     )
   }
 
   // May not be a good idea...
   useEffect(() => {
     if (p.values) {
-      const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values)
+      const hash = hashObjectIgnoreKeyOrder(p.values)
       if (currentChecksum !== hash) {
         valueRef.current.values = deepMergeArrays(
           deepCopy(p.values),
-          valueRef.current.changes
+          valueRef.current.changes,
         )
+        console.info('hello new...', p.values, valueRef.current.values, hash)
+
         setChecksum(hash)
       }
     }
   }, [p.checksum, p.values])
 
   // Memoize this
-  const listeners = useListeners(valueRef, setChecksum, p)
+  const listeners = useListeners(valueRef, setChecksum)
 
   const ctx: TableCtx = {
     variant: p.variant,
