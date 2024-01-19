@@ -102,8 +102,6 @@ const Example = (p: {
       genCode(setCode, p.story.args, p.component, p.componentName)
     }
   } else {
-    console.log(p.file)
-
     const re = new RegExp(`${p.title} =.+\\((.{0,100}\\{([^@]*?)\\)\\n\\})`)
     const x = p.file.match(re)
     if (!code && x && x[1]) {
@@ -200,6 +198,7 @@ const Story = (p: { story: any }) => {
           {keys.map((v) => {
             return (
               <Example
+                key={v}
                 file={p.story.file}
                 componentName={title}
                 decorators={story.default.decorators}

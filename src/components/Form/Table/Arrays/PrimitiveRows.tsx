@@ -15,11 +15,11 @@ export function PrimitiveRows(p: RowProps) {
         {...p}
         index={i}
         cells={[
-          <Cell>
+          <Cell key={0}>
             <Field ctx={p.ctx} path={[...p.path, i]} />
           </Cell>,
         ]}
-      />
+      />,
     )
   }
   return <>{rows}</>
