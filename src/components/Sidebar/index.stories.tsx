@@ -9,6 +9,7 @@ import {
   Text,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
+import { BasedLogoWithText } from '../Icons/extras.js'
 
 const meta: Meta<typeof Sidebar> = {
   title: 'Components/Sidebar',
@@ -21,10 +22,14 @@ const meta: Meta<typeof Sidebar> = {
 export default meta
 
 export const Default = () => {
+  const [v, setV] = React.useState('overview')
+
   return (
     <div style={{ height: '100vh', width: '100%' }}>
       <Sidebar
-        header={<Text singleLine>header header header</Text>}
+        value={v}
+        onValueChange={setV}
+        header={<BasedLogoWithText />}
         data={[
           {
             label: 'Overview',
@@ -40,20 +45,20 @@ export const Default = () => {
           },
           { label: 'Users', value: 'users', prefix: <IconUsers /> },
         ]}
-        footer={
-          <Text singleLine style={{ background: 'yellow', padding: 12 }}>
-            footer footer footer
-          </Text>
-        }
       />
     </div>
   )
 }
 
 export const WithGroups = () => {
+  const [v, setV] = React.useState('overview')
+
   return (
     <div style={{ height: '100vh', width: '100%' }}>
       <Sidebar
+        value={v}
+        onValueChange={setV}
+        header={<BasedLogoWithText />}
         data={{
           Database: [
             { label: 'Overview', value: 'overview', prefix: <IconViewBoxes /> },
