@@ -22,14 +22,14 @@ type FormOnChange = (
   values: { [key: string]: any },
   changed: { [key: string]: any },
   checksum: number,
-  based: { [key: string]: any },
+  based: { [key: string]: any }
 ) => void
 
 type FormOnChangeAsync = (
   values: { [key: string]: any },
   changed: { [key: string]: any },
   checksum: number,
-  based: { [key: string]: any },
+  based: { [key: string]: any }
 ) => Promise<void>
 
 export type ValueRef = {
@@ -52,7 +52,7 @@ export type FormProps = {
     path: Path,
     newValue: any,
     prevValue: any,
-    field: BasedSchemaField,
+    field: BasedSchemaField
   ) => void
   onChangeTransform?: (val: any, path: Path, field: BasedSchemaField) => any
   onChange?: FormOnChange | FormOnChangeAsync
@@ -93,7 +93,7 @@ export const Form = (p: FormProps) => {
         valueRef.current.values,
         valueRef.current.changes,
         hash,
-        createBasedObject(ctx, valueRef.current.changes),
+        createBasedObject(ctx, valueRef.current.changes)
       )
       valueRef.current.hasChanges = false
       valueRef.current.values = valueRef.current.props.values ?? {}
@@ -136,7 +136,7 @@ export const Form = (p: FormProps) => {
           onCancel()
         },
       },
-      valueRef.current,
+      valueRef.current
     )
   }
 
@@ -147,7 +147,7 @@ export const Form = (p: FormProps) => {
       if (currentChecksum !== hash) {
         valueRef.current.values = deepMergeArrays(
           deepCopy(p.values),
-          valueRef.current.changes,
+          valueRef.current.changes
         )
         setChecksum(hash)
       }
@@ -155,7 +155,7 @@ export const Form = (p: FormProps) => {
   }, [p.checksum, p.values])
 
   // Memoize this
-  const listeners = useListeners(valueRef, setChecksum)
+  const listeners = useListeners(valueRef, setChecksum, update)
 
   const ctx: TableCtx = {
     variant: p.variant,

@@ -9,6 +9,7 @@ import { createBasedObject } from './createBasedObject.js'
 const createListeners = (
   valueRef: MutableRefObject<ValueRef>,
   setChecksum: (nr: number) => void,
+  update: () => void,
 ): Listeners => {
   let currentDragTarget: DragTarget
   return {
@@ -17,7 +18,7 @@ const createListeners = (
       currentDragTarget = t
       return t
     },
-    onChangeHandler: (ctx, path, newValue) => {
+    onChangeHandler: (ctx, path, newValue, forceUpdate) => {
       const { field, value } = readPath(ctx, path)
 
       if (valueRef.current.props.onChangeTransform) {
@@ -56,6 +57,11 @@ const createListeners = (
       }
 
       setChecksum(hash)
+
+      if (forceUpdate) {
+        update()
+      }
+
       return false
     },
     onFileUpload: async (props, updateHandler) => {
@@ -84,8 +90,9 @@ const createListeners = (
 export const useListeners = (
   valueRef: MutableRefObject<ValueRef>,
   setChecksum: (checksum: number) => void,
+  update: () => void
 ): Listeners => {
   return useMemo(() => {
-    return createListeners(valueRef, setChecksum)
+    return createListeners(valueRef, setChecksum, update)
   }, [])
 }

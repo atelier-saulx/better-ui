@@ -220,7 +220,9 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
           time
           variant="small"
           value={value}
-          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+          onChange={(v) => {
+            ctx.listeners.onChangeHandler(ctx, path, v)
+          }}
         />
       </Padder>
     )
