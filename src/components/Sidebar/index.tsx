@@ -15,7 +15,7 @@ import {
 const SidebarContext = React.createContext({
   open: true,
   value: '',
-  setValue: (_?: string) => {},
+  onValueChange: (_?: string) => {},
 })
 
 type SidebarItem = {
@@ -35,12 +35,11 @@ export type SidebarProps = {
   collapsable?: boolean
   children?: React.ReactNode
   header?: React.ReactNode
-  footer?: React.ReactNode
 }
 
 export function Sidebar({
   data,
-  value: valueProp,
+  value,
   onValueChange,
   open: openProp = true,
   onOpenChange,
@@ -48,16 +47,11 @@ export function Sidebar({
   collapsable = true,
   children,
   header,
-  footer,
 }: SidebarProps) {
   const isMobile = useIsMobile()
   let [open, setOpen] = useControllableState({
     value: openProp,
     onChange: onOpenChange,
-  })
-  const [value, setValue] = useControllableState({
-    value: valueProp,
-    onChange: onValueChange,
   })
 
   React.useEffect(() => {
@@ -65,23 +59,6 @@ export function Sidebar({
       setOpen(false)
     }
   }, [isMobile])
-
-  children ??=
-    data && Array.isArray(data)
-      ? data.map((e) => (
-          <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
-            {e.label}
-          </SidebarItem>
-        ))
-      : Object.entries(data).map(([title, items]) => (
-          <SidebarGroup title={title}>
-            {items.map((e) => (
-              <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
-                {e.label}
-              </SidebarItem>
-            ))}
-          </SidebarGroup>
-        ))
 
   return (
     <styled.aside
@@ -96,9 +73,38 @@ export function Sidebar({
         ...style,
       }}
     >
-      {header}
-      <SidebarContext.Provider value={{ open, value, setValue }}>
-        {children}
+      {header && (
+        <div style={{ paddingBottom: Array.isArray(data) ? 24 : 0 }}>
+          {header}
+        </div>
+      )}
+
+      <SidebarContext.Provider value={{ open, value, onValueChange }}>
+        {children
+          ? children
+          : Array.isArray(data)
+            ? data.map((e) => (
+                <SidebarItem
+                  prefix={e.prefix}
+                  suffix={e.suffix}
+                  value={e.value}
+                >
+                  {e.label}
+                </SidebarItem>
+              ))
+            : Object.entries(data).map(([title, items]) => (
+                <SidebarGroup title={title}>
+                  {items.map((e) => (
+                    <SidebarItem
+                      prefix={e.prefix}
+                      suffix={e.suffix}
+                      value={e.value}
+                    >
+                      {e.label}
+                    </SidebarItem>
+                  ))}
+                </SidebarGroup>
+              ))}
       </SidebarContext.Provider>
       {collapsable ? (
         <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
@@ -118,19 +124,6 @@ export function Sidebar({
           </Tooltip>
         </div>
       ) : null}
-
-      {footer && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: open ? 16 : 64,
-            left: 12,
-            maxWidth: open ? '100%' : 40,
-          }}
-        >
-          {footer}
-        </div>
-      )}
     </styled.aside>
   )
 }
@@ -151,7 +144,7 @@ export function SidebarItem({
   const {
     open,
     value: sidebarValue,
-    setValue,
+    onValueChange,
   } = React.useContext(SidebarContext)
 
   if (open) {
@@ -174,7 +167,7 @@ export function SidebarItem({
           }),
         }}
         onClick={() => {
-          setValue(value)
+          onValueChange(value)
         }}
       >
         {prefix}
@@ -209,7 +202,7 @@ export function SidebarItem({
         <Button
           shape="square"
           onClick={() => {
-            setValue(value)
+            onValueChange(value)
           }}
           variant="neutral-transparent"
           style={{ fontSize: 14, fontWeight: 600, height: 40, width: 40 }}
@@ -233,10 +226,8 @@ export function SidebarGroup({ title, children }: SidebarGroupProps) {
     <styled.div
       style={{
         '& > * + *': { marginTop: '8px' },
-        paddingTop: '32px',
-        paddingBottom: '4px',
-        '&:first-child': {
-          paddingTop: '4px',
+        '&:not(:first-child)': {
+          marginTop: '24px',
         },
       }}
     >
