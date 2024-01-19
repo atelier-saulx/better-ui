@@ -11,7 +11,6 @@ import {
   Code,
   formatCode,
 } from '../../'
-import { title } from '../../src/components/Text/index.stories.js'
 
 const genCode = (
   setCode: (str: string) => void,
@@ -19,8 +18,6 @@ const genCode = (
   component: FC,
   name: string,
 ) => {
-  console.log(args, component, component.displayName)
-
   const componentName = component.name ?? name
 
   let str = `;<${componentName}`
@@ -118,12 +115,26 @@ const Example = (p: {
       {p.title === 'Default' ? null : (
         <Text variant="body-bold">{p.title}</Text>
       )}
-      <Container>
-        <Stack direction="column" align="center">
-          {body}
-        </Stack>
-      </Container>
-      <Code color="inverted" value={code} />
+      <Stack direction="column" align="center">
+        <Container
+          style={{
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+          }}
+        >
+          <Stack style={{ padding: 24 }} direction="column" align="center">
+            {body}
+          </Stack>
+        </Container>
+        <Code
+          style={{
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
+          }}
+          color="inverted"
+          value={code}
+        />
+      </Stack>
     </Stack>
   )
 }
