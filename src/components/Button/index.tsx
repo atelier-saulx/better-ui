@@ -61,7 +61,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       keyboardShortcut,
       displayKeyboardShortcut = false,
     },
-    ref
+    ref,
   ) => {
     const [loading, setLoading] = React.useState(false)
     const [shaking, setShaking] = React.useState(false)
@@ -87,7 +87,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         setLoading(false)
         clearTimeout(loadingDelayTimeout)
       },
-      [onClick, disabled]
+      [onClick, disabled],
     )
 
     return (
@@ -148,7 +148,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(variant === 'neutral' && {
             color: color('content', 'primary'),
-            background: 'transparent',
+            background: color('background', 'screen'),
             border: border(),
             '&:hover': {
               background: color('background', 'neutral'),
@@ -272,5 +272,5 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </div>
       </styled.button>
     )
-  }
+  },
 )
