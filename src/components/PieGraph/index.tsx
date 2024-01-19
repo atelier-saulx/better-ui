@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Text } from '../../index.js'
+import { styled } from 'inlines'
 
 // TODO add legend
 export type PieGraphProps = {
@@ -35,7 +36,7 @@ export function PieGraph({ data: rawData }: PieGraphProps) {
   }, [rawData])
 
   return (
-    <div style={{ position: 'relative' }}>
+    <styled.div style={{ position: 'relative' }}>
       <svg width="256" height="256" viewBox="0 0 120 120">
         {data.map((e, i) => (
           <circle
@@ -66,7 +67,7 @@ export function PieGraph({ data: rawData }: PieGraphProps) {
         ))}
       </svg>
       {hoverIndex !== null && (
-        <div
+        <styled.div
           style={{
             position: 'absolute',
             inset: 0,
@@ -83,8 +84,8 @@ export function PieGraph({ data: rawData }: PieGraphProps) {
             {data[hoverIndex].percentage.toFixed(2)} %
           </Text>
           <Text style={{ fontSize: 14 }}>{data[hoverIndex].label}</Text>
-        </div>
+        </styled.div>
       )}
-    </div>
+    </styled.div>
   )
 }
