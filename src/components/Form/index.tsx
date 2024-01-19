@@ -90,7 +90,6 @@ export const Form = (p: FormProps) => {
   const onConfirm = React.useCallback(async () => {
     try {
       const hash = hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
-
       await valueRef.current.props.onChange(
         valueRef.current.values,
         valueRef.current.changes,
@@ -113,7 +112,7 @@ export const Form = (p: FormProps) => {
     valueRef.current.values = valueRef.current.props.values ?? {}
     valueRef.current.changes = {}
     const hash =
-      p.checksum ??
+      valueRef.current.values.props.checksum ??
       hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
     setChecksum(hash)
     // Force update
