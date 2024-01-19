@@ -30,10 +30,9 @@ const createListeners = (
 
       if (!valueRef.current.hasChanges) {
         valueRef.current.hasChanges = true
-        valueRef.current.values = deepCopy(valueRef.current.props)
+        valueRef.current.values = deepCopy(valueRef.current.props.values)
       }
 
-      console.info(path, newValue, valueRef.current.values)
       setByPath(valueRef.current.values, path, newValue)
       setByPath(valueRef.current.changes, path, newValue)
 
@@ -86,8 +85,7 @@ export const useListeners = (
   valueRef: MutableRefObject<ValueRef>,
   setChecksum: (checksum: number) => void,
 ): Listeners => {
-  const listeners: Listeners = useMemo(() => {
+  return useMemo(() => {
     return createListeners(valueRef, setChecksum)
   }, [])
-  return listeners
 }
