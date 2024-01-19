@@ -30,20 +30,17 @@ const KeyInput = (p: {
       value={p.value}
       autoFocus={p.value === ''}
       onBlur={useCallback(() => {
-        console.log('BLUR')
         if (changeRef.current !== p.value || changeRef.current === '') {
           if (changeRef.current === '') {
             const nValue = deepCopy(p.valueRef.current)
             delete nValue['']
-            console.log('----')
-            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
+            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue, true)
           } else {
             const nValue = deepCopy(p.valueRef.current)
             const rowValue = nValue[p.value]
             delete nValue[p.value]
             nValue[changeRef.current] = rowValue
-            console.log('+++', p.path, nValue)
-            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
+            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue, true)
           }
           changeRef.current = ''
         }

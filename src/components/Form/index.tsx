@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
 import { BasedSchemaField, BasedSchema } from '@based/schema'
-import { Stack } from '../../index.js'
+import { Stack, useUpdate } from '../../index.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
 import { deepCopy, deepMergeArrays } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
@@ -35,6 +35,7 @@ type FormOnChangeAsync = (
 export type ValueRef = {
   hasChanges?: boolean
   values: { [key: string]: any }
+  props: FormProps
   changes: { [key: string]: any }
 }
 
@@ -75,37 +76,47 @@ export const Form = (p: FormProps) => {
   const valueRef = useRef<ValueRef>({
     values: p.values ?? {},
     changes: {},
+    props: p,
     hasChanges: false,
   })
+
+  const update = useUpdate()
+
+  valueRef.current.props = p
 
   const [currentChecksum, setChecksum] = React.useState(p.checksum)
 
   const onConfirm = React.useCallback(async () => {
     try {
-      const hash = hashObjectIgnoreKeyOrder(p.values ?? {})
-
-      await p.onChange(
+      const hash = hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
+      await valueRef.current.props.onChange(
         valueRef.current.values,
         valueRef.current.changes,
         hash,
         createBasedObject(ctx, valueRef.current.changes)
       )
       valueRef.current.hasChanges = false
-      valueRef.current.values = p.values ?? {}
+      valueRef.current.values = valueRef.current.props.values ?? {}
       valueRef.current.changes = {}
       setChecksum(hash)
+      // Force update
+      update()
     } catch (err) {
       throw err
     }
-  }, [p.checksum])
+  }, [])
 
   const onCancel = React.useCallback(() => {
     valueRef.current.hasChanges = false
-    valueRef.current.values = p.values ?? {}
+    valueRef.current.values = valueRef.current.props.values ?? {}
     valueRef.current.changes = {}
-    const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values ?? {})
+    const hash =
+      valueRef.current.values.props.checksum ??
+      hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
     setChecksum(hash)
-  }, [p.checksum])
+    // Force update
+    update()
+  }, [])
 
   // create ref
   if (p.formRef) {
@@ -144,7 +155,7 @@ export const Form = (p: FormProps) => {
   }, [p.checksum, p.values])
 
   // Memoize this
-  const listeners = useListeners(valueRef, setChecksum, p)
+  const listeners = useListeners(valueRef, setChecksum, update)
 
   const ctx: TableCtx = {
     variant: p.variant,
