@@ -8,6 +8,7 @@ import fs from 'fs-extra'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const SRC_DIR = join(__dirname, '../../src')
 const TOP_DIR = join(__dirname, '../..')
+
 const getStories = () => {
   let items: string[] = []
   klaw(SRC_DIR)
@@ -16,7 +17,6 @@ const getStories = () => {
       const files = items.filter((f) => /\.stories\.[a-z]{1,4}$/.test(f))
       const m: any[] = []
       const fileIds: string[] = []
-
       const filesParsed = await Promise.all(
         files.map(async (f) => {
           const id = 'f' + hash(f)
@@ -25,19 +25,15 @@ const getStories = () => {
           return `import * as ${id} from "../../${relative(TOP_DIR, f.replace(/\.tsx$/, '.js'))}"`
         }),
       )
-
       let file = filesParsed.join('\n')
-
       file += `\nexport const stories = [${fileIds.join(',')}]`
-
       file += `\nexport const parsedStories = [${m
         .map((v) => {
           return `{ id: "${v.id}", story: ${v.id}, path: "${v.path}", file: \`${v.file.replace(/\$\{/g, '\\$').replace(/`/g, '\\`')}\`}`
         })
         .join(',')}]`
-
       writeFileSync(join(__dirname, 'stories.ts'), file)
     })
 }
 
-console.log(getStories())
+getStories()

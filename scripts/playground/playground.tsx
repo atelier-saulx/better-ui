@@ -68,6 +68,7 @@ const genCode = (
 
 const Example = (p: {
   componentName: string
+  file: string
   title: string
   story: any
   component?: FC
@@ -101,6 +102,13 @@ const Example = (p: {
       genCode(setCode, p.story.args, p.component, p.componentName)
     }
   } else {
+    console.log(p.file)
+
+    const re = new RegExp(`${p.title} =.+\\((.{0,100}\\{([^@]*?)\\)\\n\\})`)
+    const x = p.file.match(re)
+    if (!code && x && x[1]) {
+      setCode(`(${x[1]}`)
+    }
     if (p.decorators) {
       for (const d of p.decorators) {
         body = d((sProps) => React.createElement(p.story, sProps))
@@ -181,6 +189,7 @@ const Story = (p: { story: any }) => {
 
           {defExample ? (
             <Example
+              file={p.story.file}
               componentName={title}
               decorators={story.default.decorators}
               component={story.default.component}
@@ -191,6 +200,7 @@ const Story = (p: { story: any }) => {
           {keys.map((v) => {
             return (
               <Example
+                file={p.story.file}
                 componentName={title}
                 decorators={story.default.decorators}
                 component={story.default.component}
@@ -207,40 +217,31 @@ const Story = (p: { story: any }) => {
 
 const App = () => {
   const menuData = {}
-
   const [location, setLocation] = useState<string>(
     window.location.href.split('#')[1] ?? '',
   )
-
   useEffect(() => {
     window.addEventListener('hashchange', () => {
       setLocation(window.location.href.split('#')[1])
     })
   }, [])
-
   for (const story of parsedStories) {
     if (!story.story.default['title']) {
       continue
     }
-
     const [section, component] = story.story.default.title.split('/')
-
     if (!menuData[section]) {
       menuData[section] = []
     }
-
     menuData[section].push({
       value: story.story.default.title,
       label: component,
     })
-
     menuData[section].sort((a, b) => {
       return a.label > b.label ? 1 : -1
     })
   }
-
   const story = parsedStories.find((s) => s.story.default.title === location)
-
   return (
     <Layout>
       <Sidebar
