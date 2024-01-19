@@ -29,16 +29,16 @@ export function useKeyboardShortcut(key?: Key, handler?: () => void) {
         handler()
       }
     },
-    [key, handler, isMac]
+    [key, handler, isMac],
   )
 
   React.useEffect(() => {
     if (!key || !handler) return
 
-    window.addEventListener('keydown', handleEvent)
+    global.addEventListener('keydown', handleEvent)
 
     return () => {
-      window.removeEventListener('keydown', handleEvent)
+      global.removeEventListener('keydown', handleEvent)
     }
   }, [key, handler, isMac])
 }

@@ -120,25 +120,25 @@ function Items({ children }: ItemsProps) {
         setOpen(false)
       }
     },
-    [triggerRef, setOpen]
+    [triggerRef, setOpen],
   )
 
   React.useLayoutEffect(() => {
     calculatePosition()
 
-    window.addEventListener('resize', calculatePosition)
+    global.addEventListener('resize', calculatePosition)
 
     return () => {
-      window.removeEventListener('resize', calculatePosition)
+      global.removeEventListener('resize', calculatePosition)
     }
   }, [calculatePosition])
 
   React.useEffect(() => {
     if (open) {
-      window.addEventListener('click', handleClick)
+      global.addEventListener('click', handleClick)
 
       return () => {
-        window.removeEventListener('click', handleClick)
+        global.removeEventListener('click', handleClick)
       }
     }
   }, [open, handleClick])
@@ -174,7 +174,7 @@ function Items({ children }: ItemsProps) {
         {children}
       </ScrollArea>
     </div>,
-    document.body
+    document.body,
   )
 }
 
@@ -262,7 +262,7 @@ export function useDropdown() {
 
   function open(
     fn: ({ close }: { close: (value: any) => void }) => React.ReactNode,
-    props: any
+    props: any,
   ) {
     return new Promise((resolve) => {
       function close(value: any) {

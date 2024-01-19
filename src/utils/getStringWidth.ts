@@ -14,9 +14,9 @@ const memoizeMap: Map<number, Chars> = new Map()
 
 const drawChar = (
   char: string,
-  { fontFamily, fontSize, fontWeight, letterSpacing }: FontStyle
+  { fontFamily, fontSize, fontWeight, letterSpacing }: FontStyle,
 ): number => {
-  if (typeof window !== 'undefined') {
+  if (typeof global !== 'undefined') {
     const ctx = document.createElement('canvas').getContext('2d')
     if (letterSpacing) {
       // @ts-ignore does exist...

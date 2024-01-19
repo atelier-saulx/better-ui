@@ -76,12 +76,12 @@ export function ColorInput({
 
   React.useEffect(() => {
     if (mouseDown) {
-      window.addEventListener('mousemove', handleMouseMove)
-      window.addEventListener('mouseup', handleMouseUp)
+      global.addEventListener('mousemove', handleMouseMove)
+      global.addEventListener('mouseup', handleMouseUp)
 
       return () => {
-        window.removeEventListener('mousemove', handleMouseMove)
-        window.removeEventListener('mouseup', handleMouseUp)
+        global.removeEventListener('mousemove', handleMouseMove)
+        global.removeEventListener('mouseup', handleMouseUp)
       }
     }
   }, [mouseDown])
