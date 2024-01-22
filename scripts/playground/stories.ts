@@ -32,8 +32,21 @@ import * as f2542458627838 from "../../src/components/Thumbnail/index.stories.js
 import * as f10219561566831 from "../../src/components/Toast/index.stories.js"
 import * as f12164388818727 from "../../src/components/Tooltip/index.stories.js"
 import * as f14744076215203 from "../../src/components/Video/index.stories.js"
-export const stories = [f2709786937207,f13557855690583,f1403935485412,f14261403483167,f12539861850560,f5470738912473,f2676674344469,f6155456052992,f5347209449136,f15918582868135,f12984134904489,f12162171475362,f11493022049604,f11927335739210,f10261065846765,f6035430303946,f10173362420623,f4437124256520,f16765197606902,f936609549945,f5909785848135,f16472063764097,f16126198374920,f15513603856812,f10196973367128,f17293536255708,f17512554344332,f16386070420783,f7144734297614,f5979046522585,f2542458627838,f14744076215203,f12164388818727,f10219561566831]
-export const parsedStories = [{ id: "f2709786937207", story: f2709786937207, path: "/Users/jimdebeer/saulx/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
+export const stories = [f12539861850560,f2709786937207,f1403935485412,f13557855690583,f5470738912473,f6155456052992,f2676674344469,f15918582868135,f12984134904489,f5347209449136,f12162171475362,f14261403483167,f11493022049604,f11927335739210,f10261065846765,f6035430303946,f10173362420623,f4437124256520,f16765197606902,f5909785848135,f936609549945,f16472063764097,f16126198374920,f15513603856812,f10196973367128,f17293536255708,f17512554344332,f7144734297614,f16386070420783,f5979046522585,f10219561566831,f2542458627838,f12164388818727,f14744076215203]
+export const parsedStories = [{ id: "f12539861850560", story: f12539861850560, path: "/Users/jimdebeer/saulx/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Calendar> = {
+  title: 'Atoms/Calendar',
+  component: Calendar,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof Calendar> = {
+  args: {},
+}
+`},{ id: "f2709786937207", story: f2709786937207, path: "/Users/jimdebeer/saulx/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -79,33 +92,6 @@ export const Copyable: StoryObj<typeof Badge> = {
   },
   argTypes: {
     color: { control: 'select' },
-  },
-}
-`},{ id: "f13557855690583", story: f13557855690583, path: "/Users/jimdebeer/saulx/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof CheckboxInput> = {
-  title: 'Inputs/CheckboxInput',
-  component: CheckboxInput,
-}
-
-export default meta
-
-export const Checkbox: StoryObj<typeof CheckboxInput> = {
-  args: {
-    label: 'Label',
-    description: 'This is the description',
-    disabled: false,
-  },
-}
-
-export const Toggle: StoryObj<typeof CheckboxInput> = {
-  args: {
-    label: 'Label',
-    description: 'This is the description',
-    defaultValue: true,
-    variant: 'toggle',
-    disabled: false,
   },
 }
 `},{ id: "f1403935485412", story: f1403935485412, path: "/Users/jimdebeer/saulx/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
@@ -196,99 +182,32 @@ export const AsyncOnClick: StoryObj<typeof Button> = {
     },
   },
 }
-`},{ id: "f14261403483167", story: f14261403483167, path: "/Users/jimdebeer/saulx/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
+`},{ id: "f13557855690583", story: f13557855690583, path: "/Users/jimdebeer/saulx/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof Code> = {
-  title: 'Atoms/Code',
-  component: Code,
+const meta: Meta<typeof CheckboxInput> = {
+  title: 'Inputs/CheckboxInput',
+  component: CheckboxInput,
 }
 
 export default meta
 
-const json = JSON.stringify({ hello: 'bla', x: 1, y: 2, z: 4 }, null, 2)
-
-const ts = \`import * as React from 'react'
-
-export function Svg({ style, width = 20, height = 20 }: IconProps) {
-  return (
-    <svg
-      width={width}
-      height={height}
-      style={style}
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="a b c"
-      />
-    </svg>
-  )
-}
-\`
-
-export const Default: StoryObj<typeof Code> = {
+export const Checkbox: StoryObj<typeof CheckboxInput> = {
   args: {
-    value: ts,
-    language: 'typescript',
-    color: 'inverted',
-  },
-  argTypes: {
-    color: { control: 'select' },
+    label: 'Label',
+    description: 'This is the description',
+    disabled: false,
   },
 }
 
-export const Prettier: StoryObj<typeof Code> = {
+export const Toggle: StoryObj<typeof CheckboxInput> = {
   args: {
-    value: ts,
-    language: 'typescript',
-    color: 'inverted',
-    prettier: true
+    label: 'Label',
+    description: 'This is the description',
+    defaultValue: true,
+    variant: 'toggle',
+    disabled: false,
   },
-  argTypes: {
-    color: { control: 'select' },
-  },
-}
-
-
-export const CopyButton: StoryObj<typeof Code> = {
-  args: {
-    value: json,
-    language: 'json',
-    copy: true,
-    color: 'muted',
-    onChange: () => {},
-  },
-  argTypes: {
-    color: { control: 'select' },
-    language: { control: 'select' },
-  },
-}
-
-export const Small: StoryObj<typeof Code> = {
-  args: {
-    value: ts,
-    language: 'typescript',
-    variant: 'small',
-  },
-  argTypes: {
-    color: { control: 'select' },
-  },
-}
-`},{ id: "f12539861850560", story: f12539861850560, path: "/Users/jimdebeer/saulx/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Calendar> = {
-  title: 'Atoms/Calendar',
-  component: Calendar,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof Calendar> = {
-  args: {},
 }
 `},{ id: "f5470738912473", story: f5470738912473, path: "/Users/jimdebeer/saulx/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
 import { ColorInput } from '../../index.js'
@@ -320,6 +239,25 @@ export const Error = () => {
 
 export const Disabled = () => {
   return <ColorInput disabled />
+}
+`},{ id: "f6155456052992", story: f6155456052992, path: "/Users/jimdebeer/saulx/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Confirm> = {
+  title: 'Atoms/Confirm',
+  component: Confirm,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof Confirm> = {
+  args: {},
+}
+
+export const Icons: StoryObj<typeof Confirm> = {
+  args: {
+    variant: 'small',
+  },
 }
 `},{ id: "f2676674344469", story: f2676674344469, path: "/Users/jimdebeer/saulx/better-ui/src/components/Container/index.stories.tsx", file: `import * as React from 'react'
 import {
@@ -484,24 +422,99 @@ export const Expandable: StoryObj<typeof Container> = {
     children: <Button>This is a button</Button>,
   },
 }
-`},{ id: "f6155456052992", story: f6155456052992, path: "/Users/jimdebeer/saulx/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
+`},{ id: "f15918582868135", story: f15918582868135, path: "/Users/jimdebeer/saulx/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof Confirm> = {
-  title: 'Atoms/Confirm',
-  component: Confirm,
+const meta: Meta<typeof CurrentDay> = {
+  title: 'Atoms/CurrentDay',
+  component: CurrentDay,
 }
 
 export default meta
 
-export const Default: StoryObj<typeof Confirm> = {
-  args: {},
+export const Default: StoryObj<typeof CurrentDay> = {
+  args: { value: new Date().getTime() },
+}
+`},{ id: "f12984134904489", story: f12984134904489, path: "/Users/jimdebeer/saulx/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
+import {
+  Button,
+  DropdownHookProvider,
+  IconDelete,
+  IconMoreVertical,
+  Dropdown,
+  useDropdown,
+} from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Dropdown',
+  decorators: [
+    (Story) => (
+      <DropdownHookProvider>
+        <Story />
+      </DropdownHookProvider>
+    ),
+  ],
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <Dropdown.Root>
+      <Dropdown.Trigger>
+        <Button shape="square" variant="neutral">
+          <IconMoreVertical />
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Items>
+        {Array.from({ length: 200 }).map((_, i) => (
+          <Dropdown.Item
+            key={i}
+            onClick={() => {
+              alert(\`delete \$i}\`)
+            }}
+            icon={<IconDelete />}
+          >
+            Delete {i}
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Items>
+    </Dropdown.Root>
+  )
 }
 
-export const Icons: StoryObj<typeof Confirm> = {
-  args: {
-    variant: 'small',
-  },
+function SimpleDropdown({ close, numberOfItems }) {
+  return (
+    <Dropdown.Items>
+      {Array.from({ length: numberOfItems }).map((_, i) => (
+        <Dropdown.Item
+          key={i}
+          onClick={() => {
+            close(\`delete \$i}\`)
+          }}
+          icon={<IconDelete />}
+        >
+          Delete {i}
+        </Dropdown.Item>
+      ))}
+    </Dropdown.Items>
+  )
+}
+
+export const Hook = () => {
+  const { open } = useDropdown()
+
+  return (
+    <Button
+      shape="square"
+      variant="neutral"
+      onClick={async () => {
+        const value = await open(SimpleDropdown, { numberOfItems: 5 })
+        console.log('dropdown return value:', value)
+      }}
+    >
+      <IconMoreVertical />
+    </Button>
+  )
 }
 `},{ id: "f5347209449136", story: f5347209449136, path: "/Users/jimdebeer/saulx/better-ui/src/components/DateInput/index.stories.tsx", file: `import * as React from 'react'
 import { DateInput } from '../../index.js'
@@ -582,99 +595,6 @@ export const Small = () => {
     />
   )
 }
-`},{ id: "f15918582868135", story: f15918582868135, path: "/Users/jimdebeer/saulx/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof CurrentDay> = {
-  title: 'Atoms/CurrentDay',
-  component: CurrentDay,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof CurrentDay> = {
-  args: { value: new Date().getTime() },
-}
-`},{ id: "f12984134904489", story: f12984134904489, path: "/Users/jimdebeer/saulx/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
-import {
-  Button,
-  DropdownHookProvider,
-  IconDelete,
-  IconMoreVertical,
-  Dropdown,
-  useDropdown,
-} from '../../index.js'
-
-const meta = {
-  title: 'Atoms/Dropdown',
-  decorators: [
-    (Story) => (
-      <DropdownHookProvider>
-        <Story />
-      </DropdownHookProvider>
-    ),
-  ],
-}
-export default meta
-
-export const Default = () => {
-  return (
-    <Dropdown.Root>
-      <Dropdown.Trigger>
-        <Button shape="square" variant="neutral">
-          <IconMoreVertical />
-        </Button>
-      </Dropdown.Trigger>
-      <Dropdown.Items>
-        {Array.from({ length: 200 }).map((_, i) => (
-          <Dropdown.Item
-            onClick={() => {
-              alert(\`delete \$i}\`)
-            }}
-            icon={<IconDelete />}
-          >
-            Delete {i}
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Items>
-    </Dropdown.Root>
-  )
-}
-
-function SimpleDropdown({ close, numberOfItems }) {
-  return (
-    <Dropdown.Items>
-      {Array.from({ length: numberOfItems }).map((_, i) => (
-        <Dropdown.Item
-          key={i}
-          onClick={() => {
-            close(\`delete \$i}\`)
-          }}
-          icon={<IconDelete />}
-        >
-          Delete {i}
-        </Dropdown.Item>
-      ))}
-    </Dropdown.Items>
-  )
-}
-
-export const Hook = () => {
-  const { open } = useDropdown()
-
-  return (
-    <Button
-      shape="square"
-      variant="neutral"
-      onClick={async () => {
-        const value = await open(SimpleDropdown, { numberOfItems: 5 })
-        console.log('dropdown return value:', value)
-      }}
-    >
-      <IconMoreVertical />
-    </Button>
-  )
-}
 `},{ id: "f12162171475362", story: f12162171475362, path: "/Users/jimdebeer/saulx/better-ui/src/components/FileInput/index.stories.tsx", file: `import * as React from 'react'
 import { useUploadFile, FileInput } from '../../index.js'
 import { Provider } from '@based/react'
@@ -740,6 +660,87 @@ export const RealUpload = () => {
       <RealUploadContent />
     </Provider>
   )
+}
+`},{ id: "f14261403483167", story: f14261403483167, path: "/Users/jimdebeer/saulx/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Code> = {
+  title: 'Atoms/Code',
+  component: Code,
+}
+
+export default meta
+
+const json = JSON.stringify({ hello: 'bla', x: 1, y: 2, z: 4 }, null, 2)
+
+const ts = \`import * as React from 'react'
+
+export function Svg({ style, width = 20, height = 20 }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      style={style}
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="a b c"
+      />
+    </svg>
+  )
+}
+\`
+
+export const Default: StoryObj<typeof Code> = {
+  args: {
+    value: ts,
+    language: 'typescript',
+    color: 'inverted',
+  },
+  argTypes: {
+    color: { control: 'select' },
+  },
+}
+
+export const Prettier: StoryObj<typeof Code> = {
+  args: {
+    value: ts,
+    language: 'typescript',
+    color: 'inverted',
+    prettier: true
+  },
+  argTypes: {
+    color: { control: 'select' },
+  },
+}
+
+
+export const CopyButton: StoryObj<typeof Code> = {
+  args: {
+    value: json,
+    language: 'json',
+    copy: true,
+    color: 'muted',
+    onChange: () => {},
+  },
+  argTypes: {
+    color: { control: 'select' },
+    language: { control: 'select' },
+  },
+}
+
+export const Small: StoryObj<typeof Code> = {
+  args: {
+    value: ts,
+    language: 'typescript',
+    variant: 'small',
+  },
+  argTypes: {
+    color: { control: 'select' },
+  },
 }
 `},{ id: "f11493022049604", story: f11493022049604, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/index.stories.tsx", file: `import * as React from 'react'
 import { Form, border, Modal } from '../../index.js'
@@ -1877,6 +1878,7 @@ export const Default = () => {
           .filter(([key]) => !key.toLocaleLowerCase().includes('based'))
           .map(([key, Icon]) => (
             <styled.div
+              key={key}
               style={{
                 padding: '16px',
                 display: 'flex',
@@ -2133,6 +2135,42 @@ export const Large = () => {
       <Examples />
     </Stack>
   )
+}
+`},{ id: "f5909785848135", story: f5909785848135, path: "/Users/jimdebeer/saulx/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof NumberInput> = {
+  title: 'Inputs/NumberInput',
+  component: NumberInput,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    label: 'Label',
+    description: "What's your number?",
+    step: 4,
+    onChange: (value) => {
+      console.log(value)
+    },
+    disabled: false,
+  },
+}
+
+export const Small: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    variant: 'small',
+  },
+}
+
+export const Error: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    error: true,
+  },
 }
 `},{ id: "f936609549945", story: f936609549945, path: "/Users/jimdebeer/saulx/better-ui/src/components/Modal/index.stories.tsx", file: `import * as React from 'react'
 import { Modal, Button, TextInput, SelectInput } from '../../index.js'
@@ -2420,42 +2458,6 @@ export const ModalConfirm = () => {
       </Button>
     </div>
   )
-}
-`},{ id: "f5909785848135", story: f5909785848135, path: "/Users/jimdebeer/saulx/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof NumberInput> = {
-  title: 'Inputs/NumberInput',
-  component: NumberInput,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    label: 'Label',
-    description: "What's your number?",
-    step: 4,
-    onChange: (value) => {
-      console.log(value)
-    },
-    disabled: false,
-  },
-}
-
-export const Small: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    variant: 'small',
-  },
-}
-
-export const Error: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    error: true,
-  },
 }
 `},{ id: "f16472063764097", story: f16472063764097, path: "/Users/jimdebeer/saulx/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
 import { Page, Text } from '../../index.js'
@@ -2926,6 +2928,39 @@ export const InfiniteQuery = () => {
     </Provider>
   )
 }
+`},{ id: "f7144734297614", story: f7144734297614, path: "/Users/jimdebeer/saulx/better-ui/src/components/TextAreaInput/index.stories.tsx", file: `import { TextAreaInput } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof TextAreaInput> = {
+  title: 'Inputs/TextAreaInput',
+  component: TextAreaInput,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof TextAreaInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    label: 'Label',
+    description: 'Enter some text if you wish',
+    disabled: false,
+  },
+}
+
+export const Small: StoryObj<typeof TextAreaInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    variant: 'small',
+  },
+}
+
+export const Error: StoryObj<typeof TextAreaInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    label: 'Label',
+    error: true,
+  },
+}
 `},{ id: "f16386070420783", story: f16386070420783, path: "/Users/jimdebeer/saulx/better-ui/src/components/Text/index.stories.tsx", file: `import { Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -2987,39 +3022,6 @@ export const caption: StoryObj<typeof Text> = {
     variant: 'caption',
   },
 }
-`},{ id: "f7144734297614", story: f7144734297614, path: "/Users/jimdebeer/saulx/better-ui/src/components/TextAreaInput/index.stories.tsx", file: `import { TextAreaInput } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof TextAreaInput> = {
-  title: 'Inputs/TextAreaInput',
-  component: TextAreaInput,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof TextAreaInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    label: 'Label',
-    description: 'Enter some text if you wish',
-    disabled: false,
-  },
-}
-
-export const Small: StoryObj<typeof TextAreaInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    variant: 'small',
-  },
-}
-
-export const Error: StoryObj<typeof TextAreaInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    label: 'Label',
-    error: true,
-  },
-}
 `},{ id: "f5979046522585", story: f5979046522585, path: "/Users/jimdebeer/saulx/better-ui/src/components/TextInput/index.stories.tsx", file: `import { TextInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -3058,99 +3060,6 @@ export const Disabled: StoryObj<typeof TextInput> = {
     label: 'Label',
     disabled: true,
   },
-}
-`},{ id: "f2542458627838", story: f2542458627838, path: "/Users/jimdebeer/saulx/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
-import { Thumbnail, IconBorderLeft } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Thumbnail> = {
-  title: 'Atoms/Thumbnail',
-  component: Thumbnail,
-}
-
-export default meta
-
-export const Image: StoryObj<typeof Thumbnail> = {
-  args: {
-    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    size: 'large',
-    shape: 'square',
-    color: 'informative',
-  },
-}
-
-export const Icon: StoryObj<typeof Thumbnail> = {
-  args: {
-    // src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    //  text: 'flappie',
-    size: 'large',
-    shape: 'circle',
-    icon: <IconBorderLeft />,
-    color: 'informative-muted',
-  },
-}
-
-export const Placeholder: StoryObj<typeof Thumbnail> = {
-  args: {
-    text: 'AB',
-    size: 'large',
-    shape: 'circle',
-    color: 'positive-muted',
-    outline: true,
-  },
-}
-
-export const Counter: StoryObj<typeof Thumbnail> = {
-  args: {
-    text: 'AB',
-    size: 'large',
-    shape: 'square',
-    count: 8,
-  },
-}
-`},{ id: "f14744076215203", story: f14744076215203, path: "/Users/jimdebeer/saulx/better-ui/src/components/Video/index.stories.tsx", file: `import * as React from 'react'
-import { Video } from '../../index.js'
-
-const meta = {
-  title: 'Atoms/Video',
-  parameters: {
-    layout: 'fullscreen',
-  },
-}
-export default meta
-
-export const Default = () => {
-  return (
-    <Video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" />
-  )
-}
-
-export const WithCustomThumbnail = () => {
-  return (
-    <Video
-      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm"
-      thumbnail="https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    />
-  )
-}
-
-export const HLS = () => {
-  return <Video src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
-}
-`},{ id: "f12164388818727", story: f12164388818727, path: "/Users/jimdebeer/saulx/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
-import { Button, Tooltip } from '../../index.js'
-
-const meta = {
-  title: 'Atoms/Tooltip',
-}
-export default meta
-
-export const Default = () => {
-  return (
-    <Tooltip content="This is a tooltip">
-      <Button>Hover me</Button>
-    </Tooltip>
-  )
 }
 `},{ id: "f10219561566831", story: f10219561566831, path: "/Users/jimdebeer/saulx/better-ui/src/components/Toast/index.stories.tsx", file: `import * as React from 'react'
 import {
@@ -3225,5 +3134,98 @@ export const Default = () => {
       <DefaultContent />
     </ToastProvider>
   )
+}
+`},{ id: "f2542458627838", story: f2542458627838, path: "/Users/jimdebeer/saulx/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
+import { Thumbnail, IconBorderLeft } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Thumbnail> = {
+  title: 'Atoms/Thumbnail',
+  component: Thumbnail,
+}
+
+export default meta
+
+export const Image: StoryObj<typeof Thumbnail> = {
+  args: {
+    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    size: 'large',
+    shape: 'square',
+    color: 'informative',
+  },
+}
+
+export const Icon: StoryObj<typeof Thumbnail> = {
+  args: {
+    // src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    //  text: 'flappie',
+    size: 'large',
+    shape: 'circle',
+    icon: <IconBorderLeft />,
+    color: 'informative-muted',
+  },
+}
+
+export const Placeholder: StoryObj<typeof Thumbnail> = {
+  args: {
+    text: 'AB',
+    size: 'large',
+    shape: 'circle',
+    color: 'positive-muted',
+    outline: true,
+  },
+}
+
+export const Counter: StoryObj<typeof Thumbnail> = {
+  args: {
+    text: 'AB',
+    size: 'large',
+    shape: 'square',
+    count: 8,
+  },
+}
+`},{ id: "f12164388818727", story: f12164388818727, path: "/Users/jimdebeer/saulx/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
+import { Button, Tooltip } from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Tooltip',
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <Tooltip content="This is a tooltip">
+      <Button>Hover me</Button>
+    </Tooltip>
+  )
+}
+`},{ id: "f14744076215203", story: f14744076215203, path: "/Users/jimdebeer/saulx/better-ui/src/components/Video/index.stories.tsx", file: `import * as React from 'react'
+import { Video } from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Video',
+  parameters: {
+    layout: 'fullscreen',
+  },
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <Video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" />
+  )
+}
+
+export const WithCustomThumbnail = () => {
+  return (
+    <Video
+      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm"
+      thumbnail="https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    />
+  )
+}
+
+export const HLS = () => {
+  return <Video src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
 }
 `}]

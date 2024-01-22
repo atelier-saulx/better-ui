@@ -13,7 +13,13 @@ import {
   formatCode,
   IconFullscreen,
   IconFullscreenExit,
+  ScrollArea,
+  color,
+  IconFunction,
+  border,
+  IconChevronRight,
 } from '../../'
+import { styled } from 'inlines'
 
 const genCode = (
   setCode: (str: string) => void,
@@ -78,8 +84,8 @@ const Example = (p: {
   decorators: ((s: (p: any) => ReactNode) => ReactNode)[]
 }) => {
   let body: any
-
   const [code, setCode] = useState('')
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     setCode('')
@@ -119,13 +125,131 @@ const Example = (p: {
     }
   }
 
+  const codeBlock = (
+    <Stack id="code">
+      {!p.fullscreen && code.length > 200 && !open ? (
+        <Stack
+          style={{
+            padding: 12,
+            paddingLeft: 12,
+            borderBottomLeftRadius: 8,
+            borderBottomRightRadius: 8,
+            border: border('default'),
+            borderTop: '',
+            backgroundColor: color('background', 'muted'),
+          }}
+        >
+          <Button
+            onClick={() => {
+              setOpen(true)
+            }}
+            size="small"
+            variant="neutral-transparent"
+            prefix={<IconChevronRight />}
+          >
+            Show code
+          </Button>
+        </Stack>
+      ) : (
+        <Code
+          style={
+            p.fullscreen
+              ? {
+                  paddingBottom: 100,
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
+                }
+              : {
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                }
+          }
+          color="inverted"
+          value={code}
+        />
+      )}
+    </Stack>
+  )
+
+  if (p.fullscreen) {
+    return (
+      <Stack
+        direction="column"
+        justify="start"
+        style={{
+          height: '100vh',
+          border: '1px solid red',
+        }}
+      >
+        <Stack style={{ padding: 12 }}>
+          <Text variant="body-bold">{p.title}</Text>
+          <Stack justify="start" fitContent gap={16}>
+            <Button
+              onClick={() => {
+                const elem = document.getElementById('code')
+                // @ts-ignore
+                elem.parentNode.parentNode.scrollTop = elem?.offsetTop
+              }}
+              variant="icon-only"
+            >
+              <IconFunction />
+            </Button>
+
+            <Button
+              onClick={() => {
+                goto({ storyId: parseHref().storyId, fullscreen: '' })
+              }}
+              variant="icon-only"
+            >
+              <IconFullscreenExit />
+            </Button>
+          </Stack>
+        </Stack>
+
+        <ScrollArea
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            border: '10px solid blue',
+          }}
+        >
+          <div
+            onClick={(e) => console.log(e.target)}
+            style={{
+              display: 'flex',
+              height: '100%',
+              width: '100%',
+              flexGrow: 1,
+              border: '10px solid orange',
+            }}
+          >
+            BLA
+          </div>
+          {/* <Stack
+            style={{
+              padding: 24,
+              flexGrow: 1,
+              border: '10px solid orange',
+            }}
+            direction="column"
+            align="center"
+          >
+            {body}
+          </Stack>
+          {codeBlock} */}
+        </ScrollArea>
+      </Stack>
+    )
+  }
+
   return (
     <Stack direction="column" gap={12}>
       <Stack justify="start" gap={12}>
         <Button
           onClick={() => {
-            const { storyId } = parseHref()
-            goto({ storyId, fullscreen: p.title })
+            goto({ storyId: parseHref().storyId, fullscreen: p.title })
           }}
           variant="icon-only"
         >
@@ -144,14 +268,7 @@ const Example = (p: {
             {body}
           </Stack>
         </Container>
-        <Code
-          style={{
-            borderTopLeftRadius: 0,
-            borderTopRightRadius: 0,
-          }}
-          color="inverted"
-          value={code}
-        />
+        {codeBlock}
       </Stack>
     </Stack>
   )
@@ -164,7 +281,27 @@ const Story = (p: { story: any; fullscreen?: string }) => {
   const keys = Object.keys(story).filter(
     (v) => v !== 'default' && v !== 'Default',
   )
+
+  if (p.fullscreen) {
+    const example = story[p.fullscreen]
+    if (!example) {
+      return <Text>Cannot find example</Text>
+    }
+    return (
+      <Example
+        file={p.story.file}
+        componentName={title}
+        decorators={example.decorators}
+        component={story.default.component}
+        title="Default"
+        fullscreen={p.fullscreen}
+        story={example}
+      />
+    )
+  }
+
   const defExample = story.Default
+
   return (
     <Page>
       <Stack direction="column" align="center">
@@ -267,7 +404,10 @@ const App = () => {
       return a.label > b.label ? 1 : -1
     })
   }
-  const story = parsedStories.find((s) => s.story.default.title === storyId)
+
+  const story = parsedStories.find((s) => {
+    return s.story.default.title === storyId
+  })
   return (
     <Layout>
       {fullscreen ? null : (
