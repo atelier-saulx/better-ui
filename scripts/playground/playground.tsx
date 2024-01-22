@@ -11,6 +11,8 @@ import {
   Container,
   Code,
   formatCode,
+  IconFullscreen,
+  IconFullscreenExit,
 } from '../../'
 
 const genCode = (
@@ -71,6 +73,7 @@ const Example = (p: {
   file: string
   title: string
   story: any
+  fullscreen?: string
   component?: FC
   decorators: ((s: (p: any) => ReactNode) => ReactNode)[]
 }) => {
@@ -118,9 +121,18 @@ const Example = (p: {
 
   return (
     <Stack direction="column" gap={12}>
-      {p.title === 'Default' ? null : (
+      <Stack justify="start" gap={12}>
+        <Button
+          onClick={() => {
+            const { storyId } = parseHref()
+            goto({ storyId, fullscreen: p.title })
+          }}
+          variant="icon-only"
+        >
+          <IconFullscreen />
+        </Button>
         <Text variant="body-bold">{p.title}</Text>
-      )}
+      </Stack>
       <Stack direction="column" align="center">
         <Container
           style={{
@@ -145,18 +157,14 @@ const Example = (p: {
   )
 }
 
-const Story = (p: { story: any }) => {
+const Story = (p: { story: any; fullscreen?: string }) => {
   const story = p.story.story
-
   const title = story.default.title.split('/')[1]
   const description = story.default.description ?? ''
-
   const keys = Object.keys(story).filter(
     (v) => v !== 'default' && v !== 'Default',
   )
-
   const defExample = story.Default
-
   return (
     <Page>
       <Stack direction="column" align="center">
@@ -192,6 +200,7 @@ const Story = (p: { story: any }) => {
               decorators={story.default.decorators}
               component={story.default.component}
               title="Default"
+              fullscreen={p.fullscreen}
               story={defExample}
             />
           ) : null}
@@ -204,6 +213,7 @@ const Story = (p: { story: any }) => {
                 decorators={story.default.decorators}
                 component={story.default.component}
                 title={v}
+                fullscreen={p.fullscreen}
                 story={story[v]}
               />
             )
@@ -214,14 +224,31 @@ const Story = (p: { story: any }) => {
   )
 }
 
+type Location = { storyId?: string; fullscreen?: string }
+
+const goto = (location: Location) => {
+  const hash = location.fullscreen
+    ? `${location.storyId}-${location.fullscreen}`
+    : location.storyId
+
+  const loc = window.location.href.split('#')[0] + '#' + hash
+
+  window.location.href = loc
+}
+
+const parseHref = (): Location => {
+  const x = window.location.href.split('#')[1] ?? ''
+  const [storyId, fullscreen] = x.split('-')
+  return { storyId, fullscreen }
+}
+
 const App = () => {
   const menuData = {}
-  const [location, setLocation] = useState<string>(
-    window.location.href.split('#')[1] ?? '',
-  )
+  const [{ storyId, fullscreen }, setLocation] = useState<Location>(parseHref())
+
   useEffect(() => {
     window.addEventListener('hashchange', () => {
-      setLocation(window.location.href.split('#')[1])
+      setLocation(parseHref())
     })
   }, [])
   for (const story of parsedStories) {
@@ -240,20 +267,21 @@ const App = () => {
       return a.label > b.label ? 1 : -1
     })
   }
-  const story = parsedStories.find((s) => s.story.default.title === location)
+  const story = parsedStories.find((s) => s.story.default.title === storyId)
   return (
     <Layout>
-      <Sidebar
-        data={menuData}
-        value={location}
-        onValueChange={(value) => {
-          window.location.href =
-            window.location.href.split('#')[0] + '#' + value
-        }}
-        collapsable={false}
-      />
+      {fullscreen ? null : (
+        <Sidebar
+          data={menuData}
+          value={storyId}
+          onValueChange={(value) => {
+            goto({ storyId: value })
+          }}
+          collapsable={false}
+        />
+      )}
       {story ? (
-        <Story story={story} />
+        <Story story={story} fullscreen={fullscreen} />
       ) : (
         <Page>
           <Text>BASED</Text>

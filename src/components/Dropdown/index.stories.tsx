@@ -31,6 +31,7 @@ export const Default = () => {
       <Dropdown.Items>
         {Array.from({ length: 200 }).map((_, i) => (
           <Dropdown.Item
+            key={i}
             onClick={() => {
               alert(`delete ${i}`)
             }}
