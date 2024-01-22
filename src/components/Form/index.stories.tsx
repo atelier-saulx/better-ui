@@ -210,6 +210,7 @@ const faces = new Array(50).fill(null).map(() => ({
 const facesNames = new Array(50).fill(null).map(() => ({
   src: faker.image.avatar(),
   id: faker.string.uuid().slice(0, 8),
+  description: faker.lorem.words({ min: 0, max: 10 }),
   firstName: faker.person.firstName(),
   createdAt: faker.date.recent().valueOf(),
   lastUpdated: faker.date.recent().valueOf(),
