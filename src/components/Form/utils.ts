@@ -69,15 +69,10 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
 }
 
 export const canUseColumns = (field: BasedSchemaFieldObject): boolean => {
-  // let cnt = 0
   for (const key in field.properties) {
     if (field.properties[key].description) {
       return false
     }
-    // cnt++
-    // if (cnt > 5) {
-    //   return false
-    // }
     if (!isSmallField(field.properties[key])) {
       return false
     }

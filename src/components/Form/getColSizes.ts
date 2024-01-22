@@ -36,7 +36,10 @@ export const getColSizes = (
 
     const field = fieldSchema.properties[key]
 
-    if (field.type === 'timestamp') {
+    if (field.type === 'reference') {
+      percentageFields.push({ key, width: 300, field })
+      total -= 300
+    } else if (field.type === 'timestamp') {
       percentageFields.push({ key, width: minSize + 50, field })
       total -= minSize + 50
     } else if (

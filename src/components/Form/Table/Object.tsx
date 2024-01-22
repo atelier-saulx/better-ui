@@ -22,6 +22,8 @@ export function ObjectParser({ ctx, path }: TableProps) {
   const colFields =
     field.type === 'object' ? getColSizes(field, width, true) : []
 
+  console.log('cols', cols, field)
+
   if (
     cols &&
     width &&

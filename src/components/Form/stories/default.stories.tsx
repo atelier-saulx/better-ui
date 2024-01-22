@@ -243,7 +243,7 @@ export const Bare = () => {
                 },
                 extendedAddress: {
                   title: 'Address extended',
-                  description: 'An address similar to flap',
+                  // description: 'An address similar to flap',
                   type: 'string',
                 },
                 streetAddress: {
