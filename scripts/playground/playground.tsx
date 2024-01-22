@@ -180,10 +180,9 @@ const Example = (p: {
         justify="start"
         style={{
           height: '100vh',
-          border: '1px solid red',
         }}
       >
-        <Stack style={{ padding: 12 }}>
+        <Stack style={{ padding: 12, borderBottom: border() }}>
           <Text variant="body-bold">{p.title}</Text>
           <Stack justify="start" fitContent gap={16}>
             <Button
@@ -208,37 +207,27 @@ const Example = (p: {
           </Stack>
         </Stack>
 
-        <ScrollArea
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            border: '10px solid blue',
-          }}
-        >
-          <div
-            onClick={(e) => console.log(e.target)}
+        <ScrollArea>
+          <Stack
             style={{
-              display: 'flex',
               height: '100%',
-              width: '100%',
               flexGrow: 1,
-              border: '10px solid orange',
-            }}
-          >
-            BLA
-          </div>
-          {/* <Stack
-            style={{
-              padding: 24,
-              flexGrow: 1,
-              border: '10px solid orange',
             }}
             direction="column"
             align="center"
           >
-            {body}
+            <Stack
+              direction="column"
+              align="center"
+              justify="center"
+              style={{
+                flexGrow: 1,
+              }}
+            >
+              {body}
+            </Stack>
+            {codeBlock}
           </Stack>
-          {codeBlock} */}
         </ScrollArea>
       </Stack>
     )
