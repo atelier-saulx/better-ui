@@ -88,6 +88,7 @@ const Example = (p: {
 
   useEffect(() => {
     setCode('')
+    setOpen(false)
   }, [p.componentName, p.title])
 
   if (p.story.args) {
@@ -126,7 +127,7 @@ const Example = (p: {
 
   const codeBlock = (
     <Stack id="code">
-      {!p.fullscreen && code.length > 200 && !open ? (
+      {!p.fullscreen && code.length > 300 && !open ? (
         <Stack
           style={{
             padding: 12,
@@ -300,7 +301,7 @@ const Story = (p: { story: any; fullscreen?: string }) => {
           fitContent
           style={{
             marginBottom: 200,
-            marginTop: 100,
+            marginTop: 32,
             minWidth: 700,
           }}
         >
