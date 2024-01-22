@@ -28,7 +28,7 @@ export type ButtonProps = {
   type?: 'button' | 'submit'
   shape?: 'square' | 'rectangle'
   disabled?: boolean
-  onClick?: (e?: any) => void | Promise<void>
+  onClick?: (e?: any) => any | Promise<any>
   onMouseEnter?: React.MouseEventHandler
   onMouseLeave?: React.MouseEventHandler
   onPointerDown?: React.PointerEventHandler
