@@ -126,6 +126,7 @@ export const Arrays = () => {
             values: objectField.ratings,
           },
           sequences: {
+            title: 'Seqeunces',
             type: 'array',
             values: {
               type: 'object',

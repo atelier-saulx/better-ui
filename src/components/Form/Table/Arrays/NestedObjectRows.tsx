@@ -43,6 +43,7 @@ export function NestedObjectRows(p: RowProps) {
           }
           setIndex(openCnt + 1)
         }}
+        removeItem={p.removeItem}
         style={{
           userSelect: 'none',
           cursor: 'pointer',
@@ -86,15 +87,6 @@ export function NestedObjectRows(p: RowProps) {
                 {title}
               </Stack>
               <Stack fitContent justify="end" gap={8}>
-                <Button
-                  variant="icon-only"
-                  style={{ opacity: 0 }}
-                  onClick={() => {
-                    p.removeItem(i)
-                  }}
-                >
-                  <IconClose />
-                </Button>
                 {isIterable(p.field.values) ? (
                   <Badge color="neutral-muted">
                     {item?.length} Item
