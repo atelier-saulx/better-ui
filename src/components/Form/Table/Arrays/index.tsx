@@ -2,7 +2,7 @@ import React, { ReactNode, useRef } from 'react'
 import { BasedSchemaFieldArray } from '@based/schema'
 import { styled } from 'inlines'
 import { Stack, border, color, Button, IconPlus } from '../../../../index.js'
-import { TableProps } from '../../types.js'
+import { ColSizes, TableProps } from '../../types.js'
 import {
   readPath,
   canUseColumns,
@@ -16,8 +16,10 @@ import { ObjectCollsRows } from './ObjectCollumnRows.js'
 import { NestedObjectRows } from './NestedObjectRows.js'
 import { PrimitiveRows } from './PrimitiveRows.js'
 import { RowProps, ValueRef } from './types.js'
+import { useSize } from '../../../../index.js'
+import { getColSizes } from '../../getColSizes.js'
 
-function Rows(p: RowProps & { isCols: boolean }) {
+function Rows(p: RowProps & { isCols: boolean; colFields: ColSizes }) {
   if (p.isCols) {
     return <ObjectCollsRows {...p} />
   }
@@ -32,6 +34,12 @@ export function Arrays({ ctx, path }: TableProps) {
   const valuesField = field.values
   const cols: ReactNode[] = []
   const isCols = valuesField.type === 'object' && canUseColumns(valuesField)
+
+  const [width, setWidth] = React.useState(0)
+
+  const sizeRef = useSize(({ width }) => {
+    setWidth(width - 64 * 2 - 28)
+  })
 
   const valueRef = useRef<ValueRef>({ orderId: 0, value: [] })
   valueRef.current.value = Array.isArray(value) ? value : []
@@ -61,12 +69,15 @@ export function Arrays({ ctx, path }: TableProps) {
     ctx.listeners.onChangeHandler(ctx, path, nValue)
   }, [])
 
+  const colFields =
+    valuesField.type === 'object' ? getColSizes(valuesField, width, true) : []
+
   if (isCols) {
     cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
-    for (const key in valuesField.properties) {
+    for (const col of colFields) {
       cols.push(
-        <Cell border isKey key={key}>
-          {getTitle(key, valuesField.properties[key])}
+        <Cell border isKey key={col.key} width={col.width}>
+          {getTitle(col.key, valuesField.properties[col.key])}
         </Cell>,
       )
     }
@@ -74,10 +85,12 @@ export function Arrays({ ctx, path }: TableProps) {
 
   return (
     <Stack
+      ref={sizeRef}
       justify="start"
       align="start"
       direction="column"
       style={{
+        width: '100%',
         borderBottom: path.length > 1 ? border() : null,
       }}
     >
@@ -93,6 +106,7 @@ export function Arrays({ ctx, path }: TableProps) {
         </ColStack>
       ) : null}
       <Rows
+        colFields={colFields}
         removeItem={removeItem}
         changeIndex={changeIndex}
         isCols={isCols}

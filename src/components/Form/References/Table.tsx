@@ -22,66 +22,7 @@ import {
   display,
 } from '@based/schema'
 import { DragableRow } from '../Table/DragableRow.js'
-
-const createColSizes = (fieldSchema: BasedSchemaFieldObject, width: number) => {
-  let total = width
-  let totalFlexFields = 0
-  let spread = 0
-
-  const percentageFields: {
-    width?: number
-    key: string
-    field: BasedSchemaField
-  }[] = []
-
-  if (fieldSchema.properties.id) {
-    percentageFields.push({
-      key: 'id',
-      width: 120,
-      field: fieldSchema.properties.id,
-    })
-    total -= 120
-  }
-
-  for (const key in fieldSchema.properties) {
-    if (key === 'id') {
-      continue
-    }
-
-    if (total < 120) {
-      break
-    }
-
-    const field = fieldSchema.properties[key]
-
-    if (field.type === 'timestamp') {
-      percentageFields.push({ key, width: 150, field })
-      total -= 150
-    } else if (field.type === 'number' || key === 'id') {
-      percentageFields.push({ key, width: 120, field })
-      total -= 120
-    } else if (
-      field.type === 'string' &&
-      field.contentMediaType?.startsWith('image/')
-    ) {
-      percentageFields.push({ key, width: 52, field })
-      total -= 52
-    } else {
-      percentageFields.push({ key, field })
-      total -= 120
-      totalFlexFields++
-      spread += 120
-    }
-  }
-
-  for (const f of percentageFields) {
-    if (!f.width) {
-      f.width = Math.floor((total + spread) / totalFlexFields)
-    }
-  }
-
-  return percentageFields
-}
+import { getColSizes } from '../getColSizes.js'
 
 const ImageTableStyle = (p: { children?: React.ReactNode }) => {
   return (
@@ -178,14 +119,10 @@ export const ReferencesTable = ({
   const rows: React.ReactNode[] = []
   const cols: React.ReactNode[] = [,]
   const hasFields: Set<string> = new Set(['id'])
-
   const [width, setWidth] = React.useState(0)
-
   const sizeRef = useSize(({ width }) => {
-    console.info(width)
-    setWidth(width - 64 * 2) // -padding
+    setWidth(width - 64 * 2)
   })
-
   for (const v of value) {
     if (typeof v === 'object') {
       for (const k in v) {
@@ -195,9 +132,7 @@ export const ReferencesTable = ({
       }
     }
   }
-
   const fields: string[] = []
-
   if (
     hasFields.size < 3 ||
     (hasFields.size === 3 && hasFields.has('id') && hasFields.has('src'))
@@ -209,15 +144,12 @@ export const ReferencesTable = ({
       </>
     )
   }
-
   const objectSchema: BasedSchemaFieldObject = {
     type: 'object',
     properties: {},
   }
-
   for (const key of hasFields.values()) {
     fields.push(key)
-
     if (/(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)) {
       objectSchema.properties[key] = {
         type: 'timestamp',
@@ -231,7 +163,7 @@ export const ReferencesTable = ({
     }
   }
 
-  const calculatedFields = createColSizes(objectSchema, width)
+  const calculatedFields = getColSizes(objectSchema, width)
 
   if (field.sortable) {
     cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)

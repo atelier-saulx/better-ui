@@ -19,6 +19,7 @@ import {
   border,
   IconChevronRight,
 } from '../../'
+import { styled } from 'inlines'
 
 const genCode = (
   setCode: (str: string) => void,
@@ -222,10 +223,17 @@ const Example = (p: {
               align="center"
               justify="center"
               style={{
+                width: '100%',
                 flexGrow: 1,
               }}
             >
-              {body}
+              <styled.div
+                style={{
+                  width: '100%',
+                }}
+              >
+                {body}
+              </styled.div>
             </Stack>
             {codeBlock}
           </Stack>
@@ -254,8 +262,18 @@ const Example = (p: {
             borderBottomRightRadius: 0,
           }}
         >
-          <Stack style={{ padding: 24 }} direction="column" align="center">
-            {body}
+          <Stack
+            style={{ padding: 24, minWidth: 500, width: '100%' }}
+            direction="column"
+            align="center"
+          >
+            <styled.div
+              style={{
+                width: '100%',
+              }}
+            >
+              {body}
+            </styled.div>
           </Stack>
         </Container>
         {codeBlock}

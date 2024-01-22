@@ -15,7 +15,7 @@ const IDENTIFIER_FIELDS = [
 
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
-  path: Path
+  path: Path,
 ): { field: T; value: any | void } => {
   let selectedValue: any = ctx.values
   let selectedField: any = ctx.fields
@@ -75,7 +75,7 @@ export const canUseColumns = (field: BasedSchemaFieldObject): boolean => {
       return false
     }
     cnt++
-    if (cnt > 4) {
+    if (cnt > 5) {
       return false
     }
     if (!isSmallField(field.properties[key])) {
@@ -86,7 +86,7 @@ export const canUseColumns = (field: BasedSchemaFieldObject): boolean => {
 }
 
 export const getIdentifierField = (
-  field: BasedSchemaFieldObject
+  field: BasedSchemaFieldObject,
 ): string | void => {
   for (const str of IDENTIFIER_FIELDS) {
     if (str in field.properties) {
@@ -97,7 +97,7 @@ export const getIdentifierField = (
 
 export const getIdentifierFieldValue = (
   value: any,
-  skipFields?: string[]
+  skipFields?: string[],
 ): string | void => {
   if (typeof value === 'object') {
     for (const str of IDENTIFIER_FIELDS) {
@@ -160,7 +160,7 @@ export const isIterable = ({ type }: BasedSchemaField): boolean => {
 export const readParentField = (
   ctx: TableCtx,
   path: Path,
-  level: number = 1
+  level: number = 1,
 ): BasedSchemaField => {
   return readPath(ctx, path.slice(0, -level)).field
 }
@@ -168,14 +168,14 @@ export const readParentField = (
 export const readParentType = (
   ctx: TableCtx,
   path: Path,
-  level: number = 1
+  level: number = 1,
 ): string => {
   return readParentField(ctx, path, level).type ?? ''
 }
 
 export const getTitle = (
   key: string | number,
-  field: BasedSchemaField
+  field: BasedSchemaField,
 ): string | number => {
   if ('title' in field) {
     return field.title

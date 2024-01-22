@@ -17,6 +17,12 @@ export type DragTarget = {
   isValue?: boolean // oppiste of is file
 }
 
+export type ColSizes = {
+  width?: number
+  key: string
+  field: BasedSchemaField
+}[]
+
 export type Listeners = {
   getDragTarget: () => DragTarget
   setDragTarget: (t: DragTarget) => DragTarget
@@ -24,7 +30,12 @@ export type Listeners = {
   // on drop (allow file drops)
   // onDrop: (dragTarget: DragTarget, ctx: TableCtx) => Promise<void>
 
-  onChangeHandler: (ctx: TableCtx, path: Path, newValue?: any, forceUpdate?: boolean) => boolean
+  onChangeHandler: (
+    ctx: TableCtx,
+    path: Path,
+    newValue?: any,
+    forceUpdate?: boolean,
+  ) => boolean
   onSelectReference: (props: {
     path: Path
     value: Reference | void | null
@@ -50,7 +61,7 @@ export type Listeners = {
       field: BasedSchemaFieldString | BasedSchemaFieldReference
       ctx: TableCtx
     },
-    updateProgress: (p: number) => void
+    updateProgress: (p: number) => void,
   ) => Promise<Reference | string | void | null | File>
 }
 

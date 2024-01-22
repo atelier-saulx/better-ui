@@ -53,7 +53,6 @@ export function NestedObjectRows(p: RowProps) {
           '&:hover': {
             background: color('background', 'neutral'),
             '.remove': {
-              border: '1px solid red',
               opacity: '1 !important',
             },
           },

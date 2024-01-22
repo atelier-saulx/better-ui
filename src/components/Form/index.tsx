@@ -171,7 +171,7 @@ export const Form = (p: FormProps) => {
       direction="column"
       align="start"
       style={{
-        maxWidth: '100%',
+        width: '100%',
       }}
     >
       {Object.entries(p.fields)
