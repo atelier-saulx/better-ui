@@ -22,7 +22,6 @@ import {
   display,
 } from '@based/schema'
 import { DragableRow } from '../Table/DragableRow.js'
-import { FieldSchema } from '@based/ui'
 
 const createColSizes = (fieldSchema: BasedSchemaFieldObject, width: number) => {
   let total = width
@@ -129,7 +128,7 @@ const CellContent = (p: {
   k: string
   value: any
   width: number
-  field: FieldSchema
+  field: BasedSchemaField
 }) => {
   if (p.k === 'src') {
     return <ImageTable value={p.value} />

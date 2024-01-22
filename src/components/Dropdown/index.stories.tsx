@@ -54,7 +54,6 @@ function SimpleDropdown({ close, numberOfItems }) {
           onClick={() => {
             close(`delete ${i}`)
           }}
-          icon={<IconDelete />}
         >
           Delete {i}
         </Dropdown.Item>

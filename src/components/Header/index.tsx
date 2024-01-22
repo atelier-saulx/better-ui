@@ -10,9 +10,15 @@ export type HeaderProps = {
     onClick?: () => void
     prefix?: React.ReactNode
   }[]
+  children?: React.ReactNode
 }
 
-export function Header({ logo, navigation, mobileNavigation }: HeaderProps) {
+export function Header({
+  logo,
+  navigation,
+  mobileNavigation,
+  children,
+}: HeaderProps) {
   const isMobile = useIsMobile()
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
 
@@ -30,6 +36,7 @@ export function Header({ logo, navigation, mobileNavigation }: HeaderProps) {
         }}
       >
         {logo}
+        {children}
         {mobileNavigation && isMobile ? (
           <styled.div
             style={{

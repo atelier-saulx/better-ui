@@ -38,6 +38,8 @@ export * from './components/Header/index.js'
 export * from './components/Sidebar/index.js'
 export * from './components/Table/index.js'
 export * from './components/Layout/index.js'
+export * from './components/Note/index.js'
+export * from './components/LanguageInput/index.js'
 
 export { Modal } from './components/Modal/index.js'
 
@@ -45,6 +47,7 @@ export * from './utils/colors.js'
 export * from './utils/getMimeType.js'
 export * from './utils/getStringWidth.js'
 export * from './utils/isTouchDevice.js'
+export * from './utils/flag.js'
 
 export * from './hooks/useCallbackRef/index.js'
 export * from './hooks/useControllableState/index.js'

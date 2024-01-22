@@ -213,8 +213,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               }}
             >
               <IconSmallArrowheadTop
-                height={variant === 'regular' ? 16 : 12}
-                width={variant === 'regular' ? 16 : 12}
+                size={variant === 'regular' ? 16 : 12}
               />
             </styled.div>
             <styled.div
@@ -235,8 +234,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               }}
             >
               <IconSmallArrowheadDown
-                height={variant === 'regular' ? 16 : 12}
-                width={variant === 'regular' ? 16 : 12}
+                size={variant === 'regular' ? 16 : 12}
               />
             </styled.div>
           </div>
