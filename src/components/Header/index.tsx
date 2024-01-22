@@ -1,9 +1,19 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { Button, useIsMobile, color, IconMenu, border } from '../../index.js'
+import {
+  Button,
+  useIsMobile,
+  color,
+  IconMenu,
+  border,
+  IconChevronLeft,
+  Thumbnail,
+  Text,
+} from '../../index.js'
 
 export type HeaderProps = {
   logo?: React.ReactNode
+  title?: string
   navigation?: React.ReactNode
   mobileNavigation?: {
     label: string
@@ -11,13 +21,15 @@ export type HeaderProps = {
     prefix?: React.ReactNode
   }[]
   children?: React.ReactNode
+  onBack?: () => void
 }
 
 export function Header({
   logo,
   navigation,
   mobileNavigation,
-  children,
+  title,
+  onBack,
 }: HeaderProps) {
   const isMobile = useIsMobile()
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
@@ -33,10 +45,34 @@ export function Header({
           alignItems: 'center',
           padding: '0 24px',
           flexShrink: 0,
+          width: '100%',
         }}
       >
-        {logo}
-        {children}
+        <div
+          style={{
+            display: 'flex',
+            gap: 8,
+            justifyContent: 'start',
+            alignItems: 'center',
+          }}
+        >
+          {onBack && (
+            <Button
+              variant="neutral-transparent"
+              shape="square"
+              onClick={onBack}
+            >
+              <IconChevronLeft />
+            </Button>
+          )}
+          {logo}
+          {!logo && title && <Thumbnail text={title} />}
+          {title && (
+            <Text variant="title-page" singleLine style={{ maxWidth: 350 }}>
+              {title}
+            </Text>
+          )}
+        </div>
         {mobileNavigation && isMobile ? (
           <styled.div
             style={{
