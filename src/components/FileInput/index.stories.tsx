@@ -10,7 +10,7 @@ const client = based({
 })
 
 const meta = {
-  title: 'Atoms/Inputs/FileInput',
+  title: 'Inputs/FileInput',
 }
 export default meta
 
@@ -20,6 +20,9 @@ export const Default = () => {
       onChange={(file) => {
         console.log('file', file)
       }}
+      label="upload some file"
+      description="drop a file in here"
+      // disabled
     />
   )
 }

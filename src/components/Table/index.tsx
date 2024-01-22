@@ -212,64 +212,58 @@ export function Table({
                   <td style={{ height: `${paddingTop}px` }} />
                 </tr>
               )}
-              {virtualItems
-                .map((row) => rows[row.index])
-                .map((row, index) => {
-                  return (
-                    <tr
-                      onClick={() => {
-                        if (onRowClick) {
-                          onRowClick(row.original)
-                        }
-                      }}
-                      key={row.id}
-                    >
-                      {row.getVisibleCells().map((cell) => {
-                        return (
-                          <td
+              {virtualItems.map((item, index) => {
+                const row = rows[item.index]
+                return (
+                  <styled.tr
+                    onClick={onRowClick ? () => onRowClick(row.original) : null}
+                    key={row.id}
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <td
+                          style={{
+                            boxSizing: 'border-box',
+                            height: 61,
+                            borderBottom:
+                              index !== virtualItems.length - 1
+                                ? `1px solid var(--interactive-secondary)`
+                                : undefined,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            maxWidth: '100%',
+                            ...(cell.column.columnDef.id ===
+                            'internal_row_action'
+                              ? {
+                                  background: color('background', 'screen'),
+                                  padding: '0 4px',
+                                }
+                              : {
+                                  padding: '0 12px',
+                                }),
+                          }}
+                          key={cell.id}
+                        >
+                          <div
                             style={{
-                              boxSizing: 'border-box',
-                              height: 61,
-                              borderBottom:
-                                index !== virtualItems.length - 1
-                                  ? `1px solid var(--interactive-secondary)`
-                                  : undefined,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                              maxWidth: '100%',
-                              ...(cell.column.columnDef.id ===
-                              'internal_row_action'
-                                ? {
-                                    background: color('background', 'screen'),
-                                    padding: '0 4px',
-                                  }
-                                : {
-                                    padding: '0 12px',
-                                  }),
+                              display: 'flex',
+                              justifyContent:
+                                (cell.column.columnDef as any).align ?? 'start',
+                              alignItems: 'center',
                             }}
-                            key={cell.id}
                           >
-                            <div
-                              style={{
-                                display: 'flex',
-                                justifyContent:
-                                  (cell.column.columnDef as any).align ??
-                                  'start',
-                                alignItems: 'center',
-                              }}
-                            >
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </div>
-                          </td>
-                        )
-                      })}
-                    </tr>
-                  )
-                })}
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </div>
+                        </td>
+                      )
+                    })}
+                  </styled.tr>
+                )
+              })}
               {paddingBottom > 0 && (
                 <tr>
                   <td style={{ height: `${paddingBottom}px` }} />

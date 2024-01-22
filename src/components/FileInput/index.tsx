@@ -24,12 +24,13 @@ import { FileDrop } from 'react-file-drop'
 type Status = 'initial' | 'uploading' | 'success' | 'error'
 type Variant = 'regular' | 'small' | 'no-preview'
 
-// Global file upload hook to based to see upload progress
+// global file upload hook to based to see upload progress
 export type FileInputProps = {
-  onChange?: (file?: File) => void
+  onChange?: (file: File | void, updateProgress: (p: number) => void) => void
   // FIXME: do we rly want label and formname>?
   formName?: string
   label?: string
+  description?: string
   // FIXME: should this not update with a listener? - dont waant to add the status...
   status?: Status
   progress?: number
@@ -40,17 +41,20 @@ export type FileInputProps = {
     src?: string
   }
   variant?: Variant
+  disabled?: boolean
   style?: Style
 }
 
 export function FileInput({
   onChange,
   label,
+  description,
   status: statusProp,
   progress: progressProp,
   mimeType,
   value,
   variant = 'regular',
+  disabled,
   style,
 }: FileInputProps) {
   // Allow paste of url as well...
@@ -97,6 +101,7 @@ export function FileInput({
   return (
     <styled.label
       style={{
+        opacity: disabled ? 0.6 : 1,
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
@@ -105,6 +110,8 @@ export function FileInput({
           dragOver && variant !== 'small'
             ? color('background', 'neutral')
             : null,
+        // cursor: disabled ? 'not-allowed' : 'default',
+        pointerEvents: disabled ? 'none' : 'auto',
         ...style,
       }}
       {...listeners}
@@ -127,6 +134,7 @@ export function FileInput({
         {label && (
           <Text
             singleLine
+            variant="body-bold"
             style={{
               marginBottom: 8,
             }}
@@ -149,6 +157,7 @@ export function FileInput({
           />
         }
         <styled.input
+          tabIndex={disabled ? '-1' : 0}
           ref={inputRef}
           type="file"
           accept={mimeType}
@@ -158,9 +167,12 @@ export function FileInput({
             try {
               setInternalStatus('uploading')
               setFile(file)
-              setInternalProgress(100)
-              setInternalStatus('success')
-              onChange?.(file)
+              onChange?.(file, (p) => {
+                setInternalProgress(p)
+                if (p === 100) {
+                  setInternalStatus('success')
+                }
+              })
             } catch {
               setInternalStatus('error')
               setFile(null)
@@ -183,6 +195,11 @@ export function FileInput({
           }}
         />
       </FileDrop>
+      {description !== undefined ? (
+        <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+          {description}
+        </Text>
+      ) : null}
     </styled.label>
   )
 }
@@ -255,7 +272,9 @@ function Status({
   setInternalStatus: React.Dispatch<React.SetStateAction<Status>>
   setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>
   setInternalProgress: React.Dispatch<React.SetStateAction<number>>
-  onChange: ((file?: File) => void) | undefined
+  onChange:
+    | ((file: File | void, updateProgress: (p: number) => void) => void)
+    | undefined
   inputRef: React.MutableRefObject<HTMLInputElement | null>
 }) {
   const [filePreview, setFilePreview] = React.useState<string | null>(null)
@@ -298,7 +317,7 @@ function Status({
               }}
             >
               <Media
-                type={file.type as BasedSchemaContentMediaType}
+                type={file?.type as BasedSchemaContentMediaType}
                 src={filePreview}
                 variant="cover"
               />
@@ -340,7 +359,7 @@ function Status({
                 onClick={() => {
                   if (!file) return
                   const url = URL.createObjectURL(file)
-                  window.open(url, '_blank', 'noopener,noreferrer')
+                  global.open(url, '_blank', 'noopener,noreferrer')
                 }}
               >
                 <Text singleLine>Open in new tab</Text>
@@ -364,7 +383,7 @@ function Status({
                   setInternalStatus('initial')
                   setFile(null)
                   setInternalProgress(0)
-                  onChange?.()
+                  onChange?.(undefined, setInternalProgress)
                   if (inputRef.current) {
                     inputRef.current.value = ''
                   }

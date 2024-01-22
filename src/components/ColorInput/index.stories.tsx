@@ -2,7 +2,7 @@ import * as React from 'react'
 import { ColorInput } from '../../index.js'
 
 const meta = {
-  title: 'Atoms/Inputs/ColorInput ',
+  title: 'Inputs/ColorInput',
 }
 export default meta
 
@@ -13,6 +13,7 @@ export const Default = () => {
       onChange={(value) => {
         console.log('onchange', value)
       }}
+      description="put color on"
     />
   )
 }
@@ -23,4 +24,8 @@ export const Small = () => {
 
 export const Error = () => {
   return <ColorInput error />
+}
+
+export const Disabled = () => {
+  return <ColorInput disabled />
 }

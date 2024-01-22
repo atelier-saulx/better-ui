@@ -2,7 +2,7 @@ import { SelectInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof SelectInput> = {
-  title: 'Atoms/Inputs/SelectInput',
+  title: 'Inputs/SelectInput',
   component: SelectInput,
 }
 
@@ -12,6 +12,8 @@ export const Default: StoryObj<typeof SelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
+    description: 'What is your favourite?',
+    disabled: false,
     options: [
       {
         label: 'Orange',

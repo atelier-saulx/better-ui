@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {
-  textVariants,
+  Text,
   color,
   borderRadius,
   Stack,
@@ -13,11 +13,13 @@ export type CheckboxInputProps = {
   value?: boolean
   defaultValue?: boolean
   onChange?: (checked: boolean) => void
+  checksum?: number
   formName?: string
   label?: string
   description?: string
   variant?: 'checkbox' | 'toggle'
   autoFocus?: boolean
+  disabled?: boolean
   style?: Style
 }
 
@@ -28,27 +30,40 @@ export const CheckboxInput = React.forwardRef<
   (
     {
       value: valueProp,
-      defaultValue = false,
+      checksum,
+      defaultValue,
       onChange,
       formName,
       label,
       description,
       variant = 'checkbox',
       autoFocus,
+      disabled,
       style,
     },
     ref
   ) => {
-    const [value, setValue] = useControllableState({
-      prop: valueProp,
-      defaultProp: defaultValue,
+    const [value = false, setValue] = useControllableState({
+      value: valueProp,
       onChange,
+      defaultValue,
+      checksum,
     })
     const [focused, setFocused] = React.useState(false)
 
     return (
-      <Stack as="label" justify="start" align="start" gap={12} style={style}>
-        <input
+      <Stack
+        as="label"
+        justify="start"
+        align="start"
+        gap={12}
+        style={{
+          opacity: disabled ? 0.6 : 1,
+          cursor: disabled ? 'not-allowed' : 'default',
+          ...style,
+        }}
+      >
+        <styled.input
           ref={ref}
           name={formName}
           type="checkbox"
@@ -56,6 +71,7 @@ export const CheckboxInput = React.forwardRef<
             position: 'absolute',
             width: 1,
             height: 1,
+            background: 'none',
             padding: 0,
             margin: -1,
             overflow: 'hidden',
@@ -65,11 +81,15 @@ export const CheckboxInput = React.forwardRef<
           }}
           checked={value}
           onChange={(e) => {
-            setValue(e.target.checked)
+            if (!disabled) {
+              setValue(e.target.checked)
+            }
           }}
           autoFocus={autoFocus}
           onFocus={() => {
-            setFocused(true)
+            if (!disabled) {
+              setFocused(true)
+            }
           }}
           onBlur={() => {
             setFocused(false)
@@ -154,24 +174,12 @@ export const CheckboxInput = React.forwardRef<
         )}
         <div>
           {label !== undefined ? (
-            <div
-              style={{
-                color: color('content', 'primary'),
-                ...textVariants.bodyBold,
-              }}
-            >
-              {label}
-            </div>
+            <Text variant="body-bold">{label}</Text>
           ) : null}
           {description !== undefined ? (
-            <div
-              style={{
-                color: color('content', 'secondary'),
-                ...textVariants.bodyBold,
-              }}
-            >
+            <Text color="secondary" variant="body-bold">
               {description}
-            </div>
+            </Text>
           ) : null}
         </div>
       </Stack>

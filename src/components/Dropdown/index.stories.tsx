@@ -1,14 +1,22 @@
 import * as React from 'react'
 import {
-  Dropdown,
   Button,
-  IconMoreVertical,
-  IconCopy,
+  DropdownHookProvider,
   IconDelete,
+  IconMoreVertical,
+  Dropdown,
+  useDropdown,
 } from '../../index.js'
 
 const meta = {
   title: 'Atoms/Dropdown',
+  decorators: [
+    (Story) => (
+      <DropdownHookProvider>
+        <Story />
+      </DropdownHookProvider>
+    ),
+  ],
 }
 export default meta
 
@@ -21,23 +29,7 @@ export const Default = () => {
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Items>
-        <Dropdown.Item
-          onClick={() => {
-            alert('copy')
-          }}
-          icon={<IconCopy />}
-        >
-          Copy
-        </Dropdown.Item>
-        <Dropdown.Item
-          onClick={() => {
-            alert('delete')
-          }}
-          icon={<IconDelete />}
-        >
-          Delete
-        </Dropdown.Item>
-        {Array.from({ length: 100 }).map((_, i) => (
+        {Array.from({ length: 200 }).map((_, i) => (
           <Dropdown.Item
             onClick={() => {
               alert(`delete ${i}`)
@@ -49,5 +41,40 @@ export const Default = () => {
         ))}
       </Dropdown.Items>
     </Dropdown.Root>
+  )
+}
+
+function SimpleDropdown({ close, numberOfItems }) {
+  return (
+    <Dropdown.Items>
+      {Array.from({ length: numberOfItems }).map((_, i) => (
+        <Dropdown.Item
+          key={i}
+          onClick={() => {
+            close(`delete ${i}`)
+          }}
+          icon={<IconDelete />}
+        >
+          Delete {i}
+        </Dropdown.Item>
+      ))}
+    </Dropdown.Items>
+  )
+}
+
+export const Hook = () => {
+  const { open } = useDropdown()
+
+  return (
+    <Button
+      shape="square"
+      variant="neutral"
+      onClick={async () => {
+        const value = await open(SimpleDropdown, { numberOfItems: 5 })
+        console.log('dropdown return value:', value)
+      }}
+    >
+      <IconMoreVertical />
+    </Button>
   )
 }

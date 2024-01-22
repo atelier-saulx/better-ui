@@ -1,12 +1,22 @@
 import * as React from 'react'
-import { Form, border } from '../../index.js'
+import { Form, border, Modal } from '../../index.js'
 import { BasedSchemaField } from '@based/schema'
+import { styled } from 'inlines'
+import { faker } from '@faker-js/faker'
+import { wait } from '@saulx/utils'
 
 const meta = {
   title: 'Components/Form',
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
 }
 
 const ts = `import * as React from 'react'
@@ -30,19 +40,44 @@ export function Svg({ style, width = 20, height = 20 }: IconProps) {
 }
 `
 
+const fileUpload = async ({ value }, updateProgress) => {
+  if (!value) {
+    return undefined
+  }
+  let p = 0
+  while (p < 100) {
+    p += 10
+    updateProgress(p)
+    await wait(100)
+  }
+  return 'https://i.imgur.com/DRmh6S9.jpeg'
+}
+
 export default meta
 
 export const Default = () => {
+  const [cnt, setCnt] = React.useState<number>(0)
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCnt((cnt) => cnt + 1)
+    }, 100)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
   return (
     <div style={{ padding: 64 }}>
       <Form
+        checksum={cnt}
+        onFileUpload={fileUpload}
         values={{
           src: 'https://i.imgur.com/t1bWmmC.jpeg',
           code: ts,
           json: JSON.stringify(
             { y: 1, x: 1, z: 1, someThing: 'great' },
             null,
-            2
+            2,
           ),
           category: 'id12345',
           categoryNamed: {
@@ -54,12 +89,18 @@ export const Default = () => {
             id: 'idxyz',
             src: 'https://i.imgur.com/t1bWmmC.jpeg',
           },
+          number: cnt,
         }}
         fields={{
           name: {
             title: 'Name',
             type: 'string',
             description: 'A name of someone',
+          },
+          dope: {
+            title: 'Is it dope?',
+            type: 'boolean',
+            description: 'Dope or nah',
           },
           number: {
             title: 'Number',
@@ -146,24 +187,200 @@ export const Default = () => {
             description: 'A src',
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changed, checksum) => {
+          console.log(
+            'values:',
+            values,
+            'changed:',
+            changed,
+            'checksum:',
+            checksum,
+          )
         }}
       />
     </div>
   )
 }
 
+const faces = new Array(50).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+}))
+
+const facesNames = new Array(50).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+  firstName: faker.person.firstName(),
+  createdAt: faker.date.recent().valueOf(),
+  lastUpdated: faker.date.recent().valueOf(),
+  powerTime: faker.date.recent().valueOf(),
+  city: faker.location.city(),
+}))
+
+const facesLess = new Array(20).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+  name: faker.person.firstName(),
+}))
+
+export const References = () => {
+  const { open } = Modal.useModal()
+
+  const getRandomRef = () => {
+    const id = faker.string.uuid().slice(0, 8)
+    const choices = [
+      {
+        id,
+        src: faker.image.avatar(),
+        name: faker.person.fullName(),
+      },
+      { id, title: faker.lorem.sentence(3) },
+      id,
+      {
+        id,
+        status: faker.lorem.words(1),
+        title: faker.lorem.sentence(3),
+        src: faker.image.avatar(),
+        number: faker.number.int(10),
+        name: faker.person.fullName(),
+      },
+      {
+        id,
+        src: faker.image.avatar(),
+        name: faker.person.fullName(),
+        status: faker.lorem.words(1),
+      },
+    ]
+    return choices[Math.floor(Math.random() * choices.length)]
+  }
+
+  return (
+    <styled.div
+      style={{
+        padding: 64,
+      }}
+    >
+      <Form
+        values={{
+          refTags: faces,
+          people: facesNames,
+          peopleLess: facesLess,
+          refs: [
+            'x211212',
+            { id: '212cwcwe', name: 'my snurp' },
+            {
+              id: '212cwcwe',
+              src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+            },
+            { id: '212cwcwe' },
+          ],
+        }}
+        onClickReference={async ({ path }) => {
+          open(({ close }) => {
+            return (
+              <Modal onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        onSelectReference={async ({ path }) => {
+          return open(({ close }) => {
+            return (
+              <Modal variant="large" onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        onSelectReferences={async ({ path }) => {
+          return open(({ close }) => {
+            const newItems: any[] = []
+            const len = ~~(Math.random() * 100)
+            for (let i = 0; i < len; i++) {
+              newItems.push(getRandomRef())
+            }
+            return (
+              <Modal variant="large" onConfirm={() => close(newItems)}>
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        fields={{
+          ref: {
+            title: 'Single reference',
+            type: 'reference',
+            description: 'A single ref',
+          },
+          logo: {
+            title: 'Single reference fronm file',
+            type: 'reference',
+            description: 'A single ref',
+            allowedTypes: ['file'],
+          },
+          refTags: {
+            title: 'Multi references',
+            type: 'references',
+            sortable: true,
+            description: 'Multi ref',
+          },
+          peopleLess: {
+            title: 'People',
+            type: 'references',
+          },
+          people: {
+            sortable: true,
+            title: 'People time',
+            type: 'references',
+          },
+          refs: {
+            title: 'Multi references',
+            type: 'references',
+            description: 'Multi ref',
+            sortable: true,
+          },
+          object: {
+            title: 'Refs in an object',
+            type: 'object',
+            description: 'Some refs',
+            properties: {
+              ref: {
+                title: 'Single reference',
+                type: 'reference',
+                description: 'A single ref',
+              },
+              refs: {
+                title: 'Multi references',
+                type: 'references',
+                description: 'Multi ref',
+              },
+            },
+          },
+        }}
+        onChange={(values, changed, checksum, based) => {
+          console.info({ values, changed, checksum, based })
+        }}
+      />
+    </styled.div>
+  )
+}
+
 export const Set = () => {
   return (
-    <div style={{ padding: 64 }}>
+    <styled.div style={{ padding: 64 }}>
       <Form
         values={{
           set: ['a', 'b', 'c'],
-          setNumber: [1, 3, 4, 5],
+          setNumber: [
+            1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          ],
           object: {
             a: ['a', 'b', 'c'],
-            b: [1, 3, 4, 5],
+            b: [
+              1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+              20,
+            ],
           },
         }}
         fields={{
@@ -196,14 +413,27 @@ export const Set = () => {
                 description: 'A set with numbers',
                 items: { type: 'number' },
               },
+              c: {
+                title: 'Set Numbers',
+                type: 'set',
+                description: 'A set with numbers',
+                items: { type: 'number' },
+              },
             },
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changed, checksum) => {
+          console.log(
+            'values:',
+            values,
+            'changed:',
+            changed,
+            'checksum:',
+            checksum,
+          )
         }}
       />
-    </div>
+    </styled.div>
   )
 }
 
@@ -354,7 +584,6 @@ const objectField: { [key: string]: BasedSchemaField } = {
           picture: { type: 'string', contentMediaType: '*/*' },
         },
       },
-
       ratings: {
         title: 'Ratings',
         type: 'object',
@@ -385,6 +614,14 @@ const objectField: { [key: string]: BasedSchemaField } = {
               fromField: 'bla',
             },
             title: 'Snurp',
+            allowedTypes: ['thing'],
+          },
+          doink: {
+            type: 'reference',
+            bidirectional: {
+              fromField: 'bla',
+            },
+            title: 'Doink',
             allowedTypes: ['thing'],
           },
           lat: { type: 'string', title: 'Latitude' },
@@ -430,10 +667,31 @@ const objectField: { [key: string]: BasedSchemaField } = {
   },
 }
 
+export const SmallForm = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Form
+        variant="small"
+        fields={{
+          options: {
+            title: 'Options',
+            description: 'Select some options',
+            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
+          },
+        }}
+        onChange={(values) => {
+          console.log(values)
+        }}
+      />
+    </div>
+  )
+}
+
 export const Object = () => {
   return (
     <div style={{ padding: 64 }}>
       <Form
+        onFileUpload={fileUpload}
         variant="small"
         values={{
           ratings: {
@@ -442,6 +700,7 @@ export const Object = () => {
           object: {
             location: {
               snurp: { id: 'flap', src: 'https://i.imgur.com/t1bWmmC.jpeg' },
+              doink: 'th123212',
             },
           },
           orderWithDescription: {
@@ -449,7 +708,7 @@ export const Object = () => {
             json: JSON.stringify(
               { y: 1, x: 1, z: 1, someThing: 'great' },
               null,
-              2
+              2,
             ),
           },
         }}
@@ -503,15 +762,19 @@ export const Record = () => {
             values: objectField.object,
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changed, checksum) => {
+          console.log({
+            values,
+            changed,
+            checksum,
+          })
         }}
       />
     </div>
   )
 }
 
-export const Array = () => {
+export const Arrays = () => {
   return (
     <div style={{ padding: 64 }}>
       <Form
@@ -519,7 +782,8 @@ export const Array = () => {
           simpleArray: ['hello'],
           array: [
             {
-              powerful: 'rgb(78,56,188)',
+              price: 2,
+              powerful: 'rgb(188,56,0)',
             },
             {
               powerful: 'rgb(78,56,188)',
@@ -569,8 +833,42 @@ export const Array = () => {
               },
             ],
           ],
+          sequences: [
+            {
+              name: 'Countdown',
+              pages: [
+                {
+                  name: 'Countdown',
+                  id: 'p1',
+                },
+              ],
+            },
+            {
+              name: 'Voting starts',
+              pages: [
+                {
+                  name: 'welcome',
+                  id: 'p1',
+                },
+                {
+                  name: 'vote!',
+                  id: 'p3',
+                },
+                {
+                  name: 'bye',
+                  id: 'p2',
+                },
+              ],
+            },
+          ],
         }}
         fields={{
+          emptyArray: {
+            title: 'Empty array',
+            description: 'some things',
+            type: 'array',
+            values: objectField.ratings,
+          },
           simpleArray: {
             type: 'array',
             values: {
@@ -582,6 +880,16 @@ export const Array = () => {
             description: 'some things',
             type: 'array',
             values: objectField.ratings,
+          },
+          sequences: {
+            type: 'array',
+            values: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                pages: { type: 'references' },
+              },
+            },
           },
           nestedArray: {
             title: 'Nested things',
@@ -610,8 +918,8 @@ export const Array = () => {
             values: objectField.object,
           },
         }}
-        onChange={(values) => {
-          console.log(values)
+        onChange={(values, changes, checksum, based) => {
+          console.log({ values, changes, checksum, based })
         }}
       />
     </div>

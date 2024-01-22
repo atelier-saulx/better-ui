@@ -7,7 +7,9 @@ import {
   border,
   borderRadius,
   boxShadow,
+  Text,
   color,
+  useControllableState,
 } from '../../index.js'
 import { mergeRefs } from 'react-merge-refs'
 
@@ -24,7 +26,10 @@ export type SelectInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
+  disabled?: boolean
   style?: Style
+  checksum?: number
 }
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
@@ -39,12 +44,22 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       variant = 'regular',
       error,
       autoFocus,
+      description,
+      disabled,
       style,
+      checksum,
     },
     ref
   ) => {
     const Wrapper = label ? styled.label : styled.div
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
+
+    const [state, setState] = useControllableState({
+      value,
+      defaultValue,
+      onChange,
+      checksum,
+    })
 
     React.useEffect(() => {
       if (autoFocus && wrapperRef.current) {
@@ -54,13 +69,15 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
 
     return (
       <SelectBase.Root
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={onChange}
+        value={state}
+        onValueChange={setState}
+        disabled={disabled}
       >
         <SelectBase.Trigger asChild>
           <Wrapper
             style={{
+              cursor: disabled ? 'not-allowed' : 'default',
+              opacity: disabled ? 0.6 : 1,
               display: 'flex',
               flexDirection: 'column',
               width: '100%',
@@ -95,7 +112,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             )}
             <styled.div
               autoFocus={autoFocus}
-              tabIndex={0}
+              tabIndex={disabled ? '-1' : 0}
               ref={mergeRefs([wrapperRef, ref])}
               style={{
                 position: 'relative',
@@ -145,6 +162,15 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 }}
               />
             </styled.div>
+            {description !== undefined ? (
+              <Text
+                color="secondary"
+                variant="body-bold"
+                style={{ marginTop: 8 }}
+              >
+                {description}
+              </Text>
+            ) : null}
           </Wrapper>
         </SelectBase.Trigger>
         <SelectBase.Portal>
@@ -163,8 +189,11 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           >
             <SelectBase.Viewport style={{ padding: 8 }}>
               {options?.map((option) => {
-                const { value, label = null, prefix = null } =
-                  typeof option === 'string' ? { value: option } : option
+                const {
+                  value,
+                  label = null,
+                  prefix = null,
+                } = typeof option === 'string' ? { value: option } : option
 
                 return (
                   <SelectBase.Item key={value} value={value} asChild>
@@ -195,7 +224,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       <SelectBase.ItemText>
                         {prefix && (
                           <div
-                            style={{ display: 'inline-block', marginRight: 8 }}
+                            style={{
+                              display: 'inline-block',
+                              marginRight: 8,
+                            }}
                           >
                             {prefix}
                           </div>

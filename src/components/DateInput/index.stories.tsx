@@ -2,7 +2,7 @@ import * as React from 'react'
 import { DateInput } from '../../index.js'
 
 const meta = {
-  title: 'Atoms/Inputs/DateInput ',
+  title: 'Inputs/DateInput',
 }
 export default meta
 
@@ -10,6 +10,7 @@ export const SingleDate = () => {
   return (
     <DateInput
       label="Single date"
+      description="Select a date"
       onChange={(value) => {
         console.log(value)
       }}

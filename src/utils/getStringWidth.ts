@@ -3,29 +3,29 @@ import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 type Chars = { [key: string]: number }
 
 type FontStyle = {
-  fontSize: number
+  fontSize?: string
   fontFamily: string
   letterSpacing?: string
   lineHeight?: string | number
-  fontWeight?: number | string
+  fontWeight: number
 }
 
 const memoizeMap: Map<number, Chars> = new Map()
 
 const drawChar = (
   char: string,
-  { fontFamily, fontSize, fontWeight, letterSpacing }: FontStyle
+  { fontFamily, fontSize, fontWeight, letterSpacing }: FontStyle,
 ): number => {
-  if (typeof window !== 'undefined') {
+  if (typeof global !== 'undefined') {
     const ctx = document.createElement('canvas').getContext('2d')
     if (letterSpacing) {
-      // @ts-ignore
+      // @ts-ignore does exist...
       ctx.letterSpacing = letterSpacing
     }
-    ctx.font = `normal normal ${fontWeight} ${fontSize}px ${fontFamily}`
+    ctx.font = `normal normal ${fontWeight} ${fontSize} ${fontFamily}`
     return ctx.measureText(char).width
   } else {
-    return fontSize
+    return Number(fontSize.replace('px', ''))
   }
 }
 

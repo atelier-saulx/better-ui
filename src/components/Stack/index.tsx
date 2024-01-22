@@ -9,7 +9,9 @@ export type StackProps = React.HTMLProps<'div'> & {
   direction?: 'row' | 'column'
   justify?: 'center' | 'between' | 'end' | 'start'
   align?: 'center' | 'start' | 'end' | 'stretch'
-  gap?: 0 | 4 | 8 | 12 | 16 | 24 | 32
+  display?: any
+  fitContent?: boolean
+  gap?: 0 | 2 | 4 | 8 | 12 | 16 | 24 | 32 | 64
 }
 
 const ReactStack = React.forwardRef(
@@ -22,12 +24,18 @@ const ReactStack = React.forwardRef(
       wrap,
       direction = 'row',
       gap = grid ? 12 : 0,
-      align = grid ? 'start' : 'center',
+      align = grid || direction === 'column' ? 'start' : 'center',
       justify = grid ? 'start' : 'between',
+      display = true,
+      fitContent,
       ...props
     }: StackProps,
-    ref
+    ref,
   ) => {
+    if (!display) {
+      return null
+    }
+
     const gridIsNumber = typeof grid === 'number'
 
     if (grid && gridIsNumber) {
@@ -36,9 +44,10 @@ const ReactStack = React.forwardRef(
           display: 'grid',
           gap,
           position: 'relative',
+          gridAutoRows: '1fr',
           gridTemplateColumns: `repeat( auto-fit,minmax(${
             gridIsNumber ? grid : 48
-          }px, 1fr)  )`,
+          }px, 1fr))`,
           '&::before': {
             content: '""',
             width: 0,
@@ -63,7 +72,7 @@ const ReactStack = React.forwardRef(
           flexDirection: direction,
           gap,
           flexWrap: grid ? 'wrap' : wrap || undefined,
-          width: '100%',
+          width: fitContent ? 'auto' : '100%',
           alignItems: align,
           justifyContent: justify === 'between' ? 'space-between' : justify,
           ...style,
@@ -73,7 +82,7 @@ const ReactStack = React.forwardRef(
         ref,
       })
     }
-  }
+  },
 )
 
 type StackComponent = (props: StackProps) => React.ReactNode

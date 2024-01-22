@@ -1,12 +1,20 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color, borderRadius, border, boxShadow } from '../../index.js'
+import {
+  color,
+  borderRadius,
+  border,
+  boxShadow,
+  useControllableState,
+  Text,
+} from '../../index.js'
 
 export type TextInputProps = {
   placeholder?: string
   value?: string
   defaultValue?: string
   onChange?: (value: string) => void
+  checksum?: number
   onBlur?: () => void
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   formName?: string
@@ -14,16 +22,20 @@ export type TextInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
+  disabled?: boolean
   style?: Style
 }
 
 const Wrapper = ({
   label,
   children,
+  disabled,
   style,
 }: {
   label?: string
   children: React.ReactNode
+  disabled?: boolean
   style?: Style
 }) => {
   if (label) {
@@ -35,16 +47,31 @@ const Wrapper = ({
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
+                opacity: disabled ? 0.6 : 1,
+                cursor: disabled ? 'not-allowed' : 'default',
               }
             : undefined
         }
+        onClick={(e) => (disabled ? e.preventDefault() : console.log(e))}
       >
         {children}
       </styled.label>
     )
   }
 
-  return <styled.div style={{ width: '100%', ...style }}>{children}</styled.div>
+  return (
+    <styled.div
+      style={{
+        width: '100%',
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
+        ...style,
+      }}
+      onClick={(e) => (disabled ? e.preventDefault() : console.log(e))}
+    >
+      {children}
+    </styled.div>
+  )
 }
 
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
@@ -54,6 +81,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       value,
       defaultValue,
       onChange,
+      checksum,
       formName,
       label,
       onBlur,
@@ -61,12 +89,20 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       variant = 'regular',
       error,
       onKeyDown,
+      description,
+      disabled,
       style,
     },
     ref
   ) => {
+    const [state = '', setState] = useControllableState({
+      value,
+      onChange,
+      checksum,
+    })
+
     return (
-      <Wrapper label={label} style={style}>
+      <Wrapper label={label} disabled={disabled} style={style}>
         {label && (
           <styled.span
             style={{
@@ -80,11 +116,13 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           </styled.span>
         )}
         <styled.input
+          tabIndex={disabled ? '-1' : 'auto'}
           autoFocus={autoFocus}
-          value={value}
+          value={state}
           defaultValue={defaultValue}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            onChange?.(e.target.value)
+            e.stopPropagation()
+            setState(e.target.value)
           }}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
@@ -92,6 +130,8 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           name={formName}
           placeholder={placeholder}
           style={{
+            pointerEvents: disabled ? 'none' : 'default',
+            background: 'none',
             fontSize: 14,
             lineHeight: '24px',
             width: '100%',
@@ -124,6 +164,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             }),
           }}
         />
+        {description !== undefined ? (
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </Wrapper>
     )
   }

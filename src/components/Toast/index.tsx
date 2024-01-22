@@ -36,7 +36,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
 
     window.setTimeout(() => {
       queue.current = queue.current.map((e) =>
-        e.id === id ? { ...e, entering: false } : e
+        e.id === id ? { ...e, entering: false } : e,
       )
       rerender({})
     }, 0)
@@ -54,7 +54,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
     }, 150)
 
     queue.current = queue.current.map((e) =>
-      e.id === id ? { ...e, leaving: true, leaveTimeoutId } : e
+      e.id === id ? { ...e, leaving: true, leaveTimeoutId } : e,
     )
     rerender({})
   }
@@ -97,7 +97,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                 index,
                 index > 0 && queue.current.some((e) => e.entering)
                   ? '250ms'
-                  : 'none'
+                  : 'none',
               )
 
               return (
@@ -147,7 +147,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                       queue.current = queue.current.map((e) =>
                         e.id === id
                           ? { ...e, height: ref.getBoundingClientRect().height }
-                          : e
+                          : e,
                       )
                       rerender({})
                     }
@@ -159,7 +159,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                       <div
                         style={{
                           whiteSpace: 'nowrap',
-                          ...textVariants.bodyBold,
+                          ...textVariants['body-bold'],
                         }}
                       >
                         {toast.text}
@@ -168,7 +168,10 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                     </>
                   ) : (
                     <div
-                      style={{ whiteSpace: 'nowrap', ...textVariants.bodyBold }}
+                      style={{
+                        whiteSpace: 'nowrap',
+                        ...textVariants['body-bold'],
+                      }}
                     >
                       {toast}
                     </div>
@@ -192,10 +195,10 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                   </div>
                 </div>
               )
-            }
+            },
           )}
         </div>,
-        document.body
+        document.body,
       )}
       {children}
     </ToastContext.Provider>

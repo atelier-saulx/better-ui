@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { styled } from 'inlines'
+import React, { useContext, createContext } from 'react'
+import { styled, Style } from 'inlines'
 import * as ModalBase from '@radix-ui/react-dialog'
 import {
   useControllableState,
@@ -8,6 +8,9 @@ import {
   borderRadius,
   color,
   border,
+  Text,
+  IconAlertFill,
+  ButtonProps,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -24,6 +27,8 @@ export const useModalContext = () => {
   return React.useContext(ModalContext)
 }
 
+const OnOpenChangeContext = createContext(null)
+
 export type ModalRootProps = {
   children: React.ReactNode
   defaultOpen?: boolean
@@ -38,8 +43,8 @@ export function Root({
   defaultOpen,
 }: ModalRootProps) {
   const [open, setOpen] = useControllableState({
-    prop: openProp,
-    defaultProp: defaultOpen || false,
+    value: openProp,
+    defaultValue: defaultOpen || false,
     onChange: onOpenChange,
   })
 
@@ -60,21 +65,18 @@ export function Root({
 export type ModalTriggerProps = { children: React.ReactNode }
 
 export function Trigger({ children }: ModalTriggerProps) {
-  return (
-    <ModalBase.Trigger asChild>
-      <div>{children}</div>
-    </ModalBase.Trigger>
-  )
+  return <ModalBase.Trigger asChild>{children}</ModalBase.Trigger>
 }
 
 export type ModalOverlayProps = {
+  style?: Style
   children:
     | (({ close }: { close: () => void }) => React.ReactNode)
     | React.ReactNode
 }
 
 export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
-  ({ children }, ref) => {
+  ({ children, style }, ref) => {
     const { open, setOpen } = useModalContext()
     if (!open) {
       return null
@@ -110,6 +112,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             flexDirection: 'column',
             boxShadow: 'var(--shadow-elevation)',
             outline: 'none',
+            ...style,
           }}
         >
           {typeof children === 'function'
@@ -125,39 +128,76 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
   }
 )
 
-export type ModalTitleProps = { title: string; description?: string }
+export type ModalTitleProps = {
+  children: React.ReactNode
+  description?: React.ReactNode
+  style?: Style
+}
 
-export function Title({ title, description }: ModalTitleProps) {
+export function Title({ children, description, style }: ModalTitleProps) {
   return (
-    <div
+    <styled.div style={{ padding: '20px 32px', ...style }}>
+      <Text color="primary" variant="title-modal" style={{ marginBottom: 12 }}>
+        {children}
+      </Text>
+      {description && (
+        <Text color="secondary" variant="body-bold">
+          {description}
+        </Text>
+      )}
+    </styled.div>
+  )
+}
+
+export type ModalMessageProps = {
+  variant?: 'warning' | 'error' | 'informative' | 'positive' | 'neutral'
+  message?: React.ReactNode
+  style?: Style
+}
+
+export function Message({
+  variant = 'neutral',
+  message,
+  style,
+}: ModalMessageProps) {
+  return (
+    <styled.div
       style={{
-        padding: '24px 32px',
+        display: 'flex',
+        alignItems: 'center',
+        borderRadius: 4,
+        padding: '12px 16px',
+        width: '100%',
+        backgroundColor:
+          variant === 'error'
+            ? color('semantic-background', 'error-muted')
+            : variant === 'warning'
+            ? color('semantic-background', 'warning-muted')
+            : variant === 'informative'
+            ? color('semantic-background', 'informative-muted')
+            : variant === 'positive'
+            ? color('semantic-background', 'positive-muted')
+            : color('semantic-background', 'neutral-muted'),
+        ...style,
       }}
     >
-      <div
+      <IconAlertFill
         style={{
-          color: color('content', 'primary'),
-          fontSize: 18,
-          lineHeight: '32px',
-          fontWeight: 700,
+          marginRight: 12,
+          color:
+            variant === 'error'
+              ? color('semantic-background', 'error')
+              : variant === 'warning'
+              ? color('semantic-background', 'warning')
+              : variant === 'informative'
+              ? color('semantic-background', 'informative')
+              : variant === 'positive'
+              ? color('semantic-background', 'positive')
+              : color('semantic-background', 'neutral'),
         }}
-      >
-        {title}
-      </div>
-      {description && (
-        <div
-          style={{
-            marginTop: 16,
-            color: color('content', 'secondary'),
-            fontSize: 14,
-            lineHeight: '24px',
-            fontWeight: 500,
-          }}
-        >
-          {description}
-        </div>
-      )}
-    </div>
+      />
+      <Text variant="body-bold">{message}</Text>
+    </styled.div>
   )
 }
 
@@ -206,11 +246,14 @@ type ModalEl = React.ReactElement<
   any,
   string | React.JSXElementConstructor<any>
 >
+
+type ModelElFn = ({ close }: { close(val: any): void }) => ModalEl
+
 type UseModalRes = {
   modals: ModalEl[]
-  open(el: ModalEl): Promise<void>
+  open(el: ModalEl | ModelElFn): Promise<any>
   alert(message: string): Promise<void>
-  confirm(message: string): Promise<boolean>
+  confirm(msgOrTitle: string, msg?: string): Promise<boolean>
   prompt(message: string): Promise<string | false>
   Provider(): React.ReactNode
 }
@@ -235,18 +278,27 @@ export const useModal = (): UseModalRes => {
 
   if (!ref.current) {
     let update
-    const open: UseModalRes['open'] = (el) => {
+    const open: UseModalRes['open'] = (el: any) => {
       return new Promise((resolve) => {
+        const close = (val) => {
+          const filter = (m: typeof modal) => m !== modal
+          ref.current.modals = ref.current.modals.filter(filter)
+          setModals(modals.filter(filter))
+          update?.({})
+          resolve(val)
+        }
+
+        if (typeof el === 'function') {
+          el = el({ close })
+        }
+
         const key = modalId++
         const onOpenChange = (val: boolean) => {
           if (val === false) {
-            const filter = (m: typeof modal) => m !== modal
-            ref.current.modals = ref.current.modals.filter(filter)
-            setModals(modals.filter(filter))
-            update?.({})
-            resolve()
+            close(undefined)
           }
         }
+
         const modal =
           el.type === Modal ? (
             React.cloneElement(el, {
@@ -254,10 +306,11 @@ export const useModal = (): UseModalRes => {
               onOpenChange,
             })
           ) : (
-            <Modal key={key} onOpenChange={onOpenChange}>
+            <OnOpenChangeContext.Provider key={key} value={onOpenChange}>
               {el}
-            </Modal>
+            </OnOpenChangeContext.Provider>
           )
+
         ref.current.modals.push(modal)
         if (update) {
           update({})
@@ -295,16 +348,18 @@ export const useModal = (): UseModalRes => {
 
         return confirmed || false
       },
-      async confirm(message) {
+      async confirm(msgOrTitle, msg) {
         let ok = false
+        let title = (msg && msgOrTitle) || null
         await open(
           <Modal
+            title={title}
             onConfirm={({ close }) => {
               ok = true
               close()
             }}
           >
-            {message}
+            {msg || msgOrTitle}
           </Modal>
         )
         return ok
@@ -343,12 +398,16 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 export type ModalProps = {
-  title?: ModalTitleProps['title']
+  title?: ModalTitleProps['children']
   description?: ModalTitleProps['description']
   open?: boolean
   onOpenChange?: ModalRootProps['onOpenChange']
   children?: React.ReactNode
   onConfirm?({ close }: { close(): void }): void
+  confirmLabel?: React.ReactNode
+  variant?: 'small' | 'medium' | 'large'
+  style?: Style
+  confirmProps?: ButtonProps
 }
 
 export const Modal = Object.assign(
@@ -359,16 +418,32 @@ export const Modal = Object.assign(
     onOpenChange,
     children,
     onConfirm,
+    variant = 'small',
+    confirmLabel = 'OK',
+    confirmProps,
+    style,
   }: ModalProps) => {
     return (
-      <Modal.Root open={open} onOpenChange={onOpenChange}>
-        <Modal.Overlay>
+      <Modal.Root
+        open={open}
+        onOpenChange={onOpenChange || useContext(OnOpenChangeContext)}
+      >
+        <Modal.Overlay
+          style={{
+            width: 'calc(100vw - 48px)',
+            height: variant === 'large' ? 'calc(100vw - 60px)' : undefined,
+            maxWidth:
+              variant === 'small' ? 552 : variant === 'medium' ? 750 : 1250,
+            ...style,
+          }}
+        >
           {({ close }) => (
             <>
               {title || description ? (
-                <Modal.Title title={title} description={description} />
+                <Modal.Title description={description}>{title}</Modal.Title>
               ) : null}
               {children ? <Modal.Body>{children}</Modal.Body> : null}
+
               <Modal.Actions>
                 {onConfirm && (
                   <Button variant="neutral" onClick={close}>
@@ -376,6 +451,7 @@ export const Modal = Object.assign(
                   </Button>
                 )}
                 <Button
+                  keyboardShortcut="Enter"
                   onClick={
                     onConfirm
                       ? () => {
@@ -383,8 +459,9 @@ export const Modal = Object.assign(
                         }
                       : close
                   }
+                  {...confirmProps}
                 >
-                  OK
+                  {confirmLabel}
                 </Button>
               </Modal.Actions>
             </>
@@ -401,6 +478,7 @@ export const Modal = Object.assign(
     Overlay,
     Title,
     Body,
+    Message,
     Actions,
   }
 )

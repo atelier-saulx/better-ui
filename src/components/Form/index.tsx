@@ -1,23 +1,13 @@
-import React, { ReactNode } from 'react'
-import { styled } from 'inlines'
+import React, { ReactNode, useEffect, useRef } from 'react'
 import { BasedSchemaField, BasedSchema } from '@based/schema'
-import {
-  Stack,
-  FileInput,
-  TextInput,
-  DateInput,
-  Code,
-  NumberInput,
-  TextAreaInput,
-  SelectInput,
-  ColorInput,
-} from '../../index.js'
-import { FormField } from './FormField.js'
-import { Table } from './Table/index.js'
-import { isTable, isCode } from './utils.js'
-import { SetField } from './Set.js'
-import { Variant, Listeners, Path } from './types.js'
-import { Reference } from './Reference.js'
+import { Stack, useUpdate } from '../../index.js'
+import { Variant, Listeners, Path, TableCtx } from './types.js'
+import { deepCopy, deepMergeArrays } from '@saulx/utils'
+import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
+import { Field } from './Field.js'
+import { FormConfirm } from './FormConfirm.js'
+import { useListeners } from './useListeners.js'
+import { createBasedObject } from './createBasedObject.js'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
@@ -28,284 +18,176 @@ type FormValues = {
   [key: string]: FormSchemaField
 }
 
-export type FormProps = {
-  validate?: (path: Path, value: any) => boolean
+type FormOnChange = (
+  values: { [key: string]: any },
+  changed: { [key: string]: any },
+  checksum: number,
+  based: { [key: string]: any }
+) => void
+
+type FormOnChangeAsync = (
+  values: { [key: string]: any },
+  changed: { [key: string]: any },
+  checksum: number,
+  based: { [key: string]: any }
+) => Promise<void>
+
+export type ValueRef = {
+  hasChanges?: boolean
   values: { [key: string]: any }
-  onChange: (values: FormValues) => void
+  props: FormProps
+  changes: { [key: string]: any }
+}
+
+export type FormProps = {
+  autoFocus?: boolean
+  validate?: (path: Path, value: any, field: BasedSchemaField) => boolean
+  values?: { [key: string]: any }
+  checksum?: number
+  onSelectReference?: Listeners['onSelectReference']
+  onSelectReferences?: Listeners['onSelectReferences']
+  onClickReference?: Listeners['onClickReference']
+  onFileUpload?: Listeners['onFileUpload']
+  onChangeAtomic?: (
+    path: Path,
+    newValue: any,
+    prevValue: any,
+    field: BasedSchemaField
+  ) => void
+  onChangeTransform?: (val: any, path: Path, field: BasedSchemaField) => any
+  onChange?: FormOnChange | FormOnChangeAsync
+  confirmLabel?: ReactNode
   fields: FormValues
   variant?: Variant
   // for later check ref types (can check ids and check allowedTypes)
   schema?: BasedSchema
+  formRef?: {
+    current: {
+      confirm: () => Promise<FormValues>
+      discard: () => void
+      hasChanges?: boolean
+      values: { [key: string]: any }
+      changes: { [key: string]: any }
+    }
+  }
 }
 
-// setWalker
+export const Form = (p: FormProps) => {
+  const valueRef = useRef<ValueRef>({
+    values: p.values ?? {},
+    changes: {},
+    props: p,
+    hasChanges: false,
+  })
 
-export function Form({
-  fields,
-  values,
-  variant = 'regular',
-}: // listeners,
-FormProps) {
-  // if ! schema
-  // if ! listeners
+  const update = useUpdate()
 
-  // if based schema we will use validate
-  // add field parsers here...
+  valueRef.current.props = p
 
-  const listeners: Listeners = {
-    onChangeHandler: () => {
-      // validate
+  const [currentChecksum, setChecksum] = React.useState(p.checksum)
 
-      // just hook into validate
+  const onConfirm = React.useCallback(async () => {
+    try {
+      const hash = hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
+      await valueRef.current.props.onChange(
+        valueRef.current.values,
+        valueRef.current.changes,
+        hash,
+        createBasedObject(ctx, valueRef.current.changes)
+      )
+      valueRef.current.hasChanges = false
+      valueRef.current.values = valueRef.current.props.values ?? {}
+      valueRef.current.changes = {}
+      setChecksum(hash)
+      // Force update
+      update()
+    } catch (err) {
+      throw err
+    }
+  }, [])
 
-      // validateField(schema ||  { types: { form: fields } },  path.slice(1), field}
+  const onCancel = React.useCallback(() => {
+    valueRef.current.hasChanges = false
+    valueRef.current.values = valueRef.current.props.values ?? {}
+    valueRef.current.changes = {}
+    const hash =
+      valueRef.current.values.props.checksum ??
+      hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
+    setChecksum(hash)
+    // Force update
+    update()
+  }, [])
 
-      return false
-    },
-    onNew: () => false,
-    onRemove: () => false,
-    onSelectReference: () => undefined,
-    onSelectReferences: () => undefined,
+  // create ref
+  if (p.formRef) {
+    if (!p.formRef.current) {
+      // @ts-ignore
+      p.formRef.current = {}
+    }
+    // optimize later
+    Object.assign(
+      p.formRef.current,
+      {
+        confirm: async () => {
+          await onConfirm()
+          return valueRef.current.values
+        },
+        discard: () => {
+          onCancel()
+        },
+      },
+      valueRef.current
+    )
+  }
+
+  // May not be a good idea...
+  useEffect(() => {
+    if (p.values) {
+      const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values)
+      if (currentChecksum !== hash) {
+        valueRef.current.values = deepMergeArrays(
+          deepCopy(p.values),
+          valueRef.current.changes
+        )
+        setChecksum(hash)
+      }
+    }
+  }, [p.checksum, p.values])
+
+  // Memoize this
+  const listeners = useListeners(valueRef, setChecksum, update)
+
+  const ctx: TableCtx = {
+    variant: p.variant,
+    fields: p.fields,
+    values: valueRef.current.values,
+    listeners,
   }
 
   return (
     <Stack gap={32} direction="column" align="start">
-      {Object.entries(fields).map(([key, field]) => {
-        const { type } = field
-
-        if ('enum' in field) {
+      {Object.entries(p.fields)
+        .sort(([, a], [, b]) => {
+          return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
+        })
+        .map(([key, field], i) => {
           return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  width: 450,
-                }}
-              >
-                <SelectInput options={field.enum} value={values[key]} />
-              </styled.div>
-            </FormField>
+            <Field
+              ctx={ctx}
+              key={key}
+              field={field}
+              propKey={key}
+              autoFocus={p.autoFocus && i === 0}
+            />
           )
-        }
-
-        if (field.type === 'reference') {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  width: 450,
-                }}
-              >
-                <Reference
-                  path={[key]}
-                  ctx={{
-                    variant,
-                    fields,
-                    values: values,
-                    listeners,
-                  }}
-                />
-              </styled.div>
-            </FormField>
-          )
-        }
-
-        if (field.type === 'json') {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  minWidth: 450,
-                  maxWidth: 750,
-                }}
-              >
-                <Code
-                  copy
-                  language="json"
-                  onChange={() => {}}
-                  value={values[key]}
-                />
-              </styled.div>
-            </FormField>
-          )
-        }
-
-        if (type === 'string' && isCode(field.format)) {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  minWidth: 450,
-                  maxWidth: 750,
-                }}
-              >
-                <Code
-                  copy
-                  color={
-                    field.format === 'json' || field.format === 'markdown'
-                      ? 'muted'
-                      : 'inverted'
-                  }
-                  language={field.format}
-                  onChange={() => {}}
-                  value={values[key]}
-                />
-              </styled.div>
-            </FormField>
-          )
-        }
-
-        if (type === 'string' && field.format === 'rgbColor') {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  width: 450,
-                }}
-              >
-                <ColorInput value={values[key]} />
-              </styled.div>
-            </FormField>
-          )
-        }
-
-        if (type === 'string' && field.contentMediaType) {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  width: 450,
-                }}
-              >
-                <FileInput
-                  mimeType={field.contentMediaType}
-                  value={values[key] ? { src: values[key] } : undefined}
-                  onChange={(file) => {
-                    console.log('uploaded file', file)
-                  }}
-                />
-              </styled.div>
-            </FormField>
-          )
-        }
-
-        if (type === 'string' && field.multiline) {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  width: 450,
-                }}
-              >
-                <TextAreaInput
-                  value={values[key] as string}
-                  onChange={() => {
-                    // setValue(key, value)
-                  }}
-                />
-              </styled.div>
-            </FormField>
-          )
-        }
-
-        if (type === 'string') {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  width: 450,
-                }}
-              >
-                <TextInput
-                  value={values[key] as string}
-                  onChange={() => {
-                    // setValue(key, value)
-                  }}
-                />
-              </styled.div>
-            </FormField>
-          )
-        }
-
-        if (type === 'number') {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  width: 450,
-                }}
-              >
-                <NumberInput
-                  value={values[key] as number}
-                  onChange={(v) =>
-                    listeners.onChangeHandler(
-                      {
-                        variant,
-                        fields,
-                        values: values,
-                        listeners,
-                      },
-                      [key],
-                      v
-                    )
-                  }
-                />
-              </styled.div>
-            </FormField>
-          )
-        }
-
-        if (type === 'timestamp') {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <styled.div
-                style={{
-                  width: 450,
-                }}
-              >
-                <DateInput
-                  time
-                  value={values[key] as number}
-                  onChange={() => {}}
-                />
-              </styled.div>
-            </FormField>
-          )
-        }
-
-        if (type === 'set') {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <SetField
-                path={[key]}
-                ctx={{
-                  variant,
-                  fields,
-                  values: values,
-                  listeners,
-                }}
-              />
-            </FormField>
-          )
-        }
-
-        if (isTable(field)) {
-          return (
-            <FormField fieldKey={key} key={key} variant={variant} field={field}>
-              <Table
-                path={[key]}
-                ctx={{
-                  variant,
-                  fields,
-                  values: values,
-                  listeners,
-                }}
-              />
-            </FormField>
-          )
-        }
-
-        return null
-      })}
+        })}
+      <FormConfirm
+        confirmLabel={p.confirmLabel}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        hasChanges={valueRef.current.hasChanges}
+        variant={p.variant}
+      />
     </Stack>
   )
 }

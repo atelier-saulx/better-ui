@@ -1,0 +1,8 @@
+<link rel="stylesheet" href="playground.css" />
+<script>
+  var global = (window.global = window)
+  new EventSource('/esbuild').addEventListener('change', () =>
+    location.reload(),
+  )
+</script>
+<script type="module" src="playground.js"></script>

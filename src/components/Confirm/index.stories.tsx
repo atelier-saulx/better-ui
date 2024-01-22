@@ -2,7 +2,7 @@ import { Confirm } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Confirm> = {
-  title: 'Atoms/Confirm ',
+  title: 'Atoms/Confirm',
   component: Confirm,
 }
 
@@ -14,6 +14,6 @@ export const Default: StoryObj<typeof Confirm> = {
 
 export const Icons: StoryObj<typeof Confirm> = {
   args: {
-    variant: 'icons',
+    variant: 'small',
   },
 }

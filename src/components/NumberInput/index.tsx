@@ -8,6 +8,7 @@ import {
   color,
   border,
   boxShadow,
+  Text,
 } from '../../index.js'
 
 export type NumberInputProps = {
@@ -15,22 +16,27 @@ export type NumberInputProps = {
   value?: number
   defaultValue?: number
   onChange?: (value: number) => void
+  checksum?: number
   formName?: string
   label?: string
   step?: number
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
+  disabled?: boolean
   style?: Style
 }
 
 const Wrapper = ({
   label,
   children,
+  disabled,
   style,
 }: {
   label?: string
   children: React.ReactNode
+  disabled?: boolean
   style?: Style
 }) => {
   if (label) {
@@ -42,16 +48,31 @@ const Wrapper = ({
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
+                opacity: disabled ? 0.6 : 1,
+                cursor: disabled ? 'not-allowed' : 'default',
               }
             : undefined
         }
+        onClick={(e) => (disabled ? e.preventDefault() : null)}
       >
         {children}
       </styled.label>
     )
   }
 
-  return <styled.div style={{ width: '100%', ...style }}>{children}</styled.div>
+  return (
+    <styled.div
+      style={{
+        width: '100%',
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
+        ...style,
+      }}
+      onClick={(e) => (disabled ? e.preventDefault() : null)}
+    >
+      {children}
+    </styled.div>
+  )
 }
 
 export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
@@ -61,24 +82,28 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       value: valueProp,
       defaultValue: defaultValueProp,
       onChange,
+      checksum,
       formName,
       label,
       step = 1,
       variant = 'regular',
       error,
       autoFocus,
+      description,
+      disabled,
       style,
     },
     ref
   ) => {
-    const [value, setValue] = useControllableState<number>({
-      prop: valueProp,
-      defaultProp: defaultValueProp,
+    const [value = '', setValue] = useControllableState<number>({
+      value: valueProp,
+      defaultValue: defaultValueProp,
       onChange,
+      checksum,
     })
 
     return (
-      <Wrapper label={label} style={style}>
+      <Wrapper label={label} disabled={disabled} style={style}>
         {label && (
           <styled.span
             style={{
@@ -94,9 +119,11 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
         <div style={{ position: 'relative' }}>
           <styled.input
             type="number"
+            tabIndex={disabled ? '-1' : 'auto'}
             autoFocus={autoFocus}
             value={value ?? ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              e.stopPropagation()
               const numberValue = parseFloat(e.target.value)
               if (isNaN(numberValue)) {
                 setValue(undefined)
@@ -110,6 +137,8 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             placeholder={placeholder}
             step={step}
             style={{
+              pointerEvents: disabled ? 'none' : 'default',
+              background: 'none',
               fontSize: 14,
               lineHeight: '24px',
               width: '100%',
@@ -118,10 +147,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 variant === 'regular'
                   ? borderRadius('small')
                   : borderRadius('tiny'),
-              border:
-                variant === 'small'
-                  ? '1px solid transparent'
-                  : border(),
+              border: variant === 'small' ? '1px solid transparent' : border(),
               color: color('content', 'primary'),
               outline: 'none',
               appearance: 'none',
@@ -134,8 +160,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               },
               '&:focus, &:focus:hover': {
                 border: '1px solid var(--interactive-primary)',
-                boxShadow:
-                  boxShadow('focus'),
+                boxShadow: boxShadow('focus'),
               },
               '&::-webkit-outer-spin-button': {
                 '-webkit-appearance': 'none',
@@ -152,8 +177,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 },
                 '&:focus, &:focus:hover': {
                   border: border('error'),
-                  boxShadow:
-                    boxShadow('error'),
+                  boxShadow: boxShadow('error'),
                 },
               }),
             }}
@@ -183,12 +207,13 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 e.preventDefault()
                 if (typeof value !== 'number') return
 
-                setValue(value + step)
+                if (!disabled) {
+                  setValue(value + step)
+                }
               }}
             >
               <IconSmallArrowheadTop
-                height={variant === 'regular' ? 16 : 12}
-                width={variant === 'regular' ? 16 : 12}
+                size={variant === 'regular' ? 16 : 12}
               />
             </styled.div>
             <styled.div
@@ -203,16 +228,22 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 e.preventDefault()
                 if (typeof value !== 'number') return
 
-                setValue(value - step)
+                if (!disabled) {
+                  setValue(value - step)
+                }
               }}
             >
               <IconSmallArrowheadDown
-                height={variant === 'regular' ? 16 : 12}
-                width={variant === 'regular' ? 16 : 12}
+                size={variant === 'regular' ? 16 : 12}
               />
             </styled.div>
           </div>
         </div>
+        {description !== undefined ? (
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </Wrapper>
     )
   }

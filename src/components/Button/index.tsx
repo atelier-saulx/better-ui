@@ -21,15 +21,17 @@ export type ButtonProps = {
     | 'neutral-link'
     | 'error'
     | 'icon-only'
+  className?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
   size?: 'large' | 'medium' | 'small'
   type?: 'button' | 'submit'
   shape?: 'square' | 'rectangle'
   disabled?: boolean
-  onClick?: () => void | Promise<void>
+  onClick?: (e?: any) => any | Promise<any>
   onMouseEnter?: React.MouseEventHandler
   onMouseLeave?: React.MouseEventHandler
+  onPointerDown?: React.PointerEventHandler
   onFocus?: React.FocusEventHandler
   onBlur?: React.FocusEventHandler
   style?: Style
@@ -50,38 +52,47 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       suffix,
       onMouseEnter,
       onMouseLeave,
+      onPointerDown,
       onFocus,
       onBlur,
+      className,
       disabled,
       style,
       keyboardShortcut,
       displayKeyboardShortcut = false,
     },
-    ref
+    ref,
   ) => {
     const [loading, setLoading] = React.useState(false)
     const [shaking, setShaking] = React.useState(false)
+
     useKeyboardShortcut(keyboardShortcut, onClick)
 
-    const handleClick = React.useCallback(async () => {
-      if (!onClick || disabled) return
+    const handleClick = React.useCallback(
+      async (e: Event) => {
+        e.stopPropagation()
+        if (!onClick || disabled) return
 
-      const loadingDelayTimeout = setTimeout(() => {
-        setLoading(true)
-      }, 100)
+        const loadingDelayTimeout = setTimeout(() => {
+          setLoading(true)
+        }, 100)
 
-      try {
-        await onClick()
-      } catch {
-        setShaking(true)
-      }
+        try {
+          await onClick(e)
+        } catch (err) {
+          console.error(err)
+          setShaking(true)
+        }
 
-      setLoading(false)
-      clearTimeout(loadingDelayTimeout)
-    }, [onClick, disabled])
+        setLoading(false)
+        clearTimeout(loadingDelayTimeout)
+      },
+      [onClick, disabled],
+    )
 
     return (
       <styled.button
+        className={className}
         ref={ref}
         type={type}
         style={{
@@ -137,7 +148,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(variant === 'neutral' && {
             color: color('content', 'primary'),
-            background: 'transparent',
+            background: color('background', 'screen'),
             border: border(),
             '&:hover': {
               background: color('background', 'neutral'),
@@ -167,7 +178,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             background: 'transparent',
             border: 'none',
             padding: 0,
-            ...textVariants.bodyStrong,
+            ...textVariants['body-strong'],
             textDecoration: 'underline',
             '&:hover': {
               textDecoration: 'none',
@@ -178,7 +189,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             background: 'transparent',
             border: 'none',
             padding: 0,
-            ...textVariants.bodyStrong,
+            ...textVariants['body-strong'],
             textDecoration: 'underline',
             '&:hover': {
               textDecoration: 'none',
@@ -196,6 +207,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onAnimationEnd={() => {
           setShaking(false)
         }}
+        onPointerDown={onPointerDown}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onFocus={onFocus}
@@ -241,22 +253,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             alignItems: 'center',
           }}
         >
-          {prefix && prefix}
-          <span
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {children}
-          </span>
+          {prefix}
+          {children && (
+            <span
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {children}
+            </span>
+          )}
           {displayKeyboardShortcut && keyboardShortcut && (
             <KeyboardShortcut shortcut={keyboardShortcut} />
           )}
-          {suffix && suffix}
+          {suffix}
         </div>
       </styled.button>
     )
-  }
+  },
 )

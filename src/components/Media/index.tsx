@@ -108,7 +108,7 @@ const MediaInner = ({
     )
   }
 
-  const fileText =
+  let fileText =
     type && type !== '*/*'
       ? type?.split('/')[1]
       : src?.split('.').pop() ?? (
@@ -125,6 +125,10 @@ const MediaInner = ({
             }}
           />
         )
+
+  if (typeof fileText === 'string' && fileText.length > 4) {
+    fileText = fileText.slice(-4)
+  }
 
   return (
     <div
@@ -153,7 +157,7 @@ const MediaInner = ({
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          ...textVariants.bodyStrong,
+          ...textVariants['body-strong'],
           color: color('interactive', 'primary'),
           textTransform: 'uppercase',
           fontSize: size === 'small' ? 7 : size === 'medium' ? 14 : 24,
@@ -212,7 +216,12 @@ export function Media({
 
   return (
     <styled.div
-      style={{ width: '100%', height: '100%', ...style, overflow: 'hidden' }}
+      style={{
+        width: '100%',
+        height: '100%',
+        ...style,
+        overflow: 'hidden',
+      }}
       ref={containerRef}
     >
       <MediaInner

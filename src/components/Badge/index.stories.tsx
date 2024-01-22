@@ -2,8 +2,9 @@ import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof Badge> = {
+const meta: Meta<typeof Badge> & { description: string } = {
   title: 'Atoms/Badge',
+  description: 'Hello bla',
   component: Badge,
 }
 

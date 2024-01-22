@@ -1,6 +1,13 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { border, borderRadius, boxShadow, color } from '../../index.js'
+import {
+  border,
+  borderRadius,
+  boxShadow,
+  color,
+  Text,
+  useControllableState,
+} from '../../index.js'
 
 export type TextAreaInputProps = {
   placeholder?: string
@@ -12,16 +19,21 @@ export type TextAreaInputProps = {
   variant?: 'regular' | 'small'
   error?: boolean
   autoFocus?: boolean
+  description?: string
   style?: Style
+  disabled?: boolean
+  checksum?: number
 }
 
 const Wrapper = ({
   label,
   children,
+  disabled,
   style,
 }: {
   label?: string
   children: React.ReactNode
+  disabled?: boolean
   style?: Style
 }) => {
   if (label) {
@@ -33,16 +45,31 @@ const Wrapper = ({
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
+                opacity: disabled ? 0.6 : 1,
+                cursor: disabled ? 'not-allowed' : 'default',
               }
             : undefined
         }
+        onClick={(e) => (disabled ? e.preventDefault() : null)}
       >
         {children}
       </styled.label>
     )
   }
 
-  return <styled.div style={{ width: '100%', ...style }}>{children}</styled.div>
+  return (
+    <styled.div
+      style={{
+        width: '100%',
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
+        ...style,
+      }}
+      onClick={(e) => (disabled ? e.preventDefault() : null)}
+    >
+      {children}
+    </styled.div>
+  )
 }
 
 export const TextAreaInput = React.forwardRef<
@@ -60,15 +87,22 @@ export const TextAreaInput = React.forwardRef<
       variant = 'regular',
       error,
       autoFocus,
+      description,
+      disabled,
       style,
+      checksum,
     },
     ref
   ) => {
-    const rerender = React.useState({})[1]
-    const valueRef = React.useRef(value ?? defaultValue ?? '')
+    const [state = '', setState] = useControllableState({
+      value,
+      defaultValue,
+      onChange,
+      checksum,
+    })
 
     return (
-      <Wrapper label={label} style={style}>
+      <Wrapper label={label} disabled={disabled} style={style}>
         {label && (
           <styled.span
             style={{
@@ -81,9 +115,19 @@ export const TextAreaInput = React.forwardRef<
             {label}
           </styled.span>
         )}
+        {description !== undefined ? (
+          <Text
+            color="secondary"
+            variant="body-bold"
+            style={{ marginBottom: 8, marginTop: -6 }}
+          >
+            {description}
+          </Text>
+        ) : null}
         <styled.div
-          data-value={valueRef.current}
+          data-value={state}
           style={{
+            pointerEvents: disabled ? 'none' : 'default',
             position: 'relative',
             display: 'grid',
             width: '100%',
@@ -102,12 +146,11 @@ export const TextAreaInput = React.forwardRef<
           }}
         >
           <styled.textarea
+            tabIndex={disabled ? '-1' : 0}
             value={value}
             defaultValue={defaultValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              onChange?.(e.target.value)
-              valueRef.current = e.target.value
-              rerender({})
+              setState(e.target.value)
             }}
             autoFocus={autoFocus}
             ref={ref}

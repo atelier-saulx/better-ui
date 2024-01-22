@@ -16,6 +16,7 @@ import { TableCtx, Path } from '../types.js'
 import { Table } from './index.js'
 import { SetField } from '../Set.js'
 import { Reference } from '../Reference.js'
+import { References } from '../References/index.js'
 
 export const Padder = ({
   children,
@@ -44,7 +45,12 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   if ('enum' in field) {
     return (
       <Padder>
-        <SelectInput variant="small" options={field.enum} value={value} />
+        <SelectInput
+          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+          variant="small"
+          options={field.enum}
+          value={value}
+        />
       </Padder>
     )
   }
@@ -68,19 +74,19 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
           paddingLeft: 15,
         }}
       >
-        <CheckboxInput variant="toggle" value={false} onChange={() => {}} />
+        <CheckboxInput
+          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+          variant="toggle"
+          value={value}
+        />
       </Padder>
     )
   }
 
   if (field.type === 'set') {
     return (
-      <Padder
-        style={{
-          marginTop: 16,
-        }}
-      >
-        <SetField ctx={ctx} path={path} />
+      <Padder>
+        <SetField variant="small" ctx={ctx} path={path} />
       </Padder>
     )
   }
@@ -92,8 +98,17 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
           variant="small"
           mimeType={field.contentMediaType}
           value={value ? { src: value } : undefined}
-          onChange={(file) => {
-            console.log('uploaded file', file)
+          onChange={async (file, updateProgress) => {
+            const result = await ctx.listeners.onFileUpload(
+              {
+                ctx,
+                path,
+                value: file,
+                field,
+              },
+              updateProgress,
+            )
+            ctx.listeners.onChangeHandler(ctx, path, result)
           }}
         />
       </Padder>
@@ -111,15 +126,18 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
         <Code
           color="screen"
           language={'json'}
-          onChange={() => {}}
           value={value}
           variant="small"
+          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
         />
       </Padder>
     )
   }
 
-  if (field.type === 'string' && isCode(field.format)) {
+  if (
+    (field.type === 'string' || field.type === 'text') &&
+    isCode(field.format)
+  ) {
     return (
       <Padder
         style={{
@@ -130,7 +148,8 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
         <Code
           color="screen"
           language={field.format}
-          onChange={() => {}}
+          prettier
+          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
           value={value}
           variant="small"
         />
@@ -142,23 +161,30 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     return (
       <Padder>
         <NumberInput
-          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
           variant="small"
           value={value}
+          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
         />
       </Padder>
     )
   }
 
-  if (field.type === 'string' && field.format === 'rgbColor') {
+  if (
+    (field.type === 'string' || field.type === 'text') &&
+    field.format === 'rgbColor'
+  ) {
     return (
       <Padder>
-        <ColorInput value={value} variant="small" />
+        <ColorInput
+          value={value}
+          variant="small"
+          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+        />
       </Padder>
     )
   }
 
-  if (field.type === 'string' && field.multiline) {
+  if ((field.type === 'string' || field.type === 'text') && field.multiline) {
     return (
       <Padder
         style={{
@@ -166,15 +192,23 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
           paddingBottom: 10,
         }}
       >
-        <TextAreaInput variant="small" value={value} />
+        <TextAreaInput
+          variant="small"
+          value={value}
+          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+        />
       </Padder>
     )
   }
 
-  if (field.type === 'string') {
+  if (field.type === 'string' || field.type === 'text') {
     return (
       <Padder>
-        <TextInput variant="small" value={value} />
+        <TextInput
+          variant="small"
+          value={value}
+          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+        />
       </Padder>
     )
   }
@@ -182,7 +216,14 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   if (field.type === 'timestamp') {
     return (
       <Padder>
-        <DateInput time variant="small" value={value} />
+        <DateInput
+          time
+          variant="small"
+          value={value}
+          onChange={(v) => {
+            ctx.listeners.onChangeHandler(ctx, path, v)
+          }}
+        />
       </Padder>
     )
   }
@@ -195,9 +236,19 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
     return <Table ctx={ctx} path={path} />
   }
 
+  if (field.type === 'references') {
+    return (
+      <Padder>
+        <References variant="small" ctx={ctx} path={path} />
+      </Padder>
+    )
+  }
+
   return (
     <Padder>
-      <div style={{ color: 'red' }}>{field.type}</div>
+      <styled.div style={{ color: 'red' }}>
+        Non defined field type: {field.type}
+      </styled.div>
     </Padder>
   )
 }

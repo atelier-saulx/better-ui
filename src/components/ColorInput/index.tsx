@@ -5,6 +5,7 @@ import {
   borderRadius,
   color,
   boxShadow,
+  Text,
 } from '../../index.js'
 import * as Popover from '@radix-ui/react-popover'
 import { styled, Style } from 'inlines'
@@ -12,10 +13,13 @@ import { styled, Style } from 'inlines'
 export type ColorInputProps = {
   value?: string
   defaultValue?: string
+  checksum?: number
   onChange?: (value: string) => void
   label?: string
   variant?: 'regular' | 'small'
   error?: boolean
+  description?: string
+  disabled?: boolean
   style?: Style
 }
 
@@ -32,13 +36,17 @@ export function ColorInput({
   error,
   value: valueProp,
   defaultValue: defaultValueProp,
+  description,
   onChange,
+  checksum,
+  disabled,
   style,
 }: ColorInputProps) {
   const [value, setValue] = useControllableState({
-    prop: valueProp,
-    defaultProp: defaultValueProp,
+    value: valueProp,
+    defaultValue: defaultValueProp,
     onChange,
+    checksum,
   })
   const [hue, setHue] = React.useState(0)
   const [alpha, setAlpha] = React.useState(1)
@@ -68,12 +76,12 @@ export function ColorInput({
 
   React.useEffect(() => {
     if (mouseDown) {
-      window.addEventListener('mousemove', handleMouseMove)
-      window.addEventListener('mouseup', handleMouseUp)
+      global.addEventListener('mousemove', handleMouseMove)
+      global.addEventListener('mouseup', handleMouseUp)
 
       return () => {
-        window.removeEventListener('mousemove', handleMouseMove)
-        window.removeEventListener('mouseup', handleMouseUp)
+        global.removeEventListener('mousemove', handleMouseMove)
+        global.removeEventListener('mouseup', handleMouseUp)
       }
     }
   }, [mouseDown])
@@ -89,12 +97,20 @@ export function ColorInput({
     inputRef.current.value = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`
   }, [position, hue, alpha])
 
+  React.useEffect(() => {
+    if (value || (inputRef.current.value && !value)) {
+      inputRef.current.value = value
+    }
+  }, [value])
+
   return (
     <styled.div
       style={{
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
         '&[data-state="open"] > div': {
           border: '1px solid var(--interactive-primary) !important',
           boxShadow:
@@ -110,19 +126,14 @@ export function ColorInput({
       }}
     >
       {label && (
-        <styled.span
-          style={{
-            marginBottom: 8,
-            fontSize: 14,
-            lineHeight: '24px',
-            fontWeight: 500,
-          }}
-        >
+        <Text variant="body-bold" style={{ marginBottom: 8 }}>
           {label}
-        </styled.span>
+        </Text>
       )}
+
       <div style={{ position: 'relative' }}>
         <styled.input
+          tabIndex={disabled ? '-1' : 'auto'}
           ref={inputRef}
           defaultValue={value}
           onChange={(e) => {
@@ -131,20 +142,19 @@ export function ColorInput({
             if (rgbRegex.test(newRawValue)) {
               const newRGBA = rgbToRgba(newRawValue)
               setValue(newRGBA)
-              inputRef.current.value = newRGBA
             } else if (rgbaRegex.test(newRawValue)) {
               setValue(newRawValue)
-              inputRef.current.value = newRawValue
             } else if (hexRegex.test(newRawValue)) {
               const newRGBA = hexToRGBA(newRawValue)
               setValue(newRGBA)
-              inputRef.current.value = newRGBA
             }
           }}
           style={{
+            pointerEvents: disabled ? 'none' : 'auto',
             display: 'flex',
             alignItems: 'center',
             gap: 10,
+            background: 'none',
             fontSize: 14,
             lineHeight: '24px',
             fontWeight: 500,
@@ -179,7 +189,7 @@ export function ColorInput({
         />
         <Popover.Root>
           <Popover.Trigger asChild>
-            <div>
+            <div style={{ pointerEvents: disabled ? 'none' : 'auto' }}>
               {value && (
                 <div
                   style={{
@@ -364,6 +374,11 @@ export function ColorInput({
             </Popover.Content>
           </Popover.Portal>
         </Popover.Root>
+        {description !== undefined ? (
+          <Text color="secondary" variant="body-bold" style={{ marginTop: 8 }}>
+            {description}
+          </Text>
+        ) : null}
       </div>
     </styled.div>
   )

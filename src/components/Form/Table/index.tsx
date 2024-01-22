@@ -14,7 +14,7 @@ import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { Record } from './Record.js'
 import { Object } from './Object.js'
-import { Array } from './Array.js'
+import { Arrays } from './Arrays/index.js'
 
 function Title({
   ctx,
@@ -60,7 +60,7 @@ function Body({ ctx, path }: TableProps) {
   }
 
   if (type === 'array') {
-    return <Array ctx={ctx} path={path} />
+    return <Arrays ctx={ctx} path={path} />
   }
 
   return (

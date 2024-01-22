@@ -11,8 +11,10 @@ import {
 
 type ConfirmProps = {
   label?: React.ReactNode
+  cancelLabel?: React.ReactNode
   style?: Style
-  variant?: 'buttons' | 'icons'
+  variant?: 'small' | 'regular'
+  justify?: 'center' | 'between' | 'end' | 'start'
   value?: any
   onConfirm: ((value?: any) => void) | ((value?: any) => Promise<void>)
   onCancel: (value?: any) => void
@@ -22,61 +24,68 @@ export function Confirm({
   style,
   variant,
   label,
+  cancelLabel,
+  justify = 'end',
   onConfirm,
   onCancel,
 }: ConfirmProps) {
-  return variant === 'icons' ? (
-    <Stack
-      justify="end"
-      style={{
-        marginTop: 16,
-        paddingTop: 16,
-        marginRight: 8,
-        ...style,
-      }}
-    >
-      {label ? <Text color="secondary">{label}</Text> : null}
-      <Button
-        variant="icon-only"
-        onClick={() => {
-          return onConfirm()
+  if (variant === 'small') {
+    return (
+      <Stack
+        justify={justify}
+        style={{
+          marginRight: label ? 4 : 8,
+          ...style,
         }}
-        style={{ marginLeft: 16 }}
-        prefix={
-          <IconClose style={{ color: getColor('content', 'secondary') }} />
-        }
-      />
+      >
+        {label ? (
+          <Text style={{ marginRight: 12 }} color="secondary">
+            {label}
+          </Text>
+        ) : null}
+        <Button
+          variant="icon-only"
+          onClick={React.useCallback(() => {
+            return onCancel()
+          }, [onConfirm])}
+          prefix={
+            <IconClose style={{ color: getColor('content', 'secondary') }} />
+          }
+        />
+        <Button
+          variant="icon-only"
+          onClick={async () => {
+            return onConfirm()
+          }}
+          style={{ marginLeft: 4 }}
+          prefix={
+            <IconCheckLarge
+              style={{ color: getColor('interactive', 'primary') }}
+            />
+          }
+        />
+      </Stack>
+    )
+  }
+
+  return (
+    <Stack justify={justify} style={style}>
       <Button
-        variant="icon-only"
-        onClick={async () => {
+        onClick={() => {
           return onCancel()
         }}
-        style={{ marginLeft: 4 }}
-        prefix={
-          <IconCheckLarge
-            style={{ color: getColor('interactive', 'primary') }}
-          />
-        }
-      />
-    </Stack>
-  ) : (
-    <Stack justify="end">
-      <Button
-        onClick={() => {
-          return onConfirm()
-        }}
         variant="neutral"
-        style={{ marginRight: 24, marginLeft: 16 }}
+        style={{ marginRight: 16 }}
         // displayShortcut
         // keyboardShortcut="Esc"
       >
-        Cancel
+        {cancelLabel ?? 'Cancel'}
       </Button>
       <Button
         // displayShortcut
         // keyboardShortcut="Enter"
         onClick={async () => {
-          return onCancel()
+          return onConfirm()
         }}
       >
         {label ?? 'Confirm'}
