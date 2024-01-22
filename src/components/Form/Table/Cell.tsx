@@ -1,10 +1,5 @@
 import React, { ReactNode } from 'react'
-import {
-  textVariants,
-  border as getBorder,
-  Stack,
-  Text,
-} from '../../../index.js'
+import { textVariants, border as getBorder, Stack } from '../../../index.js'
 import { Style } from 'inlines'
 
 export function Cell({
