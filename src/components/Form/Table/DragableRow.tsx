@@ -64,7 +64,7 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
       {!ref.current.name ? <Badge>{ref.current.index + 1}</Badge> : null}
       <Text variant="body-bold">{ref.current.name}</Text>
     </Stack>,
-    elem
+    elem,
   )
   document.body.appendChild(elem)
   e.dataTransfer.setDragImage(elem, 0, 0)

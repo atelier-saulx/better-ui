@@ -15,20 +15,20 @@ const Action = (p: {
 }) => {
   if (p.onRemove || (p.header && !p.action)) {
     return (
-      // <Stack justify="end">
-      <Button
-        onClick={
-          p.header
-            ? undefined
-            : (e) => {
-                p.onRemove(e)
-              }
-        }
-        variant="icon-only"
-      >
-        <IconClose style={{ marginRight: 8, marginLeft: 8 }} />
-      </Button>
-      // </Stack>
+      <Stack justify="end">
+        <Button
+          onClick={
+            p.header
+              ? undefined
+              : (e) => {
+                  p.onRemove(e)
+                }
+          }
+          variant="icon-only"
+        >
+          <IconClose style={{ marginRight: 8, marginLeft: 8 }} />
+        </Button>
+      </Stack>
     )
   }
 

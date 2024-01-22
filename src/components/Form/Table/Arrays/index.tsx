@@ -33,7 +33,6 @@ export function Arrays({ ctx, path }: TableProps) {
   const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
   const valuesField = field.values
   const cols: ReactNode[] = []
-  const isCols = valuesField.type === 'object' && canUseColumns(valuesField)
 
   const [width, setWidth] = React.useState(0)
 
@@ -71,6 +70,12 @@ export function Arrays({ ctx, path }: TableProps) {
 
   const colFields =
     valuesField.type === 'object' ? getColSizes(valuesField, width, true) : []
+
+  const isCols =
+    valuesField.type === 'object' &&
+    canUseColumns(valuesField) &&
+    width &&
+    colFields.length === Object.keys(valuesField.properties).length
 
   if (isCols) {
     cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)

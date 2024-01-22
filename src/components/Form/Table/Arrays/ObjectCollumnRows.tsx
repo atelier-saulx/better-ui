@@ -18,8 +18,6 @@ export const CollRow = (p: {
 }) => {
   const cells: ReactNode[] = []
 
-  console.info(p.colFields)
-
   for (const field of p.colFields) {
     cells.push(
       <Cell border key={field.key} width={field.width}>

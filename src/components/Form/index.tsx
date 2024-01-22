@@ -166,14 +166,7 @@ export const Form = (p: FormProps) => {
   }
 
   return (
-    <Stack
-      gap={32}
-      direction="column"
-      align="start"
-      style={{
-        width: '100%',
-      }}
-    >
+    <Stack gap={32} direction="column" align="start">
       {Object.entries(p.fields)
         .sort(([, a], [, b]) => {
           return a.index > b.index ? -1 : a.index < b.index ? 1 : 0

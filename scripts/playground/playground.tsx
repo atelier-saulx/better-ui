@@ -263,7 +263,7 @@ const Example = (p: {
           }}
         >
           <Stack
-            style={{ padding: 24, minWidth: 500, width: '100%' }}
+            style={{ padding: 24, minWidth: 500 }}
             direction="column"
             align="center"
           >
@@ -320,7 +320,9 @@ const Story = (p: { story: any; fullscreen?: string }) => {
           style={{
             marginBottom: 200,
             marginTop: 32,
-            minWidth: 700,
+            maxWidth: 1250,
+            minWidth: 500,
+            width: '100%',
           }}
         >
           <div style={{ marginBottom: -32 }}>

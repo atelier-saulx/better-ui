@@ -13,7 +13,7 @@ import {
 import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { Record } from './Record.js'
-import { Object } from './Object.js'
+import { ObjectParser } from './Object.js'
 import { Arrays } from './Arrays/index.js'
 
 function Title({
@@ -56,7 +56,7 @@ function Body({ ctx, path }: TableProps) {
   }
 
   if (type === 'object') {
-    return <Object ctx={ctx} path={path} />
+    return <ObjectParser ctx={ctx} path={path} />
   }
 
   if (type === 'array') {

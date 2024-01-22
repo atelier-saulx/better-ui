@@ -20,7 +20,7 @@ export default meta
 
 export const Arrays = () => {
   return (
-    <div style={{ padding: 64 }}>
+    <div style={{ padding: 64, width: '100%' }}>
       <Form
         values={{
           simpleArray: ['hello'],
