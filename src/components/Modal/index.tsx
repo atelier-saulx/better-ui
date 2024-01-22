@@ -125,7 +125,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
         </ModalBase.Content>
       </ModalBase.Portal>
     )
-  }
+  },
 )
 
 export type ModalTitleProps = {
@@ -172,12 +172,12 @@ export function Message({
           variant === 'error'
             ? color('semantic-background', 'error-muted')
             : variant === 'warning'
-            ? color('semantic-background', 'warning-muted')
-            : variant === 'informative'
-            ? color('semantic-background', 'informative-muted')
-            : variant === 'positive'
-            ? color('semantic-background', 'positive-muted')
-            : color('semantic-background', 'neutral-muted'),
+              ? color('semantic-background', 'warning-muted')
+              : variant === 'informative'
+                ? color('semantic-background', 'informative-muted')
+                : variant === 'positive'
+                  ? color('semantic-background', 'positive-muted')
+                  : color('semantic-background', 'neutral-muted'),
         ...style,
       }}
     >
@@ -188,12 +188,12 @@ export function Message({
             variant === 'error'
               ? color('semantic-background', 'error')
               : variant === 'warning'
-              ? color('semantic-background', 'warning')
-              : variant === 'informative'
-              ? color('semantic-background', 'informative')
-              : variant === 'positive'
-              ? color('semantic-background', 'positive')
-              : color('semantic-background', 'neutral'),
+                ? color('semantic-background', 'warning')
+                : variant === 'informative'
+                  ? color('semantic-background', 'informative')
+                  : variant === 'positive'
+                    ? color('semantic-background', 'positive')
+                    : color('semantic-background', 'neutral'),
         }}
       />
       <Text variant="body-bold">{message}</Text>
@@ -343,7 +343,7 @@ export const useModal = (): UseModalRes => {
                 val = v
               }}
             />
-          </Modal>
+          </Modal>,
         )
 
         return confirmed || false
@@ -360,7 +360,7 @@ export const useModal = (): UseModalRes => {
             }}
           >
             {msg || msgOrTitle}
-          </Modal>
+          </Modal>,
         )
         return ok
       },
@@ -408,6 +408,7 @@ export type ModalProps = {
   variant?: 'small' | 'medium' | 'large'
   style?: Style
   confirmProps?: ButtonProps
+  noActions?: boolean
 }
 
 export const Modal = Object.assign(
@@ -422,6 +423,7 @@ export const Modal = Object.assign(
     confirmLabel = 'OK',
     confirmProps,
     style,
+    noActions,
   }: ModalProps) => {
     return (
       <Modal.Root
@@ -444,26 +446,28 @@ export const Modal = Object.assign(
               ) : null}
               {children ? <Modal.Body>{children}</Modal.Body> : null}
 
-              <Modal.Actions>
-                {onConfirm && (
-                  <Button variant="neutral" onClick={close}>
-                    Cancel
+              {noActions ? null : (
+                <Modal.Actions>
+                  {onConfirm && (
+                    <Button variant="neutral" onClick={close}>
+                      Cancel
+                    </Button>
+                  )}
+                  <Button
+                    keyboardShortcut="Enter"
+                    onClick={
+                      onConfirm
+                        ? () => {
+                            onConfirm({ close })
+                          }
+                        : close
+                    }
+                    {...confirmProps}
+                  >
+                    {confirmLabel}
                   </Button>
-                )}
-                <Button
-                  keyboardShortcut="Enter"
-                  onClick={
-                    onConfirm
-                      ? () => {
-                          onConfirm({ close })
-                        }
-                      : close
-                  }
-                  {...confirmProps}
-                >
-                  {confirmLabel}
-                </Button>
-              </Modal.Actions>
+                </Modal.Actions>
+              )}
             </>
           )}
         </Modal.Overlay>
@@ -480,5 +484,5 @@ export const Modal = Object.assign(
     Body,
     Message,
     Actions,
-  }
+  },
 )
