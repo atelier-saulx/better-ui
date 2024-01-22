@@ -19,7 +19,6 @@ import {
   border,
   IconChevronRight,
 } from '../../'
-import { styled } from 'inlines'
 
 const genCode = (
   setCode: (str: string) => void,
@@ -189,7 +188,8 @@ const Example = (p: {
               onClick={() => {
                 const elem = document.getElementById('code')
                 // @ts-ignore
-                elem.parentNode.parentNode.scrollTop = elem?.offsetTop
+                elem.parentNode.parentNode.parentNode.scrollTop =
+                  elem?.offsetTop
               }}
               variant="icon-only"
             >
