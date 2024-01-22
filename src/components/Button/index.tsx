@@ -28,7 +28,7 @@ export type ButtonProps = {
   type?: 'button' | 'submit'
   shape?: 'square' | 'rectangle'
   disabled?: boolean
-  onClick?: (e?: any) => void | Promise<void>
+  onClick?: (e?: any) => any | Promise<any>
   onMouseEnter?: React.MouseEventHandler
   onMouseLeave?: React.MouseEventHandler
   onPointerDown?: React.PointerEventHandler
@@ -61,7 +61,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       keyboardShortcut,
       displayKeyboardShortcut = false,
     },
-    ref
+    ref,
   ) => {
     const [loading, setLoading] = React.useState(false)
     const [shaking, setShaking] = React.useState(false)
@@ -87,7 +87,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         setLoading(false)
         clearTimeout(loadingDelayTimeout)
       },
-      [onClick, disabled]
+      [onClick, disabled],
     )
 
     return (
@@ -113,17 +113,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             opacity: '40%',
           }),
           ...(size === 'large' && {
-            padding: shape === 'rectangle' ? '9px 16px' : '14px',
+            padding: shape === 'rectangle' ? '9px 16px' : '13px',
             fontSize: 16,
             lineHeight: '28px',
           }),
           ...(size === 'medium' && {
-            padding: shape === 'rectangle' ? '5px 16px' : '10px',
+            padding: shape === 'rectangle' ? '5px 16px' : '9px',
             fontSize: 16,
             lineHeight: '28px',
           }),
           ...(size === 'small' && {
-            padding: shape === 'rectangle' ? '3px 12px' : '6px',
+            padding: shape === 'rectangle' ? '3px 12px' : '5px',
             fontSize: 14,
             lineHeight: '24px',
           }),
@@ -148,7 +148,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(variant === 'neutral' && {
             color: color('content', 'primary'),
-            background: 'transparent',
+            background: color('background', 'screen'),
             border: border(),
             '&:hover': {
               background: color('background', 'neutral'),
@@ -272,5 +272,5 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </div>
       </styled.button>
     )
-  }
+  },
 )

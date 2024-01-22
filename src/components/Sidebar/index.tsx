@@ -10,12 +10,13 @@ import {
   borderRadius,
   color,
   border,
+  ScrollArea,
 } from '../../index.js'
 
 const SidebarContext = React.createContext({
   open: true,
   value: '',
-  setValue: (_?: string) => {},
+  onValueChange: (_?: string) => {},
 })
 
 type SidebarItem = {
@@ -35,29 +36,23 @@ export type SidebarProps = {
   collapsable?: boolean
   children?: React.ReactNode
   header?: React.ReactNode
-  footer?: React.ReactNode
 }
 
 export function Sidebar({
   data,
-  value: valueProp,
+  value,
   onValueChange,
   open: openProp = true,
   onOpenChange,
   style,
-  collapsable = true,
+  collapsable = false,
   children,
   header,
-  footer,
 }: SidebarProps) {
   const isMobile = useIsMobile()
   let [open, setOpen] = useControllableState({
     value: openProp,
     onChange: onOpenChange,
-  })
-  const [value, setValue] = useControllableState({
-    value: valueProp,
-    onChange: onValueChange,
   })
 
   React.useEffect(() => {
@@ -65,23 +60,6 @@ export function Sidebar({
       setOpen(false)
     }
   }, [isMobile])
-
-  children ??=
-    data && Array.isArray(data)
-      ? data.map((e) => (
-          <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
-            {e.label}
-          </SidebarItem>
-        ))
-      : Object.entries(data).map(([title, items]) => (
-          <SidebarGroup title={title}>
-            {items.map((e) => (
-              <SidebarItem prefix={e.prefix} suffix={e.suffix} value={e.value}>
-                {e.label}
-              </SidebarItem>
-            ))}
-          </SidebarGroup>
-        ))
 
   return (
     <styled.aside
@@ -91,14 +69,48 @@ export function Sidebar({
         width: open ? 248 : 65,
         height: '100%',
         borderRight: border(),
-        padding: '16px 12px',
-        '& > * + *': { marginTop: '8px' },
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
         ...style,
       }}
     >
-      {header}
-      <SidebarContext.Provider value={{ open, value, setValue }}>
-        {children}
+      {header && <div style={{ padding: '16px 12px' }}>{header}</div>}
+
+      <SidebarContext.Provider value={{ open, value, onValueChange }}>
+        <div style={{ flex: '1', overflow: 'hidden' }}>
+          <ScrollArea
+            style={{
+              padding: header ? '0 12px 64px' : '16px 12px 64px',
+            }}
+          >
+            {children
+              ? children
+              : Array.isArray(data)
+                ? data.map((e) => (
+                    <SidebarItem
+                      prefix={e.prefix}
+                      suffix={e.suffix}
+                      value={e.value}
+                    >
+                      {e.label}
+                    </SidebarItem>
+                  ))
+                : Object.entries(data).map(([title, items]) => (
+                    <SidebarGroup title={title}>
+                      {items.map((e) => (
+                        <SidebarItem
+                          prefix={e.prefix}
+                          suffix={e.suffix}
+                          value={e.value}
+                        >
+                          {e.label}
+                        </SidebarItem>
+                      ))}
+                    </SidebarGroup>
+                  ))}
+          </ScrollArea>
+        </div>
       </SidebarContext.Provider>
       {collapsable ? (
         <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
@@ -107,7 +119,7 @@ export function Sidebar({
             side={open ? 'top' : 'right'}
           >
             <Button
-              variant="neutral-transparent"
+              variant="neutral"
               shape="square"
               onClick={() => {
                 setOpen(!open)
@@ -118,19 +130,6 @@ export function Sidebar({
           </Tooltip>
         </div>
       ) : null}
-
-      {footer && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: open ? 16 : 64,
-            left: 12,
-            maxWidth: open ? '100%' : 40,
-          }}
-        >
-          {footer}
-        </div>
-      )}
     </styled.aside>
   )
 }
@@ -151,7 +150,7 @@ export function SidebarItem({
   const {
     open,
     value: sidebarValue,
-    setValue,
+    onValueChange,
   } = React.useContext(SidebarContext)
 
   if (open) {
@@ -165,22 +164,29 @@ export function SidebarItem({
           borderRadius: borderRadius('small'),
           cursor: 'pointer',
           color: color('content', 'primary'),
-          '&:hover': {
-            background: color('background', 'neutral'),
+
+          '&:not(:first-of-type)': {
+            marginTop: '8px',
           },
           '& > * + *': { marginLeft: '10px' },
-          ...(sidebarValue === value && {
-            background: color('background', 'neutral'),
-          }),
+          ...(sidebarValue === value
+            ? {
+                color: color('interactive', 'primary'),
+                background: color('interactive', 'primary-muted'),
+              }
+            : {
+                '&:hover': {
+                  background: color('background', 'neutral'),
+                },
+              }),
         }}
         onClick={() => {
-          setValue(value)
+          onValueChange(value)
         }}
       >
         {prefix}
         <span
           style={{
-            color: color('content', 'primary'),
             fontSize: 14,
             fontWeight: 600,
           }}
@@ -196,26 +202,44 @@ export function SidebarItem({
     <styled.div
       style={{
         display: 'flex',
-        ...(sidebarValue === value && {
-          background: color('background', 'neutral'),
-          borderRadius: borderRadius('small'),
-          '&:hover': {
-            background: 'none',
-          },
-        }),
+        '&:not(:first-of-type)': {
+          marginTop: '8px',
+        },
       }}
     >
       <Tooltip content={children} side="right">
-        <Button
-          shape="square"
+        <styled.div
           onClick={() => {
-            setValue(value)
+            onValueChange(value)
           }}
-          variant="neutral-transparent"
-          style={{ fontSize: 14, fontWeight: 600, height: 40, width: 40 }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer',
+            borderRadius: borderRadius('small'),
+            fontSize: 14,
+            fontWeight: 600,
+            height: 40,
+            width: 40,
+            color: color('content', 'primary'),
+            '&:hover': {
+              background: color('background', 'neutral'),
+            },
+            ...(sidebarValue === value
+              ? {
+                  color: color('interactive', 'primary'),
+                  background: color('interactive', 'primary-muted'),
+                }
+              : {
+                  '&:hover': {
+                    background: color('background', 'neutral'),
+                  },
+                }),
+          }}
         >
           {prefix ? prefix : children.substring(0, 2) + '...'}
-        </Button>
+        </styled.div>
       </Tooltip>
     </styled.div>
   )
@@ -232,11 +256,8 @@ export function SidebarGroup({ title, children }: SidebarGroupProps) {
   return (
     <styled.div
       style={{
-        '& > * + *': { marginTop: '8px' },
-        paddingTop: '32px',
-        paddingBottom: '4px',
-        '&:first-child': {
-          paddingTop: '4px',
+        '&:not(:first-child)': {
+          marginTop: '24px',
         },
       }}
     >

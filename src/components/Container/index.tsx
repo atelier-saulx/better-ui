@@ -61,7 +61,7 @@ export function Container({
       <styled.div
         ref={headerRef}
         style={{
-          display: 'flex',
+          display: !expandable && !divider ? 'none' : 'flex',
           alignItems: 'center',
           gap: 8,
           padding: 16,
@@ -98,7 +98,9 @@ export function Container({
           )}
           {description && <Text color="secondary">{description}</Text>}
         </div>
-        {suffix && <div style={{ marginLeft: 'auto' }}>{suffix}</div>}
+        {suffix && (
+          <styled.div style={{ marginLeft: 'auto' }}>{suffix}</styled.div>
+        )}
       </styled.div>
       {children && (!expandable || expanded) && (
         <styled.div

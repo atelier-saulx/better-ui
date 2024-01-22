@@ -2,7 +2,7 @@ import * as React from 'react'
 import { ColorInput } from '../../index.js'
 
 const meta = {
-  title: 'Atoms/Inputs/ColorInput ',
+  title: 'Inputs/ColorInput',
 }
 export default meta
 

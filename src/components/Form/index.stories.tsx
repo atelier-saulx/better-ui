@@ -77,7 +77,7 @@ export const Default = () => {
           json: JSON.stringify(
             { y: 1, x: 1, z: 1, someThing: 'great' },
             null,
-            2
+            2,
           ),
           category: 'id12345',
           categoryNamed: {
@@ -194,7 +194,7 @@ export const Default = () => {
             'changed:',
             changed,
             'checksum:',
-            checksum
+            checksum,
           )
         }}
       />
@@ -429,7 +429,7 @@ export const Set = () => {
             'changed:',
             changed,
             'checksum:',
-            checksum
+            checksum,
           )
         }}
       />
@@ -708,7 +708,7 @@ export const Object = () => {
             json: JSON.stringify(
               { y: 1, x: 1, z: 1, someThing: 'great' },
               null,
-              2
+              2,
             ),
           },
         }}

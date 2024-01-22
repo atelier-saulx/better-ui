@@ -34,13 +34,13 @@ const KeyInput = (p: {
           if (changeRef.current === '') {
             const nValue = deepCopy(p.valueRef.current)
             delete nValue['']
-            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
+            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue, true)
           } else {
             const nValue = deepCopy(p.valueRef.current)
             const rowValue = nValue[p.value]
             delete nValue[p.value]
             nValue[changeRef.current] = rowValue
-            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue)
+            p.ctx.listeners.onChangeHandler(p.ctx, p.path, nValue, true)
           }
           changeRef.current = ''
         }

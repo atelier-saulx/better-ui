@@ -45,12 +45,7 @@ export function Badge({
   }, [colorProp, children])
 
   if (showCheck && !noCheckedIcon) {
-    const icon = (
-      <IconCheckLarge
-        height={size === 'regular' ? 16 : 12}
-        width={size === 'regular' ? 16 : 12}
-      />
-    )
+    const icon = <IconCheckLarge size={size === 'regular' ? 16 : 12} />
     if (prefix && !suffix) {
       prefix = icon
     } else {

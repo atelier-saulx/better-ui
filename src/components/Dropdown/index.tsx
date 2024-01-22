@@ -36,7 +36,6 @@ function Trigger({ children }: TriggerProps) {
   return React.cloneElement(children, {
     onClick: (e: MouseEvent) => {
       children.props.onClick?.(e)
-
       setOpen((p) => !p)
     },
     ref: triggerRef,
@@ -120,25 +119,25 @@ function Items({ children }: ItemsProps) {
         setOpen(false)
       }
     },
-    [triggerRef, setOpen]
+    [triggerRef, setOpen],
   )
 
   React.useLayoutEffect(() => {
     calculatePosition()
 
-    window.addEventListener('resize', calculatePosition)
+    global.addEventListener('resize', calculatePosition)
 
     return () => {
-      window.removeEventListener('resize', calculatePosition)
+      global.removeEventListener('resize', calculatePosition)
     }
   }, [calculatePosition])
 
   React.useEffect(() => {
     if (open) {
-      window.addEventListener('click', handleClick)
+      global.addEventListener('click', handleClick)
 
       return () => {
-        window.removeEventListener('click', handleClick)
+        global.removeEventListener('click', handleClick)
       }
     }
   }, [open, handleClick])
@@ -174,7 +173,7 @@ function Items({ children }: ItemsProps) {
         {children}
       </ScrollArea>
     </div>,
-    document.body
+    document.body,
   )
 }
 
@@ -194,22 +193,24 @@ export function Item({ icon, children, onClick }: ItemProps) {
         setOpen(false)
       }}
       style={{
-        padding: '4px 12px 4px 42px',
+        padding: '4px 12px',
         borderRadius: borderRadius('small'),
         fontSize: 14,
         lineHeight: '24px',
         position: 'relative',
         outline: 'none',
         userSelect: 'none',
+        display: 'flex',
+        justifyContent: 'start',
+        alignItems: 'center',
+        gap: 10,
         '&:hover': {
           background: color('background', 'neutral'),
         },
         cursor: 'pointer',
       }}
     >
-      {icon && (
-        <div style={{ position: 'absolute', top: 6, left: 12 }}>{icon}</div>
-      )}
+      {icon && <div style={{ display: 'flex' }}>{icon}</div>}
       <div>{children}</div>
     </styled.div>
   )
@@ -262,7 +263,7 @@ export function useDropdown() {
 
   function open(
     fn: ({ close }: { close: (value: any) => void }) => React.ReactNode,
-    props: any
+    props: any,
   ) {
     return new Promise((resolve) => {
       function close(value: any) {
@@ -280,9 +281,19 @@ export function useDropdown() {
   return { open }
 }
 
-export const Dropdown = {
-  Root,
-  Trigger,
-  Items,
-  Item,
-}
+export const Dropdown = Object.assign(
+  ({ trigger, children }) => {
+    return (
+      <Root>
+        <Trigger>{trigger}</Trigger>
+        <Items>{children}</Items>
+      </Root>
+    )
+  },
+  {
+    Root,
+    Trigger,
+    Items,
+    Item,
+  },
+)

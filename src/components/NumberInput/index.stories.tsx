@@ -2,7 +2,7 @@ import { NumberInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof NumberInput> = {
-  title: 'Atoms/Inputs/NumberInput',
+  title: 'Inputs/NumberInput',
   component: NumberInput,
 }
 

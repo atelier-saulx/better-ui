@@ -29,8 +29,6 @@ export function NestedObjectRows(p: RowProps) {
     const item = p.value?.[i]
     const title: ReactNode = field ? item?.[field] : p.field.values.title
 
-    // DragableRow
-
     rows.push(
       <DragableRow
         {...p}
@@ -63,6 +61,7 @@ export function NestedObjectRows(p: RowProps) {
         }}
         cells={[
           <Cell
+            key={0}
             isKey
             style={{
               paddingLeft: readParentType(p.ctx, p.path) === 'array' ? 30 : 20,
@@ -106,7 +105,7 @@ export function NestedObjectRows(p: RowProps) {
             </Stack>
           </Cell>,
         ]}
-      />
+      />,
     )
     if (isOpen) {
       rows.push(
@@ -114,7 +113,7 @@ export function NestedObjectRows(p: RowProps) {
           <Cell>
             <Field ctx={p.ctx} path={[...p.path, i]} />
           </Cell>
-        </Stack>
+        </Stack>,
       )
     }
   }

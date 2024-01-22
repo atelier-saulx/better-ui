@@ -5,7 +5,7 @@ export const useMedia = (query = ''): boolean => {
   const queryRef = useRef<string>()
 
   if (queryRef.current !== query) {
-    mediaRef.current = window.matchMedia(query)
+    mediaRef.current = global.matchMedia(query)
     queryRef.current = query
   }
 
