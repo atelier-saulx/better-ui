@@ -193,22 +193,24 @@ export function Item({ icon, children, onClick }: ItemProps) {
         setOpen(false)
       }}
       style={{
-        padding: '4px 12px 4px 42px',
+        padding: '4px 12px',
         borderRadius: borderRadius('small'),
         fontSize: 14,
         lineHeight: '24px',
         position: 'relative',
         outline: 'none',
         userSelect: 'none',
+        display: 'flex',
+        justifyContent: 'start',
+        alignItems: 'center',
+        gap: 10,
         '&:hover': {
           background: color('background', 'neutral'),
         },
         cursor: 'pointer',
       }}
     >
-      {icon && (
-        <div style={{ position: 'absolute', top: 6, left: 12 }}>{icon}</div>
-      )}
+      {icon && <div style={{ display: 'flex' }}>{icon}</div>}
       <div>{children}</div>
     </styled.div>
   )
