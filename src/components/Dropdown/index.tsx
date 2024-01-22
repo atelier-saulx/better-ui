@@ -36,7 +36,6 @@ function Trigger({ children }: TriggerProps) {
   return React.cloneElement(children, {
     onClick: (e: MouseEvent) => {
       children.props.onClick?.(e)
-
       setOpen((p) => !p)
     },
     ref: triggerRef,
@@ -283,10 +282,10 @@ export function useDropdown() {
 export const Dropdown = Object.assign(
   ({ trigger, children }) => {
     return (
-      <Dropdown.Root>
-        <Dropdown.Trigger>{trigger}</Dropdown.Trigger>
-        <Dropdown.Items>{children}</Dropdown.Items>
-      </Dropdown.Root>
+      <Root>
+        <Trigger>{trigger}</Trigger>
+        <Items>{children}</Items>
+      </Root>
     )
   },
   {
