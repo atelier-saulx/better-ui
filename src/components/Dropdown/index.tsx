@@ -280,9 +280,19 @@ export function useDropdown() {
   return { open }
 }
 
-export const Dropdown = {
-  Root,
-  Trigger,
-  Items,
-  Item,
-}
+export const Dropdown = Object.assign(
+  ({ trigger, children }) => {
+    return (
+      <Dropdown.Root>
+        <Dropdown.Trigger>{trigger}</Dropdown.Trigger>
+        <Dropdown.Items>{children}</Dropdown.Items>
+      </Dropdown.Root>
+    )
+  },
+  {
+    Root,
+    Trigger,
+    Items,
+    Item,
+  },
+)
