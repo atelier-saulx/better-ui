@@ -35,11 +35,7 @@ export const getColSizes = (
     }
 
     const field = fieldSchema.properties[key]
-
-    if (field.type === 'reference') {
-      percentageFields.push({ key, width: 300, field })
-      total -= 300
-    } else if (field.type === 'timestamp') {
+    if (field.type === 'timestamp') {
       percentageFields.push({ key, width: minSize + 50, field })
       total -= minSize + 50
     } else if (
@@ -55,6 +51,11 @@ export const getColSizes = (
     ) {
       percentageFields.push({ key, width: 52, field })
       total -= 52
+    } else if (field.type === 'reference') {
+      percentageFields.push({ key, field })
+      total -= 400
+      spread += 400
+      totalFlexFields++
     } else {
       percentageFields.push({ key, field })
       total -= minSize
