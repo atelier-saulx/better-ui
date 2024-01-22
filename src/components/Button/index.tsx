@@ -20,6 +20,7 @@ export type ButtonProps = {
     | 'neutral-transparent'
     | 'neutral-link'
     | 'error'
+    | 'error-muted'
     | 'icon-only'
   className?: string
   prefix?: React.ReactNode
@@ -113,17 +114,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             opacity: '40%',
           }),
           ...(size === 'large' && {
-            padding: shape === 'rectangle' ? '9px 16px' : '14px',
+            padding: shape === 'rectangle' ? '9px 16px' : '13px',
             fontSize: 16,
             lineHeight: '28px',
           }),
           ...(size === 'medium' && {
-            padding: shape === 'rectangle' ? '5px 16px' : '10px',
+            padding: shape === 'rectangle' ? '5px 16px' : '9px',
             fontSize: 16,
             lineHeight: '28px',
           }),
           ...(size === 'small' && {
-            padding: shape === 'rectangle' ? '3px 12px' : '6px',
+            padding: shape === 'rectangle' ? '3px 12px' : '5px',
             fontSize: 14,
             lineHeight: '24px',
           }),
@@ -171,6 +172,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             '&:hover': {
               background: 'var(--semantic-background-error-hover)',
               border: '1px solid var(--semantic-background-error-hover)',
+            },
+          }),
+          ...(variant === 'error-muted' && {
+            color: 'var(--semantic-color-error-muted)',
+            background: 'var(--semantic-background-error-muted)',
+            border: 'transparent',
+            '&:hover': {
+              color: color('content', 'inverted'),
+              background: 'var(--semantic-background-error)',
             },
           }),
           ...(variant === 'primary-link' && {

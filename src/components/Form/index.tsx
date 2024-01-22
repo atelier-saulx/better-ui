@@ -22,14 +22,14 @@ type FormOnChange = (
   values: { [key: string]: any },
   changed: { [key: string]: any },
   checksum: number,
-  based: { [key: string]: any }
+  based: { [key: string]: any },
 ) => void
 
 type FormOnChangeAsync = (
   values: { [key: string]: any },
   changed: { [key: string]: any },
   checksum: number,
-  based: { [key: string]: any }
+  based: { [key: string]: any },
 ) => Promise<void>
 
 export type ValueRef = {
@@ -52,7 +52,7 @@ export type FormProps = {
     path: Path,
     newValue: any,
     prevValue: any,
-    field: BasedSchemaField
+    field: BasedSchemaField,
   ) => void
   onChangeTransform?: (val: any, path: Path, field: BasedSchemaField) => any
   onChange?: FormOnChange | FormOnChangeAsync
@@ -93,7 +93,7 @@ export const Form = (p: FormProps) => {
         valueRef.current.values,
         valueRef.current.changes,
         hash,
-        createBasedObject(ctx, valueRef.current.changes)
+        createBasedObject(ctx, valueRef.current.changes),
       )
       valueRef.current.hasChanges = false
       valueRef.current.values = valueRef.current.props.values ?? {}
@@ -111,7 +111,7 @@ export const Form = (p: FormProps) => {
     valueRef.current.values = valueRef.current.props.values ?? {}
     valueRef.current.changes = {}
     const hash =
-      valueRef.current.values.props.checksum ??
+      valueRef.current.props.checksum ??
       hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
     setChecksum(hash)
     // Force update
@@ -136,18 +136,19 @@ export const Form = (p: FormProps) => {
           onCancel()
         },
       },
-      valueRef.current
+      valueRef.current,
     )
   }
 
   // May not be a good idea...
   useEffect(() => {
+    const p = valueRef.current.props
     if (p.values) {
       const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values)
       if (currentChecksum !== hash) {
         valueRef.current.values = deepMergeArrays(
           deepCopy(p.values),
-          valueRef.current.changes
+          valueRef.current.changes,
         )
         setChecksum(hash)
       }
@@ -165,7 +166,14 @@ export const Form = (p: FormProps) => {
   }
 
   return (
-    <Stack gap={32} direction="column" align="start">
+    <Stack
+      gap={32}
+      direction="column"
+      align="start"
+      style={{
+        width: '100%',
+      }}
+    >
       {Object.entries(p.fields)
         .sort(([, a], [, b]) => {
           return a.index > b.index ? -1 : a.index < b.index ? 1 : 0

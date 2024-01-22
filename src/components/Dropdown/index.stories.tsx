@@ -31,6 +31,7 @@ export const Default = () => {
       <Dropdown.Items>
         {Array.from({ length: 200 }).map((_, i) => (
           <Dropdown.Item
+            key={i}
             onClick={() => {
               alert(`delete ${i}`)
             }}
@@ -53,7 +54,6 @@ function SimpleDropdown({ close, numberOfItems }) {
           onClick={() => {
             close(`delete ${i}`)
           }}
-          icon={<IconDelete />}
         >
           Delete {i}
         </Dropdown.Item>

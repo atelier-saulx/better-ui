@@ -11,7 +11,15 @@ import {
   Container,
   Code,
   formatCode,
+  IconFullscreen,
+  IconFullscreenExit,
+  ScrollArea,
+  color,
+  IconFunction,
+  border,
+  IconChevronRight,
 } from '../../'
+import { styled } from 'inlines'
 
 const genCode = (
   setCode: (str: string) => void,
@@ -71,15 +79,17 @@ const Example = (p: {
   file: string
   title: string
   story: any
+  fullscreen?: string
   component?: FC
   decorators: ((s: (p: any) => ReactNode) => ReactNode)[]
 }) => {
   let body: any
-
   const [code, setCode] = useState('')
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     setCode('')
+    setOpen(false)
   }, [p.componentName, p.title])
 
   if (p.story.args) {
@@ -116,11 +126,135 @@ const Example = (p: {
     }
   }
 
+  const codeBlock = (
+    <Stack id="code">
+      {!p.fullscreen && code.length > 300 && !open ? (
+        <Stack
+          style={{
+            padding: 12,
+            paddingLeft: 12,
+            borderBottomLeftRadius: 8,
+            borderBottomRightRadius: 8,
+            border: border('default'),
+            borderTop: '',
+            backgroundColor: color('background', 'muted'),
+          }}
+        >
+          <Button
+            onClick={() => {
+              setOpen(true)
+            }}
+            size="small"
+            variant="neutral-transparent"
+            prefix={<IconChevronRight />}
+          >
+            Show code
+          </Button>
+        </Stack>
+      ) : (
+        <Code
+          style={
+            p.fullscreen
+              ? {
+                  paddingBottom: 100,
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
+                }
+              : {
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                }
+          }
+          color="inverted"
+          value={code}
+        />
+      )}
+    </Stack>
+  )
+
+  if (p.fullscreen) {
+    return (
+      <Stack
+        direction="column"
+        justify="start"
+        style={{
+          height: '100vh',
+        }}
+      >
+        <Stack style={{ padding: 12, borderBottom: border() }}>
+          <Text variant="body-bold">{p.title}</Text>
+          <Stack justify="start" fitContent gap={16}>
+            <Button
+              onClick={() => {
+                const elem = document.getElementById('code')
+                // @ts-ignore
+                elem.parentNode.parentNode.parentNode.scrollTop =
+                  elem?.offsetTop
+              }}
+              variant="icon-only"
+            >
+              <IconFunction />
+            </Button>
+
+            <Button
+              onClick={() => {
+                goto({ storyId: parseHref().storyId, fullscreen: '' })
+              }}
+              variant="icon-only"
+            >
+              <IconFullscreenExit />
+            </Button>
+          </Stack>
+        </Stack>
+
+        <ScrollArea>
+          <Stack
+            style={{
+              height: '100%',
+              flexGrow: 1,
+            }}
+            direction="column"
+            align="center"
+          >
+            <Stack
+              direction="column"
+              align="center"
+              justify="center"
+              style={{
+                width: '100%',
+                flexGrow: 1,
+              }}
+            >
+              <styled.div
+                style={{
+                  width: '100%',
+                }}
+              >
+                {body}
+              </styled.div>
+            </Stack>
+            {codeBlock}
+          </Stack>
+        </ScrollArea>
+      </Stack>
+    )
+  }
+
   return (
     <Stack direction="column" gap={12}>
-      {p.title === 'Default' ? null : (
+      <Stack justify="start" gap={12}>
+        <Button
+          onClick={() => {
+            goto({ storyId: parseHref().storyId, fullscreen: p.title })
+          }}
+          variant="icon-only"
+        >
+          <IconFullscreen />
+        </Button>
         <Text variant="body-bold">{p.title}</Text>
-      )}
+      </Stack>
       <Stack direction="column" align="center">
         <Container
           style={{
@@ -128,32 +262,51 @@ const Example = (p: {
             borderBottomRightRadius: 0,
           }}
         >
-          <Stack style={{ padding: 24 }} direction="column" align="center">
-            {body}
+          <Stack
+            style={{ padding: 24, minWidth: 500, width: '100%' }}
+            direction="column"
+            align="center"
+          >
+            <styled.div
+              style={{
+                width: '100%',
+              }}
+            >
+              {body}
+            </styled.div>
           </Stack>
         </Container>
-        <Code
-          style={{
-            borderTopLeftRadius: 0,
-            borderTopRightRadius: 0,
-          }}
-          color="inverted"
-          value={code}
-        />
+        {codeBlock}
       </Stack>
     </Stack>
   )
 }
 
-const Story = (p: { story: any }) => {
+const Story = (p: { story: any; fullscreen?: string }) => {
   const story = p.story.story
-
   const title = story.default.title.split('/')[1]
   const description = story.default.description ?? ''
-
   const keys = Object.keys(story).filter(
     (v) => v !== 'default' && v !== 'Default',
   )
+
+  if (p.fullscreen) {
+    const example = story[p.fullscreen]
+    if (!example) {
+      return <Text>Cannot find example</Text>
+    }
+    return (
+      <Example
+        file={p.story.file}
+        componentName={title}
+        decorators={example.decorators}
+        component={story.default.component}
+        title="Default"
+        fullscreen={p.fullscreen}
+        story={example}
+      />
+    )
+  }
 
   const defExample = story.Default
 
@@ -166,7 +319,7 @@ const Story = (p: { story: any }) => {
           fitContent
           style={{
             marginBottom: 200,
-            marginTop: 100,
+            marginTop: 32,
             minWidth: 700,
           }}
         >
@@ -192,6 +345,7 @@ const Story = (p: { story: any }) => {
               decorators={story.default.decorators}
               component={story.default.component}
               title="Default"
+              fullscreen={p.fullscreen}
               story={defExample}
             />
           ) : null}
@@ -204,6 +358,7 @@ const Story = (p: { story: any }) => {
                 decorators={story.default.decorators}
                 component={story.default.component}
                 title={v}
+                fullscreen={p.fullscreen}
                 story={story[v]}
               />
             )
@@ -214,14 +369,31 @@ const Story = (p: { story: any }) => {
   )
 }
 
+type Location = { storyId?: string; fullscreen?: string }
+
+const goto = (location: Location) => {
+  const hash = location.fullscreen
+    ? `${location.storyId}-${location.fullscreen}`
+    : location.storyId
+
+  const loc = window.location.href.split('#')[0] + '#' + hash
+
+  window.location.href = loc
+}
+
+const parseHref = (): Location => {
+  const x = window.location.href.split('#')[1] ?? ''
+  const [storyId, fullscreen] = x.split('-')
+  return { storyId, fullscreen }
+}
+
 const App = () => {
   const menuData = {}
-  const [location, setLocation] = useState<string>(
-    window.location.href.split('#')[1] ?? '',
-  )
+  const [{ storyId, fullscreen }, setLocation] = useState<Location>(parseHref())
+
   useEffect(() => {
     window.addEventListener('hashchange', () => {
-      setLocation(window.location.href.split('#')[1])
+      setLocation(parseHref())
     })
   }, [])
   for (const story of parsedStories) {
@@ -240,20 +412,24 @@ const App = () => {
       return a.label > b.label ? 1 : -1
     })
   }
-  const story = parsedStories.find((s) => s.story.default.title === location)
+
+  const story = parsedStories.find((s) => {
+    return s.story.default.title === storyId
+  })
   return (
     <Layout>
-      <Sidebar
-        data={menuData}
-        value={location}
-        onValueChange={(value) => {
-          window.location.href =
-            window.location.href.split('#')[0] + '#' + value
-        }}
-        collapsable={false}
-      />
+      {fullscreen ? null : (
+        <Sidebar
+          data={menuData}
+          value={storyId}
+          onValueChange={(value) => {
+            goto({ storyId: value })
+          }}
+          collapsable={false}
+        />
+      )}
       {story ? (
-        <Story story={story} />
+        <Story story={story} fullscreen={fullscreen} />
       ) : (
         <Page>
           <Text>BASED</Text>

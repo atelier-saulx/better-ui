@@ -77,7 +77,7 @@ function Body({ ctx, path }: TableProps) {
 export function Table({ ctx, path }: TableProps) {
   if (path.length === 1) {
     return (
-      <Stack style={{ borderTop: border() }}>
+      <Stack style={{ borderTop: border(), width: '100%' }}>
         <Body ctx={ctx} path={path} />
       </Stack>
     )
@@ -90,7 +90,13 @@ export function Table({ ctx, path }: TableProps) {
   }
 
   return (
-    <Stack align="stretch" justify="start">
+    <Stack
+      align="stretch"
+      justify="start"
+      style={{
+        width: '100%',
+      }}
+    >
       <Title ctx={ctx} path={path} parent={parent} />
       <Body ctx={ctx} path={path} />
     </Stack>

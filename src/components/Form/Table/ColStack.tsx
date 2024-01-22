@@ -15,6 +15,7 @@ const Action = (p: {
 }) => {
   if (p.onRemove || (p.header && !p.action)) {
     return (
+      // <Stack justify="end">
       <Button
         onClick={
           p.header
@@ -27,6 +28,7 @@ const Action = (p: {
       >
         <IconClose style={{ marginRight: 8, marginLeft: 8 }} />
       </Button>
+      // </Stack>
     )
   }
 
@@ -51,7 +53,7 @@ export const ColStack = React.forwardRef(
       action?: ReactNode
       header?: boolean
     } & StackProps,
-    ref
+    ref,
   ) => {
     if (onRemove || action || header) {
       return (
@@ -109,5 +111,5 @@ export const ColStack = React.forwardRef(
         {children}
       </Stack>
     )
-  }
+  },
 )

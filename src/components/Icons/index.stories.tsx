@@ -27,6 +27,7 @@ export const Default = () => {
           .filter(([key]) => !key.toLocaleLowerCase().includes('based'))
           .map(([key, Icon]) => (
             <styled.div
+              key={key}
               style={{
                 padding: '16px',
                 display: 'flex',

@@ -80,14 +80,14 @@ export function Record({ ctx, path }: TableProps) {
     cols.push(
       <Cell width={200} isKey border key={'key'}>
         Key
-      </Cell>
+      </Cell>,
     )
 
     for (const key in valuesField.properties) {
       cols.push(
         <Cell border isKey key={key}>
           {valuesField.properties[key].title ?? key}
-        </Cell>
+        </Cell>,
       )
     }
     if (value) {
@@ -109,7 +109,7 @@ export function Record({ ctx, path }: TableProps) {
           cells.push(
             <Cell border key={k}>
               <Field ctx={ctx} path={[...path, key, k]} />
-            </Cell>
+            </Cell>,
           )
         }
         rows.push(
@@ -123,7 +123,7 @@ export function Record({ ctx, path }: TableProps) {
             }}
           >
             {cells}
-          </ColStack>
+          </ColStack>,
         )
       }
     }
@@ -136,7 +136,7 @@ export function Record({ ctx, path }: TableProps) {
       </Cell>,
       <Cell isKey border key={'value'}>
         Value
-      </Cell>
+      </Cell>,
     )
 
     if (value) {
@@ -148,7 +148,6 @@ export function Record({ ctx, path }: TableProps) {
               '&:hover': {
                 '& > :first-child': {
                   '& > :first-child > :first-child': {
-                    border: '1px solid red',
                     opacity: '1 !important',
                   },
                 },
@@ -190,7 +189,7 @@ export function Record({ ctx, path }: TableProps) {
             <Cell>
               <Field ctx={ctx} path={[...path, key]} />
             </Cell>
-          </ColStack>
+          </ColStack>,
         )
       }
     }

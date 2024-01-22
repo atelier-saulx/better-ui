@@ -23,17 +23,48 @@ export default meta
 
 export const Default = () => {
   return (
+    <div style={{ width: 1000 }}>
+      <Header
+        logo={<BasedLogoWithText />}
+        navigation={
+          <Stack gap={24}>
+            <Button variant="neutral">Documentation</Button>
+            <Dropdown.Root>
+              <Dropdown.Trigger>
+                <div style={{ cursor: 'pointer' }}>
+                  <Thumbnail text="MD" shape="circle" />
+                </div>
+              </Dropdown.Trigger>
+              <Dropdown.Items>
+                <Dropdown.Item icon={<IconSettings />}>Settings</Dropdown.Item>
+                <Dropdown.Item icon={<IconLogOut />}>Logout</Dropdown.Item>
+              </Dropdown.Items>
+            </Dropdown.Root>
+          </Stack>
+        }
+        mobileNavigation={[
+          { label: 'Settings', prefix: <IconSettings /> },
+          { label: 'Logout', prefix: <IconLogOut /> },
+        ]}
+      />
+    </div>
+  )
+}
+
+export const BackButton = () => {
+  return (
     <Header
-      logo={<BasedLogoWithText />}
+      title="Luxemburg Song Contest"
+      onBack={() => {
+        alert('back button clicked in header')
+      }}
       navigation={
         <Stack gap={24}>
-          <Button size="small" variant="neutral">
-            Documentation
-          </Button>
+          <Button variant="neutral">Documentation</Button>
           <Dropdown.Root>
             <Dropdown.Trigger>
               <div style={{ cursor: 'pointer' }}>
-                <Thumbnail text="MD" shape="circle" size="small" />
+                <Thumbnail text="MD" shape="circle" />
               </div>
             </Dropdown.Trigger>
             <Dropdown.Items>
@@ -43,10 +74,6 @@ export const Default = () => {
           </Dropdown.Root>
         </Stack>
       }
-      mobileNavigation={[
-        { label: 'Settings', prefix: <IconSettings /> },
-        { label: 'Logout', prefix: <IconLogOut /> },
-      ]}
     />
   )
 }
