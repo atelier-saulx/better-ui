@@ -286,8 +286,6 @@ export const ReferencesTable = ({
     }
   }
 
-  // return null;;
-
   return (
     <Stack ref={sizeRef} justify="start" align="start" direction="column">
       <ColStack header>{cols}</ColStack>
