@@ -111,7 +111,7 @@ export const Form = (p: FormProps) => {
     valueRef.current.values = valueRef.current.props.values ?? {}
     valueRef.current.changes = {}
     const hash =
-      valueRef.current.values.props.checksum ??
+      valueRef.current.props.checksum ??
       hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
     setChecksum(hash)
     // Force update
@@ -142,6 +142,7 @@ export const Form = (p: FormProps) => {
 
   // May not be a good idea...
   useEffect(() => {
+    const p = valueRef.current.props
     if (p.values) {
       const hash = p.checksum ?? hashObjectIgnoreKeyOrder(p.values)
       if (currentChecksum !== hash) {

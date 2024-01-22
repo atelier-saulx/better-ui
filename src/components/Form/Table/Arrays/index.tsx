@@ -52,7 +52,7 @@ export function Arrays({ ctx, path }: TableProps) {
       n.splice(toIndex, 0, target)
       ctx.listeners.onChangeHandler(ctx, path, n)
     },
-    []
+    [],
   )
 
   const removeItem = React.useCallback((index: number) => {
@@ -67,7 +67,7 @@ export function Arrays({ ctx, path }: TableProps) {
       cols.push(
         <Cell border isKey key={key}>
           {getTitle(key, valuesField.properties[key])}
-        </Cell>
+        </Cell>,
       )
     }
   }
