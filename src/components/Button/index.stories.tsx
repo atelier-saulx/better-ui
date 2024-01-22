@@ -21,7 +21,7 @@ export const Default: StoryObj<typeof Button> = {
 export const Icon: StoryObj<typeof Button> = {
   args: {
     children: <IconMoreVertical />,
-    variant: 'neutral',
+    variant: 'primary',
     size: 'medium',
     shape: 'square',
   },

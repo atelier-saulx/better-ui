@@ -34,21 +34,8 @@ import * as f8582702281036 from "../../src/components/Thumbnail/index.stories.js
 import * as f15599106587773 from "../../src/components/Toast/index.stories.js"
 import * as f14542094828981 from "../../src/components/Tooltip/index.stories.js"
 import * as f6004462968497 from "../../src/components/Video/index.stories.js"
-export const stories = [f16905658949426,f1681034936069,f2084790011414,f17306232299723,f1130922799717,f4948859476466,f13619739889741,f3057415892789,f6239386911682,f9344752088327,f1361056666384,f10288907520891,f157990102582,f1926324559992,f8646848099263,f6622038122973,f6271760022916,f14974680308474,f409919741252,f14989200246520,f10190487816981,f2391256762992,f8544279227411,f13087660182010,f6536975305054,f7822376808362,f8523906341550,f13867817006251,f16457632158462,f8582702281036,f4403319537853,f4363912759740,f3910853229259,f15599106587773,f14542094828981,f6004462968497]
-export const parsedStories = [{ id: "f16905658949426", story: f16905658949426, path: "/Users/vassbence/projects/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Calendar> = {
-  title: 'Atoms/Calendar',
-  component: Calendar,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof Calendar> = {
-  args: {},
-}
-`},{ id: "f1681034936069", story: f1681034936069, path: "/Users/vassbence/projects/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
+export const stories = [f1681034936069,f1130922799717,f16905658949426,f17306232299723,f13619739889741,f2084790011414,f9344752088327,f6239386911682,f1361056666384,f157990102582,f4948859476466,f3057415892789,f10288907520891,f1926324559992,f8646848099263,f6622038122973,f14974680308474,f409919741252,f6271760022916,f13867817006251,f10190487816981,f2391256762992,f6536975305054,f8544279227411,f13087660182010,f7822376808362,f16457632158462,f8523906341550,f4363912759740,f3910853229259,f4403319537853,f15599106587773,f8582702281036,f14989200246520,f14542094828981,f6004462968497]
+export const parsedStories = [{ id: "f1681034936069", story: f1681034936069, path: "/Users/vassbence/projects/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof CheckboxInput> = {
@@ -74,125 +61,6 @@ export const Toggle: StoryObj<typeof CheckboxInput> = {
     variant: 'toggle',
     disabled: false,
   },
-}
-`},{ id: "f2084790011414", story: f2084790011414, path: "/Users/vassbence/projects/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
-import { IconCopy, IconMoreVertical, Button } from '../../index.js'
-
-/** Use buttons for clickable things */
-const meta: Meta<typeof Button> = {
-  title: 'Atoms/Button',
-  component: Button,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof Button> = {
-  args: {
-    children: 'Click me',
-    variant: 'primary',
-    size: 'medium',
-  },
-}
-
-export const Icon: StoryObj<typeof Button> = {
-  args: {
-    children: <IconMoreVertical />,
-    variant: 'neutral',
-    size: 'medium',
-    shape: 'square',
-  },
-}
-
-export const KeyboardShortcut: StoryObj<typeof Button> = {
-  args: {
-    children: 'Save',
-    variant: 'primary',
-    size: 'medium',
-    keyboardShortcut: 'Cmd+O',
-    displayKeyboardShortcut: true,
-    onClick: () => {
-      alert('onclick triggered')
-    },
-  },
-}
-
-export const IconOnly: StoryObj<typeof Button> = {
-  args: {
-    children: <IconCopy />,
-    variant: 'icon-only',
-  },
-}
-
-export const Link: StoryObj<typeof Button> = {
-  args: {
-    children: 'This is a link',
-    variant: 'neutral-link',
-    size: 'medium',
-    shape: 'square',
-    onClick: () => {
-      alert('hello')
-    },
-  },
-}
-
-export const PrefixAndSuffix: StoryObj<typeof Button> = {
-  args: {
-    children: 'Click me',
-    variant: 'primary',
-    size: 'medium',
-    prefix: <IconCopy />,
-    suffix: <IconCopy />,
-    onClick: () => {
-      alert('hello')
-    },
-  },
-}
-
-export const AsyncOnClick: StoryObj<typeof Button> = {
-  args: {
-    children: 'Click',
-    variant: 'primary',
-    size: 'medium',
-    prefix: <IconCopy />,
-    onClick: async () => {
-      await new Promise((resolve) => {
-        setTimeout(resolve, 800)
-      })
-      throw new Error('something went bad')
-    },
-  },
-}
-`},{ id: "f17306232299723", story: f17306232299723, path: "/Users/vassbence/projects/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
-import { ColorInput } from '../../index.js'
-
-const meta = {
-  title: 'Inputs/ColorInput',
-}
-export default meta
-
-export const Default = () => {
-  return (
-    <ColorInput
-      label="Background color"
-      onChange={(value) => {
-        console.log('onchange', value)
-      }}
-      description="put color on"
-    />
-  )
-}
-
-export const Small = () => {
-  return <ColorInput variant="small" defaultValue="rgba(0,123,231,0.5)" />
-}
-
-export const Error = () => {
-  return <ColorInput error />
-}
-
-export const Disabled = () => {
-  return <ColorInput disabled />
 }
 `},{ id: "f1130922799717", story: f1130922799717, path: "/Users/vassbence/projects/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
@@ -242,24 +110,49 @@ export const Copyable: StoryObj<typeof Badge> = {
     color: { control: 'select' },
   },
 }
-`},{ id: "f4948859476466", story: f4948859476466, path: "/Users/vassbence/projects/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
+`},{ id: "f16905658949426", story: f16905658949426, path: "/Users/vassbence/projects/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof Confirm> = {
-  title: 'Atoms/Confirm',
-  component: Confirm,
+const meta: Meta<typeof Calendar> = {
+  title: 'Atoms/Calendar',
+  component: Calendar,
 }
 
 export default meta
 
-export const Default: StoryObj<typeof Confirm> = {
+export const Default: StoryObj<typeof Calendar> = {
   args: {},
 }
+`},{ id: "f17306232299723", story: f17306232299723, path: "/Users/vassbence/projects/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
+import { ColorInput } from '../../index.js'
 
-export const Icons: StoryObj<typeof Confirm> = {
-  args: {
-    variant: 'small',
-  },
+const meta = {
+  title: 'Inputs/ColorInput',
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <ColorInput
+      label="Background color"
+      onChange={(value) => {
+        console.log('onchange', value)
+      }}
+      description="put color on"
+    />
+  )
+}
+
+export const Small = () => {
+  return <ColorInput variant="small" defaultValue="rgba(0,123,231,0.5)" />
+}
+
+export const Error = () => {
+  return <ColorInput error />
+}
+
+export const Disabled = () => {
+  return <ColorInput disabled />
 }
 `},{ id: "f13619739889741", story: f13619739889741, path: "/Users/vassbence/projects/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -342,97 +235,93 @@ export const Small: StoryObj<typeof Code> = {
     color: { control: 'select' },
   },
 }
-`},{ id: "f3057415892789", story: f3057415892789, path: "/Users/vassbence/projects/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
+`},{ id: "f2084790011414", story: f2084790011414, path: "/Users/vassbence/projects/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
+import { IconCopy, IconMoreVertical, Button } from '../../index.js'
 
-const meta: Meta<typeof CurrentDay> = {
-  title: 'Atoms/CurrentDay',
-  component: CurrentDay,
+/** Use buttons for clickable things */
+const meta: Meta<typeof Button> = {
+  title: 'Atoms/Button',
+  component: Button,
 }
 
 export default meta
 
-export const Default: StoryObj<typeof CurrentDay> = {
-  args: { value: new Date().getTime() },
-}
-`},{ id: "f6239386911682", story: f6239386911682, path: "/Users/vassbence/projects/better-ui/src/components/DateInput/index.stories.tsx", file: `import * as React from 'react'
-import { DateInput } from '../../index.js'
-
-const meta = {
-  title: 'Inputs/DateInput',
-}
-export default meta
-
-export const SingleDate = () => {
-  return (
-    <DateInput
-      label="Single date"
-      description="Select a date"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+export const Default: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click me',
+    variant: 'primary',
+    size: 'medium',
+  },
 }
 
-export const SingleDateAndTime = () => {
-  return (
-    <DateInput
-      time
-      label="Single date and time"
-      onChange={(value) => {
-        console.log(value)
-      }}
-      defaultValue={new Date('1999/11/03 08:00').getTime()}
-    />
-  )
+export const Icon: StoryObj<typeof Button> = {
+  args: {
+    children: <IconMoreVertical />,
+    variant: 'primary',
+    size: 'medium',
+    shape: 'square',
+  },
 }
 
-export const DateRange = () => {
-  return (
-    <DateInput
-      range
-      label="Range"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+export const KeyboardShortcut: StoryObj<typeof Button> = {
+  args: {
+    children: 'Save',
+    variant: 'primary',
+    size: 'medium',
+    keyboardShortcut: 'Cmd+O',
+    displayKeyboardShortcut: true,
+    onClick: () => {
+      alert('onclick triggered')
+    },
+  },
 }
 
-export const DateRangeAndTime = () => {
-  return (
-    <DateInput
-      range
-      time
-      label="Range and time"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+export const IconOnly: StoryObj<typeof Button> = {
+  args: {
+    children: <IconCopy />,
+    variant: 'icon-only',
+  },
 }
 
-export const Error = () => {
-  return (
-    <DateInput
-      error
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+export const Link: StoryObj<typeof Button> = {
+  args: {
+    children: 'This is a link',
+    variant: 'neutral-link',
+    size: 'medium',
+    shape: 'square',
+    onClick: () => {
+      alert('hello')
+    },
+  },
 }
 
-export const Small = () => {
-  return (
-    <DateInput
-      variant="small"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+export const PrefixAndSuffix: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click me',
+    variant: 'primary',
+    size: 'medium',
+    prefix: <IconCopy />,
+    suffix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const AsyncOnClick: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'primary',
+    size: 'medium',
+    prefix: <IconCopy />,
+    onClick: async () => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 800)
+      })
+      throw new Error('something went bad')
+    },
+  },
 }
 `},{ id: "f9344752088327", story: f9344752088327, path: "/Users/vassbence/projects/better-ui/src/components/Container/index.stories.tsx", file: `import * as React from 'react'
 import {
@@ -597,6 +486,85 @@ export const Expandable: StoryObj<typeof Container> = {
     children: <Button>This is a button</Button>,
   },
 }
+`},{ id: "f6239386911682", story: f6239386911682, path: "/Users/vassbence/projects/better-ui/src/components/DateInput/index.stories.tsx", file: `import * as React from 'react'
+import { DateInput } from '../../index.js'
+
+const meta = {
+  title: 'Inputs/DateInput',
+}
+export default meta
+
+export const SingleDate = () => {
+  return (
+    <DateInput
+      label="Single date"
+      description="Select a date"
+      onChange={(value) => {
+        console.log(value)
+      }}
+    />
+  )
+}
+
+export const SingleDateAndTime = () => {
+  return (
+    <DateInput
+      time
+      label="Single date and time"
+      onChange={(value) => {
+        console.log(value)
+      }}
+      defaultValue={new Date('1999/11/03 08:00').getTime()}
+    />
+  )
+}
+
+export const DateRange = () => {
+  return (
+    <DateInput
+      range
+      label="Range"
+      onChange={(value) => {
+        console.log(value)
+      }}
+    />
+  )
+}
+
+export const DateRangeAndTime = () => {
+  return (
+    <DateInput
+      range
+      time
+      label="Range and time"
+      onChange={(value) => {
+        console.log(value)
+      }}
+    />
+  )
+}
+
+export const Error = () => {
+  return (
+    <DateInput
+      error
+      onChange={(value) => {
+        console.log(value)
+      }}
+    />
+  )
+}
+
+export const Small = () => {
+  return (
+    <DateInput
+      variant="small"
+      onChange={(value) => {
+        console.log(value)
+      }}
+    />
+  )
+}
 `},{ id: "f1361056666384", story: f1361056666384, path: "/Users/vassbence/projects/better-ui/src/components/FileInput/index.stories.tsx", file: `import * as React from 'react'
 import { useUploadFile, FileInput } from '../../index.js'
 import { Provider } from '@based/react'
@@ -661,86 +629,6 @@ export const RealUpload = () => {
     <Provider client={client}>
       <RealUploadContent />
     </Provider>
-  )
-}
-`},{ id: "f10288907520891", story: f10288907520891, path: "/Users/vassbence/projects/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
-import {
-  Button,
-  DropdownHookProvider,
-  IconDelete,
-  IconMoreVertical,
-  Dropdown,
-  useDropdown,
-} from '../../index.js'
-
-const meta = {
-  title: 'Atoms/Dropdown',
-  decorators: [
-    (Story) => (
-      <DropdownHookProvider>
-        <Story />
-      </DropdownHookProvider>
-    ),
-  ],
-}
-export default meta
-
-export const Default = () => {
-  return (
-    <Dropdown.Root>
-      <Dropdown.Trigger>
-        <Button shape="square" variant="neutral">
-          <IconMoreVertical />
-        </Button>
-      </Dropdown.Trigger>
-      <Dropdown.Items>
-        {Array.from({ length: 200 }).map((_, i) => (
-          <Dropdown.Item
-            onClick={() => {
-              alert(\`delete \$i}\`)
-            }}
-            icon={<IconDelete />}
-          >
-            Delete {i}
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Items>
-    </Dropdown.Root>
-  )
-}
-
-function SimpleDropdown({ close, numberOfItems }) {
-  return (
-    <Dropdown.Items>
-      {Array.from({ length: numberOfItems }).map((_, i) => (
-        <Dropdown.Item
-          key={i}
-          onClick={() => {
-            close(\`delete \$i}\`)
-          }}
-          icon={<IconDelete />}
-        >
-          Delete {i}
-        </Dropdown.Item>
-      ))}
-    </Dropdown.Items>
-  )
-}
-
-export const Hook = () => {
-  const { open } = useDropdown()
-
-  return (
-    <Button
-      shape="square"
-      variant="neutral"
-      onClick={async () => {
-        const value = await open(SimpleDropdown, { numberOfItems: 5 })
-        console.log('dropdown return value:', value)
-      }}
-    >
-      <IconMoreVertical />
-    </Button>
   )
 }
 `},{ id: "f157990102582", story: f157990102582, path: "/Users/vassbence/projects/better-ui/src/components/Form/index.stories.tsx", file: `import * as React from 'react'
@@ -1691,6 +1579,118 @@ export const Bare = () => {
     </div>
   )
 }
+`},{ id: "f4948859476466", story: f4948859476466, path: "/Users/vassbence/projects/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Confirm> = {
+  title: 'Atoms/Confirm',
+  component: Confirm,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof Confirm> = {
+  args: {},
+}
+
+export const Icons: StoryObj<typeof Confirm> = {
+  args: {
+    variant: 'small',
+  },
+}
+`},{ id: "f3057415892789", story: f3057415892789, path: "/Users/vassbence/projects/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof CurrentDay> = {
+  title: 'Atoms/CurrentDay',
+  component: CurrentDay,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof CurrentDay> = {
+  args: { value: new Date().getTime() },
+}
+`},{ id: "f10288907520891", story: f10288907520891, path: "/Users/vassbence/projects/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
+import {
+  Button,
+  DropdownHookProvider,
+  IconDelete,
+  IconMoreVertical,
+  Dropdown,
+  useDropdown,
+} from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Dropdown',
+  decorators: [
+    (Story) => (
+      <DropdownHookProvider>
+        <Story />
+      </DropdownHookProvider>
+    ),
+  ],
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <Dropdown.Root>
+      <Dropdown.Trigger>
+        <Button shape="square" variant="neutral">
+          <IconMoreVertical />
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Items>
+        {Array.from({ length: 200 }).map((_, i) => (
+          <Dropdown.Item
+            onClick={() => {
+              alert(\`delete \$i}\`)
+            }}
+            icon={<IconDelete />}
+          >
+            Delete {i}
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Items>
+    </Dropdown.Root>
+  )
+}
+
+function SimpleDropdown({ close, numberOfItems }) {
+  return (
+    <Dropdown.Items>
+      {Array.from({ length: numberOfItems }).map((_, i) => (
+        <Dropdown.Item
+          key={i}
+          onClick={() => {
+            close(\`delete \$i}\`)
+          }}
+          icon={<IconDelete />}
+        >
+          Delete {i}
+        </Dropdown.Item>
+      ))}
+    </Dropdown.Items>
+  )
+}
+
+export const Hook = () => {
+  const { open } = useDropdown()
+
+  return (
+    <Button
+      shape="square"
+      variant="neutral"
+      onClick={async () => {
+        const value = await open(SimpleDropdown, { numberOfItems: 5 })
+        console.log('dropdown return value:', value)
+      }}
+    >
+      <IconMoreVertical />
+    </Button>
+  )
+}
 `},{ id: "f1926324559992", story: f1926324559992, path: "/Users/vassbence/projects/better-ui/src/components/Icons/index.stories.tsx", file: `import * as React from 'react'
 // also fix this
 import * as Icons from './index.js'
@@ -1821,19 +1821,6 @@ export const Modifier = () => {
 
 export const DoubleModifier = () => {
   return <KeyboardShortcut shortcut="Cmd+Alt+A" />
-}
-`},{ id: "f6271760022916", story: f6271760022916, path: "/Users/vassbence/projects/better-ui/src/components/LanguageInput/index.stories.tsx", file: `import { LanguageInput } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof LanguageInput> = {
-  title: 'Inputs/LanguageInput',
-  component: LanguageInput,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof LanguageInput> = {
-  args: {},
 }
 `},{ id: "f14974680308474", story: f14974680308474, path: "/Users/vassbence/projects/better-ui/src/components/Layout/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
@@ -2042,524 +2029,26 @@ export const Large = () => {
     </Stack>
   )
 }
-`},{ id: "f14989200246520", story: f14989200246520, path: "/Users/vassbence/projects/better-ui/src/components/Grid/index.stories.tsx", file: `import * as React from 'react'
-import {
-  Grid,
-  Dropdown,
-  Button,
-  IconCopy,
-  IconDelete,
-  IconMoreHorizontal,
-} from '../../index.js'
+`},{ id: "f6271760022916", story: f6271760022916, path: "/Users/vassbence/projects/better-ui/src/components/LanguageInput/index.stories.tsx", file: `import * as React from 'react'
+import { LanguageInput } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { faker } from '@faker-js/faker'
 
-const meta: Meta<typeof Grid> = {
-  title: 'Components/Grid',
-  component: Grid,
-  parameters: {
-    layout: 'fullscreen',
-  },
-}
-
-export default meta
-
-const items = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  title: faker.system.commonFileName(),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  image: faker.image.url(),
-  renderAs: faker.helpers.arrayElement(['folder', 'file', 'image']) as
-    | 'folder'
-    | 'file'
-    | 'image',
-}))
-
-export const Default = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <Grid
-        items={items}
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
-      />
-    </div>
-  )
-}
-
-export const Row = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <Grid
-        items={items}
-        variant="row"
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
-      />
-    </div>
-  )
-}
-
-export const SortableRow = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <Grid
-        items={items}
-        sortable
-        onChange={(items) => {
-          console.info(items)
-        }}
-        variant="row"
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
-      />
-    </div>
-  )
-}
-`},{ id: "f10190487816981", story: f10190487816981, path: "/Users/vassbence/projects/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof NumberInput> = {
-  title: 'Inputs/NumberInput',
-  component: NumberInput,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    label: 'Label',
-    description: "What's your number?",
-    step: 4,
-    onChange: (value) => {
-      console.log(value)
-    },
-    disabled: false,
-  },
-}
-
-export const Small: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    variant: 'small',
-  },
-}
-
-export const Error: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    error: true,
-  },
-}
-`},{ id: "f2391256762992", story: f2391256762992, path: "/Users/vassbence/projects/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Note> = {
-  title: 'Atoms/Note',
-  component: Note,
-}
-
-export default meta
-
-export const Error: StoryObj<typeof Note> = {
-  args: {
-    message: 'This is an error',
-    variant: 'error',
-  },
-}
-
-export const Warning: StoryObj<typeof Note> = {
-  args: {
-    message: 'This is a warning',
-    variant: 'warning',
-  },
-}
-
-export const Positive: StoryObj<typeof Note> = {
-  args: {
-    message: 'This is positive',
-    variant: 'positive',
-  },
-}
-
-export const Informative: StoryObj<typeof Note> = {
-  args: {
-    message: 'This is informative',
-    variant: 'informative',
-  },
-}
-
-export const Neutral: StoryObj<typeof Note> = {
-  args: {
-    message: 'This is neutral',
-    variant: 'neutral',
-  },
-}
-`},{ id: "f8544279227411", story: f8544279227411, path: "/Users/vassbence/projects/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
-import { Page, Text } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-import { styled } from 'inlines'
-
-const meta: Meta<typeof Page> = {
-  title: 'Atoms/Page',
-  component: Page,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof Page> = {
-  args: {
-    children: (
-      <styled.div
-        style={{
-          width: 540,
-          '& > div': {
-            height: '270px',
-          },
-        }}
-      >
-        <styled.div style={{ background: '#f5f5f5', height: 200 }}>
-          <Text variant="body">xx</Text>
-          🦍
-        </styled.div>
-        <styled.div style={{ background: '#afafaf' }}>🐳</styled.div>
-        <styled.div style={{ background: '#f5f5f5' }}>🦀</styled.div>
-        <styled.div style={{ background: '#afafaf' }}>🦧</styled.div>
-        <styled.div style={{ background: '#f5f5f5' }}>🐍</styled.div>
-      </styled.div>
-    ),
-    style: { maxHeight: 324 },
-  },
-}
-`},{ id: "f13087660182010", story: f13087660182010, path: "/Users/vassbence/projects/better-ui/src/components/ScrollArea/index.stories.tsx", file: `import * as React from 'react'
-import { ScrollArea } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-import { styled } from 'inlines'
-
-const meta: Meta<typeof ScrollArea> = {
-  title: 'Atoms/ScrollArea',
-  component: ScrollArea,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof ScrollArea> = {
-  args: {
-    children: (
-      <styled.div
-        style={{
-          width: 420,
-          '& > div': {
-            height: '270px',
-          },
-        }}
-      >
-        <styled.div
-          style={{ background: '#f6f6f6', height: 200, width: 700 }}
-        />
-        <styled.div
-          style={{ background: '#f1f1f1', height: 200, width: 700 }}
-        />
-        <styled.div
-          style={{ background: '#f9f9f9', height: 200, width: 700 }}
-        />
-        <styled.div
-          style={{ background: '#ffe596', height: 200, width: 700 }}
-        />
-        <styled.div
-          style={{ background: '#f3f3f3', height: 200, width: 700 }}
-        />
-      </styled.div>
-    ),
-    style: { maxHeight: 324 },
-  },
-}
-`},{ id: "f6536975305054", story: f6536975305054, path: "/Users/vassbence/projects/better-ui/src/components/SelectInput/index.stories.tsx", file: `import { SelectInput } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof SelectInput> = {
-  title: 'Inputs/SelectInput',
-  component: SelectInput,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof SelectInput> = {
-  args: {
-    placeholder: 'Select something',
-    label: 'Favourite fruit',
-    description: 'What is your favourite?',
-    disabled: false,
-    options: [
-      {
-        label: 'Orange',
-        value: 'orange',
-        prefix: '🍊',
-      },
-      {
-        label: 'Banana',
-        value: 'banana',
-        prefix: '🍌',
-      },
-      ...Array.from({ length: 100 }).map((_, i) => ({
-        label: \`Apple \$i}\`,
-        value: \`apple-\$i}\`,
-        prefix: '🍎',
-      })),
-    ],
-  },
-}
-
-export const Simple: StoryObj<typeof SelectInput> = {
-  args: {
-    placeholder: 'Select something',
-    label: 'Favourite fruit',
-    options: ['orange', 'banana', 'apple'],
-  },
-}
-
-export const Small: StoryObj<typeof SelectInput> = {
-  args: {
-    placeholder: 'Select something',
-    options: ['orange', 'banana', 'apple'],
-    variant: 'small',
-  },
-}
-
-export const Error: StoryObj<typeof SelectInput> = {
-  args: {
-    placeholder: 'Select something',
-    options: ['orange', 'banana', 'apple'],
-    error: true,
-  },
-}
-`},{ id: "f7822376808362", story: f7822376808362, path: "/Users/vassbence/projects/better-ui/src/components/Sidebar/index.stories.tsx", file: `import * as React from 'react'
-import {
-  Sidebar,
-  IconViewBoxes,
-  IconEdit,
-  IconUsers,
-  IconAlert,
-  Badge,
-} from '../../index.js'
-import type { Meta } from '@storybook/react'
-import { BasedLogoWithText } from '../Icons/extras.js'
-
-const meta: Meta<typeof Sidebar> = {
-  title: 'Components/Sidebar',
-  component: Sidebar,
-  parameters: {
-    layout: 'fullscreen',
-  },
+const meta: Meta<typeof LanguageInput> = {
+  title: 'Inputs/LanguageInput',
+  component: LanguageInput,
 }
 
 export default meta
 
 export const Default = () => {
-  const [v, setV] = React.useState('overview')
-
+  const [lang, setLang] = React.useState('en')
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <Sidebar
-        value={v}
-        onValueChange={setV}
-        data={[
-          {
-            label: 'Overview',
-            value: 'overview',
-            prefix: <IconViewBoxes />,
-            suffix: <Badge color="informative-muted">12</Badge>,
-          },
-          {
-            label: 'Content',
-            value: 'content',
-            prefix: <IconEdit />,
-            suffix: <IconAlert />,
-          },
-          { label: 'Users', value: 'users', prefix: <IconUsers /> },
-        ]}
-      />
-    </div>
+    <LanguageInput
+      value={lang}
+      onChange={setLang}
+      options={['en', 'de', 'fr', 'lb']}
+    />
   )
-}
-
-export const Logo = () => {
-  const [v, setV] = React.useState('overview')
-
-  return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <Sidebar
-        value={v}
-        onValueChange={setV}
-        header={<BasedLogoWithText />}
-        data={[
-          {
-            label: 'Overview',
-            value: 'overview',
-            prefix: <IconViewBoxes />,
-            suffix: <Badge color="informative-muted">12</Badge>,
-          },
-          {
-            label: 'Content',
-            value: 'content',
-            prefix: <IconEdit />,
-            suffix: <IconAlert />,
-          },
-          { label: 'Users', value: 'users', prefix: <IconUsers /> },
-        ]}
-      />
-    </div>
-  )
-}
-
-export const Collapsable = () => {
-  const [v, setV] = React.useState('overview')
-
-  return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <Sidebar
-        collapsable
-        value={v}
-        onValueChange={setV}
-        data={[
-          {
-            label: 'Overview',
-            value: 'overview',
-            prefix: <IconViewBoxes />,
-            suffix: <Badge color="informative-muted">12</Badge>,
-          },
-          {
-            label: 'Content',
-            value: 'content',
-            prefix: <IconEdit />,
-            suffix: <IconAlert />,
-          },
-          { label: 'Users', value: 'users', prefix: <IconUsers /> },
-        ]}
-      />
-    </div>
-  )
-}
-
-export const Groups = () => {
-  const [v, setV] = React.useState('overview')
-
-  return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <Sidebar
-        value={v}
-        onValueChange={setV}
-        header={<BasedLogoWithText />}
-        data={{
-          Group1: Array.from({ length: 16 }).map((_, i) => ({
-            label: 'Item ' + i,
-            value: 'item' + i,
-          })),
-          Group2: Array.from({ length: 16 }).map((_, i) => ({
-            label: 'Group 2 Item ' + i,
-            value: 'g2item' + i,
-          })),
-        }}
-      />
-    </div>
-  )
-}
-`},{ id: "f8523906341550", story: f8523906341550, path: "/Users/vassbence/projects/better-ui/src/components/Stack/index.stories.tsx", file: `import React, { ReactNode } from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
-import { Stack, border, borderRadius } from '../../index.js'
-
-const meta: Meta<typeof Stack> = {
-  title: 'Atoms/Stack',
-  component: Stack,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof Stack> = {
-  args: {
-    gap: 32,
-    style: {
-      '& > *': {
-        border: border(),
-        borderRadius: borderRadius('small'),
-        padding: '20px',
-      },
-    },
-    children: [<div>Have a nice day!</div>, <div>Have a nice day!</div>],
-  },
-}
-
-const manyChildren: ReactNode[] = []
-
-for (let i = 0; i < 20; i++) {
-  manyChildren.push(<div>Have a nice day! {i}</div>)
-}
-
-export const Grid: StoryObj<typeof Stack> = {
-  args: {
-    grid: true,
-    gap: 12,
-    style: {
-      '& > *': {
-        border: border(),
-        borderRadius: borderRadius('small'),
-        padding: '20px',
-      },
-    },
-    children: manyChildren,
-  },
-}
-
-export const GridFixedHeight: StoryObj<typeof Stack> = {
-  args: {
-    grid: 200,
-    gap: 12,
-    style: {
-      border: border(),
-      padding: 24,
-      minWidth: '750px',
-      '& > *': {
-        border: border(),
-        borderRadius: borderRadius('small'),
-        padding: '20px',
-      },
-    },
-    children: manyChildren,
-  },
 }
 `},{ id: "f13867817006251", story: f13867817006251, path: "/Users/vassbence/projects/better-ui/src/components/Modal/index.stories.tsx", file: `import * as React from 'react'
 import { Modal, Button, TextInput, SelectInput } from '../../index.js'
@@ -2848,6 +2337,355 @@ export const ModalConfirm = () => {
     </div>
   )
 }
+`},{ id: "f10190487816981", story: f10190487816981, path: "/Users/vassbence/projects/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof NumberInput> = {
+  title: 'Inputs/NumberInput',
+  component: NumberInput,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    label: 'Label',
+    description: "What's your number?",
+    step: 4,
+    onChange: (value) => {
+      console.log(value)
+    },
+    disabled: false,
+  },
+}
+
+export const Small: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    variant: 'small',
+  },
+}
+
+export const Error: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    error: true,
+  },
+}
+`},{ id: "f2391256762992", story: f2391256762992, path: "/Users/vassbence/projects/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Note> = {
+  title: 'Atoms/Note',
+  component: Note,
+}
+
+export default meta
+
+export const Error: StoryObj<typeof Note> = {
+  args: {
+    message: 'This is an error',
+    variant: 'error',
+  },
+}
+
+export const Warning: StoryObj<typeof Note> = {
+  args: {
+    message: 'This is a warning',
+    variant: 'warning',
+  },
+}
+
+export const Positive: StoryObj<typeof Note> = {
+  args: {
+    message: 'This is positive',
+    variant: 'positive',
+  },
+}
+
+export const Informative: StoryObj<typeof Note> = {
+  args: {
+    message: 'This is informative',
+    variant: 'informative',
+  },
+}
+
+export const Neutral: StoryObj<typeof Note> = {
+  args: {
+    message: 'This is neutral',
+    variant: 'neutral',
+  },
+}
+`},{ id: "f6536975305054", story: f6536975305054, path: "/Users/vassbence/projects/better-ui/src/components/SelectInput/index.stories.tsx", file: `import { SelectInput } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof SelectInput> = {
+  title: 'Inputs/SelectInput',
+  component: SelectInput,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof SelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    description: 'What is your favourite?',
+    disabled: false,
+    options: [
+      {
+        label: 'Orange',
+        value: 'orange',
+        prefix: '🍊',
+      },
+      {
+        label: 'Banana',
+        value: 'banana',
+        prefix: '🍌',
+      },
+      ...Array.from({ length: 100 }).map((_, i) => ({
+        label: \`Apple \$i}\`,
+        value: \`apple-\$i}\`,
+        prefix: '🍎',
+      })),
+    ],
+  },
+}
+
+export const Simple: StoryObj<typeof SelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    options: ['orange', 'banana', 'apple'],
+  },
+}
+
+export const Small: StoryObj<typeof SelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    options: ['orange', 'banana', 'apple'],
+    variant: 'small',
+  },
+}
+
+export const Error: StoryObj<typeof SelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    options: ['orange', 'banana', 'apple'],
+    error: true,
+  },
+}
+`},{ id: "f8544279227411", story: f8544279227411, path: "/Users/vassbence/projects/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
+import { Page, Text } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+import { styled } from 'inlines'
+
+const meta: Meta<typeof Page> = {
+  title: 'Atoms/Page',
+  component: Page,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof Page> = {
+  args: {
+    children: (
+      <styled.div
+        style={{
+          width: 540,
+          '& > div': {
+            height: '270px',
+          },
+        }}
+      >
+        <styled.div style={{ background: '#f5f5f5', height: 200 }}>
+          <Text variant="body">xx</Text>
+          🦍
+        </styled.div>
+        <styled.div style={{ background: '#afafaf' }}>🐳</styled.div>
+        <styled.div style={{ background: '#f5f5f5' }}>🦀</styled.div>
+        <styled.div style={{ background: '#afafaf' }}>🦧</styled.div>
+        <styled.div style={{ background: '#f5f5f5' }}>🐍</styled.div>
+      </styled.div>
+    ),
+    style: { maxHeight: 324 },
+  },
+}
+`},{ id: "f13087660182010", story: f13087660182010, path: "/Users/vassbence/projects/better-ui/src/components/ScrollArea/index.stories.tsx", file: `import * as React from 'react'
+import { ScrollArea } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+import { styled } from 'inlines'
+
+const meta: Meta<typeof ScrollArea> = {
+  title: 'Atoms/ScrollArea',
+  component: ScrollArea,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof ScrollArea> = {
+  args: {
+    children: (
+      <styled.div
+        style={{
+          width: 420,
+          '& > div': {
+            height: '270px',
+          },
+        }}
+      >
+        <styled.div
+          style={{ background: '#f6f6f6', height: 200, width: 700 }}
+        />
+        <styled.div
+          style={{ background: '#f1f1f1', height: 200, width: 700 }}
+        />
+        <styled.div
+          style={{ background: '#f9f9f9', height: 200, width: 700 }}
+        />
+        <styled.div
+          style={{ background: '#ffe596', height: 200, width: 700 }}
+        />
+        <styled.div
+          style={{ background: '#f3f3f3', height: 200, width: 700 }}
+        />
+      </styled.div>
+    ),
+    style: { maxHeight: 324 },
+  },
+}
+`},{ id: "f7822376808362", story: f7822376808362, path: "/Users/vassbence/projects/better-ui/src/components/Sidebar/index.stories.tsx", file: `import * as React from 'react'
+import {
+  Sidebar,
+  IconViewBoxes,
+  IconEdit,
+  IconUsers,
+  IconAlert,
+  Badge,
+} from '../../index.js'
+import type { Meta } from '@storybook/react'
+import { BasedLogoWithText } from '../Icons/extras.js'
+
+const meta: Meta<typeof Sidebar> = {
+  title: 'Components/Sidebar',
+  component: Sidebar,
+  parameters: {
+    layout: 'fullscreen',
+  },
+}
+
+export default meta
+
+export const Default = () => {
+  const [v, setV] = React.useState('overview')
+
+  return (
+    <div style={{ height: '100vh', width: '100%' }}>
+      <Sidebar
+        value={v}
+        onValueChange={setV}
+        data={[
+          {
+            label: 'Overview',
+            value: 'overview',
+            prefix: <IconViewBoxes />,
+            suffix: <Badge color="informative-muted">12</Badge>,
+          },
+          {
+            label: 'Content',
+            value: 'content',
+            prefix: <IconEdit />,
+            suffix: <IconAlert />,
+          },
+          { label: 'Users', value: 'users', prefix: <IconUsers /> },
+        ]}
+      />
+    </div>
+  )
+}
+
+export const Logo = () => {
+  const [v, setV] = React.useState('overview')
+
+  return (
+    <div style={{ height: '100vh', width: '100%' }}>
+      <Sidebar
+        value={v}
+        onValueChange={setV}
+        header={<BasedLogoWithText />}
+        data={[
+          {
+            label: 'Overview',
+            value: 'overview',
+            prefix: <IconViewBoxes />,
+            suffix: <Badge color="informative-muted">12</Badge>,
+          },
+          {
+            label: 'Content',
+            value: 'content',
+            prefix: <IconEdit />,
+            suffix: <IconAlert />,
+          },
+          { label: 'Users', value: 'users', prefix: <IconUsers /> },
+        ]}
+      />
+    </div>
+  )
+}
+
+export const Collapsable = () => {
+  const [v, setV] = React.useState('overview')
+
+  return (
+    <div style={{ height: '100vh', width: '100%' }}>
+      <Sidebar
+        collapsable
+        value={v}
+        onValueChange={setV}
+        data={[
+          {
+            label: 'Overview',
+            value: 'overview',
+            prefix: <IconViewBoxes />,
+            suffix: <Badge color="informative-muted">12</Badge>,
+          },
+          {
+            label: 'Content',
+            value: 'content',
+            prefix: <IconEdit />,
+            suffix: <IconAlert />,
+          },
+          { label: 'Users', value: 'users', prefix: <IconUsers /> },
+        ]}
+      />
+    </div>
+  )
+}
+
+export const Groups = () => {
+  const [v, setV] = React.useState('overview')
+
+  return (
+    <div style={{ height: '100vh', width: '100%' }}>
+      <Sidebar
+        value={v}
+        onValueChange={setV}
+        header={<BasedLogoWithText />}
+        data={{
+          Group1: Array.from({ length: 16 }).map((_, i) => ({
+            label: 'Item ' + i,
+            value: 'item' + i,
+          })),
+          Group2: Array.from({ length: 16 }).map((_, i) => ({
+            label: 'Group 2 Item ' + i,
+            value: 'g2item' + i,
+          })),
+        }}
+      />
+    </div>
+  )
+}
 `},{ id: "f16457632158462", story: f16457632158462, path: "/Users/vassbence/projects/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'
 import {
   Modal,
@@ -2985,114 +2823,67 @@ export const InfiniteQuery = () => {
     </Provider>
   )
 }
-`},{ id: "f8582702281036", story: f8582702281036, path: "/Users/vassbence/projects/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
-import { Thumbnail, IconBorderLeft } from '../../index.js'
+`},{ id: "f8523906341550", story: f8523906341550, path: "/Users/vassbence/projects/better-ui/src/components/Stack/index.stories.tsx", file: `import React, { ReactNode } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
+import { Stack, border, borderRadius } from '../../index.js'
 
-const meta: Meta<typeof Thumbnail> = {
-  title: 'Atoms/Thumbnail',
-  component: Thumbnail,
+const meta: Meta<typeof Stack> = {
+  title: 'Atoms/Stack',
+  component: Stack,
 }
 
 export default meta
 
-export const Image: StoryObj<typeof Thumbnail> = {
+export const Default: StoryObj<typeof Stack> = {
   args: {
-    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    size: 'large',
-    shape: 'square',
-    color: 'informative',
+    gap: 32,
+    style: {
+      '& > *': {
+        border: border(),
+        borderRadius: borderRadius('small'),
+        padding: '20px',
+      },
+    },
+    children: [<div>Have a nice day!</div>, <div>Have a nice day!</div>],
   },
 }
 
-export const Icon: StoryObj<typeof Thumbnail> = {
+const manyChildren: ReactNode[] = []
+
+for (let i = 0; i < 20; i++) {
+  manyChildren.push(<div>Have a nice day! {i}</div>)
+}
+
+export const Grid: StoryObj<typeof Stack> = {
   args: {
-    // src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    //  text: 'flappie',
-    size: 'large',
-    shape: 'circle',
-    icon: <IconBorderLeft />,
-    color: 'informative-muted',
+    grid: true,
+    gap: 12,
+    style: {
+      '& > *': {
+        border: border(),
+        borderRadius: borderRadius('small'),
+        padding: '20px',
+      },
+    },
+    children: manyChildren,
   },
 }
 
-export const Placeholder: StoryObj<typeof Thumbnail> = {
+export const GridFixedHeight: StoryObj<typeof Stack> = {
   args: {
-    text: 'AB',
-    size: 'large',
-    shape: 'circle',
-    color: 'positive-muted',
-    outline: true,
-  },
-}
-
-export const Counter: StoryObj<typeof Thumbnail> = {
-  args: {
-    text: 'AB',
-    size: 'large',
-    shape: 'square',
-    count: 8,
-  },
-}
-`},{ id: "f4403319537853", story: f4403319537853, path: "/Users/vassbence/projects/better-ui/src/components/Text/index.stories.tsx", file: `import { Text } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Text> = {
-  title: 'Atoms/Text',
-  component: Text,
-}
-
-export default meta
-
-export const Body: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'body',
-    color: 'secondary',
-  },
-}
-
-export const title: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'title',
-  },
-}
-
-export const titlePage: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'title-page',
-    weight: 'strong',
-    as: 'h2',
-  },
-}
-
-export const titleModal: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'title-modal',
-  },
-}
-
-export const bodyBold: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'body-bold',
-  },
-}
-
-export const bodyStrong: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'body-strong',
-  },
-}
-
-export const caption: StoryObj<typeof Text> = {
-  args: {
-    children: 'Have a nice day!',
-    variant: 'caption',
+    grid: 200,
+    gap: 12,
+    style: {
+      border: border(),
+      padding: 24,
+      minWidth: '750px',
+      '& > *': {
+        border: border(),
+        borderRadius: borderRadius('small'),
+        padding: '20px',
+      },
+    },
+    children: manyChildren,
   },
 }
 `},{ id: "f4363912759740", story: f4363912759740, path: "/Users/vassbence/projects/better-ui/src/components/TextAreaInput/index.stories.tsx", file: `import { TextAreaInput } from '../../index.js'
@@ -3167,6 +2958,67 @@ export const Disabled: StoryObj<typeof TextInput> = {
     disabled: true,
   },
 }
+`},{ id: "f4403319537853", story: f4403319537853, path: "/Users/vassbence/projects/better-ui/src/components/Text/index.stories.tsx", file: `import { Text } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Text> = {
+  title: 'Atoms/Text',
+  component: Text,
+}
+
+export default meta
+
+export const Body: StoryObj<typeof Text> = {
+  args: {
+    children: 'Have a nice day!',
+    variant: 'body',
+    color: 'secondary',
+  },
+}
+
+export const title: StoryObj<typeof Text> = {
+  args: {
+    children: 'Have a nice day!',
+    variant: 'title',
+  },
+}
+
+export const titlePage: StoryObj<typeof Text> = {
+  args: {
+    children: 'Have a nice day!',
+    variant: 'title-page',
+    weight: 'strong',
+    as: 'h2',
+  },
+}
+
+export const titleModal: StoryObj<typeof Text> = {
+  args: {
+    children: 'Have a nice day!',
+    variant: 'title-modal',
+  },
+}
+
+export const bodyBold: StoryObj<typeof Text> = {
+  args: {
+    children: 'Have a nice day!',
+    variant: 'body-bold',
+  },
+}
+
+export const bodyStrong: StoryObj<typeof Text> = {
+  args: {
+    children: 'Have a nice day!',
+    variant: 'body-strong',
+  },
+}
+
+export const caption: StoryObj<typeof Text> = {
+  args: {
+    children: 'Have a nice day!',
+    variant: 'caption',
+  },
+}
 `},{ id: "f15599106587773", story: f15599106587773, path: "/Users/vassbence/projects/better-ui/src/components/Toast/index.stories.tsx", file: `import * as React from 'react'
 import {
   Button,
@@ -3239,6 +3091,162 @@ export const Default = () => {
     <ToastProvider>
       <DefaultContent />
     </ToastProvider>
+  )
+}
+`},{ id: "f8582702281036", story: f8582702281036, path: "/Users/vassbence/projects/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
+import { Thumbnail, IconBorderLeft } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Thumbnail> = {
+  title: 'Atoms/Thumbnail',
+  component: Thumbnail,
+}
+
+export default meta
+
+export const Image: StoryObj<typeof Thumbnail> = {
+  args: {
+    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    size: 'large',
+    shape: 'square',
+    color: 'informative',
+  },
+}
+
+export const Icon: StoryObj<typeof Thumbnail> = {
+  args: {
+    // src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    //  text: 'flappie',
+    size: 'large',
+    shape: 'circle',
+    icon: <IconBorderLeft />,
+    color: 'informative-muted',
+  },
+}
+
+export const Placeholder: StoryObj<typeof Thumbnail> = {
+  args: {
+    text: 'AB',
+    size: 'large',
+    shape: 'circle',
+    color: 'positive-muted',
+    outline: true,
+  },
+}
+
+export const Counter: StoryObj<typeof Thumbnail> = {
+  args: {
+    text: 'AB',
+    size: 'large',
+    shape: 'square',
+    count: 8,
+  },
+}
+`},{ id: "f14989200246520", story: f14989200246520, path: "/Users/vassbence/projects/better-ui/src/components/Grid/index.stories.tsx", file: `import * as React from 'react'
+import {
+  Grid,
+  Dropdown,
+  Button,
+  IconCopy,
+  IconDelete,
+  IconMoreHorizontal,
+} from '../../index.js'
+import type { Meta } from '@storybook/react'
+import { faker } from '@faker-js/faker'
+
+const meta: Meta<typeof Grid> = {
+  title: 'Components/Grid',
+  component: Grid,
+  parameters: {
+    layout: 'fullscreen',
+  },
+}
+
+export default meta
+
+const items = new Array(10).fill(null).map(() => ({
+  id: faker.string.uuid().slice(0, 8),
+  title: faker.system.commonFileName(),
+  description: faker.lorem.words({ min: 0, max: 10 }),
+  image: faker.image.url(),
+  renderAs: faker.helpers.arrayElement(['folder', 'file', 'image']) as
+    | 'folder'
+    | 'file'
+    | 'image',
+}))
+
+export const Default = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Grid
+        items={items}
+        itemAction={() => (
+          <Dropdown.Root>
+            <Dropdown.Trigger>
+              <Button variant="icon-only">
+                <IconMoreHorizontal />
+              </Button>
+            </Dropdown.Trigger>
+            <Dropdown.Items>
+              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
+              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown.Root>
+        )}
+      />
+    </div>
+  )
+}
+
+export const Row = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Grid
+        items={items}
+        variant="row"
+        itemAction={() => (
+          <Dropdown.Root>
+            <Dropdown.Trigger>
+              <Button variant="icon-only">
+                <IconMoreHorizontal />
+              </Button>
+            </Dropdown.Trigger>
+            <Dropdown.Items>
+              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
+              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown.Root>
+        )}
+      />
+    </div>
+  )
+}
+
+export const SortableRow = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Grid
+        items={items}
+        sortable
+        onChange={(items) => {
+          console.info(items)
+        }}
+        variant="row"
+        itemAction={() => (
+          <Dropdown.Root>
+            <Dropdown.Trigger>
+              <Button variant="icon-only">
+                <IconMoreHorizontal />
+              </Button>
+            </Dropdown.Trigger>
+            <Dropdown.Items>
+              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
+              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown.Root>
+        )}
+      />
+    </div>
   )
 }
 `},{ id: "f14542094828981", story: f14542094828981, path: "/Users/vassbence/projects/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
