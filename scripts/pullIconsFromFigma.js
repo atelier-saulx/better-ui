@@ -6,7 +6,6 @@ import { fetch, setGlobalDispatcher, Agent } from 'undici'
 setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }))
 
 // usage: node pullIconsFromFigma.js <FIGMA_TOKEN>
-
 ;(async () => {
   const figmaToken = process.argv[2]
 
@@ -74,13 +73,11 @@ setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }))
         componentName = 'Small' + componentName
       }
 
-      const component = `export function Icon${componentName}({ style, width = ${
-        icon.size
-      }, height = ${icon.size} }: IconProps) {
+      const component = `export function Icon${componentName}({ style, size = ${icon.size} }: IconProps) {
         return (
           <svg
-            width={width}
-            height={height}
+            width={size}
+            height={size}
             style={style}
             viewBox="0 0 ${icon.size} ${icon.size}"
             fill="currentColor"
@@ -120,8 +117,7 @@ setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }))
 
 export type IconProps = {
   style?: React.CSSProperties;
-  width?: number;
-  height?: number;
+  size?: number;
 };
 
 `
@@ -136,8 +132,9 @@ export type IconProps = {
       path.join(
         new URL('.', import.meta.url).pathname,
         '..',
+        'src',
         'components',
-        'icons',
+        'Icons',
         'index.tsx',
       ),
       fileContent,
