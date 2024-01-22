@@ -28,13 +28,11 @@ export const Default = () => {
         logo={<BasedLogoWithText />}
         navigation={
           <Stack gap={24}>
-            <Button size="small" variant="neutral">
-              Documentation
-            </Button>
+            <Button variant="neutral">Documentation</Button>
             <Dropdown.Root>
               <Dropdown.Trigger>
                 <div style={{ cursor: 'pointer' }}>
-                  <Thumbnail text="MD" shape="circle" size="small" />
+                  <Thumbnail text="MD" shape="circle" />
                 </div>
               </Dropdown.Trigger>
               <Dropdown.Items>
@@ -50,5 +48,32 @@ export const Default = () => {
         ]}
       />
     </div>
+  )
+}
+
+export const BackButton = () => {
+  return (
+    <Header
+      title="Luxemburg Song Contest"
+      onBack={() => {
+        alert('back button clicked in header')
+      }}
+      navigation={
+        <Stack gap={24}>
+          <Button variant="neutral">Documentation</Button>
+          <Dropdown.Root>
+            <Dropdown.Trigger>
+              <div style={{ cursor: 'pointer' }}>
+                <Thumbnail text="MD" shape="circle" />
+              </div>
+            </Dropdown.Trigger>
+            <Dropdown.Items>
+              <Dropdown.Item icon={<IconSettings />}>Settings</Dropdown.Item>
+              <Dropdown.Item icon={<IconLogOut />}>Logout</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown.Root>
+        </Stack>
+      }
+    />
   )
 }
