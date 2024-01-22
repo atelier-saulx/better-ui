@@ -20,6 +20,7 @@ export type ButtonProps = {
     | 'neutral-transparent'
     | 'neutral-link'
     | 'error'
+    | 'error-muted'
     | 'icon-only'
   className?: string
   prefix?: React.ReactNode
@@ -171,6 +172,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             '&:hover': {
               background: 'var(--semantic-background-error-hover)',
               border: '1px solid var(--semantic-background-error-hover)',
+            },
+          }),
+          ...(variant === 'error-muted' && {
+            color: 'var(--semantic-color-error-muted)',
+            background: 'var(--semantic-background-error-muted)',
+            border: 'transparent',
+            '&:hover': {
+              color: color('content', 'inverted'),
+              background: 'var(--semantic-background-error)',
             },
           }),
           ...(variant === 'primary-link' && {

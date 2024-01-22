@@ -13,7 +13,7 @@ export default meta
 export const Default: StoryObj<typeof Button> = {
   args: {
     children: 'Click me',
-    variant: 'primary',
+    variant: 'error-muted',
     size: 'medium',
   },
 }
