@@ -10,7 +10,6 @@ import * as f15918582868135 from "../../src/components/CurrentDay/index.stories.
 import * as f5347209449136 from "../../src/components/DateInput/index.stories.js"
 import * as f12984134904489 from "../../src/components/Dropdown/index.stories.js"
 import * as f12162171475362 from "../../src/components/FileInput/index.stories.js"
-import * as f11493022049604 from "../../src/components/Form/index.stories.js"
 import * as f11927335739210 from "../../src/components/Grid/index.stories.js"
 import * as f10261065846765 from "../../src/components/Header/index.stories.js"
 import * as f6035430303946 from "../../src/components/Icons/index.stories.js"
@@ -34,7 +33,13 @@ import * as f2542458627838 from "../../src/components/Thumbnail/index.stories.js
 import * as f10219561566831 from "../../src/components/Toast/index.stories.js"
 import * as f12164388818727 from "../../src/components/Tooltip/index.stories.js"
 import * as f14744076215203 from "../../src/components/Video/index.stories.js"
-export const stories = [f2709786937207,f12539861850560,f14261403483167,f1403935485412,f13557855690583,f6155456052992,f15918582868135,f5470738912473,f2676674344469,f12984134904489,f12162171475362,f5347209449136,f11493022049604,f11927335739210,f10261065846765,f6035430303946,f10173362420623,f1153425962678,f16765197606902,f936609549945,f5634334384066,f4437124256520,f5909785848135,f16126198374920,f15513603856812,f10196973367128,f16472063764097,f17293536255708,f17512554344332,f16386070420783,f7144734297614,f5979046522585,f2542458627838,f10219561566831,f14744076215203,f12164388818727]
+import * as f8139019256634 from "../../src/components/Form/stories/arrays.stories.js"
+import * as f11284618058075 from "../../src/components/Form/stories/default.stories.js"
+import * as f12399833393765 from "../../src/components/Form/stories/object.stories.js"
+import * as f8217294240285 from "../../src/components/Form/stories/record.stories.js"
+import * as f12909404527880 from "../../src/components/Form/stories/references.stories.js"
+import * as f7234131307474 from "../../src/components/Form/stories/set.stories.js"
+export const stories = [f2709786937207,f1403935485412,f14261403483167,f5470738912473,f2676674344469,f13557855690583,f15918582868135,f12539861850560,f6155456052992,f5347209449136,f12162171475362,f12984134904489,f11927335739210,f10261065846765,f6035430303946,f10173362420623,f1153425962678,f4437124256520,f16765197606902,f936609549945,f5634334384066,f5909785848135,f16472063764097,f16126198374920,f15513603856812,f10196973367128,f17293536255708,f17512554344332,f16386070420783,f7144734297614,f5979046522585,f2542458627838,f12164388818727,f14744076215203,f8139019256634,f10219561566831,f11284618058075,f12399833393765,f8217294240285,f12909404527880,f7234131307474]
 export const parsedStories = [{ id: "f2709786937207", story: f2709786937207, path: "/Users/jimdebeer/saulx/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -78,100 +83,6 @@ export const Copyable: StoryObj<typeof Badge> = {
     color: 'informative',
     prefix: <IconSmallBolt />,
     copyValue: 'this got copied from a badge',
-  },
-  argTypes: {
-    color: { control: 'select' },
-  },
-}
-`},{ id: "f12539861850560", story: f12539861850560, path: "/Users/jimdebeer/saulx/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Calendar> = {
-  title: 'Atoms/Calendar',
-  component: Calendar,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof Calendar> = {
-  args: {},
-}
-`},{ id: "f14261403483167", story: f14261403483167, path: "/Users/jimdebeer/saulx/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Code> = {
-  title: 'Atoms/Code',
-  component: Code,
-}
-
-export default meta
-
-const json = JSON.stringify({ hello: 'bla', x: 1, y: 2, z: 4 }, null, 2)
-
-const ts = \`import * as React from 'react'
-
-export function Svg({ style, width = 20, height = 20 }: IconProps) {
-  return (
-    <svg
-      width={width}
-      height={height}
-      style={style}
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="a b c"
-      />
-    </svg>
-  )
-}
-\`
-
-export const Default: StoryObj<typeof Code> = {
-  args: {
-    value: ts,
-    language: 'typescript',
-    color: 'inverted',
-  },
-  argTypes: {
-    color: { control: 'select' },
-  },
-}
-
-export const Prettier: StoryObj<typeof Code> = {
-  args: {
-    value: ts,
-    language: 'typescript',
-    color: 'inverted',
-    prettier: true
-  },
-  argTypes: {
-    color: { control: 'select' },
-  },
-}
-
-
-export const CopyButton: StoryObj<typeof Code> = {
-  args: {
-    value: json,
-    language: 'json',
-    copy: true,
-    color: 'muted',
-    onChange: () => {},
-  },
-  argTypes: {
-    color: { control: 'select' },
-    language: { control: 'select' },
-  },
-}
-
-export const Small: StoryObj<typeof Code> = {
-  args: {
-    value: ts,
-    language: 'typescript',
-    variant: 'small',
   },
   argTypes: {
     color: { control: 'select' },
@@ -265,64 +176,86 @@ export const AsyncOnClick: StoryObj<typeof Button> = {
     },
   },
 }
-`},{ id: "f13557855690583", story: f13557855690583, path: "/Users/jimdebeer/saulx/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
+`},{ id: "f14261403483167", story: f14261403483167, path: "/Users/jimdebeer/saulx/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof CheckboxInput> = {
-  title: 'Inputs/CheckboxInput',
-  component: CheckboxInput,
+const meta: Meta<typeof Code> = {
+  title: 'Atoms/Code',
+  component: Code,
 }
 
 export default meta
 
-export const Checkbox: StoryObj<typeof CheckboxInput> = {
+const json = JSON.stringify({ hello: 'bla', x: 1, y: 2, z: 4 }, null, 2)
+
+const ts = \`import * as React from 'react'
+
+export function Svg({ style, width = 20, height = 20 }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      style={style}
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="a b c"
+      />
+    </svg>
+  )
+}
+\`
+
+export const Default: StoryObj<typeof Code> = {
   args: {
-    label: 'Label',
-    description: 'This is the description',
-    disabled: false,
+    value: ts,
+    language: 'typescript',
+    color: 'inverted',
+  },
+  argTypes: {
+    color: { control: 'select' },
   },
 }
 
-export const Toggle: StoryObj<typeof CheckboxInput> = {
+export const Prettier: StoryObj<typeof Code> = {
   args: {
-    label: 'Label',
-    description: 'This is the description',
-    defaultValue: true,
-    variant: 'toggle',
-    disabled: false,
+    value: ts,
+    language: 'typescript',
+    color: 'inverted',
+    prettier: true
+  },
+  argTypes: {
+    color: { control: 'select' },
   },
 }
-`},{ id: "f6155456052992", story: f6155456052992, path: "/Users/jimdebeer/saulx/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof Confirm> = {
-  title: 'Atoms/Confirm',
-  component: Confirm,
-}
 
-export default meta
-
-export const Default: StoryObj<typeof Confirm> = {
-  args: {},
-}
-
-export const Icons: StoryObj<typeof Confirm> = {
+export const CopyButton: StoryObj<typeof Code> = {
   args: {
+    value: json,
+    language: 'json',
+    copy: true,
+    color: 'muted',
+    onChange: () => {},
+  },
+  argTypes: {
+    color: { control: 'select' },
+    language: { control: 'select' },
+  },
+}
+
+export const Small: StoryObj<typeof Code> = {
+  args: {
+    value: ts,
+    language: 'typescript',
     variant: 'small',
   },
-}
-`},{ id: "f15918582868135", story: f15918582868135, path: "/Users/jimdebeer/saulx/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof CurrentDay> = {
-  title: 'Atoms/CurrentDay',
-  component: CurrentDay,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof CurrentDay> = {
-  args: { value: new Date().getTime() },
+  argTypes: {
+    color: { control: 'select' },
+  },
 }
 `},{ id: "f5470738912473", story: f5470738912473, path: "/Users/jimdebeer/saulx/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
 import { ColorInput } from '../../index.js'
@@ -518,151 +451,77 @@ export const Expandable: StoryObj<typeof Container> = {
     children: <Button>This is a button</Button>,
   },
 }
-`},{ id: "f12984134904489", story: f12984134904489, path: "/Users/jimdebeer/saulx/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
-import {
-  Button,
-  DropdownHookProvider,
-  IconDelete,
-  IconMoreVertical,
-  Dropdown,
-  useDropdown,
-} from '../../index.js'
+`},{ id: "f13557855690583", story: f13557855690583, path: "/Users/jimdebeer/saulx/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
 
-const meta = {
-  title: 'Atoms/Dropdown',
-  decorators: [
-    (Story) => (
-      <DropdownHookProvider>
-        <Story />
-      </DropdownHookProvider>
-    ),
-  ],
+const meta: Meta<typeof CheckboxInput> = {
+  title: 'Inputs/CheckboxInput',
+  component: CheckboxInput,
 }
+
 export default meta
 
-export const Default = () => {
-  return (
-    <Dropdown.Root>
-      <Dropdown.Trigger>
-        <Button shape="square" variant="neutral">
-          <IconMoreVertical />
-        </Button>
-      </Dropdown.Trigger>
-      <Dropdown.Items>
-        {Array.from({ length: 200 }).map((_, i) => (
-          <Dropdown.Item
-            key={i}
-            onClick={() => {
-              alert(\`delete \$i}\`)
-            }}
-            icon={<IconDelete />}
-          >
-            Delete {i}
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Items>
-    </Dropdown.Root>
-  )
+export const Checkbox: StoryObj<typeof CheckboxInput> = {
+  args: {
+    label: 'Label',
+    description: 'This is the description',
+    disabled: false,
+  },
 }
 
-function SimpleDropdown({ close, numberOfItems }) {
-  return (
-    <Dropdown.Items>
-      {Array.from({ length: numberOfItems }).map((_, i) => (
-        <Dropdown.Item
-          key={i}
-          onClick={() => {
-            close(\`delete \$i}\`)
-          }}
-        >
-          Delete {i}
-        </Dropdown.Item>
-      ))}
-    </Dropdown.Items>
-  )
+export const Toggle: StoryObj<typeof CheckboxInput> = {
+  args: {
+    label: 'Label',
+    description: 'This is the description',
+    defaultValue: true,
+    variant: 'toggle',
+    disabled: false,
+  },
+}
+`},{ id: "f15918582868135", story: f15918582868135, path: "/Users/jimdebeer/saulx/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof CurrentDay> = {
+  title: 'Atoms/CurrentDay',
+  component: CurrentDay,
 }
 
-export const Hook = () => {
-  const { open } = useDropdown()
-
-  return (
-    <Button
-      shape="square"
-      variant="neutral"
-      onClick={async () => {
-        const value = await open(SimpleDropdown, { numberOfItems: 5 })
-        console.log('dropdown return value:', value)
-      }}
-    >
-      <IconMoreVertical />
-    </Button>
-  )
-}
-`},{ id: "f12162171475362", story: f12162171475362, path: "/Users/jimdebeer/saulx/better-ui/src/components/FileInput/index.stories.tsx", file: `import * as React from 'react'
-import { useUploadFile, FileInput } from '../../index.js'
-import { Provider } from '@based/react'
-import based from '@based/client'
-
-const client = based({
-  org: 'saulx',
-  project: 'based-ui',
-  env: 'production',
-})
-
-const meta = {
-  title: 'Inputs/FileInput',
-}
 export default meta
 
-export const Default = () => {
-  return (
-    <FileInput
-      onChange={(file) => {
-        console.log('file', file)
-      }}
-      label="upload some file"
-      description="drop a file in here"
-      // disabled
-    />
-  )
+export const Default: StoryObj<typeof CurrentDay> = {
+  args: { value: new Date().getTime() },
+}
+`},{ id: "f12539861850560", story: f12539861850560, path: "/Users/jimdebeer/saulx/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Calendar> = {
+  title: 'Atoms/Calendar',
+  component: Calendar,
 }
 
-export const Small = () => {
-  return (
-    <FileInput
-      variant="small"
-      onChange={(file) => {
-        console.log('file', file)
-      }}
-    />
-  )
+export default meta
+
+export const Default: StoryObj<typeof Calendar> = {
+  args: {},
+}
+`},{ id: "f6155456052992", story: f6155456052992, path: "/Users/jimdebeer/saulx/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Confirm> = {
+  title: 'Atoms/Confirm',
+  component: Confirm,
 }
 
-export const Error = () => {
-  return <FileInput status="error" />
+export default meta
+
+export const Default: StoryObj<typeof Confirm> = {
+  args: {},
 }
 
-const RealUploadContent = () => {
-  const { handleFileInputChange, status, progress } = useUploadFile()
-
-  return (
-    <FileInput
-      label="Avatar"
-      status={status}
-      progress={progress}
-      onChange={handleFileInputChange((file) => {
-        console.log('uploaded file', file)
-      })}
-    />
-  )
-}
-
-export const RealUpload = () => {
-  return (
-    <Provider client={client}>
-      <RealUploadContent />
-    </Provider>
-  )
+export const Icons: StoryObj<typeof Confirm> = {
+  args: {
+    variant: 'small',
+  },
 }
 `},{ id: "f5347209449136", story: f5347209449136, path: "/Users/jimdebeer/saulx/better-ui/src/components/DateInput/index.stories.tsx", file: `import * as React from 'react'
 import { DateInput } from '../../index.js'
@@ -743,953 +602,150 @@ export const Small = () => {
     />
   )
 }
-`},{ id: "f11493022049604", story: f11493022049604, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/index.stories.tsx", file: `import * as React from 'react'
-import { Form, border, Modal } from '../../index.js'
-import { BasedSchemaField } from '@based/schema'
-import { styled } from 'inlines'
-import { faker } from '@faker-js/faker'
-import { wait } from '@saulx/utils'
+`},{ id: "f12162171475362", story: f12162171475362, path: "/Users/jimdebeer/saulx/better-ui/src/components/FileInput/index.stories.tsx", file: `import * as React from 'react'
+import { useUploadFile, FileInput } from '../../index.js'
+import { Provider } from '@based/react'
+import based from '@based/client'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
-  title: 'Components/Form',
-  parameters: {
-    layout: 'fullscreen',
-  },
-  decorators: [
-    (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
-    ),
-  ],
+  title: 'Inputs/FileInput',
 }
-
-const ts = \`import * as React from 'react'
-
-export function Svg({ style, width = 20, height = 20 }: IconProps) {
-  return (
-    <svg
-      width={width}
-      height={height}
-      style={style}
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="a b c"
-      />
-    </svg>
-  )
-}
-\`
-
-const fileUpload = async ({ value }, updateProgress) => {
-  if (!value) {
-    return undefined
-  }
-  let p = 0
-  while (p < 100) {
-    p += 10
-    updateProgress(p)
-    await wait(100)
-  }
-  return 'https://i.imgur.com/DRmh6S9.jpeg'
-}
-
 export default meta
 
 export const Default = () => {
-  const [cnt, setCnt] = React.useState<number>(0)
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCnt((cnt) => cnt + 1)
-    }, 100)
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
-
   return (
-    <div style={{ padding: 64 }}>
-      <Form
-        checksum={cnt}
-        onFileUpload={fileUpload}
-        values={{
-          src: 'https://i.imgur.com/t1bWmmC.jpeg',
-          code: ts,
-          json: JSON.stringify(
-            { y: 1, x: 1, z: 1, someThing: 'great' },
-            null,
-            2,
-          ),
-          category: 'id12345',
-          categoryNamed: {
-            id: 'id12345',
-            title: 'Mr category',
-          },
-          logo: {
-            name: 't1bWmmC.jpeg',
-            id: 'idxyz',
-            src: 'https://i.imgur.com/t1bWmmC.jpeg',
-          },
-          number: cnt,
-        }}
-        fields={{
-          name: {
-            title: 'Name',
-            type: 'string',
-            description: 'A name of someone',
-          },
-          dope: {
-            title: 'Is it dope?',
-            type: 'boolean',
-            description: 'Dope or nah',
-          },
-          number: {
-            title: 'Number',
-            type: 'number',
-            minimum: 10,
-            maximum: 10,
-          },
-          createdAt: {
-            type: 'timestamp',
-          },
-          logo: {
-            title: 'Logo',
-            description: 'This is a logo',
-            type: 'reference',
-            allowedTypes: ['file'],
-          },
-          logoEmpty: {
-            title: 'Logo empty',
-            description: 'This is a logo',
-            type: 'reference',
-            allowedTypes: ['file'],
-          },
-          category: {
-            title: 'Category',
-            description: 'This is a category',
-            type: 'reference',
-            allowedTypes: ['category'],
-            bidirectional: { fromField: 'flap' },
-          },
-          categoryNamed: {
-            title: 'Category with a name',
-            description: 'This is a category',
-            type: 'reference',
-            allowedTypes: ['category'],
-            bidirectional: { fromField: 'flap' },
-          },
-          bgColor: {
-            title: 'Background color',
-            type: 'string',
-            format: 'rgbColor',
-          },
-          options: {
-            title: 'Options',
-            description: 'Select some options',
-            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
-          },
-          json: {
-            title: 'Some JSON',
-            description: 'This is some json',
-            type: 'json',
-          },
-          code: {
-            title: 'Some Code',
-            description: 'This is some Code',
-            type: 'string',
-            format: 'code',
-          },
-          shortnumber: {
-            title: 'A short number',
-            type: 'number',
-            display: 'short',
-            description: 'A short number',
-          },
-          date: {
-            title: 'A date',
-            type: 'timestamp',
-            description: 'A timestamp',
-          },
-          flap: {
-            title: 'Flap',
-            type: 'string',
-            description: 'A flap',
-          },
-          mutliLineText: {
-            title: 'Multiline Text',
-            type: 'string',
-            multiline: true,
-            description: 'A flap',
-          },
-          src: {
-            title: 'Source',
-            type: 'string',
-            contentMediaType: '*/*',
-            description: 'A src',
-          },
-        }}
-        onChange={(values, changed, checksum) => {
-          console.log(
-            'values:',
-            values,
-            'changed:',
-            changed,
-            'checksum:',
-            checksum,
-          )
-        }}
-      />
-    </div>
+    <FileInput
+      onChange={(file) => {
+        console.log('file', file)
+      }}
+      label="upload some file"
+      description="drop a file in here"
+      // disabled
+    />
   )
 }
 
-const faces = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-}))
+export const Small = () => {
+  return (
+    <FileInput
+      variant="small"
+      onChange={(file) => {
+        console.log('file', file)
+      }}
+    />
+  )
+}
 
-const facesNames = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  firstName: faker.person.firstName(),
-  createdAt: faker.date.recent().valueOf(),
-  lastUpdated: faker.date.recent().valueOf(),
-  powerTime: faker.date.recent().valueOf(),
-  city: faker.location.city(),
-}))
+export const Error = () => {
+  return <FileInput status="error" />
+}
 
-const facesLess = new Array(20).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  name: faker.person.firstName(),
-}))
-
-export const References = () => {
-  const { open } = Modal.useModal()
-
-  const getRandomRef = () => {
-    const id = faker.string.uuid().slice(0, 8)
-    const choices = [
-      {
-        id,
-        src: faker.image.avatar(),
-        name: faker.person.fullName(),
-      },
-      { id, title: faker.lorem.sentence(3) },
-      id,
-      {
-        id,
-        status: faker.lorem.words(1),
-        title: faker.lorem.sentence(3),
-        src: faker.image.avatar(),
-        number: faker.number.int(10),
-        name: faker.person.fullName(),
-      },
-      {
-        id,
-        src: faker.image.avatar(),
-        name: faker.person.fullName(),
-        status: faker.lorem.words(1),
-      },
-    ]
-    return choices[Math.floor(Math.random() * choices.length)]
-  }
+const RealUploadContent = () => {
+  const { handleFileInputChange, status, progress } = useUploadFile()
 
   return (
-    <styled.div
-      style={{
-        padding: 64,
+    <FileInput
+      label="Avatar"
+      status={status}
+      progress={progress}
+      onChange={handleFileInputChange((file) => {
+        console.log('uploaded file', file)
+      })}
+    />
+  )
+}
+
+export const RealUpload = () => {
+  return (
+    <Provider client={client}>
+      <RealUploadContent />
+    </Provider>
+  )
+}
+`},{ id: "f12984134904489", story: f12984134904489, path: "/Users/jimdebeer/saulx/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
+import {
+  Button,
+  DropdownHookProvider,
+  IconDelete,
+  IconMoreVertical,
+  Dropdown,
+  useDropdown,
+} from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Dropdown',
+  decorators: [
+    (Story) => (
+      <DropdownHookProvider>
+        <Story />
+      </DropdownHookProvider>
+    ),
+  ],
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <Dropdown.Root>
+      <Dropdown.Trigger>
+        <Button shape="square" variant="neutral">
+          <IconMoreVertical />
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Items>
+        {Array.from({ length: 200 }).map((_, i) => (
+          <Dropdown.Item
+            key={i}
+            onClick={() => {
+              alert(\`delete \$i}\`)
+            }}
+            icon={<IconDelete />}
+          >
+            Delete {i}
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Items>
+    </Dropdown.Root>
+  )
+}
+
+function SimpleDropdown({ close, numberOfItems }) {
+  return (
+    <Dropdown.Items>
+      {Array.from({ length: numberOfItems }).map((_, i) => (
+        <Dropdown.Item
+          key={i}
+          onClick={() => {
+            close(\`delete \$i}\`)
+          }}
+        >
+          Delete {i}
+        </Dropdown.Item>
+      ))}
+    </Dropdown.Items>
+  )
+}
+
+export const Hook = () => {
+  const { open } = useDropdown()
+
+  return (
+    <Button
+      shape="square"
+      variant="neutral"
+      onClick={async () => {
+        const value = await open(SimpleDropdown, { numberOfItems: 5 })
+        console.log('dropdown return value:', value)
       }}
     >
-      <Form
-        values={{
-          refTags: faces,
-          people: facesNames,
-          peopleLess: facesLess,
-          refs: [
-            'x211212',
-            { id: '212cwcwe', name: 'my snurp' },
-            {
-              id: '212cwcwe',
-              src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
-            },
-            { id: '212cwcwe' },
-          ],
-        }}
-        onClickReference={async ({ path }) => {
-          open(({ close }) => {
-            return (
-              <Modal onConfirm={() => close(getRandomRef())}>
-                <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
-              </Modal>
-            )
-          })
-        }}
-        onSelectReference={async ({ path }) => {
-          return open(({ close }) => {
-            return (
-              <Modal variant="large" onConfirm={() => close(getRandomRef())}>
-                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
-              </Modal>
-            )
-          })
-        }}
-        onSelectReferences={async ({ path }) => {
-          return open(({ close }) => {
-            const newItems: any[] = []
-            const len = ~~(Math.random() * 100)
-            for (let i = 0; i < len; i++) {
-              newItems.push(getRandomRef())
-            }
-            return (
-              <Modal variant="large" onConfirm={() => close(newItems)}>
-                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
-              </Modal>
-            )
-          })
-        }}
-        fields={{
-          ref: {
-            title: 'Single reference',
-            type: 'reference',
-            description: 'A single ref',
-          },
-          logo: {
-            title: 'Single reference fronm file',
-            type: 'reference',
-            description: 'A single ref',
-            allowedTypes: ['file'],
-          },
-          refTags: {
-            title: 'Multi references',
-            type: 'references',
-            sortable: true,
-            description: 'Multi ref',
-          },
-          peopleLess: {
-            title: 'People',
-            type: 'references',
-          },
-          people: {
-            sortable: true,
-            title: 'People time',
-            type: 'references',
-          },
-          refs: {
-            title: 'Multi references',
-            type: 'references',
-            description: 'Multi ref',
-            sortable: true,
-          },
-          object: {
-            title: 'Refs in an object',
-            type: 'object',
-            description: 'Some refs',
-            properties: {
-              ref: {
-                title: 'Single reference',
-                type: 'reference',
-                description: 'A single ref',
-              },
-              refs: {
-                title: 'Multi references',
-                type: 'references',
-                description: 'Multi ref',
-              },
-            },
-          },
-        }}
-        onChange={(values, changed, checksum, based) => {
-          console.info({ values, changed, checksum, based })
-        }}
-      />
-    </styled.div>
-  )
-}
-
-export const Set = () => {
-  return (
-    <styled.div style={{ padding: 64 }}>
-      <Form
-        values={{
-          set: ['a', 'b', 'c'],
-          setNumber: [
-            1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-          ],
-          object: {
-            a: ['a', 'b', 'c'],
-            b: [
-              1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-              20,
-            ],
-          },
-        }}
-        fields={{
-          set: {
-            title: 'Set',
-            type: 'set',
-            description: 'A set with strings',
-            items: { type: 'string' },
-          },
-          setNumber: {
-            title: 'Set Numbers',
-            type: 'set',
-            description: 'A set with numbers',
-            items: { type: 'number' },
-          },
-          object: {
-            title: 'Set in an object',
-            type: 'object',
-            description: 'A set with numbers',
-            properties: {
-              a: {
-                title: 'Set',
-                type: 'set',
-                description: 'A set with strings',
-                items: { type: 'string' },
-              },
-              b: {
-                title: 'Set Numbers',
-                type: 'set',
-                description: 'A set with numbers',
-                items: { type: 'number' },
-              },
-              c: {
-                title: 'Set Numbers',
-                type: 'set',
-                description: 'A set with numbers',
-                items: { type: 'number' },
-              },
-            },
-          },
-        }}
-        onChange={(values, changed, checksum) => {
-          console.log(
-            'values:',
-            values,
-            'changed:',
-            changed,
-            'checksum:',
-            checksum,
-          )
-        }}
-      />
-    </styled.div>
-  )
-}
-
-const objectField: { [key: string]: BasedSchemaField } = {
-  multiLineRatings: {
-    title: 'Multiline Ratings',
-    description: 'Rating of things',
-    type: 'object',
-    properties: {
-      price: { title: 'Price', type: 'number' },
-      text: { title: 'Multiline text', type: 'string', multiline: true },
-    },
-  },
-  ratings: {
-    title: 'Ratings',
-    description: 'Rating of things',
-    type: 'object',
-    properties: {
-      price: { type: 'number', title: 'Price' },
-      quality: { type: 'string', title: 'Quality' },
-      time: { type: 'timestamp', title: 'Time' },
-      powerful: { type: 'string', title: 'Power Level', format: 'rgbColor' },
-    },
-  },
-  order: {
-    title: 'Order',
-    description: 'A nice order',
-    type: 'object',
-    properties: {
-      orderId: { type: 'string' },
-      price: { type: 'number' },
-      email: { type: 'string' },
-      multiLineText: { type: 'string', multiline: true },
-      isItDope: {
-        type: 'boolean',
-      },
-    },
-  },
-  orderWithDescription: {
-    title: 'Order Described',
-    description: 'A nice order',
-    type: 'object',
-    properties: {
-      orderId: {
-        type: 'string',
-        description: 'ID of the order',
-        title: 'ID',
-      },
-      price: {
-        type: 'string',
-        description: 'The most important',
-        title: 'Price',
-      },
-      quality: {
-        enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
-        title: 'Quality',
-        description: 'Is it snurp or dakkie?',
-      },
-      email: {
-        type: 'string',
-        description: 'Email for comms',
-        title: 'Email',
-      },
-      isItDope: {
-        title: 'Is it dope?',
-        description: 'Determines the dopeness',
-        type: 'boolean',
-      },
-      json: {
-        title: 'Some JSON',
-        description: 'This is some json',
-        type: 'json',
-      },
-      code: {
-        title: 'Some Code',
-        description: 'This is some Code',
-        type: 'string',
-        format: 'code',
-      },
-    },
-  },
-  address: {
-    title: 'Address',
-    description: 'An address similar to http://microformats.org/wiki/h-card',
-    type: 'object',
-    properties: {
-      picture: {
-        title: 'Picture',
-        type: 'string',
-        contentMediaType: '*/*',
-      },
-      postOfficeBox: {
-        title: 'PO Box',
-        type: 'string',
-      },
-      extendedAddress: {
-        title: 'Address extended',
-        description: 'An address similar to flap',
-        type: 'string',
-      },
-      streetAddress: {
-        title: 'Street',
-        type: 'string',
-      },
-      locality: {
-        title: 'Locality',
-        type: 'string',
-      },
-      region: {
-        title: 'Region',
-        type: 'string',
-      },
-      postalCode: {
-        title: 'PostalCode',
-        type: 'string',
-      },
-      countryName: {
-        title: 'Country',
-        type: 'string',
-      },
-    },
-  },
-  object: {
-    title: 'Restaurant',
-    description: 'Restaurant of the form',
-    type: 'object',
-    properties: {
-      name: { type: 'string', title: 'Name' },
-      isItDope: {
-        title: 'Dopeness',
-        type: 'boolean',
-      },
-      bla: {
-        type: 'reference',
-        bidirectional: {
-          fromField: 'bla',
-        },
-        title: 'Bla',
-        allowedTypes: ['root'],
-      },
-      contact: {
-        title: 'Contact',
-        type: 'object',
-        properties: {
-          name: { type: 'string' },
-          phone: { type: 'string', format: 'mobilePhone' },
-          email: { type: 'string', format: 'email' },
-          picture: { type: 'string', contentMediaType: '*/*' },
-        },
-      },
-      ratings: {
-        title: 'Ratings',
-        type: 'object',
-        properties: {
-          price: { type: 'string', title: 'Price' },
-          quality: {
-            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
-            title: 'Quality',
-          },
-          dinky: {
-            type: 'reference',
-            bidirectional: {
-              fromField: 'bla',
-            },
-            title: 'Dinky',
-            allowedTypes: ['thing'],
-          },
-          powerful: { type: 'string', title: 'Power Level' },
-        },
-      },
-      location: {
-        title: 'Location',
-        type: 'object',
-        properties: {
-          snurp: {
-            type: 'reference',
-            bidirectional: {
-              fromField: 'bla',
-            },
-            title: 'Snurp',
-            allowedTypes: ['thing'],
-          },
-          doink: {
-            type: 'reference',
-            bidirectional: {
-              fromField: 'bla',
-            },
-            title: 'Doink',
-            allowedTypes: ['thing'],
-          },
-          lat: { type: 'string', title: 'Latitude' },
-        },
-      },
-    },
-  },
-
-  nestedObject: {
-    title: 'Nested object',
-    description: 'Nested large objects',
-    type: 'object',
-    properties: {
-      contact: {
-        title: 'Nested object',
-        description: 'Nested large objects',
-        type: 'object',
-        properties: {
-          contact: {
-            title: 'Contact',
-            type: 'object',
-            properties: {
-              name: { type: 'string' },
-              phone: { type: 'string', format: 'mobilePhone' },
-              email: { type: 'string', format: 'email' },
-              picture: { type: 'string', contentMediaType: '*/*' },
-            },
-          },
-          flap: {
-            title: 'Deep Nested object',
-            type: 'object',
-            properties: {
-              name: { type: 'string' },
-              flapflapflap: { type: 'json' },
-              phone: { type: 'string', format: 'mobilePhone' },
-              email: { type: 'string', format: 'email' },
-              picture: { type: 'string', contentMediaType: '*/*' },
-            },
-          },
-        },
-      },
-    },
-  },
-}
-
-export const SmallForm = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <Form
-        variant="small"
-        fields={{
-          options: {
-            title: 'Options',
-            description: 'Select some options',
-            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
-          },
-        }}
-        onChange={(values) => {
-          console.log(values)
-        }}
-      />
-    </div>
-  )
-}
-
-export const Object = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <Form
-        onFileUpload={fileUpload}
-        variant="small"
-        values={{
-          ratings: {
-            powerful: 'rgb(78,56,188)',
-          },
-          object: {
-            location: {
-              snurp: { id: 'flap', src: 'https://i.imgur.com/t1bWmmC.jpeg' },
-              doink: 'th123212',
-            },
-          },
-          orderWithDescription: {
-            code: ts,
-            json: JSON.stringify(
-              { y: 1, x: 1, z: 1, someThing: 'great' },
-              null,
-              2,
-            ),
-          },
-        }}
-        fields={objectField}
-        onChange={(values) => {
-          console.log(values)
-        }}
-      />
-    </div>
-  )
-}
-
-export const Record = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <Form
-        variant="small"
-        values={{
-          record: {
-            flap: 'flap',
-            snurp: 'derp',
-          },
-          ratings: {
-            powerful: 'rgb(78,56,188)',
-          },
-          recordObject: {
-            flap: { price: 200 },
-            flup: { price: 50 },
-          },
-          recordObjectBig: {
-            big: {},
-            blap: {},
-          },
-        }}
-        fields={{
-          record: {
-            title: 'Fun record',
-            type: 'record',
-            values: {
-              type: 'string',
-            },
-          },
-          recordObject: {
-            title: 'Nested record',
-            type: 'record',
-            values: objectField.ratings,
-          },
-          recordObjectBig: {
-            title: 'Nested big record',
-            type: 'record',
-            values: objectField.object,
-          },
-        }}
-        onChange={(values, changed, checksum) => {
-          console.log({
-            values,
-            changed,
-            checksum,
-          })
-        }}
-      />
-    </div>
-  )
-}
-
-export const Arrays = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <Form
-        values={{
-          simpleArray: ['hello'],
-          array: [
-            {
-              price: 2,
-              powerful: 'rgb(188,56,0)',
-            },
-            {
-              powerful: 'rgb(78,56,188)',
-            },
-            {
-              powerful: 'rgb(78,56,188)',
-            },
-          ],
-          nestedArray: [
-            [
-              {
-                powerful: 'rgb(78,56,188)',
-              },
-              {
-                powerful: 'rgb(78,56,188)',
-              },
-              {
-                powerful: 'rgb(78,56,188)',
-              },
-            ],
-            [
-              {
-                powerful: 'rgb(78,56,188)',
-              },
-            ],
-            [
-              {
-                powerful: 'rgb(78,56,188)',
-              },
-            ],
-          ],
-          arrayAutoTitle: [
-            {
-              name: 'fun',
-            },
-            {
-              name: 'flap',
-            },
-            {
-              name: 'Snurpie',
-            },
-          ],
-          nestedArrayBig: [
-            [
-              {
-                name: 'fun',
-              },
-            ],
-          ],
-          sequences: [
-            {
-              name: 'Countdown',
-              pages: [
-                {
-                  name: 'Countdown',
-                  id: 'p1',
-                },
-              ],
-            },
-            {
-              name: 'Voting starts',
-              pages: [
-                {
-                  name: 'welcome',
-                  id: 'p1',
-                },
-                {
-                  name: 'vote!',
-                  id: 'p3',
-                },
-                {
-                  name: 'bye',
-                  id: 'p2',
-                },
-              ],
-            },
-          ],
-        }}
-        fields={{
-          emptyArray: {
-            title: 'Empty array',
-            description: 'some things',
-            type: 'array',
-            values: objectField.ratings,
-          },
-          simpleArray: {
-            type: 'array',
-            values: {
-              type: 'string',
-            },
-          },
-          array: {
-            title: 'Things',
-            description: 'some things',
-            type: 'array',
-            values: objectField.ratings,
-          },
-          sequences: {
-            type: 'array',
-            values: {
-              type: 'object',
-              properties: {
-                name: { type: 'string' },
-                pages: { type: 'references' },
-              },
-            },
-          },
-          nestedArray: {
-            title: 'Nested things',
-            description: 'some things, nested',
-            type: 'array',
-            values: {
-              description: 'some things',
-              type: 'array',
-              values: objectField.ratings,
-            },
-          },
-          nestedArrayBig: {
-            title: 'Nested things large',
-            description: 'some things, nested',
-            type: 'array',
-            values: {
-              description: 'some things',
-              type: 'array',
-              values: objectField.object,
-            },
-          },
-          arrayAutoTitle: {
-            title: 'Auto title',
-            description: 'some things',
-            type: 'array',
-            values: objectField.object,
-          },
-        }}
-        onChange={(values, changes, checksum, based) => {
-          console.log({ values, changes, checksum, based })
-        }}
-      />
-    </div>
-  )
-}
-
-export const Bare = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <div style={{ borderRadius: 8, border: border() }}>
-        <Form
-          variant="bare"
-          values={{
-            ratings: {
-              powerful: 'rgb(78,56,188)',
-            },
-          }}
-          fields={{ object: objectField.address }}
-          onChange={(values) => {
-            console.log(values)
-          }}
-        />
-      </div>
-    </div>
+      <IconMoreVertical />
+    </Button>
   )
 }
 `},{ id: "f11927335739210", story: f11927335739210, path: "/Users/jimdebeer/saulx/better-ui/src/components/Grid/index.stories.tsx", file: `import * as React from 'react'
@@ -1952,6 +1008,107 @@ export const Default = () => {
       onChange={setLang}
       options={['en', 'de', 'fr', 'lb']}
     />
+  )
+}
+`},{ id: "f4437124256520", story: f4437124256520, path: "/Users/jimdebeer/saulx/better-ui/src/components/Layout/index.stories.tsx", file: `import * as React from 'react'
+import type { Meta } from '@storybook/react'
+import {
+  Layout,
+  Page,
+  Header,
+  Sidebar,
+  IconSettings,
+  IconUsers,
+  IconViewBoxes,
+  Text,
+} from '../../index.js'
+
+const meta: Meta<typeof Layout> = {
+  title: 'Components/Layout',
+  component: Layout,
+  parameters: {
+    layout: 'fullscreen',
+  },
+}
+
+export default meta
+
+const PageA = () => {
+  return (
+    <Page>
+      {Array.from({ length: 30 }).map((_, i) => (
+        <Text
+          key={i}
+          variant="body-strong"
+          style={{ fontSize: 64, lineHeight: '64px' }}
+        >
+          Page A content
+        </Text>
+      ))}
+    </Page>
+  )
+}
+
+const PageB = () => {
+  const [page, setPage] = React.useState('x')
+
+  return (
+    <>
+      <Sidebar
+        data={[
+          { label: 'Nested X', value: 'x' },
+          { label: 'Nested Y', value: 'y' },
+        ]}
+        value={page}
+        onValueChange={setPage}
+        collapsable={false}
+      />
+
+      {page === 'x' && <Page>nested x</Page>}
+      {page === 'y' && <Page>nested y</Page>}
+    </>
+  )
+}
+
+const PageC = () => {
+  return <Page>page C content</Page>
+}
+
+export const Default = () => {
+  const [page, setPage] = React.useState('a')
+  const [open, setOpen] = React.useState(true)
+
+  return (
+    <Layout
+      header={
+        <Header
+          logo={<div>Logo</div>}
+          navigation={<div>navigation items</div>}
+        />
+      }
+    >
+      <Sidebar
+        data={[
+          { label: 'Overview', value: 'a', prefix: <IconViewBoxes /> },
+          { label: 'Users', value: 'b', prefix: <IconUsers /> },
+          { label: 'Settings', value: 'c', prefix: <IconSettings /> },
+        ]}
+        value={page}
+        onValueChange={(newValue) => {
+          setPage(newValue)
+
+          // if the new value is in this list then we close the sidebar otherwise open
+          // (page b has a nested sidebar, others don't)
+          setOpen(!['b'].includes(newValue))
+        }}
+        open={open}
+        onOpenChange={setOpen}
+      />
+
+      {page === 'a' && <PageA />}
+      {page === 'b' && <PageB />}
+      {page === 'c' && <PageC />}
+    </Layout>
   )
 }
 `},{ id: "f16765197606902", story: f16765197606902, path: "/Users/jimdebeer/saulx/better-ui/src/components/Media/index.stories.tsx", file: `import * as React from 'react'
@@ -2391,107 +1548,6 @@ export const Neutral: StoryObj<typeof Note> = {
     variant: 'neutral',
   },
 }
-`},{ id: "f4437124256520", story: f4437124256520, path: "/Users/jimdebeer/saulx/better-ui/src/components/Layout/index.stories.tsx", file: `import * as React from 'react'
-import type { Meta } from '@storybook/react'
-import {
-  Layout,
-  Page,
-  Header,
-  Sidebar,
-  IconSettings,
-  IconUsers,
-  IconViewBoxes,
-  Text,
-} from '../../index.js'
-
-const meta: Meta<typeof Layout> = {
-  title: 'Components/Layout',
-  component: Layout,
-  parameters: {
-    layout: 'fullscreen',
-  },
-}
-
-export default meta
-
-const PageA = () => {
-  return (
-    <Page>
-      {Array.from({ length: 30 }).map((_, i) => (
-        <Text
-          key={i}
-          variant="body-strong"
-          style={{ fontSize: 64, lineHeight: '64px' }}
-        >
-          Page A content
-        </Text>
-      ))}
-    </Page>
-  )
-}
-
-const PageB = () => {
-  const [page, setPage] = React.useState('x')
-
-  return (
-    <>
-      <Sidebar
-        data={[
-          { label: 'Nested X', value: 'x' },
-          { label: 'Nested Y', value: 'y' },
-        ]}
-        value={page}
-        onValueChange={setPage}
-        collapsable={false}
-      />
-
-      {page === 'x' && <Page>nested x</Page>}
-      {page === 'y' && <Page>nested y</Page>}
-    </>
-  )
-}
-
-const PageC = () => {
-  return <Page>page C content</Page>
-}
-
-export const Default = () => {
-  const [page, setPage] = React.useState('a')
-  const [open, setOpen] = React.useState(true)
-
-  return (
-    <Layout
-      header={
-        <Header
-          logo={<div>Logo</div>}
-          navigation={<div>navigation items</div>}
-        />
-      }
-    >
-      <Sidebar
-        data={[
-          { label: 'Overview', value: 'a', prefix: <IconViewBoxes /> },
-          { label: 'Users', value: 'b', prefix: <IconUsers /> },
-          { label: 'Settings', value: 'c', prefix: <IconSettings /> },
-        ]}
-        value={page}
-        onValueChange={(newValue) => {
-          setPage(newValue)
-
-          // if the new value is in this list then we close the sidebar otherwise open
-          // (page b has a nested sidebar, others don't)
-          setOpen(!['b'].includes(newValue))
-        }}
-        open={open}
-        onOpenChange={setOpen}
-      />
-
-      {page === 'a' && <PageA />}
-      {page === 'b' && <PageB />}
-      {page === 'c' && <PageC />}
-    </Layout>
-  )
-}
 `},{ id: "f5909785848135", story: f5909785848135, path: "/Users/jimdebeer/saulx/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -2526,6 +1582,42 @@ export const Error: StoryObj<typeof NumberInput> = {
   args: {
     placeholder: 'Placeholder text',
     error: true,
+  },
+}
+`},{ id: "f16472063764097", story: f16472063764097, path: "/Users/jimdebeer/saulx/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
+import { Page, Text } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+import { styled } from 'inlines'
+
+const meta: Meta<typeof Page> = {
+  title: 'Atoms/Page',
+  component: Page,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof Page> = {
+  args: {
+    children: (
+      <styled.div
+        style={{
+          width: 540,
+          '& > div': {
+            height: '270px',
+          },
+        }}
+      >
+        <styled.div style={{ background: '#f5f5f5', height: 200 }}>
+          <Text variant="body">xx</Text>
+          🦍
+        </styled.div>
+        <styled.div style={{ background: '#afafaf' }}>🐳</styled.div>
+        <styled.div style={{ background: '#f5f5f5' }}>🦀</styled.div>
+        <styled.div style={{ background: '#afafaf' }}>🦧</styled.div>
+        <styled.div style={{ background: '#f5f5f5' }}>🐍</styled.div>
+      </styled.div>
+    ),
+    style: { maxHeight: 324 },
   },
 }
 `},{ id: "f16126198374920", story: f16126198374920, path: "/Users/jimdebeer/saulx/better-ui/src/components/ScrollArea/index.stories.tsx", file: `import * as React from 'react'
@@ -2760,42 +1852,6 @@ export const Groups = () => {
       />
     </div>
   )
-}
-`},{ id: "f16472063764097", story: f16472063764097, path: "/Users/jimdebeer/saulx/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
-import { Page, Text } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-import { styled } from 'inlines'
-
-const meta: Meta<typeof Page> = {
-  title: 'Atoms/Page',
-  component: Page,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof Page> = {
-  args: {
-    children: (
-      <styled.div
-        style={{
-          width: 540,
-          '& > div': {
-            height: '270px',
-          },
-        }}
-      >
-        <styled.div style={{ background: '#f5f5f5', height: 200 }}>
-          <Text variant="body">xx</Text>
-          🦍
-        </styled.div>
-        <styled.div style={{ background: '#afafaf' }}>🐳</styled.div>
-        <styled.div style={{ background: '#f5f5f5' }}>🦀</styled.div>
-        <styled.div style={{ background: '#afafaf' }}>🦧</styled.div>
-        <styled.div style={{ background: '#f5f5f5' }}>🐍</styled.div>
-      </styled.div>
-    ),
-    style: { maxHeight: 324 },
-  },
 }
 `},{ id: "f17293536255708", story: f17293536255708, path: "/Users/jimdebeer/saulx/better-ui/src/components/Stack/index.stories.tsx", file: `import React, { ReactNode } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -3179,6 +2235,221 @@ export const Counter: StoryObj<typeof Thumbnail> = {
     count: 8,
   },
 }
+`},{ id: "f12164388818727", story: f12164388818727, path: "/Users/jimdebeer/saulx/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
+import { Button, Tooltip } from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Tooltip',
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <Tooltip content="This is a tooltip">
+      <Button>Hover me</Button>
+    </Tooltip>
+  )
+}
+`},{ id: "f14744076215203", story: f14744076215203, path: "/Users/jimdebeer/saulx/better-ui/src/components/Video/index.stories.tsx", file: `import * as React from 'react'
+import { Video } from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Video',
+  parameters: {
+    layout: 'fullscreen',
+  },
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <Video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" />
+  )
+}
+
+export const WithCustomThumbnail = () => {
+  return (
+    <Video
+      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm"
+      thumbnail="https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    />
+  )
+}
+
+export const HLS = () => {
+  return <Video src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
+}
+`},{ id: "f8139019256634", story: f8139019256634, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/arrays.stories.tsx", file: `import * as React from 'react'
+import { Form, Modal } from '../../../index.js'
+import { objectField } from './objectField.js'
+
+const meta = {
+  title: 'Form/Arrays',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const Arrays = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Form
+        values={{
+          simpleArray: ['hello'],
+          array: [
+            {
+              price: 2,
+              powerful: 'rgb(188,56,0)',
+            },
+            {
+              powerful: 'rgb(78,56,188)',
+            },
+            {
+              powerful: 'rgb(78,56,188)',
+            },
+          ],
+          nestedArray: [
+            [
+              {
+                powerful: 'rgb(78,56,188)',
+              },
+              {
+                powerful: 'rgb(78,56,188)',
+              },
+              {
+                powerful: 'rgb(78,56,188)',
+              },
+            ],
+            [
+              {
+                powerful: 'rgb(78,56,188)',
+              },
+            ],
+            [
+              {
+                powerful: 'rgb(78,56,188)',
+              },
+            ],
+          ],
+          arrayAutoTitle: [
+            {
+              name: 'fun',
+            },
+            {
+              name: 'flap',
+            },
+            {
+              name: 'Snurpie',
+            },
+          ],
+          nestedArrayBig: [
+            [
+              {
+                name: 'fun',
+              },
+            ],
+          ],
+          sequences: [
+            {
+              name: 'Countdown',
+              pages: [
+                {
+                  name: 'Countdown',
+                  id: 'p1',
+                },
+              ],
+            },
+            {
+              name: 'Voting starts',
+              pages: [
+                {
+                  name: 'welcome',
+                  id: 'p1',
+                },
+                {
+                  name: 'vote!',
+                  id: 'p3',
+                },
+                {
+                  name: 'bye',
+                  id: 'p2',
+                },
+              ],
+            },
+          ],
+        }}
+        fields={{
+          emptyArray: {
+            title: 'Empty array',
+            description: 'some things',
+            type: 'array',
+            values: objectField.ratings,
+          },
+          simpleArray: {
+            type: 'array',
+            values: {
+              type: 'string',
+            },
+          },
+          array: {
+            title: 'Things',
+            description: 'some things',
+            type: 'array',
+            values: objectField.ratings,
+          },
+          sequences: {
+            type: 'array',
+            values: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                pages: { type: 'references' },
+              },
+            },
+          },
+          nestedArray: {
+            title: 'Nested things',
+            description: 'some things, nested',
+            type: 'array',
+            values: {
+              description: 'some things',
+              type: 'array',
+              values: objectField.ratings,
+            },
+          },
+          nestedArrayBig: {
+            title: 'Nested things large',
+            description: 'some things, nested',
+            type: 'array',
+            values: {
+              description: 'some things',
+              type: 'array',
+              values: objectField.object,
+            },
+          },
+          arrayAutoTitle: {
+            title: 'Auto title',
+            description: 'some things',
+            type: 'array',
+            values: objectField.object,
+          },
+        }}
+        onChange={(values, changes, checksum, based) => {
+          console.log({ values, changes, checksum, based })
+        }}
+      />
+    </div>
+  )
+}
 `},{ id: "f10219561566831", story: f10219561566831, path: "/Users/jimdebeer/saulx/better-ui/src/components/Toast/index.stories.tsx", file: `import * as React from 'react'
 import {
   Button,
@@ -3253,48 +2524,753 @@ export const Default = () => {
     </ToastProvider>
   )
 }
-`},{ id: "f14744076215203", story: f14744076215203, path: "/Users/jimdebeer/saulx/better-ui/src/components/Video/index.stories.tsx", file: `import * as React from 'react'
-import { Video } from '../../index.js'
+`},{ id: "f11284618058075", story: f11284618058075, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/default.stories.tsx", file: `import * as React from 'react'
+import { Form, border, Modal } from '../../../index.js'
+import { wait } from '@saulx/utils'
 
 const meta = {
-  title: 'Atoms/Video',
+  title: 'Form/Default',
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
 }
+
 export default meta
 
+const ts = \`import * as React from 'react'
+
+export function Svg({ style, width = 20, height = 20 }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      style={style}
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="a b c"
+      />
+    </svg>
+  )
+}
+\`
+
+const fileUpload = async ({ value }, updateProgress) => {
+  if (!value) {
+    return undefined
+  }
+  let p = 0
+  while (p < 100) {
+    p += 10
+    updateProgress(p)
+    await wait(100)
+  }
+  return 'https://i.imgur.com/DRmh6S9.jpeg'
+}
+
 export const Default = () => {
+  const [cnt, setCnt] = React.useState<number>(0)
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCnt((cnt) => cnt + 1)
+    }, 100)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
   return (
-    <Video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" />
+    <div style={{ padding: 64 }}>
+      <Form
+        checksum={cnt}
+        onFileUpload={fileUpload}
+        values={{
+          src: 'https://i.imgur.com/t1bWmmC.jpeg',
+          code: ts,
+          json: JSON.stringify(
+            { y: 1, x: 1, z: 1, someThing: 'great' },
+            null,
+            2,
+          ),
+          category: 'id12345',
+          categoryNamed: {
+            id: 'id12345',
+            title: 'Mr category',
+          },
+          logo: {
+            name: 't1bWmmC.jpeg',
+            id: 'idxyz',
+            src: 'https://i.imgur.com/t1bWmmC.jpeg',
+          },
+          number: cnt,
+        }}
+        fields={{
+          name: {
+            title: 'Name',
+            type: 'string',
+            description: 'A name of someone',
+          },
+          dope: {
+            title: 'Is it dope?',
+            type: 'boolean',
+            description: 'Dope or nah',
+          },
+          number: {
+            title: 'Number',
+            type: 'number',
+            minimum: 10,
+            maximum: 10,
+          },
+          createdAt: {
+            type: 'timestamp',
+          },
+          logo: {
+            title: 'Logo',
+            description: 'This is a logo',
+            type: 'reference',
+            allowedTypes: ['file'],
+          },
+          logoEmpty: {
+            title: 'Logo empty',
+            description: 'This is a logo',
+            type: 'reference',
+            allowedTypes: ['file'],
+          },
+          category: {
+            title: 'Category',
+            description: 'This is a category',
+            type: 'reference',
+            allowedTypes: ['category'],
+            bidirectional: { fromField: 'flap' },
+          },
+          categoryNamed: {
+            title: 'Category with a name',
+            description: 'This is a category',
+            type: 'reference',
+            allowedTypes: ['category'],
+            bidirectional: { fromField: 'flap' },
+          },
+          bgColor: {
+            title: 'Background color',
+            type: 'string',
+            format: 'rgbColor',
+          },
+          options: {
+            title: 'Options',
+            description: 'Select some options',
+            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
+          },
+          json: {
+            title: 'Some JSON',
+            description: 'This is some json',
+            type: 'json',
+          },
+          code: {
+            title: 'Some Code',
+            description: 'This is some Code',
+            type: 'string',
+            format: 'code',
+          },
+          shortnumber: {
+            title: 'A short number',
+            type: 'number',
+            display: 'short',
+            description: 'A short number',
+          },
+          date: {
+            title: 'A date',
+            type: 'timestamp',
+            description: 'A timestamp',
+          },
+          flap: {
+            title: 'Flap',
+            type: 'string',
+            description: 'A flap',
+          },
+          mutliLineText: {
+            title: 'Multiline Text',
+            type: 'string',
+            multiline: true,
+            description: 'A flap',
+          },
+          src: {
+            title: 'Source',
+            type: 'string',
+            contentMediaType: '*/*',
+            description: 'A src',
+          },
+        }}
+        onChange={(values, changed, checksum) => {
+          console.log(
+            'values:',
+            values,
+            'changed:',
+            changed,
+            'checksum:',
+            checksum,
+          )
+        }}
+      />
+    </div>
   )
 }
 
-export const WithCustomThumbnail = () => {
+export const SmallForm = () => {
   return (
-    <Video
-      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm"
-      thumbnail="https://plus.unsplash.com/premium_photo-1701767501250-fda0c8f7907f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    />
+    <div style={{ padding: 64 }}>
+      <Form
+        variant="small"
+        fields={{
+          options: {
+            title: 'Options',
+            description: 'Select some options',
+            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
+          },
+        }}
+        onChange={(values) => {
+          console.log(values)
+        }}
+      />
+    </div>
   )
 }
 
-export const HLS = () => {
-  return <Video src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
+export const Bare = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <div style={{ borderRadius: 8, border: border() }}>
+        <Form
+          variant="bare"
+          fields={{
+            address: {
+              title: 'Address',
+              description:
+                'An address similar to http://microformats.org/wiki/h-card',
+              type: 'object',
+              properties: {
+                picture: {
+                  title: 'Picture',
+                  type: 'string',
+                  contentMediaType: '*/*',
+                },
+                postOfficeBox: {
+                  title: 'PO Box',
+                  type: 'string',
+                },
+                extendedAddress: {
+                  title: 'Address extended',
+                  description: 'An address similar to flap',
+                  type: 'string',
+                },
+                streetAddress: {
+                  title: 'Street',
+                  type: 'string',
+                },
+                locality: {
+                  title: 'Locality',
+                  type: 'string',
+                },
+                region: {
+                  title: 'Region',
+                  type: 'string',
+                },
+                postalCode: {
+                  title: 'PostalCode',
+                  type: 'string',
+                },
+                countryName: {
+                  title: 'Country',
+                  type: 'string',
+                },
+              },
+            },
+          }}
+          onChange={(values) => {
+            console.log(values)
+          }}
+        />
+      </div>
+    </div>
+  )
 }
-`},{ id: "f12164388818727", story: f12164388818727, path: "/Users/jimdebeer/saulx/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
-import { Button, Tooltip } from '../../index.js'
+`},{ id: "f12399833393765", story: f12399833393765, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/object.stories.tsx", file: `import * as React from 'react'
+import { Form, Modal } from '../../../index.js'
+import { wait } from '@saulx/utils'
+import { objectField } from './objectField.js'
 
 const meta = {
-  title: 'Atoms/Tooltip',
+  title: 'Form/Object',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
 }
+
 export default meta
 
-export const Default = () => {
+const ts = \`import * as React from 'react'
+
+export function Svg({ style, width = 20, height = 20 }: IconProps) {
   return (
-    <Tooltip content="This is a tooltip">
-      <Button>Hover me</Button>
-    </Tooltip>
+    <svg
+      width={width}
+      height={height}
+      style={style}
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="a b c"
+      />
+    </svg>
+  )
+}
+\`
+
+const fileUpload = async ({ value }, updateProgress) => {
+  if (!value) {
+    return undefined
+  }
+  let p = 0
+  while (p < 100) {
+    p += 10
+    updateProgress(p)
+    await wait(100)
+  }
+  return 'https://i.imgur.com/DRmh6S9.jpeg'
+}
+
+export const Object = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Form
+        onFileUpload={fileUpload}
+        variant="small"
+        values={{
+          ratings: {
+            powerful: 'rgb(78,56,188)',
+          },
+          object: {
+            location: {
+              snurp: { id: 'flap', src: 'https://i.imgur.com/t1bWmmC.jpeg' },
+              doink: 'th123212',
+            },
+          },
+          orderWithDescription: {
+            code: ts,
+            json: JSON.stringify(
+              { y: 1, x: 1, z: 1, someThing: 'great' },
+              null,
+              2,
+            ),
+          },
+        }}
+        fields={objectField}
+        onChange={(values) => {
+          console.log(values)
+        }}
+      />
+    </div>
+  )
+}
+`},{ id: "f8217294240285", story: f8217294240285, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/record.stories.tsx", file: `import * as React from 'react'
+import { Form, Modal } from '../../../index.js'
+
+const meta = {
+  title: 'Form/Record',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const Record = () => {
+  return (
+    <div style={{ padding: 64 }}>
+      <Form
+        variant="small"
+        values={{
+          record: {
+            flap: 'flap',
+            snurp: 'derp',
+          },
+          ratings: {
+            powerful: 'rgb(78,56,188)',
+          },
+          recordObject: {
+            flap: { price: 200 },
+            flup: { price: 50 },
+          },
+          recordObjectBig: {
+            big: {},
+            blap: {},
+          },
+        }}
+        fields={{
+          record: {
+            title: 'Fun record',
+            type: 'record',
+            values: {
+              type: 'string',
+            },
+          },
+          recordObject: {
+            title: 'Nested record',
+            type: 'record',
+            values: {
+              title: 'Ratings',
+              description: 'Rating of things',
+              type: 'object',
+              properties: {
+                price: { type: 'number', title: 'Price' },
+                quality: { type: 'string', title: 'Quality' },
+                time: { type: 'timestamp', title: 'Time' },
+                powerful: {
+                  type: 'string',
+                  title: 'Power Level',
+                  format: 'rgbColor',
+                },
+              },
+            },
+          },
+          recordObjectBig: {
+            title: 'Nested big record',
+            type: 'record',
+            values: {
+              title: 'Restaurant',
+              description: 'Restaurant of the form',
+              type: 'object',
+              properties: {
+                name: { type: 'string', title: 'Name' },
+                isItDope: {
+                  title: 'Dopeness',
+                  type: 'boolean',
+                },
+                bla: {
+                  type: 'reference',
+                  bidirectional: {
+                    fromField: 'bla',
+                  },
+                  title: 'Bla',
+                  allowedTypes: ['root'],
+                },
+                contact: {
+                  title: 'Contact',
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string' },
+                    phone: { type: 'string', format: 'mobilePhone' },
+                    email: { type: 'string', format: 'email' },
+                    picture: { type: 'string', contentMediaType: '*/*' },
+                  },
+                },
+              },
+            },
+          },
+        }}
+        onChange={(values, changed, checksum) => {
+          console.log({
+            values,
+            changed,
+            checksum,
+          })
+        }}
+      />
+    </div>
+  )
+}
+`},{ id: "f12909404527880", story: f12909404527880, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/references.stories.tsx", file: `import * as React from 'react'
+import { Form, Modal } from '../../../index.js'
+import { styled } from 'inlines'
+import { faker } from '@faker-js/faker'
+
+const meta = {
+  title: 'Form/References',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
+}
+
+export default meta
+
+const faces = new Array(50).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+}))
+
+const facesNames = new Array(50).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+  description: faker.lorem.words({ min: 0, max: 10 }),
+  firstName: faker.person.firstName(),
+  createdAt: faker.date.recent().valueOf(),
+  lastUpdated: faker.date.recent().valueOf(),
+  powerTime: faker.date.recent().valueOf(),
+  city: faker.location.city(),
+}))
+
+const facesLess = new Array(20).fill(null).map(() => ({
+  src: faker.image.avatar(),
+  id: faker.string.uuid().slice(0, 8),
+  name: faker.person.firstName(),
+}))
+
+const getRandomRef = () => {
+  const id = faker.string.uuid().slice(0, 8)
+  const choices = [
+    {
+      id,
+      src: faker.image.avatar(),
+      name: faker.person.fullName(),
+    },
+    { id, title: faker.lorem.sentence(3) },
+    id,
+    {
+      id,
+      status: faker.lorem.words(1),
+      title: faker.lorem.sentence(3),
+      src: faker.image.avatar(),
+      number: faker.number.int(10),
+      name: faker.person.fullName(),
+    },
+    {
+      id,
+      src: faker.image.avatar(),
+      name: faker.person.fullName(),
+      status: faker.lorem.words(1),
+    },
+  ]
+  return choices[Math.floor(Math.random() * choices.length)]
+}
+
+export const References = () => {
+  const { open } = Modal.useModal()
+
+  return (
+    <styled.div
+      style={{
+        padding: 64,
+      }}
+    >
+      <Form
+        values={{
+          refTags: faces,
+          people: facesNames,
+          peopleLess: facesLess,
+          refs: [
+            'x211212',
+            { id: '212cwcwe', name: 'my snurp' },
+            {
+              id: '212cwcwe',
+              src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+            },
+            { id: '212cwcwe' },
+          ],
+        }}
+        onClickReference={async ({ path }) => {
+          open(({ close }) => {
+            return (
+              <Modal onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        onSelectReference={async ({ path }) => {
+          return open(({ close }) => {
+            return (
+              <Modal variant="large" onConfirm={() => close(getRandomRef())}>
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        onSelectReferences={async ({ path }) => {
+          return open(({ close }) => {
+            const newItems: any[] = []
+            const len = ~~(Math.random() * 100)
+            for (let i = 0; i < len; i++) {
+              newItems.push(getRandomRef())
+            }
+            return (
+              <Modal variant="large" onConfirm={() => close(newItems)}>
+                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+              </Modal>
+            )
+          })
+        }}
+        fields={{
+          ref: {
+            title: 'Single reference',
+            type: 'reference',
+            description: 'A single ref',
+          },
+          logo: {
+            title: 'Single reference fronm file',
+            type: 'reference',
+            description: 'A single ref',
+            allowedTypes: ['file'],
+          },
+          refTags: {
+            title: 'Multi references',
+            type: 'references',
+            sortable: true,
+            description: 'Multi ref',
+          },
+          peopleLess: {
+            title: 'People',
+            type: 'references',
+          },
+          people: {
+            sortable: true,
+            title: 'People time',
+            type: 'references',
+          },
+          refs: {
+            title: 'Multi references',
+            type: 'references',
+            description: 'Multi ref',
+            sortable: true,
+          },
+          object: {
+            title: 'Refs in an object',
+            type: 'object',
+            description: 'Some refs',
+            properties: {
+              ref: {
+                title: 'Single reference',
+                type: 'reference',
+                description: 'A single ref',
+              },
+              refs: {
+                title: 'Multi references',
+                type: 'references',
+                description: 'Multi ref',
+              },
+            },
+          },
+        }}
+        onChange={(values, changed, checksum, based) => {
+          console.info({ values, changed, checksum, based })
+        }}
+      />
+    </styled.div>
+  )
+}
+`},{ id: "f7234131307474", story: f7234131307474, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/set.stories.tsx", file: `import * as React from 'react'
+import { Form, Modal } from '../../../index.js'
+import { styled } from 'inlines'
+
+const meta = {
+  title: 'Form/Set',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const Set = () => {
+  return (
+    <styled.div style={{ padding: 64 }}>
+      <Form
+        values={{
+          set: ['a', 'b', 'c'],
+          setNumber: [
+            1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          ],
+          object: {
+            a: ['a', 'b', 'c'],
+            b: [
+              1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+              20,
+            ],
+          },
+        }}
+        fields={{
+          set: {
+            title: 'Set',
+            type: 'set',
+            description: 'A set with strings',
+            items: { type: 'string' },
+          },
+          setNumber: {
+            title: 'Set Numbers',
+            type: 'set',
+            description: 'A set with numbers',
+            items: { type: 'number' },
+          },
+          object: {
+            title: 'Set in an object',
+            type: 'object',
+            description: 'A set with numbers',
+            properties: {
+              a: {
+                title: 'Set',
+                type: 'set',
+                description: 'A set with strings',
+                items: { type: 'string' },
+              },
+              b: {
+                title: 'Set Numbers',
+                type: 'set',
+                description: 'A set with numbers',
+                items: { type: 'number' },
+              },
+              c: {
+                title: 'Set Numbers',
+                type: 'set',
+                description: 'A set with numbers',
+                items: { type: 'number' },
+              },
+            },
+          },
+        }}
+        onChange={(values, changed, checksum) => {
+          console.log({ values, changed, checksum })
+        }}
+      />
+    </styled.div>
   )
 }
 `}]
