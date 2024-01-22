@@ -3,11 +3,9 @@ import {
   Stack,
   border,
   color,
-  Button,
   IconChevronDown,
   IconChevronRight,
   Badge,
-  IconClose,
 } from '../../../../index.js'
 import { getIdentifierField, isIterable, readParentType } from '../../utils.js'
 import { Cell } from '../Cell.js'
