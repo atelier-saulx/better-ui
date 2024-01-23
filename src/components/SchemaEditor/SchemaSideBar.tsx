@@ -5,8 +5,6 @@ import { Stack } from '../Stack/index.js'
 import { Text } from '../Text/index.js'
 
 export const SchemaSideBar = ({ types, active, setActive }) => {
-  console.log(types)
-
   const sidebarData = Object.keys(types)
     .sort((a, b) => a.localeCompare(b))
     .map((item, idx) => ({
@@ -28,7 +26,7 @@ export const SchemaSideBar = ({ types, active, setActive }) => {
         onValueChange={(v) => setActive(v)}
         style={{ maxWidth: 212 }}
         data={sidebarData}
-      ></Sidebar>
+      />
     </div>
   )
 }

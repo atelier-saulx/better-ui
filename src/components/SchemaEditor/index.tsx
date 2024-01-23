@@ -14,8 +14,6 @@ export type SchemaEditorProps = {
 export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
   const [active, setActive] = React.useState('')
 
-  console.log('Schema>>?', schema)
-
   return (
     <div style={{ minHeight: '100%', display: 'flex' }}>
       <SchemaSideBar
@@ -23,7 +21,13 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
         active={active}
         setActive={setActive}
       />
-      <div style={{ width: '100%', padding: 32 }}>
+      <div
+        style={{
+          width: '100%',
+          padding: 32,
+          display: active ? 'block' : 'flex',
+        }}
+      >
         {active ? (
           <>
             <Stack style={{ marginBottom: 24 }}>
@@ -59,7 +63,17 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
             />
           </>
         ) : (
-          <Stack grid gap={12} style={{ flexDirection: 'column' }}>
+          <Stack
+            gap={12}
+            grid
+            style={{
+              flexDirection: 'column' as 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 'auto',
+              marginBottom: 'auto',
+            }}
+          >
             <AddType setActive={setActive} />
             <Text>
               Please select or add a type to get started with your database.
