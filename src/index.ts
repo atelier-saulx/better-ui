@@ -40,6 +40,7 @@ export * from './components/Table/index.js'
 export * from './components/Layout/index.js'
 export * from './components/Note/index.js'
 export * from './components/LanguageInput/index.js'
+export * from './components/Spinner/index.js'
 
 export { Modal } from './components/Modal/index.js'
 
