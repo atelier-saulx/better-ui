@@ -94,17 +94,21 @@ const Info = (p: { value: Reference; onClick: () => void }) => {
   if (typeof p.value === 'object') {
     return (
       <>
-        <Text singleLine style={{ marginRight: 12 }} variant="body-bold">
+        <Text
+          singleLine
+          style={{
+            marginRight: 12,
+            flexGrow: 1,
+            width: '100%',
+          }}
+          variant="body-bold"
+        >
           {p.value.name ?? p.value.title}
         </Text>
       </>
     )
   }
-  return (
-    <Stack>
-      <Id id={p.value} onClick={p.onClick} />
-    </Stack>
-  )
+  return <Id id={p.value} onClick={p.onClick} />
 }
 
 export const Image = (p: {
@@ -240,7 +244,7 @@ export function Reference({
             })
           }}
         />
-        <Stack justify="end" gap={8} fitContent>
+        <Stack justify="end" gap={8} style={{ flexGrow: 0 }}>
           <Select field={field} onClick={selectRef} />
           <Button
             onClick={() => {
