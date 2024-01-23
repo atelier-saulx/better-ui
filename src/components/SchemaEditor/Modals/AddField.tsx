@@ -48,7 +48,7 @@ type GeneralOptionsProps = {
 const metaReducer = (state, action) => {
   if (action.type === 'prune') {
     const newMeta = Object.fromEntries(
-      Object.entries(state).filter(([_, v]) => v != false)
+      Object.entries(state).filter(([_, v]) => v != false),
     )
     return newMeta
   } else {
@@ -68,12 +68,12 @@ export const AddField = ({
 }: AddFieldProps) => {
   const [meta, setMeta] = React.useReducer(
     metaReducer,
-    editItem ? editItem.meta : {}
+    editItem ? editItem.meta : {},
   )
   const [tabIndex, setTabIndex] = React.useState(1)
   // for arrays
   const [items, setItems] = React.useState(
-    editItem ? editItem?.items : { type: 'string' }
+    editItem ? editItem?.items : { type: 'string' },
   )
 
   const client = useClient()
@@ -83,7 +83,7 @@ export const AddField = ({
   return (
     <Modal
       confirmLabel={editItem ? 'Edit' : 'Add Field'}
-      confirmProps={{ disabled: !meta.name }}
+      confirmProps={{ disabled: !meta.name || meta.name.length < 3 }}
       onConfirm={async () => {
         let fields
 
@@ -139,7 +139,7 @@ export const AddField = ({
 
           const nestedPath = findPath(
             data.types[typeName].fields,
-            fieldItem?.name || fieldItem.meta?.name
+            fieldItem?.name || fieldItem.meta?.name,
           )
 
           if (!editItem) {
@@ -232,23 +232,29 @@ const GeneralOptions = ({ meta, setMeta, editItem }: GeneralOptionsProps) => {
   return (
     <Stack gap={12} grid>
       <TextInput
-        label="Display name"
-        value={meta?.displayName}
+        label="Field Name"
+        disabled={editItem}
+        value={meta?.name}
         onChange={(v) => {
-          setMeta({ field: 'displayName', value: v })
           if (!editItem) {
-            setMeta({ field: 'name', value: v.toLocaleLowerCase() })
+            setMeta({ field: 'name', value: v.toLowerCase() })
           }
         }}
       />
       <TextInput
-        label="Field Name"
-        disabled={editItem}
-        value={meta?.name || meta?.displayName?.toLowerCase() || ''}
+        label="Display name"
+        value={
+          meta?.displayName
+            ? meta?.displayName
+            : meta.name
+              ? meta?.name?.charAt(0).toUpperCase() + meta?.name?.slice(1)
+              : ''
+        }
         onChange={(v) => {
-          if (!editItem) {
-            setMeta({ field: 'name', value: v })
-          }
+          setMeta({ field: 'displayName', value: v })
+          // if (!editItem && !meta.name) {
+          //   setMeta({ field: 'name', value: v.toLocaleLowerCase() })
+          // }
         }}
       />
       <TextAreaInput

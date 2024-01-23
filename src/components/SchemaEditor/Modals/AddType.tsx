@@ -69,7 +69,9 @@ export const AddType = ({ setActive }) => {
                 <TextInput
                   label="Display name (plural)"
                   onChange={(v) => setDisplayName(v)}
-                  value={displayName}
+                  value={
+                    displayName ? displayName : typeName ? typeName + 's' : ''
+                  }
                 />
                 <TextAreaInput
                   label="Description"
@@ -92,6 +94,7 @@ export const AddType = ({ setActive }) => {
                 Cancel
               </Button>
               <Button
+                disabled={typeName.length < 3}
                 onClick={async () => {
                   const type = typeName
                   const typeSchema = {
