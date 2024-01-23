@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { styled } from 'inlines'
 import { faker } from '@faker-js/faker'
 
 const meta = {
