@@ -70,7 +70,8 @@ const genCode = (
   formatCode(str, true, 'typescript', (err) => {
     // setCode(err)
   }).then((v) => {
-    setCode(v.slice(0))
+    const c = v.slice(0)
+    setCode(c.replace(/^;/, ''))
   })
 }
 
@@ -115,7 +116,8 @@ const Example = (p: {
     const re = new RegExp(`${p.title} =.+\\((.{0,100}\\{([^@]*?)\\)\\n\\})`)
     const x = p.file.match(re)
     if (!code && x && x[1]) {
-      setCode(`(${x[1]}`)
+      const c = x[1]
+      setCode(`(${c}`)
     }
     if (p.decorators) {
       for (const d of p.decorators) {
