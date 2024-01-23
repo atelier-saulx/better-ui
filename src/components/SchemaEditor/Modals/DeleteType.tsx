@@ -34,7 +34,7 @@ export const DeleteType = ({ onConfirm, typeName, setActive }) => {
         <Text variant="title-modal">Delete {typeName}</Text>
         <Modal.Message
           variant="error"
-          message={`You are about to delete ${typeName}!`}
+          message={`You are about to delete ${typeName}`}
         />
         <TextInput
           label={`Type ${typeName} in the field to confirm`}

@@ -17,6 +17,7 @@ export const CloneType = ({ onConfirm, typeName }) => {
 
   return (
     <Modal
+      confirmProps={{ disabled: !name || name?.length < 3 }}
       confirmLabel="Copy"
       onConfirm={async () => {
         await client.call('db:set-schema', {
@@ -25,7 +26,7 @@ export const CloneType = ({ onConfirm, typeName }) => {
             types: {
               [name]: {
                 meta: {
-                  displayName: displayName,
+                  displayName: displayName ? displayName : name,
                   description: description,
                 },
                 fields: data.types[typeName].fields,
