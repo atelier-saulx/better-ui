@@ -43,7 +43,6 @@ const parseFields = (fields) => {
       indexedArray.push({ ...type[i], name: newName, index: +type[i].index })
     } else {
       // give an index
-      console.log('hellow ??')
       let newIndex = Math.max(...allCurrentIndexes) + 1
       indexedArray.push({ ...type[i], name: newName, index: +newIndex })
       allCurrentIndexes.push(newIndex)
@@ -112,7 +111,7 @@ export const SchemaFields = ({ fields, typeName }) => {
           ?.filter((item) =>
             showSystemFields
               ? item
-              : !SYSTEM_FIELDS.includes(item.name || item.label)
+              : !SYSTEM_FIELDS.includes(item.name || item.label),
           )
           .map((item, idx) => (
             <SingleFieldContainer
