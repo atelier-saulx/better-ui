@@ -3,4 +3,4 @@ storybook-static
 dist
 .env
 .DS_Store
-playground/stories.ts
+scripts/playground/stories.ts

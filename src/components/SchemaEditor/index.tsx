@@ -59,12 +59,12 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
             />
           </>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <Stack grid gap={12} style={{ flexDirection: 'column' }}>
             <AddType setActive={setActive} />
             <Text>
               Please select or add a type to get started with your database.
             </Text>
-          </div>
+          </Stack>
         )}
       </div>
     </div>
