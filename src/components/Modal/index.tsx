@@ -121,7 +121,9 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             style={{
               height: '100%',
               maxHeight: 'calc(100vh - 60px)',
+              marginTop: '-32px',
               borderRadius: 8,
+              backgroundColor: color('background', 'screen'),
             }}
           >
             {typeof children === 'function'
@@ -453,9 +455,9 @@ export const Modal = Object.assign(
       >
         <Modal.Overlay
           style={{
-            marginTop: '-30px',
             width: 'calc(100vw - 48px)',
             height: variant === 'large' ? 'calc(100vw - 60px)' : undefined,
+
             maxWidth:
               variant === 'small' ? 552 : variant === 'medium' ? 750 : 1250,
             ...style,

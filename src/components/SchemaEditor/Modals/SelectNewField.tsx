@@ -37,7 +37,7 @@ export const SelectNewField = ({
         style={{
           width: 'calc(100vw - 48px)',
           maxWidth: 736,
-          height: '100%',
+          //    height: '100%',
         }}
       >
         {({ close }) => (
