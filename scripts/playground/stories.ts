@@ -25,6 +25,7 @@ import * as f3271436696784 from "../../src/components/SchemaEditor/index.stories
 import * as f11708898986714 from "../../src/components/ScrollArea/index.stories.js"
 import * as f1222778416958 from "../../src/components/SelectInput/index.stories.js"
 import * as f11126463513738 from "../../src/components/Sidebar/index.stories.js"
+import * as f11214281122365 from "../../src/components/Spinner/index.stories.js"
 import * as f10867194610830 from "../../src/components/Stack/index.stories.js"
 import * as f3747781814494 from "../../src/components/Table/index.stories.js"
 import * as f6083193986525 from "../../src/components/Text/index.stories.js"
@@ -40,7 +41,7 @@ import * as f2784224696663 from "../../src/components/Form/stories/object.storie
 import * as f7145042216623 from "../../src/components/Form/stories/record.stories.js"
 import * as f47303550426 from "../../src/components/Form/stories/references.stories.js"
 import * as f7012957941312 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f13852923402373,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f13659776204836,f16096448594379,f5024396229712,f523702835381,f16494901165491,f3271436696784,f11708898986714,f1222778416958,f11126463513738,f10867194610830,f3747781814494,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f17312796633704,f9053450046761,f2784224696663,f7145042216623,f7012957941312,f47303550426]
+export const stories = [f13852923402373,f3593820932342,f4500130912786,f4580959827109,f34361547883,f8528690964461,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f13659776204836,f16096448594379,f5024396229712,f523702835381,f16494901165491,f3271436696784,f11708898986714,f1222778416958,f11126463513738,f11214281122365,f10867194610830,f3747781814494,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f17312796633704,f9053450046761,f2784224696663,f7145042216623,f47303550426,f7012957941312]
 export const parsedStories = [{ id: "f13852923402373", story: f13852923402373, path: "/Users/yvesbeer/dev/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -217,6 +218,37 @@ export const Toggle: StoryObj<typeof CheckboxInput> = {
     disabled: false,
   },
 }
+`},{ id: "f34361547883", story: f34361547883, path: "/Users/yvesbeer/dev/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
+import { ColorInput } from '../../index.js'
+
+const meta = {
+  title: 'Inputs/ColorInput',
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <ColorInput
+      label="Background color"
+      onChange={(value) => {
+        console.log('onchange', value)
+      }}
+      description="put color on"
+    />
+  )
+}
+
+export const Small = () => {
+  return <ColorInput variant="small" defaultValue="rgba(0,123,231,0.5)" />
+}
+
+export const Error = () => {
+  return <ColorInput error />
+}
+
+export const Disabled = () => {
+  return <ColorInput disabled />
+}
 `},{ id: "f8528690964461", story: f8528690964461, path: "/Users/yvesbeer/dev/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -297,37 +329,6 @@ export const Small: StoryObj<typeof Code> = {
   argTypes: {
     color: { control: 'select' },
   },
-}
-`},{ id: "f34361547883", story: f34361547883, path: "/Users/yvesbeer/dev/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
-import { ColorInput } from '../../index.js'
-
-const meta = {
-  title: 'Inputs/ColorInput',
-}
-export default meta
-
-export const Default = () => {
-  return (
-    <ColorInput
-      label="Background color"
-      onChange={(value) => {
-        console.log('onchange', value)
-      }}
-      description="put color on"
-    />
-  )
-}
-
-export const Small = () => {
-  return <ColorInput variant="small" defaultValue="rgba(0,123,231,0.5)" />
-}
-
-export const Error = () => {
-  return <ColorInput error />
-}
-
-export const Disabled = () => {
-  return <ColorInput disabled />
 }
 `},{ id: "f12016318073042", story: f12016318073042, path: "/Users/yvesbeer/dev/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -1547,35 +1548,35 @@ export default meta
 
 export const Error: StoryObj<typeof Note> = {
   args: {
-    message: 'This is an error',
+    children: 'This is an error',
     variant: 'error',
   },
 }
 
 export const Warning: StoryObj<typeof Note> = {
   args: {
-    message: 'This is a warning',
+    children: 'This is a warning',
     variant: 'warning',
   },
 }
 
 export const Positive: StoryObj<typeof Note> = {
   args: {
-    message: 'This is positive',
+    children: 'This is positive',
     variant: 'positive',
   },
 }
 
 export const Informative: StoryObj<typeof Note> = {
   args: {
-    message: 'This is informative',
+    children: 'This is informative',
     variant: 'informative',
   },
 }
 
 export const Neutral: StoryObj<typeof Note> = {
   args: {
-    message: 'This is neutral',
+    children: 'This is neutral',
     variant: 'neutral',
   },
 }
@@ -1920,6 +1921,21 @@ export const Groups = () => {
       />
     </div>
   )
+}
+`},{ id: "f11214281122365", story: f11214281122365, path: "/Users/yvesbeer/dev/better-ui/src/components/Spinner/index.stories.tsx", file: `import { Spinner } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Spinner> = {
+  title: 'Atoms/Spinner',
+  component: Spinner,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof Spinner> = {
+  args: {
+    size: 48,
+  },
 }
 `},{ id: "f10867194610830", story: f10867194610830, path: "/Users/yvesbeer/dev/better-ui/src/components/Stack/index.stories.tsx", file: `import React, { ReactNode } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -2928,7 +2944,11 @@ export const Object = () => {
         },
         object: {
           location: {
-            snurp: { id: 'flap', src: 'https://i.imgur.com/t1bWmmC.jpeg' },
+            snurp: {
+              id: 'flap',
+              name: 'flap/bla/Screenshot_213123213213.png',
+              src: 'https://i.imgur.com/t1bWmmC.jpeg',
+            },
             doink: 'th123212',
           },
         },
@@ -3056,85 +3076,6 @@ export const Record = () => {
           changed,
           checksum,
         })
-      }}
-    />
-  )
-}
-`},{ id: "f7012957941312", story: f7012957941312, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/set.stories.tsx", file: `import * as React from 'react'
-import { Form, Modal } from '../../../index.js'
-
-const meta = {
-  title: 'Form/Set',
-  parameters: {
-    layout: 'fullscreen',
-  },
-  decorators: [
-    (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
-    ),
-  ],
-}
-
-export default meta
-
-export const Set = () => {
-  return (
-    <Form
-      values={{
-        set: ['a', 'b', 'c'],
-        setNumber: [
-          1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        ],
-        object: {
-          a: ['a', 'b', 'c'],
-          b: [
-            1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-          ],
-        },
-      }}
-      fields={{
-        set: {
-          title: 'Set',
-          type: 'set',
-          description: 'A set with strings',
-          items: { type: 'string' },
-        },
-        setNumber: {
-          title: 'Set Numbers',
-          type: 'set',
-          description: 'A set with numbers',
-          items: { type: 'number' },
-        },
-        object: {
-          title: 'Set in an object',
-          type: 'object',
-          description: 'A set with numbers',
-          properties: {
-            a: {
-              title: 'Set',
-              type: 'set',
-              description: 'A set with strings',
-              items: { type: 'string' },
-            },
-            b: {
-              title: 'Set Numbers',
-              type: 'set',
-              description: 'A set with numbers',
-              items: { type: 'number' },
-            },
-            c: {
-              title: 'Set Numbers',
-              type: 'set',
-              description: 'A set with numbers',
-              items: { type: 'number' },
-            },
-          },
-        },
-      }}
-      onChange={(values, changed, checksum) => {
-        console.log({ values, changed, checksum })
       }}
     />
   )
@@ -3313,6 +3254,85 @@ export const References = () => {
       }}
       onChange={(values, changed, checksum, based) => {
         console.info({ values, changed, checksum, based })
+      }}
+    />
+  )
+}
+`},{ id: "f7012957941312", story: f7012957941312, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/set.stories.tsx", file: `import * as React from 'react'
+import { Form, Modal } from '../../../index.js'
+
+const meta = {
+  title: 'Form/Set',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const Set = () => {
+  return (
+    <Form
+      values={{
+        set: ['a', 'b', 'c'],
+        setNumber: [
+          1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        ],
+        object: {
+          a: ['a', 'b', 'c'],
+          b: [
+            1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          ],
+        },
+      }}
+      fields={{
+        set: {
+          title: 'Set',
+          type: 'set',
+          description: 'A set with strings',
+          items: { type: 'string' },
+        },
+        setNumber: {
+          title: 'Set Numbers',
+          type: 'set',
+          description: 'A set with numbers',
+          items: { type: 'number' },
+        },
+        object: {
+          title: 'Set in an object',
+          type: 'object',
+          description: 'A set with numbers',
+          properties: {
+            a: {
+              title: 'Set',
+              type: 'set',
+              description: 'A set with strings',
+              items: { type: 'string' },
+            },
+            b: {
+              title: 'Set Numbers',
+              type: 'set',
+              description: 'A set with numbers',
+              items: { type: 'number' },
+            },
+            c: {
+              title: 'Set Numbers',
+              type: 'set',
+              description: 'A set with numbers',
+              items: { type: 'number' },
+            },
+          },
+        },
+      }}
+      onChange={(values, changed, checksum) => {
+        console.log({ values, changed, checksum })
       }}
     />
   )
