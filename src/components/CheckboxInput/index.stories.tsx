@@ -19,7 +19,7 @@ export const Checkbox: StoryObj<typeof CheckboxInput> = {
 export const Toggle: StoryObj<typeof CheckboxInput> = {
   args: {
     label: 'Label',
-    description: 'This is the description',
+    // description: 'This is the description',
     defaultValue: true,
     variant: 'toggle',
     disabled: false,
