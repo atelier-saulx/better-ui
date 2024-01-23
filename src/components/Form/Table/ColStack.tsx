@@ -15,7 +15,7 @@ const Action = (p: {
 }) => {
   if (p.onRemove || (p.header && !p.action)) {
     return (
-      <Stack justify="end">
+      <Stack justify="end" fitContent>
         <Button
           onClick={
             p.header
@@ -89,7 +89,7 @@ export const ColStack = React.forwardRef(
                   },
                 },
           }}
-          justify="start"
+          // justify="start"
           {...p}
         >
           {children}

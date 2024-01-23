@@ -53,8 +53,8 @@ export const getColSizes = (
       total -= 52
     } else if (field.type === 'reference') {
       percentageFields.push({ key, field })
-      total -= 400
-      spread += 400
+      total -= 500
+      spread += 500
       totalFlexFields++
     } else {
       percentageFields.push({ key, field })

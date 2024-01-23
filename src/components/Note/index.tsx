@@ -4,11 +4,11 @@ import { color, IconAlertFill, Text } from '../../index.js'
 
 export type NoteProps = {
   variant?: 'warning' | 'error' | 'informative' | 'positive' | 'neutral'
-  message?: React.ReactNode
+  children?: React.ReactNode
   style?: Style
 }
 
-export function Note({ variant = 'neutral', message, style }: NoteProps) {
+export function Note({ variant = 'neutral', children, style }: NoteProps) {
   return (
     <styled.div
       style={{
@@ -45,7 +45,7 @@ export function Note({ variant = 'neutral', message, style }: NoteProps) {
                     : color('semantic-background', 'neutral'),
         }}
       />
-      <Text variant="body-bold">{message}</Text>
+      <Text variant="body-bold">{children}</Text>
     </styled.div>
   )
 }

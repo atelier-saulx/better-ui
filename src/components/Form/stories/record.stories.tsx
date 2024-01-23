@@ -46,6 +46,14 @@ export const Record = () => {
             type: 'string',
           },
         },
+        recordMultiline: {
+          title: 'Multiline record',
+          type: 'record',
+          values: {
+            type: 'string',
+            multiline: true,
+          },
+        },
         recordObject: {
           title: 'Nested record',
           type: 'record',
