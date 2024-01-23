@@ -92,7 +92,7 @@ export const TextAreaInput = React.forwardRef<
       style,
       checksum,
     },
-    ref
+    ref,
   ) => {
     const [state = '', setState] = useControllableState({
       value,
@@ -161,6 +161,7 @@ export const TextAreaInput = React.forwardRef<
               fontSize: 14,
               lineHeight: '24px',
               width: '100%',
+              background: 'transparent',
               padding: variant === 'regular' ? '8px 12px' : '3px 10px',
               borderRadius:
                 variant === 'regular'
@@ -198,5 +199,5 @@ export const TextAreaInput = React.forwardRef<
         </styled.div>
       </Wrapper>
     )
-  }
+  },
 )
