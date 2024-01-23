@@ -50,6 +50,9 @@ const parseFields = (fields) => {
   }
 
   indexedArray.sort((a, b) => a.index - b.index)
+
+  console.log('index array ', indexedArray)
+
   return [...indexedArray]
 }
 
@@ -85,6 +88,8 @@ export const SchemaFields = ({ fields, typeName }) => {
 
     // for that instant feeling of dropping
     setArray([...n])
+
+    console.log('Fields ?? ', fields)
 
     await client.call('db:set-schema', {
       mutate: true,

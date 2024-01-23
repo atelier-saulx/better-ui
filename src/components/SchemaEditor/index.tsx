@@ -66,12 +66,10 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
           <Stack
             gap={12}
             grid
+            direction="column"
             style={{
-              flexDirection: 'column' as 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: 'auto',
-              marginBottom: 'auto',
             }}
           >
             <AddType setActive={setActive} />

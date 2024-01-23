@@ -204,8 +204,6 @@ export const AddField = ({
         {fieldType.toLowerCase() !== 'boolean' &&
         fieldType.toLowerCase() !== 'cardinality' &&
         fieldType.toLowerCase() !== 'enum' &&
-        fieldType.toLowerCase() !== 'reference' &&
-        fieldType.toLowerCase() !== 'references' &&
         fieldType.toLowerCase() !== 'json' ? (
           <Button
             variant={tabIndex === 2 ? 'primary-link' : 'neutral-link'}
@@ -454,6 +452,8 @@ const SpecificOptions = ({
           options={ARRAY_OPTIONS}
           onChange={(v) => setItems({ type: v })}
         />
+      ) : fieldType === 'reference' || fieldType === 'references' ? (
+        <Text>Sorting options here </Text>
       ) : (
         '🙈'
       )}
