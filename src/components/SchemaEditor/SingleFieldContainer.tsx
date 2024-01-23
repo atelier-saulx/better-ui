@@ -80,7 +80,7 @@ export const SingleFieldContainer = ({
               <Badge>{item?.name}</Badge>
               <Text variant="body-bold">dragging</Text>
             </Stack>,
-            elem
+            elem,
           )
           document.body.appendChild(elem)
           e.dataTransfer.setDragImage(elem, 0, 0)
@@ -154,7 +154,7 @@ export const SingleFieldContainer = ({
           suffix={
             <Stack gap={12}>
               {item.type === 'object' && (
-                <SelectNewField typeName={typeName} fieldItem={item} />
+                <SelectNewField typeName={typeName} fieldItem={item} light />
               )}
               <FieldEditAndDelete item={item} typeName={typeName} />
             </Stack>

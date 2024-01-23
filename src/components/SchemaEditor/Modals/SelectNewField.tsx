@@ -15,11 +15,13 @@ const filterOutTheseFields = ['id', 'type', 'email', 'digest', 'url']
 type SelectNewFieldProps = {
   typeName: string
   fieldItem?: {}
+  light?: boolean
 }
 
 export const SelectNewField = ({
   typeName,
   fieldItem,
+  light,
 }: SelectNewFieldProps) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
@@ -27,7 +29,7 @@ export const SelectNewField = ({
   return (
     <Modal.Root>
       <Modal.Trigger>
-        <Button size="small" variant="primary-transparent">
+        <Button variant={light ? 'primary-transparent' : 'primary'}>
           <IconPlus style={{ marginRight: 8 }} /> Add Field
         </Button>
       </Modal.Trigger>
@@ -63,7 +65,7 @@ export const SelectNewField = ({
                       .includes(searchValue.toLowerCase()) ||
                     SCHEMA_FIELDS[item].description
                       .toLowerCase()
-                      .includes(searchValue.toLowerCase())
+                      .includes(searchValue.toLowerCase()),
                 )
                 .map((item, idx) => (
                   <Container

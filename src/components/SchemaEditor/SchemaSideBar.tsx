@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { Sidebar } from '../Sidebar/index.js'
 import { AddType } from './Modals/AddType.js'
+import { Stack } from '../Stack/index.js'
+import { Text } from '../Text/index.js'
 
 export const SchemaSideBar = ({ types, active, setActive }) => {
   console.log(types)
@@ -16,7 +18,12 @@ export const SchemaSideBar = ({ types, active, setActive }) => {
   return (
     <div>
       <Sidebar
-        header={<AddType setActive={setActive} />}
+        header={
+          <Stack>
+            <Text variant="caption">Types</Text>
+            <AddType setActive={setActive} />
+          </Stack>
+        }
         value={active}
         onValueChange={(v) => setActive(v)}
         style={{ maxWidth: 212 }}

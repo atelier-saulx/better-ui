@@ -12,6 +12,8 @@ export type SchemaEditorProps = {
 export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
   const [active, setActive] = React.useState('')
 
+  console.log('Schema>>?', schema)
+
   return (
     <div style={{ minHeight: '100%', display: 'flex' }}>
       <SchemaSideBar
@@ -22,7 +24,7 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
       <div style={{ width: '100%', padding: 32 }}>
         {active ? (
           <>
-            <Stack style={{ marginBottom: 16 }}>
+            <Stack style={{ marginBottom: 24 }}>
               <Stack
                 gap={16}
                 style={{
@@ -31,8 +33,21 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
                   alignItems: 'center',
                 }}
               >
-                <Text variant="title-page">{active}</Text>
-                <TypeOptions typeName={active} setActive={setActive} />
+                <div>
+                  <Stack style={{ justifyContent: 'flex-start' }} gap={12}>
+                    <Text variant="title-page">
+                      {schema.types[active]?.meta?.displayName
+                        ? schema.types[active]?.meta?.displayName
+                        : active}
+                    </Text>
+                    <TypeOptions typeName={active} setActive={setActive} />
+                  </Stack>
+                  {schema.types[active]?.meta?.description && (
+                    <Text variant="body" color="secondary">
+                      {schema.types[active]?.meta?.description}
+                    </Text>
+                  )}
+                </div>
               </Stack>
               <SelectNewField typeName={active} />
             </Stack>
@@ -43,7 +58,10 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
           </>
         ) : (
           <Stack gap={12} style={{ justifyContent: 'flex-start' }}>
-            <IconArrowLeft /> <Text>Please select or add a type.</Text>
+            <IconArrowLeft />{' '}
+            <Text>
+              Please select or add a type to get started with your database.
+            </Text>
           </Stack>
         )}
       </div>
