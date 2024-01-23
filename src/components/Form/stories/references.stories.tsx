@@ -73,113 +73,107 @@ export const References = () => {
   const { open } = Modal.useModal()
 
   return (
-    <styled.div
-      style={{
-        padding: 64,
+    <Form
+      values={{
+        refTags: faces,
+        people: facesNames,
+        peopleLess: facesLess,
+        refs: [
+          'x211212',
+          { id: '212cwcwe', name: 'my snurp' },
+          {
+            id: '212cwcwe',
+            src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+          },
+          { id: '212cwcwe' },
+        ],
       }}
-    >
-      <Form
-        values={{
-          refTags: faces,
-          people: facesNames,
-          peopleLess: facesLess,
-          refs: [
-            'x211212',
-            { id: '212cwcwe', name: 'my snurp' },
-            {
-              id: '212cwcwe',
-              src: 'https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png',
+      onClickReference={async ({ path }) => {
+        open(({ close }) => {
+          return (
+            <Modal onConfirm={() => close(getRandomRef())}>
+              <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
+            </Modal>
+          )
+        })
+      }}
+      onSelectReference={async ({ path }) => {
+        return open(({ close }) => {
+          return (
+            <Modal variant="large" onConfirm={() => close(getRandomRef())}>
+              <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+            </Modal>
+          )
+        })
+      }}
+      onSelectReferences={async ({ path }) => {
+        return open(({ close }) => {
+          const newItems: any[] = []
+          const len = ~~(Math.random() * 100)
+          for (let i = 0; i < len; i++) {
+            newItems.push(getRandomRef())
+          }
+          return (
+            <Modal variant="large" onConfirm={() => close(newItems)}>
+              <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
+            </Modal>
+          )
+        })
+      }}
+      fields={{
+        ref: {
+          title: 'Single reference',
+          type: 'reference',
+          description: 'A single ref',
+        },
+        logo: {
+          title: 'Single reference fronm file',
+          type: 'reference',
+          description: 'A single ref',
+          allowedTypes: ['file'],
+        },
+        refTags: {
+          title: 'Multi references',
+          type: 'references',
+          sortable: true,
+          description: 'Multi ref',
+        },
+        peopleLess: {
+          title: 'People',
+          type: 'references',
+        },
+        people: {
+          sortable: true,
+          title: 'People time',
+          type: 'references',
+        },
+        refs: {
+          title: 'Multi references',
+          type: 'references',
+          description: 'Multi ref',
+          sortable: true,
+        },
+        object: {
+          title: 'Refs in an object',
+          type: 'object',
+          description: 'Some refs',
+          properties: {
+            ref: {
+              title: 'Single reference',
+              type: 'reference',
+              description: 'A single ref',
             },
-            { id: '212cwcwe' },
-          ],
-        }}
-        onClickReference={async ({ path }) => {
-          open(({ close }) => {
-            return (
-              <Modal onConfirm={() => close(getRandomRef())}>
-                <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
-              </Modal>
-            )
-          })
-        }}
-        onSelectReference={async ({ path }) => {
-          return open(({ close }) => {
-            return (
-              <Modal variant="large" onConfirm={() => close(getRandomRef())}>
-                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
-              </Modal>
-            )
-          })
-        }}
-        onSelectReferences={async ({ path }) => {
-          return open(({ close }) => {
-            const newItems: any[] = []
-            const len = ~~(Math.random() * 100)
-            for (let i = 0; i < len; i++) {
-              newItems.push(getRandomRef())
-            }
-            return (
-              <Modal variant="large" onConfirm={() => close(newItems)}>
-                <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
-              </Modal>
-            )
-          })
-        }}
-        fields={{
-          ref: {
-            title: 'Single reference',
-            type: 'reference',
-            description: 'A single ref',
-          },
-          logo: {
-            title: 'Single reference fronm file',
-            type: 'reference',
-            description: 'A single ref',
-            allowedTypes: ['file'],
-          },
-          refTags: {
-            title: 'Multi references',
-            type: 'references',
-            sortable: true,
-            description: 'Multi ref',
-          },
-          peopleLess: {
-            title: 'People',
-            type: 'references',
-          },
-          people: {
-            sortable: true,
-            title: 'People time',
-            type: 'references',
-          },
-          refs: {
-            title: 'Multi references',
-            type: 'references',
-            description: 'Multi ref',
-            sortable: true,
-          },
-          object: {
-            title: 'Refs in an object',
-            type: 'object',
-            description: 'Some refs',
-            properties: {
-              ref: {
-                title: 'Single reference',
-                type: 'reference',
-                description: 'A single ref',
-              },
-              refs: {
-                title: 'Multi references',
-                type: 'references',
-                description: 'Multi ref',
-              },
+            refs: {
+              title: 'Multi references',
+              type: 'references',
+              description: 'Multi ref',
             },
           },
-        }}
-        onChange={(values, changed, checksum, based) => {
-          console.info({ values, changed, checksum, based })
-        }}
-      />
-    </styled.div>
+        },
+      }}
+      onChange={(values, changed, checksum, based) => {
+        console.info({ values, changed, checksum, based })
+      }}
+    />
   )
 }

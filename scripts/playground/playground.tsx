@@ -128,7 +128,7 @@ const Example = (p: {
 
   const codeBlock = (
     <Stack id="code">
-      {!p.fullscreen && code.length > 300 && !open ? (
+      {!p.fullscreen && code.length > 400 && !open ? (
         <Stack
           style={{
             padding: 12,
@@ -229,6 +229,7 @@ const Example = (p: {
             >
               <styled.div
                 style={{
+                  padding: 64,
                   width: '100%',
                 }}
               >
