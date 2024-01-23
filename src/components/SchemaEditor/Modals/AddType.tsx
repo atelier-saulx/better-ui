@@ -80,7 +80,15 @@ export const AddType = ({ setActive }) => {
             </Modal.Body>
 
             <Modal.Actions>
-              <Button variant="neutral" onClick={close}>
+              <Button
+                variant="neutral"
+                onClick={() => {
+                  setTypeName('')
+                  setDisplayName('')
+                  setDescription('')
+                  close()
+                }}
+              >
                 Cancel
               </Button>
               <Button
