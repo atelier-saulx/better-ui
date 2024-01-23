@@ -171,6 +171,11 @@ export const AddField = ({
           fields = nestedFields
         }
 
+        if (editItem && editItem.index) {
+          // keep index after editing
+          fields[editItem.meta.name].index = editItem.index
+        }
+
         await client.call('db:set-schema', {
           mutate: true,
           schema: {
