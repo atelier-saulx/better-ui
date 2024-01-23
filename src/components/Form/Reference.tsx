@@ -93,22 +93,25 @@ const Id = (p: { id: string; onClick: () => void }) => {
 const Info = (p: { value: Reference; onClick: () => void }) => {
   if (typeof p.value === 'object') {
     return (
-      <Stack justify="start" fitContent>
+      <>
         <Text singleLine style={{ marginRight: 12 }} variant="body-bold">
           {p.value.name ?? p.value.title}
         </Text>
-        <Id id={p.value.id} onClick={p.onClick} />
-      </Stack>
+      </>
     )
   }
-  return <Id id={p.value} onClick={p.onClick} />
+  return (
+    <Stack>
+      <Id id={p.value} onClick={p.onClick} />
+    </Stack>
+  )
 }
 
 export const Image = (p: {
   ctx: TableCtx
   value: Reference
   field: BasedSchemaFieldReference
-  isLarge: boolean
+  isLarge?: boolean
 }) => {
   let hasFile = false
   let src: string
@@ -193,23 +196,23 @@ export function Reference({
   }, [id])
 
   if (id) {
-    return (
-      <Stack justify="start" direction={isLarge ? 'column' : 'row'}>
-        <Image ctx={ctx} isLarge={isLarge} field={field} value={value} />
-        <Stack gap={isLarge ? 12 : 0} justify={isLarge ? 'start' : 'between'}>
-          <Info
-            value={value}
-            onClick={() => {
-              ctx.listeners.onClickReference({
-                path,
-                value,
-                field,
-                ctx,
-              })
-            }}
-          />
-          <Stack justify="end" gap={8}>
-            <Select badge={isLarge} field={field} onClick={selectRef} />
+    if (isLarge) {
+      return (
+        <Stack justify="start" direction="column">
+          <Image ctx={ctx} isLarge field={field} value={value} />
+          <Stack justify="end" gap={8} fitContent>
+            <Info
+              value={value}
+              onClick={() => {
+                ctx.listeners.onClickReference({
+                  path,
+                  value,
+                  field,
+                  ctx,
+                })
+              }}
+            />
+            <Select badge field={field} onClick={selectRef} />
             <Button
               onClick={() => {
                 ctx.listeners.onChangeHandler(ctx, path, null)
@@ -219,6 +222,34 @@ export function Reference({
               <IconClose />
             </Button>
           </Stack>
+        </Stack>
+      )
+    }
+
+    return (
+      <Stack justify="start">
+        <Image ctx={ctx} field={field} value={value} />
+        <Info
+          value={value}
+          onClick={() => {
+            ctx.listeners.onClickReference({
+              path,
+              value,
+              field,
+              ctx,
+            })
+          }}
+        />
+        <Stack justify="end" gap={8} fitContent>
+          <Select field={field} onClick={selectRef} />
+          <Button
+            onClick={() => {
+              ctx.listeners.onChangeHandler(ctx, path, null)
+            }}
+            variant="icon-only"
+          >
+            <IconClose />
+          </Button>
         </Stack>
       </Stack>
     )

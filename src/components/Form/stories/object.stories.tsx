@@ -64,7 +64,11 @@ export const Object = () => {
         },
         object: {
           location: {
-            snurp: { id: 'flap', src: 'https://i.imgur.com/t1bWmmC.jpeg' },
+            snurp: {
+              id: 'flap',
+              name: 'flap/bla/Screenshot_213123213213.png',
+              src: 'https://i.imgur.com/t1bWmmC.jpeg',
+            },
             doink: 'th123212',
           },
         },
