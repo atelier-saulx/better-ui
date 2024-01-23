@@ -37,10 +37,11 @@ export const SelectNewField = ({
         style={{
           width: 'calc(100vw - 48px)',
           maxWidth: 736,
+          height: '100%',
         }}
       >
         {({ close }) => (
-          <div style={{ padding: 24, overflow: 'overlay' }}>
+          <div style={{ padding: 24 }}>
             <Text variant="title-modal" style={{ marginBottom: 16 }}>
               Add a new field to your schema type
             </Text>

@@ -22,6 +22,10 @@ export const AdvancedEditType = ({ onConfirm, typeName }) => {
     <Modal
       variant="medium"
       confirmLabel="Confirm"
+      style={{
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      }}
       onConfirm={async () => {
         await client.call('db:set-schema', {
           mutate: true,

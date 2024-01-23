@@ -453,6 +453,7 @@ export const Modal = Object.assign(
       >
         <Modal.Overlay
           style={{
+            marginTop: '-30px',
             width: 'calc(100vw - 48px)',
             height: variant === 'large' ? 'calc(100vw - 60px)' : undefined,
             maxWidth:
