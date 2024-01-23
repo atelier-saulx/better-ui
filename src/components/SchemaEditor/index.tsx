@@ -1,9 +1,11 @@
 import * as React from 'react'
 import { SchemaSideBar } from './SchemaSideBar.js'
-import { Text, Stack, IconArrowLeft } from '../../index.js'
+import { Text, Stack } from '../../index.js'
 import { SchemaFields } from './SchemaFields.js'
 import { TypeOptions } from './Modals/TypeOptions.js'
 import { SelectNewField } from './Modals/SelectNewField.js'
+
+import { AddType } from './Modals/AddType.js'
 
 export type SchemaEditorProps = {
   schema: { types: {} }
@@ -57,12 +59,12 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
             />
           </>
         ) : (
-          <Stack gap={12} style={{ justifyContent: 'flex-start' }}>
-            <IconArrowLeft />{' '}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <AddType setActive={setActive} />
             <Text>
               Please select or add a type to get started with your database.
             </Text>
-          </Stack>
+          </div>
         )}
       </div>
     </div>

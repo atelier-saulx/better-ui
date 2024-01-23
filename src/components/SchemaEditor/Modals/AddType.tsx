@@ -8,7 +8,12 @@ import { Modal } from '../../Modal/index.js'
 import { IconPlus } from '../../Icons/index.js'
 import { useClient } from '@based/react'
 
-export const AddType = ({ setActive }) => {
+type AddTypeProps = {
+  setActive: (x: string) => void
+  light?: boolean
+}
+
+export const AddType = ({ setActive, light }: AddTypeProps) => {
   const [typeName, setTypeName] = React.useState('')
   const [displayName, setDisplayName] = React.useState('')
   const [description, setDescription] = React.useState('')
@@ -18,7 +23,10 @@ export const AddType = ({ setActive }) => {
   return (
     <Modal.Root>
       <Modal.Trigger>
-        <Button variant="primary-transparent" size="small">
+        <Button
+          variant={light ? 'primary-transparent' : 'primary'}
+          size={light ? 'small' : 'medium'}
+        >
           <IconPlus style={{ marginRight: 5 }} /> Add Type
         </Button>
       </Modal.Trigger>

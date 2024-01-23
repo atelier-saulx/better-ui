@@ -25,7 +25,6 @@ export const Default = () => {
         {({ close }) => (
           <>
             <Modal.Title
-              //  style={{ background: 'lightgrey',  }}
               children="Add custom view"
               description="This is your organisation’s name within Based. For example, you can use the name of your company or department."
             />

@@ -21,7 +21,7 @@ export const SchemaSideBar = ({ types, active, setActive }) => {
         header={
           <Stack>
             <Text variant="caption">Types</Text>
-            <AddType setActive={setActive} />
+            <AddType setActive={setActive} light />
           </Stack>
         }
         value={active}
