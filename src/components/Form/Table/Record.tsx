@@ -7,6 +7,7 @@ import {
   Button,
   IconPlus,
   TextInput,
+  useSize,
   IconClose,
 } from '../../../index.js'
 import { Path, TableCtx, TableProps } from '../types.js'
@@ -16,6 +17,7 @@ import { Field } from './Field.js'
 import { BasedSchemaFieldRecord } from '@based/schema'
 import { ColStack } from './ColStack.js'
 import { deepCopy } from '@saulx/utils'
+import { getColSizes } from '../getColSizes.js'
 
 const KeyInput = (p: {
   value: string
@@ -76,18 +78,34 @@ export function Record({ ctx, path }: TableProps) {
     ctx.listeners.onChangeHandler(ctx, path, nValue)
   }
 
-  if (valuesField.type === 'object' && canUseColumns(valuesField)) {
+  //   const cols = canUseColumns(field)
+
+  const [width, setWidth] = React.useState(0)
+
+  const sizeRef = useSize(({ width }) => {
+    setWidth(width - 64 * 2 - 200)
+  })
+
+  const useCols = valuesField.type === 'object' && canUseColumns(valuesField)
+
+  const colFields = useCols ? getColSizes(valuesField, width, true) : []
+
+  if (
+    valuesField.type === 'object' &&
+    colFields.length &&
+    colFields.length === Object.keys(valuesField.properties).length
+  ) {
     cols.push(
       <Cell width={200} isKey border key={'key'}>
         Key
-      </Cell>
+      </Cell>,
     )
 
-    for (const key in valuesField.properties) {
+    for (const f of colFields) {
       cols.push(
-        <Cell border isKey key={key}>
-          {valuesField.properties[key].title ?? key}
-        </Cell>
+        <Cell border isKey key={f.key} width={f.width}>
+          {valuesField.properties[f.key].title ?? f.key}
+        </Cell>,
       )
     }
     if (value) {
@@ -105,11 +123,11 @@ export function Record({ ctx, path }: TableProps) {
             <KeyInput valueRef={valueRef} value={key} ctx={ctx} path={path} />
           </Cell>,
         ]
-        for (const k in valuesField.properties) {
+        for (const f of colFields) {
           cells.push(
-            <Cell border key={k}>
-              <Field ctx={ctx} path={[...path, key, k]} />
-            </Cell>
+            <Cell border key={f.key} width={f.width}>
+              <Field ctx={ctx} path={[...path, key, f.key]} />
+            </Cell>,
           )
         }
         rows.push(
@@ -123,7 +141,7 @@ export function Record({ ctx, path }: TableProps) {
             }}
           >
             {cells}
-          </ColStack>
+          </ColStack>,
         )
       }
     }
@@ -136,7 +154,7 @@ export function Record({ ctx, path }: TableProps) {
       </Cell>,
       <Cell isKey border key={'value'}>
         Value
-      </Cell>
+      </Cell>,
     )
 
     if (value) {
@@ -148,7 +166,6 @@ export function Record({ ctx, path }: TableProps) {
               '&:hover': {
                 '& > :first-child': {
                   '& > :first-child > :first-child': {
-                    border: '1px solid red',
                     opacity: '1 !important',
                   },
                 },
@@ -190,14 +207,14 @@ export function Record({ ctx, path }: TableProps) {
             <Cell>
               <Field ctx={ctx} path={[...path, key]} />
             </Cell>
-          </ColStack>
+          </ColStack>,
         )
       }
     }
   }
 
   return (
-    <Stack justify="start" align="start" direction="column">
+    <Stack ref={sizeRef} justify="start" align="start" direction="column">
       <ColStack
         style={{
           background: color('background', 'muted'),

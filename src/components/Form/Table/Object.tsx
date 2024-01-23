@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { Stack, border, color } from '../../../index.js'
+import { Stack, border, color, useSize } from '../../../index.js'
 import { BasedSchemaFieldObject } from '@based/schema'
 import { TableProps } from '../types.js'
 import { readPath, canUseColumns, getTitle } from '../utils.js'
@@ -7,28 +7,43 @@ import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { Table } from './index.js'
 import { ColStack } from './ColStack.js'
+import { getColSizes } from '../getColSizes.js'
 
-export function Object({ ctx, path }: TableProps) {
+export function ObjectParser({ ctx, path }: TableProps) {
   const { field } = readPath<BasedSchemaFieldObject>(ctx, path)
   const cols = canUseColumns(field)
 
-  if (cols) {
+  const [width, setWidth] = React.useState(0)
+
+  const sizeRef = useSize(({ width }) => {
+    setWidth(width - 64 * 2)
+  })
+
+  const colFields =
+    field.type === 'object' ? getColSizes(field, width, true) : []
+
+  if (
+    cols &&
+    width &&
+    colFields.length === Object.keys(field.properties).length
+  ) {
     const cells: ReactNode[] = []
     const cols: ReactNode[] = []
-    for (const key in field.properties) {
+    for (const f of colFields) {
       cols.push(
-        <Cell isKey border key={key}>
-          {getTitle(key, field.properties[key])}
-        </Cell>
+        <Cell isKey border key={f.key} width={f.width}>
+          {getTitle(f.key, field.properties[f.key])}
+        </Cell>,
       )
       cells.push(
-        <Cell border key={key}>
-          <Field ctx={ctx} path={[...path, key]} />
-        </Cell>
+        <Cell border key={f.key} width={f.width}>
+          <Field ctx={ctx} path={[...path, f.key]} />
+        </Cell>,
       )
     }
     return (
       <Stack
+        ref={sizeRef}
         justify="start"
         direction="column"
         style={{
@@ -53,5 +68,9 @@ export function Object({ ctx, path }: TableProps) {
     rows.push(<Table key={key} ctx={ctx} path={[...path, key]} />)
   }
 
-  return <Stack direction="column">{rows}</Stack>
+  return (
+    <Stack ref={sizeRef} direction="column">
+      {rows}
+    </Stack>
+  )
 }

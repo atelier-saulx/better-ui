@@ -3,11 +3,9 @@ import {
   Stack,
   border,
   color,
-  Button,
   IconChevronDown,
   IconChevronRight,
   Badge,
-  IconClose,
 } from '../../../../index.js'
 import { getIdentifierField, isIterable, readParentType } from '../../utils.js'
 import { Cell } from '../Cell.js'
@@ -43,6 +41,7 @@ export function NestedObjectRows(p: RowProps) {
           }
           setIndex(openCnt + 1)
         }}
+        removeItem={p.removeItem}
         style={{
           userSelect: 'none',
           cursor: 'pointer',
@@ -54,7 +53,6 @@ export function NestedObjectRows(p: RowProps) {
           '&:hover': {
             background: color('background', 'neutral'),
             '.remove': {
-              border: '1px solid red',
               opacity: '1 !important',
             },
           },
@@ -86,15 +84,6 @@ export function NestedObjectRows(p: RowProps) {
                 {title}
               </Stack>
               <Stack fitContent justify="end" gap={8}>
-                <Button
-                  variant="icon-only"
-                  style={{ opacity: 0 }}
-                  onClick={() => {
-                    p.removeItem(i)
-                  }}
-                >
-                  <IconClose />
-                </Button>
                 {isIterable(p.field.values) ? (
                   <Badge color="neutral-muted">
                     {item?.length} Item

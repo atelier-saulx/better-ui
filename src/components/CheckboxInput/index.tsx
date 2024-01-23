@@ -110,7 +110,7 @@ export const CheckboxInput = React.forwardRef<
                 ? color('interactive', 'primary')
                 : 'transparent',
               borderRadius: borderRadius('tiny'),
-              marginTop: 4,
+              marginTop: 2,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -139,7 +139,7 @@ export const CheckboxInput = React.forwardRef<
         ) : (
           <styled.div
             style={{
-              marginTop: 4,
+              marginTop: 2,
               width: 36,
               height: 20,
               padding: 2,

@@ -49,7 +49,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       style,
       checksum,
     },
-    ref
+    ref,
   ) => {
     const Wrapper = label ? styled.label : styled.div
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
@@ -118,6 +118,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 position: 'relative',
                 fontSize: 14,
                 lineHeight: '24px',
+                height: 40,
                 padding:
                   variant === 'regular'
                     ? '8px 40px 8px 12px'
@@ -243,5 +244,5 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
         </SelectBase.Portal>
       </SelectBase.Root>
     )
-  }
+  },
 )

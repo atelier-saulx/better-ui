@@ -87,8 +87,9 @@ export function Sidebar({
             {children
               ? children
               : Array.isArray(data)
-                ? data.map((e) => (
+                ? data.map((e, i) => (
                     <SidebarItem
+                      key={i}
                       prefix={e.prefix}
                       suffix={e.suffix}
                       value={e.value}
@@ -97,9 +98,10 @@ export function Sidebar({
                     </SidebarItem>
                   ))
                 : Object.entries(data).map(([title, items]) => (
-                    <SidebarGroup title={title}>
-                      {items.map((e) => (
+                    <SidebarGroup key={title} title={title}>
+                      {items.map((e, i) => (
                         <SidebarItem
+                          key={i}
                           prefix={e.prefix}
                           suffix={e.suffix}
                           value={e.value}

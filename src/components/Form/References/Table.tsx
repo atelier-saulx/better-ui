@@ -8,6 +8,7 @@ import {
   Badge,
   IconPlus,
   Media,
+  useSize,
 } from '../../../index.js'
 import { Path, TableCtx, Reference } from '../types.js'
 import { Cell } from '../Table/Cell.js'
@@ -15,17 +16,13 @@ import { ColStack } from '../Table/ColStack.js'
 import humanizeString from 'humanize-string'
 import { References } from './index.js'
 import {
+  BasedSchemaField,
   BasedSchemaFieldObject,
   BasedSchemaFieldReferences,
   display,
 } from '@based/schema'
 import { DragableRow } from '../Table/DragableRow.js'
-
-const cellWidth = (key: string) => {
-  if (key === 'id') {
-    return 120
-  }
-}
+import { getColSizes } from '../getColSizes.js'
 
 const ImageTableStyle = (p: { children?: React.ReactNode }) => {
   return (
@@ -68,30 +65,18 @@ const ImageTable = ({ value }: { value?: Reference }) => {
   return <ImageTableStyle />
 }
 
-const parse = (key: string, value: string | number): string | number => {
-  if (value === undefined || value === '') {
-    return ''
-  }
-  if (
-    typeof value === 'number' &&
-    /(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)
-  ) {
-    const formated = display(Number(value), {
-      type: 'timestamp',
-      display: 'human',
-    })
-    return String(formated)
-  }
-  return value
-}
-
-const CellContent = (p: { k: string; value: any }) => {
+const CellContent = (p: {
+  k: string
+  value: any
+  width: number
+  field: BasedSchemaField
+}) => {
   if (p.k === 'src') {
     return <ImageTable value={p.value} />
   }
   const fieldValue = p.value[p.k]
   return (
-    <Cell border key={p.k} width={cellWidth(p.k)}>
+    <Cell border key={p.k} width={p.width}>
       <Stack
         justify={p.k === 'id' ? 'end' : 'start'}
         style={{
@@ -102,16 +87,15 @@ const CellContent = (p: { k: string; value: any }) => {
         {p.k === 'id' ? (
           <Badge color="informative-muted">{fieldValue}</Badge>
         ) : (
-          <Text singleLine style={{ maxWidth: 300 }}>
-            {parse(p.k, fieldValue)}
+          <Text singleLine style={{ width: p.width }}>
+            {/* @ts-ignore */}
+            {display(fieldValue, p.field) ?? ''}
           </Text>
         )}
       </Stack>
     </Cell>
   )
 }
-
-const FIELDS = ['id', 'src', 'name', 'title']
 
 export const ReferencesTable = ({
   value,
@@ -135,7 +119,10 @@ export const ReferencesTable = ({
   const rows: React.ReactNode[] = []
   const cols: React.ReactNode[] = [,]
   const hasFields: Set<string> = new Set(['id'])
-
+  const [width, setWidth] = React.useState(0)
+  const sizeRef = useSize(({ width }) => {
+    setWidth(width - 64 * 2)
+  })
   for (const v of value) {
     if (typeof v === 'object') {
       for (const k in v) {
@@ -145,9 +132,7 @@ export const ReferencesTable = ({
       }
     }
   }
-
   const fields: string[] = []
-
   if (
     hasFields.size < 3 ||
     (hasFields.size === 3 && hasFields.has('id') && hasFields.has('src'))
@@ -159,46 +144,42 @@ export const ReferencesTable = ({
       </>
     )
   }
-
-  for (const key of FIELDS) {
-    if (hasFields.has(key)) {
-      hasFields.delete(key)
-      fields.push(key)
-    }
-  }
-
   const objectSchema: BasedSchemaFieldObject = {
     type: 'object',
     properties: {},
   }
-
   for (const key of hasFields.values()) {
-    // choose certain fields over others.. make util
     fields.push(key)
-    if (fields.length > 5) {
-      break
-    }
-    // make this a bit better
-    objectSchema.properties[key] = {
-      type: 'string',
-      contentMediaType: key === 'src' ? 'image/*' : null,
+    if (/(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)) {
+      objectSchema.properties[key] = {
+        type: 'timestamp',
+        display: 'human',
+      }
+    } else {
+      objectSchema.properties[key] = {
+        type: 'string',
+        contentMediaType: key === 'src' ? 'image/*' : null,
+      }
     }
   }
+
+  const calculatedFields = getColSizes(objectSchema, width)
 
   if (field.sortable) {
     cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
   }
 
-  for (const key of fields) {
-    // objectSchema.properties[key] = { type: }
-
-    if (key === 'src') {
-      cols.push(<ImageTable key={key} />)
+  for (const f of calculatedFields) {
+    if (
+      f.field.type === 'string' &&
+      f.field.contentMediaType?.startsWith('image/')
+    ) {
+      cols.push(<ImageTable key={f.key} />)
     } else {
       cols.push(
-        <Cell border={key !== 'id'} isKey key={key} width={cellWidth(key)}>
-          {humanizeString(key === 'id' ? '' : key)}
-        </Cell>
+        <Cell border={f.key !== 'id'} isKey key={f.key} width={f.width}>
+          <Text singleLine>{humanizeString(f.key === 'id' ? '' : f.key)}</Text>
+        </Cell>,
       )
     }
   }
@@ -214,8 +195,16 @@ export const ReferencesTable = ({
           value={v}
           index={i}
           key={i}
-          cells={fields.map((k) => {
-            return <CellContent key={k} k={k} value={v} />
+          cells={calculatedFields.map(({ key, width, field }) => {
+            return (
+              <CellContent
+                width={width}
+                key={key}
+                k={key}
+                value={v}
+                field={field}
+              />
+            )
           })}
           removeItem={onRemove}
           onClick={() => {
@@ -224,13 +213,13 @@ export const ReferencesTable = ({
           field={objectSchema}
           ctx={ctx}
           path={path}
-        />
+        />,
       )
     }
   }
 
   return (
-    <Stack justify="start" align="start" direction="column">
+    <Stack ref={sizeRef} justify="start" align="start" direction="column">
       <ColStack header>{cols}</ColStack>
       {rows}
       <styled.div style={{ marginTop: 8, marginBottom: 8 }}>

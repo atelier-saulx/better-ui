@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { BasedSchemaFieldObject } from '@based/schema'
-import { Path, TableCtx } from '../../types.js'
+import { ColSizes, Path, TableCtx } from '../../types.js'
 import { Cell } from '../Cell.js'
 import { Field } from '../Field.js'
 import { RowProps } from './types.js'
@@ -11,27 +11,29 @@ export const CollRow = (p: {
   ctx: TableCtx
   path: Path
   index: number
+  colFields: ColSizes
   removeItem: (index: number) => void
   changeIndex: (fromIndex: number, toIndex: number) => void
   value: any
 }) => {
   const cells: ReactNode[] = []
-  for (const key in p.field.properties) {
+
+  for (const field of p.colFields) {
     cells.push(
-      <Cell border key={key}>
-        <Field ctx={p.ctx} path={[...p.path, p.index, key]} />
-      </Cell>
+      <Cell border key={field.key} width={field.width}>
+        <Field ctx={p.ctx} path={[...p.path, p.index, field.key]} />
+      </Cell>,
     )
   }
-
   return <DragableRow draggable {...p} cells={cells} />
 }
 
-export const ObjectCollsRows = (p: RowProps) => {
+export const ObjectCollsRows = (p: RowProps & { colFields: ColSizes }) => {
   const rows: ReactNode[] = []
   for (let i = 0; i < p.value.value.length; i++) {
     rows.push(
       <CollRow
+        colFields={p.colFields}
         changeIndex={p.changeIndex}
         key={p.value.orderId + '_' + i}
         value={p.value[i]}
@@ -40,7 +42,7 @@ export const ObjectCollsRows = (p: RowProps) => {
         ctx={p.ctx}
         path={p.path}
         removeItem={p.removeItem}
-      />
+      />,
     )
   }
   return rows

@@ -13,7 +13,7 @@ import {
 import { Cell } from './Cell.js'
 import { Field } from './Field.js'
 import { Record } from './Record.js'
-import { Object } from './Object.js'
+import { ObjectParser } from './Object.js'
 import { Arrays } from './Arrays/index.js'
 
 function Title({
@@ -56,7 +56,7 @@ function Body({ ctx, path }: TableProps) {
   }
 
   if (type === 'object') {
-    return <Object ctx={ctx} path={path} />
+    return <ObjectParser ctx={ctx} path={path} />
   }
 
   if (type === 'array') {
@@ -77,7 +77,7 @@ function Body({ ctx, path }: TableProps) {
 export function Table({ ctx, path }: TableProps) {
   if (path.length === 1) {
     return (
-      <Stack style={{ borderTop: border() }}>
+      <Stack style={{ borderTop: border(), width: '100%' }}>
         <Body ctx={ctx} path={path} />
       </Stack>
     )
@@ -90,7 +90,13 @@ export function Table({ ctx, path }: TableProps) {
   }
 
   return (
-    <Stack align="stretch" justify="start">
+    <Stack
+      align="stretch"
+      justify="start"
+      style={{
+        width: '100%',
+      }}
+    >
       <Title ctx={ctx} path={path} parent={parent} />
       <Body ctx={ctx} path={path} />
     </Stack>

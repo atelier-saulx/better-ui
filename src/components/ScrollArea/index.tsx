@@ -46,25 +46,36 @@ export const ScrollArea = ({
     variant === 'neutral'
       ? getColor('background', 'inverted')
       : variant === 'informative'
-      ? getColor('semantic-background', 'informative')
-      : variant === 'warning'
-      ? getColor('semantic-background', 'warning')
-      : variant === 'error'
-      ? getColor('semantic-background', 'error')
-      : 'var(--border-default)'
+        ? getColor('semantic-background', 'informative')
+        : variant === 'warning'
+          ? getColor('semantic-background', 'warning')
+          : variant === 'error'
+            ? getColor('semantic-background', 'error')
+            : 'var(--border-default)'
 
   return (
     <RxScrollArea.Root type={display} style={{ width: '100%', height: '100%' }}>
-      <RxScrollArea.Viewport
+      <styled.div
         style={{
           width: '100%',
           height: '100%',
-          borderRadius: 'inherit',
-          ...style,
+          '& > div > div': {
+            minHeight: '100%',
+            height: '100%',
+          },
         }}
       >
-        {children}
-      </RxScrollArea.Viewport>
+        <RxScrollArea.Viewport
+          style={{
+            width: '100%',
+            height: '100%',
+            borderRadius: 'inherit',
+            ...style,
+          }}
+        >
+          {children}
+        </RxScrollArea.Viewport>
+      </styled.div>
       <StyledScrollbar orientation="vertical" style={{ width: 10 }}>
         <StyledThumb
           style={{
