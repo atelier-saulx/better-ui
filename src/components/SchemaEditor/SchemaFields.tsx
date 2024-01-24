@@ -37,14 +37,14 @@ const parseFields = (fields) => {
   }
 
   for (const i in type) {
-    let newName = i || type[i].meta.name
+    let newName = i || type[i].title
 
     if (typeof type[i].index === 'number') {
-      indexedArray.push({ ...type[i], name: newName, index: +type[i].index })
+      indexedArray.push({ ...type[i], title: newName, index: +type[i].index })
     } else {
       // give an index
       let newIndex = Math.max(...allCurrentIndexes) + 1
-      indexedArray.push({ ...type[i], name: newName, index: +newIndex })
+      indexedArray.push({ ...type[i], title: newName, index: +newIndex })
       allCurrentIndexes.push(newIndex)
     }
   }
@@ -83,7 +83,7 @@ export const SchemaFields = ({ fields, typeTitle }) => {
 
     const fields = new Object()
     for (let i = 0; i < n.length; i++) {
-      fields[n[i].name] = n[i]
+      fields[n[i].title] = n[i]
     }
 
     // for that instant feeling of dropping

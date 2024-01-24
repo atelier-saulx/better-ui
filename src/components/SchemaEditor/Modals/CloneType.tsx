@@ -7,8 +7,7 @@ import { Modal } from '../../Modal/index.js'
 import { useClient, useQuery } from '@based/react'
 
 export const CloneType = ({ onConfirm, typeTitle }) => {
-  const [name, setName] = React.useState(typeTitle + '-copy')
-  const [displayName, setDisplayName] = React.useState('')
+  const [title, setTitle] = React.useState(typeTitle + '-copy')
   const [description, setDescription] = React.useState('')
 
   const client = useClient()
@@ -17,18 +16,16 @@ export const CloneType = ({ onConfirm, typeTitle }) => {
 
   return (
     <Modal
-      confirmProps={{ disabled: !name || name?.length < 3 }}
+      confirmProps={{ disabled: !title || title?.length < 3 }}
       confirmLabel="Copy"
       onConfirm={async () => {
         await client.call('db:set-schema', {
           mutate: true,
           schema: {
             types: {
-              [name]: {
-                meta: {
-                  displayName: displayName ? displayName : name,
-                  description: description,
-                },
+              [title]: {
+                description: description,
+
                 fields: data.types[typeTitle].fields,
               },
             },
@@ -42,14 +39,10 @@ export const CloneType = ({ onConfirm, typeTitle }) => {
         <Text variant="title-modal">Clone {typeTitle}</Text>
         <TextInput
           label="Type name"
-          onChange={(v) => setName(v)}
-          value={name}
+          onChange={(v) => setTitle(v)}
+          value={title}
         />
-        <TextInput
-          label="Display name (plural)"
-          onChange={(v) => setDisplayName(v)}
-          value={displayName}
-        />
+
         <TextAreaInput
           label="Description"
           onChange={(v) => setDescription(v)}

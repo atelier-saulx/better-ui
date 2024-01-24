@@ -25,8 +25,6 @@ export const FieldEditAndDelete = ({ item, typeTitle }) => {
       <Dropdown.Items>
         <Dropdown.Item
           onClick={async () => {
-            console.log('item to edit??', item)
-
             const fieldMeta = await open(({ close }) => (
               <AddField
                 typeTitle={typeTitle}
@@ -36,7 +34,7 @@ export const FieldEditAndDelete = ({ item, typeTitle }) => {
                 onConfirm={close}
               />
             ))
-            console.log('fieldmeta', fieldMeta)
+            console.log(fieldMeta, '?')
           }}
         >
           Edit
