@@ -2,6 +2,7 @@ import {
   BasedSchemaField,
   BasedSchemaFieldObject,
   BasedSchemaFieldString,
+  BasedSchemaFieldTimeStamp,
 } from '@based/schema'
 import { ColSizes } from './types.js'
 
@@ -80,6 +81,16 @@ const FIELD_SIZES: {
       },
     ],
     timestamp: [
+      {
+        match: (field: BasedSchemaFieldTimeStamp) =>
+          field.display === 'time-precise',
+        width: 200,
+      },
+      {
+        match: (field: BasedSchemaFieldTimeStamp) =>
+          field.display === 'date-time-text',
+        width: 300,
+      },
       {
         width: 160,
       },

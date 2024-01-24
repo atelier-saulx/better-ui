@@ -88,3 +88,30 @@ export const Object = () => {
     />
   )
 }
+
+export const ObjectReadOnly = () => {
+  return (
+    <Form
+      onFileUpload={fileUpload}
+      variant="small"
+      values={{
+        bla: {
+          id: '12345',
+          snurp: Date.now(),
+          bla: 'https://i.imgur.com/DRmh6S9.jpeg',
+        },
+      }}
+      fields={{
+        bla: {
+          readOnly: true,
+          type: 'object',
+          properties: {
+            bla: { type: 'string', contentMediaType: 'image/*' },
+            id: { title: 'Id', type: 'string', format: 'basedId' },
+            snurp: { type: 'timestamp', display: 'date-time-text' },
+          },
+        },
+      }}
+    />
+  )
+}
