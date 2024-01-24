@@ -103,10 +103,6 @@ export const ReferencesTable = ({
     )
   }
 
-  // @ts-ignore
-  // field.values = objectSchema
-  // pass new ctx (deal with this in a way) also add readOnly from the top
-
   const nField: BasedSchemaFieldArray = {
     type: 'array',
     values: objectSchema,
@@ -115,13 +111,11 @@ export const ReferencesTable = ({
 
   const newCtx: TableCtx = {
     ...ctx,
+    readOnly,
     fieldOverrides: {
       [path.join('.')]: nField,
     },
   }
-
-  // fix onClick
-  console.log(onClickReference, readOnly)
 
   return (
     <Stack ref={sizeRef} justify="start" align="start" direction="column">
