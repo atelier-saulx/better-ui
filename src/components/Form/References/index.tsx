@@ -79,14 +79,7 @@ export function References({
   }
 
   return (
-    <Stack
-      direction="column"
-      align="start"
-      style={{
-        width: '100%',
-        // overflow: 'hidden',
-      }}
-    >
+    <Stack direction="column" align="start">
       <Stack grid style={{ marginTop: 12 }} display={value.length}>
         {value.map((v: Reference, index: number) => {
           return (
