@@ -24,7 +24,7 @@ export const SchemaSideBar = ({ types, active, setActive }) => {
         }
         value={active}
         onValueChange={(v) => setActive(v)}
-        style={{ maxWidth: 212 }}
+        style={{ maxWidth: 224 }}
         data={sidebarData}
       />
     </div>

@@ -330,7 +330,7 @@ const SpecificOptions = ({
           <SelectInput
             label="Format"
             options={STRING_FORMAT_OPTIONS}
-            value={meta?.format}
+            value={meta?.format || 'null'}
             onChange={(v) => setMeta({ field: 'format', value: v })}
           />
           <styled.div style={{ display: 'flex', gap: 16 }}>
@@ -453,7 +453,22 @@ const SpecificOptions = ({
           onChange={(v) => setItems({ type: v })}
         />
       ) : fieldType === 'reference' || fieldType === 'references' ? (
-        <Text>Sorting options here </Text>
+        <Stack gap={12} grid style={{ marginTop: 12 }}>
+          <CheckboxInput label="Bidirectional" />
+          <Text>From field if bidirectional</Text>
+          <SelectInput
+            style={{ width: '100%' }}
+            label="Allowed types"
+            options={[
+              { value: 'string', label: 'string []' },
+              {
+                value: '{type?: string: $filter: any | any[]}',
+                label: '{type?: string: $filter: any | any[]}',
+              },
+            ]}
+          />
+          {fieldType === 'references' && <CheckboxInput label="Sortable" />}
+        </Stack>
       ) : (
         '🙈'
       )}
