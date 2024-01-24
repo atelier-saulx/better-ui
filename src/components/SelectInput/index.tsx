@@ -65,6 +65,8 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       checksum,
     })
 
+    console.log('???', state)
+
     React.useEffect(() => {
       if (autoFocus && wrapperRef.current) {
         wrapperRef.current.focus()
@@ -73,7 +75,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
 
     return (
       <SelectBase.Root
-        value={state}
+        value={state ?? ''}
         onValueChange={setState}
         disabled={disabled}
       >
@@ -182,7 +184,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  setState('')
+                  setState(undefined)
                 }}
                 style={{
                   position: 'absolute',
