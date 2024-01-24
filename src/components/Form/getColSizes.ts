@@ -70,7 +70,7 @@ const FIELD_SIZES: {
       {
         match: (field: BasedSchemaFieldString) =>
           field.contentMediaType?.startsWith('image/'),
-        width: 48,
+        width: 66,
       },
     ],
     reference: [
@@ -101,13 +101,13 @@ const FIELD_SIZES: {
 export const getColSizes = (
   fieldSchema: BasedSchemaFieldObject,
   width: number,
-  editable?: boolean,
+  readOnly?: boolean,
 ): ColSizes => {
   let total = width
   let totalFlexFields = 0
   let spread = 0
 
-  const SIZES = editable ? FIELD_SIZES.editable : FIELD_SIZES.readOnly
+  const SIZES = !readOnly ? FIELD_SIZES.editable : FIELD_SIZES.readOnly
 
   const percentageFields: ColSizes = []
 

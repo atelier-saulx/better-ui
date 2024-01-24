@@ -183,9 +183,15 @@ const Example = (p: {
         justify="start"
         style={{
           height: '100vh',
+          width: '100vw',
         }}
       >
-        <Stack style={{ padding: 12, borderBottom: border() }}>
+        <Stack
+          style={{
+            padding: 12,
+            borderBottom: border(),
+          }}
+        >
           <Text variant="body-bold">{p.title}</Text>
           <Stack justify="start" fitContent gap={16}>
             <Button
@@ -214,6 +220,7 @@ const Example = (p: {
         <ScrollArea>
           <Stack
             style={{
+              maxWidth: '100vw',
               height: '100%',
               flexGrow: 1,
             }}

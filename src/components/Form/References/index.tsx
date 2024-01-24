@@ -16,7 +16,12 @@ export function References({
   path: Path
   variant?: 'large' | 'small'
 }) {
-  const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
+  const {
+    value = [],
+    field,
+    readOnly,
+  } = readPath<BasedSchemaFieldReferences>(ctx, path)
+
   const valueRef = React.useRef<ValueRef>({ orderId: 0, value })
   valueRef.current.value = value
 
@@ -67,11 +72,12 @@ export function References({
     return (
       <ReferencesTable
         field={field}
+        readOnly={readOnly}
         onClickReference={clickRef}
         ctx={ctx}
         path={path}
         onRemove={removeItem}
-        value={value}
+        valueRef={valueRef.current}
         onNew={addNew}
         changeIndex={changeIndex}
       />

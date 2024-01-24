@@ -13,7 +13,7 @@ import {
 import { Path, TableCtx, TableProps } from '../types.js'
 import { readPath, canUseColumns, createNewEmptyValue } from '../utils.js'
 import { Cell } from './Cell.js'
-import { Field } from './Field.js'
+import { Field } from './Field/index.js'
 import { BasedSchemaFieldRecord } from '@based/schema'
 import { ColStack } from './ColStack.js'
 import { deepCopy } from '@saulx/utils'
@@ -55,7 +55,7 @@ const KeyInput = (p: {
 }
 
 export function Record({ ctx, path }: TableProps) {
-  const { field, value } = readPath<BasedSchemaFieldRecord>(ctx, path)
+  const { field, value, readOnly } = readPath<BasedSchemaFieldRecord>(ctx, path)
   const valuesField = field.values
   const valueRef = useRef<typeof value>()
   valueRef.current = value
@@ -88,7 +88,7 @@ export function Record({ ctx, path }: TableProps) {
 
   const useCols = valuesField.type === 'object' && canUseColumns(valuesField)
 
-  const colFields = useCols ? getColSizes(valuesField, width, true) : []
+  const colFields = useCols ? getColSizes(valuesField, width, readOnly) : []
 
   if (
     valuesField.type === 'object' &&

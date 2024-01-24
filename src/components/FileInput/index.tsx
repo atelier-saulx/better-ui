@@ -313,6 +313,7 @@ function Status({
               style={{
                 height: variant === 'small' ? 32 : 48,
                 width: variant === 'small' ? 32 : 48,
+                backgroundColor: color('background', 'neutral'),
                 borderRadius: borderRadius('small'),
               }}
             >

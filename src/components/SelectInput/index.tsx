@@ -10,6 +10,7 @@ import {
   Text,
   color,
   useControllableState,
+  textVariants,
 } from '../../index.js'
 import { mergeRefs } from 'react-merge-refs'
 
@@ -115,9 +116,9 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               tabIndex={disabled ? '-1' : 0}
               ref={mergeRefs([wrapperRef, ref])}
               style={{
+                display: 'flex',
+                alignItems: 'center',
                 position: 'relative',
-                fontSize: 14,
-                lineHeight: '24px',
                 height: 40,
                 padding:
                   variant === 'regular'
@@ -151,13 +152,14 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                     border: border('error'),
                   },
                 }),
+                ...textVariants['body'],
               }}
             >
               <SelectBase.Value placeholder={placeholder} />
               <IconChevronDownSmall
                 style={{
                   position: 'absolute',
-                  top: variant === 'regular' ? 10 : 5,
+                  top: variant === 'regular' ? 10 : 8,
                   right: variant === 'regular' ? 12 : 6,
                   color: color('content', 'primary'),
                 }}
