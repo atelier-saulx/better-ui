@@ -42,6 +42,15 @@ export const Simple: StoryObj<typeof SelectInput> = {
   },
 }
 
+export const Clearable: StoryObj<typeof SelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    options: ['orange', 'banana', 'apple'],
+    clearable: true,
+  },
+}
+
 export const Small: StoryObj<typeof SelectInput> = {
   args: {
     value: 'orange',

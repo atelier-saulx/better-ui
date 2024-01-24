@@ -33,6 +33,7 @@ export type SelectInputProps = {
   disabled?: boolean
   style?: Style
   checksum?: number
+  clearable?: boolean
 }
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
@@ -51,6 +52,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       disabled,
       style,
       checksum,
+      clearable = false,
     },
     ref,
   ) => {
@@ -175,7 +177,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               </styled.div>
             </SelectBase.Trigger>
 
-            {state && (
+            {clearable && state && (
               <Button
                 variant="icon-only"
                 onClick={(e) => {
@@ -222,7 +224,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           >
             <SelectBase.Viewport style={{ padding: 8 }}>
               {/* Clear selection put value to null */}
-              {state && (
+              {clearable && state && (
                 <SelectBase.Item value={null} asChild>
                   <styled.div
                     style={{
@@ -256,6 +258,8 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       style={{
                         marginTop: 8,
                         marginBottom: 8,
+                        marginLeft: -8,
+                        marginRight: -8,
                         width: '100%',
                         borderBottom: border(),
                       }}
