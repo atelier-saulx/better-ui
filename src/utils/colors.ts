@@ -93,3 +93,15 @@ export const NON_SEMANTIC_COLOR: { [key in NonSemanticColor]: string } = {
   emerald: '#347434',
   orange: '#F59638',
 }
+
+export function hashNonSemanticColor(value: string | number) {
+  const index =
+    Math.floor(
+      Math.abs(Math.sin(hash(value))) *
+        (Object.keys(NON_SEMANTIC_COLOR).length - 1),
+    ) + 1
+
+  console.log(value, '->', Object.values(NON_SEMANTIC_COLOR)[index])
+
+  return Object.values(NON_SEMANTIC_COLOR)[index]
+}

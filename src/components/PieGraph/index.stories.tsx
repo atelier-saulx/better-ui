@@ -12,24 +12,20 @@ export const Default: StoryObj<typeof PieGraph> = {
   args: {
     data: [
       {
-        label: 'Apples',
+        label: 'foo',
         value: 25455,
-        color: 'coral',
       },
       {
         label: 'Sugar',
         value: 5484,
-        color: 'darkolivegreen',
       },
       {
-        label: 'Flour',
+        label: 'asd',
         value: 999,
-        color: 'blue',
       },
       {
         label: 'Cinnamon',
         value: 2566,
-        color: 'darkslateblue',
       },
     ],
   },

@@ -15,22 +15,18 @@ export const Horizontal: StoryObj<typeof BarGraph> = {
       {
         label: 'Apples',
         value: 4,
-        color: 'coral',
       },
       {
         label: 'Sugar',
         value: 3,
-        color: 'darkolivegreen',
       },
       {
-        label: 'Flour',
+        label: 'foo',
         value: 2,
-        color: 'blue',
       },
       {
         label: 'Cinnamon',
         value: 1,
-        color: 'darkslateblue',
       },
     ],
   },
@@ -43,22 +39,18 @@ export const Vertical: StoryObj<typeof BarGraph> = {
       {
         label: 'Apples',
         value: 4,
-        color: 'coral',
       },
       {
         label: 'Sugar',
         value: 3,
-        color: 'darkolivegreen',
       },
       {
-        label: 'Flour',
+        label: 'foo',
         value: 2,
-        color: 'blue',
       },
       {
         label: 'Cinnamon',
         value: 1,
-        color: 'darkslateblue',
       },
     ],
   },
@@ -71,26 +63,22 @@ export const StackedVertical: StoryObj<typeof BarGraph> = {
       {
         label: 'Apples',
         value: [
-          { label: 'Red', color: 'red', value: 1 },
-          { label: 'yellow', color: 'yellow', value: 2 },
-          { label: 'blue', color: 'blue', value: 4 },
+          { label: 'red', value: 1 },
+          { label: 'yellow', value: 2 },
+          { label: 'blue', value: 4 },
         ],
-        color: 'coral',
       },
       {
         label: 'Sugar',
         value: 3,
-        color: 'darkolivegreen',
       },
       {
         label: 'Flour',
         value: 2,
-        color: 'blue',
       },
       {
         label: 'Cinnamon',
         value: 1,
-        color: 'darkslateblue',
       },
     ],
   },
@@ -103,26 +91,22 @@ export const StackedHorizontal: StoryObj<typeof BarGraph> = {
       {
         label: 'Apples',
         value: [
-          { label: 'Red', color: 'red', value: 21 },
-          { label: 'yellow', color: 'yellow', value: 2 },
-          { label: 'blue', color: 'blue', value: 4 },
+          { label: 'red', value: 1 },
+          { label: 'yellow', value: 2 },
+          { label: 'blue', value: 4 },
         ],
-        color: 'coral',
       },
       {
         label: 'Sugar',
         value: 4,
-        color: 'darkolivegreen',
       },
       {
         label: 'Flour',
         value: 2,
-        color: 'blue',
       },
       {
         label: 'Cinnamon',
         value: 1,
-        color: 'darkslateblue',
       },
     ],
   },

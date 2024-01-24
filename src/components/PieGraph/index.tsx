@@ -1,9 +1,14 @@
 import * as React from 'react'
-import { Text } from '../../index.js'
+import {
+  NON_SEMANTIC_COLOR,
+  NonSemanticColor,
+  Text,
+  hashNonSemanticColor,
+} from '../../index.js'
 import { styled } from 'inlines'
 
 export type PieGraphProps = {
-  data: { label: string; value: number; color: string }[]
+  data: { label: string; value: number; color?: NonSemanticColor }[]
 }
 
 export function PieGraph({ data: rawData }: PieGraphProps) {
@@ -50,7 +55,9 @@ export function PieGraph({ data: rawData }: PieGraphProps) {
             cy="60"
             r="47"
             fill="none"
-            stroke={e.color}
+            stroke={
+              NON_SEMANTIC_COLOR[e.color] ?? hashNonSemanticColor(e.label)
+            }
             strokeWidth={e.strokeWidth}
             strokeDasharray={100}
             pathLength="100"

@@ -1,13 +1,21 @@
 import * as React from 'react'
 // import { styled } from 'inlines'
-import { Text, border, borderRadius, color } from '../../index.js'
+import {
+  NON_SEMANTIC_COLOR,
+  NonSemanticColor,
+  Text,
+  border,
+  borderRadius,
+  color,
+  hashNonSemanticColor,
+} from '../../index.js'
 import { createPortal } from 'react-dom'
 
 export type BarGraphProps = {
   data: {
     label: string
-    value: number | { label: string; value: number; color: string }[]
-    color: string
+    value: number | { label: string; value: number; color?: NonSemanticColor }[]
+    color?: NonSemanticColor
   }[]
   variant: 'horizontal' | 'vertical'
   showAxis?: boolean
@@ -101,6 +109,7 @@ export function BarGraph({
             {axisPoints.map((point) => (
               <Text
                 style={{
+                  lineHeight: 1,
                   textAlign: 'right',
                   color: color('content', 'primary'),
                 }}
@@ -115,7 +124,7 @@ export function BarGraph({
               width: 1,
               flex: 1,
               background: color('content', 'primary'),
-              margin: '0 8px',
+              marginLeft: 8,
             }}
           />
         </>
@@ -127,82 +136,94 @@ export function BarGraph({
           ...(variant === 'horizontal' && {
             flexDirection: 'column',
             minWidth: 256,
+            borderLeft: `1px solid ${color('content', 'primary')}`,
+            padding: '8px 0',
           }),
           ...(variant === 'vertical' && {
             flexFlow: 'wrap-reverse',
             minHeight: 256,
             height: 1, // bugfix, without this vertical children with percentage height doesnt work
+            borderBottom: `1px solid ${color('content', 'primary')}`,
+            padding: '0 8px',
           }),
         }}
       >
-        {data.map((e, i) => (
-          <div
-            key={i}
-            style={{
-              position: 'relative',
-              background: e.color,
-              overflow: 'hidden',
-              ...(variant === 'horizontal' && {
-                width: `${e.percentage}%`,
-                height: 32,
-                borderTopRightRadius: borderRadius('tiny'),
-                borderBottomRightRadius: borderRadius('tiny'),
+        {data
+          .sort((a, b) => b.percentage - a.percentage)
+          .map((e, i) => (
+            <div
+              key={i}
+              style={{
+                position: 'relative',
+                background:
+                  NON_SEMANTIC_COLOR[e.color] ?? hashNonSemanticColor(e.label),
+                overflow: 'hidden',
                 display: 'flex',
-              }),
-              ...(variant === 'vertical' && {
-                height: `${e.percentage}%`,
-                width: 32,
-                borderTopLeftRadius: borderRadius('tiny'),
-                borderTopRightRadius: borderRadius('tiny'),
-              }),
-            }}
-            onMouseEnter={(event) => {
-              if (typeof e.value === 'object') return
-              setHover({ index: i, left: event.clientX, top: event.clientY })
-            }}
-            onMouseMove={(event) => {
-              if (typeof e.value === 'object') return
-              setHover({ index: i, left: event.clientX, top: event.clientY })
-            }}
-            onMouseLeave={() => {
-              setHover(null)
-            }}
-          >
-            {Array.isArray(e.value) &&
-              e.nestedPercentages.map((e, nestedIndex) => (
-                <div
-                  key={`${i}-${nestedIndex}`}
-                  onMouseEnter={(event) => {
-                    setHover({
-                      index: i,
-                      left: event.clientX,
-                      top: event.clientY,
-                      nestedIndex,
-                    })
-                  }}
-                  onMouseMove={(event) => {
-                    setHover({
-                      index: i,
-                      left: event.clientX,
-                      top: event.clientY,
-                      nestedIndex,
-                    })
-                  }}
-                  style={{
-                    background: e.color,
-                    ...(variant === 'horizontal' && {
-                      width: `${e.percentage}%`,
-                      height: '100%',
-                    }),
-                    ...(variant === 'vertical' && {
-                      height: `${e.percentage}%`,
-                      width: '100%',
-                    }),
-                  }}
-                />
-              ))}
-          </div>
-        ))}
+                ...(variant === 'horizontal' && {
+                  width: `${e.percentage}%`,
+                  height: 32,
+                  borderTopRightRadius: borderRadius('tiny'),
+                  borderBottomRightRadius: borderRadius('tiny'),
+                }),
+                ...(variant === 'vertical' && {
+                  height: `${e.percentage}%`,
+                  width: 32,
+                  borderTopLeftRadius: borderRadius('tiny'),
+                  borderTopRightRadius: borderRadius('tiny'),
+                  flexDirection: 'column-reverse',
+                }),
+              }}
+              onMouseEnter={(event) => {
+                if (typeof e.value === 'object') return
+                setHover({ index: i, left: event.clientX, top: event.clientY })
+              }}
+              onMouseMove={(event) => {
+                if (typeof e.value === 'object') return
+                setHover({ index: i, left: event.clientX, top: event.clientY })
+              }}
+              onMouseLeave={() => {
+                setHover(null)
+              }}
+            >
+              {Array.isArray(e.value) &&
+                e.nestedPercentages
+                  .sort((a, b) => b.percentage - a.percentage)
+                  .map((e, nestedIndex) => (
+                    <div
+                      key={`${i}-${nestedIndex}`}
+                      onMouseEnter={(event) => {
+                        setHover({
+                          index: i,
+                          left: event.clientX,
+                          top: event.clientY,
+                          nestedIndex,
+                        })
+                      }}
+                      onMouseMove={(event) => {
+                        setHover({
+                          index: i,
+                          left: event.clientX,
+                          top: event.clientY,
+                          nestedIndex,
+                        })
+                      }}
+                      style={{
+                        background:
+                          NON_SEMANTIC_COLOR[e.color] ??
+                          hashNonSemanticColor(e.label),
+                        ...(variant === 'horizontal' && {
+                          width: `${e.percentage}%`,
+                          height: '100%',
+                        }),
+                        ...(variant === 'vertical' && {
+                          height: `${e.percentage}%`,
+                          width: '100%',
+                        }),
+                      }}
+                    />
+                  ))}
+            </div>
+          ))}
       </div>
       {showAxis && variant === 'horizontal' && (
         <>
@@ -211,7 +232,7 @@ export function BarGraph({
               width: '100%',
               height: 1,
               background: color('content', 'primary'),
-              margin: '8px 0',
+              marginBottom: 8,
             }}
           />
           <div
@@ -224,6 +245,7 @@ export function BarGraph({
             {axisPoints.map((point) => (
               <Text
                 style={{
+                  lineHeight: 1,
                   textAlign: 'right',
                   color: color('content', 'primary'),
                 }}
