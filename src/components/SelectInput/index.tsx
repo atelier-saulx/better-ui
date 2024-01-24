@@ -12,7 +12,6 @@ import {
   color,
   useControllableState,
   Button,
-  IconDelete,
   textVariants,
 } from '../../index.js'
 import { mergeRefs } from 'react-merge-refs'
@@ -64,8 +63,6 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       onChange,
       checksum,
     })
-
-    console.log('???', state)
 
     React.useEffect(() => {
       if (autoFocus && wrapperRef.current) {
@@ -184,7 +181,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  setState(undefined)
+                  setState(null)
                 }}
                 style={{
                   position: 'absolute',
@@ -226,7 +223,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             <SelectBase.Viewport style={{ padding: 8 }}>
               {/* Clear selection put value to null */}
               {state && (
-                <SelectBase.Item value={undefined} asChild>
+                <SelectBase.Item value={null} asChild>
                   <styled.div
                     style={{
                       '&[data-highlighted] > :first-child': {
