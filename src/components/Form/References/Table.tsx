@@ -84,6 +84,8 @@ const CellContent = (p: {
         style={{
           paddingLeft: 18,
           paddingRight: 18,
+          flexShrink: isId ? 0 : null,
+          flexGrow: isId ? 0 : null,
         }}
       >
         {isId ? (
