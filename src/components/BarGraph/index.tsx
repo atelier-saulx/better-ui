@@ -1,55 +1,54 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+// import { styled } from 'inlines'
 import { Text, border, borderRadius, color } from '../../index.js'
 import { createPortal } from 'react-dom'
 
 export type BarGraphProps = {
   data: {
     label: string
-    value: number | { [key: string]: number }
+    value: number | { label: string; value: number; color: string }[]
     color: string
   }[]
   variant: 'horizontal' | 'vertical'
+  showAxis?: boolean
 }
 
-// TODO always sort values and nested values too, descending order
-// TODO background color for nested
-// TODO x and y axies
-
-export function BarGraph({ data: rawData, variant }: BarGraphProps) {
+export function BarGraph({
+  data: rawData,
+  variant,
+  showAxis = true,
+}: BarGraphProps) {
   const [hover, setHover] = React.useState<{
     index: number
     top: number
     left: number
-    nestedKey?: string
+    nestedIndex?: number
   } | null>(null)
   const data = React.useMemo(() => {
     const maxValue = Math.max(
       ...rawData.map((e) =>
-        typeof e.value === 'object'
-          ? Object.values(e.value).reduce((a, c) => a + c, 0)
+        Array.isArray(e.value)
+          ? e.value.reduce((a, c) => a + c.value, 0)
           : e.value,
       ),
     )
     const newData: any = [...rawData]
 
     for (let i = 0; i < newData.length; i++) {
-      if (typeof newData[i].value === 'object') {
-        const total = Object.values(newData[i].value).reduce(
-          (a: any, c) => a + c,
+      if (Array.isArray(newData[i].value)) {
+        const total = (newData[i].value as []).reduce(
+          (a, c: any) => a + c.value,
           0,
-        ) as number
+        )
 
         newData[i] = {
           ...newData[i],
           total,
           percentage: (total / maxValue) * 100,
-          nestedPercentages: Object.fromEntries(
-            Object.entries(newData[i].value).map(([k, v]: [string, number]) => [
-              k,
-              (v / total) * 100,
-            ]),
-          ),
+          nestedPercentages: newData[i].value.map((e) => ({
+            ...e,
+            percentage: (e.value / total) * 100,
+          })),
         }
       } else {
         newData[i] = {
@@ -62,21 +61,76 @@ export function BarGraph({ data: rawData, variant }: BarGraphProps) {
     return newData
   }, [rawData])
 
-  console.log(hover)
+  const axisPoints = React.useMemo(() => {
+    const points = []
+    const numberOfPoints = 4
+    const maxValue = Math.max(
+      ...rawData.map((e) =>
+        Array.isArray(e.value)
+          ? e.value.reduce((a, c) => a + c.value, 0)
+          : e.value,
+      ),
+    )
+
+    const step = maxValue / numberOfPoints
+
+    for (let i = 0; i < numberOfPoints + 1; i++) {
+      points.push(i * step)
+    }
+
+    return points
+  }, [rawData])
 
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: variant === 'horizontal' ? 'column' : 'row',
+      }}
+    >
+      {showAxis && variant === 'vertical' && (
+        <>
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column-reverse',
+              justifyContent: 'space-between',
+            }}
+          >
+            {axisPoints.map((point) => (
+              <Text
+                style={{
+                  textAlign: 'right',
+                  color: color('content', 'primary'),
+                }}
+                key={point}
+              >
+                {point}
+              </Text>
+            ))}
+          </div>
+          <div
+            style={{
+              width: 1,
+              flex: 1,
+              background: color('content', 'primary'),
+              margin: '0 8px',
+            }}
+          />
+        </>
+      )}
       <div
         style={{
-          minHeight: 256,
-          minWidth: 256,
           display: 'flex',
           gap: 8,
           ...(variant === 'horizontal' && {
             flexDirection: 'column',
+            minWidth: 256,
           }),
           ...(variant === 'vertical' && {
             flexFlow: 'wrap-reverse',
+            minHeight: 256,
             height: 1, // bugfix, without this vertical children with percentage height doesnt work
           }),
         }}
@@ -114,41 +168,73 @@ export function BarGraph({ data: rawData, variant }: BarGraphProps) {
               setHover(null)
             }}
           >
-            {typeof e.value === 'object'
-              ? Object.entries(e.nestedPercentages).map(([k, v]) => (
-                  <div
-                    onMouseEnter={(e) => {
-                      setHover({
-                        index: i,
-                        left: e.clientX,
-                        top: e.clientY,
-                        nestedKey: k,
-                      })
-                    }}
-                    onMouseMove={(e) => {
-                      setHover({
-                        index: i,
-                        left: e.clientX,
-                        top: e.clientY,
-                        nestedKey: k,
-                      })
-                    }}
-                    style={{
-                      ...(variant === 'horizontal' && {
-                        width: `${v}%`,
-                        height: '100%',
-                      }),
-                      ...(variant === 'vertical' && {
-                        height: `${v}%`,
-                        width: '100%',
-                      }),
-                    }}
-                  />
-                ))
-              : null}
+            {Array.isArray(e.value) &&
+              e.nestedPercentages.map((e, nestedIndex) => (
+                <div
+                  key={`${i}-${nestedIndex}`}
+                  onMouseEnter={(event) => {
+                    setHover({
+                      index: i,
+                      left: event.clientX,
+                      top: event.clientY,
+                      nestedIndex,
+                    })
+                  }}
+                  onMouseMove={(event) => {
+                    setHover({
+                      index: i,
+                      left: event.clientX,
+                      top: event.clientY,
+                      nestedIndex,
+                    })
+                  }}
+                  style={{
+                    background: e.color,
+                    ...(variant === 'horizontal' && {
+                      width: `${e.percentage}%`,
+                      height: '100%',
+                    }),
+                    ...(variant === 'vertical' && {
+                      height: `${e.percentage}%`,
+                      width: '100%',
+                    }),
+                  }}
+                />
+              ))}
           </div>
         ))}
       </div>
+      {showAxis && variant === 'horizontal' && (
+        <>
+          <div
+            style={{
+              width: '100%',
+              height: 1,
+              background: color('content', 'primary'),
+              margin: '8px 0',
+            }}
+          />
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            {axisPoints.map((point) => (
+              <Text
+                style={{
+                  textAlign: 'right',
+                  color: color('content', 'primary'),
+                }}
+                key={point}
+              >
+                {point}
+              </Text>
+            ))}
+          </div>
+        </>
+      )}
       {hover &&
         createPortal(
           <div
@@ -164,15 +250,17 @@ export function BarGraph({ data: rawData, variant }: BarGraphProps) {
             }}
           >
             <Text variant="body-strong">{data[hover.index].label}</Text>
-            {hover.nestedKey && <Text>{hover.nestedKey}</Text>}
+            {typeof hover.nestedIndex === 'number' && (
+              <Text>{data[hover.index]['value'][hover.nestedIndex].label}</Text>
+            )}
             <Text>
-              {typeof data[hover.index].value === 'object'
-                ? data[hover.index]['value'][hover.nestedKey]
+              {Array.isArray(data[hover.index].value)
+                ? data[hover.index]['value'][hover.nestedIndex]['value']
                 : data[hover.index].value}
             </Text>
           </div>,
           document.body,
         )}
-    </>
+    </div>
   )
 }

@@ -70,11 +70,11 @@ export const StackedVertical: StoryObj<typeof BarGraph> = {
     data: [
       {
         label: 'Apples',
-        value: {
-          Red: 1,
-          Yellow: 1,
-          Tasty: 2,
-        },
+        value: [
+          { label: 'Red', color: 'red', value: 1 },
+          { label: 'yellow', color: 'yellow', value: 2 },
+          { label: 'blue', color: 'blue', value: 4 },
+        ],
         color: 'coral',
       },
       {
@@ -102,16 +102,16 @@ export const StackedHorizontal: StoryObj<typeof BarGraph> = {
     data: [
       {
         label: 'Apples',
-        value: {
-          Red: 1,
-          Yellow: 1,
-          Tasty: 2,
-        },
+        value: [
+          { label: 'Red', color: 'red', value: 21 },
+          { label: 'yellow', color: 'yellow', value: 2 },
+          { label: 'blue', color: 'blue', value: 4 },
+        ],
         color: 'coral',
       },
       {
         label: 'Sugar',
-        value: 3,
+        value: 4,
         color: 'darkolivegreen',
       },
       {
