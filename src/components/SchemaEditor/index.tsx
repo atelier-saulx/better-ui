@@ -42,15 +42,15 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
                 <div>
                   <Stack style={{ justifyContent: 'flex-start' }} gap={12}>
                     <Text variant="title-page">
-                      {schema.types[active]?.meta?.displayName
-                        ? schema.types[active]?.meta?.displayName
+                      {schema.types[active]?.title
+                        ? schema.types[active]?.title
                         : active}
                     </Text>
                     <TypeOptions typeName={active} setActive={setActive} />
                   </Stack>
-                  {schema.types[active]?.meta?.description && (
+                  {schema.types[active]?.description && (
                     <Text variant="body" color="secondary">
-                      {schema.types[active]?.meta?.description}
+                      {schema.types[active]?.description}
                     </Text>
                   )}
                 </div>

@@ -14,8 +14,7 @@ type AddTypeProps = {
 }
 
 export const AddType = ({ setActive, light }: AddTypeProps) => {
-  const [typeName, setTypeName] = React.useState('')
-  const [displayName, setDisplayName] = React.useState('')
+  const [typeTitle, setTypeTitle] = React.useState('')
   const [description, setDescription] = React.useState('')
 
   const client = useClient()
@@ -44,17 +43,11 @@ export const AddType = ({ setActive, light }: AddTypeProps) => {
                 <TextInput
                   label="Type name"
                   onChange={(v) => {
-                    setTypeName(v)
+                    setTypeTitle(v)
                   }}
-                  value={typeName}
+                  value={typeTitle}
                 />
-                <TextInput
-                  label="Display name (plural)"
-                  onChange={(v) => setDisplayName(v)}
-                  value={
-                    displayName ? displayName : typeName ? typeName + 's' : ''
-                  }
-                />
+
                 <TextAreaInput
                   label="Description"
                   onChange={(v) => setDescription(v)}
@@ -67,8 +60,7 @@ export const AddType = ({ setActive, light }: AddTypeProps) => {
               <Button
                 variant="neutral"
                 onClick={() => {
-                  setTypeName('')
-                  setDisplayName('')
+                  setTypeTitle('')
                   setDescription('')
                   close()
                 }}
@@ -76,29 +68,26 @@ export const AddType = ({ setActive, light }: AddTypeProps) => {
                 Cancel
               </Button>
               <Button
-                disabled={typeName.length < 3}
+                disabled={typeTitle.length < 3}
                 onClick={async () => {
-                  const type = typeName
                   const typeSchema = {
-                    meta: {
-                      name: typeName,
-                      displayName: displayName || typeName,
-                      description: description,
-                    },
+                    title: typeTitle,
+                    description: description,
                   }
 
                   await client.call('db:set-schema', {
                     mutate: true,
                     schema: {
                       types: {
-                        [type]: typeSchema,
+                        [typeTitle]: {
+                          ...typeSchema,
+                        },
                       },
                     },
                   })
 
-                  setActive(typeName)
-                  setTypeName('')
-                  setDisplayName('')
+                  setActive(typeTitle)
+                  setTypeTitle(typeTitle)
                   setDescription('')
                   close()
                 }}

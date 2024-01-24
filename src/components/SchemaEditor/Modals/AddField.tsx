@@ -8,6 +8,7 @@ import { Button } from '../../Button/index.js'
 import { SelectInput } from '../../SelectInput/index.js'
 import { NumberInput } from '../../NumberInput/index.js'
 import { styled } from 'inlines'
+import { border } from '../../../utils/colors.js'
 import { Modal } from '../../Modal/index.js'
 import {
   ARRAY_OPTIONS,
@@ -195,11 +196,26 @@ export const AddField = ({
     >
       <Text variant="title-modal">{fieldType}</Text>
       <Stack
-        style={{ justifyContent: 'flex-start', margin: '12px 0px' }}
+        style={{
+          justifyContent: 'flex-start',
+          margin: '12px 0px',
+          marginBottom: 20,
+        }}
         gap={16}
       >
         <Button
-          variant={tabIndex === 1 ? 'primary-link' : 'neutral-link'}
+          style={{
+            borderRadius: 0,
+            paddingBottom: 12,
+            borderBottom:
+              tabIndex !== 1 ? '3px solid transparent' : border('focus', 3),
+            '&:hover': {
+              background: 'transparent',
+              borderBottom:
+                tabIndex !== 1 ? border('hover', 3) : border('focus', 3),
+            },
+          }}
+          variant={'neutral-transparent'}
           onClick={() => setTabIndex(1)}
         >
           General
@@ -209,7 +225,18 @@ export const AddField = ({
         fieldType.toLowerCase() !== 'enum' &&
         fieldType.toLowerCase() !== 'json' ? (
           <Button
-            variant={tabIndex === 2 ? 'primary-link' : 'neutral-link'}
+            style={{
+              borderRadius: 0,
+              paddingBottom: 12,
+              borderBottom:
+                tabIndex !== 2 ? '3px solid transparent' : border('focus', 3),
+              '&:hover': {
+                background: 'transparent',
+                borderBottom:
+                  tabIndex !== 2 ? border('hover', 3) : border('focus', 3),
+              },
+            }}
+            variant={'neutral-transparent'}
             onClick={() => setTabIndex(2)}
           >
             Settings
