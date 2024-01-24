@@ -115,7 +115,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               {label}
             </span>
           )}
-          <div style={{ position: 'relative' }}>
+          <styled.div style={{ position: 'relative' }}>
             <SelectBase.Trigger asChild>
               <styled.div
                 autoFocus={autoFocus}
@@ -188,7 +188,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 }}
                 style={{
                   position: 'absolute',
-                  top: variant === 'regular' ? 10 : 9,
+                  top: variant === 'regular' ? 11 : 9,
                   right: variant === 'regular' ? 36 : 36,
                   color: color('content', 'primary'),
                 }}
@@ -196,7 +196,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 <IconSmallClose />
               </Button>
             )}
-          </div>
+          </styled.div>
 
           {description !== undefined ? (
             <Text
@@ -226,46 +226,43 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             <SelectBase.Viewport style={{ padding: 8 }}>
               {/* Clear selection put value to null */}
               {state && (
-                <SelectBase.Item
-                  value={null}
-                  asChild
-                  style={{ borderBottom: border() }}
-                >
+                <SelectBase.Item value={undefined} asChild>
                   <styled.div
                     style={{
-                      padding: '4px 12px 4px 42px',
-                      borderRadius: borderRadius('small'),
-                      borderBottomLeftRadius: 0,
-                      borderBottomRightRadius: 0,
-                      fontSize: 14,
-                      lineHeight: '24px',
-                      position: 'relative',
-                      outline: 'none',
-                      userSelect: 'none',
-                      '&[data-highlighted]': {
+                      '&[data-highlighted] > :first-child': {
                         background: color('background', 'neutral'),
                       },
                     }}
                   >
-                    <IconDelete
+                    <styled.div
                       style={{
-                        width: 14,
-                        height: 14,
-                        marginRight: 8,
-                        marginBottom: '-2px',
+                        padding: '4px 12px 4px 42px',
+                        position: 'relative',
+                        outline: 'none',
+                        userSelect: 'none',
+                        borderRadius: borderRadius('small'),
+                      }}
+                    >
+                      <SelectBase.ItemIndicator>
+                        <IconCheckSmall
+                          style={{
+                            position: 'absolute',
+                            top: 6,
+                            left: 12,
+                            color: color('content', 'primary'),
+                          }}
+                        />
+                      </SelectBase.ItemIndicator>
+                      <Text color="secondary">Clear value</Text>
+                    </styled.div>
+                    <styled.div
+                      style={{
+                        marginTop: 8,
+                        marginBottom: 8,
+                        width: '100%',
+                        borderBottom: border(),
                       }}
                     />
-                    <SelectBase.ItemIndicator>
-                      <IconCheckSmall
-                        style={{
-                          position: 'absolute',
-                          top: 6,
-                          left: 12,
-                          color: color('content', 'primary'),
-                        }}
-                      />
-                    </SelectBase.ItemIndicator>
-                    Clear
                   </styled.div>
                 </SelectBase.Item>
               )}
@@ -284,11 +281,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       style={{
                         padding: '4px 12px 4px 42px',
                         borderRadius: borderRadius('small'),
-                        fontSize: 14,
-                        lineHeight: '24px',
                         position: 'relative',
                         outline: 'none',
                         userSelect: 'none',
+                        ...textVariants.body,
                         '&[data-highlighted]': {
                           background: color('background', 'neutral'),
                         },
@@ -308,14 +304,14 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       )}
                       <SelectBase.ItemText>
                         {prefix && (
-                          <div
+                          <styled.div
                             style={{
                               display: 'inline-block',
                               marginRight: 8,
                             }}
                           >
                             {prefix}
-                          </div>
+                          </styled.div>
                         )}
                         {label ?? value}
                       </SelectBase.ItemText>
