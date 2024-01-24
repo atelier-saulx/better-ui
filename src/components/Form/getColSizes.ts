@@ -130,7 +130,7 @@ export const getColSizes = (
     let match: SizeMatcher
 
     for (const matcher of sizedType) {
-      if (!matcher.match ?? matcher.match(field)) {
+      if (!matcher.match || matcher.match(field)) {
         match = matcher
         break
       }
