@@ -6,7 +6,7 @@ import { Stack } from '../../Stack/index.js'
 import { Modal } from '../../Modal/index.js'
 import { useClient, useQuery } from '@based/react'
 
-export const EditType = ({ onConfirm, typeName }) => {
+export const EditType = ({ onConfirm, typeTitle }) => {
   const [displayName, setDisplayName] = React.useState('')
   const [description, setDescription] = React.useState('')
 
@@ -16,8 +16,8 @@ export const EditType = ({ onConfirm, typeName }) => {
 
   React.useEffect(() => {
     if (!loading) {
-      setDisplayName(data.types[typeName].meta?.displayName)
-      setDescription(data.types[typeName].meta?.description)
+      setDisplayName(data.types[typeTitle].meta?.displayName)
+      setDescription(data.types[typeTitle].meta?.description)
     }
   }, [loading])
 
@@ -25,10 +25,10 @@ export const EditType = ({ onConfirm, typeName }) => {
     <Modal
       confirmLabel="Edit"
       onConfirm={async () => {
-        const type = typeName
+        const type = typeTitle
         const typeSchema = {
           meta: {
-            name: typeName,
+            name: typeTitle,
             displayName: displayName,
             description: description,
           },
@@ -47,8 +47,8 @@ export const EditType = ({ onConfirm, typeName }) => {
       }}
     >
       <Stack gap={12} grid>
-        <Text variant="title-modal">Edit this {typeName}</Text>
-        <TextInput label="Type name" disabled value={typeName} />
+        <Text variant="title-modal">Edit this {typeTitle}</Text>
+        <TextInput label="Type name" disabled value={typeTitle} />
         <TextInput
           label="Display name (plural)"
           onChange={(v) => setDisplayName(v)}

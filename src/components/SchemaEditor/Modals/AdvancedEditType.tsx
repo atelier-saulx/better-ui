@@ -5,7 +5,7 @@ import { Stack } from '../../Stack/index.js'
 import { Modal } from '../../Modal/index.js'
 import { useClient, useQuery } from '@based/react'
 
-export const AdvancedEditType = ({ onConfirm, typeName }) => {
+export const AdvancedEditType = ({ onConfirm, typeTitle }) => {
   const [schemaCode, setSchemaCode] = React.useState('')
 
   const client = useClient()
@@ -14,7 +14,7 @@ export const AdvancedEditType = ({ onConfirm, typeName }) => {
 
   React.useEffect(() => {
     if (!loading) {
-      setSchemaCode(JSON.stringify(data?.types[typeName]?.fields, null, 2))
+      setSchemaCode(JSON.stringify(data?.types[typeTitle]?.fields, null, 2))
     }
   }, [loading])
 
@@ -32,7 +32,7 @@ export const AdvancedEditType = ({ onConfirm, typeName }) => {
           mutate: true,
           schema: {
             types: {
-              [typeName]: {
+              [typeTitle]: {
                 fields: JSON.parse(schemaCode),
               },
             },
@@ -43,7 +43,7 @@ export const AdvancedEditType = ({ onConfirm, typeName }) => {
       }}
     >
       <Stack gap={12} grid>
-        <Text variant="title-modal">Edit {typeName} through code.</Text>
+        <Text variant="title-modal">Edit {typeTitle} through code.</Text>
         <Code
           language="json"
           onChange={(v) => setSchemaCode(v)}

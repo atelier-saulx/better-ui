@@ -6,8 +6,8 @@ import { Stack } from '../../Stack/index.js'
 import { Modal } from '../../Modal/index.js'
 import { useClient, useQuery } from '@based/react'
 
-export const CloneType = ({ onConfirm, typeName }) => {
-  const [name, setName] = React.useState(typeName + '-copy')
+export const CloneType = ({ onConfirm, typeTitle }) => {
+  const [name, setName] = React.useState(typeTitle + '-copy')
   const [displayName, setDisplayName] = React.useState('')
   const [description, setDescription] = React.useState('')
 
@@ -29,7 +29,7 @@ export const CloneType = ({ onConfirm, typeName }) => {
                   displayName: displayName ? displayName : name,
                   description: description,
                 },
-                fields: data.types[typeName].fields,
+                fields: data.types[typeTitle].fields,
               },
             },
           },
@@ -39,7 +39,7 @@ export const CloneType = ({ onConfirm, typeName }) => {
       }}
     >
       <Stack gap={12} grid>
-        <Text variant="title-modal">Clone {typeName}</Text>
+        <Text variant="title-modal">Clone {typeTitle}</Text>
         <TextInput
           label="Type name"
           onChange={(v) => setName(v)}

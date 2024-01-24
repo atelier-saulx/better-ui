@@ -26,7 +26,7 @@ import { findPath } from '../utils/findPath.js'
 
 type AddFieldProps = {
   fieldType: string
-  typeName: string
+  typeTitle: string
   onConfirm?: (v: any) => void
   fieldItem?: any
   editItem?: any
@@ -62,7 +62,7 @@ const metaReducer = (state, action) => {
 
 export const AddField = ({
   fieldType,
-  typeName,
+  typeTitle,
   onConfirm,
   fieldItem,
   editItem,
@@ -85,13 +85,13 @@ export const AddField = ({
   return (
     <Modal
       confirmLabel={editItem ? 'Edit' : 'Add Field'}
-      confirmProps={{ disabled: !meta.name || meta.name.length < 3 }}
+      confirmProps={{ disabled: !meta.title || meta.title.length < 3 }}
       onConfirm={async () => {
         let fields
 
         if (fieldType.toLowerCase() === 'record') {
           fields = {
-            [meta.name || meta.displayName.toLowerCase()]: {
+            [meta.title]: {
               type: fieldType.toLowerCase(),
               ...meta,
               values: [],
@@ -99,7 +99,7 @@ export const AddField = ({
           }
         } else if (fieldType.toLowerCase() === 'object') {
           fields = {
-            [meta.name || meta.displayName.toLowerCase()]: {
+            [meta.title]: {
               type: fieldType.toLowerCase(),
               ...meta,
               properties: {},
@@ -110,7 +110,7 @@ export const AddField = ({
           fieldType.toLowerCase() === 'set'
         ) {
           fields = {
-            [meta.name || meta.displayName.toLowerCase()]: {
+            [meta.title]: {
               type: fieldType.toLowerCase(),
               ...meta,
               items: items,
@@ -118,7 +118,7 @@ export const AddField = ({
           }
         } else if (fieldType.toLowerCase() === 'rich text') {
           fields = {
-            [meta.name || meta.displayName.toLowerCase()]: {
+            [meta.title]: {
               type: 'json',
               ...meta,
               format: 'rich-text',
@@ -126,7 +126,7 @@ export const AddField = ({
           }
         } else {
           fields = {
-            [meta.name || meta.displayName.toLowerCase()]: {
+            [meta.title.toLowerCase()]: {
               type: fieldType.toLowerCase(),
               ...meta,
             },
@@ -140,15 +140,15 @@ export const AddField = ({
           }
 
           const nestedPath = findPath(
-            data.types[typeName].fields,
-            fieldItem?.name || fieldItem.meta?.name,
+            data.types[typeTitle].fields,
+            fieldItem?.title,
           )
 
           if (!editItem) {
-            nestedPath.push(fieldItem?.name || fieldItem.meta?.name)
+            nestedPath.push(fieldItem?.title)
           }
 
-          const currentFields = data.types[typeName].fields
+          const currentFields = data.types[typeTitle].fields
 
           let from = currentFields
           let dest = nestedFields
@@ -164,7 +164,7 @@ export const AddField = ({
           }
 
           if (editItem) {
-            dest[editItem?.name] = fields[editItem.name]
+            dest[editItem?.title] = fields[editItem.title]
           } else {
             // @ts-ignore // add the field to here
             dest.properties = fields
@@ -175,7 +175,7 @@ export const AddField = ({
 
         if (editItem && editItem.index) {
           // keep index after editing
-          fields[editItem?.name].index = editItem.index
+          fields[editItem?.title].index = editItem.index
         }
 
         console.log('SETTING FIELDS --> ', fields)
@@ -184,7 +184,7 @@ export const AddField = ({
           mutate: true,
           schema: {
             types: {
-              [typeName]: {
+              [typeTitle]: {
                 fields: fields,
               },
             },
@@ -265,31 +265,16 @@ const GeneralOptions = ({ meta, setMeta, editItem }: GeneralOptionsProps) => {
   return (
     <Stack gap={12} grid>
       <TextInput
-        label="Field Name"
+        label="Field Title"
         disabled={editItem}
-        value={meta?.name}
+        value={meta?.title}
         onChange={(v) => {
           if (!editItem) {
-            setMeta({ field: 'name', value: v.toLowerCase() })
+            setMeta({ field: 'title', value: v.toLowerCase() })
           }
         }}
       />
-      <TextInput
-        label="Display name"
-        value={
-          meta?.displayName
-            ? meta?.displayName
-            : meta.name
-              ? meta?.name?.charAt(0).toUpperCase() + meta?.name?.slice(1)
-              : ''
-        }
-        onChange={(v) => {
-          setMeta({ field: 'displayName', value: v })
-          // if (!editItem && !meta.name) {
-          //   setMeta({ field: 'name', value: v.toLocaleLowerCase() })
-          // }
-        }}
-      />
+
       <TextAreaInput
         label="Description"
         value={meta?.description}

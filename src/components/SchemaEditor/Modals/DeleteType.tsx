@@ -5,7 +5,7 @@ import { Stack } from '../../Stack/index.js'
 import { Modal } from '../../Modal/index.js'
 import { useClient } from '@based/react'
 
-export const DeleteType = ({ onConfirm, typeName, setActive }) => {
+export const DeleteType = ({ onConfirm, typeTitle, setActive }) => {
   const [testString, setTestString] = React.useState('')
 
   const client = useClient()
@@ -13,13 +13,13 @@ export const DeleteType = ({ onConfirm, typeName, setActive }) => {
   return (
     <Modal
       confirmLabel="Delete"
-      confirmProps={{ disabled: testString !== typeName, variant: 'error' }}
+      confirmProps={{ disabled: testString !== typeTitle, variant: 'error' }}
       onConfirm={async () => {
         await client.call('db:set-schema', {
           mutate: true,
           schema: {
             types: {
-              [typeName]: {
+              [typeTitle]: {
                 $delete: true,
               },
             },
@@ -31,13 +31,13 @@ export const DeleteType = ({ onConfirm, typeName, setActive }) => {
       }}
     >
       <Stack gap={12} grid>
-        <Text variant="title-modal">Delete {typeName}</Text>
+        <Text variant="title-modal">Delete {typeTitle}</Text>
         <Modal.Message
           variant="error"
-          message={`You are about to delete ${typeName}`}
+          message={`You are about to delete ${typeTitle}`}
         />
         <TextInput
-          label={`Type ${typeName} in the field to confirm`}
+          label={`Type ${typeTitle} in the field to confirm`}
           value={testString}
           onChange={(v) => setTestString(v)}
         />

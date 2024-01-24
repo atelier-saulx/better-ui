@@ -56,7 +56,7 @@ const parseFields = (fields) => {
   return [...indexedArray]
 }
 
-export const SchemaFields = ({ fields, typeName }) => {
+export const SchemaFields = ({ fields, typeTitle }) => {
   const [showSystemFields, setShowSystemFields] = React.useState(false)
 
   const client = useClient()
@@ -95,7 +95,7 @@ export const SchemaFields = ({ fields, typeName }) => {
       mutate: true,
       schema: {
         types: {
-          [typeName]: {
+          [typeTitle]: {
             fields: fields,
           },
         },
@@ -114,14 +114,12 @@ export const SchemaFields = ({ fields, typeName }) => {
       {fields &&
         array
           ?.filter((item) =>
-            showSystemFields
-              ? item
-              : !SYSTEM_FIELDS.includes(item.name || item.label),
+            showSystemFields ? item : !SYSTEM_FIELDS.includes(item.title),
           )
           .map((item, idx) => (
             <SingleFieldContainer
               item={item}
-              typeName={typeName}
+              typeTitle={typeTitle}
               key={idx}
               index={item?.index}
               changeIndex={changeIndex}

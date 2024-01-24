@@ -46,7 +46,7 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
                         ? schema.types[active]?.title
                         : active}
                     </Text>
-                    <TypeOptions typeName={active} setActive={setActive} />
+                    <TypeOptions typeTitle={active} setActive={setActive} />
                   </Stack>
                   {schema.types[active]?.description && (
                     <Text variant="body" color="secondary">
@@ -55,11 +55,11 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
                   )}
                 </div>
               </Stack>
-              <SelectNewField typeName={active} />
+              <SelectNewField typeTitle={active} />
             </Stack>
             <SchemaFields
               fields={schema.types[active]?.fields}
-              typeName={active}
+              typeTitle={active}
             />
           </>
         ) : (

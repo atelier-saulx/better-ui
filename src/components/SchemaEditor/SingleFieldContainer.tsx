@@ -15,7 +15,7 @@ import { borderRadius } from '../../utils/colors.js'
 
 type SingleFieldContainerProps = {
   item: any
-  typeName: string
+  typeTitle: string
   index?: number
   changeIndex?: (fromIndex: number, toIndex: number) => void
 }
@@ -25,7 +25,7 @@ let draggingIndex = 0
 // for some recursion in objects
 export const SingleFieldContainer = ({
   item,
-  typeName,
+  typeTitle,
   index,
   changeIndex,
 }: SingleFieldContainerProps) => {
@@ -77,7 +77,7 @@ export const SingleFieldContainer = ({
                 borderRadius: borderRadius('small'),
               }}
             >
-              <Badge>{item?.name}</Badge>
+              <Badge>{item?.title}</Badge>
               <Text variant="body-bold">dragging</Text>
             </Stack>,
             elem,
@@ -120,23 +120,19 @@ export const SingleFieldContainer = ({
             backgroundColor: isDragOver
               ? color('background', 'muted')
               : 'transparent',
-            opacity: SYSTEM_FIELDS.includes(item?.name || item.meta.name)
-              ? 0.5
-              : 1,
+            opacity: SYSTEM_FIELDS.includes(item?.title) ? 0.5 : 1,
           }}
           title={
             <Stack gap={12}>
-              <Text variant="body-bold">{item?.name || item?.meta.name}</Text>
+              <Text variant="body-bold">{item?.title}</Text>
               <Badge color={SCHEMA_FIELDS[item.type]?.color}>
                 {item.type}
               </Badge>{' '}
-              {SYSTEM_FIELDS.includes(item?.name || item?.meta.name) ? (
+              {SYSTEM_FIELDS.includes(item?.title) ? (
                 <Badge color="neutral-muted">System</Badge>
               ) : null}
-              {(item.meta?.display || item.meta?.format) && (
-                <Badge color="neutral">
-                  {item.meta.format || item.meta.display}
-                </Badge>
+              {(item?.display || item?.format) && (
+                <Badge color="neutral">{item?.format || item?.display}</Badge>
               )}
               {item?.items && <Badge color="neutral">{item.items.type}</Badge>}
             </Stack>
@@ -154,9 +150,9 @@ export const SingleFieldContainer = ({
           suffix={
             <Stack gap={12}>
               {item.type === 'object' && (
-                <SelectNewField typeName={typeName} fieldItem={item} light />
+                <SelectNewField typeTitle={typeTitle} fieldItem={item} light />
               )}
-              <FieldEditAndDelete item={item} typeName={typeName} />
+              <FieldEditAndDelete item={item} typeTitle={typeTitle} />
             </Stack>
           }
           expandable={item.type === 'object' ? true : false}
@@ -166,7 +162,7 @@ export const SingleFieldContainer = ({
               <SingleFieldContainer
                 item={item.properties[subItem]}
                 key={idx}
-                typeName={typeName}
+                typeTitle={typeTitle}
               />
             ))}
         </Container>

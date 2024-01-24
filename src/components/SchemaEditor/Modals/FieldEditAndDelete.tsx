@@ -8,7 +8,7 @@ import { useClient, useQuery } from '@based/react'
 import { findPath } from '../utils/findPath.js'
 import { AddField } from './AddField.js'
 
-export const FieldEditAndDelete = ({ item, typeName }) => {
+export const FieldEditAndDelete = ({ item, typeTitle }) => {
   const { open } = Modal.useModal()
 
   const client = useClient()
@@ -29,7 +29,7 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
 
             const fieldMeta = await open(({ close }) => (
               <AddField
-                typeName={typeName}
+                typeTitle={typeTitle}
                 fieldType={item?.type}
                 // use edit item for edit options
                 editItem={item}
@@ -49,13 +49,13 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                 confirmProps={{ variant: 'error' }}
                 onConfirm={async () => {
                   const nestedPath = findPath(
-                    data.types[typeName].fields,
-                    item.name || item.meta.name,
+                    data.types[typeTitle].fields,
+                    item.title,
                   )
 
-                  nestedPath.push(item?.name || item.meta?.name)
+                  nestedPath.push(item?.title)
 
-                  const currentFields = data.types[typeName].fields
+                  const currentFields = data.types[typeTitle].fields
                   const fields = {}
 
                   let from = currentFields
@@ -78,7 +78,7 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                     mutate: true,
                     schema: {
                       types: {
-                        [typeName]: {
+                        [typeTitle]: {
                           fields,
                         },
                       },
@@ -88,14 +88,10 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                   console.log(deleteThis)
                 }}
               >
-                <Text variant="title-modal">{`Are you sure you want to delete ${
-                  item?.name || item.meta.name
-                }?`}</Text>
+                <Text variant="title-modal">{`Are you sure you want to delete ${item?.title}?`}</Text>
                 <Modal.Message
                   variant="error"
-                  message={`you are about to delete the field: ${
-                    item?.name || item.meta.name
-                  } `}
+                  message={`you are about to delete the field: ${item?.title} `}
                   style={{ marginTop: 24, marginBottom: 20 }}
                 />
               </Modal>

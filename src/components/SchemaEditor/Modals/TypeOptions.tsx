@@ -14,7 +14,7 @@ import { CloneType } from './CloneType.js'
 import { AdvancedEditType } from './AdvancedEditType.js'
 import { DeleteType } from './DeleteType.js'
 
-export const TypeOptions = ({ typeName, setActive }) => {
+export const TypeOptions = ({ typeTitle, setActive }) => {
   const modal = Modal.useModal()
 
   return (
@@ -29,7 +29,7 @@ export const TypeOptions = ({ typeName, setActive }) => {
           icon={<IconEdit />}
           onClick={() => {
             modal.open(({ close }) => {
-              return <EditType onConfirm={close} typeName={typeName} />
+              return <EditType onConfirm={close} typeTitle={typeTitle} />
             })
           }}
         >
@@ -39,7 +39,7 @@ export const TypeOptions = ({ typeName, setActive }) => {
           icon={<IconCopy />}
           onClick={() => {
             modal.open(({ close }) => {
-              return <CloneType onConfirm={close} typeName={typeName} />
+              return <CloneType onConfirm={close} typeTitle={typeTitle} />
             })
           }}
         >
@@ -49,7 +49,9 @@ export const TypeOptions = ({ typeName, setActive }) => {
           icon={<IconFunction />}
           onClick={() => {
             modal.open(({ close }) => {
-              return <AdvancedEditType onConfirm={close} typeName={typeName} />
+              return (
+                <AdvancedEditType onConfirm={close} typeTitle={typeTitle} />
+              )
             })
           }}
         >
@@ -63,7 +65,7 @@ export const TypeOptions = ({ typeName, setActive }) => {
               return (
                 <DeleteType
                   onConfirm={close}
-                  typeName={typeName}
+                  typeTitle={typeTitle}
                   setActive={setActive}
                 />
               )

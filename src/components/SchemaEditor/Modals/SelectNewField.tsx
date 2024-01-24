@@ -13,13 +13,13 @@ import { SCHEMA_FIELDS } from '../constants.js'
 const filterOutTheseFields = ['id', 'type', 'email', 'digest', 'url']
 
 type SelectNewFieldProps = {
-  typeName: string
+  typeTitle: string
   fieldItem?: {}
   light?: boolean
 }
 
 export const SelectNewField = ({
-  typeName,
+  typeTitle,
   fieldItem,
   light,
 }: SelectNewFieldProps) => {
@@ -92,7 +92,7 @@ export const SelectNewField = ({
                       const fieldMeta = await open(({ close }) => (
                         <AddField
                           fieldType={SCHEMA_FIELDS[item].label}
-                          typeName={typeName}
+                          typeTitle={typeTitle}
                           onConfirm={close}
                           // if nested
                           fieldItem={fieldItem}
