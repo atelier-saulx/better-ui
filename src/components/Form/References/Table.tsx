@@ -90,7 +90,7 @@ const CellContent = (p: {
           <Badge color="informative-muted">{fieldValue}</Badge>
         ) : (
           <Text singleLine style={{ width: p.width }}>
-            {display(fieldValue, f) ?? ''}
+            {display(fieldValue, p.field) ?? ''}
           </Text>
         )}
       </Stack>
