@@ -36,6 +36,18 @@ const FIELD_SIZES: {
         match: (field: BasedSchemaFieldString) => field.format === 'rgbColor',
         width: 200,
       },
+      {
+        match: (field: BasedSchemaFieldString) =>
+          field.contentMediaType?.startsWith('image/'),
+        width: 180,
+        flexible: true,
+      },
+    ],
+    reference: [
+      {
+        width: 500,
+        flexible: true,
+      },
     ],
     default: [
       {
@@ -50,6 +62,21 @@ const FIELD_SIZES: {
         match: (field: BasedSchemaFieldString) => field.format === 'basedId',
         width: 120,
         insertAtStart: true,
+      },
+      {
+        match: (field: BasedSchemaFieldString) => field.format === 'rgbColor',
+        width: 180,
+      },
+      {
+        match: (field: BasedSchemaFieldString) =>
+          field.contentMediaType?.startsWith('image/'),
+        width: 48,
+      },
+    ],
+    reference: [
+      {
+        width: 200,
+        flexible: true,
       },
     ],
     timestamp: [
@@ -70,46 +97,6 @@ const FIELD_SIZES: {
     ],
   },
 }
-
-/*
-
-
-    // if (total < minSize) {
-    //   break
-    // }
-
-    // const field = fieldSchema.properties[key]
-    // if (field.type === 'timestamp') {
-    //   const size = minSize + 50
-    //   percentageFields.push({ key, width: size, field })
-    //   total -= size
-    // } else if (
-    //   field.type === 'number' ||
-    //   key === 'id' ||
-    //   (field.type === 'string' && field.format === 'rgbColor')
-    // ) {
-    //   percentageFields.push({ key, width: minSize, field })
-    //   total -= minSize
-    // } else if (
-    //   field.type === 'string' &&
-    //   field.contentMediaType?.startsWith('image/')
-    // ) {
-    //   const size = editable ? 180 : 52
-    //   percentageFields.push({ key, width: size, field })
-    //   total -= size
-    // } else if (field.type === 'reference') {
-    //   percentageFields.push({ key, field })
-    //   total -= 500
-    //   spread += 500
-    //   totalFlexFields++
-    // } else {
-    //   percentageFields.push({ key, field })
-    //   total -= minSize
-    //   totalFlexFields++
-    //   spread += minSize
-    // }
-
-*/
 
 export const getColSizes = (
   fieldSchema: BasedSchemaFieldObject,
@@ -151,9 +138,9 @@ export const getColSizes = (
       totalFlexFields++
       spread += width
       if (insertAtStart) {
-        percentageFields.unshift({ key, field })
+        percentageFields.unshift({ key, field, flexible: true })
       } else {
-        percentageFields.push({ key, field })
+        percentageFields.push({ key, field, flexible: true })
       }
     } else {
       total -= width

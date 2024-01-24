@@ -20,7 +20,12 @@ export const CollRow = (p: {
 
   for (const field of p.colFields) {
     cells.push(
-      <Cell border key={field.key} width={field.width}>
+      <Cell
+        border
+        key={field.key}
+        width={field.width}
+        flexible={field.flexible}
+      >
         <Field ctx={p.ctx} path={[...p.path, p.index, field.key]} />
       </Cell>,
     )
