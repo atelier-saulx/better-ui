@@ -54,7 +54,7 @@ export const ObjectCollsRows = (p: RowProps & { colFields: ColSizes }) => {
         colFields={p.colFields}
         changeIndex={p.changeIndex}
         key={p.value.orderId + '_' + i}
-        value={p.value[i]}
+        value={p.value.value[i]}
         field={p.field.values as BasedSchemaFieldObject}
         index={i}
         onClickRow={p.onClickRow}
