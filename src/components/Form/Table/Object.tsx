@@ -4,13 +4,13 @@ import { BasedSchemaFieldObject } from '@based/schema'
 import { TableProps } from '../types.js'
 import { readPath, canUseColumns, getTitle } from '../utils.js'
 import { Cell } from './Cell.js'
-import { Field } from './Field.js'
+import { Field } from './Field/index.js'
 import { Table } from './index.js'
 import { ColStack } from './ColStack.js'
 import { getColSizes } from '../getColSizes.js'
 
 export function ObjectParser({ ctx, path }: TableProps) {
-  const { field } = readPath<BasedSchemaFieldObject>(ctx, path)
+  const { field, readOnly } = readPath<BasedSchemaFieldObject>(ctx, path)
   const cols = canUseColumns(field)
 
   const [width, setWidth] = React.useState(0)
@@ -20,7 +20,7 @@ export function ObjectParser({ ctx, path }: TableProps) {
   })
 
   const colFields =
-    field.type === 'object' ? getColSizes(field, width, true) : []
+    field.type === 'object' ? getColSizes(field, width, readOnly) : []
 
   if (
     cols &&
@@ -31,12 +31,12 @@ export function ObjectParser({ ctx, path }: TableProps) {
     const cols: ReactNode[] = []
     for (const f of colFields) {
       cols.push(
-        <Cell isKey border key={f.key} width={f.width}>
+        <Cell isKey border key={f.key} width={f.width} flexible={f.flexible}>
           {getTitle(f.key, field.properties[f.key])}
         </Cell>,
       )
       cells.push(
-        <Cell border key={f.key} width={f.width}>
+        <Cell border key={f.key} width={f.width} flexible={f.flexible}>
           <Field ctx={ctx} path={[...path, f.key]} />
         </Cell>,
       )

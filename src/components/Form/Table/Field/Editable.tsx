@@ -10,15 +10,16 @@ import {
   ColorInput,
   Code,
   CheckboxInput,
-} from '../../../index.js'
-import { readPath, isCode } from '../utils.js'
-import { TableCtx, Path } from '../types.js'
-import { Table } from './index.js'
-import { SetField } from '../Set.js'
-import { Reference } from '../Reference.js'
-import { References } from '../References/index.js'
+} from '../../../../index.js'
+import { isCode } from '../../utils.js'
+import { TableCtx, Path } from '../../types.js'
+import { Table } from '../index.js'
+import { SetField } from '../../Set.js'
+import { Reference } from '../../Reference.js'
+import { References } from '../../References/index.js'
+import { BasedSchemaField } from '@based/schema'
 
-export const Padder = ({
+const Padder = ({
   children,
   style,
 }: {
@@ -39,9 +40,17 @@ export const Padder = ({
   )
 }
 
-export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
-  const { value, field } = readPath(ctx, path)
-
+export function EditableField({
+  ctx,
+  path,
+  field,
+  value,
+}: {
+  ctx: TableCtx
+  path: Path
+  field: BasedSchemaField
+  value: any
+}) {
   if ('enum' in field) {
     return (
       <Padder>

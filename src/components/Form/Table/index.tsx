@@ -11,7 +11,7 @@ import {
   getTitle,
 } from '../utils.js'
 import { Cell } from './Cell.js'
-import { Field } from './Field.js'
+import { Field } from './Field/index.js'
 import { Record } from './Record.js'
 import { ObjectParser } from './Object.js'
 import { Arrays } from './Arrays/index.js'

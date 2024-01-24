@@ -6,8 +6,10 @@ export type RowProps = {
   changeIndex: (fromIndex: number, toIndex: number) => void
   path: Path
   ctx: TableCtx
+  draggable?: boolean
   field: BasedSchemaFieldArray
   removeItem: (index: number) => void
+  onClickRow?: (val: any) => void
 }
 
 export type ValueRef = {

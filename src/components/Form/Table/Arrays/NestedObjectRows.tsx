@@ -9,7 +9,7 @@ import {
 } from '../../../../index.js'
 import { getIdentifierField, isIterable, readParentType } from '../../utils.js'
 import { Cell } from '../Cell.js'
-import { Field } from '../Field.js'
+import { Field } from '../Field/index.js'
 import { RowProps } from './types.js'
 import { DragableRow } from '../DragableRow.js'
 

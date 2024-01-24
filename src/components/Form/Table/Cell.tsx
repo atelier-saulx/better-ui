@@ -8,11 +8,13 @@ export function Cell({
   isKey,
   style,
   width,
+  flexible,
 }: {
   border?: boolean
   children: ReactNode
   isKey?: boolean
   style?: Style
+  flexible?: boolean
   width?: number
 }) {
   return (
@@ -22,7 +24,7 @@ export function Cell({
       style={{
         minHeight: 48,
         flexGrow: 1,
-        maxWidth: width,
+        maxWidth: flexible ? '100%' : width,
         minWidth: width,
         borderRight: border ? getBorder() : undefined,
         paddingLeft: isKey ? 20 : 0,
