@@ -182,11 +182,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  setState(undefined)
+                  setState('')
                 }}
                 style={{
                   position: 'absolute',
-
                   top: variant === 'regular' ? 10 : 9,
                   right: variant === 'regular' ? 36 : 36,
                   color: color('content', 'primary'),
