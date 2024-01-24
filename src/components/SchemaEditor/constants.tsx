@@ -220,7 +220,6 @@ export const STRING_FORMAT_OPTIONS = [
   { value: 'taxID' },
   { value: 'licensePlate' },
   { value: 'VAT' },
-  { value: null, label: 'unset' },
 ]
 
 export const CONTENT_MEDIA_TYPES = [

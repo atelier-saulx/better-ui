@@ -66,10 +66,7 @@ export const AddField = ({
   fieldItem,
   editItem,
 }: AddFieldProps) => {
-  const [meta, setMeta] = React.useReducer(
-    metaReducer,
-    editItem ? editItem.meta : {},
-  )
+  const [meta, setMeta] = React.useReducer(metaReducer, editItem || {})
   const [tabIndex, setTabIndex] = React.useState(1)
   // for arrays
   const [items, setItems] = React.useState(
@@ -79,6 +76,10 @@ export const AddField = ({
   const client = useClient()
 
   const { data } = useQuery('db:schema')
+
+  React.useEffect(() => {
+    console.log('did something changed in the meta:', meta)
+  }, [meta])
 
   return (
     <Modal
@@ -91,7 +92,7 @@ export const AddField = ({
           fields = {
             [meta.name || meta.displayName.toLowerCase()]: {
               type: fieldType.toLowerCase(),
-              meta: meta,
+              ...meta,
               values: [],
             },
           }
@@ -99,7 +100,7 @@ export const AddField = ({
           fields = {
             [meta.name || meta.displayName.toLowerCase()]: {
               type: fieldType.toLowerCase(),
-              meta: meta,
+              ...meta,
               properties: {},
             },
           }
@@ -110,7 +111,7 @@ export const AddField = ({
           fields = {
             [meta.name || meta.displayName.toLowerCase()]: {
               type: fieldType.toLowerCase(),
-              meta: meta,
+              ...meta,
               items: items,
             },
           }
@@ -118,7 +119,7 @@ export const AddField = ({
           fields = {
             [meta.name || meta.displayName.toLowerCase()]: {
               type: 'json',
-              meta: meta,
+              ...meta,
               format: 'rich-text',
             },
           }
@@ -126,7 +127,7 @@ export const AddField = ({
           fields = {
             [meta.name || meta.displayName.toLowerCase()]: {
               type: fieldType.toLowerCase(),
-              meta: meta,
+              ...meta,
             },
           }
         }
@@ -162,7 +163,7 @@ export const AddField = ({
           }
 
           if (editItem) {
-            dest[editItem.meta.name] = fields[editItem.meta.name]
+            dest[editItem?.name] = fields[editItem.name]
           } else {
             // @ts-ignore // add the field to here
             dest.properties = fields
@@ -173,8 +174,10 @@ export const AddField = ({
 
         if (editItem && editItem.index) {
           // keep index after editing
-          fields[editItem.meta.name].index = editItem.index
+          fields[editItem?.name].index = editItem.index
         }
+
+        console.log('SETTING FIELDS --> ', fields)
 
         await client.call('db:set-schema', {
           mutate: true,
@@ -330,7 +333,7 @@ const SpecificOptions = ({
           <SelectInput
             label="Format"
             options={STRING_FORMAT_OPTIONS}
-            value={meta?.format || 'null'}
+            value={meta?.format}
             onChange={(v) => setMeta({ field: 'format', value: v })}
           />
           <styled.div style={{ display: 'flex', gap: 16 }}>

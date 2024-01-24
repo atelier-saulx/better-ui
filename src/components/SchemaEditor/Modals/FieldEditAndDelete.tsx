@@ -25,6 +25,8 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
       <Dropdown.Items>
         <Dropdown.Item
           onClick={async () => {
+            console.log('item to edit??', item)
+
             const fieldMeta = await open(({ close }) => (
               <AddField
                 typeName={typeName}
@@ -48,7 +50,7 @@ export const FieldEditAndDelete = ({ item, typeName }) => {
                 onConfirm={async () => {
                   const nestedPath = findPath(
                     data.types[typeName].fields,
-                    item.name || item.meta.name
+                    item.name || item.meta.name,
                   )
 
                   nestedPath.push(item?.name || item.meta?.name)
