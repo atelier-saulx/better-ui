@@ -6,6 +6,7 @@ import {
 import {
   Stack,
   Button,
+  border,
   Badge,
   IconLink,
   Media,
@@ -152,6 +153,7 @@ export const Image = (p: {
             overflow: 'hidden',
             backgroundColor: color('background', 'neutral'),
             borderRadius: 4,
+            border: border(),
             marginBottom: p.isLarge ? 14 : 0,
             marginRight: 10,
           }}
