@@ -31,12 +31,12 @@ export function ObjectParser({ ctx, path }: TableProps) {
     const cols: ReactNode[] = []
     for (const f of colFields) {
       cols.push(
-        <Cell isKey border key={f.key} width={f.width}>
+        <Cell isKey border key={f.key} width={f.width} flexible={f.flexible}>
           {getTitle(f.key, field.properties[f.key])}
         </Cell>,
       )
       cells.push(
-        <Cell border key={f.key} width={f.width}>
+        <Cell border key={f.key} width={f.width} flexible={f.flexible}>
           <Field ctx={ctx} path={[...path, f.key]} />
         </Cell>,
       )

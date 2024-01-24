@@ -81,7 +81,13 @@ export function Arrays({ ctx, path }: TableProps) {
     cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
     for (const col of colFields) {
       cols.push(
-        <Cell border isKey key={col.key} width={col.width}>
+        <Cell
+          border
+          isKey
+          key={col.key}
+          width={col.width}
+          flexible={col.flexible}
+        >
           {getTitle(col.key, valuesField.properties[col.key])}
         </Cell>,
       )

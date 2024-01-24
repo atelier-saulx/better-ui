@@ -103,7 +103,7 @@ export function Record({ ctx, path }: TableProps) {
 
     for (const f of colFields) {
       cols.push(
-        <Cell border isKey key={f.key} width={f.width}>
+        <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
           {valuesField.properties[f.key].title ?? f.key}
         </Cell>,
       )
@@ -125,7 +125,7 @@ export function Record({ ctx, path }: TableProps) {
         ]
         for (const f of colFields) {
           cells.push(
-            <Cell border key={f.key} width={f.width}>
+            <Cell border key={f.key} width={f.width} flexible={f.flexible}>
               <Field ctx={ctx} path={[...path, key, f.key]} />
             </Cell>,
           )

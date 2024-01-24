@@ -29,10 +29,8 @@ const ImageTableStyle = (p: { children?: React.ReactNode }) => {
     <Cell
       border
       style={{
-        width: 52,
+        width: 48,
         height: 48,
-        paddingLeft: 8,
-        paddingRight: 8,
         flexShrink: 0,
         flexGrow: 0,
       }}
@@ -40,6 +38,7 @@ const ImageTableStyle = (p: { children?: React.ReactNode }) => {
       {p.children ? (
         <styled.div
           style={{
+            marginLeft: 2.5,
             width: 36,
             height: 36,
             overflow: 'hidden',
@@ -70,25 +69,28 @@ const CellContent = (p: {
   value: any
   width: number
   field: BasedSchemaField
+  flexible?: boolean
 }) => {
   if (p.k === 'src') {
     return <ImageTable value={p.value} />
   }
+  const isId = p.field.type === 'string' && p.field.format === 'basedId'
   const fieldValue = p.value[p.k]
   return (
-    <Cell border key={p.k} width={p.width}>
+    <Cell border key={p.k} width={p.width} flexible={p.flexible}>
       <Stack
-        justify={p.k === 'id' ? 'end' : 'start'}
+        justify={isId ? 'end' : 'start'}
         style={{
           paddingLeft: 18,
           paddingRight: 18,
+          flexShrink: isId ? 0 : null,
+          flexGrow: isId ? 0 : null,
         }}
       >
-        {p.k === 'id' ? (
+        {isId ? (
           <Badge color="informative-muted">{fieldValue}</Badge>
         ) : (
           <Text singleLine style={{ width: p.width }}>
-            {/* @ts-ignore */}
             {display(fieldValue, p.field) ?? ''}
           </Text>
         )}
@@ -144,6 +146,8 @@ export const ReferencesTable = ({
       </>
     )
   }
+
+  // Generate schema if none can be found
   const objectSchema: BasedSchemaFieldObject = {
     type: 'object',
     properties: {},
@@ -158,6 +162,7 @@ export const ReferencesTable = ({
     } else {
       objectSchema.properties[key] = {
         type: 'string',
+        format: key === 'id' ? 'basedId' : null, //ass some more options here...
         contentMediaType: key === 'src' ? 'image/*' : null,
       }
     }
@@ -166,7 +171,9 @@ export const ReferencesTable = ({
   const calculatedFields = getColSizes(objectSchema, width)
 
   if (field.sortable) {
-    cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
+    cols.unshift(
+      <styled.div style={{ minWidth: 28, maxWidth: 28 }} key="_dicon" />,
+    )
   }
 
   for (const f of calculatedFields) {
@@ -176,9 +183,16 @@ export const ReferencesTable = ({
     ) {
       cols.push(<ImageTable key={f.key} />)
     } else {
+      const isId = f.field.type === 'string' && f.field.format === 'basedId'
       cols.push(
-        <Cell border={f.key !== 'id'} isKey key={f.key} width={f.width}>
-          <Text singleLine>{humanizeString(f.key === 'id' ? '' : f.key)}</Text>
+        <Cell
+          border={!isId}
+          isKey
+          key={f.key}
+          width={f.width}
+          flexible={f.flexible}
+        >
+          <Text singleLine>{humanizeString(isId ? '' : f.key)}</Text>
         </Cell>,
       )
     }
@@ -195,13 +209,14 @@ export const ReferencesTable = ({
           value={v}
           index={i}
           key={i}
-          cells={calculatedFields.map(({ key, width, field }) => {
+          cells={calculatedFields.map(({ key, width, field, flexible }) => {
             return (
               <CellContent
                 width={width}
                 key={key}
                 k={key}
                 value={v}
+                flexible={flexible}
                 field={field}
               />
             )
