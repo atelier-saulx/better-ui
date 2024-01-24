@@ -31,6 +31,5 @@ export const findPath = (ob, key) => {
 
   keyExists(ob, key)
 
-  // console.log('PATH ??? ', path)
   return path
 }

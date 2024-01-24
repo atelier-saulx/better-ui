@@ -78,9 +78,12 @@ export const AddField = ({
 
   const { data } = useQuery('db:schema')
 
-  React.useEffect(() => {
-    console.log('did something changed in the meta:', meta)
-  }, [meta])
+  // React.useEffect(() => {
+  //   console.log('did something changed in the meta:', meta)
+  // }, [meta])
+
+  // console.log('NESTED 2--> field item ', fieldItem)
+  // console.log('nested 2 typeTitle, ', typeTitle)
 
   return (
     <Modal
@@ -94,6 +97,7 @@ export const AddField = ({
             [meta.title]: {
               type: fieldType.toLowerCase(),
               ...meta,
+
               values: [],
             },
           }
@@ -141,11 +145,11 @@ export const AddField = ({
 
           const nestedPath = findPath(
             data.types[typeTitle].fields,
-            fieldItem?.title,
+            fieldItem.title,
           )
 
           if (!editItem) {
-            nestedPath.push(fieldItem?.title)
+            nestedPath.push(fieldItem.title)
           }
 
           const currentFields = data.types[typeTitle].fields
@@ -157,14 +161,15 @@ export const AddField = ({
 
           while (i < l) {
             const key = nestedPath[i++]
-
+            console.log(dest, 'DEST?')
             dest[key] = { ...from[key] }
+
             dest = dest[key]
             from = from[key]
           }
 
           if (editItem) {
-            dest[editItem?.title] = fields[editItem.title]
+            dest[editItem.title] = fields[editItem.title]
           } else {
             // @ts-ignore // add the field to here
             dest.properties = fields
@@ -177,8 +182,6 @@ export const AddField = ({
           // keep index after editing
           fields[editItem?.title].index = editItem.index
         }
-
-        console.log('SETTING FIELDS --> ', fields)
 
         await client.call('db:set-schema', {
           mutate: true,
