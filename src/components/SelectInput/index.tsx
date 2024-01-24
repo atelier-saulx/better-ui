@@ -4,12 +4,15 @@ import { styled, Style } from 'inlines'
 import {
   IconCheckSmall,
   IconChevronDownSmall,
+  IconSmallClose,
   border,
   borderRadius,
   boxShadow,
   Text,
   color,
   useControllableState,
+  Button,
+  IconDelete,
   textVariants,
 } from '../../index.js'
 import { mergeRefs } from 'react-merge-refs'
@@ -74,108 +77,137 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
         onValueChange={setState}
         disabled={disabled}
       >
-        <SelectBase.Trigger asChild>
-          <Wrapper
-            style={{
-              cursor: disabled ? 'not-allowed' : 'default',
-              opacity: disabled ? 0.6 : 1,
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              '&[data-placeholder] > div': {
-                color: 'var(--content-secondary) !important',
-              },
+        <Wrapper
+          style={{
+            cursor: disabled ? 'not-allowed' : 'default',
+            opacity: disabled ? 0.6 : 1,
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            '&[data-placeholder] > div': {
+              color: 'var(--content-secondary) !important',
+            },
+            '&[data-state="open"] > div': {
+              border: '1px solid var(--interactive-primary) !important',
+              boxShadow:
+                '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
+            },
+            ...(error && {
               '&[data-state="open"] > div': {
-                border: '1px solid var(--interactive-primary) !important',
-                boxShadow:
-                  '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
+                border: border('error'),
+                boxShadow: boxShadow('error'),
               },
-              ...(error && {
-                '&[data-state="open"] > div': {
-                  border: border('error'),
-                  boxShadow: boxShadow('error'),
-                },
-              }),
-              ...style,
-            }}
-          >
-            {label && (
-              <span
-                style={{
-                  marginBottom: 8,
-                  fontSize: 14,
-                  lineHeight: '24px',
-                  fontWeight: 500,
-                }}
-              >
-                {label}
-              </span>
-            )}
-            <styled.div
-              autoFocus={autoFocus}
-              tabIndex={disabled ? '-1' : 0}
-              ref={mergeRefs([wrapperRef, ref])}
+            }),
+            ...style,
+          }}
+        >
+          {label && (
+            <span
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                position: 'relative',
-                height: 40,
-                padding:
-                  variant === 'regular'
-                    ? '8px 40px 8px 12px'
-                    : '3px 28px 3px 10px',
-                borderRadius:
-                  variant === 'regular'
-                    ? borderRadius('small')
-                    : borderRadius('tiny'),
-                border:
-                  variant === 'small' ? '1px solid transparent' : border(),
-                color: color('content', 'primary'),
-                '&:before': {
-                  content: '""',
-                  display: 'inline-block',
-                },
-                '&:hover': {
-                  border:
-                    variant === 'small'
-                      ? '1px solid transparent'
-                      : border('hover'),
-                },
-                '&:focus': {
-                  border: '1px solid var(--interactive-primary)',
-                  boxShadow:
-                    '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
-                },
-                ...(error && {
-                  border: border('error'),
-                  '&:hover': {
-                    border: border('error'),
-                  },
-                }),
-                ...textVariants['body'],
+                marginBottom: 8,
+                fontSize: 14,
+                lineHeight: '24px',
+                fontWeight: 500,
               }}
             >
-              <SelectBase.Value placeholder={placeholder} />
-              <IconChevronDownSmall
+              {label}
+            </span>
+          )}
+          <div style={{ position: 'relative' }}>
+            <SelectBase.Trigger asChild>
+              <styled.div
+                autoFocus={autoFocus}
+                tabIndex={disabled ? '-1' : 0}
+                ref={mergeRefs([wrapperRef, ref])}
+                style={{
+                  position: 'relative',
+                  ...textVariants['body-bold'],
+                  height: variant === 'small' ? 36 : 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding:
+                    variant === 'regular'
+                      ? '8px 40px 8px 12px'
+                      : '3px 28px 3px 10px',
+                  borderRadius:
+                    variant === 'regular'
+                      ? borderRadius('small')
+                      : borderRadius('tiny'),
+                  border:
+                    variant === 'small' ? '1px solid transparent' : border(),
+                  color: color('content', 'primary'),
+                  '&:before': {
+                    content: '""',
+                    display: 'inline-block',
+                  },
+                  '&:hover': {
+                    border:
+                      variant === 'small'
+                        ? '1px solid transparent'
+                        : border('hover'),
+                  },
+                  '&:focus': {
+                    border: '1px solid var(--interactive-primary)',
+                    boxShadow:
+                      '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
+                  },
+                  ...(error && {
+                    border: border('error'),
+                    '&:hover': {
+                      border: border('error'),
+                    },
+                  }),
+                }}
+              >
+                {state ? (
+                  <SelectBase.Value placeholder={placeholder} />
+                ) : (
+                  placeholder
+                )}
+
+                <IconChevronDownSmall
+                  style={{
+                    position: 'absolute',
+                    top: variant === 'regular' ? 8 : 6,
+                    right: variant === 'regular' ? 12 : 6,
+                    color: color('content', 'primary'),
+                  }}
+                />
+              </styled.div>
+            </SelectBase.Trigger>
+
+            {state && (
+              <Button
+                variant="icon-only"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setState(undefined)
+                }}
                 style={{
                   position: 'absolute',
-                  top: variant === 'regular' ? 10 : 8,
-                  right: variant === 'regular' ? 12 : 6,
+
+                  top: variant === 'regular' ? 10 : 9,
+                  right: variant === 'regular' ? 36 : 36,
                   color: color('content', 'primary'),
                 }}
-              />
-            </styled.div>
-            {description !== undefined ? (
-              <Text
-                color="secondary"
-                variant="body-bold"
-                style={{ marginTop: 8 }}
               >
-                {description}
-              </Text>
-            ) : null}
-          </Wrapper>
-        </SelectBase.Trigger>
+                <IconSmallClose />
+              </Button>
+            )}
+          </div>
+
+          {description !== undefined ? (
+            <Text
+              color="secondary"
+              variant="body-bold"
+              style={{ marginTop: 8 }}
+            >
+              {description}
+            </Text>
+          ) : null}
+        </Wrapper>
+
         <SelectBase.Portal>
           <SelectBase.Content
             position="popper"
@@ -191,6 +223,53 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             sideOffset={8}
           >
             <SelectBase.Viewport style={{ padding: 8 }}>
+              {/* Clear selection put value to null */}
+              {state && (
+                <SelectBase.Item
+                  value={null}
+                  asChild
+                  style={{ borderBottom: border() }}
+                >
+                  <styled.div
+                    style={{
+                      padding: '4px 12px 4px 42px',
+                      borderRadius: borderRadius('small'),
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 0,
+                      fontSize: 14,
+                      lineHeight: '24px',
+                      position: 'relative',
+                      outline: 'none',
+                      userSelect: 'none',
+                      '&[data-highlighted]': {
+                        background: color('background', 'neutral'),
+                      },
+                    }}
+                  >
+                    <IconDelete
+                      style={{
+                        width: 14,
+                        height: 14,
+                        marginRight: 8,
+                        marginBottom: '-2px',
+                      }}
+                    />
+                    <SelectBase.ItemIndicator>
+                      <IconCheckSmall
+                        style={{
+                          position: 'absolute',
+                          top: 6,
+                          left: 12,
+                          color: color('content', 'primary'),
+                        }}
+                      />
+                    </SelectBase.ItemIndicator>
+                    Clear
+                  </styled.div>
+                </SelectBase.Item>
+              )}
+              {/* Clear selection */}
+
               {options?.map((option) => {
                 const {
                   value,
@@ -214,16 +293,18 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                         },
                       }}
                     >
-                      <SelectBase.ItemIndicator>
-                        <IconCheckSmall
-                          style={{
-                            position: 'absolute',
-                            top: 6,
-                            left: 12,
-                            color: color('content', 'primary'),
-                          }}
-                        />
-                      </SelectBase.ItemIndicator>
+                      {state && (
+                        <SelectBase.ItemIndicator>
+                          <IconCheckSmall
+                            style={{
+                              position: 'absolute',
+                              top: 6,
+                              left: 12,
+                              color: color('content', 'primary'),
+                            }}
+                          />
+                        </SelectBase.ItemIndicator>
+                      )}
                       <SelectBase.ItemText>
                         {prefix && (
                           <div
