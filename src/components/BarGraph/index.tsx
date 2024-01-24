@@ -94,13 +94,14 @@ export function BarGraph({
       style={{
         display: 'flex',
         flexDirection: variant === 'horizontal' ? 'column' : 'row',
+        width: 256,
+        height: 256,
       }}
     >
       {showAxis && variant === 'vertical' && (
         <>
           <div
             style={{
-              flex: 1,
               display: 'flex',
               flexDirection: 'column-reverse',
               justifyContent: 'space-between',
@@ -122,7 +123,6 @@ export function BarGraph({
           <div
             style={{
               width: 1,
-              flex: 1,
               background: color('content', 'primary'),
               marginLeft: 8,
             }}
@@ -135,14 +135,11 @@ export function BarGraph({
           gap: 8,
           ...(variant === 'horizontal' && {
             flexDirection: 'column',
-            minWidth: 256,
             borderLeft: `1px solid ${color('content', 'primary')}`,
             padding: '8px 0',
           }),
           ...(variant === 'vertical' && {
             flexFlow: 'wrap-reverse',
-            minHeight: 256,
-            height: 1, // bugfix, without this vertical children with percentage height doesnt work
             borderBottom: `1px solid ${color('content', 'primary')}`,
             padding: '0 8px',
           }),

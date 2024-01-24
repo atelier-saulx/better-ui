@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { PieGraph } from '../../index.js'
 
 const meta: Meta<typeof PieGraph> = {
-  title: 'Atoms/Graphs/PieGraph',
+  title: 'Atoms/PieGraph',
   component: PieGraph,
 }
 

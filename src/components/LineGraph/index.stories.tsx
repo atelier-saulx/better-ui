@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react'
 import { LineGraph } from '../../index.js'
 
 const meta: Meta<typeof LineGraph> = {
-  title: 'Atoms/Graphs/LineGraph',
+  title: 'Atoms/LineGraph',
   component: LineGraph,
   parameters: {
     layout: 'fullscreen',

@@ -101,7 +101,5 @@ export function hashNonSemanticColor(value: string | number) {
         (Object.keys(NON_SEMANTIC_COLOR).length - 1),
     ) + 1
 
-  console.log(value, '->', Object.values(NON_SEMANTIC_COLOR)[index])
-
   return Object.values(NON_SEMANTIC_COLOR)[index]
 }

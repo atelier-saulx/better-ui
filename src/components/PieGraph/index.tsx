@@ -40,8 +40,8 @@ export function PieGraph({ data: rawData }: PieGraphProps) {
   }, [rawData])
 
   return (
-    <styled.div style={{ position: 'relative' }}>
-      <svg width="256" height="256" viewBox="0 0 120 120">
+    <styled.div style={{ position: 'relative', width: 256, height: 256 }}>
+      <svg width="100%" height="100%" viewBox="0 0 120 120">
         {data.map((e, i) => (
           <circle
             onMouseEnter={() => {

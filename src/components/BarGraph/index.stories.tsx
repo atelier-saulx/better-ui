@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { BarGraph } from '../../index.js'
 
 const meta: Meta<typeof BarGraph> = {
-  title: 'Atoms/Graphs/BarGraph',
+  title: 'Atoms/BarGraph',
   component: BarGraph,
 }
 
