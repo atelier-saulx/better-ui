@@ -16,6 +16,7 @@
     "package.json"
   ],
   "dependencies": {
+    "json-2-csv": "^5.0.1",
     "@based/client": "^5.0.0",
     "@based/react": "^5.0.1",
     "@based/schema": "^2.5.3",

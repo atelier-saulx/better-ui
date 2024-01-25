@@ -42,7 +42,7 @@ export const ReferencesTable = ({
   const hasFields: Set<string> = new Set(['id'])
   const [width, setWidth] = React.useState(0)
   const sizeRef = useSize(({ width }) => {
-    setWidth(width - 64 * 2)
+    setWidth(width)
   })
   for (const v of value) {
     if (typeof v === 'object') {
@@ -87,7 +87,7 @@ export const ReferencesTable = ({
     }
   }
 
-  const colFields = getColSizes(objectSchema, width, true)
+  const colFields = getColSizes(objectSchema, width - 64 * 2, true)
 
   if (field.sortable) {
     cols.unshift(
@@ -118,30 +118,39 @@ export const ReferencesTable = ({
   }
 
   return (
-    <Stack ref={sizeRef} justify="start" align="start" direction="column">
-      <ColStack header>{cols}</ColStack>
-      <ObjectCollsRows
-        // add this like an action
-        onClickRow={(v: any) => onClickReference(v)}
-        draggable={field.sortable}
-        value={valueRef}
-        ctx={newCtx}
-        changeIndex={changeIndex}
-        removeItem={onRemove}
-        path={path}
-        colFields={colFields}
-        field={nField} // allow refs...
-      />
-      <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
-        <Button
-          onClick={onNew}
-          size="small"
-          variant="neutral-transparent"
-          prefix={<IconPlus />}
+    <styled.div style={{ width: '100%' }}>
+      <styled.div ref={sizeRef} style={{ width: '100%' }} />
+      <styled.div style={{ width: 200 }}>
+        <Stack
+          justify="start"
+          align="start"
+          direction="column"
+          style={{ width }}
         >
-          Add
-        </Button>
+          <ColStack header>{cols}</ColStack>
+          <ObjectCollsRows
+            onClickRow={(v: any) => onClickReference(v)}
+            draggable={field.sortable}
+            value={valueRef}
+            ctx={newCtx}
+            changeIndex={changeIndex}
+            removeItem={onRemove}
+            path={path}
+            colFields={colFields}
+            field={nField}
+          />
+          <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
+            <Button
+              onClick={onNew}
+              size="small"
+              variant="neutral-transparent"
+              prefix={<IconPlus />}
+            >
+              Add
+            </Button>
+          </styled.div>
+        </Stack>
       </styled.div>
-    </Stack>
+    </styled.div>
   )
 }

@@ -120,6 +120,11 @@ export const References = () => {
         })
       }}
       fields={{
+        people: {
+          sortable: true,
+          title: 'People time',
+          type: 'references',
+        },
         ref: {
           title: 'Single reference',
           type: 'reference',
@@ -141,11 +146,7 @@ export const References = () => {
           title: 'People',
           type: 'references',
         },
-        people: {
-          sortable: true,
-          title: 'People time',
-          type: 'references',
-        },
+
         refs: {
           title: 'Multi references',
           type: 'references',

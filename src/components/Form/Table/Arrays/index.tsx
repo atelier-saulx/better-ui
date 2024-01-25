@@ -36,8 +36,8 @@ export function Arrays({ ctx, path }: TableProps) {
 
   const [width, setWidth] = React.useState(0)
 
-  const sizeRef = useSize(({ width }) => {
-    setWidth(width - 64 * 2 - 28)
+  const sizeRef = useSize((r) => {
+    setWidth(r.width)
   })
 
   const valueRef = useRef<ValueRef>({ orderId: 0, value: [] })
@@ -70,7 +70,7 @@ export function Arrays({ ctx, path }: TableProps) {
 
   const colFields =
     valuesField.type === 'object'
-      ? getColSizes(valuesField, width, readOnly)
+      ? getColSizes(valuesField, width - 64 * 2 - 28, readOnly)
       : []
 
   const isCols =
@@ -97,47 +97,51 @@ export function Arrays({ ctx, path }: TableProps) {
   }
 
   return (
-    <Stack
-      ref={sizeRef}
-      justify="start"
-      align="start"
-      direction="column"
-      style={{
-        width: '100%',
-        borderBottom: path.length > 1 ? border() : null,
-      }}
-    >
-      {cols.length ? (
-        <ColStack
-          header
+    <styled.div style={{ width: '100%' }}>
+      <styled.div ref={sizeRef} style={{ width: '100%' }} />
+      <styled.div style={{ width: 200 }}>
+        <Stack
+          justify="start"
+          align="start"
+          direction="column"
           style={{
-            background: color('background', 'muted'),
-            borderBottom: border(),
+            width,
+            borderBottom: path.length > 1 ? border() : null,
           }}
         >
-          {cols}
-        </ColStack>
-      ) : null}
-      <Rows
-        colFields={colFields}
-        removeItem={removeItem}
-        changeIndex={changeIndex}
-        isCols={isCols}
-        value={valueRef.current}
-        path={path}
-        ctx={ctx}
-        field={field}
-      />
-      <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
-        <Button
-          size="small"
-          variant="neutral-transparent"
-          prefix={<IconPlus />}
-          onClick={addNew}
-        >
-          Add
-        </Button>
+          {cols.length ? (
+            <ColStack
+              header
+              style={{
+                background: color('background', 'muted'),
+                borderBottom: border(),
+              }}
+            >
+              {cols}
+            </ColStack>
+          ) : null}
+          <Rows
+            colFields={colFields}
+            removeItem={removeItem}
+            changeIndex={changeIndex}
+            isCols={isCols}
+            value={valueRef.current}
+            path={path}
+            ctx={ctx}
+            field={field}
+          />
+          <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
+            <Button
+              size="small"
+              variant="neutral-transparent"
+              prefix={<IconPlus />}
+              onClick={addNew}
+            >
+              Add
+            </Button>
+          </styled.div>
+        </Stack>
       </styled.div>
-    </Stack>
+    </styled.div>
   )
 }
