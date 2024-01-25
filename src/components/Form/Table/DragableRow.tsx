@@ -13,8 +13,8 @@ import { Path, TableCtx } from '../types.js'
 import { ColStack } from './ColStack.js'
 import { render } from 'react-dom'
 import { IconDrag } from '../IconDrag.js'
-import { getIdentifierField } from '../utils.js'
-// import { json2csv } from 'json-2-csv'
+import { getIdentifierField, readPath } from '../utils.js'
+import { json2csv } from 'json-2-csv'
 
 let draggingIndex = 0
 
@@ -52,9 +52,12 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
   elem.style.top = '-1000px'
   elem.style.paddingLeft = '32px'
 
-  const f = ref.current.p.field
+  // const f = ref.current.p.field
 
-  console.info(f)
+  const { value } = readPath(ref.current.p.ctx, [
+    ...ref.current.p.path,
+    ref.current.p.index,
+  ])
 
   render(
     <styled.div
@@ -89,7 +92,10 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
 
   // @ts-ignore
   e.dataTransfer.setDragImage(elem, 0, 0)
-  e.dataTransfer.setData('text/plain', String(ref.current.index))
+
+  e.dataTransfer.setData('text/plain', json2csv(value))
+
+  // e.dataTransfer.setData('text/plain', String(ref.current.index))
   draggingIndex = ref.current.index
 }
 
