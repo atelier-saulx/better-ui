@@ -193,23 +193,72 @@ export const Default = () => {
   )
 }
 
+export const EuObserver = () => {
+  return (
+    <Form
+      fields={{
+        contributors: {
+          title: 'Writers',
+          description: 'Writers or people involved with the article.',
+          type: 'references',
+          allowedTypes: ['user'],
+          bidirectional: {
+            fromField: 'articles',
+          },
+        },
+        contributorsText: {
+          title: 'Contributors text',
+          description:
+            'Gets auto generated based on contributors, fill it in to override.',
+          examples: ['Peter Teffer, graphics by Kashyap Raibagi (EDJNET)'],
+          type: 'text',
+        },
+        headline: {
+          title: 'Headline',
+          description: 'Displayed on pages, also used as meta title for seo.',
+          type: 'text',
+        },
+        publishDate: {
+          title: 'Publish date',
+          description: 'Any time you want the article to show on the website',
+          type: 'timestamp',
+        },
+        archived: {
+          title: 'Archived',
+          description:
+            'Archived articles will not show up on the website or be available outside of the cms',
+          type: 'boolean',
+        },
+        hits: { type: 'number' }, // get a bit more going here maybe? what does this mean
+        membership: { enum: ['Need membership', 'Free'] },
+        location: { type: 'text' }, // or string its just city name or smth
+        bio: { type: 'text', format: 'json' }, //has a href and stuff so aarich text
+        tweet: { type: 'string' }, // ask if it needs translation  // 'The 2009 allocation of solar subsidies in Solvakia "was rigged," say a US cable. PM Fico denies it.',
+        notes: { type: 'string' },
+        abstract: { type: 'text' },
+        body: { type: 'text', format: 'json' }, // will add rich text
+        img: { type: 'reference' },
+        caption: { type: 'text' },
+      }}
+    />
+  )
+}
+
 export const SmallForm = () => {
   return (
-    <div style={{ padding: 64 }}>
-      <Form
-        variant="small"
-        fields={{
-          options: {
-            title: 'Options',
-            description: 'Select some options',
-            enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
-          },
-        }}
-        onChange={(values) => {
-          console.log(values)
-        }}
-      />
-    </div>
+    <Form
+      variant="small"
+      fields={{
+        options: {
+          title: 'Options',
+          description: 'Select some options',
+          enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
+        },
+      }}
+      onChange={(values) => {
+        console.log(values)
+      }}
+    />
   )
 }
 
