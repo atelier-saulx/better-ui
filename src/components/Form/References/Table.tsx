@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { Stack, Button, Text, IconPlus, useSize } from '../../../index.js'
+import { Button, Text, IconPlus } from '../../../index.js'
 import { Path, TableCtx, Reference } from '../types.js'
 import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
@@ -8,12 +8,12 @@ import humanizeString from 'humanize-string'
 import { References } from './index.js'
 import {
   BasedSchemaFieldArray,
-  BasedSchemaFieldObject,
   BasedSchemaFieldReferences,
 } from '@based/schema'
-import { getColSizes } from '../getColSizes.js'
 import { ObjectCollsRows } from '../Table/Arrays/ObjectCollumnRows.js'
 import { ValueRef } from '../Table/Arrays/types.js'
+import { SizedStack, useColumns } from '../Table/SizedStack.js'
+import { genObjectSchema } from './genObjectSchema.js'
 
 export const ReferencesTable = ({
   valueRef,
@@ -36,27 +36,15 @@ export const ReferencesTable = ({
   path: Path
   changeIndex: (fromIndex: number, toIndex: number) => void
 }) => {
-  const { value } = valueRef
+  const fieldSchema = genObjectSchema(valueRef.value)
+  const size = Object.keys(fieldSchema.properties).length
+  const [colFields, setColumns] = useColumns()
 
-  const cols: React.ReactNode[] = [,]
-  const hasFields: Set<string> = new Set(['id'])
-  const [width, setWidth] = React.useState(0)
-  const sizeRef = useSize(({ width }) => {
-    setWidth(width)
-  })
-  for (const v of value) {
-    if (typeof v === 'object') {
-      for (const k in v) {
-        if (typeof v[k] !== 'object') {
-          hasFields.add(k)
-        }
-      }
-    }
-  }
-  const fields: string[] = []
   if (
-    hasFields.size < 3 ||
-    (hasFields.size === 3 && hasFields.has('id') && hasFields.has('src'))
+    size < 3 ||
+    (size === 3 &&
+      'id' in fieldSchema.properties &&
+      'src' in fieldSchema.properties)
   ) {
     return (
       <>
@@ -66,29 +54,9 @@ export const ReferencesTable = ({
     )
   }
 
-  // Generate schema if none can be found
-  const objectSchema: BasedSchemaFieldObject = {
-    type: 'object',
-    properties: {},
-  }
-  for (const key of hasFields.values()) {
-    fields.push(key)
-    if (/(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)) {
-      objectSchema.properties[key] = {
-        type: 'timestamp',
-        display: 'human',
-      }
-    } else {
-      objectSchema.properties[key] = {
-        type: 'string',
-        format: key === 'id' ? 'basedId' : null, //ass some more options here...
-        contentMediaType: key === 'src' ? 'image/*' : null,
-      }
-    }
-  }
+  const cols: React.ReactNode[] = [,]
 
-  const colFields = getColSizes(objectSchema, width - 64 * 2, true)
-
+  // add this 28 to corractable?
   if (field.sortable) {
     cols.unshift(
       <styled.div style={{ minWidth: 28, maxWidth: 28 }} key="_dicon" />,
@@ -105,7 +73,7 @@ export const ReferencesTable = ({
 
   const nField: BasedSchemaFieldArray = {
     type: 'array',
-    values: objectSchema,
+    values: fieldSchema,
     readOnly: true,
   }
 
@@ -118,39 +86,29 @@ export const ReferencesTable = ({
   }
 
   return (
-    <styled.div style={{ width: '100%' }}>
-      <styled.div ref={sizeRef} style={{ width: '100%' }} />
-      <styled.div style={{ width: 200 }}>
-        <Stack
-          justify="start"
-          align="start"
-          direction="column"
-          style={{ width }}
+    <SizedStack field={fieldSchema} readOnly setColumns={setColumns}>
+      <ColStack header>{cols}</ColStack>
+      <ObjectCollsRows
+        onClickRow={(v: any) => onClickReference(v)}
+        draggable={field.sortable}
+        value={valueRef}
+        ctx={newCtx}
+        changeIndex={changeIndex}
+        removeItem={onRemove}
+        path={path}
+        colFields={colFields}
+        field={nField}
+      />
+      <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
+        <Button
+          onClick={onNew}
+          size="small"
+          variant="neutral-transparent"
+          prefix={<IconPlus />}
         >
-          <ColStack header>{cols}</ColStack>
-          <ObjectCollsRows
-            onClickRow={(v: any) => onClickReference(v)}
-            draggable={field.sortable}
-            value={valueRef}
-            ctx={newCtx}
-            changeIndex={changeIndex}
-            removeItem={onRemove}
-            path={path}
-            colFields={colFields}
-            field={nField}
-          />
-          <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
-            <Button
-              onClick={onNew}
-              size="small"
-              variant="neutral-transparent"
-              prefix={<IconPlus />}
-            >
-              Add
-            </Button>
-          </styled.div>
-        </Stack>
+          Add
+        </Button>
       </styled.div>
-    </styled.div>
+    </SizedStack>
   )
 }
