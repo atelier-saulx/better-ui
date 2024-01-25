@@ -27,11 +27,14 @@ import {
   IconFormatBold,
   IconFormatItalic,
   IconFormatStrikethrough,
+  IconImage,
   IconLink,
   IconListBullet,
   IconText,
 } from '../../../index.js'
 import { $setBlocksType } from '@lexical/selection'
+import { AddImageModal } from '../components/AddImageModal.js'
+import { INSERT_IMAGE_COMMAND } from './ImagePlugin.js'
 
 export function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -256,9 +259,7 @@ export function ToolbarPlugin() {
       />
       <Button
         size="small"
-        variant={
-          type === 'bullet' ? 'primary' : 'neutral'
-        }
+        variant={type === 'bullet' ? 'primary' : 'neutral'}
         prefix={<IconListBullet />}
         shape="square"
         onClick={() => {
@@ -272,8 +273,9 @@ export function ToolbarPlugin() {
           })
         }}
       />
-      {/* <ImageUploadModal
+      <AddImageModal
         onSave={({ file, caption }) => {
+          console.log('onsave lefut', file, caption)
           editor.update(() => {
             editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
               src: file.src,
@@ -282,9 +284,14 @@ export function ToolbarPlugin() {
           })
         }}
       >
-        <Button size="small" color="system" icon={<IconImage />} />
-      </ImageUploadModal>
-      <AddEmbedModal
+        <Button
+          shape="square"
+          size="small"
+          variant="neutral"
+          prefix={<IconImage />}
+        />
+      </AddImageModal>
+      {/* <AddEmbedModal
         onSave={({ html }) => {
           editor.update(() => {
             editor.dispatchCommand(INSERT_EMBED_COMMAND, {

@@ -7,7 +7,7 @@ import {
 } from './plugins/AutoFocusPlugin.js'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin.js'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin.js'
-// TODO what's a .prod.js import?! are the other imports correct??
+// TODO what's a .prod.js import? are the other imports correct?
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary.prod.js'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable.js'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin.js'
@@ -20,6 +20,8 @@ import { ListNode, ListItemNode } from '@lexical/list'
 import { styled } from 'inlines'
 import { color, border, boxShadow } from '../../index.js'
 import { ToolbarPlugin } from './plugins/ToolbarPlugin.js'
+import { ImagePlugin } from './plugins/ImagePlugin.js'
+import { ImageNode } from './nodes/ImageNode.js'
 
 export type RichTextEditorProps = {
   placeholder?: string
@@ -29,7 +31,7 @@ export type RichTextEditorProps = {
 const CONFIG = {
   editable: true,
   namespace: '__based_rte',
-  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode],
+  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode],
   onError: (error) => {
     console.error('rte error:', error)
   },
@@ -131,6 +133,7 @@ export function RichTextEditor({
           placeholder={<Placeholder>{placeholder}</Placeholder>}
           ErrorBoundary={LexicalErrorBoundary}
         />
+        <ImagePlugin />
         <ListPlugin />
         <LinkPlugin />
         <BehaviourPlugin />
