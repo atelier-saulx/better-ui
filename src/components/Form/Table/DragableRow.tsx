@@ -1,14 +1,7 @@
 import React, { ReactNode, useState, useRef, useCallback } from 'react'
 import { BasedSchemaField } from '@based/schema'
 import { styled, Style } from 'inlines'
-import {
-  Stack,
-  border,
-  color,
-  Text,
-  Badge,
-  borderRadius,
-} from '../../../index.js'
+import { Stack, border, color, Text, borderRadius } from '../../../index.js'
 import { Path, TableCtx } from '../types.js'
 import { ColStack } from './ColStack.js'
 import { render } from 'react-dom'
@@ -50,24 +43,37 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
   elem.style.top = '-1000px'
   elem.style.paddingLeft = '32px'
   render(
-    <Stack
-      gap={4}
-      justify="start"
+    <styled.div
       style={{
-        background: color('background', 'screen'),
-        paddingTop: 8,
-        paddingBottom: 8,
-        paddingLeft: 16,
-        paddingRight: 16,
-        borderRadius: borderRadius('small'),
+        width: 200,
+        transform: `translate(-10px,0px)`,
       }}
     >
-      {!ref.current.name ? <Badge>{ref.current.index + 1}</Badge> : null}
-      <Text variant="body-bold">{ref.current.name}</Text>
-    </Stack>,
+      <Stack
+        gap={4}
+        justify="start"
+        style={{
+          // '& *': {
+          //   borderBottom: '1px solid transparent !important',
+          // },
+          background: color('background', 'screen'),
+          height: 48,
+          paddingLeft: 16,
+          overflow: 'hidden',
+          width: 250,
+          paddingRight: 16,
+          borderRadius: borderRadius('small'),
+        }}
+      >
+        <Text>FLAP</Text>
+      </Stack>
+    </styled.div>,
     elem,
   )
+
   document.body.appendChild(elem)
+
+  // @ts-ignore
   e.dataTransfer.setDragImage(elem, 0, 0)
   e.dataTransfer.setData('text/plain', String(ref.current.index))
   draggingIndex = ref.current.index
@@ -100,6 +106,8 @@ const DraggableColStack = (p: DragableRowProps) => {
   return (
     <styled.div
       style={{
+        background: color('background', 'screen'),
+
         width: '100%',
       }}
       onClick={p.onClick}
@@ -148,6 +156,9 @@ const DraggableColStack = (p: DragableRowProps) => {
       <ColStack
         header={p.header}
         style={{
+          // boxShadow: isDragOver
+          //   ? 'inset 0px 2px ' + color('interactive', 'primary')
+          //   : '',
           borderBottom: border(),
           ...p.style,
         }}
