@@ -72,11 +72,11 @@ export const Multi = () => {
               0,
               1000,
             ),
-            label: 'housing market 🏠',
+            // label: 'housing market 🏠',
           },
           line2: {
             color: 'green',
-            label: 'bitcoin 💸',
+            // label: 'bitcoin 💸',
             data: genRandomPoints(
               (i) => ({
                 x: i,
@@ -96,7 +96,7 @@ export const Multi = () => {
               0,
               1000,
             ),
-            label: 'housing market 🏠',
+            // label: 'housing market 🏠',
           },
         }}
       />

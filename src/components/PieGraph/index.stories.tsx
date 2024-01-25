@@ -10,6 +10,7 @@ export default meta
 
 export const Default: StoryObj<typeof PieGraph> = {
   args: {
+    legend: true,
     data: [
       {
         label: 'foo',

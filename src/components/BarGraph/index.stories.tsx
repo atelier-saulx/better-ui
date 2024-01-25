@@ -10,6 +10,7 @@ export default meta
 
 export const Horizontal: StoryObj<typeof BarGraph> = {
   args: {
+    legend: true,
     variant: 'horizontal',
     data: [
       {
@@ -34,6 +35,7 @@ export const Horizontal: StoryObj<typeof BarGraph> = {
 
 export const Vertical: StoryObj<typeof BarGraph> = {
   args: {
+    legend: true,
     variant: 'vertical',
     data: [
       {
@@ -58,6 +60,7 @@ export const Vertical: StoryObj<typeof BarGraph> = {
 
 export const StackedVertical: StoryObj<typeof BarGraph> = {
   args: {
+    legend: true,
     variant: 'vertical',
     data: [
       {
@@ -86,6 +89,7 @@ export const StackedVertical: StoryObj<typeof BarGraph> = {
 
 export const StackedHorizontal: StoryObj<typeof BarGraph> = {
   args: {
+    legend: true,
     variant: 'horizontal',
     data: [
       {
