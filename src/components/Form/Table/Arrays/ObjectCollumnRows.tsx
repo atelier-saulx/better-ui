@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { BasedSchemaFieldObject } from '@based/schema'
 import { ColSizes, Path, TableCtx } from '../../types.js'
 import { Cell } from '../Cell.js'
-import { Field } from '../Field.js'
+import { Field } from '../Field/index.js'
 import { RowProps } from './types.js'
 import { DragableRow } from '../DragableRow.js'
 
@@ -11,13 +11,14 @@ export const CollRow = (p: {
   ctx: TableCtx
   path: Path
   index: number
+  onClickRow?: (val: any) => void
   colFields: ColSizes
   removeItem: (index: number) => void
   changeIndex: (fromIndex: number, toIndex: number) => void
   value: any
+  draggable?: boolean
 }) => {
   const cells: ReactNode[] = []
-
   for (const field of p.colFields) {
     cells.push(
       <Cell
@@ -30,7 +31,19 @@ export const CollRow = (p: {
       </Cell>,
     )
   }
-  return <DragableRow draggable {...p} cells={cells} />
+  return (
+    <DragableRow
+      onClick={
+        p.onClickRow
+          ? () => {
+              p.onClickRow(p.value)
+            }
+          : null
+      }
+      {...p}
+      cells={cells}
+    />
+  )
 }
 
 export const ObjectCollsRows = (p: RowProps & { colFields: ColSizes }) => {
@@ -41,11 +54,13 @@ export const ObjectCollsRows = (p: RowProps & { colFields: ColSizes }) => {
         colFields={p.colFields}
         changeIndex={p.changeIndex}
         key={p.value.orderId + '_' + i}
-        value={p.value[i]}
+        value={p.value.value[i]}
         field={p.field.values as BasedSchemaFieldObject}
         index={i}
+        onClickRow={p.onClickRow}
         ctx={p.ctx}
         path={p.path}
+        draggable={p.draggable}
         removeItem={p.removeItem}
       />,
     )

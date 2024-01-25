@@ -4,13 +4,13 @@ import { BasedSchemaFieldObject } from '@based/schema'
 import { TableProps } from '../types.js'
 import { readPath, canUseColumns, getTitle } from '../utils.js'
 import { Cell } from './Cell.js'
-import { Field } from './Field.js'
+import { Field } from './Field/index.js'
 import { Table } from './index.js'
 import { ColStack } from './ColStack.js'
 import { getColSizes } from '../getColSizes.js'
 
 export function ObjectParser({ ctx, path }: TableProps) {
-  const { field } = readPath<BasedSchemaFieldObject>(ctx, path)
+  const { field, readOnly } = readPath<BasedSchemaFieldObject>(ctx, path)
   const cols = canUseColumns(field)
 
   const [width, setWidth] = React.useState(0)
@@ -20,7 +20,7 @@ export function ObjectParser({ ctx, path }: TableProps) {
   })
 
   const colFields =
-    field.type === 'object' ? getColSizes(field, width, true) : []
+    field.type === 'object' ? getColSizes(field, width, readOnly) : []
 
   if (
     cols &&

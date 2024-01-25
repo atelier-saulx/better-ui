@@ -26,7 +26,9 @@ export function useControllableState<T>({
   })
   ref.current.onChange = onChange
 
-  const [newValue, setNewValue] = React.useState<T>(value ?? defaultValue)
+  const [newValue, setNewValue] = React.useState<T>(
+    value === undefined ? defaultValue : value,
+  )
 
   ref.current.newValue = newValue
 
@@ -43,7 +45,7 @@ export function useControllableState<T>({
       setNewValue(v)
       return v
     },
-    []
+    [],
   )
 
   if (checksum !== undefined) {
@@ -63,5 +65,8 @@ export function useControllableState<T>({
     }, [value, defaultValue])
   }
 
-  return [newValue ?? ref.current.value, update] as const
+  return [
+    newValue === undefined ? ref.current.value : newValue,
+    update,
+  ] as const
 }

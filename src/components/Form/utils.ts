@@ -1,4 +1,8 @@
-import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
+import {
+  BasedSchemaContentMediaType,
+  BasedSchemaField,
+  BasedSchemaFieldObject,
+} from '@based/schema'
 import { TableCtx, Path } from './types.js'
 import { getStringWidth, textVariants } from '../../index.js'
 
@@ -13,27 +17,58 @@ const IDENTIFIER_FIELDS = [
   'type',
 ]
 
+// TODO clean up
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
   path: Path,
-): { field: T; value: any | void } => {
+): { field: T; value: any | void; readOnly?: boolean } => {
   let selectedValue: any = ctx.values
   let selectedField: any = ctx.fields
+
+  let readOnly = ctx.readOnly
+
+  const hasOverrides = ctx.fieldOverrides
+
+  let sO = ''
+
   for (const k of path) {
+    let noFieldSelect = false
+    if (hasOverrides) {
+      if (sO) {
+        sO += '.' + k
+      } else {
+        sO += k
+      }
+      if (hasOverrides[sO]) {
+        selectedField = hasOverrides[sO]
+        noFieldSelect = true
+      }
+    }
+
     selectedValue = selectedValue?.[k]
     const type = selectedField.type
-    if (type) {
-      if (type === 'record' || type === 'array') {
-        selectedField = selectedField.values
+    if (!noFieldSelect) {
+      if (type) {
+        if (type === 'record' || type === 'array' || type === 'references') {
+          selectedField = selectedField.values
+        }
+        if (type === 'object') {
+          selectedField = selectedField.properties[k]
+        }
+      } else {
+        selectedField = selectedField[k]
       }
-      if (type === 'object') {
-        selectedField = selectedField.properties[k]
+
+      if (selectedField.readOnly) {
+        readOnly = true
       }
     } else {
-      selectedField = selectedField[k]
+      if (selectedField.readOnly) {
+        readOnly = true
+      }
     }
   }
-  return { field: selectedField, value: selectedValue }
+  return { field: selectedField, value: selectedValue, readOnly }
 }
 
 export const getKeyWidth = (field: BasedSchemaField): number => {
@@ -185,6 +220,20 @@ export const getTitle = (
   }
 
   return key
+}
+
+export const isId = (field: BasedSchemaField): boolean => {
+  return field.type === 'string' && field.format === 'basedId'
+}
+
+export const isFile = (field: BasedSchemaField): boolean => {
+  return !!(field.type === 'string' && field.contentMediaType)
+}
+
+export const getContentMediaType = (
+  field: BasedSchemaField,
+): BasedSchemaContentMediaType | undefined => {
+  return field.type === 'string' ? field.contentMediaType : undefined
 }
 
 export const isCode = (format: any): boolean => {

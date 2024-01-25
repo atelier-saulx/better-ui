@@ -12,7 +12,7 @@ import {
   color,
   useControllableState,
   Button,
-  IconDelete,
+  textVariants,
 } from '../../index.js'
 import { mergeRefs } from 'react-merge-refs'
 
@@ -33,6 +33,7 @@ export type SelectInputProps = {
   disabled?: boolean
   style?: Style
   checksum?: number
+  clearable?: boolean
 }
 
 export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
@@ -51,6 +52,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
       disabled,
       style,
       checksum,
+      clearable = false,
     },
     ref,
   ) => {
@@ -72,7 +74,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
 
     return (
       <SelectBase.Root
-        value={state}
+        value={state ?? ''}
         onValueChange={setState}
         disabled={disabled}
       >
@@ -112,7 +114,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               {label}
             </span>
           )}
-          <div style={{ position: 'relative' }}>
+          <styled.div style={{ position: 'relative' }}>
             <SelectBase.Trigger asChild>
               <styled.div
                 autoFocus={autoFocus}
@@ -120,9 +122,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 ref={mergeRefs([wrapperRef, ref])}
                 style={{
                   position: 'relative',
-                  fontSize: 14,
-                  lineHeight: '24px',
-                  height: 40,
+                  ...textVariants['body-bold'],
+                  height: variant === 'small' ? 36 : 40,
+                  display: 'flex',
+                  alignItems: 'center',
                   padding:
                     variant === 'regular'
                       ? '8px 40px 8px 12px'
@@ -166,7 +169,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 <IconChevronDownSmall
                   style={{
                     position: 'absolute',
-                    top: variant === 'regular' ? 8 : 5,
+                    top: variant === 'regular' ? 8 : 6,
                     right: variant === 'regular' ? 12 : 6,
                     color: color('content', 'primary'),
                   }}
@@ -174,18 +177,17 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               </styled.div>
             </SelectBase.Trigger>
 
-            {state && (
+            {clearable && state && (
               <Button
                 variant="icon-only"
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  setState(undefined)
+                  setState(null)
                 }}
                 style={{
                   position: 'absolute',
-
-                  top: variant === 'regular' ? 10 : 7,
+                  top: variant === 'regular' ? 11 : 9,
                   right: variant === 'regular' ? 36 : 36,
                   color: color('content', 'primary'),
                 }}
@@ -193,7 +195,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 <IconSmallClose />
               </Button>
             )}
-          </div>
+          </styled.div>
 
           {description !== undefined ? (
             <Text
@@ -222,47 +224,46 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
           >
             <SelectBase.Viewport style={{ padding: 8 }}>
               {/* Clear selection put value to null */}
-              {state && (
-                <SelectBase.Item
-                  value={null}
-                  asChild
-                  style={{ borderBottom: border() }}
-                >
+              {clearable && state && (
+                <SelectBase.Item value={null} asChild>
                   <styled.div
                     style={{
-                      padding: '4px 12px 4px 42px',
-                      borderRadius: borderRadius('small'),
-                      borderBottomLeftRadius: 0,
-                      borderBottomRightRadius: 0,
-                      fontSize: 14,
-                      lineHeight: '24px',
-                      position: 'relative',
-                      outline: 'none',
-                      userSelect: 'none',
-                      '&[data-highlighted]': {
+                      '&[data-highlighted] > :first-child': {
                         background: color('background', 'neutral'),
                       },
                     }}
                   >
-                    <IconDelete
+                    <styled.div
                       style={{
-                        width: 14,
-                        height: 14,
-                        marginRight: 8,
-                        marginBottom: '-2px',
+                        padding: '4px 12px 4px 42px',
+                        position: 'relative',
+                        outline: 'none',
+                        userSelect: 'none',
+                        borderRadius: borderRadius('small'),
+                      }}
+                    >
+                      <SelectBase.ItemIndicator>
+                        <IconCheckSmall
+                          style={{
+                            position: 'absolute',
+                            top: 6,
+                            left: 12,
+                            color: color('content', 'primary'),
+                          }}
+                        />
+                      </SelectBase.ItemIndicator>
+                      <Text color="secondary">Clear value</Text>
+                    </styled.div>
+                    <styled.div
+                      style={{
+                        marginTop: 8,
+                        marginBottom: 8,
+                        marginLeft: -8,
+                        marginRight: -8,
+                        width: '100%',
+                        borderBottom: border(),
                       }}
                     />
-                    <SelectBase.ItemIndicator>
-                      <IconCheckSmall
-                        style={{
-                          position: 'absolute',
-                          top: 6,
-                          left: 12,
-                          color: color('content', 'primary'),
-                        }}
-                      />
-                    </SelectBase.ItemIndicator>
-                    Clear
                   </styled.div>
                 </SelectBase.Item>
               )}
@@ -281,11 +282,10 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       style={{
                         padding: '4px 12px 4px 42px',
                         borderRadius: borderRadius('small'),
-                        fontSize: 14,
-                        lineHeight: '24px',
                         position: 'relative',
                         outline: 'none',
                         userSelect: 'none',
+                        ...textVariants.body,
                         '&[data-highlighted]': {
                           background: color('background', 'neutral'),
                         },
@@ -305,14 +305,14 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                       )}
                       <SelectBase.ItemText>
                         {prefix && (
-                          <div
+                          <styled.div
                             style={{
                               display: 'inline-block',
                               marginRight: 8,
                             }}
                           >
                             {prefix}
-                          </div>
+                          </styled.div>
                         )}
                         {label ?? value}
                       </SelectBase.ItemText>

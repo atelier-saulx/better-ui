@@ -2,6 +2,7 @@ import {
   BasedSchemaField,
   BasedSchemaFieldObject,
   BasedSchemaFieldString,
+  BasedSchemaFieldTimeStamp,
 } from '@based/schema'
 import { ColSizes } from './types.js'
 
@@ -70,7 +71,7 @@ const FIELD_SIZES: {
       {
         match: (field: BasedSchemaFieldString) =>
           field.contentMediaType?.startsWith('image/'),
-        width: 48,
+        width: 66,
       },
     ],
     reference: [
@@ -80,6 +81,16 @@ const FIELD_SIZES: {
       },
     ],
     timestamp: [
+      {
+        match: (field: BasedSchemaFieldTimeStamp) =>
+          field.display === 'time-precise',
+        width: 200,
+      },
+      {
+        match: (field: BasedSchemaFieldTimeStamp) =>
+          field.display === 'date-time-text',
+        width: 300,
+      },
       {
         width: 160,
       },
@@ -101,13 +112,13 @@ const FIELD_SIZES: {
 export const getColSizes = (
   fieldSchema: BasedSchemaFieldObject,
   width: number,
-  editable?: boolean,
+  readOnly?: boolean,
 ): ColSizes => {
   let total = width
   let totalFlexFields = 0
   let spread = 0
 
-  const SIZES = editable ? FIELD_SIZES.editable : FIELD_SIZES.readOnly
+  const SIZES = !readOnly ? FIELD_SIZES.editable : FIELD_SIZES.readOnly
 
   const percentageFields: ColSizes = []
 

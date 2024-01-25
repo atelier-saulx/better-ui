@@ -72,6 +72,10 @@ export type TableCtx = {
   variant: Variant
   schema?: BasedSchema
   listeners: Listeners
+  // path like x.y.z
+  fieldOverrides?: { [path: string]: BasedSchemaField }
+  readOnly?: boolean
+  forceCols?: boolean
 }
 
 export type Path = (string | number)[]

@@ -21,7 +21,7 @@ import { getColSizes } from '../../getColSizes.js'
 
 function Rows(p: RowProps & { isCols: boolean; colFields: ColSizes }) {
   if (p.isCols) {
-    return <ObjectCollsRows {...p} />
+    return <ObjectCollsRows draggable {...p} />
   }
   if (isSmallField(p.field.values)) {
     return <PrimitiveRows {...p} />
@@ -30,7 +30,7 @@ function Rows(p: RowProps & { isCols: boolean; colFields: ColSizes }) {
 }
 
 export function Arrays({ ctx, path }: TableProps) {
-  const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
+  const { field, value, readOnly } = readPath<BasedSchemaFieldArray>(ctx, path)
   const valuesField = field.values
   const cols: ReactNode[] = []
 
@@ -69,7 +69,9 @@ export function Arrays({ ctx, path }: TableProps) {
   }, [])
 
   const colFields =
-    valuesField.type === 'object' ? getColSizes(valuesField, width, true) : []
+    valuesField.type === 'object'
+      ? getColSizes(valuesField, width, readOnly)
+      : []
 
   const isCols =
     valuesField.type === 'object' &&

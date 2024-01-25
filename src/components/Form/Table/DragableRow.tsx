@@ -23,6 +23,7 @@ type DragRefValue = {
   index: number
   removeItem: (index: number) => void
   changeIndex: (fromIndex: number, toIndex: number) => void
+  leaveTimeout?: ReturnType<typeof setTimeout>
 }
 
 type DragRef = React.MutableRefObject<DragRefValue>
@@ -90,6 +91,12 @@ const DraggableColStack = (p: DragableRowProps) => {
     ref.current.name = ''
   }
 
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(ref.current.leaveTimeout)
+    }
+  }, [])
+
   return (
     <styled.div
       style={{
@@ -104,13 +111,18 @@ const DraggableColStack = (p: DragableRowProps) => {
       onDragOver={useCallback((e) => {
         e.preventDefault()
         if (draggingIndex !== ref.current.index) {
+          clearTimeout(ref.current.leaveTimeout)
           setDragOver(draggingIndex > ref.current.index ? -1 : 1)
         }
       }, [])}
       onDragLeave={useCallback(() => {
-        setDragOver(0)
+        clearTimeout(ref.current.leaveTimeout)
+        ref.current.leaveTimeout = setTimeout(() => {
+          setDragOver(0)
+        }, 20)
       }, [])}
       onDragExit={useCallback(() => {
+        clearTimeout(ref.current.leaveTimeout)
         setDragOver(0)
       }, [])}
     >
