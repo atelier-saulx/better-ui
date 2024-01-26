@@ -124,7 +124,6 @@ export const SingleFieldContainer = ({
           }}
           title={
             <Stack gap={12}>
-              {index}
               <Text variant="body-bold">{item?.title}</Text>
               <Badge color={SCHEMA_FIELDS[item.type]?.color}>
                 {item.type}

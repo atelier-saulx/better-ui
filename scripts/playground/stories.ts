@@ -41,7 +41,7 @@ import * as f2784224696663 from "../../src/components/Form/stories/object.storie
 import * as f7145042216623 from "../../src/components/Form/stories/record.stories.js"
 import * as f47303550426 from "../../src/components/Form/stories/references.stories.js"
 import * as f7012957941312 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f13852923402373,f4500130912786,f3593820932342,f4580959827109,f34361547883,f8528690964461,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f13659776204836,f16096448594379,f5024396229712,f523702835381,f16494901165491,f3271436696784,f11708898986714,f1222778416958,f11126463513738,f11214281122365,f10867194610830,f3747781814494,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f17312796633704,f9053450046761,f2784224696663,f7145042216623,f47303550426,f7012957941312]
+export const stories = [f13852923402373,f3593820932342,f4580959827109,f4500130912786,f12016318073042,f9180076508071,f8528690964461,f34361547883,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f10987838370173,f8608274230751,f5364602761060,f13659776204836,f5024396229712,f16096448594379,f16494901165491,f11708898986714,f1222778416958,f11126463513738,f11214281122365,f10867194610830,f3747781814494,f6083193986525,f5240949225116,f7395640043052,f8950821975659,f3271436696784,f4645473211601,f16087346434261,f523702835381,f17312796633704,f2784224696663,f9053450046761,f7145042216623,f7041630938200,f13987867859930,f47303550426,f7012957941312,f7794489085085]
 export const parsedStories = [{ id: "f13852923402373", story: f13852923402373, path: "/Users/yvesbeer/dev/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -89,19 +89,6 @@ export const Copyable: StoryObj<typeof Badge> = {
   argTypes: {
     color: { control: 'select' },
   },
-}
-`},{ id: "f4500130912786", story: f4500130912786, path: "/Users/yvesbeer/dev/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Calendar> = {
-  title: 'Atoms/Calendar',
-  component: Calendar,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof Calendar> = {
-  args: {},
 }
 `},{ id: "f3593820932342", story: f3593820932342, path: "/Users/yvesbeer/dev/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -218,117 +205,18 @@ export const Toggle: StoryObj<typeof CheckboxInput> = {
     disabled: false,
   },
 }
-`},{ id: "f34361547883", story: f34361547883, path: "/Users/yvesbeer/dev/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
-import { ColorInput } from '../../index.js'
-
-const meta = {
-  title: 'Inputs/ColorInput',
-}
-export default meta
-
-export const Default = () => {
-  return (
-    <ColorInput
-      label="Background color"
-      onChange={(value) => {
-        console.log('onchange', value)
-      }}
-      description="put color on"
-    />
-  )
-}
-
-export const Small = () => {
-  return <ColorInput variant="small" defaultValue="rgba(0,123,231,0.5)" />
-}
-
-export const Error = () => {
-  return <ColorInput error />
-}
-
-export const Disabled = () => {
-  return <ColorInput disabled />
-}
-`},{ id: "f8528690964461", story: f8528690964461, path: "/Users/yvesbeer/dev/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
+`},{ id: "f4500130912786", story: f4500130912786, path: "/Users/yvesbeer/dev/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof Code> = {
-  title: 'Atoms/Code',
-  component: Code,
+const meta: Meta<typeof Calendar> = {
+  title: 'Atoms/Calendar',
+  component: Calendar,
 }
 
 export default meta
 
-const json = JSON.stringify({ hello: 'bla', x: 1, y: 2, z: 4 }, null, 2)
-
-const ts = \`import * as React from 'react'
-
-export function Svg({ style, width = 20, height = 20 }: IconProps) {
-  return (
-    <svg
-      width={width}
-      height={height}
-      style={style}
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="a b c"
-      />
-    </svg>
-  )
-}
-\`
-
-export const Default: StoryObj<typeof Code> = {
-  args: {
-    value: ts,
-    language: 'typescript',
-    color: 'inverted',
-  },
-  argTypes: {
-    color: { control: 'select' },
-  },
-}
-
-export const Prettier: StoryObj<typeof Code> = {
-  args: {
-    value: ts,
-    language: 'typescript',
-    color: 'inverted',
-    prettier: true
-  },
-  argTypes: {
-    color: { control: 'select' },
-  },
-}
-
-
-export const CopyButton: StoryObj<typeof Code> = {
-  args: {
-    value: json,
-    language: 'json',
-    copy: true,
-    color: 'muted',
-    onChange: () => {},
-  },
-  argTypes: {
-    color: { control: 'select' },
-    language: { control: 'select' },
-  },
-}
-
-export const Small: StoryObj<typeof Code> = {
-  args: {
-    value: ts,
-    language: 'typescript',
-    variant: 'small',
-  },
-  argTypes: {
-    color: { control: 'select' },
-  },
+export const Default: StoryObj<typeof Calendar> = {
+  args: {},
 }
 `},{ id: "f12016318073042", story: f12016318073042, path: "/Users/yvesbeer/dev/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -513,6 +401,118 @@ export const Expandable: StoryObj<typeof Container> = {
     ),
     children: <Button>This is a button</Button>,
   },
+}
+`},{ id: "f8528690964461", story: f8528690964461, path: "/Users/yvesbeer/dev/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Code> = {
+  title: 'Atoms/Code',
+  component: Code,
+}
+
+export default meta
+
+const json = JSON.stringify({ hello: 'bla', x: 1, y: 2, z: 4 }, null, 2)
+
+const ts = \`import * as React from 'react'
+
+export function Svg({ style, width = 20, height = 20 }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      style={style}
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="a b c"
+      />
+    </svg>
+  )
+}
+\`
+
+export const Default: StoryObj<typeof Code> = {
+  args: {
+    value: ts,
+    language: 'typescript',
+    color: 'inverted',
+  },
+  argTypes: {
+    color: { control: 'select' },
+  },
+}
+
+export const Prettier: StoryObj<typeof Code> = {
+  args: {
+    value: ts,
+    language: 'typescript',
+    color: 'inverted',
+    prettier: true
+  },
+  argTypes: {
+    color: { control: 'select' },
+  },
+}
+
+
+export const CopyButton: StoryObj<typeof Code> = {
+  args: {
+    value: json,
+    language: 'json',
+    copy: true,
+    color: 'muted',
+    onChange: () => {},
+  },
+  argTypes: {
+    color: { control: 'select' },
+    language: { control: 'select' },
+  },
+}
+
+export const Small: StoryObj<typeof Code> = {
+  args: {
+    value: ts,
+    language: 'typescript',
+    variant: 'small',
+  },
+  argTypes: {
+    color: { control: 'select' },
+  },
+}
+`},{ id: "f34361547883", story: f34361547883, path: "/Users/yvesbeer/dev/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
+import { ColorInput } from '../../index.js'
+
+const meta = {
+  title: 'Inputs/ColorInput',
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <ColorInput
+      label="Background color"
+      onChange={(value) => {
+        console.log('onchange', value)
+      }}
+      description="put color on"
+    />
+  )
+}
+
+export const Small = () => {
+  return <ColorInput variant="small" defaultValue="rgba(0,123,231,0.5)" />
+}
+
+export const Error = () => {
+  return <ColorInput error />
+}
+
+export const Disabled = () => {
+  return <ColorInput disabled />
 }
 `},{ id: "f13725674986069", story: f13725674986069, path: "/Users/yvesbeer/dev/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -859,6 +859,32 @@ export const SortableRow = () => {
     </div>
   )
 }
+`},{ id: "f10987838370173", story: f10987838370173, path: "/Users/yvesbeer/dev/better-ui/src/components/KeyboardShortcut/index.stories.tsx", file: `import * as React from 'react'
+import { KeyboardShortcut } from '../../index.js'
+import type { Meta } from '@storybook/react'
+
+const meta: Meta<typeof KeyboardShortcut> = {
+  title: 'Atoms/KeyboardShortcut',
+  component: KeyboardShortcut,
+}
+
+export default meta
+
+export const Default = () => {
+  return <KeyboardShortcut shortcut="Cmd+D" />
+}
+
+export const Simple = () => {
+  return <KeyboardShortcut shortcut="C" />
+}
+
+export const Modifier = () => {
+  return <KeyboardShortcut shortcut="Cmd+B" />
+}
+
+export const DoubleModifier = () => {
+  return <KeyboardShortcut shortcut="Cmd+Alt+A" />
+}
 `},{ id: "f8608274230751", story: f8608274230751, path: "/Users/yvesbeer/dev/better-ui/src/components/Header/index.stories.tsx", file: `import * as React from 'react'
 import {
   Header,
@@ -938,86 +964,6 @@ export const BackButton = () => {
     />
   )
 }
-`},{ id: "f7041630938200", story: f7041630938200, path: "/Users/yvesbeer/dev/better-ui/src/components/Icons/index.stories.tsx", file: `import * as React from 'react'
-// also fix this
-import * as Icons from './index.js'
-import { styled } from 'inlines'
-import { borderRadius, color } from '../../index.js'
-
-const meta = {
-  title: 'Atoms/Icons',
-}
-export default meta
-
-export const Default = () => {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ marginBottom: 32, textAlign: 'center' }}>
-        Click to copy name
-      </div>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: 8,
-        }}
-      >
-        {Object.entries(Icons)
-          .sort(([aKey], [bKey]) => aKey.localeCompare(bKey))
-          .filter(([key]) => !key.toLocaleLowerCase().includes('based'))
-          .map(([key, Icon]) => (
-            <styled.div
-              key={key}
-              style={{
-                padding: '16px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                cursor: 'pointer',
-                borderRadius: borderRadius('small'),
-                '&:hover': {
-                  background: color('background', 'neutral'),
-                },
-              }}
-              onClick={() => {
-                navigator.clipboard.writeText(key)
-              }}
-            >
-              <Icon />
-              <div style={{ marginTop: 8, fontSize: 14 }}>{key}</div>
-            </styled.div>
-          ))}
-      </div>
-    </div>
-  )
-}
-`},{ id: "f10987838370173", story: f10987838370173, path: "/Users/yvesbeer/dev/better-ui/src/components/KeyboardShortcut/index.stories.tsx", file: `import * as React from 'react'
-import { KeyboardShortcut } from '../../index.js'
-import type { Meta } from '@storybook/react'
-
-const meta: Meta<typeof KeyboardShortcut> = {
-  title: 'Atoms/KeyboardShortcut',
-  component: KeyboardShortcut,
-}
-
-export default meta
-
-export const Default = () => {
-  return <KeyboardShortcut shortcut="Cmd+D" />
-}
-
-export const Simple = () => {
-  return <KeyboardShortcut shortcut="C" />
-}
-
-export const Modifier = () => {
-  return <KeyboardShortcut shortcut="Cmd+B" />
-}
-
-export const DoubleModifier = () => {
-  return <KeyboardShortcut shortcut="Cmd+Alt+A" />
-}
 `},{ id: "f5364602761060", story: f5364602761060, path: "/Users/yvesbeer/dev/better-ui/src/components/LanguageInput/index.stories.tsx", file: `import * as React from 'react'
 import { LanguageInput } from '../../index.js'
 import type { Meta } from '@storybook/react'
@@ -1037,107 +983,6 @@ export const Default = () => {
       onChange={setLang}
       options={['en', 'de', 'fr', 'lb']}
     />
-  )
-}
-`},{ id: "f13987867859930", story: f13987867859930, path: "/Users/yvesbeer/dev/better-ui/src/components/Layout/index.stories.tsx", file: `import * as React from 'react'
-import type { Meta } from '@storybook/react'
-import {
-  Layout,
-  Page,
-  Header,
-  Sidebar,
-  IconSettings,
-  IconUsers,
-  IconViewBoxes,
-  Text,
-} from '../../index.js'
-
-const meta: Meta<typeof Layout> = {
-  title: 'Components/Layout',
-  component: Layout,
-  parameters: {
-    layout: 'fullscreen',
-  },
-}
-
-export default meta
-
-const PageA = () => {
-  return (
-    <Page>
-      {Array.from({ length: 30 }).map((_, i) => (
-        <Text
-          key={i}
-          variant="body-strong"
-          style={{ fontSize: 64, lineHeight: '64px' }}
-        >
-          Page A content
-        </Text>
-      ))}
-    </Page>
-  )
-}
-
-const PageB = () => {
-  const [page, setPage] = React.useState('x')
-
-  return (
-    <>
-      <Sidebar
-        data={[
-          { label: 'Nested X', value: 'x' },
-          { label: 'Nested Y', value: 'y' },
-        ]}
-        value={page}
-        onValueChange={setPage}
-        collapsable={false}
-      />
-
-      {page === 'x' && <Page>nested x</Page>}
-      {page === 'y' && <Page>nested y</Page>}
-    </>
-  )
-}
-
-const PageC = () => {
-  return <Page>page C content</Page>
-}
-
-export const Default = () => {
-  const [page, setPage] = React.useState('a')
-  const [open, setOpen] = React.useState(true)
-
-  return (
-    <Layout
-      header={
-        <Header
-          logo={<div>Logo</div>}
-          navigation={<div>navigation items</div>}
-        />
-      }
-    >
-      <Sidebar
-        data={[
-          { label: 'Overview', value: 'a', prefix: <IconViewBoxes /> },
-          { label: 'Users', value: 'b', prefix: <IconUsers /> },
-          { label: 'Settings', value: 'c', prefix: <IconSettings /> },
-        ]}
-        value={page}
-        onValueChange={(newValue) => {
-          setPage(newValue)
-
-          // if the new value is in this list then we close the sidebar otherwise open
-          // (page b has a nested sidebar, others don't)
-          setOpen(!['b'].includes(newValue))
-        }}
-        open={open}
-        onOpenChange={setOpen}
-      />
-
-      {page === 'a' && <PageA />}
-      {page === 'b' && <PageB />}
-      {page === 'c' && <PageC />}
-    </Layout>
   )
 }
 `},{ id: "f13659776204836", story: f13659776204836, path: "/Users/yvesbeer/dev/better-ui/src/components/Media/index.stories.tsx", file: `import * as React from 'react'
@@ -1245,6 +1090,50 @@ export const Large = () => {
       <Examples />
     </Stack>
   )
+}
+`},{ id: "f5024396229712", story: f5024396229712, path: "/Users/yvesbeer/dev/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Note> = {
+  title: 'Atoms/Note',
+  component: Note,
+}
+
+export default meta
+
+export const Error: StoryObj<typeof Note> = {
+  args: {
+    children: 'This is an error',
+    variant: 'error',
+  },
+}
+
+export const Warning: StoryObj<typeof Note> = {
+  args: {
+    children: 'This is a warning',
+    variant: 'warning',
+  },
+}
+
+export const Positive: StoryObj<typeof Note> = {
+  args: {
+    children: 'This is positive',
+    variant: 'positive',
+  },
+}
+
+export const Informative: StoryObj<typeof Note> = {
+  args: {
+    children: 'This is informative',
+    variant: 'informative',
+  },
+}
+
+export const Neutral: StoryObj<typeof Note> = {
+  args: {
+    children: 'This is neutral',
+    variant: 'neutral',
+  },
 }
 `},{ id: "f16096448594379", story: f16096448594379, path: "/Users/yvesbeer/dev/better-ui/src/components/Modal/index.stories.tsx", file: `import * as React from 'react'
 import { Modal, Button, TextInput, SelectInput } from '../../index.js'
@@ -1535,86 +1424,6 @@ export const ModalConfirm = () => {
     </div>
   )
 }
-`},{ id: "f5024396229712", story: f5024396229712, path: "/Users/yvesbeer/dev/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Note> = {
-  title: 'Atoms/Note',
-  component: Note,
-}
-
-export default meta
-
-export const Error: StoryObj<typeof Note> = {
-  args: {
-    children: 'This is an error',
-    variant: 'error',
-  },
-}
-
-export const Warning: StoryObj<typeof Note> = {
-  args: {
-    children: 'This is a warning',
-    variant: 'warning',
-  },
-}
-
-export const Positive: StoryObj<typeof Note> = {
-  args: {
-    children: 'This is positive',
-    variant: 'positive',
-  },
-}
-
-export const Informative: StoryObj<typeof Note> = {
-  args: {
-    children: 'This is informative',
-    variant: 'informative',
-  },
-}
-
-export const Neutral: StoryObj<typeof Note> = {
-  args: {
-    children: 'This is neutral',
-    variant: 'neutral',
-  },
-}
-`},{ id: "f523702835381", story: f523702835381, path: "/Users/yvesbeer/dev/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof NumberInput> = {
-  title: 'Inputs/NumberInput',
-  component: NumberInput,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    label: 'Label',
-    description: "What's your number?",
-    step: 4,
-    onChange: (value) => {
-      console.log(value)
-    },
-    disabled: false,
-  },
-}
-
-export const Small: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    variant: 'small',
-  },
-}
-
-export const Error: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    error: true,
-  },
-}
 `},{ id: "f16494901165491", story: f16494901165491, path: "/Users/yvesbeer/dev/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
 import { Page, Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -1650,43 +1459,6 @@ export const Default: StoryObj<typeof Page> = {
     ),
     style: { maxHeight: 324 },
   },
-}
-`},{ id: "f3271436696784", story: f3271436696784, path: "/Users/yvesbeer/dev/better-ui/src/components/SchemaEditor/index.stories.tsx", file: `import * as React from 'react'
-import { SchemaEditor, Modal, Page } from '../../index.js'
-import type { Meta } from '@storybook/react'
-import based from '@based/client'
-import { Provider, useQuery } from '@based/react'
-
-const client = based({
-  org: 'demo',
-  project: 'demo',
-  env: 'production',
-})
-
-const meta: Meta<typeof SchemaEditor> = {
-  title: 'Based/SchemaEditor',
-  decorators: [
-    (Story) => (
-      <Provider client={client}>
-        <Modal.Provider>
-          <Page style={{ width: 900 }}>
-            <Story />
-          </Page>
-        </Modal.Provider>
-      </Provider>
-    ),
-  ],
-}
-
-export default meta
-
-export const Default = () => {
-  // get a schema
-  const { data, loading: loadingSchema } = useQuery('db:schema')
-
-  console.log('xx', data, loadingSchema)
-
-  return <SchemaEditor schema={data || { types: { fields: {} } }} />
 }
 `},{ id: "f11708898986714", story: f11708898986714, path: "/Users/yvesbeer/dev/better-ui/src/components/ScrollArea/index.stories.tsx", file: `import * as React from 'react'
 import { ScrollArea } from '../../index.js'
@@ -1775,8 +1547,18 @@ export const Simple: StoryObj<typeof SelectInput> = {
   },
 }
 
+export const Clearable: StoryObj<typeof SelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    options: ['orange', 'banana', 'apple'],
+    clearable: true,
+  },
+}
+
 export const Small: StoryObj<typeof SelectInput> = {
   args: {
+    value: 'orange',
     placeholder: 'Select something',
     options: ['orange', 'banana', 'apple'],
     variant: 'small',
@@ -2230,45 +2012,6 @@ export const Error: StoryObj<typeof TextAreaInput> = {
     error: true,
   },
 }
-`},{ id: "f8950821975659", story: f8950821975659, path: "/Users/yvesbeer/dev/better-ui/src/components/TextInput/index.stories.tsx", file: `import { TextInput } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof TextInput> = {
-  title: 'Inputs/TextInput',
-  component: TextInput,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof TextInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    label: 'Label',
-    description: 'Enter some text',
-  },
-}
-
-export const Small: StoryObj<typeof TextInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    variant: 'small',
-  },
-}
-
-export const Error: StoryObj<typeof TextInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    error: true,
-  },
-}
-
-export const Disabled: StoryObj<typeof TextInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    label: 'Label',
-    disabled: true,
-  },
-}
 `},{ id: "f7395640043052", story: f7395640043052, path: "/Users/yvesbeer/dev/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
 import { Thumbnail, IconBorderLeft } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -2318,94 +2061,81 @@ export const Counter: StoryObj<typeof Thumbnail> = {
     count: 8,
   },
 }
-`},{ id: "f7794489085085", story: f7794489085085, path: "/Users/yvesbeer/dev/better-ui/src/components/Toast/index.stories.tsx", file: `import * as React from 'react'
-import {
-  Button,
-  Stack,
-  IconInfoFill,
-  useToast,
-  ToastProvider,
-} from '../../index.js'
+`},{ id: "f8950821975659", story: f8950821975659, path: "/Users/yvesbeer/dev/better-ui/src/components/TextInput/index.stories.tsx", file: `import { TextInput } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
 
-const meta = {
-  title: 'Atoms/Toast',
+const meta: Meta<typeof TextInput> = {
+  title: 'Inputs/TextInput',
+  component: TextInput,
 }
+
 export default meta
 
-const DefaultContent = () => {
-  const toast = useToast()
-
-  return (
-    <Stack direction="column" gap={8}>
-      <Button
-        variant="neutral"
-        onClick={() => {
-          toast('Toast Text')
-        }}
-      >
-        Simple toast
-      </Button>
-      <Button
-        variant="neutral"
-        onClick={() => {
-          toast({
-            prefix: <IconInfoFill />,
-            text: 'Toast text',
-            suffix: <Button variant="neutral-link">Action</Button>,
-          })
-        }}
-      >
-        Prefix and suffix
-      </Button>
-      <Button
-        variant="neutral"
-        onClick={() => {
-          toast("I'm an informative toast", 'informative')
-        }}
-      >
-        Informative
-      </Button>
-      <Button
-        variant="neutral"
-        onClick={() => {
-          toast('Warning text', 'warning')
-        }}
-      >
-        Warning
-      </Button>
-      <Button
-        variant="neutral"
-        onClick={() => {
-          toast('An error toast', 'error')
-        }}
-      >
-        Error
-      </Button>
-    </Stack>
-  )
+export const Default: StoryObj<typeof TextInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    label: 'Label',
+    description: 'Enter some text',
+  },
 }
 
-export const Default = () => {
-  return (
-    <ToastProvider>
-      <DefaultContent />
-    </ToastProvider>
-  )
+export const Small: StoryObj<typeof TextInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    variant: 'small',
+  },
 }
-`},{ id: "f16087346434261", story: f16087346434261, path: "/Users/yvesbeer/dev/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
-import { Button, Tooltip } from '../../index.js'
 
-const meta = {
-  title: 'Atoms/Tooltip',
+export const Error: StoryObj<typeof TextInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    error: true,
+  },
 }
+
+export const Disabled: StoryObj<typeof TextInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    label: 'Label',
+    disabled: true,
+  },
+}
+`},{ id: "f3271436696784", story: f3271436696784, path: "/Users/yvesbeer/dev/better-ui/src/components/SchemaEditor/index.stories.tsx", file: `import * as React from 'react'
+import { SchemaEditor, Modal, Page } from '../../index.js'
+import type { Meta } from '@storybook/react'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'demo',
+  project: 'demo',
+  env: 'production',
+})
+
+const meta: Meta<typeof SchemaEditor> = {
+  title: 'Based/SchemaEditor',
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Modal.Provider>
+          <Page style={{ width: 900 }}>
+            <Story />
+          </Page>
+        </Modal.Provider>
+      </Provider>
+    ),
+  ],
+}
+
 export default meta
 
 export const Default = () => {
-  return (
-    <Tooltip content="This is a tooltip">
-      <Button>Hover me</Button>
-    </Tooltip>
-  )
+  // get a schema
+  const { data, loading: loadingSchema } = useQuery('db:schema')
+
+  console.log('xx', data, loadingSchema)
+
+  return <SchemaEditor schema={data || { types: { fields: {} } }} />
 }
 `},{ id: "f4645473211601", story: f4645473211601, path: "/Users/yvesbeer/dev/better-ui/src/components/Video/index.stories.tsx", file: `import * as React from 'react'
 import { Video } from '../../index.js'
@@ -2435,6 +2165,57 @@ export const WithCustomThumbnail = () => {
 
 export const HLS = () => {
   return <Video src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
+}
+`},{ id: "f16087346434261", story: f16087346434261, path: "/Users/yvesbeer/dev/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
+import { Button, Tooltip } from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Tooltip',
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <Tooltip content="This is a tooltip">
+      <Button>Hover me</Button>
+    </Tooltip>
+  )
+}
+`},{ id: "f523702835381", story: f523702835381, path: "/Users/yvesbeer/dev/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof NumberInput> = {
+  title: 'Inputs/NumberInput',
+  component: NumberInput,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    label: 'Label',
+    description: "What's your number?",
+    step: 4,
+    onChange: (value) => {
+      console.log(value)
+    },
+    disabled: false,
+  },
+}
+
+export const Small: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    variant: 'small',
+  },
+}
+
+export const Error: StoryObj<typeof NumberInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+    error: true,
+  },
 }
 `},{ id: "f17312796633704", story: f17312796633704, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/arrays.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
@@ -2602,6 +2383,123 @@ export const Arrays = () => {
       }}
       onChange={(values, changes, checksum, based) => {
         console.log({ values, changes, checksum, based })
+      }}
+    />
+  )
+}
+`},{ id: "f2784224696663", story: f2784224696663, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/object.stories.tsx", file: `import * as React from 'react'
+import { Form, Modal } from '../../../index.js'
+import { wait } from '@saulx/utils'
+import { objectField } from './objectField.js'
+
+const meta = {
+  title: 'Form/Object',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
+}
+
+export default meta
+
+const ts = \`import * as React from 'react'
+
+export function Svg({ style, width = 20, height = 20 }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      style={style}
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="a b c"
+      />
+    </svg>
+  )
+}
+\`
+
+const fileUpload = async ({ value }, updateProgress) => {
+  if (!value) {
+    return undefined
+  }
+  let p = 0
+  while (p < 100) {
+    p += 10
+    updateProgress(p)
+    await wait(100)
+  }
+  return 'https://i.imgur.com/DRmh6S9.jpeg'
+}
+
+export const Object = () => {
+  return (
+    <Form
+      onFileUpload={fileUpload}
+      variant="small"
+      values={{
+        ratings: {
+          powerful: 'rgb(78,56,188)',
+        },
+        object: {
+          location: {
+            snurp: {
+              id: 'flap',
+              name: 'flap/bla/Screenshot_213123213213.png',
+              src: 'https://i.imgur.com/t1bWmmC.jpeg',
+            },
+            doink: 'th123212',
+          },
+        },
+        orderWithDescription: {
+          code: ts,
+          json: JSON.stringify(
+            { y: 1, x: 1, z: 1, someThing: 'great' },
+            null,
+            2,
+          ),
+        },
+      }}
+      fields={objectField}
+      onChange={(values) => {
+        console.log(values)
+      }}
+    />
+  )
+}
+
+export const ObjectReadOnly = () => {
+  return (
+    <Form
+      onFileUpload={fileUpload}
+      variant="small"
+      values={{
+        bla: {
+          id: '12345',
+          snurp: Date.now(),
+          bla: 'https://i.imgur.com/DRmh6S9.jpeg',
+        },
+      }}
+      fields={{
+        bla: {
+          readOnly: true,
+          type: 'object',
+          properties: {
+            bla: { type: 'string', contentMediaType: 'image/*' },
+            id: { title: 'Id', type: 'string', format: 'basedId' },
+            snurp: { type: 'timestamp', display: 'date-time-text' },
+          },
+        },
       }}
     />
   )
@@ -2877,96 +2775,6 @@ export const Bare = () => {
     </div>
   )
 }
-`},{ id: "f2784224696663", story: f2784224696663, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/object.stories.tsx", file: `import * as React from 'react'
-import { Form, Modal } from '../../../index.js'
-import { wait } from '@saulx/utils'
-import { objectField } from './objectField.js'
-
-const meta = {
-  title: 'Form/Object',
-  parameters: {
-    layout: 'fullscreen',
-  },
-  decorators: [
-    (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
-    ),
-  ],
-}
-
-export default meta
-
-const ts = \`import * as React from 'react'
-
-export function Svg({ style, width = 20, height = 20 }: IconProps) {
-  return (
-    <svg
-      width={width}
-      height={height}
-      style={style}
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="a b c"
-      />
-    </svg>
-  )
-}
-\`
-
-const fileUpload = async ({ value }, updateProgress) => {
-  if (!value) {
-    return undefined
-  }
-  let p = 0
-  while (p < 100) {
-    p += 10
-    updateProgress(p)
-    await wait(100)
-  }
-  return 'https://i.imgur.com/DRmh6S9.jpeg'
-}
-
-export const Object = () => {
-  return (
-    <Form
-      onFileUpload={fileUpload}
-      variant="small"
-      values={{
-        ratings: {
-          powerful: 'rgb(78,56,188)',
-        },
-        object: {
-          location: {
-            snurp: {
-              id: 'flap',
-              name: 'flap/bla/Screenshot_213123213213.png',
-              src: 'https://i.imgur.com/t1bWmmC.jpeg',
-            },
-            doink: 'th123212',
-          },
-        },
-        orderWithDescription: {
-          code: ts,
-          json: JSON.stringify(
-            { y: 1, x: 1, z: 1, someThing: 'great' },
-            null,
-            2,
-          ),
-        },
-      }}
-      fields={objectField}
-      onChange={(values) => {
-        console.log(values)
-      }}
-    />
-  )
-}
 `},{ id: "f7145042216623", story: f7145042216623, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/record.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 
@@ -3085,6 +2893,161 @@ export const Record = () => {
         })
       }}
     />
+  )
+}
+`},{ id: "f7041630938200", story: f7041630938200, path: "/Users/yvesbeer/dev/better-ui/src/components/Icons/index.stories.tsx", file: `import * as React from 'react'
+// also fix this
+import * as Icons from './index.js'
+import { styled } from 'inlines'
+import { borderRadius, color } from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Icons',
+}
+export default meta
+
+export const Default = () => {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ marginBottom: 32, textAlign: 'center' }}>
+        Click to copy name
+      </div>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: 8,
+        }}
+      >
+        {Object.entries(Icons)
+          .sort(([aKey], [bKey]) => aKey.localeCompare(bKey))
+          .filter(([key]) => !key.toLocaleLowerCase().includes('based'))
+          .map(([key, Icon]) => (
+            <styled.div
+              key={key}
+              style={{
+                padding: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer',
+                borderRadius: borderRadius('small'),
+                '&:hover': {
+                  background: color('background', 'neutral'),
+                },
+              }}
+              onClick={() => {
+                navigator.clipboard.writeText(key)
+              }}
+            >
+              <Icon />
+              <div style={{ marginTop: 8, fontSize: 14 }}>{key}</div>
+            </styled.div>
+          ))}
+      </div>
+    </div>
+  )
+}
+`},{ id: "f13987867859930", story: f13987867859930, path: "/Users/yvesbeer/dev/better-ui/src/components/Layout/index.stories.tsx", file: `import * as React from 'react'
+import type { Meta } from '@storybook/react'
+import {
+  Layout,
+  Page,
+  Header,
+  Sidebar,
+  IconSettings,
+  IconUsers,
+  IconViewBoxes,
+  Text,
+} from '../../index.js'
+
+const meta: Meta<typeof Layout> = {
+  title: 'Components/Layout',
+  component: Layout,
+  parameters: {
+    layout: 'fullscreen',
+  },
+}
+
+export default meta
+
+const PageA = () => {
+  return (
+    <Page>
+      {Array.from({ length: 30 }).map((_, i) => (
+        <Text
+          key={i}
+          variant="body-strong"
+          style={{ fontSize: 64, lineHeight: '64px' }}
+        >
+          Page A content
+        </Text>
+      ))}
+    </Page>
+  )
+}
+
+const PageB = () => {
+  const [page, setPage] = React.useState('x')
+
+  return (
+    <>
+      <Sidebar
+        data={[
+          { label: 'Nested X', value: 'x' },
+          { label: 'Nested Y', value: 'y' },
+        ]}
+        value={page}
+        onValueChange={setPage}
+        collapsable={false}
+      />
+
+      {page === 'x' && <Page>nested x</Page>}
+      {page === 'y' && <Page>nested y</Page>}
+    </>
+  )
+}
+
+const PageC = () => {
+  return <Page>page C content</Page>
+}
+
+export const Default = () => {
+  const [page, setPage] = React.useState('a')
+  const [open, setOpen] = React.useState(true)
+
+  return (
+    <Layout
+      header={
+        <Header
+          logo={<div>Logo</div>}
+          navigation={<div>navigation items</div>}
+        />
+      }
+    >
+      <Sidebar
+        data={[
+          { label: 'Overview', value: 'a', prefix: <IconViewBoxes /> },
+          { label: 'Users', value: 'b', prefix: <IconUsers /> },
+          { label: 'Settings', value: 'c', prefix: <IconSettings /> },
+        ]}
+        value={page}
+        onValueChange={(newValue) => {
+          setPage(newValue)
+
+          // if the new value is in this list then we close the sidebar otherwise open
+          // (page b has a nested sidebar, others don't)
+          setOpen(!['b'].includes(newValue))
+        }}
+        open={open}
+        onOpenChange={setOpen}
+      />
+
+      {page === 'a' && <PageA />}
+      {page === 'b' && <PageB />}
+      {page === 'c' && <PageC />}
+    </Layout>
   )
 }
 `},{ id: "f47303550426", story: f47303550426, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/references.stories.tsx", file: `import * as React from 'react'
@@ -3342,6 +3305,80 @@ export const Set = () => {
         console.log({ values, changed, checksum })
       }}
     />
+  )
+}
+`},{ id: "f7794489085085", story: f7794489085085, path: "/Users/yvesbeer/dev/better-ui/src/components/Toast/index.stories.tsx", file: `import * as React from 'react'
+import {
+  Button,
+  Stack,
+  IconInfoFill,
+  useToast,
+  ToastProvider,
+} from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Toast',
+}
+export default meta
+
+const DefaultContent = () => {
+  const toast = useToast()
+
+  return (
+    <Stack direction="column" gap={8}>
+      <Button
+        variant="neutral"
+        onClick={() => {
+          toast('Toast Text')
+        }}
+      >
+        Simple toast
+      </Button>
+      <Button
+        variant="neutral"
+        onClick={() => {
+          toast({
+            prefix: <IconInfoFill />,
+            text: 'Toast text',
+            suffix: <Button variant="neutral-link">Action</Button>,
+          })
+        }}
+      >
+        Prefix and suffix
+      </Button>
+      <Button
+        variant="neutral"
+        onClick={() => {
+          toast("I'm an informative toast", 'informative')
+        }}
+      >
+        Informative
+      </Button>
+      <Button
+        variant="neutral"
+        onClick={() => {
+          toast('Warning text', 'warning')
+        }}
+      >
+        Warning
+      </Button>
+      <Button
+        variant="neutral"
+        onClick={() => {
+          toast('An error toast', 'error')
+        }}
+      >
+        Error
+      </Button>
+    </Stack>
+  )
+}
+
+export const Default = () => {
+  return (
+    <ToastProvider>
+      <DefaultContent />
+    </ToastProvider>
   )
 }
 `}]

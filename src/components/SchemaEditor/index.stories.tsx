@@ -31,7 +31,7 @@ export const Default = () => {
   // get a schema
   const { data, loading: loadingSchema } = useQuery('db:schema')
 
-  console.log('xx', data, loadingSchema)
+  console.log('Schema -->', data, 'loading =', loadingSchema)
 
   return <SchemaEditor schema={data || { types: { fields: {} } }} />
 }
