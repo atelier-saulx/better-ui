@@ -6,6 +6,7 @@ export type StackProps = React.HTMLProps<any> & {
   as?: 'div' | 'ul' | 'label'
   style?: Style
   grid?: boolean | number
+  shape?: 'square'
   direction?: 'row' | 'column'
   justify?: 'center' | 'between' | 'end' | 'start'
   align?: 'center' | 'start' | 'end' | 'stretch'
@@ -18,6 +19,7 @@ const ReactStack = React.forwardRef(
   (
     {
       grid,
+      shape,
       as = 'div',
       style,
       children,
@@ -51,7 +53,7 @@ const ReactStack = React.forwardRef(
           '&::before': {
             content: '""',
             width: 0,
-            paddingTop: '100%',
+            paddingTop: shape === 'square' ? '100%' : null,
             gridRow: '1 / 1',
             gridColumn: '1 / 1',
           },

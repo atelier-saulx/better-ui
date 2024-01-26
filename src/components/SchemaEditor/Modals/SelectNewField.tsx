@@ -9,6 +9,7 @@ import { Thumbnail } from '../../Thumbnail/index.js'
 import { AddField } from './AddField.js'
 import { SemanticVariant, color } from '../../../utils/colors.js'
 import { SCHEMA_FIELDS } from '../constants.js'
+import { Stack } from '../../Stack/index.js'
 
 const filterOutTheseFields = ['id', 'type', 'email', 'digest', 'url']
 
@@ -55,7 +56,7 @@ export const SelectNewField = ({
                 border: '1px solid transparent !important',
               }}
             />
-            <div>
+            <Stack grid={300}>
               {Object.keys(SCHEMA_FIELDS)
                 .filter((item) => !filterOutTheseFields.includes(item))
                 .filter(
@@ -70,10 +71,10 @@ export const SelectNewField = ({
                 .map((item, idx) => (
                   <Container
                     style={{
-                      maxWidth: 334,
-                      width: '48%',
+                      // width: '48%',
+                      height: 'auto',
+                      flexGrow: 1,
                       display: 'inline-block',
-                      margin: '1%',
                     }}
                     key={idx}
                     title={SCHEMA_FIELDS[item].label}
@@ -104,7 +105,7 @@ export const SelectNewField = ({
                     }}
                   />
                 ))}
-            </div>
+            </Stack>
           </div>
         )}
       </Modal.Overlay>
