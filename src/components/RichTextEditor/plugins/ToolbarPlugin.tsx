@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { styled } from 'inlines'
+import { ColorInput, color } from '../../../index.js'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext.js'
 import {
   $getSelection,
@@ -41,9 +42,14 @@ import {
   IconText,
   IconRepeat,
 } from '../../../index.js'
-import { $setBlocksType } from '@lexical/selection'
+import {
+  $setBlocksType,
+  $getSelectionStyleValueForProperty,
+  $patchStyleText,
+} from '@lexical/selection'
 import { AddImageModal } from '../components/AddImageModal.js'
 import { INSERT_IMAGE_COMMAND } from './ImagePlugin.js'
+import { FontColorModal } from '../components/FontColorModal.js'
 
 export function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -57,6 +63,12 @@ export function ToolbarPlugin() {
 
   const [canUndo, setCanUndo] = useState(false)
   const [canRedo, setCanRedo] = useState(false)
+  const [fontColor, setFontColor] = useState(color('content', 'primary'))
+  const [fontSelection, setFontSelection] = useState()
+
+  useEffect(() => {
+    console.log('🥟', fontSelection)
+  }, [fontSelection])
 
   useEffect(() => {
     editor.registerUpdateListener(({ editorState }) => {
@@ -70,6 +82,13 @@ export function ToolbarPlugin() {
         setIsBold(selection.hasFormat('bold'))
         setIsItalic(selection.hasFormat('italic'))
         setIsStrikeThrough(selection.hasFormat('strikethrough'))
+
+        //font color
+        $getSelectionStyleValueForProperty(
+          selection,
+          'color',
+          color('content', 'primary'),
+        )
 
         const node = getSelectedNode(selection)
         const parent = node.getParent()
@@ -138,6 +157,36 @@ export function ToolbarPlugin() {
         1,
       )
   }, [editor])
+
+  const applyStyleText = useCallback(
+    (
+      styles: Record<string, string>,
+      selection: any,
+      skipHistoryStack?: boolean,
+    ) => {
+      console.log('hellow??')
+      editor.update(
+        () => {
+          console.log('SELECTION0', selection)
+
+          if (selection !== null) {
+            $patchStyleText(selection as any, styles)
+          }
+        },
+        skipHistoryStack ? { tag: 'historic' } : {},
+      )
+    },
+    [editor],
+  )
+
+  const testColor = (styles) =>
+    useCallback(
+      (styles) => {
+        console.log('halloa?')
+        $patchStyleText(fontSelection as any, styles)
+      },
+      [fontSelection],
+    )
 
   return (
     <styled.div
@@ -372,6 +421,47 @@ export function ToolbarPlugin() {
           })
         }}
       />
+      <FontColorModal
+        onSave={(v) => {
+          editor.update(() => {
+            // console.log('onsave lefut', file, caption)
+
+            //            $patchStyleText(fontSelection as any, { color: 'red' })
+
+            // const selection = fontSelection
+
+            // applyStyleText({ color: 'red' }, selection, true)
+
+            testColor({ color: 'red' })
+
+            // editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+            //   src: file.src,
+            //   caption,
+            // })
+          })
+        }}
+      >
+        <Button
+          size="small"
+          variant={'neutral'}
+          prefix={
+            <IconText
+              style={{ borderBottom: '4px solid orange', paddingBottom: 4 }}
+            />
+          }
+          shape="square"
+          onClick={() => {
+            editor.update(() => {
+              const selection = $getSelection()
+              setFontSelection(selection as any)
+              console.log('BOOM BOOM')
+              applyStyleText({ color: 'red' }, selection, true)
+              // testColor({ color: 'red' })
+              //    $patchStyleText(fontSelection as any, { color: 'orange' })
+            })
+          }}
+        />
+      </FontColorModal>
 
       {/* <AddEmbedModal
         onSave={({ html }) => {
