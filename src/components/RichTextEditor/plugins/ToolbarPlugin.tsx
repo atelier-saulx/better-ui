@@ -5,6 +5,11 @@ import {
   $getSelection,
   $isRangeSelection,
   FORMAT_TEXT_COMMAND,
+  FORMAT_ELEMENT_COMMAND,
+  CAN_REDO_COMMAND,
+  CAN_UNDO_COMMAND,
+  REDO_COMMAND,
+  UNDO_COMMAND,
   $createParagraphNode,
   $isParagraphNode,
   $isRootOrShadowRoot,
@@ -24,6 +29,9 @@ import {
   Button,
   Dropdown,
   IconCheckLarge,
+  IconFormatAlignLeft,
+  IconFormatAlignCenter,
+  IconFormatAlignRight,
   IconFormatBold,
   IconFormatItalic,
   IconFormatStrikethrough,
@@ -31,6 +39,7 @@ import {
   IconLink,
   IconListBullet,
   IconText,
+  IconRepeat,
 } from '../../../index.js'
 import { $setBlocksType } from '@lexical/selection'
 import { AddImageModal } from '../components/AddImageModal.js'
@@ -46,10 +55,16 @@ export function ToolbarPlugin() {
   const [isStrikeThrough, setIsStrikeThrough] = useState(false)
   const [isLink, setIsLink] = useState(false)
 
+  const [canUndo, setCanUndo] = useState(false)
+  const [canRedo, setCanRedo] = useState(false)
+
   useEffect(() => {
     editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         const selection = $getSelection()
+
+        console.log(selection, '🍿')
+
         if (!$isRangeSelection(selection)) return
 
         setIsBold(selection.hasFormat('bold'))
@@ -60,6 +75,9 @@ export function ToolbarPlugin() {
         const parent = node.getParent()
         setIsLink($isLinkNode(parent) || $isLinkNode(node))
 
+        console.log('node??', node)
+        console.log('parent', parent)
+
         const anchorNode = selection.anchor.getNode()
         const element =
           anchorNode.getKey() === 'root'
@@ -68,6 +86,8 @@ export function ToolbarPlugin() {
                 const parent = e.getParent()
                 return parent !== null && $isRootOrShadowRoot(parent)
               })
+
+        console.log('element', element)
 
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(
@@ -101,6 +121,22 @@ export function ToolbarPlugin() {
         }
       })
     })
+    editor.registerCommand(
+      CAN_UNDO_COMMAND,
+      (payload) => {
+        setCanUndo(payload)
+        return false
+      },
+      1,
+    ),
+      editor.registerCommand(
+        CAN_REDO_COMMAND,
+        (payload) => {
+          setCanRedo(payload)
+          return false
+        },
+        1,
+      )
   }, [editor])
 
   return (
@@ -291,6 +327,52 @@ export function ToolbarPlugin() {
           prefix={<IconImage />}
         />
       </AddImageModal>
+      <Button
+        size="small"
+        variant={'neutral'}
+        prefix={<IconFormatAlignLeft />}
+        shape="square"
+        onClick={() => {
+          editor.update(() => {
+            const selection = $getSelection()
+
+            if ($isRangeSelection(selection)) {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
+            }
+          })
+        }}
+      />
+      <Button
+        size="small"
+        variant={'neutral'}
+        prefix={<IconFormatAlignCenter />}
+        shape="square"
+        onClick={() => {
+          editor.update(() => {
+            const selection = $getSelection()
+
+            if ($isRangeSelection(selection)) {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
+            }
+          })
+        }}
+      />
+      <Button
+        size="small"
+        variant={'neutral'}
+        prefix={<IconFormatAlignRight />}
+        shape="square"
+        onClick={() => {
+          editor.update(() => {
+            const selection = $getSelection()
+
+            if ($isRangeSelection(selection)) {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
+            }
+          })
+        }}
+      />
+
       {/* <AddEmbedModal
         onSave={({ html }) => {
           editor.update(() => {
@@ -302,6 +384,29 @@ export function ToolbarPlugin() {
       >
         <Button size="small" color="system" icon={<IconLayerThree />} />
       </AddEmbedModal> */}
+
+      <styled.div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
+        <Button
+          size="small"
+          disabled={!canUndo}
+          variant={'neutral'}
+          prefix={<IconRepeat />}
+          shape="square"
+          onClick={() => {
+            editor.dispatchCommand(UNDO_COMMAND, null)
+          }}
+        />
+        <Button
+          size="small"
+          disabled={!canRedo}
+          variant={'neutral'}
+          prefix={<IconRepeat style={{ transform: 'scaleX(-1)' }} />}
+          shape="square"
+          onClick={() => {
+            editor.dispatchCommand(REDO_COMMAND, null)
+          }}
+        />
+      </styled.div>
     </styled.div>
   )
 }
