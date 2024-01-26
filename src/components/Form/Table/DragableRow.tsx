@@ -6,14 +6,15 @@ import {
   border,
   color,
   Text,
-  Badge,
   borderRadius,
+  isSafari,
 } from '../../../index.js'
 import { Path, TableCtx } from '../types.js'
 import { ColStack } from './ColStack.js'
 import { render } from 'react-dom'
 import { IconDrag } from '../IconDrag.js'
-import { getIdentifierField } from '../utils.js'
+import { getIdentifierField, readPath } from '../utils.js'
+import { json2csv } from 'json-2-csv'
 
 let draggingIndex = 0
 
@@ -24,6 +25,7 @@ type DragRefValue = {
   removeItem: (index: number) => void
   changeIndex: (fromIndex: number, toIndex: number) => void
   leaveTimeout?: ReturnType<typeof setTimeout>
+  p: DragableRowProps
 }
 
 type DragRef = React.MutableRefObject<DragRefValue>
@@ -49,27 +51,51 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
   elem.style.position = 'absolute'
   elem.style.top = '-1000px'
   elem.style.paddingLeft = '32px'
+
+  // const f = ref.current.p.field
+
+  const { value } = readPath(ref.current.p.ctx, [
+    ...ref.current.p.path,
+    ref.current.p.index,
+  ])
+
   render(
-    <Stack
-      gap={4}
-      justify="start"
+    <styled.div
       style={{
-        background: color('background', 'screen'),
-        paddingTop: 8,
-        paddingBottom: 8,
-        paddingLeft: 16,
-        paddingRight: 16,
-        borderRadius: borderRadius('small'),
+        width: 200,
+        transform: `translate(-10px,0px)`,
       }}
     >
-      {!ref.current.name ? <Badge>{ref.current.index + 1}</Badge> : null}
-      <Text variant="body-bold">{ref.current.name}</Text>
-    </Stack>,
+      <Stack
+        gap={4}
+        justify="start"
+        style={{
+          background: color('background', 'screen'),
+          height: 48,
+          paddingLeft: 16,
+          overflow: 'hidden',
+          width: 250,
+          paddingRight: 16,
+          borderRadius: borderRadius('small'),
+        }}
+      >
+        <Text>FLAP</Text>
+      </Stack>
+    </styled.div>,
     elem,
   )
+
+  console.log(ref)
+  // overlay
+
   document.body.appendChild(elem)
+
+  // @ts-ignore
   e.dataTransfer.setDragImage(elem, 0, 0)
-  e.dataTransfer.setData('text/plain', String(ref.current.index))
+
+  e.dataTransfer.setData('text/plain', json2csv(value))
+
+  // e.dataTransfer.setData('text/plain', String(ref.current.index))
   draggingIndex = ref.current.index
 }
 
@@ -79,7 +105,11 @@ const DraggableColStack = (p: DragableRowProps) => {
     name: '',
     removeItem: p.removeItem,
     changeIndex: p.changeIndex,
+    p,
   })
+
+  ref.current.p = p
+
   const [isDragOver, setDragOver] = useState(0)
 
   if (p.field.type === 'object') {
@@ -91,6 +121,8 @@ const DraggableColStack = (p: DragableRowProps) => {
     ref.current.name = ''
   }
 
+  const safari = isSafari()
+
   React.useEffect(() => {
     return () => {
       clearTimeout(ref.current.leaveTimeout)
@@ -100,6 +132,8 @@ const DraggableColStack = (p: DragableRowProps) => {
   return (
     <styled.div
       style={{
+        background: color('background', 'screen'),
+
         width: '100%',
       }}
       onClick={p.onClick}
@@ -126,28 +160,34 @@ const DraggableColStack = (p: DragableRowProps) => {
         setDragOver(0)
       }, [])}
     >
-      <Stack
-        style={{
-          height: isDragOver === -1 ? 24 : 0,
-          width: '100%',
-          overflow: 'hidden',
-          transition: 'height 0.2s',
-          borderBottom: isDragOver === -1 ? border() : null,
-        }}
-      >
-        <styled.div
+      {safari ? null : (
+        <Stack
           style={{
+            height: isDragOver === -1 ? 24 : 0,
             width: '100%',
-            height: 2,
-            opacity: isDragOver === -1 ? 1 : 0,
-            transition: 'opacity 0.2s',
-            backgroundColor: color('interactive', 'primary'),
+            overflow: 'hidden',
+            transition: 'height 0.2s',
+            borderBottom: isDragOver === -1 ? border() : null,
           }}
-        />
-      </Stack>
+        >
+          <styled.div
+            style={{
+              width: '100%',
+              height: 2,
+              opacity: isDragOver === -1 ? 1 : 0,
+              transition: 'opacity 0.2s',
+              backgroundColor: color('interactive', 'primary'),
+            }}
+          />
+        </Stack>
+      )}
       <ColStack
         header={p.header}
         style={{
+          boxShadow:
+            isDragOver && safari
+              ? 'inset 0px 2px ' + color('interactive', 'primary')
+              : '',
           borderBottom: border(),
           ...p.style,
         }}
@@ -168,25 +208,27 @@ const DraggableColStack = (p: DragableRowProps) => {
         </styled.div>
         {p.cells}
       </ColStack>
-      <Stack
-        style={{
-          height: isDragOver === 1 ? 24 : 0,
-          overflow: 'hidden',
-          width: '100%',
-          transition: 'height 0.2s',
-          borderBottom: isDragOver === 1 ? border() : null,
-        }}
-      >
-        <styled.div
+      {safari ? null : (
+        <Stack
           style={{
+            height: isDragOver === 1 ? 24 : 0,
+            overflow: 'hidden',
             width: '100%',
-            height: 2,
-            opacity: isDragOver === 1 ? 1 : 0,
-            transition: 'opacity 0.2s',
-            backgroundColor: color('interactive', 'primary'),
+            transition: 'height 0.2s',
+            borderBottom: isDragOver === 1 ? border() : null,
           }}
-        />
-      </Stack>
+        >
+          <styled.div
+            style={{
+              width: '100%',
+              height: 2,
+              opacity: isDragOver === 1 ? 1 : 0,
+              transition: 'opacity 0.2s',
+              backgroundColor: color('interactive', 'primary'),
+            }}
+          />
+        </Stack>
+      )}
     </styled.div>
   )
 }

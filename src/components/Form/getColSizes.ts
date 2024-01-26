@@ -27,6 +27,11 @@ const FIELD_SIZES: {
         width: 180,
       },
     ],
+    boolean: [
+      {
+        width: 75,
+      },
+    ],
     string: [
       {
         match: (field: BasedSchemaFieldString) => field.format === 'basedId',
@@ -72,6 +77,11 @@ const FIELD_SIZES: {
         match: (field: BasedSchemaFieldString) =>
           field.contentMediaType?.startsWith('image/'),
         width: 66,
+      },
+    ],
+    boolean: [
+      {
+        width: 75,
       },
     ],
     reference: [

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 import { objectField } from './objectField.js'
+import { deepMerge } from '@saulx/utils'
 
 const meta = {
   title: 'Form/Arrays',
@@ -122,7 +123,11 @@ export const Arrays = () => {
           title: 'Things',
           description: 'some things',
           type: 'array',
-          values: objectField.ratings,
+          values: {
+            ...deepMerge(objectField.ratings, {
+              properties: { isDope: { type: 'boolean' } },
+            }),
+          },
         },
         sequences: {
           title: 'Seqeunces',

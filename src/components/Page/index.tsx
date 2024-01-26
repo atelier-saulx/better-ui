@@ -10,7 +10,12 @@ export type PageProps = {
 
 export const Page = ({ children, padding = 32, style }: PageProps) => {
   return (
-    <ScrollArea style={{ padding, flex: '1' }}>
+    <ScrollArea
+      style={{
+        padding,
+        flexGrow: 1,
+      }}
+    >
       <styled.div style={style}>{children}</styled.div>
     </ScrollArea>
   )

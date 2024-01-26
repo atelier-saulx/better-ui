@@ -1,3 +1,5 @@
+import { hash } from '@saulx/hash'
+
 export type SemanticVariant =
   | 'neutral'
   | 'informative'
@@ -60,3 +62,44 @@ export const borderRadius = (
 
 export const boxShadow = (variant: 'focus' | 'error') =>
   `var(--box-shadow-${variant})`
+
+export type NonSemanticColor =
+  | 'red'
+  | 'raspberry'
+  | 'magenta'
+  | 'purple'
+  | 'grape'
+  | 'violet'
+  | 'blue'
+  | 'cyan'
+  | 'teal'
+  | 'aquamarine'
+  | 'green'
+  | 'emerald'
+  | 'orange'
+
+export const NON_SEMANTIC_COLOR: { [key in NonSemanticColor]: string } = {
+  red: '#C53434',
+  raspberry: '#C03060',
+  magenta: '#B12F86',
+  purple: '#9939AC',
+  grape: '#8040BF',
+  violet: '#634ECA',
+  blue: '#3062D4',
+  cyan: '#0870BA',
+  teal: '#0870BA',
+  aquamarine: '#097C69',
+  green: '#1D7C4D',
+  emerald: '#347434',
+  orange: '#F59638',
+}
+
+export function hashNonSemanticColor(value: string | number) {
+  const index =
+    Math.floor(
+      Math.abs(Math.sin(hash(value))) *
+        (Object.keys(NON_SEMANTIC_COLOR).length - 1),
+    ) + 1
+
+  return Object.values(NON_SEMANTIC_COLOR)[index]
+}

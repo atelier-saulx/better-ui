@@ -54,7 +54,13 @@ export const ScrollArea = ({
             : 'var(--border-default)'
 
   return (
-    <RxScrollArea.Root type={display} style={{ width: '100%', height: '100%' }}>
+    <RxScrollArea.Root
+      type={display}
+      style={{
+        width: '100%',
+        height: '100%',
+      }}
+    >
       <styled.div
         style={{
           width: '100%',
@@ -67,7 +73,6 @@ export const ScrollArea = ({
       >
         <RxScrollArea.Viewport
           style={{
-            maxWidth: '100%',
             width: '100%',
             height: '100%',
             borderRadius: 'inherit',
