@@ -148,7 +148,7 @@ export const Default = () => {
           title: 'Some Code',
           description: 'This is some Code',
           type: 'string',
-          format: 'code',
+          format: 'typescript',
         },
         shortnumber: {
           title: 'A short number',
@@ -255,8 +255,8 @@ export const SmallForm = () => {
           enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
         },
       }}
-      onChange={(values) => {
-        console.log(values)
+      onChange={(values, changed, checksum) => {
+        console.log(values, changed, checksum)
       }}
     />
   )
