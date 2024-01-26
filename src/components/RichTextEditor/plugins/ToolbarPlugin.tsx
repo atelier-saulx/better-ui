@@ -194,9 +194,10 @@ export function ToolbarPlugin() {
         display: 'flex',
         alignItems: 'center',
         height: 48,
-        '& > * + *': {
-          marginLeft: '4px',
-        },
+        // '& > * + *': {
+        //   marginLeft: '5px',
+        // },
+        gap: 10,
       }}
     >
       <Dropdown.Root>
@@ -204,7 +205,7 @@ export function ToolbarPlugin() {
           <Button
             size="small"
             shape="square"
-            variant="neutral"
+            variant="neutral-transparent"
             prefix={<IconText />}
           />
         </Dropdown.Trigger>
@@ -285,7 +286,7 @@ export function ToolbarPlugin() {
       </Dropdown.Root>
       <Button
         size="small"
-        variant={isBold ? 'primary' : 'neutral'}
+        variant={isBold ? 'primary' : 'neutral-transparent'}
         prefix={<IconFormatBold />}
         shape="square"
         onClick={() => {
@@ -300,7 +301,7 @@ export function ToolbarPlugin() {
       />
       <Button
         size="small"
-        variant={isItalic ? 'primary' : 'neutral'}
+        variant={isItalic ? 'primary' : 'neutral-transparent'}
         prefix={<IconFormatItalic />}
         shape="square"
         onClick={() => {
@@ -315,7 +316,7 @@ export function ToolbarPlugin() {
       />
       <Button
         size="small"
-        variant={isStrikeThrough ? 'primary' : 'neutral'}
+        variant={isStrikeThrough ? 'primary' : 'neutral-transparent'}
         prefix={<IconFormatStrikethrough />}
         shape="square"
         onClick={() => {
@@ -330,7 +331,7 @@ export function ToolbarPlugin() {
       />
       <Button
         size="small"
-        variant={isLink ? 'primary' : 'neutral'}
+        variant={isLink ? 'primary' : 'neutral-transparent'}
         prefix={<IconLink />}
         shape="square"
         onClick={() => {
@@ -344,7 +345,7 @@ export function ToolbarPlugin() {
       />
       <Button
         size="small"
-        variant={type === 'bullet' ? 'primary' : 'neutral'}
+        variant={type === 'bullet' ? 'primary' : 'neutral-transparent'}
         prefix={<IconListBullet />}
         shape="square"
         onClick={() => {
@@ -372,13 +373,13 @@ export function ToolbarPlugin() {
         <Button
           shape="square"
           size="small"
-          variant="neutral"
+          variant="neutral-transparent"
           prefix={<IconImage />}
         />
       </AddImageModal>
       <Button
         size="small"
-        variant={'neutral'}
+        variant={'neutral-transparent'}
         prefix={<IconFormatAlignLeft />}
         shape="square"
         onClick={() => {
@@ -393,7 +394,7 @@ export function ToolbarPlugin() {
       />
       <Button
         size="small"
-        variant={'neutral'}
+        variant={'neutral-transparent'}
         prefix={<IconFormatAlignCenter />}
         shape="square"
         onClick={() => {
@@ -408,7 +409,7 @@ export function ToolbarPlugin() {
       />
       <Button
         size="small"
-        variant={'neutral'}
+        variant={'neutral-transparent'}
         prefix={<IconFormatAlignRight />}
         shape="square"
         onClick={() => {
@@ -443,7 +444,7 @@ export function ToolbarPlugin() {
       >
         <Button
           size="small"
-          variant={'neutral'}
+          variant={'neutral-transparent'}
           prefix={
             <IconText
               style={{ borderBottom: '4px solid orange', paddingBottom: 4 }}
@@ -479,7 +480,7 @@ export function ToolbarPlugin() {
         <Button
           size="small"
           disabled={!canUndo}
-          variant={'neutral'}
+          variant={'neutral-transparent'}
           prefix={<IconRepeat />}
           shape="square"
           onClick={() => {
@@ -489,7 +490,7 @@ export function ToolbarPlugin() {
         <Button
           size="small"
           disabled={!canRedo}
-          variant={'neutral'}
+          variant={'neutral-transparent'}
           prefix={<IconRepeat style={{ transform: 'scaleX(-1)' }} />}
           shape="square"
           onClick={() => {
