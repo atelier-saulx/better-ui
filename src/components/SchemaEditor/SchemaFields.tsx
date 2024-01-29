@@ -21,7 +21,7 @@ type unindexedSchemaItem = Omit<SchemaItem, 'index'>
 
 // for indexing items for drag drop
 const parseFields = (fields) => {
-  const fieldKeys = Object.keys(fields)
+  const fieldKeys = Object.keys(fields) as any
   console.log('FIELDS KEAY ', fieldKeys)
 
   if (!fields) return
@@ -39,13 +39,9 @@ const parseFields = (fields) => {
 }
 
 export const SchemaFields = ({ fields, typeTitle }) => {
-  const [showSystemFields, setShowSystemFields] = React.useState(false)
-
   const client = useClient()
 
-  console.log('Fields ,', fields)
-  console.log('what is typeTitle 🍿', typeTitle)
-
+  const [showSystemFields, setShowSystemFields] = React.useState(false)
   const [array, setArray] = React.useState<
     SchemaItem[] | unindexedSchemaItem[] | any
   >(parseFields(fields))
@@ -54,39 +50,17 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     setArray(parseFields(fields))
   }, [fields])
 
-  const changeIndex = async (fromIndex: number, toIndex: number) => {
-    // set A new Array where the index is change
-    const n = [...array]
-    const target = n[fromIndex]
-    n.splice(fromIndex, 1)
-    n.splice(toIndex, 0, target)
-
-    // use their index in the array
-    for (let i = 0; i < n.length; i++) {
-      n[i].index = i
-    }
-
-    const fields = new Object()
-    for (let i = 0; i < n.length; i++) {
-      fields[n[i].title] = n[i]
-    }
-
-    // for that instant feeling of dropping
-    setArray([...n])
-
-    // console.log('Fields Before setting ?? ', fields)
-
-    await client.call('db:set-schema', {
-      mutate: true,
-      schema: {
-        types: {
-          [typeTitle]: {
-            fields: fields,
-          },
-        },
-      },
-    })
-  }
+  ///  ONCONFIRM AFTER CHANGING THINGS AROUND
+  // await client.call('db:set-schema', {
+  //   mutate: true,
+  //   schema: {
+  //     types: {
+  //       [typeTitle]: {
+  //         fields: fields,
+  //       },
+  //     },
+  //   },
+  // })
 
   console.log(array)
 
