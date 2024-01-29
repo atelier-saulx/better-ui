@@ -3,7 +3,7 @@ import { styled } from 'inlines'
 import { CheckboxInput } from '../CheckboxInput/index.js'
 import { SYSTEM_FIELDS } from './constants.js'
 import { SingleFieldContainer } from './SingleFieldContainer.js'
-// import { useClient } from '@based/react'
+import { useClient } from '@based/react'
 /// drag n drop
 import {
   DndContext,
@@ -44,19 +44,39 @@ const parseFields = (fields) => {
   if (!fields) return
 
   for (let i = 0; i < fieldKeys.length; i++) {
-    fieldKeys[i] = {
-      [fieldKeys[i]]: {
-        ...fields[fieldKeys[i]],
-        index: i,
-      },
+    console.log('🍿', fields[fieldKeys[i]])
+
+    if (fields[fieldKeys[i]].hasOwnProperty('index')) {
+      console.log('got index bitch')
+      fieldKeys[i] = {
+        [fieldKeys[i]]: {
+          ...fields[fieldKeys[i]],
+          //  index: i,
+        },
+      }
+    } else {
+      fieldKeys[i] = {
+        [fieldKeys[i]]: {
+          ...fields[fieldKeys[i]],
+          index: i,
+        },
+      }
     }
   }
 
-  return [...fieldKeys]
+  let sortArr = new Array(fieldKeys.length).fill({})
+
+  for (let i = 0; i < fieldKeys.length; i++) {
+    sortArr[fieldKeys[i][Object.keys(fieldKeys[i])[0]].index] = fieldKeys[i]
+  }
+
+  console.log('-> fieldKeys -SORTED????-', sortArr)
+
+  return [...sortArr]
 }
 
 export const SchemaFields = ({ fields, typeTitle }) => {
-  // const client = useClient()
+  const client = useClient()
 
   console.log('incoming fields', fields)
 
@@ -68,7 +88,9 @@ export const SchemaFields = ({ fields, typeTitle }) => {
   const [somethingChanged, setSomethingChanged] = React.useState(false)
 
   React.useEffect(() => {
-    setArray(parseFields(fields))
+    if (fields) {
+      setArray(parseFields(fields))
+    }
   }, [fields])
 
   const sensors = useSensors(
@@ -87,7 +109,6 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     setDraggingField(false)
 
     if (active.id.index !== over.id.index) {
-      console.log('something changed tehn')
       setSomethingChanged(true)
 
       const oldIndex = active.id.index
@@ -102,29 +123,37 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     }
   }
 
-  ///  ONCONFIRM AFTER CHANGING THINGS AROUND
-  // await client.call('db:set-schema', {
-  //   mutate: true,
-  //   schema: {
-  //     types: {
-  //       [typeTitle]: {
-  //         fields: fields,
-  //       },
-  //     },
-  //   },
-  // })
-
-  // console.log(array)
-
   const onCancel = () => {
     // SET IT BACK TO THE OG FIELDS
     setArray(parseFields(fields))
     setSomethingChanged(false)
   }
 
-  const onConfirm = () => {
+  const onConfirm = async () => {
     console.log('le Confirmative 🧋')
+
+    let newFields = Object.assign(
+      {},
+      ...array.map((item) => ({
+        [Object.keys(item)[0]]: item[Object.keys(item)[0]],
+      })),
+    )
+
+    console.log('newFields 🥟', newFields)
+
     // SET THE SCHEMA IF ALL IS WELL
+    await client.call('db:set-schema', {
+      mutate: true,
+      schema: {
+        types: {
+          [typeTitle]: {
+            fields: newFields,
+          },
+        },
+      },
+    })
+
+    setSomethingChanged(false)
   }
 
   return (

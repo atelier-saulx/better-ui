@@ -33,7 +33,7 @@ export const SingleFieldContainer = ({
   isDragging = false,
   // changeIndex,
 }: SingleFieldContainerProps) => {
-  if (item.format === 'rich-text') {
+  if (item?.format === 'rich-text') {
     item.type = 'richtext'
   }
 
@@ -45,12 +45,12 @@ export const SingleFieldContainer = ({
         style={{
           cursor: isDragging ? 'grabbing' : 'grab',
           marginBottom: 8,
-          border: item.type === 'object' ? '0px solid transparent' : border(),
+          border: item?.type === 'object' ? '0px solid transparent' : border(),
           '& > div:first-child': {
             padding: '4px !important',
             borderRadius: '8px ',
-            border: item.type === 'object' ? border() : '',
-            paddingLeft: item.type === 'object' ? '16px !important' : '4px',
+            border: item?.type === 'object' ? border() : '',
+            paddingLeft: item?.type === 'object' ? '16px !important' : '4px',
             cursor: isDragging ? 'grabbing' : 'grab',
           },
           '& > div:nth-child(2)': {
@@ -63,8 +63,8 @@ export const SingleFieldContainer = ({
         title={
           <Stack gap={12}>
             <Text variant="body-bold">{itemName}</Text>
-            <Badge color={SCHEMA_FIELDS[item.type]?.color}>
-              {item.type}
+            <Badge color={SCHEMA_FIELDS[item?.type]?.color}>
+              {item?.type}
             </Badge>{' '}
             {SYSTEM_FIELDS.includes(item?.title) ? (
               <Badge color="neutral-muted">System</Badge>
@@ -82,8 +82,8 @@ export const SingleFieldContainer = ({
             />
             <Thumbnail
               // outline
-              icon={SCHEMA_FIELDS[item.type]?.icon}
-              color={SCHEMA_FIELDS[item.type]?.color}
+              icon={SCHEMA_FIELDS[item?.type]?.icon}
+              color={SCHEMA_FIELDS[item?.type]?.color}
               style={{
                 marginRight: 6,
                 borderRadius: 8,
@@ -98,15 +98,15 @@ export const SingleFieldContainer = ({
         }
         suffix={
           <Stack gap={12}>
-            {item.type === 'object' && (
+            {item?.type === 'object' && (
               <SelectNewField typeTitle={typeTitle} fieldItem={item} light />
             )}
             <FieldEditAndDelete item={item} typeTitle={typeTitle} />
           </Stack>
         }
-        expandable={item.type === 'object' ? true : false}
+        expandable={item?.type === 'object' ? true : false}
       >
-        {item.type === 'object' &&
+        {item?.type === 'object' &&
           Object.keys(item.properties).map((subItem, idx) => (
             <SingleFieldContainer
               item={item.properties[subItem]}
