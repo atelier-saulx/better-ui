@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { hash } from '@saulx/hash'
-import { Style } from 'inlines'
+import { Style, styled } from 'inlines'
 import {
   MUTED_SEMANTIC_COLORS,
   SEMANTIC_COLORS,
@@ -54,7 +54,7 @@ export function Thumbnail({
       const index =
         Math.floor(
           Math.abs(Math.sin(hash(text || icon?.toString() || 'xxx'))) *
-            (colors.length - 1)
+            (colors.length - 1),
         ) + 1
 
       return colors[index]
@@ -70,7 +70,7 @@ export function Thumbnail({
   }
 
   return (
-    <div
+    <styled.div
       style={{
         position: 'relative',
         display: 'flex',
@@ -184,6 +184,6 @@ export function Thumbnail({
           {count}
         </div>
       )}
-    </div>
+    </styled.div>
   )
 }

@@ -115,7 +115,7 @@ export const SingleFieldContainer = ({
           style={{
             marginBottom: 8,
             '& > div:first-child': {
-              padding: '8px !important',
+              padding: '4px !important',
             },
             backgroundColor: isDragOver
               ? color('background', 'muted')
@@ -141,9 +141,17 @@ export const SingleFieldContainer = ({
             <Stack gap={12}>
               <IconDrag />
               <Thumbnail
+                // outline
                 icon={SCHEMA_FIELDS[item.type]?.icon}
                 color={SCHEMA_FIELDS[item.type]?.color}
-                style={{ marginRight: 6 }}
+                style={{
+                  marginRight: 6,
+                  borderRadius: 8,
+                  '& svg': {
+                    width: 16,
+                    height: 16,
+                  },
+                }}
                 size={'small'}
               />
             </Stack>
