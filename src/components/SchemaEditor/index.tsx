@@ -72,7 +72,7 @@ export const SchemaEditor = ({ schema }: SchemaEditorProps) => {
               alignItems: 'center',
             }}
           >
-            <AddType setActive={setActive} />
+            {/* <AddType setActive={setActive} light /> */}
             <Text>
               Please select or add a type to get started with your database.
             </Text>

@@ -40,45 +40,48 @@ type unindexedSchemaItem = Omit<SchemaItem, 'index'>
 
 // for indexing items for drag drop
 const parseFields = (fields) => {
-  const fieldKeys = Object.keys(fields) as any
   if (!fields) return
+  const indexedArray = [] as SchemaItem[]
+  const type = fields
+  //get all existing indexes
+  const allCurrentIndexes = [] as number[]
 
-  for (let i = 0; i < fieldKeys.length; i++) {
-    console.log('🍿', fields[fieldKeys[i]])
-
-    if (fields[fieldKeys[i]].hasOwnProperty('index')) {
-      console.log('got index bitch')
-      fieldKeys[i] = {
-        [fieldKeys[i]]: {
-          ...fields[fieldKeys[i]],
-          //  index: i,
-        },
-      }
+  for (const i in type) {
+    if (type[i].index) {
+      allCurrentIndexes.push(type[i].index as number)
     } else {
-      fieldKeys[i] = {
-        [fieldKeys[i]]: {
-          ...fields[fieldKeys[i]],
-          index: i,
-        },
-      }
+      // else start at 0
+      allCurrentIndexes.push(0)
     }
   }
 
-  let sortArr = new Array(fieldKeys.length).fill({})
-
-  for (let i = 0; i < fieldKeys.length; i++) {
-    sortArr[fieldKeys[i][Object.keys(fieldKeys[i])[0]].index] = fieldKeys[i]
+  for (const i in type) {
+    console.log(i, 'i robot')
+    if (typeof type[i].index === 'number') {
+      // @ts-ignore
+      indexedArray.push({ [i]: { ...type[i], index: +type[i].index } })
+    } else {
+      // give an index
+      let newIndex = Math.max(...allCurrentIndexes) + 1
+      // @ts-ignore
+      indexedArray.push({ [i]: { ...type[i], index: +newIndex } })
+      allCurrentIndexes.push(newIndex)
+    }
   }
 
-  console.log('-> fieldKeys -SORTED????-', sortArr)
+  indexedArray.sort(
+    (a, b) => a[Object.keys(a)[0]].index - b[Object.keys(b)[0]].index,
+  )
 
-  return [...sortArr]
+  console.log('❤️‍🔥 index array ', indexedArray)
+
+  return [...indexedArray]
 }
 
 export const SchemaFields = ({ fields, typeTitle }) => {
   const client = useClient()
 
-  console.log('incoming fields', fields)
+  console.log('incoming fields ', fields)
 
   const [showSystemFields, setShowSystemFields] = React.useState(false)
   const [array, setArray] = React.useState<
@@ -91,6 +94,8 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     if (fields) {
       setArray(parseFields(fields))
     }
+
+    console.log(array)
   }, [fields])
 
   const sensors = useSensors(
@@ -102,6 +107,8 @@ export const SchemaFields = ({ fields, typeTitle }) => {
 
   const onDragStart = React.useCallback(({ active }) => {
     setDraggingField(active.id)
+
+    console.log(active.id, 'dragign vianld')
   }, [])
 
   const onDragEnd = (event) => {
@@ -130,8 +137,6 @@ export const SchemaFields = ({ fields, typeTitle }) => {
   }
 
   const onConfirm = async () => {
-    console.log('le Confirmative 🧋')
-
     let newFields = Object.assign(
       {},
       ...array.map((item) => ({
@@ -208,7 +213,7 @@ export const SchemaFields = ({ fields, typeTitle }) => {
             {draggingField ? (
               <SingleFieldContainer
                 isDragging
-                itemName={'DRAGGING'}
+                itemName={Object.keys(array[draggingField['index']])[0]}
                 item={draggingField}
                 typeTitle={typeTitle}
               />

@@ -40,7 +40,7 @@ export const SelectNewField = ({
       <Modal.Overlay
         style={{
           width: 'calc(100vw - 48px)',
-          maxWidth: 736,
+          maxWidth: 676,
         }}
       >
         {({ close }) => (
@@ -55,11 +55,13 @@ export const SelectNewField = ({
               style={{
                 marginBottom: 16,
                 borderRadius: 8,
-                background: color('semantic-background', 'neutral-muted'),
-                border: '1px solid transparent !important',
+                background: color('background', 'muted'),
+                '& input': {
+                  border: '1px solid transparent !important',
+                },
               }}
             />
-            <Stack grid={300}>
+            <Stack grid={300} gap={8}>
               {Object.keys(SCHEMA_FIELDS)
                 .filter((item) => !filterOutTheseFields.includes(item))
                 .filter(
@@ -76,8 +78,12 @@ export const SelectNewField = ({
                     style={{
                       // width: '48%',
                       height: 'auto',
+                      border: '1px solid transparent',
                       flexGrow: 1,
                       display: 'inline-block',
+                      '& > div:first-child': {
+                        padding: '4px 4px 4px 8px !important',
+                      },
                     }}
                     key={idx}
                     title={SCHEMA_FIELDS[item].label}
@@ -86,7 +92,14 @@ export const SelectNewField = ({
                       <Thumbnail
                         icon={SCHEMA_FIELDS[item].icon}
                         color={SCHEMA_FIELDS[item].color as SemanticVariant}
-                        style={{ marginRight: 4 }}
+                        style={{
+                          marginRight: 4,
+                          '& svg': {
+                            width: 16,
+                            height: 16,
+                          },
+                        }}
+                        size="small"
                       />
                     }
                     onClick={async () => {
