@@ -21,8 +21,8 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import { Draggable } from './Draggable.js'
-import { useFieldsEvents } from './useFieldsEvents'
+import { Stack } from '../Stack/index.js'
+import { SchemaConfirm } from './SchemaConfirm.js'
 
 type SchemaItem = {
   name: string
@@ -41,8 +41,6 @@ type unindexedSchemaItem = Omit<SchemaItem, 'index'>
 // for indexing items for drag drop
 const parseFields = (fields) => {
   const fieldKeys = Object.keys(fields) as any
-  // console.log('FIELDS KEAY ', fieldKeys)
-
   if (!fields) return
 
   for (let i = 0; i < fieldKeys.length; i++) {
@@ -59,6 +57,8 @@ const parseFields = (fields) => {
 
 export const SchemaFields = ({ fields, typeTitle }) => {
   // const client = useClient()
+
+  console.log('incoming fields', fields)
 
   const [showSystemFields, setShowSystemFields] = React.useState(false)
   const [array, setArray] = React.useState<
@@ -79,19 +79,22 @@ export const SchemaFields = ({ fields, typeTitle }) => {
 
   const onDragStart = React.useCallback(({ active }) => {
     setDraggingField(active.id)
-    console.log('hellow dragging', active.id)
   }, [])
 
-  function handleDragEnd(event) {
+  const onDragEnd = (event) => {
     const { active, over } = event
+    setDraggingField(false)
 
-    if (active.id !== over.id) {
-      setArray((items) => {
-        const oldIndex = items.indexOf(active.id)
-        const newIndex = items.indexOf(over.id)
+    if (active.id.index !== over.id.index) {
+      const oldIndex = active.id.index
+      const newIndex = over.id.index
+      let tempArr = arrayMove(array, oldIndex, newIndex)
 
-        return arrayMove(items, oldIndex, newIndex)
-      })
+      for (let i = 0; i < tempArr.length; i++) {
+        tempArr[i][Object.keys(tempArr[i])[0]].index = i
+      }
+
+      setArray([...tempArr])
     }
   }
 
@@ -107,22 +110,24 @@ export const SchemaFields = ({ fields, typeTitle }) => {
   //   },
   // })
 
-  console.log(array)
+  // console.log(array)
 
   return (
     <styled.div style={{ marginTop: 16 }}>
-      <CheckboxInput
-        label="Show system fields"
-        style={{ marginBottom: 24 }}
-        value={showSystemFields}
-        onChange={(v) => setShowSystemFields(v)}
-      />
-
+      <Stack>
+        <CheckboxInput
+          label="Show system fields"
+          style={{ marginBottom: 24 }}
+          value={showSystemFields}
+          onChange={(v) => setShowSystemFields(v)}
+        />
+        <SchemaConfirm />
+      </Stack>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragStart={onDragStart}
-        onDragEnd={handleDragEnd}
+        onDragEnd={onDragEnd}
       >
         <SortableContext items={array} strategy={verticalListSortingStrategy}>
           {fields &&

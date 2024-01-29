@@ -9,7 +9,7 @@ import { Stack } from '../Stack/index.js'
 import { SelectNewField } from './Modals/SelectNewField.js'
 import { IconDrag } from '../Form/IconDrag.js'
 import { border } from '../../utils/colors.js'
-
+import { color } from '../../utils/colors.js'
 import { styled } from 'inlines'
 import { Draggable } from './Draggable.js'
 
@@ -51,6 +51,7 @@ export const SingleFieldContainer = ({
             borderRadius: '8px ',
             border: item.type === 'object' ? border() : '',
             paddingLeft: item.type === 'object' ? '16px !important' : '4px',
+            cursor: isDragging ? 'grabbing' : 'grab',
           },
           '& > div:nth-child(2)': {
             borderTop: '1px solid transparent !important',

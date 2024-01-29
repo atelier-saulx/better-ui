@@ -38,7 +38,7 @@ export const Draggable: FC<{
     overflow: isDragging ? 'hidden' : null,
     transform: CSS.Transform.toString(transform),
     transition: transition,
-    marginBottom: 12,
+    marginBottom: 6,
     // marginLeft: draggingOverObjectId
     //   ? getDepth(
     //       draggingOverObjectId.split('.'),
@@ -64,7 +64,7 @@ export const Draggable: FC<{
           style={{
             marginTop: 24,
             height: 2,
-            backgroundColor: color('content', 'primary'),
+            backgroundColor: color('interactive', 'primary'),
           }}
         />
       ) : (
