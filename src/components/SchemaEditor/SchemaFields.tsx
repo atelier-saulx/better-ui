@@ -4,6 +4,7 @@ import { CheckboxInput } from '../CheckboxInput/index.js'
 import { SYSTEM_FIELDS } from './constants.js'
 import { SingleFieldContainer } from './SingleFieldContainer.js'
 import { useClient } from '@based/react'
+import { color } from '../../utils/colors.js'
 /// drag n drop
 import {
   DndContext,
@@ -13,6 +14,7 @@ import {
   useSensor,
   useSensors,
   DragOverlay,
+  UniqueIdentifier,
 } from '@dnd-kit/core'
 import { createPortal } from 'react-dom'
 import {
@@ -23,6 +25,7 @@ import {
 } from '@dnd-kit/sortable'
 import { Stack } from '../Stack/index.js'
 import { SchemaConfirm } from './SchemaConfirm.js'
+import { Draggable } from './Draggable.js'
 
 type SchemaItem = {
   name: string
@@ -56,7 +59,6 @@ const parseFields = (fields) => {
   }
 
   for (const i in type) {
-    console.log(i, 'i robot')
     if (typeof type[i].index === 'number') {
       // @ts-ignore
       indexedArray.push({ [i]: { ...type[i], index: +type[i].index } })
@@ -82,20 +84,21 @@ export const SchemaFields = ({ fields, typeTitle }) => {
   const client = useClient()
 
   console.log('incoming fields ', fields)
+  const overIdRef = React.useRef()
 
   const [showSystemFields, setShowSystemFields] = React.useState(false)
   const [array, setArray] = React.useState<
     SchemaItem[] | unindexedSchemaItem[] | any
   >(parseFields(fields))
-  const [draggingField, setDraggingField] = React.useState<false>()
+  const [draggingField, setDraggingField] = React.useState<
+    UniqueIdentifier | false
+  >()
   const [somethingChanged, setSomethingChanged] = React.useState(false)
 
   React.useEffect(() => {
     if (fields) {
       setArray(parseFields(fields))
     }
-
-    console.log(array)
   }, [fields])
 
   const sensors = useSensors(
@@ -185,29 +188,32 @@ export const SchemaFields = ({ fields, typeTitle }) => {
         onDragEnd={onDragEnd}
       >
         <SortableContext items={array} strategy={verticalListSortingStrategy}>
-          {fields &&
-            array
-              .filter((item) =>
-                showSystemFields
-                  ? item
-                  : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
-              )
-              .map((item, idx) => {
-                return (
+          {array
+            .filter((item) =>
+              showSystemFields
+                ? item
+                : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
+            )
+            .map((item, idx) => {
+              return (
+                <Draggable
+                  key={idx}
+                  id={item[Object.keys(item)[0]]}
+                  overIdRef={overIdRef}
+                >
                   <SingleFieldContainer
                     itemName={Object.keys(item)[0]}
                     item={item[Object.keys(item)[0]]}
                     typeTitle={typeTitle}
                     key={idx}
                     index={item[Object.keys(item)[0]]?.index}
-                    isDragging={
-                      // @ts-ignore
-                      item[Object.keys(item)[0]]?.index === draggingField?.index
-                    }
+                    isDragging={item[Object.keys(item)[0]] === draggingField}
                   />
-                )
-              })}
+                </Draggable>
+              )
+            })}
         </SortableContext>
+
         {createPortal(
           <DragOverlay>
             {draggingField ? (
@@ -216,6 +222,7 @@ export const SchemaFields = ({ fields, typeTitle }) => {
                 itemName={Object.keys(array[draggingField['index']])[0]}
                 item={draggingField}
                 typeTitle={typeTitle}
+                style={{ backgroundColor: color('background', 'screen') }}
               />
             ) : null}
           </DragOverlay>,

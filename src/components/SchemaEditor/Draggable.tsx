@@ -12,6 +12,8 @@ export const Draggable: FC<{
   overIdRef: any
   children?: ReactNode
 }> = ({ id, children, properties, objects, overIdRef }) => {
+  // console.log(id, 'id')
+
   const {
     attributes,
     listeners,
@@ -25,8 +27,12 @@ export const Draggable: FC<{
     items,
   } = useSortable({ id })
 
+  console.log('🥝', id, 'over index', overIndex)
+
   overIdRef.current =
     activeIndex > overIndex ? items[overIndex - 1] : items[overIndex]
+
+  console.log('overIdRef', overIdRef)
 
   //   const draggingOverObjectId =
   //     isDragging && getObjectId(overIdRef.current, properties, objects)
@@ -38,6 +44,7 @@ export const Draggable: FC<{
     overflow: isDragging ? 'hidden' : null,
     transform: CSS.Transform.toString(transform),
     transition: transition,
+    // border: '2px solid red',
     marginBottom: 6,
     // marginLeft: draggingOverObjectId
     //   ? getDepth(
@@ -46,6 +53,9 @@ export const Draggable: FC<{
     //     ) * 24
     //   : 0,
   }
+
+  console.log('jumpedREf:', jumpedRef)
+  console.log('indexedREF', indexRef)
 
   if (jumpedRef.current) {
     style.transform = null
@@ -56,6 +66,8 @@ export const Draggable: FC<{
     indexRef.current - index > 1 || index - indexRef.current > 1
 
   indexRef.current = index
+
+  console.log('ISDRAGGING ? FROM DRAGGABLE', isDragging)
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>

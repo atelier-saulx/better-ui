@@ -5,8 +5,6 @@ import { SchemaFields } from './SchemaFields.js'
 import { TypeOptions } from './Modals/TypeOptions.js'
 import { SelectNewField } from './Modals/SelectNewField.js'
 
-import { AddType } from './Modals/AddType.js'
-
 export type SchemaEditorProps = {
   schema: { types: {} }
 }
