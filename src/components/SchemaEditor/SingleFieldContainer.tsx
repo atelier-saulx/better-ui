@@ -144,6 +144,7 @@ export const SingleFieldContainer = ({
                 icon={SCHEMA_FIELDS[item.type]?.icon}
                 color={SCHEMA_FIELDS[item.type]?.color}
                 style={{ marginRight: 6 }}
+                size={'small'}
               />
             </Stack>
           }
