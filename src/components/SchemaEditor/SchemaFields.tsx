@@ -65,6 +65,7 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     SchemaItem[] | unindexedSchemaItem[] | any
   >(parseFields(fields))
   const [draggingField, setDraggingField] = React.useState<false>()
+  const [somethingChanged, setSomethingChanged] = React.useState(false)
 
   React.useEffect(() => {
     setArray(parseFields(fields))
@@ -86,6 +87,9 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     setDraggingField(false)
 
     if (active.id.index !== over.id.index) {
+      console.log('something changed tehn')
+      setSomethingChanged(true)
+
       const oldIndex = active.id.index
       const newIndex = over.id.index
       let tempArr = arrayMove(array, oldIndex, newIndex)
@@ -112,6 +116,17 @@ export const SchemaFields = ({ fields, typeTitle }) => {
 
   // console.log(array)
 
+  const onCancel = () => {
+    // SET IT BACK TO THE OG FIELDS
+    setArray(parseFields(fields))
+    setSomethingChanged(false)
+  }
+
+  const onConfirm = () => {
+    console.log('le Confirmative 🧋')
+    // SET THE SCHEMA IF ALL IS WELL
+  }
+
   return (
     <styled.div style={{ marginTop: 16 }}>
       <Stack>
@@ -121,7 +136,13 @@ export const SchemaFields = ({ fields, typeTitle }) => {
           value={showSystemFields}
           onChange={(v) => setShowSystemFields(v)}
         />
-        <SchemaConfirm />
+        <styled.div style={{ marginBottom: 24 }}>
+          <SchemaConfirm
+            onCancel={onCancel}
+            onConfirm={onConfirm}
+            hasChanges={somethingChanged}
+          />
+        </styled.div>
       </Stack>
       <DndContext
         sensors={sensors}

@@ -12,6 +12,8 @@ export const SchemaConfirm = (p: {
   }
   return (
     <Confirm
+      style={{ minWidth: 154 }}
+      variant="small"
       cancelLabel="Discard changes"
       label={p.confirmLabel ?? 'Apply changes'}
       justify="start"
