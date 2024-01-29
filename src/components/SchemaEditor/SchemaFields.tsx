@@ -21,33 +21,69 @@ type unindexedSchemaItem = Omit<SchemaItem, 'index'>
 
 // for indexing items for drag drop
 const parseFields = (fields) => {
+  const fieldKeys = Object.keys(fields)
+  console.log('FIELDS KEAY ', fieldKeys)
+
   if (!fields) return
   const indexedArray = [] as SchemaItem[]
-  const type = fields
-  //get all existing indexes
-  const allCurrentIndexes = [] as number[]
+  // const type = fields
+  // //get all existing indexes
+  // const allCurrentIndexes = [] as number[]
 
-  for (const i in type) {
-    if (type[i].index) {
-      allCurrentIndexes.push(type[i].index as number)
-    } else {
-      // else start at 0
-      allCurrentIndexes.push(0)
+  // for (const i in type) {
+  //   if (type[i].index) {
+  //     allCurrentIndexes.push(type[i].index as number)
+  //   } else {
+  //     // else start at 0
+  //     allCurrentIndexes.push(0)
+  //   }
+  // }
+
+  for (let i = 0; i < fieldKeys.length; i++) {
+    // let newIndex = Math.max(...allCurrentIndexes) + 1
+
+    fieldKeys[i] = {
+      [fieldKeys[i]]: {
+        ...fields[fieldKeys[i]],
+        index: i,
+      },
     }
   }
 
-  for (const i in type) {
-    let newName = i || type[i].title
+  // for (const i in type) {
+  //   // let newName = i || type[i].title
 
-    if (typeof type[i].index === 'number') {
-      indexedArray.push({ ...type[i], title: newName, index: +type[i].index })
-    } else {
-      // give an index
-      let newIndex = Math.max(...allCurrentIndexes) + 1
-      indexedArray.push({ ...type[i], title: newName, index: +newIndex })
-      allCurrentIndexes.push(newIndex)
-    }
-  }
+  //   console.log(type[i])
+
+  //   if (typeof type[i].index === 'number') {
+  //     indexedArray.push({
+  //       [fieldKeys[i]]: {
+  //         ...type[i],
+  //         // title: newName,
+  //         index: +type[i].index,
+  //       },
+  //     })
+  //   } else {
+  //     // give an index
+  //     let newIndex = Math.max(...allCurrentIndexes) + 1
+  //     indexedArray.push({
+  //       [fieldKeys[i]]: {
+  //         ...type[i],
+  //         // title: newName,
+  //         index: +newIndex,
+  //       },
+  //     })
+  //     allCurrentIndexes.push(newIndex)
+  //   }
+  // }
+
+  console.log('FIELDS KEAY ', fieldKeys)
+  console.log(
+    'field keys map',
+    fieldKeys.map((item) => console.log(item[Object.keys(item)[0]])),
+  )
+
+  return [...fieldKeys]
 
   indexedArray.sort((a, b) => a.index - b.index)
 
@@ -60,6 +96,9 @@ export const SchemaFields = ({ fields, typeTitle }) => {
   const [showSystemFields, setShowSystemFields] = React.useState(false)
 
   const client = useClient()
+
+  console.log('Fields ,', fields)
+  console.log('what is typeTitle 🍿', typeTitle)
 
   const [array, setArray] = React.useState<
     SchemaItem[] | unindexedSchemaItem[] | any
@@ -89,7 +128,7 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     // for that instant feeling of dropping
     setArray([...n])
 
-    console.log('Fields Before setting ?? ', fields)
+    // console.log('Fields Before setting ?? ', fields)
 
     await client.call('db:set-schema', {
       mutate: true,
@@ -103,6 +142,8 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     })
   }
 
+  console.log(array)
+
   return (
     <styled.div style={{ marginTop: 16 }}>
       <CheckboxInput
@@ -112,19 +153,35 @@ export const SchemaFields = ({ fields, typeTitle }) => {
         onChange={(v) => setShowSystemFields(v)}
       />
       {fields &&
+        array.map((item, idx) => {
+          return (
+            <SingleFieldContainer
+              itemName={Object.keys(item)[0]}
+              item={item[Object.keys(item)[0]]}
+              typeTitle={typeTitle}
+              key={idx}
+              index={item[Object.keys(item)[0]]?.index}
+            />
+          )
+        })}
+      {/* {fields &&
         array
           ?.filter((item) =>
             showSystemFields ? item : !SYSTEM_FIELDS.includes(item.title),
           )
-          .map((item, idx) => (
-            <SingleFieldContainer
-              item={item}
-              typeTitle={typeTitle}
-              key={idx}
-              index={item?.index}
-              changeIndex={changeIndex}
-            />
-          ))}
+          .map((item, idx) => {
+            console.log('-->', item)
+
+            return (
+              <SingleFieldContainer
+                item={item}
+                typeTitle={typeTitle}
+                key={idx}
+                index={item?.index}
+                changeIndex={changeIndex}
+              />
+            )
+          })} */}
     </styled.div>
   )
 }

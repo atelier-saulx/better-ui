@@ -17,6 +17,7 @@ import { borderRadius } from '../../utils/colors.js'
 type SingleFieldContainerProps = {
   item: any
   typeTitle: string
+  itemName?: string
   index?: number
   changeIndex?: (fromIndex: number, toIndex: number) => void
 }
@@ -27,12 +28,15 @@ type SingleFieldContainerProps = {
 export const SingleFieldContainer = ({
   item,
   typeTitle,
+  itemName,
   index,
   changeIndex,
 }: SingleFieldContainerProps) => {
   if (item.format === 'rich-text') {
     item.type = 'richtext'
   }
+
+  console.log(itemName)
 
   return (
     <Container
@@ -50,11 +54,11 @@ export const SingleFieldContainer = ({
           padding: '8px 0px 0px 20px !important',
         },
         backgroundColor: 'transparent',
-        opacity: SYSTEM_FIELDS.includes(item?.title) ? 0.5 : 1,
+        opacity: SYSTEM_FIELDS.includes(itemName) ? 0.5 : 1,
       }}
       title={
         <Stack gap={12}>
-          <Text variant="body-bold">{item?.title}</Text>
+          <Text variant="body-bold">{itemName}</Text>
           <Badge color={SCHEMA_FIELDS[item.type]?.color}>
             {item.type}
           </Badge>{' '}

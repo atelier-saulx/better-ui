@@ -42,6 +42,8 @@ type SpecificOptionsProps = {
 
 type GeneralOptionsProps = {
   setMeta: ({}) => void
+  fieldName?: string
+  setFieldName: (v: string) => void
   editItem?: any
   meta?: any
 }
@@ -68,6 +70,7 @@ export const AddField = ({
   editItem,
 }: AddFieldProps) => {
   const [meta, setMeta] = React.useReducer(metaReducer, editItem || {})
+  const [fieldName, setFieldName] = React.useState('')
   const [tabIndex, setTabIndex] = React.useState(1)
   // for arrays
   const [items, setItems] = React.useState(
@@ -88,13 +91,13 @@ export const AddField = ({
   return (
     <Modal
       confirmLabel={editItem ? 'Edit' : 'Add Field'}
-      confirmProps={{ disabled: !meta.title || meta.title.length < 3 }}
+      confirmProps={{ disabled: !fieldName || fieldName.length < 3 }}
       onConfirm={async () => {
         let fields
 
         if (fieldType.toLowerCase() === 'record') {
           fields = {
-            [meta.title]: {
+            [fieldName]: {
               type: fieldType.toLowerCase(),
               ...meta,
 
@@ -103,7 +106,7 @@ export const AddField = ({
           }
         } else if (fieldType.toLowerCase() === 'object') {
           fields = {
-            [meta.title]: {
+            [fieldName]: {
               type: fieldType.toLowerCase(),
               ...meta,
               properties: {},
@@ -114,7 +117,7 @@ export const AddField = ({
           fieldType.toLowerCase() === 'set'
         ) {
           fields = {
-            [meta.title]: {
+            [fieldName]: {
               type: fieldType.toLowerCase(),
               ...meta,
               items: items,
@@ -122,7 +125,7 @@ export const AddField = ({
           }
         } else if (fieldType.toLowerCase() === 'rich text') {
           fields = {
-            [meta.title]: {
+            [fieldName]: {
               type: 'json',
               ...meta,
               format: 'rich-text',
@@ -130,7 +133,7 @@ export const AddField = ({
           }
         } else {
           fields = {
-            [meta.title.toLowerCase()]: {
+            [fieldName]: {
               type: fieldType.toLowerCase(),
               ...meta,
             },
@@ -249,7 +252,13 @@ export const AddField = ({
         )}
       </Stack>
       {tabIndex === 1 && (
-        <GeneralOptions meta={meta} setMeta={setMeta} editItem={editItem} />
+        <GeneralOptions
+          meta={meta}
+          setMeta={setMeta}
+          editItem={editItem}
+          fieldName={fieldName}
+          setFieldName={setFieldName}
+        />
       )}
       {tabIndex === 2 && (
         <SpecificOptions
@@ -264,16 +273,22 @@ export const AddField = ({
   )
 }
 
-const GeneralOptions = ({ meta, setMeta, editItem }: GeneralOptionsProps) => {
+const GeneralOptions = ({
+  meta,
+  setMeta,
+  setFieldName,
+  fieldName,
+  editItem,
+}: GeneralOptionsProps) => {
   return (
     <Stack gap={12} grid>
       <TextInput
         label="Field Title"
         disabled={editItem}
-        value={meta?.title}
+        value={fieldName || meta?.title}
         onChange={(v) => {
           if (!editItem) {
-            setMeta({ field: 'title', value: v.toLowerCase() })
+            setFieldName(v.toLowerCase())
           }
         }}
       />
