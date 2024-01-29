@@ -9,10 +9,6 @@ import { Stack } from '../Stack/index.js'
 import { SelectNewField } from './Modals/SelectNewField.js'
 import { IconDrag } from '../Form/IconDrag.js'
 import { border } from '../../utils/colors.js'
-import { styled } from 'inlines'
-import { render } from 'react-dom'
-import { color } from '../../utils/colors.js'
-import { borderRadius } from '../../utils/colors.js'
 
 type SingleFieldContainerProps = {
   item: any
@@ -35,8 +31,6 @@ export const SingleFieldContainer = ({
   if (item.format === 'rich-text') {
     item.type = 'richtext'
   }
-
-  console.log(itemName)
 
   return (
     <Container

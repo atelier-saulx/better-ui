@@ -25,23 +25,8 @@ const parseFields = (fields) => {
   console.log('FIELDS KEAY ', fieldKeys)
 
   if (!fields) return
-  const indexedArray = [] as SchemaItem[]
-  // const type = fields
-  // //get all existing indexes
-  // const allCurrentIndexes = [] as number[]
-
-  // for (const i in type) {
-  //   if (type[i].index) {
-  //     allCurrentIndexes.push(type[i].index as number)
-  //   } else {
-  //     // else start at 0
-  //     allCurrentIndexes.push(0)
-  //   }
-  // }
 
   for (let i = 0; i < fieldKeys.length; i++) {
-    // let newIndex = Math.max(...allCurrentIndexes) + 1
-
     fieldKeys[i] = {
       [fieldKeys[i]]: {
         ...fields[fieldKeys[i]],
@@ -50,46 +35,7 @@ const parseFields = (fields) => {
     }
   }
 
-  // for (const i in type) {
-  //   // let newName = i || type[i].title
-
-  //   console.log(type[i])
-
-  //   if (typeof type[i].index === 'number') {
-  //     indexedArray.push({
-  //       [fieldKeys[i]]: {
-  //         ...type[i],
-  //         // title: newName,
-  //         index: +type[i].index,
-  //       },
-  //     })
-  //   } else {
-  //     // give an index
-  //     let newIndex = Math.max(...allCurrentIndexes) + 1
-  //     indexedArray.push({
-  //       [fieldKeys[i]]: {
-  //         ...type[i],
-  //         // title: newName,
-  //         index: +newIndex,
-  //       },
-  //     })
-  //     allCurrentIndexes.push(newIndex)
-  //   }
-  // }
-
-  console.log('FIELDS KEAY ', fieldKeys)
-  console.log(
-    'field keys map',
-    fieldKeys.map((item) => console.log(item[Object.keys(item)[0]])),
-  )
-
   return [...fieldKeys]
-
-  indexedArray.sort((a, b) => a.index - b.index)
-
-  console.log('❤️‍🔥 index array ', indexedArray)
-
-  return [...indexedArray]
 }
 
 export const SchemaFields = ({ fields, typeTitle }) => {
@@ -153,35 +99,23 @@ export const SchemaFields = ({ fields, typeTitle }) => {
         onChange={(v) => setShowSystemFields(v)}
       />
       {fields &&
-        array.map((item, idx) => {
-          return (
-            <SingleFieldContainer
-              itemName={Object.keys(item)[0]}
-              item={item[Object.keys(item)[0]]}
-              typeTitle={typeTitle}
-              key={idx}
-              index={item[Object.keys(item)[0]]?.index}
-            />
-          )
-        })}
-      {/* {fields &&
         array
-          ?.filter((item) =>
-            showSystemFields ? item : !SYSTEM_FIELDS.includes(item.title),
+          .filter((item) =>
+            showSystemFields
+              ? item
+              : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
           )
           .map((item, idx) => {
-            console.log('-->', item)
-
             return (
               <SingleFieldContainer
-                item={item}
+                itemName={Object.keys(item)[0]}
+                item={item[Object.keys(item)[0]]}
                 typeTitle={typeTitle}
                 key={idx}
-                index={item?.index}
-                changeIndex={changeIndex}
+                index={item[Object.keys(item)[0]]?.index}
               />
             )
-          })} */}
+          })}
     </styled.div>
   )
 }
