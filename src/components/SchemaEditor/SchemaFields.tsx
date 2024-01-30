@@ -198,7 +198,7 @@ export const SchemaFields = ({ fields, typeTitle }) => {
                 ? item
                 : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
             )
-            .map((item, idx) => (
+            .map((item) => (
               <Draggable
                 key={Object.keys(item)[0]}
                 id={item}

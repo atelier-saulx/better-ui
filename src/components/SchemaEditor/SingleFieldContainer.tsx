@@ -10,7 +10,7 @@ import { SelectNewField } from './Modals/SelectNewField.js'
 import { IconDrag } from '../Form/IconDrag.js'
 import { border } from '../../utils/colors.js'
 
-import { styled, Style } from 'inlines'
+import { Style } from 'inlines'
 
 type SingleFieldContainerProps = {
   item: any

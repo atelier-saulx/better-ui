@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode, useRef } from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 import { color } from '../../utils/colors.js'
 import { useSortable } from '@dnd-kit/sortable'
 
@@ -11,7 +11,11 @@ export const Draggable: FC<{
   objects?: object
   overIdRef: any
   children?: ReactNode
-}> = ({ id, children, properties, objects, overIdRef }) => {
+}> = ({
+  id,
+  children,
+  // properties, objects, overIdRef
+}) => {
   // console.log(id, 'id')
 
   const {
@@ -23,7 +27,7 @@ export const Draggable: FC<{
     isDragging,
     // index,
     // activeIndex,
-    overIndex,
+    // overIndex,
     // items,
   } = useSortable({ id })
 
