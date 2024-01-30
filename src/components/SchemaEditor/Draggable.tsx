@@ -27,7 +27,7 @@ export const Draggable: FC<{
     // items,
   } = useSortable({ id })
 
-  console.log('🥝', id, 'over index', overIndex)
+  // console.log('🥝', id, 'over index', overIndex)
 
   // overIdRef.current =
   //   activeIndex > overIndex ? items[overIndex - 1] : items[overIndex]
@@ -44,7 +44,6 @@ export const Draggable: FC<{
     overflow: isDragging ? 'hidden' : null,
     transform: CSS.Transform.toString(transform),
     transition,
-    border: '2px solid red',
     marginBottom: 6,
     // marginLeft: draggingOverObjectId
     //   ? getDepth(
@@ -67,7 +66,7 @@ export const Draggable: FC<{
 
   // indexRef.current = index
 
-  console.log('ISDRAGGING ? FROM DRAGGABLE', isDragging)
+  // console.log('ISDRAGGING ? FROM DRAGGABLE', isDragging)
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>

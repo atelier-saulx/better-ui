@@ -39,6 +39,8 @@ export const SingleFieldContainer = ({
     item.type = 'richtext'
   }
 
+  // console.log('ITEM???', item)
+
   // const overIdRef = React.useRef()
 
   return (
@@ -96,7 +98,6 @@ export const SingleFieldContainer = ({
             }}
             size={'small'}
           />
-          {index}
         </Stack>
       }
       suffix={
