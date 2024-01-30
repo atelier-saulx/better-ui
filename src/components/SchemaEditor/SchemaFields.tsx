@@ -26,6 +26,9 @@ import {
 import { Stack } from '../Stack/index.js'
 import { SchemaConfirm } from './SchemaConfirm.js'
 import { Draggable } from './Draggable.js'
+import { CSS } from '@dnd-kit/utilities'
+import { useSortable } from '@dnd-kit/sortable'
+import { SortableItem } from '../SimpleExample/SortableItem.js'
 
 type SchemaItem = {
   name: string
@@ -101,22 +104,24 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     }
   }, [fields])
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  )
+  // const sensors = useSensors(
+  //   useSensor(PointerSensor),
+  //   useSensor(KeyboardSensor, {
+  //     coordinateGetter: sortableKeyboardCoordinates,
+  //   }),
+  // )
 
-  const onDragStart = React.useCallback(({ active }) => {
-    setDraggingField(active.id)
+  // const onDragStart = React.useCallback(({ active }) => {
+  //   setDraggingField(active.id)
 
-    console.log(active.id, 'dragign vianld')
-  }, [])
+  //   console.log(active.id, 'dragign vianld')
+  // }, [])
+
+  console.log('ARRAY --> 🍏', array)
 
   const onDragEnd = (event) => {
     const { active, over } = event
-    setDraggingField(false)
+    // setDraggingField(false)
 
     if (active.id.index !== over.id.index) {
       setSomethingChanged(true)
@@ -133,6 +138,7 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     }
   }
 
+  const dumbarray = ['xxx', 'yyy', 'zzz']
   const onCancel = () => {
     // SET IT BACK TO THE OG FIELDS
     setArray(parseFields(fields))
@@ -164,9 +170,20 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     setSomethingChanged(false)
   }
 
+  function dragEndEvent(e) {
+    const { over, active } = e
+    setArray((items) => {
+      return arrayMove(
+        items,
+        items.indexOf(active.id as string),
+        items.indexOf(over?.id as string),
+      )
+    })
+  }
+
   return (
     <styled.div style={{ marginTop: 16 }}>
-      <Stack>
+      {/* <Stack>
         <CheckboxInput
           label="Show system fields"
           style={{ marginBottom: 24 }}
@@ -180,41 +197,48 @@ export const SchemaFields = ({ fields, typeTitle }) => {
             hasChanges={somethingChanged}
           />
         </styled.div>
-      </Stack>
+      </Stack> */}
       <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
+        // sensors={sensors}
+        // collisionDetection={closestCenter}
+        // onDragStart={onDragStart}
+        onDragEnd={dragEndEvent}
       >
-        <SortableContext items={array} strategy={verticalListSortingStrategy}>
+        <SortableContext items={array}>
           {array
-            .filter((item) =>
-              showSystemFields
-                ? item
-                : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
-            )
-            .map((item, idx) => {
-              return (
-                <Draggable
-                  key={idx}
-                  id={item[Object.keys(item)[0]]}
-                  overIdRef={overIdRef}
-                >
-                  <SingleFieldContainer
-                    itemName={Object.keys(item)[0]}
-                    item={item[Object.keys(item)[0]]}
-                    typeTitle={typeTitle}
-                    key={idx}
-                    index={item[Object.keys(item)[0]]?.index}
-                    isDragging={item[Object.keys(item)[0]] === draggingField}
-                  />
-                </Draggable>
-              )
-            })}
+            // .filter((item) =>
+            //   showSystemFields
+            //     ? item
+            //     : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
+            // )
+            .map((item, idx) => (
+              <Draggable
+                key={Object.keys(item)[0]}
+                id={item}
+                overIdRef={overIdRef}
+              >
+                <SingleFieldContainer
+                  itemName={Object.keys(item)[0]}
+                  item={item[Object.keys(item)[0]]}
+                  typeTitle={typeTitle}
+                  index={item[Object.keys(item)[0]]?.index}
+                  isDragging={item[Object.keys(item)[0]] === draggingField}
+                />
+              </Draggable>
+              // <SingleFieldContainer
+              //   id={item[Object.keys(item)[0]]?.index}
+              //   itemName={Object.keys(item)[0]}
+              //   item={item[Object.keys(item)[0]]}
+              //   typeTitle={typeTitle}
+              //   key={idx}
+              //   index={item[Object.keys(item)[0]]?.index}
+              //   isDragging={item[Object.keys(item)[0]] === draggingField}
+              // />
+              // <SortableItem id={item} key={Object.keys(item)[0]} />
+            ))}
         </SortableContext>
 
-        {createPortal(
+        {/* {createPortal(
           <DragOverlay>
             {draggingField ? (
               <SingleFieldContainer
@@ -227,7 +251,7 @@ export const SchemaFields = ({ fields, typeTitle }) => {
             ) : null}
           </DragOverlay>,
           document.body,
-        )}
+        )} */}
       </DndContext>
     </styled.div>
   )

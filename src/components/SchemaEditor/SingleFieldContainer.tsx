@@ -32,6 +32,7 @@ export const SingleFieldContainer = ({
   index,
   isDragging = false,
   style,
+
   // changeIndex,
 }: SingleFieldContainerProps) => {
   if (item?.format === 'rich-text') {

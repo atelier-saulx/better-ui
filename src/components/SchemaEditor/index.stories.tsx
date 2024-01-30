@@ -3,6 +3,7 @@ import { SchemaEditor, Modal, Page } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
+import Demo1 from '../SimpleExample/Demo.js'
 
 const client = based({
   org: 'demo',
@@ -17,6 +18,7 @@ const meta: Meta<typeof SchemaEditor> = {
       <Provider client={client}>
         <Modal.Provider>
           <Page style={{ width: 900 }}>
+            <Demo1 />
             <Story />
           </Page>
         </Modal.Provider>
