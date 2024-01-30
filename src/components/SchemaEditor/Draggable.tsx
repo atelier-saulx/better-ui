@@ -44,7 +44,7 @@ export const Draggable: FC<{
   // const indexRef = useRef<number>()
   // const jumpedRef = useRef<boolean>()
   const style: CSSProperties = {
-    height: 50,
+    height: 'auto',
     overflow: isDragging ? 'hidden' : null,
     transform: CSS.Transform.toString(transform),
     transition,
