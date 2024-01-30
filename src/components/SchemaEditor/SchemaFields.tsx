@@ -102,7 +102,12 @@ export const SchemaFields = ({ fields, typeTitle }) => {
   }, [fields])
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    // so you can still press buttons in the fields
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),

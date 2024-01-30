@@ -46,6 +46,7 @@ export const SingleFieldContainer = ({
   return (
     <Container
       style={{
+        position: 'relative',
         cursor: isDragging ? 'grabbing' : 'grab',
         marginBottom: 8,
         border: item?.type === 'object' ? '0px solid transparent' : border(),
@@ -98,6 +99,7 @@ export const SingleFieldContainer = ({
             }}
             size={'small'}
           />
+          {index}
         </Stack>
       }
       suffix={
