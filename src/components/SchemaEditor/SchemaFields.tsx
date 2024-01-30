@@ -104,12 +104,12 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     }
   }, [fields])
 
-  // const sensors = useSensors(
-  //   useSensor(PointerSensor),
-  //   useSensor(KeyboardSensor, {
-  //     coordinateGetter: sortableKeyboardCoordinates,
-  //   }),
-  // )
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  )
 
   // const onDragStart = React.useCallback(({ active }) => {
   //   setDraggingField(active.id)
@@ -199,18 +199,18 @@ export const SchemaFields = ({ fields, typeTitle }) => {
         </styled.div>
       </Stack> */}
       <DndContext
-        // sensors={sensors}
-        // collisionDetection={closestCenter}
+        sensors={sensors}
+        collisionDetection={closestCenter}
         // onDragStart={onDragStart}
         onDragEnd={dragEndEvent}
       >
         <SortableContext items={array}>
           {array
-            // .filter((item) =>
-            //   showSystemFields
-            //     ? item
-            //     : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
-            // )
+            .filter((item) =>
+              showSystemFields
+                ? item
+                : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
+            )
             .map((item, idx) => (
               <Draggable
                 key={Object.keys(item)[0]}
@@ -225,16 +225,6 @@ export const SchemaFields = ({ fields, typeTitle }) => {
                   isDragging={item[Object.keys(item)[0]] === draggingField}
                 />
               </Draggable>
-              // <SingleFieldContainer
-              //   id={item[Object.keys(item)[0]]?.index}
-              //   itemName={Object.keys(item)[0]}
-              //   item={item[Object.keys(item)[0]]}
-              //   typeTitle={typeTitle}
-              //   key={idx}
-              //   index={item[Object.keys(item)[0]]?.index}
-              //   isDragging={item[Object.keys(item)[0]] === draggingField}
-              // />
-              // <SortableItem id={item} key={Object.keys(item)[0]} />
             ))}
         </SortableContext>
 
