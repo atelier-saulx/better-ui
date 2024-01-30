@@ -75,7 +75,7 @@ const parseFields = (fields) => {
     (a, b) => a[Object.keys(a)[0]].index - b[Object.keys(b)[0]].index,
   )
 
-  console.log('❤️‍🔥 index array ', indexedArray)
+  // console.log('❤️‍🔥 index array ', indexedArray)
 
   return [...indexedArray]
 }
@@ -83,7 +83,7 @@ const parseFields = (fields) => {
 export const SchemaFields = ({ fields, typeTitle }) => {
   const client = useClient()
 
-  console.log('incoming fields ', fields)
+  // console.log('incoming fields ', fields)
   const overIdRef = React.useRef()
 
   const [showSystemFields, setShowSystemFields] = React.useState(false)
@@ -118,7 +118,7 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     console.log(active.id, 'dragign vianld')
   }, [])
 
-  console.log('ARRAY --> 🍏', array)
+  // console.log('ARRAY --> 🍏', array)
 
   const onDragEnd = (event) => {
     const { active, over } = event

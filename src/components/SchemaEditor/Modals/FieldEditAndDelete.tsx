@@ -8,12 +8,14 @@ import { useClient, useQuery } from '@based/react'
 import { findPath } from '../utils/findPath.js'
 import { AddField } from './AddField.js'
 
-export const FieldEditAndDelete = ({ item, typeTitle }) => {
+export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
   const { open } = Modal.useModal()
 
   const client = useClient()
 
   const { data } = useQuery('db:schema')
+
+  // console.log('item from fieldEditDelete', item)
 
   return (
     <Dropdown.Root>
@@ -31,6 +33,7 @@ export const FieldEditAndDelete = ({ item, typeTitle }) => {
                 fieldType={item?.type}
                 // use edit item for edit options
                 editItem={item}
+                itemName={itemName}
                 onConfirm={close}
               />
             ))
@@ -48,10 +51,10 @@ export const FieldEditAndDelete = ({ item, typeTitle }) => {
                 onConfirm={async () => {
                   const nestedPath = findPath(
                     data.types[typeTitle].fields,
-                    item.title,
+                    itemName,
                   )
 
-                  nestedPath.push(item?.title)
+                  nestedPath.push(itemName)
 
                   const currentFields = data.types[typeTitle].fields
                   const fields = {}
@@ -86,10 +89,10 @@ export const FieldEditAndDelete = ({ item, typeTitle }) => {
                   console.log(deleteThis)
                 }}
               >
-                <Text variant="title-modal">{`Are you sure you want to delete ${item?.title}?`}</Text>
+                <Text variant="title-modal">{`Are you sure you want to delete ${itemName}?`}</Text>
                 <Modal.Message
                   variant="error"
-                  message={`you are about to delete the field: ${item?.title} `}
+                  message={`you are about to delete the field: ${itemName} `}
                   style={{ marginTop: 24, marginBottom: 20 }}
                 />
               </Modal>

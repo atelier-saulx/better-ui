@@ -71,7 +71,7 @@ export const SingleFieldContainer = ({
           <Badge color={SCHEMA_FIELDS[item?.type]?.color}>
             {item?.type}
           </Badge>{' '}
-          {SYSTEM_FIELDS.includes(item?.title) ? (
+          {SYSTEM_FIELDS.includes(itemName) ? (
             <Badge color="neutral-muted">System</Badge>
           ) : null}
           {(item?.display || item?.format) && (
@@ -83,7 +83,10 @@ export const SingleFieldContainer = ({
       prefix={
         <Stack gap={12}>
           <IconDrag
-            style={{ '& svg': { width: 18, height: 18, marginLeft: 8 } }}
+            style={{
+              cursor: isDragging ? 'grabbing' : 'grab',
+              '& svg': { width: 18, height: 18, marginLeft: 8 },
+            }}
           />
           <Thumbnail
             // outline
@@ -107,7 +110,11 @@ export const SingleFieldContainer = ({
           {item?.type === 'object' && (
             <SelectNewField typeTitle={typeTitle} fieldItem={item} light />
           )}
-          <FieldEditAndDelete item={item} typeTitle={typeTitle} />
+          <FieldEditAndDelete
+            item={item}
+            itemName={itemName}
+            typeTitle={typeTitle}
+          />
         </Stack>
       }
       expandable={item?.type === 'object' ? true : false}

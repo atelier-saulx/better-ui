@@ -30,6 +30,7 @@ type AddFieldProps = {
   onConfirm?: (v: any) => void
   fieldItem?: any
   editItem?: any
+  itemName?: string
 }
 
 type SpecificOptionsProps = {
@@ -68,22 +69,25 @@ export const AddField = ({
   onConfirm,
   fieldItem,
   editItem,
+  itemName = '',
 }: AddFieldProps) => {
   const [meta, setMeta] = React.useReducer(metaReducer, editItem || {})
-  const [fieldName, setFieldName] = React.useState('')
+  const [fieldName, setFieldName] = React.useState(itemName)
   const [tabIndex, setTabIndex] = React.useState(1)
   // for arrays
   const [items, setItems] = React.useState(
-    editItem ? editItem?.items : { type: 'string' },
+    editItem ? { [itemName]: { ...editItem } } : { type: 'string' },
   )
 
   const client = useClient()
 
   const { data } = useQuery('db:schema')
 
-  // React.useEffect(() => {
-  //   console.log('did something changed in the meta:', meta)
-  // }, [meta])
+  console.log(items, 'hellow tshtf', editItem)
+
+  React.useEffect(() => {
+    console.log('did something changed in the meta:', meta)
+  }, [meta])
 
   // console.log('NESTED 2--> field item ', fieldItem)
   // console.log('nested 2 typeTitle, ', typeTitle)
@@ -172,7 +176,7 @@ export const AddField = ({
           }
 
           if (editItem) {
-            dest[editItem.title] = fields[editItem.title]
+            dest[itemName] = fields[itemName]
           } else {
             // @ts-ignore // add the field to here
             dest.properties = fields
@@ -183,8 +187,10 @@ export const AddField = ({
 
         if (editItem && editItem.index) {
           // keep index after editing
-          fields[editItem?.title].index = editItem.index
+          fields[itemName].index = editItem.index
         }
+
+        console.log('FIELDS before SETTING THEM 🍎', fields)
 
         await client.call('db:set-schema', {
           mutate: true,
@@ -344,7 +350,7 @@ const SpecificOptions = ({
   setItems,
   items,
 }: SpecificOptionsProps) => {
-  console.log('What is itesm', items)
+  console.log('What is itemsS?', items)
 
   return (
     // STRING & // TEXT
