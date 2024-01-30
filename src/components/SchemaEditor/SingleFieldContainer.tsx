@@ -39,7 +39,7 @@ export const SingleFieldContainer = ({
     item.type = 'richtext'
   }
 
-  // console.log('ITEM???', item)
+  console.log('ITEM???', item)
 
   // const overIdRef = React.useRef()
 
@@ -108,7 +108,11 @@ export const SingleFieldContainer = ({
       suffix={
         <Stack gap={12}>
           {item?.type === 'object' && (
-            <SelectNewField typeTitle={typeTitle} fieldItem={item} light />
+            <SelectNewField
+              typeTitle={typeTitle}
+              fieldItem={{ [itemName]: { ...item } }}
+              light
+            />
           )}
           <FieldEditAndDelete
             item={item}

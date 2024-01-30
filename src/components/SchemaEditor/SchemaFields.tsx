@@ -185,51 +185,53 @@ export const SchemaFields = ({ fields, typeTitle }) => {
           />
         </styled.div>
       </Stack>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-      >
-        <SortableContext items={array} strategy={verticalListSortingStrategy}>
-          {array
-            .filter((item) =>
-              showSystemFields
-                ? item
-                : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
-            )
-            .map((item) => (
-              <Draggable
-                key={Object.keys(item)[0]}
-                id={item}
-                overIdRef={overIdRef}
-              >
-                <SingleFieldContainer
-                  itemName={Object.keys(item)[0]}
-                  item={item[Object.keys(item)[0]]}
-                  typeTitle={typeTitle}
-                  index={item[Object.keys(item)[0]]?.index}
-                  isDragging={item[Object.keys(item)[0]] === draggingField}
-                />
-              </Draggable>
-            ))}
-        </SortableContext>
+      {fields && array && (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+        >
+          <SortableContext items={array} strategy={verticalListSortingStrategy}>
+            {array
+              .filter((item) =>
+                showSystemFields
+                  ? item
+                  : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
+              )
+              .map((item) => (
+                <Draggable
+                  key={Object.keys(item)[0]}
+                  id={item}
+                  overIdRef={overIdRef}
+                >
+                  <SingleFieldContainer
+                    itemName={Object.keys(item)[0]}
+                    item={item[Object.keys(item)[0]]}
+                    typeTitle={typeTitle}
+                    index={item[Object.keys(item)[0]]?.index}
+                    isDragging={item[Object.keys(item)[0]] === draggingField}
+                  />
+                </Draggable>
+              ))}
+          </SortableContext>
 
-        {createPortal(
-          <DragOverlay>
-            {draggingField ? (
-              <SingleFieldContainer
-                isDragging
-                itemName={Object.keys(draggingField)[0]}
-                item={draggingField[Object.keys(draggingField)[0]]}
-                typeTitle={typeTitle}
-                style={{ backgroundColor: color('background', 'screen') }}
-              />
-            ) : null}
-          </DragOverlay>,
-          document.body,
-        )}
-      </DndContext>
+          {createPortal(
+            <DragOverlay>
+              {draggingField ? (
+                <SingleFieldContainer
+                  isDragging
+                  itemName={Object.keys(draggingField)[0]}
+                  item={draggingField[Object.keys(draggingField)[0]]}
+                  typeTitle={typeTitle}
+                  style={{ backgroundColor: color('background', 'screen') }}
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body,
+          )}
+        </DndContext>
+      )}
     </styled.div>
   )
 }

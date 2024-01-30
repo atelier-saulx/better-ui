@@ -89,8 +89,8 @@ export const AddField = ({
     console.log('did something changed in the meta:', meta)
   }, [meta])
 
-  // console.log('NESTED 2--> field item ', fieldItem)
-  // console.log('nested 2 typeTitle, ', typeTitle)
+  console.log('NESTED 2--> field item ', fieldItem)
+  console.log('nested 2 typeTitle, ', typeTitle)
 
   return (
     <Modal

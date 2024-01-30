@@ -71,7 +71,7 @@ export const AddType = ({ setActive, light }: AddTypeProps) => {
                 disabled={typeTitle.length < 3}
                 onClick={async () => {
                   const typeSchema = {
-                    title: typeTitle,
+                    //  title: typeTitle,
                     description: description,
                   }
 
@@ -87,7 +87,7 @@ export const AddType = ({ setActive, light }: AddTypeProps) => {
                   })
 
                   setActive(typeTitle)
-                  setTypeTitle(typeTitle)
+                  setTypeTitle('')
                   setDescription('')
                   close()
                 }}
