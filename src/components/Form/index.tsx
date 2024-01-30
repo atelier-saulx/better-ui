@@ -166,22 +166,7 @@ export const Form = (p: FormProps) => {
   }
 
   return (
-    <Stack gap={32} direction="column" align="start">
-      {Object.entries(p.fields)
-        .sort(([, a], [, b]) => {
-          return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
-        })
-        .map(([key, field], i) => {
-          return (
-            <Field
-              ctx={ctx}
-              key={key}
-              field={field}
-              propKey={key}
-              autoFocus={p.autoFocus && i === 0}
-            />
-          )
-        })}
+    <>
       <FormConfirm
         confirmLabel={p.confirmLabel}
         onConfirm={onConfirm}
@@ -189,6 +174,23 @@ export const Form = (p: FormProps) => {
         hasChanges={valueRef.current.hasChanges}
         variant={p.variant}
       />
-    </Stack>
+      <Stack gap={32} direction="column" align="start">
+        {Object.entries(p.fields)
+          .sort(([, a], [, b]) => {
+            return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
+          })
+          .map(([key, field], i) => {
+            return (
+              <Field
+                ctx={ctx}
+                key={key}
+                field={field}
+                propKey={key}
+                autoFocus={p.autoFocus && i === 0}
+              />
+            )
+          })}
+      </Stack>
+    </>
   )
 }

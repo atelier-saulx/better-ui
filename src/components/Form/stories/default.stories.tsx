@@ -66,6 +66,7 @@ export const Default = () => {
   return (
     <Form
       checksum={cnt}
+      variant="regular"
       onFileUpload={fileUpload}
       values={{
         src: 'https://i.imgur.com/t1bWmmC.jpeg',
