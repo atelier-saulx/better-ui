@@ -20,7 +20,11 @@ export const genObjectSchema = (value: any[]): BasedSchemaFieldObject => {
   }
 
   for (const key of hasFields.values()) {
-    if (key === 'color') {
+    if (key === 'number' || key === 'count') {
+      objectSchema.properties[key] = {
+        type: 'number',
+      }
+    } else if (key === 'color') {
       objectSchema.properties[key] = {
         type: 'string',
         format: 'rgbColor',
