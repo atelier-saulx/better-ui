@@ -13,7 +13,7 @@ export type StackProps = Omit<React.HTMLProps<any>, 'style'> & {
   display?: boolean | 'block' | 'flex' | 'grid' | 'inline-flex'
   fitContent?: boolean
   padding?: 16 | 32 | 64 | true
-  gap?: 0 | 2 | 4 | 8 | 12 | 16 | 24 | 32 | 64
+  gap?: 0 | 2 | 4 | 6 | 8 | 12 | 16 | 24 | 32 | 64
 }
 
 const ReactStack = React.forwardRef(

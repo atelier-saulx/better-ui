@@ -265,6 +265,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {prefix}
           {children && (
             <Text
+              as="div"
               singleLine
               color="inherit"
               variant={size === 'small' ? 'body' : 'body-bold'}

@@ -79,15 +79,20 @@ export function Sidebar({
       }}
     >
       {header && (
-        <styled.div style={{ padding: '16px 12px' }}>{header}</styled.div>
+        <styled.div style={{ padding: '16px 12px 36px 16px' }}>
+          {header}
+        </styled.div>
       )}
       <SidebarContext.Provider value={{ open, value, onValueChange }}>
-        <Stack direction="column" style={{ flex: '1', overflow: 'hidden' }}>
-          <ScrollArea
-            style={{
-              padding: header ? '0 12px 64px' : '16px 12px 64px',
-            }}
-          >
+        <ScrollArea
+          style={{
+            paddingLeft: 8,
+            paddingRight: 8,
+
+            paddingTop: header ? 0 : 8,
+          }}
+        >
+          <Stack style={{}} direction="column" gap={6}>
             {children
               ? children
               : Array.isArray(data)
@@ -116,8 +121,8 @@ export function Sidebar({
                       ))}
                     </SidebarGroup>
                   ))}
-          </ScrollArea>
-        </Stack>
+          </Stack>
+        </ScrollArea>
       </SidebarContext.Provider>
       {collapsable ? (
         <styled.div style={{ position: 'absolute', bottom: 16, right: 12 }}>
@@ -167,9 +172,15 @@ export function SidebarItem({
       <Stack
         gap={8}
         style={{
-          height: size === 'small' ? 32 : 40,
+          ...(size === 'small' && {
+            '& svg': {
+              height: 16,
+              width: 16,
+            },
+          }),
+          height: size === 'small' ? 28 : 40,
           padding: '0 8px',
-          borderRadius: borderRadius('small'),
+          borderRadius: borderRadius(size === 'small' ? 'tiny' : 'small'),
           color: color('content', 'primary'),
           ...(sidebarValue === value
             ? {
@@ -186,11 +197,18 @@ export function SidebarItem({
           onValueChange(value)
         }}
       >
-        <styled.div style={{ flexShrink: 0 }}>{prefix}</styled.div>
-        <Text singleLine color="inherit">
+        {prefix ? (
+          <styled.div style={{ flexShrink: 0 }}>{prefix}</styled.div>
+        ) : null}
+        <Text
+          variant={sidebarValue === value ? 'body-bold' : 'body'}
+          singleLine
+          color="inherit"
+          style={{ flexGrow: 1 }}
+        >
           {children}
         </Text>
-        <Stack justify="end" style={{ flexGrow: 1 }}>
+        <Stack fitContent justify="end">
           {suffix}
         </Stack>
       </Stack>
@@ -199,8 +217,8 @@ export function SidebarItem({
 
   return (
     <Stack
+      // gap
       style={{
-        display: 'flex',
         '&:not(:first-of-type)': {
           marginTop: '8px',
         },
@@ -250,11 +268,13 @@ export type SidebarGroupProps = {
 }
 
 export function SidebarGroup({ title, children }: SidebarGroupProps) {
-  const { open } = React.useContext(SidebarContext)
+  // const { open } = React.useContext(SidebarContext)
 
   return (
-    <Stack direction="column">
-      <Text variant="caption">{title}</Text>
+    <Stack gap={8} direction="column">
+      <Text style={{ marginLeft: 7 }} variant="caption">
+        {title}
+      </Text>
       {children}
     </Stack>
   )
