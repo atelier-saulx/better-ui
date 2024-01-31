@@ -48,6 +48,7 @@ export const ColStack = React.forwardRef(
       header,
       action,
       hover,
+      noRemove,
       ...p
     }: {
       hover?: boolean
@@ -75,12 +76,12 @@ export const ColStack = React.forwardRef(
               borderRight: '0px solid transparent !important',
             },
 
-            '& >:nth-last-child(2)': p.noRemove
+            '& >:nth-last-child(2)': noRemove
               ? {}
               : {
                   borderRight: '0px solid transparent !important',
                 },
-            '& >:nth-last-child(1)': p.noRemove
+            '& >:nth-last-child(1)': noRemove
               ? {}
               : {
                   opacity: 0,
@@ -100,7 +101,7 @@ export const ColStack = React.forwardRef(
           {...p}
         >
           {children}
-          {p.noRemove ? null : (
+          {noRemove ? null : (
             <Action action={action} header={header} onRemove={onRemove} />
           )}
         </Stack>
