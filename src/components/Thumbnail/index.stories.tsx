@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { faker } from '@faker-js/faker'
+import { color } from '../../index.js'
 
 const meta: Meta<typeof Thumbnail> = {
   title: 'Atoms/Thumbnail',
@@ -63,6 +64,13 @@ const facesNames = new Array(100).fill(null).map(() => ({
 export const Gallery = () => {
   return (
     <Stack grid>
+      <div
+        style={{
+          width: 64,
+          height: 64,
+          background: color('non-semantic-color', 'red', 'primary'),
+        }}
+      ></div>
       {facesNames.map((v) => {
         return <Thumbnail text={v.firstName} key={v.id} />
       })}

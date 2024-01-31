@@ -83,4 +83,9 @@
   /* error muted */
   --semantic-color-error-muted: #c53434;
   --semantic-background-error-muted: #c5343429;
+
+  /* NON SEMANTIC COLORS VARS */
+  --non-semantic-color-red: #c53434;
+  --non-semantic-color-red-primary: #c53434;
+  --non-semantic-color-red-soft: rgba(197, 52, 52, 0.16);
 }

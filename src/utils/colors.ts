@@ -24,7 +24,10 @@ export type Color = {
     | 'secondary-hover'
   'semantic-color': SemanticVariant
   'semantic-background': SemanticVariant
+  'non-semantic-color': NonSemanticColor
 }
+
+export type NonSemanticVariants = 'primary' | 'soft'
 
 export const SEMANTIC_COLORS: SemanticVariant[] = [
   'neutral',
@@ -42,11 +45,16 @@ export const MUTED_SEMANTIC_COLORS: SemanticVariant[] = [
   'error-muted',
 ]
 
+export const NON_SEMANTIC_VARIANTS = ['primary', 'soft']
+
 export const color = <T extends keyof Color>(
   group: T,
   color: Color[T],
+  variable?: NonSemanticVariants,
 ): string => {
-  return `var(--${group}-${color})`
+  return variable
+    ? `var(--${group}-${color}-${variable})`
+    : `var(--${group}-${color})`
 }
 
 export const border = (
