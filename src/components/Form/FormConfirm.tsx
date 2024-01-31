@@ -2,10 +2,6 @@ import React, { ReactNode, useEffect, useState, useRef } from 'react'
 import { Confirm, color, Stack, borderRadius } from '../../index.js'
 import { Variant } from './types.js'
 
-const useDetectSticky = (ref, observerSettings = { threshold: [1] }) => {
-  return [isSticky, ref, setIsSticky]
-}
-
 // setWalker
 export const FormConfirm = (p: {
   variant: Variant
@@ -51,39 +47,41 @@ export const FormConfirm = (p: {
 
   return (
     <Stack
-      display={show}
-      justify="end"
+      display={show ? 'block' : null}
       ref={ref}
       style={{
         top: '0px',
         height: 0,
+        maxHeight: 0,
         position: 'sticky',
       }}
     >
-      <Stack style={{ flexGrow: 1 }} />
-      <Stack
-        fitContent
-        style={{
-          flexGrow: 0,
-        }}
-      >
-        <Confirm
+      <Stack justify="end">
+        <Stack style={{ flexGrow: 1 }} />
+        <Stack
+          fitContent
           style={{
-            transform: 'translate(16px,0px)',
-            padding: '12px 16px 12px 16px',
-            borderRadius: borderRadius('small'),
-            boxShadow: isSticky
-              ? '0px 0px 10px ' + color('background', 'neutral')
-              : null,
-            backgroundColor: isSticky ? color('background', 'screen') : null,
+            flexGrow: 0,
           }}
-          cancelLabel="Discard changes"
-          label={p.confirmLabel ?? 'Apply changes'}
-          justify="end"
-          variant={'small'}
-          onConfirm={p.onConfirm}
-          onCancel={p.onCancel}
-        />
+        >
+          <Confirm
+            style={{
+              transform: 'translate(16px,0px)',
+              padding: '12px 16px 12px 16px',
+              borderRadius: borderRadius('small'),
+              boxShadow: isSticky
+                ? '0px 0px 10px ' + color('background', 'neutral')
+                : null,
+              backgroundColor: isSticky ? color('background', 'screen') : null,
+            }}
+            cancelLabel="Discard changes"
+            label={p.confirmLabel ?? 'Apply changes'}
+            justify="end"
+            variant={'small'}
+            onConfirm={p.onConfirm}
+            onCancel={p.onCancel}
+          />
+        </Stack>
       </Stack>
     </Stack>
   )
