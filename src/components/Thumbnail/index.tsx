@@ -9,9 +9,9 @@ import {
   border,
   color as getColor,
   textVariants,
-  NON_SEMANTIC_COLORS,
-  MUTED_NON_SEMANTIC_COLORS,
   NonSemanticColor,
+  hashNonSemanticColor,
+  NON_SEMANTIC_COLOR,
 } from '../../index.js'
 
 // TODO think about if we need text over image, if so how do we handle the colors of the text
@@ -52,21 +52,25 @@ export function Thumbnail({
 
     if (colorProp === 'auto' || colorProp === 'auto-muted') {
       const colors =
-        colorProp === 'auto' ? NON_SEMANTIC_COLORS : MUTED_NON_SEMANTIC_COLORS
+        colorProp === 'auto'
+          ? hashNonSemanticColor(text)
+          : hashNonSemanticColor(text, true)
 
-      const index =
-        Math.floor(
-          Math.abs(Math.sin(hash(text || icon?.toString() || 'xxx'))) *
-            (colors.length - 1),
-        ) + 1
+      // const index =
+      //   Math.floor(
+      //     Math.abs(Math.sin(hash(text || icon?.toString() || 'xxx'))) *
+      //       (Object.keys(NON_SEMANTIC_COLOR).length / 2 - 1),
+      //   ) + 1
 
-      return colors[index]
+      return colors
     }
 
     return colorProp
   }, [colorProp, text])
 
   let borderColor
+
+  console.log(color, 'WHAT DOES IT LOOK LOKEA')
 
   if (color.includes('soft')) {
     borderColor = color.substring(0, color.length - 6)

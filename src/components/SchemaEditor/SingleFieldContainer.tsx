@@ -73,29 +73,38 @@ export const SingleFieldContainer = ({
       title={
         <Stack gap={12}>
           <Text variant="body-bold">{itemName}</Text>
-          <Badge color={SCHEMA_FIELDS[item?.type]?.color}>
+          <Badge size="small" color="neutral-muted">
             {item?.type}
           </Badge>{' '}
           {SYSTEM_FIELDS.includes(itemName) ? (
-            <Badge color="neutral-muted">System</Badge>
+            <Badge size="small" color="neutral-muted">
+              System
+            </Badge>
           ) : null}
           {(item?.display || item?.format) && (
-            <Badge color="neutral">{item?.format || item?.display}</Badge>
+            <Badge size="small" color="neutral-muted">
+              {item?.format || item?.display}
+            </Badge>
           )}
-          {item?.items && <Badge color="neutral">{item.items.type}</Badge>}
+          {item?.items && (
+            <Badge color="neutral-muted" size="small">
+              {item.items.type}
+            </Badge>
+          )}
         </Stack>
       }
       prefix={
-        <Stack gap={12}>
+        <Stack gap={16}>
           <IconDrag
             style={{
               cursor: isDragging ? 'grabbing' : 'grab',
-              '& svg': { width: 18, height: 18, marginLeft: 8 },
+              '& svg': { width: 14, height: 14, marginLeft: 8 },
             }}
           />
           <Thumbnail
             icon={SCHEMA_FIELDS[item?.type]?.icon}
             color={SCHEMA_FIELDS[item?.type]?.color}
+            outline
             style={{
               marginRight: 6,
               borderRadius: 8,
@@ -106,7 +115,6 @@ export const SingleFieldContainer = ({
             }}
             size={'small'}
           />
-          {index}
         </Stack>
       }
       suffix={

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {
-  NON_SEMANTIC_COLORS,
+  NON_SEMANTIC_COLOR,
   NonSemanticColor,
   Text,
   borderRadius,
@@ -59,7 +59,7 @@ export function PieGraph({ data: rawData, legend = false }: PieGraphProps) {
               r="47"
               fill="none"
               stroke={
-                NON_SEMANTIC_COLORS[e.color] ?? hashNonSemanticColor(e.label)
+                NON_SEMANTIC_COLOR[e.color] ?? hashNonSemanticColor(e.label)
               }
               strokeWidth={e.strokeWidth}
               strokeDasharray={100}
@@ -123,7 +123,7 @@ export function PieGraph({ data: rawData, legend = false }: PieGraphProps) {
                   height: 12,
                   width: 12,
                   background:
-                    NON_SEMANTIC_COLORS[e.color] ??
+                    NON_SEMANTIC_COLOR[e.color] ??
                     hashNonSemanticColor(e.label),
                 }}
               />
