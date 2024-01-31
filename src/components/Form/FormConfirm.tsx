@@ -15,10 +15,17 @@ export const FormConfirm = (p: {
   }
   return (
     <Confirm
+      style={{
+        height: 0,
+        // marginBottom: 16,
+        zIndex: 1, // for code block...
+        position: 'sticky',
+        top: 0,
+      }}
       cancelLabel="Discard changes"
       label={p.confirmLabel ?? 'Apply changes'}
-      justify="start"
-      variant={p.variant}
+      justify="end"
+      variant={'small'}
       onConfirm={p.onConfirm}
       onCancel={p.onCancel}
     />

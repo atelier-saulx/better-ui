@@ -166,9 +166,16 @@ export const Form = (p: FormProps) => {
   }
 
   return (
-    <Stack gap={32} direction="column" align="start">
-      {p.fields &&
-        Object.entries(p.fields)
+    <>
+      <FormConfirm
+        confirmLabel={p.confirmLabel}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        hasChanges={valueRef.current.hasChanges}
+        variant={p.variant}
+      />
+      <Stack gap={32} direction="column" align="start">
+        {Object.entries(p.fields)
           .sort(([, a], [, b]) => {
             return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
           })
@@ -183,13 +190,7 @@ export const Form = (p: FormProps) => {
               />
             )
           })}
-      <FormConfirm
-        confirmLabel={p.confirmLabel}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-        hasChanges={valueRef.current.hasChanges}
-        variant={p.variant}
-      />
-    </Stack>
+      </Stack>
+    </>
   )
 }
