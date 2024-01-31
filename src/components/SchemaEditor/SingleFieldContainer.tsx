@@ -9,13 +9,7 @@ import { Stack } from '../Stack/index.js'
 import { SelectNewField } from './Modals/SelectNewField.js'
 import { IconDrag } from '../Form/IconDrag.js'
 import { border } from '../../utils/colors.js'
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
-import { Draggable } from './Draggable.js'
+
 import { Style } from 'inlines'
 
 type SingleFieldContainerProps = {
@@ -47,7 +41,7 @@ export const SingleFieldContainer = ({
 
   console.log('ITEM???', item)
 
-  const overIdRef = React.useRef()
+  // const overIdRef = React.useRef()
 
   return (
     <Container
@@ -67,7 +61,6 @@ export const SingleFieldContainer = ({
           borderTop: '1px solid transparent !important',
           padding: '8px 0px 0px 20px !important',
         },
-        // backgroundColor: 'transparent',
         opacity: SYSTEM_FIELDS.includes(itemName) ? 0.5 : 1,
         ...style,
       }}
@@ -95,7 +88,6 @@ export const SingleFieldContainer = ({
             }}
           />
           <Thumbnail
-            // outline
             icon={SCHEMA_FIELDS[item?.type]?.icon}
             color={SCHEMA_FIELDS[item?.type]?.color}
             style={{
@@ -132,8 +124,8 @@ export const SingleFieldContainer = ({
     >
       {item?.type === 'object' &&
         Object.keys(item.properties).map((subItem, idx) => {
-          console.log('🦀🐡', item.properties[subItem])
-          console.log('sub item 🐳', subItem)
+          // console.log('🦀🐡', item.properties[subItem])
+          // console.log('sub item 🐳', subItem)
 
           return (
             <SingleFieldContainer

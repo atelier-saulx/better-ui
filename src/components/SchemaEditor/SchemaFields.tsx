@@ -210,6 +210,8 @@ export const SchemaFields = ({ fields, typeTitle }) => {
                   console.log('ey yo its an object')
                 }
 
+                const itemName = Object.keys(item)[0]
+
                 return (
                   <Draggable
                     key={Object.keys(item)[0]}
@@ -217,11 +219,11 @@ export const SchemaFields = ({ fields, typeTitle }) => {
                     overIdRef={overIdRef}
                   >
                     <SingleFieldContainer
-                      itemName={Object.keys(item)[0]}
-                      item={item[Object.keys(item)[0]]}
+                      itemName={itemName}
+                      item={item[itemName]}
                       typeTitle={typeTitle}
-                      index={item[Object.keys(item)[0]]?.index}
-                      isDragging={item[Object.keys(item)[0]] === draggingField}
+                      index={item[itemName]?.index}
+                      isDragging={item[itemName] === draggingField}
                     />
                   </Draggable>
                 )
