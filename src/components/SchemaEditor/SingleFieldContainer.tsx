@@ -9,7 +9,13 @@ import { Stack } from '../Stack/index.js'
 import { SelectNewField } from './Modals/SelectNewField.js'
 import { IconDrag } from '../Form/IconDrag.js'
 import { border } from '../../utils/colors.js'
-
+// import {
+//   arrayMove,
+//   SortableContext,
+//   sortableKeyboardCoordinates,
+//   verticalListSortingStrategy,
+// } from '@dnd-kit/sortable'
+// import { Draggable } from './Draggable.js'
 import { Style } from 'inlines'
 
 type SingleFieldContainerProps = {

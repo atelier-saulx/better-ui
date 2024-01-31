@@ -8,6 +8,8 @@ import {
   color,
   textVariants,
   useKeyboardShortcut,
+  Stack,
+  Text,
 } from '../../index.js'
 
 export type ButtonProps = {
@@ -25,7 +27,7 @@ export type ButtonProps = {
   className?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
-  size?: 'large' | 'medium' | 'small'
+  size?: 'large' | 'regular' | 'small'
   type?: 'button' | 'submit'
   shape?: 'square' | 'rectangle'
   disabled?: boolean
@@ -46,7 +48,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       onClick,
       variant = 'primary',
-      size = 'medium',
+      size = 'regular',
       type = 'button',
       shape = 'rectangle',
       prefix,
@@ -115,18 +117,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(size === 'large' && {
             padding: shape === 'rectangle' ? '9px 16px' : '13px',
-            fontSize: 16,
-            lineHeight: '28px',
           }),
-          ...(size === 'medium' && {
+          ...(size === 'regular' && {
             padding: shape === 'rectangle' ? '5px 16px' : '9px',
-            fontSize: 16,
-            lineHeight: '28px',
           }),
           ...(size === 'small' && {
             padding: shape === 'rectangle' ? '3px 12px' : '5px',
-            fontSize: 14,
-            lineHeight: '24px',
           }),
           ...(variant === 'primary' && {
             color: color('content', 'inverted'),
@@ -211,6 +207,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             border: 'none',
             padding: 0,
           }),
+          ...(variant !== 'icon-only' && {
+            '& svg': {
+              height: size === 'small' ? 16 : 18,
+              width: size === 'small' ? 16 : 18,
+            },
+          }),
           ...style,
         }}
         onClick={handleClick}
@@ -225,15 +227,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
       >
         {loading && (
-          <div
+          <Stack
+            justify="center"
+            fitContent
             style={{
               position: 'absolute',
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
             }}
           >
             <svg
@@ -252,34 +253,32 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 strokeLinecap="round"
               />
             </svg>
-          </div>
+          </Stack>
         )}
-        <div
+        <Stack
+          gap={8}
+          justify="center"
           style={{
-            opacity: loading ? 0 : 100,
-            display: 'flex',
-            gap: 8,
-            justifyContent: 'center',
-            alignItems: 'center',
+            opacity: loading ? 0 : 1,
           }}
         >
           {prefix}
           {children && (
-            <span
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+            <Text
+              noSelect
+              as="div"
+              singleLine
+              color="inherit"
+              variant={size === 'small' ? 'body' : 'body-bold'}
             >
               {children}
-            </span>
+            </Text>
           )}
           {displayKeyboardShortcut && keyboardShortcut && (
             <KeyboardShortcut shortcut={keyboardShortcut} />
           )}
           {suffix}
-        </div>
+        </Stack>
       </styled.button>
     )
   },

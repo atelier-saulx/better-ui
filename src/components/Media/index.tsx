@@ -26,7 +26,7 @@ const MediaInner = ({
   thumbnail,
   variant,
 }: {
-  size?: 'small' | 'medium' | 'large'
+  size?: 'small' | 'regular' | 'large'
   src?: string
   type?: string
   thumbnail?: string
@@ -160,7 +160,7 @@ const MediaInner = ({
           ...textVariants['body-strong'],
           color: color('interactive', 'primary'),
           textTransform: 'uppercase',
-          fontSize: size === 'small' ? 7 : size === 'medium' ? 14 : 24,
+          fontSize: size === 'small' ? 7 : size === 'regular' ? 14 : 24,
         }}
       >
         {fileText}
@@ -177,7 +177,7 @@ export function Media({
   style,
 }: MediaProps) {
   const containerElem = React.useRef<HTMLDivElement | null>(null)
-  const [size, setSize] = React.useState<'small' | 'medium' | 'large'>(null)
+  const [size, setSize] = React.useState<'small' | 'regular' | 'large'>(null)
 
   if (!type && src) {
     type = getMimeType(src)
@@ -193,7 +193,7 @@ export function Media({
       }
 
       if (width < 400 || height < 400) {
-        setSize('medium')
+        setSize('regular')
         return
       }
 
@@ -211,7 +211,7 @@ export function Media({
         containerElem.current = null
       }
     },
-    [observer]
+    [observer],
   )
 
   return (

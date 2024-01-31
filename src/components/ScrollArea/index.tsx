@@ -59,12 +59,14 @@ export const ScrollArea = ({
       style={{
         width: '100%',
         height: '100%',
+        maxHeight: '100%',
       }}
     >
       <styled.div
         style={{
           width: '100%',
           height: '100%',
+          maxHeight: '100%',
           '& > div > div': {
             minHeight: '100%',
             height: '100%',
@@ -75,6 +77,7 @@ export const ScrollArea = ({
           style={{
             width: '100%',
             height: '100%',
+            maxHeight: '100%',
             borderRadius: 'inherit',
             ...style,
           }}

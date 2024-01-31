@@ -14,19 +14,18 @@ export const SchemaSideBar = ({ types, active, setActive }) => {
     }))
 
   return (
-    <div>
-      <Sidebar
-        header={
-          <Stack>
-            <Text variant="caption">Types</Text>
-            <AddType setActive={setActive} light />
-          </Stack>
-        }
-        value={active}
-        onValueChange={(v) => setActive(v)}
-        style={{ maxWidth: 224 }}
-        data={sidebarData}
-      />
-    </div>
+    <Sidebar
+      header={
+        <Stack>
+          <Text variant="caption">Types</Text>
+          <AddType setActive={setActive} light />
+        </Stack>
+      }
+      size="small"
+      value={active}
+      onValueChange={(v) => setActive(v)}
+      style={{ maxWidth: 224 }}
+      data={sidebarData}
+    />
   )
 }

@@ -122,8 +122,6 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     console.log(active.id, 'dragign vianld')
   }, [])
 
-  // console.log('ARRAY --> 🍏', array)
-
   const onDragEnd = (event) => {
     const { active, over } = event
     setDraggingField(false)
