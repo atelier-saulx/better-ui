@@ -38,6 +38,7 @@ export type SidebarProps = {
   collapsable?: boolean
   children?: React.ReactNode
   header?: React.ReactNode
+  HeaderComponent?: React.FC<{ open: boolean }>
 }
 
 export function Sidebar({
@@ -50,6 +51,7 @@ export function Sidebar({
   collapsable = false,
   children,
   header,
+  HeaderComponent,
   size,
 }: SidebarProps) {
   const isMobile = useIsMobile()
@@ -72,57 +74,88 @@ export function Sidebar({
         flexShrink: 0,
         position: 'relative',
         width: open ? 248 : 65,
+        maxHeight: '100%',
         height: '100%',
         borderRight: border(),
-        overflow: 'hidden',
         ...style,
       }}
     >
-      {header && (
-        <styled.div style={{ padding: '16px 12px 36px 16px' }}>
-          {header}
-        </styled.div>
-      )}
-      <SidebarContext.Provider value={{ open, value, onValueChange }}>
-        <ScrollArea
+      {(header || HeaderComponent) && (
+        <Stack
+          justify={open ? 'start' : 'center'}
           style={{
-            paddingLeft: 8,
-            paddingRight: 8,
-
-            paddingTop: header ? 0 : 8,
+            // paddingTop: 16,
+            // paddingBottom: 8,
+            padding: open ? '20px 12px 24px 16px' : '16px 0px 8px 0px',
           }}
         >
-          <Stack style={{}} direction="column" gap={6}>
-            {children
-              ? children
-              : Array.isArray(data)
-                ? data.map((e, i) => (
-                    <SidebarItem
-                      key={i}
-                      prefix={e.prefix}
-                      suffix={e.suffix}
-                      value={e.value}
-                      size={size}
-                    >
-                      {e.label}
-                    </SidebarItem>
-                  ))
-                : Object.entries(data).map(([title, items]) => (
-                    <SidebarGroup key={title} title={title}>
-                      {items.map((e, i) => (
+          {HeaderComponent
+            ? React.createElement(HeaderComponent, { open })
+            : header}
+        </Stack>
+      )}
+      <SidebarContext.Provider value={{ open, value, onValueChange }}>
+        <styled.div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            flexShrink: 1,
+            width: '100%',
+            flexGrow: 1,
+          }}
+        >
+          <styled.div
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+            }}
+          >
+            <ScrollArea
+              style={{
+                paddingLeft: open ? 9 : 12,
+                paddingRight: 8,
+                width: '100%',
+                paddingTop: header ? 0 : 9,
+                paddingBottom: 24,
+              }}
+            >
+              <Stack style={{}} direction="column" gap={6}>
+                {children
+                  ? children
+                  : Array.isArray(data)
+                    ? data.map((e, i) => (
                         <SidebarItem
                           key={i}
                           prefix={e.prefix}
                           suffix={e.suffix}
                           value={e.value}
+                          size={size}
                         >
                           {e.label}
                         </SidebarItem>
+                      ))
+                    : Object.entries(data).map(([title, items]) => (
+                        <SidebarGroup key={title} title={title}>
+                          {items.map((e, i) => (
+                            <SidebarItem
+                              key={i}
+                              prefix={e.prefix}
+                              suffix={e.suffix}
+                              value={e.value}
+                            >
+                              {e.label}
+                            </SidebarItem>
+                          ))}
+                        </SidebarGroup>
                       ))}
-                    </SidebarGroup>
-                  ))}
-          </Stack>
-        </ScrollArea>
+              </Stack>
+            </ScrollArea>
+          </styled.div>
+        </styled.div>
       </SidebarContext.Provider>
       {collapsable ? (
         <styled.div style={{ position: 'absolute', bottom: 16, right: 12 }}>
@@ -255,7 +288,9 @@ export function SidebarItem({
                 }),
           }}
         >
-          {prefix ? prefix : children.substring(0, 2) + '...'}
+          {prefix !== undefined
+            ? prefix
+            : children.substring(0, 2).toUpperCase()}
         </styled.div>
       </Tooltip>
     </Stack>
@@ -268,13 +303,17 @@ export type SidebarGroupProps = {
 }
 
 export function SidebarGroup({ title, children }: SidebarGroupProps) {
-  // const { open } = React.useContext(SidebarContext)
+  const { open } = React.useContext(SidebarContext)
 
   return (
     <Stack gap={8} direction="column">
-      <Text style={{ marginLeft: 7 }} variant="caption">
-        {title}
-      </Text>
+      {open ? (
+        <Text style={{ marginLeft: 7 }} variant="caption">
+          {title}
+        </Text>
+      ) : (
+        <div style={{ marginTop: 8, border: border(), width: '100%' }} />
+      )}
       {children}
     </Stack>
   )

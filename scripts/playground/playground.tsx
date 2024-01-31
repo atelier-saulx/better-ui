@@ -119,9 +119,13 @@ const Example = (p: {
       const c = x[1]
       setCode(`(${c}`)
     }
+
     if (p.decorators) {
       for (const d of p.decorators) {
-        body = d((sProps) => React.createElement(p.story, sProps))
+        body = d((sProps) =>
+          // @ts-ignore
+          React.createElement(p.story, { ...sProps }),
+        )
       }
     } else {
       body = React.createElement(p.story)
@@ -309,7 +313,7 @@ const Story = (p: { story: any; fullscreen?: string }) => {
       <Example
         file={p.story.file}
         componentName={title}
-        decorators={example.decorators}
+        decorators={story.default.decorators}
         component={story.default.component}
         title="Default"
         fullscreen={p.fullscreen}
