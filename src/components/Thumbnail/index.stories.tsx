@@ -98,6 +98,7 @@ export const GalleryMutedOutlineCircle = () => {
       {facesNames.map((v) => {
         return (
           <Thumbnail
+            size="extra-extra-large"
             src={v.src}
             shape="circle"
             outline
