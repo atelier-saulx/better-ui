@@ -98,6 +98,7 @@ export const GalleryMutedOutlineCircle = () => {
       {facesNames.map((v) => {
         return (
           <Thumbnail
+            src={v.src}
             shape="circle"
             outline
             color="auto-muted"
