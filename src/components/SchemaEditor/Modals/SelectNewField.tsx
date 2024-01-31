@@ -33,8 +33,9 @@ export const SelectNewField = ({
         <Button
           variant={light ? 'neutral-transparent' : 'neutral-transparent'}
           size={light ? 'small' : 'regular'}
+          prefix={<IconPlus />}
         >
-          <IconPlus style={{ marginRight: 8 }} /> Add Field
+          Add Field
         </Button>
       </Modal.Trigger>
       <Modal.Overlay

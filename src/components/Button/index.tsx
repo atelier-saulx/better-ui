@@ -265,6 +265,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {prefix}
           {children && (
             <Text
+              noSelect
               as="div"
               singleLine
               color="inherit"

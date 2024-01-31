@@ -21,6 +21,7 @@ export const SchemaSideBar = ({ types, active, setActive }) => {
           <AddType setActive={setActive} light />
         </Stack>
       }
+      size="small"
       value={active}
       onValueChange={(v) => setActive(v)}
       style={{ maxWidth: 224 }}

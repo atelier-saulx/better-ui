@@ -37,7 +37,7 @@
 
   /* borders */
   --border-muted: rgba(16, 40, 72, 0.09);
-  --border-default: var(--interactive-secondary);
+  --border-default: rgba(15, 16, 19, 0.08);
   --border-hover: var(--interactive-secondary-hover);
   --border-focus: var(--interactive-primary);
   --border-error: var(--semantic-background-error);

@@ -85,7 +85,7 @@ export function Sidebar({
             width: '100%',
             paddingLeft: open ? 8 : 12,
             paddingRight: open ? 12 : 8,
-            paddingTop: 24,
+            paddingTop: 32,
             paddingBottom: 24,
           }}
         >
@@ -94,7 +94,6 @@ export function Sidebar({
               justify={open ? 'start' : 'center'}
               style={{
                 paddingLeft: open ? 8 : 12,
-                paddingRight: open ? 12 : 10,
                 width: '100%',
                 paddingBottom: open ? 24 : 12,
               }}
@@ -219,6 +218,7 @@ export function SidebarItem({
           <styled.div style={{ flexShrink: 0 }}>{prefix}</styled.div>
         ) : null}
         <Text
+          noSelect
           variant={sidebarValue === value ? 'body-bold' : 'body'}
           singleLine
           color="inherit"
@@ -306,7 +306,11 @@ export function SidebarGroup({
       }}
     >
       {open ? (
-        <Text style={{ marginLeft: 7 }} variant="caption">
+        <Text
+          noSelect
+          style={{ marginLeft: 7, marginBottom: 4 }}
+          variant="caption"
+        >
           {title}
         </Text>
       ) : (

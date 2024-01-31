@@ -81,6 +81,7 @@ for (const variant in textVariants) {
 }
 
 export type TextProps = {
+  noSelect?: boolean
   children: React.ReactNode
   as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
   weight?: 'normal' | 'bold' | 'strong'
@@ -111,7 +112,16 @@ const selectColor = (
 
 export const Text = React.forwardRef<HTMLElement, TextProps>(
   (
-    { as, variant = 'body', color, style, children, singleLine, weight },
+    {
+      as,
+      variant = 'body',
+      color,
+      style,
+      children,
+      singleLine,
+      weight,
+      noSelect,
+    },
     ref,
   ) => {
     if (variant && !as) {
@@ -125,6 +135,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
       children,
       ref,
       style: {
+        userSelect: noSelect ? 'none' : 'inherit',
         margin: 0,
         padding: 0,
         color: selectColor(variant, color),
