@@ -9,7 +9,13 @@ import { Stack } from '../Stack/index.js'
 import { SelectNewField } from './Modals/SelectNewField.js'
 import { IconDrag } from '../Form/IconDrag.js'
 import { border } from '../../utils/colors.js'
-
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { Draggable } from './Draggable.js'
 import { Style } from 'inlines'
 
 type SingleFieldContainerProps = {
@@ -41,7 +47,7 @@ export const SingleFieldContainer = ({
 
   console.log('ITEM???', item)
 
-  // const overIdRef = React.useRef()
+  const overIdRef = React.useRef()
 
   return (
     <Container
@@ -122,15 +128,22 @@ export const SingleFieldContainer = ({
         </Stack>
       }
       expandable={item?.type === 'object' ? true : false}
+      // onExpandedChange={(v) => console.log('ExpandedChange', v)}
     >
       {item?.type === 'object' &&
-        Object.keys(item.properties).map((subItem, idx) => (
-          <SingleFieldContainer
-            item={item.properties[subItem]}
-            key={idx}
-            typeTitle={typeTitle}
-          />
-        ))}
+        Object.keys(item.properties).map((subItem, idx) => {
+          console.log('🦀🐡', item.properties[subItem])
+          console.log('sub item 🐳', subItem)
+
+          return (
+            <SingleFieldContainer
+              item={item.properties[subItem]}
+              key={idx}
+              typeTitle={typeTitle}
+              itemName={subItem}
+            />
+          )
+        })}
     </Container>
   )
 }

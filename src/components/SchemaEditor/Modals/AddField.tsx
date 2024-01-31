@@ -152,11 +152,11 @@ export const AddField = ({
 
           const nestedPath = findPath(
             data.types[typeTitle].fields,
-            fieldItem.title,
+            Object.keys(fieldItem)[0],
           )
 
           if (!editItem) {
-            nestedPath.push(fieldItem.title)
+            nestedPath.push(Object.keys(fieldItem)[0])
           }
 
           const currentFields = data.types[typeTitle].fields

@@ -101,6 +101,10 @@ export const SchemaFields = ({ fields, typeTitle }) => {
     }
   }, [fields])
 
+  React.useEffect(() => {
+    setSomethingChanged(false)
+  }, [typeTitle])
+
   const sensors = useSensors(
     // so you can still press buttons in the fields
     useSensor(PointerSensor, {
@@ -199,21 +203,29 @@ export const SchemaFields = ({ fields, typeTitle }) => {
                   ? item
                   : !SYSTEM_FIELDS.includes(Object.keys(item)[0]),
               )
-              .map((item) => (
-                <Draggable
-                  key={Object.keys(item)[0]}
-                  id={item}
-                  overIdRef={overIdRef}
-                >
-                  <SingleFieldContainer
-                    itemName={Object.keys(item)[0]}
-                    item={item[Object.keys(item)[0]]}
-                    typeTitle={typeTitle}
-                    index={item[Object.keys(item)[0]]?.index}
-                    isDragging={item[Object.keys(item)[0]] === draggingField}
-                  />
-                </Draggable>
-              ))}
+              .map((item) => {
+                console.log('--> Whats this ten', item)
+
+                if (item[Object.keys(item)[0]].hasOwnProperty('properties')) {
+                  console.log('ey yo its an object')
+                }
+
+                return (
+                  <Draggable
+                    key={Object.keys(item)[0]}
+                    id={item}
+                    overIdRef={overIdRef}
+                  >
+                    <SingleFieldContainer
+                      itemName={Object.keys(item)[0]}
+                      item={item[Object.keys(item)[0]]}
+                      typeTitle={typeTitle}
+                      index={item[Object.keys(item)[0]]?.index}
+                      isDragging={item[Object.keys(item)[0]] === draggingField}
+                    />
+                  </Draggable>
+                )
+              })}
           </SortableContext>
 
           {createPortal(
