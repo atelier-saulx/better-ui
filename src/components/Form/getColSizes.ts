@@ -65,6 +65,10 @@ const FIELD_SIZES: {
   readOnly: {
     string: [
       {
+        match: (field: BasedSchemaFieldString) => field.format === 'rgbColor',
+        width: 140,
+      },
+      {
         match: (field: BasedSchemaFieldString) => field.format === 'basedId',
         width: 120,
         insertAtStart: true,
@@ -117,6 +121,10 @@ const FIELD_SIZES: {
       },
     ],
   },
+}
+
+for (const group in FIELD_SIZES) {
+  FIELD_SIZES[group].text = FIELD_SIZES[group].string
 }
 
 export const getColSizes = (

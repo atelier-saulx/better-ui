@@ -20,7 +20,19 @@ export const genObjectSchema = (value: any[]): BasedSchemaFieldObject => {
   }
 
   for (const key of hasFields.values()) {
-    if (/(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)) {
+    if (key === 'color') {
+      objectSchema.properties[key] = {
+        type: 'string',
+        format: 'rgbColor',
+      }
+    } else if (key === 'price') {
+      objectSchema.properties[key] = {
+        type: 'number',
+        display: 'euro',
+      }
+    } else if (
+      /(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)
+    ) {
       objectSchema.properties[key] = {
         type: 'timestamp',
         display: 'human',

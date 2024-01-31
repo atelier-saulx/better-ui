@@ -3,7 +3,15 @@ import { TableCtx, Path } from '../../types.js'
 import { BasedSchemaField, display } from '@based/schema'
 import { styled } from 'inlines'
 import { isId, isFile, getContentMediaType } from '../../utils.js'
-import { Text, Badge, color, Media } from '../../../../index.js'
+import {
+  Text,
+  Badge,
+  color,
+  Media,
+  border,
+  Stack,
+  borderRadius,
+} from '../../../../index.js'
 
 type ReadProps = {
   ctx: TableCtx
@@ -34,6 +42,28 @@ const Value = (p: ReadProps) => {
           type={getContentMediaType(p.field)}
         />
       </styled.div>
+    )
+  }
+
+  if (
+    (p.field.type === 'string' || p.field.type === 'text') &&
+    p.field.format === 'rgbColor'
+  ) {
+    return (
+      <Stack justify="start" gap={16}>
+        <styled.div
+          style={{
+            flexShrink: 0,
+            flexGrow: 0,
+            height: 24,
+            border: border(),
+            width: 24,
+            borderRadius: borderRadius('tiny'),
+            backgroundColor: p.value ?? color('background', 'muted'),
+          }}
+        />
+        <Text variant="caption">{p.value}</Text>
+      </Stack>
     )
   }
 

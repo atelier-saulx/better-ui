@@ -27,21 +27,20 @@ const meta = {
 }
 export default meta
 
-const data = new Array(10).fill(null).map(() => ({
+const data = new Array(100).fill(null).map(() => ({
   id: faker.string.uuid().slice(0, 8),
   src: faker.image.avatar(),
   status: faker.lorem.words(1),
   title: faker.lorem.sentence(3),
   number: faker.number.int(10),
   name: faker.person.fullName(),
+  price: faker.commerce.price(),
+  color: faker.color.rgb(),
+  createdAt: faker.date.soon().valueOf(),
 }))
 
 export const Default = () => {
-  return (
-    <div style={{ height: '100svh' }}>
-      <Table values={data} />
-    </div>
-  )
+  return <Table values={data} />
 }
 
 // const InfiniteQueryContent = () => {
