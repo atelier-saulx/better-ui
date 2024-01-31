@@ -1,17 +1,12 @@
 import * as React from 'react'
-import { hash } from '@saulx/hash'
 import { Style, styled } from 'inlines'
 import {
-  MUTED_SEMANTIC_COLORS,
-  SEMANTIC_COLORS,
-  SemanticVariant,
   borderRadius,
   border,
   color as getColor,
   textVariants,
   NonSemanticColor,
   hashNonSemanticColor,
-  NON_SEMANTIC_COLOR,
 } from '../../index.js'
 
 // TODO think about if we need text over image, if so how do we handle the colors of the text
@@ -47,35 +42,6 @@ export function Thumbnail({
   outline,
   style,
 }: ThumbnailProps) {
-  const color = React.useMemo(() => {
-    //  if (!text) return
-
-    if (colorProp === 'auto' || colorProp === 'auto-muted') {
-      const colors =
-        colorProp === 'auto'
-          ? hashNonSemanticColor(text)
-          : hashNonSemanticColor(text, true)
-
-      // const index =
-      //   Math.floor(
-      //     Math.abs(Math.sin(hash(text || icon?.toString() || 'xxx'))) *
-      //       (Object.keys(NON_SEMANTIC_COLOR).length / 2 - 1),
-      //   ) + 1
-
-      return colors
-    }
-
-    return colorProp
-  }, [colorProp, text])
-
-  let borderColor
-
-  console.log(color, 'WHAT DOES IT LOOK LOKEA')
-
-  if (color.includes('soft')) {
-    borderColor = color.substring(0, color.length - 6)
-  }
-
   return (
     <styled.div
       style={{
@@ -83,14 +49,26 @@ export function Thumbnail({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        border:
-          color.includes('soft') && outline
-            ? `1px solid ${getColor('non-semantic-color', color)}`
-            : `0px solid transparent`,
-        color: !color.includes('soft')
-          ? getColor('content', 'inverted')
-          : getColor('non-semantic-color', color.slice(0, -5) as any),
-        background: getColor('non-semantic-color', color),
+        border: outline
+          ? `1px solid ${hashNonSemanticColor(text || src, true)}`
+          : `0px solid transparent`,
+        color: colorProp.includes('soft')
+          ? getColor(
+              'non-semantic-color',
+              colorProp.slice(0, -5) as NonSemanticColor,
+            )
+          : colorProp === 'auto'
+            ? getColor('content', 'inverted')
+            : colorProp === 'auto-muted'
+              ? hashNonSemanticColor(text || src)
+              : hashNonSemanticColor(text || src),
+
+        background:
+          colorProp !== 'auto' && colorProp !== 'auto-muted'
+            ? getColor('non-semantic-color', colorProp)
+            : colorProp === 'auto'
+              ? hashNonSemanticColor(text || src)
+              : hashNonSemanticColor(text || src, true),
         ...(shape === 'square' && {
           borderRadius: borderRadius('medium'),
         }),

@@ -124,7 +124,10 @@ export const NON_SEMANTIC_COLOR: { [key in NonSemanticColor]: string } = {
   'orange-soft': 'rgba(245, 150, 56, 0.16)',
 }
 
-export function hashNonSemanticColor(value: string | number, muted = false) {
+export function hashNonSemanticColor(
+  value: string | number = '',
+  muted: boolean = false,
+) {
   const mutedColors = Object.keys(NON_SEMANTIC_COLOR)
     .filter((key) => key.includes('soft'))
     .reduce((cur, key) => {

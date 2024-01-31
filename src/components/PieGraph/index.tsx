@@ -2,18 +2,26 @@ import * as React from 'react'
 import {
   NON_SEMANTIC_COLOR,
   NonSemanticColor,
+  Stack,
   Text,
   borderRadius,
   hashNonSemanticColor,
 } from '../../index.js'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 
 export type PieGraphProps = {
   data: { label: string; value: number; color?: NonSemanticColor }[]
   legend?: boolean
+  muted?: boolean
+  style?: Style
 }
 
-export function PieGraph({ data: rawData, legend = false }: PieGraphProps) {
+export function PieGraph({
+  data: rawData,
+  legend = false,
+  muted = false,
+  style,
+}: PieGraphProps) {
   const [hoverIndex, setHoverIndex] = React.useState<number | null>(null)
   const data = React.useMemo(() => {
     const totalValue = rawData.reduce((acc, curr) => acc + curr.value, 0)
@@ -42,8 +50,8 @@ export function PieGraph({ data: rawData, legend = false }: PieGraphProps) {
   }, [rawData])
 
   return (
-    <>
-      <styled.div style={{ position: 'relative', width: 256, height: 256 }}>
+    <styled.div style={{ ...style }}>
+      <Stack style={{ position: 'relative' }}>
         <svg width="100%" height="100%" viewBox="0 0 120 120">
           {data.map((e, i) => (
             <circle
@@ -59,7 +67,8 @@ export function PieGraph({ data: rawData, legend = false }: PieGraphProps) {
               r="47"
               fill="none"
               stroke={
-                NON_SEMANTIC_COLOR[e.color] ?? hashNonSemanticColor(e.label)
+                NON_SEMANTIC_COLOR[e.color] ??
+                hashNonSemanticColor(e.label, muted)
               }
               strokeWidth={e.strokeWidth}
               strokeDasharray={100}
@@ -95,16 +104,12 @@ export function PieGraph({ data: rawData, legend = false }: PieGraphProps) {
             <Text style={{ fontSize: 14 }}>{data[hoverIndex].label}</Text>
           </styled.div>
         )}
-      </styled.div>
+      </Stack>
       {legend && (
-        <div
+        <Stack
+          justify="center"
+          gap={12}
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            width: 256,
-            gap: 12,
             marginTop: 24,
           }}
         >
@@ -124,14 +129,14 @@ export function PieGraph({ data: rawData, legend = false }: PieGraphProps) {
                   width: 12,
                   background:
                     NON_SEMANTIC_COLOR[e.color] ??
-                    hashNonSemanticColor(e.label),
+                    hashNonSemanticColor(e.label, muted),
                 }}
               />
-              <div>{e.label}</div>
+              <Text variant="body-bold">{e.label}</Text>
             </div>
           ))}
-        </div>
+        </Stack>
       )}
-    </>
+    </styled.div>
   )
 }

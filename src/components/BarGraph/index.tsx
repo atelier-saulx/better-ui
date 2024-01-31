@@ -2,6 +2,7 @@ import * as React from 'react'
 import {
   NON_SEMANTIC_COLOR,
   NonSemanticColor,
+  Stack,
   Text,
   border,
   borderRadius,
@@ -19,6 +20,7 @@ export type BarGraphProps = {
   variant: 'horizontal' | 'vertical'
   showAxis?: boolean
   legend?: boolean
+  muted?: boolean
 }
 
 export function BarGraph({
@@ -26,6 +28,7 @@ export function BarGraph({
   variant,
   showAxis = true,
   legend = false,
+  muted = false,
 }: BarGraphProps) {
   const [hover, setHover] = React.useState<{
     index: number
@@ -100,7 +103,7 @@ export function BarGraph({
             flexDirection: 'row',
           }),
           ...(variant === 'horizontal' && {
-            width: 256,
+            width: '100%',
             flexDirection: 'column',
           }),
         }}
@@ -159,9 +162,12 @@ export function BarGraph({
                 key={i}
                 style={{
                   position: 'relative',
+                  border: muted
+                    ? `1px solid ${hashNonSemanticColor(e.label, true)}`
+                    : `0px solid transparent`,
                   background:
                     NON_SEMANTIC_COLOR[e.color] ??
-                    hashNonSemanticColor(e.label),
+                    hashNonSemanticColor(e.label, muted),
                   overflow: 'hidden',
                   display: 'flex',
                   ...(variant === 'horizontal' && {
@@ -223,7 +229,7 @@ export function BarGraph({
                         style={{
                           background:
                             NON_SEMANTIC_COLOR[e.color] ??
-                            hashNonSemanticColor(e.label),
+                            hashNonSemanticColor(e.label, muted),
                           ...(variant === 'horizontal' && {
                             width: `${e.percentage}%`,
                             height: '100%',
@@ -300,14 +306,10 @@ export function BarGraph({
           )}
       </div>
       {legend && (
-        <div
+        <Stack
+          gap={16}
+          justify="center"
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            width: 256,
-            gap: 12,
             marginTop: 24,
           }}
         >
@@ -329,13 +331,13 @@ export function BarGraph({
                     width: 12,
                     background:
                       NON_SEMANTIC_COLOR[e.color] ??
-                      hashNonSemanticColor(e.label),
+                      hashNonSemanticColor(e.label, muted),
                   }}
                 />
-                <div>{e.label}</div>
+                <Text variant="body-bold">{e.label}</Text>
               </div>
             ))}
-        </div>
+        </Stack>
       )}
     </>
   )
