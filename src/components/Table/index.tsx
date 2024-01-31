@@ -100,9 +100,9 @@ export const Table = (p: {
       onClickReference={clickRef}
       ctx={ctx}
       path={path}
-      onRemove={removeItem}
+      //   onRemove={removeItem}
       valueRef={valueRef.current}
-      onNew={addNew}
+      //   onNew={addNew}
       changeIndex={changeIndex}
     />
   )

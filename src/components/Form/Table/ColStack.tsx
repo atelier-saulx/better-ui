@@ -51,6 +51,7 @@ export const ColStack = React.forwardRef(
     }: {
       onRemove?: MouseEventHandler<'div'>
       action?: ReactNode
+      noRemove?: boolean
       header?: boolean
     } & StackProps,
     ref,
@@ -72,13 +73,17 @@ export const ColStack = React.forwardRef(
               borderRight: '0px solid transparent !important',
             },
 
-            '& >:nth-last-child(2)': {
-              borderRight: '0px solid transparent !important',
-            },
-            '& >:nth-last-child(1)': {
-              opacity: 0,
-              transition: 'opacity 0.1s',
-            },
+            '& >:nth-last-child(2)': p.noRemove
+              ? {}
+              : {
+                  borderRight: '0px solid transparent !important',
+                },
+            '& >:nth-last-child(1)': p.noRemove
+              ? {}
+              : {
+                  opacity: 0,
+                  transition: 'opacity 0.1s',
+                },
 
             '&:hover': header
               ? {}
@@ -93,7 +98,9 @@ export const ColStack = React.forwardRef(
           {...p}
         >
           {children}
-          <Action action={action} header={header} onRemove={onRemove} />
+          {p.noRemove ? null : (
+            <Action action={action} header={header} onRemove={onRemove} />
+          )}
         </Stack>
       )
     }

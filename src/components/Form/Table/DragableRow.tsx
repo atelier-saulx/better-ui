@@ -237,9 +237,13 @@ export const DragableRow = (p: DragableRowProps) => {
   if (!p.draggable) {
     return (
       <ColStack
-        onRemove={() => {
-          p.removeItem(p.index)
-        }}
+        onRemove={
+          p.removeItem
+            ? () => {
+                p.removeItem(p.index)
+              }
+            : null
+        }
         style={{
           borderBottom: border(),
         }}

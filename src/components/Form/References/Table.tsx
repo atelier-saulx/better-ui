@@ -28,8 +28,8 @@ export const ReferencesTable = ({
 }: {
   field: BasedSchemaFieldReferences
   valueRef: ValueRef
-  onNew: () => Promise<any>
-  onRemove: (index: number) => void
+  onNew?: () => Promise<any>
+  onRemove?: (index: number) => void
   onClickReference: (ref: Reference) => void
   ctx: TableCtx
   readOnly: boolean
@@ -87,7 +87,9 @@ export const ReferencesTable = ({
 
   return (
     <SizedStack field={fieldSchema} readOnly setColumns={setColumns}>
-      <ColStack header>{cols}</ColStack>
+      <ColStack header noRemove={!onRemove}>
+        {cols}
+      </ColStack>
       <ObjectCollsRows
         onClickRow={(v: any) => onClickReference(v)}
         draggable={field.sortable}
@@ -99,16 +101,18 @@ export const ReferencesTable = ({
         colFields={colFields}
         field={nField}
       />
-      <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
-        <Button
-          onClick={onNew}
-          size="small"
-          variant="neutral-transparent"
-          prefix={<IconPlus />}
-        >
-          Add
-        </Button>
-      </styled.div>
+      {onNew ? (
+        <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
+          <Button
+            onClick={onNew}
+            size="small"
+            variant="neutral-transparent"
+            prefix={<IconPlus />}
+          >
+            Add
+          </Button>
+        </styled.div>
+      ) : null}
     </SizedStack>
   )
 }
