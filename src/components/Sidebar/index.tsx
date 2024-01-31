@@ -72,7 +72,6 @@ export function Sidebar({
       direction="column"
       style={{
         flexShrink: 0,
-        position: 'relative',
         width: open ? 248 : 65,
         maxHeight: '100%',
         height: '100%',
@@ -80,54 +79,54 @@ export function Sidebar({
         ...style,
       }}
     >
-      {(header || HeaderComponent) && (
-        <Stack
-          justify={open ? 'start' : 'center'}
-          style={{
-            // paddingTop: 16,
-            // paddingBottom: 8,
-            padding: open ? '20px 12px 24px 16px' : '16px 0px 8px 0px',
-          }}
-        >
-          {HeaderComponent
-            ? React.createElement(HeaderComponent, { open })
-            : header}
-        </Stack>
-      )}
       <SidebarContext.Provider value={{ open, value, onValueChange }}>
-        <styled.div
+        <ScrollArea
           style={{
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            flexShrink: 1,
             width: '100%',
-            flexGrow: 1,
+            paddingLeft: open ? 8 : 12,
+            paddingRight: open ? 12 : 8,
+            paddingTop: 24,
+            paddingBottom: 24,
           }}
         >
-          <styled.div
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-            }}
-          >
-            <ScrollArea
+          {(header || HeaderComponent) && (
+            <Stack
+              justify={open ? 'start' : 'center'}
               style={{
-                paddingLeft: open ? 9 : 12,
-                paddingRight: 8,
+                paddingLeft: open ? 8 : 12,
+                paddingRight: open ? 12 : 10,
                 width: '100%',
-                paddingTop: header ? 0 : 9,
-                paddingBottom: 24,
+                paddingBottom: open ? 24 : 12,
               }}
             >
-              <Stack style={{}} direction="column" gap={6}>
-                {children
-                  ? children
-                  : Array.isArray(data)
-                    ? data.map((e, i) => (
+              {HeaderComponent
+                ? React.createElement(HeaderComponent, { open })
+                : header}
+            </Stack>
+          )}
+          <Stack style={{}} direction="column" gap={size === 'small' ? 4 : 8}>
+            {children
+              ? children
+              : Array.isArray(data)
+                ? data.map((e, i) => (
+                    <SidebarItem
+                      key={i}
+                      prefix={e.prefix}
+                      suffix={e.suffix}
+                      value={e.value}
+                      size={size}
+                    >
+                      {e.label}
+                    </SidebarItem>
+                  ))
+                : Object.entries(data).map(([title, items], index) => (
+                    <SidebarGroup
+                      size={size}
+                      key={title}
+                      title={title}
+                      index={index}
+                    >
+                      {items.map((e, i) => (
                         <SidebarItem
                           key={i}
                           prefix={e.prefix}
@@ -137,25 +136,11 @@ export function Sidebar({
                         >
                           {e.label}
                         </SidebarItem>
-                      ))
-                    : Object.entries(data).map(([title, items]) => (
-                        <SidebarGroup key={title} title={title}>
-                          {items.map((e, i) => (
-                            <SidebarItem
-                              key={i}
-                              prefix={e.prefix}
-                              suffix={e.suffix}
-                              value={e.value}
-                            >
-                              {e.label}
-                            </SidebarItem>
-                          ))}
-                        </SidebarGroup>
                       ))}
-              </Stack>
-            </ScrollArea>
-          </styled.div>
-        </styled.div>
+                    </SidebarGroup>
+                  ))}
+          </Stack>
+        </ScrollArea>
       </SidebarContext.Provider>
       {collapsable ? (
         <styled.div style={{ position: 'absolute', bottom: 16, right: 12 }}>
@@ -211,7 +196,7 @@ export function SidebarItem({
               width: 16,
             },
           }),
-          height: size === 'small' ? 28 : 40,
+          height: size === 'small' ? 32 : 40,
           padding: '0 8px',
           borderRadius: borderRadius(size === 'small' ? 'tiny' : 'small'),
           color: color('content', 'primary'),
@@ -300,13 +285,26 @@ export function SidebarItem({
 export type SidebarGroupProps = {
   children: React.ReactNode
   title: string
+  index: number
+  size: 'small' | 'regular'
 }
 
-export function SidebarGroup({ title, children }: SidebarGroupProps) {
+export function SidebarGroup({
+  title,
+  children,
+  index,
+  size,
+}: SidebarGroupProps) {
   const { open } = React.useContext(SidebarContext)
 
   return (
-    <Stack gap={8} direction="column">
+    <Stack
+      gap={size === 'small' ? 4 : 8}
+      direction="column"
+      style={{
+        marginTop: index > 0 ? 32 : 0,
+      }}
+    >
       {open ? (
         <Text style={{ marginLeft: 7 }} variant="caption">
           {title}

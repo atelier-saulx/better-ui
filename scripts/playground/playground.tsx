@@ -436,6 +436,7 @@ const App = () => {
     <Layout>
       {fullscreen ? null : (
         <Sidebar
+          size="small"
           data={menuData}
           value={storyId}
           onValueChange={(value) => {
