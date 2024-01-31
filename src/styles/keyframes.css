@@ -1,9 +1,9 @@
 @keyframes shake {
   0% {
-    transform: translateX(max(-15%, -15px));
+    transform: translateX(max(-5%, -5px));
   }
   50% {
-    transform: translateX(min(15%, 15px));
+    transform: translateX(min(5%, 5px));
   }
   100% {
     transform: translateX(0px);

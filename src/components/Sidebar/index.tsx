@@ -6,8 +6,9 @@ import {
   Button,
   useIsMobile,
   useControllableState,
-  textVariants,
+  Stack,
   borderRadius,
+  Text,
   color,
   border,
   ScrollArea,
@@ -27,6 +28,7 @@ type SidebarItem = {
 }
 
 export type SidebarProps = {
+  size?: 'small' | 'regular'
   data?: SidebarItem[] | { [key: string]: SidebarItem[] }
   open?: boolean
   onOpenChange?: (value: boolean) => void
@@ -48,6 +50,7 @@ export function Sidebar({
   collapsable = false,
   children,
   header,
+  size,
 }: SidebarProps) {
   const isMobile = useIsMobile()
   let [open, setOpen] = useControllableState({
@@ -62,23 +65,24 @@ export function Sidebar({
   }, [isMobile])
 
   return (
-    <styled.aside
+    <Stack
+      as="aside"
+      direction="column"
       style={{
         flexShrink: 0,
         position: 'relative',
         width: open ? 248 : 65,
         height: '100%',
         borderRight: border(),
-        display: 'flex',
-        flexDirection: 'column',
         overflow: 'hidden',
         ...style,
       }}
     >
-      {header && <div style={{ padding: '16px 12px' }}>{header}</div>}
-
+      {header && (
+        <styled.div style={{ padding: '16px 12px' }}>{header}</styled.div>
+      )}
       <SidebarContext.Provider value={{ open, value, onValueChange }}>
-        <div style={{ flex: '1', overflow: 'hidden' }}>
+        <Stack direction="column" style={{ flex: '1', overflow: 'hidden' }}>
           <ScrollArea
             style={{
               padding: header ? '0 12px 64px' : '16px 12px 64px',
@@ -93,6 +97,7 @@ export function Sidebar({
                       prefix={e.prefix}
                       suffix={e.suffix}
                       value={e.value}
+                      size={size}
                     >
                       {e.label}
                     </SidebarItem>
@@ -112,10 +117,10 @@ export function Sidebar({
                     </SidebarGroup>
                   ))}
           </ScrollArea>
-        </div>
+        </Stack>
       </SidebarContext.Provider>
       {collapsable ? (
-        <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
+        <styled.div style={{ position: 'absolute', bottom: 16, right: 12 }}>
           <Tooltip
             content={open ? 'Collapse sidebar' : 'Expand sidebar'}
             side={open ? 'top' : 'right'}
@@ -130,9 +135,9 @@ export function Sidebar({
               <IconViewLayoutLeft />
             </Button>
           </Tooltip>
-        </div>
+        </styled.div>
       ) : null}
-    </styled.aside>
+    </Stack>
   )
 }
 
@@ -141,6 +146,7 @@ export type SidebarItemProps = {
   suffix?: React.ReactNode
   children: string
   value: string
+  size?: 'small' | 'regular'
 }
 
 export function SidebarItem({
@@ -148,6 +154,7 @@ export function SidebarItem({
   prefix,
   suffix,
   value,
+  size,
 }: SidebarItemProps) {
   const {
     open,
@@ -157,20 +164,13 @@ export function SidebarItem({
 
   if (open) {
     return (
-      <styled.div
+      <Stack
+        gap={8}
         style={{
-          height: '40px',
-          display: 'flex',
-          alignItems: 'center',
-          padding: '0 10px',
+          height: size === 'small' ? 32 : 40,
+          padding: '0 8px',
           borderRadius: borderRadius('small'),
-          cursor: 'pointer',
           color: color('content', 'primary'),
-
-          '&:not(:first-of-type)': {
-            marginTop: '8px',
-          },
-          '& > * + *': { marginLeft: '10px' },
           ...(sidebarValue === value
             ? {
                 color: color('interactive', 'primary'),
@@ -186,22 +186,19 @@ export function SidebarItem({
           onValueChange(value)
         }}
       >
-        {prefix}
-        <span
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-          }}
-        >
+        <styled.div style={{ flexShrink: 0 }}>{prefix}</styled.div>
+        <Text singleLine color="inherit">
           {children}
-        </span>
-        <span style={{ marginLeft: 'auto' }}>{suffix}</span>
-      </styled.div>
+        </Text>
+        <Stack justify="end" style={{ flexGrow: 1 }}>
+          {suffix}
+        </Stack>
+      </Stack>
     )
   }
 
   return (
-    <styled.div
+    <Stack
       style={{
         display: 'flex',
         '&:not(:first-of-type)': {
@@ -243,7 +240,7 @@ export function SidebarItem({
           {prefix ? prefix : children.substring(0, 2) + '...'}
         </styled.div>
       </Tooltip>
-    </styled.div>
+    </Stack>
   )
 }
 
@@ -256,27 +253,9 @@ export function SidebarGroup({ title, children }: SidebarGroupProps) {
   const { open } = React.useContext(SidebarContext)
 
   return (
-    <styled.div
-      style={{
-        '&:not(:first-child)': {
-          marginTop: '24px',
-        },
-      }}
-    >
-      <div
-        style={{
-          paddingLeft: '4px',
-          paddingRight: '4px',
-          ...textVariants['body-strong'],
-          color: color('content', 'secondary'),
-          textTransform: 'uppercase',
-          opacity: open ? 1 : 0,
-          height: 24,
-        }}
-      >
-        {title}
-      </div>
+    <Stack direction="column">
+      <Text variant="caption">{title}</Text>
       {children}
-    </styled.div>
+    </Stack>
   )
 }

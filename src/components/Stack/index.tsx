@@ -1,17 +1,18 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
 
-export type StackProps = React.HTMLProps<any> & {
+export type StackProps = Omit<React.HTMLProps<any>, 'style'> & {
   children?: React.ReactNode
-  as?: 'div' | 'ul' | 'label'
+  as?: 'div' | 'ul' | 'label' | 'aside' | string
   style?: Style
   grid?: boolean | number
   shape?: 'square'
   direction?: 'row' | 'column'
   justify?: 'center' | 'between' | 'end' | 'start'
   align?: 'center' | 'start' | 'end' | 'stretch'
-  display?: any
+  display?: boolean | 'block' | 'flex' | 'grid' | 'inline-flex'
   fitContent?: boolean
+  padding?: 16 | 32 | 64 | true
   gap?: 0 | 2 | 4 | 8 | 12 | 16 | 24 | 32 | 64
 }
 
@@ -24,6 +25,7 @@ const ReactStack = React.forwardRef(
       style,
       children,
       wrap,
+      padding,
       direction = 'row',
       gap = grid ? 12 : 0,
       align = grid || direction === 'column' ? 'start' : 'center',
@@ -38,11 +40,20 @@ const ReactStack = React.forwardRef(
       return null
     }
 
+    if (display === true) {
+      display = 'flex'
+    }
+
+    if (padding === true) {
+      padding = 32
+    }
+
     const gridIsNumber = typeof grid === 'number'
 
     if (grid && gridIsNumber) {
       return React.createElement(styled[as], {
         style: {
+          padding,
           display: 'grid',
           gap,
           position: 'relative',
@@ -70,7 +81,8 @@ const ReactStack = React.forwardRef(
     } else {
       return React.createElement(styled[as], {
         style: {
-          display: 'flex',
+          padding,
+          display,
           flexDirection: direction,
           gap,
           flexWrap: grid ? 'wrap' : wrap || undefined,

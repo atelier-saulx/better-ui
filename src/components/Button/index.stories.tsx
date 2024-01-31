@@ -14,7 +14,6 @@ export const Default: StoryObj<typeof Button> = {
   args: {
     children: 'Click me',
     variant: 'error-muted',
-    size: 'medium',
   },
 }
 
@@ -22,7 +21,6 @@ export const Icon: StoryObj<typeof Button> = {
   args: {
     children: <IconMoreVertical />,
     variant: 'primary',
-    size: 'medium',
     shape: 'square',
   },
 }
@@ -31,7 +29,6 @@ export const KeyboardShortcut: StoryObj<typeof Button> = {
   args: {
     children: 'Save',
     variant: 'primary',
-    size: 'medium',
     keyboardShortcut: 'Cmd+O',
     displayKeyboardShortcut: true,
     onClick: () => {
@@ -51,7 +48,6 @@ export const Link: StoryObj<typeof Button> = {
   args: {
     children: 'This is a link',
     variant: 'neutral-link',
-    size: 'medium',
     shape: 'square',
     onClick: () => {
       alert('hello')
@@ -63,7 +59,6 @@ export const PrefixAndSuffix: StoryObj<typeof Button> = {
   args: {
     children: 'Click me',
     variant: 'primary',
-    size: 'medium',
     prefix: <IconCopy />,
     suffix: <IconCopy />,
     onClick: () => {
@@ -76,7 +71,21 @@ export const AsyncOnClick: StoryObj<typeof Button> = {
   args: {
     children: 'Click',
     variant: 'primary',
-    size: 'medium',
+    prefix: <IconCopy />,
+    onClick: async () => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 800)
+      })
+      throw new Error('something went bad')
+    },
+  },
+}
+
+export const ButtonSmall: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'primary',
+    size: 'small',
     prefix: <IconCopy />,
     onClick: async () => {
       await new Promise((resolve) => {

@@ -32,7 +32,7 @@ export const SelectNewField = ({
       <Modal.Trigger>
         <Button
           variant={light ? 'neutral-transparent' : 'neutral-transparent'}
-          size={light ? 'small' : 'medium'}
+          size={light ? 'small' : 'regular'}
         >
           <IconPlus style={{ marginRight: 8 }} /> Add Field
         </Button>

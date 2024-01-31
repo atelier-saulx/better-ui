@@ -23,10 +23,11 @@ export const AddType = ({ setActive, light }: AddTypeProps) => {
     <Modal.Root>
       <Modal.Trigger>
         <Button
-          variant={light ? 'primary-transparent' : 'primary'}
-          size={light ? 'small' : 'medium'}
+          variant={light ? 'neutral-transparent' : 'primary'}
+          size={light ? 'small' : 'regular'}
+          prefix={<IconPlus />}
         >
-          <IconPlus style={{ marginRight: 5 }} /> Add Type
+          Add
         </Button>
       </Modal.Trigger>
       <Modal.Overlay>

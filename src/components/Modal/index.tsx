@@ -428,7 +428,7 @@ export type ModalProps = {
   children?: React.ReactNode
   onConfirm?({ close }: { close(): void }): void
   confirmLabel?: React.ReactNode
-  variant?: 'small' | 'medium' | 'large'
+  variant?: 'small' | 'regular' | 'large'
   style?: Style
   confirmProps?: ButtonProps
   noActions?: boolean
@@ -459,7 +459,7 @@ export const Modal = Object.assign(
             height: variant === 'large' ? 'calc(100vw - 60px)' : undefined,
 
             maxWidth:
-              variant === 'small' ? 552 : variant === 'medium' ? 750 : 1250,
+              variant === 'small' ? 552 : variant === 'regular' ? 750 : 1250,
             ...style,
           }}
         >

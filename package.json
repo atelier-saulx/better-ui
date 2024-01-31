@@ -55,7 +55,7 @@
     "@based/functions": "^2.2.2",
     "@faker-js/faker": "^8.3.1",
     "@saulx/prettier-config": "^2.0.0",
-    "@saulx/tsconfig": "1.0.6",
+    "@saulx/tsconfig": "^1.1.0",
     "@storybook/react": "^7.6.10",
     "@types/fs-extra": "^11.0.4",
     "@types/klaw": "^3.0.6",
