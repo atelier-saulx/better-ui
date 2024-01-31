@@ -9,6 +9,9 @@ import {
   border,
   color as getColor,
   textVariants,
+  NON_SEMANTIC_COLORS,
+  MUTED_NON_SEMANTIC_COLORS,
+  NonSemanticColor,
 } from '../../index.js'
 
 // TODO think about if we need text over image, if so how do we handle the colors of the text
@@ -16,7 +19,7 @@ import {
 export type ThumbnailProps = {
   src?: string
   text?: string
-  color?: SemanticVariant | 'auto' | 'auto-muted'
+  color?: NonSemanticColor | 'auto' | 'auto-muted'
   size?:
     | 'extra-extra-large'
     | 'extra-large'
@@ -49,7 +52,7 @@ export function Thumbnail({
 
     if (colorProp === 'auto' || colorProp === 'auto-muted') {
       const colors =
-        colorProp === 'auto' ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS
+        colorProp === 'auto' ? NON_SEMANTIC_COLORS : MUTED_NON_SEMANTIC_COLORS
 
       const index =
         Math.floor(
@@ -65,7 +68,7 @@ export function Thumbnail({
 
   let borderColor
 
-  if (color.includes('muted')) {
+  if (color.includes('soft')) {
     borderColor = color.substring(0, color.length - 6)
   }
 
@@ -77,11 +80,13 @@ export function Thumbnail({
         justifyContent: 'center',
         alignItems: 'center',
         border:
-          color.includes('muted') && outline
-            ? `1px solid ${getColor('semantic-background', borderColor)}`
+          color.includes('soft') && outline
+            ? `1px solid ${getColor('non-semantic-color', color)}`
             : `0px solid transparent`,
-        color: getColor('semantic-color', color),
-        background: getColor('semantic-background', color),
+        color: !color.includes('soft')
+          ? getColor('content', 'inverted')
+          : getColor('non-semantic-color', color.slice(0, -5) as any),
+        background: getColor('non-semantic-color', color),
         ...(shape === 'square' && {
           borderRadius: borderRadius('medium'),
         }),

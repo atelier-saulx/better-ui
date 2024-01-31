@@ -27,8 +27,6 @@ export type Color = {
   'non-semantic-color': NonSemanticColor
 }
 
-export type NonSemanticVariants = 'primary' | 'soft'
-
 export const SEMANTIC_COLORS: SemanticVariant[] = [
   'neutral',
   'informative',
@@ -45,16 +43,11 @@ export const MUTED_SEMANTIC_COLORS: SemanticVariant[] = [
   'error-muted',
 ]
 
-export const NON_SEMANTIC_VARIANTS = ['primary', 'soft']
-
 export const color = <T extends keyof Color>(
   group: T,
   color: Color[T],
-  variable?: NonSemanticVariants,
 ): string => {
-  return variable
-    ? `var(--${group}-${color}-${variable})`
-    : `var(--${group}-${color})`
+  return `var(--${group}-${color})`
 }
 
 export const border = (
@@ -73,18 +66,63 @@ export const boxShadow = (variant: 'focus' | 'error') =>
 
 export type NonSemanticColor =
   | 'red'
+  | 'red-soft'
   | 'raspberry'
+  | 'raspberry-soft'
   | 'magenta'
+  | 'magenta-soft'
   | 'purple'
+  | 'purple-soft'
   | 'grape'
+  | 'grape-soft'
   | 'violet'
+  | 'violet-soft'
   | 'blue'
+  | 'blue-soft'
   | 'cyan'
+  | 'cyan-soft'
   | 'teal'
+  | 'teal-soft'
   | 'aquamarine'
+  | 'aquamarine-soft'
   | 'green'
+  | 'green-soft'
   | 'emerald'
+  | 'emerald-soft'
   | 'orange'
+  | 'orange-soft'
+
+export const NON_SEMANTIC_COLORS: NonSemanticColor[] = [
+  'red',
+  'magenta',
+  'purple',
+  'grape',
+  'violet',
+  'blue',
+  'cyan',
+  'teal',
+  'aquamarine',
+  'green',
+  'emerald',
+  'orange',
+]
+
+export const MUTED_NON_SEMANTIC_COLORS: NonSemanticColor[] = [
+  'red-soft',
+  'raspberry',
+  'raspberry-soft',
+  'magenta-soft',
+  'purple-soft',
+  'grape-soft',
+  'violet-soft',
+  'blue-soft',
+  'cyan-soft',
+  'teal-soft',
+  'aquamarine-soft',
+  'green-soft',
+  'emerald-soft',
+  'orange-soft',
+]
 
 export const NON_SEMANTIC_COLOR: { [key in NonSemanticColor]: string } = {
   red: '#C53434',
