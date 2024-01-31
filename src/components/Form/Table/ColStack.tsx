@@ -47,8 +47,10 @@ export const ColStack = React.forwardRef(
       children,
       header,
       action,
+      hover,
       ...p
     }: {
+      hover?: boolean
       onRemove?: MouseEventHandler<'div'>
       action?: ReactNode
       noRemove?: boolean
@@ -111,6 +113,11 @@ export const ColStack = React.forwardRef(
           '& >:last-child': {
             borderRight: '0px solid transparent !important',
           },
+          '&:hover': hover
+            ? {
+                backgroundColor: `${color('background', 'muted')} !important`,
+              }
+            : null,
         }}
         justify="start"
         {...p}

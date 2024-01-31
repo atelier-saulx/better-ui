@@ -106,7 +106,7 @@ const FIELD_SIZES: {
         width: 300,
       },
       {
-        width: 160,
+        width: 200,
       },
     ],
     number: [

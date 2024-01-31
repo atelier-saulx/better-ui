@@ -40,7 +40,13 @@ const ReactStack = React.forwardRef(
       return null
     }
 
-    if (display === true) {
+    if (
+      display === true ||
+      (display !== 'block' &&
+        display !== 'flex' &&
+        display !== 'grid' &&
+        display !== 'inline-flex')
+    ) {
       display = 'flex'
     }
 
@@ -57,6 +63,7 @@ const ReactStack = React.forwardRef(
           display: 'grid',
           gap,
           position: 'relative',
+          width: '100%',
           gridAutoRows: '1fr',
           gridTemplateColumns: `repeat( auto-fit,minmax(${
             gridIsNumber ? grid : 48

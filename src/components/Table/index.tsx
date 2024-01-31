@@ -12,6 +12,7 @@ import { ValueRef } from '../Form/Table/Arrays/types.js'
 export const Table = (p: {
   field?: BasedSchemaFieldObject
   values?: any[]
+  onClick?: (data: any, index: number | string) => void
 }) => {
   const path = ['field']
 
@@ -33,7 +34,11 @@ export const Table = (p: {
         return false
       },
       onFileUpload: async (props, updateHandler) => {},
-      onClickReference: (props) => {},
+      onClickReference: (props) => {
+        if (p.onClick) {
+          p.onClick(props.value, props.path[props.path.length - 1])
+        }
+      },
       onSelectReference: (props) => {
         return undefined
       },
@@ -100,10 +105,10 @@ export const Table = (p: {
       onClickReference={clickRef}
       ctx={ctx}
       path={path}
-      //   onRemove={removeItem}
       valueRef={valueRef.current}
-      //   onNew={addNew}
       changeIndex={changeIndex}
+      //   onNew={addNew}
+      //   onRemove={removeItem}
     />
   )
 }

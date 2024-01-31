@@ -237,6 +237,7 @@ export const DragableRow = (p: DragableRowProps) => {
   if (!p.draggable) {
     return (
       <ColStack
+        hover
         onRemove={
           p.removeItem
             ? () => {
