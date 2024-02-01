@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, Page } from '../../../index.js'
 import { useContextState } from '../../../hooks/ContextState/index.js'
+import { Header } from './Header.js'
 
 export const SchemaMain = () => {
   const [type] = useContextState('type', '')
@@ -13,5 +14,9 @@ export const SchemaMain = () => {
     )
   }
 
-  return <div>{type}</div>
+  return (
+    <Page>
+      <Header />
+    </Page>
+  )
 }
