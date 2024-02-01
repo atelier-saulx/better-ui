@@ -17,17 +17,18 @@ import {
 import { Draggable } from './Draggable.js'
 import { useContextState } from '../../../hooks/ContextState/index.js'
 import { Field } from './Field.js'
-import { useSchema } from '../../../components/Schema'
+// import { useSchema } from '../../../components/Schema'
 import { TypeSchema } from '../constants.js'
 import { useFieldsEvents } from './useFieldEvents.js'
 
 export const Fields: FC<{
   includeSystemFields: boolean
   onChange: (v: any) => void
-}> = ({ includeSystemFields, onChange }) => {
+  schema: any
+}> = ({ includeSystemFields, onChange, schema }) => {
   const [type] = useContextState('type', '')
-  const [db] = useContextState('db', 'default')
-  const { schema } = useSchema(db)
+  //   const [db] = useContextState('db', 'default')
+  //   const { schema } = useSchema(db)
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
