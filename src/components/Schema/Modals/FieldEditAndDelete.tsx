@@ -15,8 +15,6 @@ export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
 
   const { data } = useQuery('db:schema')
 
-  // console.log('item from fieldEditDelete', item)
-
   return (
     <Dropdown.Root>
       <Dropdown.Trigger>

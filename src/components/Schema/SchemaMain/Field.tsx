@@ -61,8 +61,14 @@ export const Field = ({
 }) => {
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
-  const { meta, type: fieldType } = fieldSchema
+  const {
+    meta,
+    type: fieldType,
+    display: fieldDisplay,
+    format: fieldFormat,
+  } = fieldSchema
   const template = meta?.format || fieldType
+
   //   const { icon, color: iconColor } = templates[template] || {}
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
@@ -78,7 +84,7 @@ export const Field = ({
   const [, setPath] = useContextState('field', [])
 
   //   console.log('props --> type,', type, 'field', field)
-  //   console.log('fieldSchema', fieldSchema)
+  console.log('fieldSchema', fieldSchema)
 
   return (
     <styled.div>
@@ -145,11 +151,11 @@ export const Field = ({
                 System
               </Badge>
             ) : null}
-            {/*} {(item?.display || item?.format) && (
-          <Badge size="small" color="neutral-muted">
-            {item?.format || item?.display}
-          </Badge>
-            )} */}
+            {(fieldDisplay || fieldFormat) && (
+              <Badge size="small" color="neutral">
+                {fieldDisplay || fieldFormat}
+              </Badge>
+            )}
             {nestedType && (
               <Badge color="neutral-muted" size="small">
                 {nestedType}

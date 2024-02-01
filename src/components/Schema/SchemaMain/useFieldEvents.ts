@@ -30,8 +30,6 @@ export const useFieldsEvents = (
 
   const fields = typeDef.fields
 
-  console.log('FIELDS FROM EVENTs', fields)
-
   const { filtered, properties, objects } = filteredFields(
     typeDef,
     includeSystemFields,
@@ -40,7 +38,6 @@ export const useFieldsEvents = (
     field,
   )
 
-  //   const { confirm } = useDialog()
   const { confirm } = Modal.useModal()
 
   const onDragStart = useCallback(({ active }: DragStartEvent) => {
@@ -127,19 +124,17 @@ export const useFieldsEvents = (
 
       if (revert) {
         console.log('🦞🐠')
-        // @ts-ignore TODO: fix dialog
-        // const ok = await confirm({
-        //   label: 'Your are moving a field in or out of an object',
-        //   children:
-        //     'Are you sure? This will update the schema and all related data',
-        // })
+        const ok = await confirm(
+          'Beware ,you are moving a field in or out of an object',
+          'Are you sure? This will update the schema and all related data',
+        )
 
-        // if (!ok) {
-        //   sortedFields.forEach(setIndex)
-        //   revert()
-        //   setDraggingField(false) // force an update
-        //   return
-        // }
+        if (!ok) {
+          sortedFields.forEach(setIndex)
+          revert()
+          setDraggingField(false) // force an update
+          return
+        }
       }
 
       onChange(fields)

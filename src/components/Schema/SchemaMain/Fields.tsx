@@ -60,8 +60,6 @@ export const Fields: FC<{
     objects,
   } = useFieldsEvents(includeSystemFields, overIdRef, typeDef, onChange)
 
-  console.log('Filtered??', filtered)
-
   return (
     <DndContext
       sensors={sensors}

@@ -83,14 +83,15 @@ export const AddField = ({
 
   const { data } = useQuery('db:schema')
 
-  console.log(items, 'hellow tshtf', editItem)
+  console.log('fieldType -->', fieldType)
+  console.log('typeTitle', typeTitle)
+  console.log('fieldname/ itemName --->', itemName)
+  console.log('Edit items ---> ', editItem)
+  console.log('field item ---> ', fieldItem)
 
   React.useEffect(() => {
     console.log('did something changed in the meta:', meta)
   }, [meta])
-
-  console.log('NESTED 2--> field item ', fieldItem)
-  console.log('nested 2 typeTitle, ', typeTitle)
 
   return (
     <Modal
@@ -136,6 +137,7 @@ export const AddField = ({
             },
           }
         } else {
+          console.log('🈲')
           fields = {
             [fieldName]: {
               type: fieldType.toLowerCase(),
@@ -148,12 +150,10 @@ export const AddField = ({
         if (fieldItem || editItem) {
           if (editItem) {
             fieldItem = editItem
+            console.log('✅')
           }
 
-          const nestedPath = findPath(
-            data.types[typeTitle].fields,
-            Object.keys(fieldItem)[0],
-          )
+          const nestedPath = findPath(data.types[typeTitle].fields, fieldItem)
 
           if (!editItem) {
             nestedPath.push(Object.keys(fieldItem)[0])
@@ -185,10 +185,10 @@ export const AddField = ({
           fields = nestedFields
         }
 
-        if (editItem && editItem.index) {
-          // keep index after editing
-          fields[itemName].index = editItem.index
-        }
+        // if (editItem && editItem.index) {
+        //   // keep index after editing
+        //   fields[itemName].index = editItem.index
+        // }
 
         console.log('FIELDS before SETTING THEM 🍎', fields)
 
