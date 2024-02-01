@@ -126,19 +126,20 @@ export const useFieldsEvents = (
       resortedFields.forEach(setIndex)
 
       if (revert) {
+        console.log('🦞🐠')
         // @ts-ignore TODO: fix dialog
-        const ok = await confirm({
-          label: 'Your are moving a field in or out of an object',
-          children:
-            'Are you sure? This will update the schema and all related data',
-        })
+        // const ok = await confirm({
+        //   label: 'Your are moving a field in or out of an object',
+        //   children:
+        //     'Are you sure? This will update the schema and all related data',
+        // })
 
-        if (!ok) {
-          sortedFields.forEach(setIndex)
-          revert()
-          setDraggingField(false) // force an update
-          return
-        }
+        // if (!ok) {
+        //   sortedFields.forEach(setIndex)
+        //   revert()
+        //   setDraggingField(false) // force an update
+        //   return
+        // }
       }
 
       onChange(fields)
