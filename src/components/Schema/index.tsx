@@ -17,7 +17,7 @@ export const Schema = ({ schema, style, values, onChange }: SchemaProps) => {
     <Stack style={{ ...style }} justify="start" align="start">
       <StateProvider values={values} onChange={onChange}>
         <SchemaLeft schema={schema} />
-        <SchemaMain schema={schema} />
+        <SchemaMain />
       </StateProvider>
     </Stack>
   )

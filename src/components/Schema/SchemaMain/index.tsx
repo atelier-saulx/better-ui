@@ -5,20 +5,23 @@ import { Header } from './Header.js'
 import { Fields } from './Fields.js'
 import { useClient } from '@based/react'
 import { TypeSchema } from '../constants.js'
+import { useSchema } from '../hooks/useSchema.js'
 
-export const SchemaMain = ({ schema }) => {
+export const SchemaMain = () => {
   const client = useClient()
-
   const [type] = useContextState('type', '')
   const [field] = useContextState('field', [])
   const [db] = useContextState('db', 'default')
-
+  const { loading, schema } = useSchema(db)
   const [includeSystemFields, toggleSystemFields] = useState(false)
-
   const { types } = schema
 
   console.log('schema from MAIN 🌝, ', schema)
   const description = schema.types[type]?.description
+
+  if (loading) {
+    return null
+  }
 
   if (!type) {
     return (
@@ -31,6 +34,11 @@ export const SchemaMain = ({ schema }) => {
   const typeDef: TypeSchema =
     type === 'root' ? schema.rootType : types[type] || { fields: {} }
   const { fields } = typeDef
+
+  if (!fields) {
+    console.error('[InvalidSchema] No fields on type', type)
+    return null
+  }
 
   return (
     <Page>

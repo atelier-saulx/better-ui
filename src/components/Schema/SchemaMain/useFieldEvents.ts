@@ -30,6 +30,8 @@ export const useFieldsEvents = (
 
   const fields = typeDef.fields
 
+  console.log('FIELDS FROM EVENTs', fields)
+
   const { filtered, properties, objects } = filteredFields(
     typeDef,
     includeSystemFields,
@@ -114,10 +116,10 @@ export const useFieldsEvents = (
       const setIndex = (field, index) => {
         const path = field.split('.')
         const targetFields = path.reduce((fields, key) => fields[key], fields)
-        if ('meta' in targetFields) {
-          targetFields.meta.index = index
+        if ('index' in targetFields) {
+          targetFields.index = index
         } else {
-          targetFields.meta = { index }
+          targetFields.index = { index }
         }
       }
 

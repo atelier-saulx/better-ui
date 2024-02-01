@@ -485,6 +485,7 @@ export const ARRAY_OPTIONS = [
 
 export type TypeSchema = {
   prefix?: string
+  description?: string
   fields: {
     [key: string]: FieldSchema
   }
@@ -498,5 +499,14 @@ export type FieldSchema = {
   index?: number
   properties?: {
     [key: string]: FieldSchema
+  }
+}
+
+export type BasedSchema = {
+  languages: string[]
+  rootType: TypeSchema
+  prefixToTypeMapping: { [key: string]: string }
+  types: {
+    [key: string]: TypeSchema
   }
 }
