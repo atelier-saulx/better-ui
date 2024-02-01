@@ -16,40 +16,7 @@ import { styled } from 'inlines'
 import { getDepth } from './utils.js'
 import { useContextState } from '../../../hooks/ContextState/index.js'
 import { FieldEditAndDelete } from '../Modals/FieldEditAndDelete.js'
-
-// import { FieldTemplates, systemFields, templates } from '../templates'
-// import { FieldModal } from '../FieldModal'
-// import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
-// import { useSchema } from '../../Schema'
-
-// const EditMenu: FC<{
-//   type: string
-//   field: string
-//   template: FieldTemplates
-//   isObject: boolean
-//   path: string[]
-//   setPath: (path: string[]) => void
-// }> = ({ type, field, setPath, template, isObject, path }) => {
-//   const [db] = useContextState('db', 'default')
-//   const { schema } = useSchema(db)
-//   const client = useClient()
-//   const { open } = useDialog()
-
-// const AddObjectFieldButton = ({ type, path }) => {
-//   const openSelectField = useContextMenu(
-//     SelectFieldTypeModal,
-//     {
-//       type,
-//       field: path,
-//     },
-//     { width: 924, placement: 'right' },
-//   )
-//   return (
-//     <Button onClick={openSelectField} ghost icon={AddIcon}>
-//       Add field
-//     </Button>
-//   )
-// }
+import { SelectNewField } from '../../_SchemaEditor/Modals/SelectNewField.js'
 
 export const Field = ({
   type,
@@ -59,15 +26,17 @@ export const Field = ({
   toggleExpand = null,
   collapsed = false,
 }) => {
+  // console.log('fields??', fields)
+
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
   const {
-    meta,
+    // meta,
     type: fieldType,
     display: fieldDisplay,
     format: fieldFormat,
   } = fieldSchema
-  const template = meta?.format || fieldType
+  // const template = meta?.format || fieldType
 
   //   const { icon, color: iconColor } = templates[template] || {}
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
@@ -83,8 +52,8 @@ export const Field = ({
 
   const [, setPath] = useContextState('field', [])
 
-  //   console.log('props --> type,', type, 'field', field)
-  console.log('fieldSchema', fieldSchema)
+  // console.log('props --> type,', type, 'field', field)
+  // console.log('fieldSchema', fieldSchema)
 
   return (
     <styled.div>
@@ -164,13 +133,13 @@ export const Field = ({
           </Stack>
 
           <Stack gap={12} justify="end">
-            {/* {isObject && (
-            <SelectNewField
-              typeTitle={typeTitle}
-              fieldItem={{ [itemName]: { ...item } }}
-              light
-            />
-          )} */}
+            {isObject && (
+              <SelectNewField
+                typeTitle={type}
+                fieldItem={{ [field]: { ...fields[field] } }}
+                light
+              />
+            )}
             <FieldEditAndDelete
               item={fieldSchema}
               itemName={field}

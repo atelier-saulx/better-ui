@@ -153,7 +153,12 @@ export const AddField = ({
             console.log('✅')
           }
 
-          const nestedPath = findPath(data.types[typeTitle].fields, fieldItem)
+          const nestedPath = findPath(
+            data.types[typeTitle].fields,
+            fieldName.split('.')[fieldName.split('.').length - 1],
+          )
+
+          console.log('nested path', nestedPath)
 
           if (!editItem) {
             nestedPath.push(Object.keys(fieldItem)[0])
@@ -176,7 +181,13 @@ export const AddField = ({
           }
 
           if (editItem) {
-            dest[itemName] = fields[itemName]
+            if (itemName.split('.').length < 1) {
+              dest[itemName] = fields[itemName]
+            } else {
+              dest[itemName.split('.')[itemName.split('.').length - 1]] = {
+                ...meta,
+              }
+            }
           } else {
             // @ts-ignore // add the field to here
             dest.properties = fields

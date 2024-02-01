@@ -42,8 +42,8 @@ export const SchemaMain = () => {
     return null
   }
 
-  console.log('TypeDEf --->', typeDef)
-  console.log('Fields -->', fields)
+  // console.log('TypeDEf --->', typeDef)
+  // console.log('Fields -->', fields)
 
   const onCancel = () => {
     console.log('le cancle ❌')
