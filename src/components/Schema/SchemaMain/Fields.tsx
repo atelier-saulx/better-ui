@@ -30,11 +30,16 @@ export const Fields: FC<{
   //   const [db] = useContextState('db', 'default')
   //   const { schema } = useSchema(db)
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   )
+
   const overIdRef = useRef()
 
   if (!type) {
@@ -42,9 +47,7 @@ export const Fields: FC<{
   }
 
   const typeDef: TypeSchema =
-    type === 'root'
-      ? schema.rootType
-      : schema.types[type] || { meta: {}, fields: {} }
+    type === 'root' ? schema.rootType : schema.types[type] || { fields: {} }
 
   const {
     onDragStart,
@@ -56,6 +59,8 @@ export const Fields: FC<{
     collapsed,
     objects,
   } = useFieldsEvents(includeSystemFields, overIdRef, typeDef, onChange)
+
+  console.log('Filtered??', filtered)
 
   return (
     <DndContext

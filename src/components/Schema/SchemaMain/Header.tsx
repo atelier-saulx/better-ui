@@ -3,6 +3,7 @@ import { Stack, Text } from '../../../index.js'
 import { useContextState } from '../../../hooks/ContextState/index.js'
 import { TypeOptions } from './TypeOptions/index.js'
 import { styled } from 'inlines'
+import { SelectField } from '../SelectField/index.js'
 
 export const Header = ({ description }) => {
   const [type, setType] = useContextState('type')
@@ -14,7 +15,7 @@ export const Header = ({ description }) => {
           <Text variant="title-page">{type}</Text>
           <TypeOptions />
         </Stack>
-        <div>ADD FIELD BUTTON HERE</div>
+        <SelectField />
       </Stack>
       {description && <Text color="secondary">{description}</Text>}
     </styled.div>

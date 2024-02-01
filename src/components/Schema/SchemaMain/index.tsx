@@ -4,14 +4,18 @@ import { useContextState } from '../../../hooks/ContextState/index.js'
 import { Header } from './Header.js'
 import { Fields } from './Fields.js'
 import { useClient } from '@based/react'
+import { TypeSchema } from '../constants.js'
 
 export const SchemaMain = ({ schema }) => {
   const client = useClient()
 
   const [type] = useContextState('type', '')
   const [field] = useContextState('field', [])
+  const [db] = useContextState('db', 'default')
 
   const [includeSystemFields, toggleSystemFields] = useState(false)
+
+  const { types } = schema
 
   console.log('schema from MAIN 🌝, ', schema)
   const description = schema.types[type]?.description
@@ -23,6 +27,10 @@ export const SchemaMain = ({ schema }) => {
       </Page>
     )
   }
+
+  const typeDef: TypeSchema =
+    type === 'root' ? schema.rootType : types[type] || { fields: {} }
+  const { fields } = typeDef
 
   return (
     <Page>

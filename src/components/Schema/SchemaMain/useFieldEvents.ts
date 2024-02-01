@@ -1,7 +1,8 @@
 import { useCallback, useState, RefObject } from 'react'
 import { arrayMove } from '@dnd-kit/sortable'
 import { getObjectId } from './utils.js'
-import { useDialog } from '@based/ui'
+import { Modal } from '../../Modal/index.js'
+// import { useDialog } from '@based/ui'
 import { sortAndFlatten, filteredFields } from '../fieldParsers.js'
 import { UniqueIdentifier, DragStartEvent, DragEndEvent } from '@dnd-kit/core'
 import { useContextState } from '../../../hooks/ContextState/index.js'
@@ -37,7 +38,8 @@ export const useFieldsEvents = (
     field,
   )
 
-  const { confirm } = useDialog()
+  //   const { confirm } = useDialog()
+  const { confirm } = Modal.useModal()
 
   const onDragStart = useCallback(({ active }: DragStartEvent) => {
     setDraggingField(active.id)
