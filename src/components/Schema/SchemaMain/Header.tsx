@@ -8,7 +8,7 @@ export const Header = ({ description }) => {
   const [type, setType] = useContextState('type')
 
   return (
-    <styled.div style={{ marginBottom: 32 }}>
+    <styled.div style={{ marginBottom: 24 }}>
       <Stack>
         <Stack justify="start" gap={12}>
           <Text variant="title-page">{type}</Text>
