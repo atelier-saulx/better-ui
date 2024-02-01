@@ -487,6 +487,16 @@ export const ARRAY_OPTIONS = [
 export type TypeSchema = {
   prefix?: string
   fields: {
-    [key: string]: any
+    [key: string]: FieldSchema
+  }
+}
+
+export type FieldSchema = {
+  type: string
+  items?: FieldSchema
+  $delete?: boolean
+  values?: FieldSchema
+  properties?: {
+    [key: string]: FieldSchema
   }
 }
