@@ -1,18 +1,22 @@
 import React from 'react'
-import { Stack, Text, Button } from '../../../index.js'
+import { Stack, Text } from '../../../index.js'
 import { useContextState } from '../../../hooks/ContextState/index.js'
 import { TypeOptions } from './TypeOptions/index.js'
+import { styled } from 'inlines'
 
-export const Header = () => {
-  const [type] = useContextState('type')
+export const Header = ({ description }) => {
+  const [type, setType] = useContextState('type')
 
   return (
-    <Stack style={{ marginBottom: 32 }}>
-      <Stack justify="start" gap={12}>
-        <Text variant="title-page">{type}</Text>
-        <TypeOptions />
+    <styled.div style={{ marginBottom: 32 }}>
+      <Stack>
+        <Stack justify="start" gap={12}>
+          <Text variant="title-page">{type}</Text>
+          <TypeOptions />
+        </Stack>
+        <div>ADD FIELD BUTTON HERE</div>
       </Stack>
-      <Button>Flap</Button>
-    </Stack>
+      {description && <Text color="secondary">{description}</Text>}
+    </styled.div>
   )
 }

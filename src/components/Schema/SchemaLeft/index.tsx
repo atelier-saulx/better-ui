@@ -1,6 +1,7 @@
 import React from 'react'
 import { Sidebar, Stack, Text } from '../../../index.js'
 import { useContextState } from '../../../hooks/ContextState/index.js'
+import { AddType } from '../SchemaMain/TypeOptions/AddType.js'
 
 export const SchemaLeft = ({ schema }) => {
   const [type, setType] = useContextState('type')
@@ -18,7 +19,7 @@ export const SchemaLeft = ({ schema }) => {
       header={
         <Stack>
           <Text variant="caption">Types</Text>
-          {/* <AddType setActive={setActive} light /> */}
+          <AddType setActive={setType} light />
         </Stack>
       }
       size="small"

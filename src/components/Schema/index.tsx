@@ -14,10 +14,10 @@ type SchemaProps = {
 
 export const Schema = ({ schema, style, values, onChange }: SchemaProps) => {
   return (
-    <Stack style={{ ...style }} justify="start">
+    <Stack style={{ ...style }} justify="start" align="start">
       <StateProvider values={values} onChange={onChange}>
         <SchemaLeft schema={schema} />
-        <SchemaMain />
+        <SchemaMain schema={schema} />
       </StateProvider>
     </Stack>
   )
