@@ -146,17 +146,16 @@ export const SCHEMA_FIELDS = {
   },
 }
 
-export const SYSTEM_FIELDS = [
+export const SYSTEM_FIELDS = new Set([
   'type',
-  'ancestors',
-  'descendants',
   'id',
-  'aliases',
   'createdAt',
   'parents',
   'updatedAt',
   'children',
-]
+])
+
+export const ALWAYS_IGNORE = new Set(['descendants', 'ancestors', 'aliases'])
 
 export const STRING_FORMAT_OPTIONS = [
   { value: 'email' },
@@ -496,6 +495,7 @@ export type FieldSchema = {
   items?: FieldSchema
   $delete?: boolean
   values?: FieldSchema
+  index?: number
   properties?: {
     [key: string]: FieldSchema
   }

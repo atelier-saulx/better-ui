@@ -1,19 +1,19 @@
-import { systemFields, alwaysIgnore } from './templates'
 import { FieldSchema, TypeSchema } from './constants.js'
+import { SYSTEM_FIELDS, ALWAYS_IGNORE } from './constants.js'
 
 export const sortFields = (fields: {
   [key: string]: FieldSchema
 }): string[] => {
   return Object.keys(fields).sort((a, b) => {
-    const indexA = fields[a].meta?.index ?? 1e6
-    const indexB = fields[b].meta?.index ?? 1e6
+    const indexA = fields[a].index ?? 1e6
+    const indexB = fields[b].index ?? 1e6
     if (indexA === undefined) {
       if (indexB === undefined) {
-        if (systemFields.has(a)) {
-          if (!systemFields.has(b)) {
+        if (SYSTEM_FIELDS.has(a)) {
+          if (!SYSTEM_FIELDS.has(b)) {
             return 1
           }
-        } else if (systemFields.has(b)) {
+        } else if (SYSTEM_FIELDS.has(b)) {
           return 1
         }
         return a < b ? -1 : 1
@@ -111,10 +111,10 @@ export const filteredFields = (
   const objectPath: any[] = []
 
   const filtered = sortedFields.filter((field) => {
-    if (alwaysIgnore.has(field)) {
+    if (ALWAYS_IGNORE.has(field)) {
       return false
     }
-    if (!includeSystemFields && systemFields.has(field)) {
+    if (!includeSystemFields && SYSTEM_FIELDS.has(field)) {
       return false
     }
     if (excludeFieldPrefix && field.startsWith(`${excludeFieldPrefix}.`)) {

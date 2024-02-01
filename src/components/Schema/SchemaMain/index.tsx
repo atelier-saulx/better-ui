@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Text, Page, CheckboxInput } from '../../../index.js'
 import { useContextState } from '../../../hooks/ContextState/index.js'
 import { Header } from './Header.js'
@@ -9,6 +9,9 @@ export const SchemaMain = ({ schema }) => {
   const client = useClient()
 
   const [type] = useContextState('type', '')
+  const [field] = useContextState('field', [])
+
+  const [includeSystemFields, toggleSystemFields] = useState(false)
 
   console.log('schema from MAIN 🌝, ', schema)
   const description = schema.types[type]?.description
@@ -24,7 +27,12 @@ export const SchemaMain = ({ schema }) => {
   return (
     <Page>
       <Header description={description} />
-      <CheckboxInput label="Show system fields" style={{ marginBottom: 16 }} />
+      <CheckboxInput
+        label="Show system fields"
+        style={{ marginBottom: 16 }}
+        value={includeSystemFields}
+        onChange={toggleSystemFields}
+      />
       <Fields
         schema={schema}
         includeSystemFields={includeSystemFields}
