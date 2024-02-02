@@ -4,7 +4,6 @@ import { IconPlus } from '../../Icons/index.js'
 import { Modal } from '../../Modal/index.js'
 import { Text } from '../../Text/index.js'
 import { TextInput } from '../../TextInput/index.js'
-import { Container } from '../../Container/index.js'
 import { Thumbnail } from '../../Thumbnail/index.js'
 import { AddField } from '../Modals/AddField.js'
 import { NonSemanticColor, color } from '../../../utils/colors.js'
@@ -18,9 +17,14 @@ const filterOutTheseFields = ['id', 'type', 'email', 'digest', 'url']
 type SelectNewFieldProps = {
   fieldItem?: {}
   light?: boolean
+  path?: string[]
 }
 
-export const SelectField = ({ fieldItem, light }: SelectNewFieldProps) => {
+export const SelectField = ({
+  fieldItem,
+  light,
+  path,
+}: SelectNewFieldProps) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
 
@@ -96,6 +100,7 @@ export const SelectField = ({ fieldItem, light }: SelectNewFieldProps) => {
                           onConfirm={close}
                           // if nested
                           fieldItem={fieldItem}
+                          path={path}
                         />
                       ))
 

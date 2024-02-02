@@ -16,7 +16,7 @@ import { styled } from 'inlines'
 import { getDepth } from './utils.js'
 import { useContextState } from '../../../hooks/ContextState/index.js'
 import { FieldEditAndDelete } from '../Modals/FieldEditAndDelete.js'
-import { SelectNewField } from '../../_SchemaEditor/Modals/SelectNewField.js'
+import { SelectField } from '../SelectField/index.js'
 
 export const Field = ({
   type,
@@ -134,8 +134,9 @@ export const Field = ({
 
           <Stack gap={12} justify="end">
             {isObject && (
-              <SelectNewField
-                typeTitle={type}
+              <SelectField
+                // typeTitle={type}
+                path={objectPath}
                 fieldItem={{ [field]: { ...fields[field] } }}
                 light
               />

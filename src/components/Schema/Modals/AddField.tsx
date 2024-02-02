@@ -106,31 +106,49 @@ export const AddField = ({
         let field = fieldName
         fieldType = fieldType.toLowerCase()
 
-        path = path || [field]
+        path = path
 
         const currentFields =
           type === 'root' ? rootType.fields : types[type].fields
+
         const fields = {}
         let from = currentFields
         let dest = fields
         let i = 0
-        const l = path.length
+        const l = path?.length
 
         while (i < l) {
           const key = path[i++]
           dest[key] = { ...from[key] }
           dest = dest[key]
+          console.log('DEST', dest)
           // @ts-ignore TODO: fix
           from = from[key]
+          console.log('FROM', from)
         }
 
-        // normal field
-        fields[field] = { type: fieldType, ...meta }
+        if (path?.length > 1) {
+          // nested dus..
+          console.log(fields, '🆚 NESTED ??')
+        } else {
+          // set normal fields
+          // first add all meta options
+          if (fieldType === 'rich text') {
+            fields[field] = { type: 'json', format: 'rich-text', ...meta }
+          } else {
+            fields[field] = { type: fieldType, ...meta }
+          }
 
-        if (fieldType === 'record') {
-          fields[field] = { values: [], ...fields[field] }
-        } else if (fieldType === 'object') {
-          fields[field] = { properties: {}, ...fields[field] }
+          if (fieldType === 'record') {
+            fields[field] = { values: [], ...fields[field] }
+          } else if (fieldType === 'object') {
+            fields[field] = { properties: {}, ...fields[field] }
+          } else if (
+            fieldType.toLowerCase() === 'array' ||
+            fieldType.toLowerCase() === 'set'
+          ) {
+            fields[field] = { items: items, ...fields[field] }
+          }
         }
 
         console.log(fields, 'NEW FIELDS??')
