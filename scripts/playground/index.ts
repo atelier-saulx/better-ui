@@ -42,7 +42,9 @@ const getStories = () => {
           bundle: true,
           entryPoints: [join(__dirname, '/playground.tsx')],
           platform: 'browser',
-          minify: true,
+          // minify:
+          minifySyntax: true,
+          minifyWhitespace: true,
           outdir: join(TOP_DIR, './dist/playground'),
         })
 
