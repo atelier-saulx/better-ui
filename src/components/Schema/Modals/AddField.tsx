@@ -130,6 +130,9 @@ export const AddField = ({
         if (path?.length > 1) {
           // nested dus..
           console.log(fields, '🆚 NESTED ??')
+          dest[field] = {
+            ...from[field],
+          }
         } else {
           // set normal fields
           // first add all meta options
