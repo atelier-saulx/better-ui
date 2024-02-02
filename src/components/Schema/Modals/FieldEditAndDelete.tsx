@@ -25,6 +25,20 @@ export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
       <Dropdown.Items>
         <Dropdown.Item
           onClick={async () => {
+            console.log('clicked item', itemName)
+
+            const filteredPath = itemName.split('.').filter((field) => {
+              let isField = true
+              if (isField) {
+                isField = false
+                return true
+              }
+              if (field === 'properties') {
+                isField = true
+              }
+              return false
+            })
+
             const fieldMeta = await open(({ close }) => (
               <AddField
                 typeTitle={typeTitle}
@@ -32,6 +46,7 @@ export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
                 // use edit item for edit options
                 editItem={item}
                 itemName={itemName}
+                path={filteredPath}
                 onConfirm={close}
               />
             ))

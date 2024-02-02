@@ -70,7 +70,7 @@ export const expandFieldPath = (
     for (const f of field) {
       if (n === undefined) {
         return []
-        break
+        //  break
       }
       n = n[f]
       newField.push(f)
