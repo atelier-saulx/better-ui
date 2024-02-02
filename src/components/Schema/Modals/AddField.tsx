@@ -86,11 +86,11 @@ export const AddField = ({
   const { data } = useQuery('db:schema')
   const { types, rootType } = data
 
-  console.log('fieldType -->', fieldType)
-  console.log('typeTitle', typeTitle)
-  console.log('fieldname/ itemName --->', itemName)
-  console.log('Edit items ---> ', editItem)
-  console.log('field item ---> ', fieldItem)
+  // console.log('fieldType -->', fieldType)
+  // console.log('typeTitle', typeTitle)
+  // console.log('fieldname/ itemName --->', itemName)
+  // console.log('Edit items ---> ', editItem)
+  // console.log('field item ---> ', fieldItem)
 
   React.useEffect(() => {
     console.log('did something changed in the meta:', meta)
@@ -101,202 +101,60 @@ export const AddField = ({
       confirmLabel={editItem ? 'Edit' : 'Add Field'}
       confirmProps={{ disabled: !fieldName || fieldName.length < 3 }}
       onConfirm={async () => {
-        // let fields
+        // options // type // children // path = path
+        let type = typeTitle
+        let field = fieldName
+        fieldType = fieldType.toLowerCase()
 
-        const type = typeTitle
-        const field = fieldName
+        path = path || [field]
 
-        // console.log('PATH BITHC', path)
+        const currentFields =
+          type === 'root' ? rootType.fields : types[type].fields
+        const fields = {}
+        let from = currentFields
+        let dest = fields
+        let i = 0
+        const l = path.length
 
-        // if (fieldType.toLowerCase() === 'record') {
-        //   fields = {
-        //     [fieldName]: {
-        //       type: fieldType.toLowerCase(),
-        //       ...meta,
-
-        //       values: [],
-        //     },
-        //   }
-        // } else if (fieldType.toLowerCase() === 'object') {
-        //   fields = {
-        //     [fieldName]: {
-        //       type: fieldType.toLowerCase(),
-        //       ...meta,
-        //       properties: {},
-        //     },
-        //   }
-        // } else if (
-        //   fieldType.toLowerCase() === 'array' ||
-        //   fieldType.toLowerCase() === 'set'
-        // ) {
-        //   fields = {
-        //     [fieldName]: {
-        //       type: fieldType.toLowerCase(),
-        //       ...meta,
-        //       items: items,
-        //     },
-        //   }
-        // } else if (fieldType.toLowerCase() === 'rich text') {
-        //   fields = {
-        //     [fieldName]: {
-        //       type: 'json',
-        //       ...meta,
-        //       format: 'rich-text',
-        //     },
-        //   }
-        // } else {
-        //   console.log('🈲')
-        //   fields = {
-        //     [fieldName]: {
-        //       type: fieldType.toLowerCase(),
-        //       ...meta,
-        //     },
-        //   }
-        // }
-
-        // const nestedFields = {}
-        // if (fieldItem || editItem) {
-        //   if (editItem) {
-        //     fieldItem = editItem
-        //     console.log('✅', fieldItem)
-        //   }
-
-        //   // const nestedPath = findPath(
-        //   //   data.types[typeTitle].fields,
-        //   //   fieldName.split('.').length < 1 ? fieldName : fieldName.split('.'),
-        //   // )
-
-        //   // if (!editItem) {
-        //   //   nestedPath.push(Object.keys(fieldItem)[0])
-        //   //   console.log('WHAT ?? 🆑', nestedPath)
-        //   // }
-
-        //   const currentFields = data.types[typeTitle].fields
-
-        //   let from = currentFields
-        //   let dest = nestedFields
-        //   let i = 0
-        //   const l = path.length
-
-        //   while (i < l) {
-        //     const key = path[i++]
-        //     console.log(dest, 'DEST?')
-        //     dest[key] = { ...from[key] }
-
-        //     dest = dest[key]
-        //     from = from[key]
-        //   }
-
-        //   console.log('DEST HIER 🆚', dest)
-        //   console.log('FIELDNAME', fieldName)
-
-        //   dest[fieldName] = {
-        //     ...from[fieldName],
-        //     ...data,
-        //   }
-
-        //   // if (editItem) {
-        //   //   if (itemName.split('.').length < 1) {
-        //   //     dest[itemName] = fields[itemName]
-        //   //   } else {
-        //   //     dest[itemName.split('.')[itemName.split('.').length - 1]] = {
-        //   //       ...meta,
-        //   //     }
-        //   //   }
-        //   // } else {
-        //   //   // @ts-ignore // add the field to here
-        //   //   dest.properties = fields
-        //   // }
-
-        //   fields = nestedFields
-        // }
-
-        // // if (editItem && editItem.index) {
-        // //   // keep index after editing
-        // //   fields[itemName].index = editItem.index
-        // // }
-
-        // console.log('FIELDS before SETTING THEM 🍎', fields)
-
-        // await client.call('db:set-schema', {
-        //   mutate: true,
-        //   schema: {
-        //     types: {
-        //       [typeTitle]: {
-        //         fields: fields,
-        //       },
-        //     },
-        //   },
-        // })
-
-        const fields =
-          type === 'root'
-            ? data?.rootType?.fields
-            : // @ts-ignore  is this an issue?
-              path?.reduce((fields, key) => fields[key], types[type].fields)
-
-        const options = {
-          field,
-          ...meta,
-          ...fields[field],
+        while (i < l) {
+          const key = path[i++]
+          dest[key] = { ...from[key] }
+          dest = dest[key]
+          // @ts-ignore TODO: fix
+          from = from[key]
         }
 
-        try {
-          const { field, ...schema } = options
+        // normal field
+        fields[field] = { type: fieldType, ...meta }
 
-          // if (!schema.meta.name) {
-          //   throw Error('Display name is required')
-          // }
+        if (fieldType === 'record') {
+          fields[field] = { values: [], ...fields[field] }
+        } else if (fieldType === 'object') {
+          fields[field] = { properties: {}, ...fields[field] }
+        }
 
-          if (!field) {
-            throw Error('Field name is required')
-          }
-          const currentFields =
-            type === 'root' ? rootType.fields : types[type].fields
-          const fields = {}
-          let from = currentFields
-          let dest = fields
-          let i = 0
-          const l = path.length
+        console.log(fields, 'NEW FIELDS??')
 
-          while (i < l) {
-            const key = path[i++]
-            dest[key] = { ...from[key] }
-            dest = dest[key]
-            // @ts-ignore TODO: fix
-            from = from[key]
-          }
-
-          dest[field] = {
-            ...from[field],
-            ...schema,
-          }
-
-          if (type === 'root') {
-            return client.call('db:set-schema', {
-              mutate: true,
-
-              schema: {
-                rootType: {
+        if (type === 'root') {
+          client.call('db:set-schema', {
+            mutate: true,
+            schema: {
+              rootType: {
+                fields,
+              },
+            },
+          })
+        } else {
+          client.call('db:set-schema', {
+            mutate: true,
+            schema: {
+              types: {
+                [type]: {
                   fields,
                 },
               },
-            })
-          } else {
-            return client.call('db:set-schema', {
-              mutate: true,
-              schema: {
-                types: {
-                  [type]: {
-                    fields,
-                  },
-                },
-              },
-            })
-          }
-        } catch (e) {
-          console.log('try updating your settings')
-          throw e
+            },
+          })
         }
 
         onConfirm(meta)
