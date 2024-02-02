@@ -12,7 +12,7 @@ export const FormConfirm = (p: {
 }) => {
   const ref = useRef<any>()
   const show =
-    p.hasChanges || p.variant === 'bare' || p.variant === 'no-confirm'
+    p.hasChanges && !(p.variant === 'bare' || p.variant === 'no-confirm')
 
   const [isSticky, setIsSticky] = useState(false)
 
