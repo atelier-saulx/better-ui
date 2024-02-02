@@ -2,7 +2,6 @@ import React, { ReactNode, useEffect, useState, useRef } from 'react'
 import { Confirm, color, Stack, borderRadius } from '../../index.js'
 import { Variant } from './types.js'
 
-// setWalker
 export const FormConfirm = (p: {
   variant: Variant
   hasChanges: boolean
