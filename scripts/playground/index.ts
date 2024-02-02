@@ -43,14 +43,18 @@ const getStories = () => {
           entryPoints: [join(__dirname, '/playground.tsx')],
           platform: 'browser',
           minify: true,
-          outdir: join(TOP_DIR, './playground'),
+          outdir: join(TOP_DIR, './dist/playground'),
         })
 
-        const js = readFileSync(join(TOP_DIR, './playground/playground.js'))
-        const css = readFileSync(join(TOP_DIR, './playground/playground.css'))
+        const js = readFileSync(
+          join(TOP_DIR, './dist/playground/playground.js'),
+        )
+        const css = readFileSync(
+          join(TOP_DIR, './dist/playground/playground.css'),
+        )
 
         writeFileSync(
-          join(TOP_DIR, './playground/index.html'),
+          join(TOP_DIR, './dist/playground/index.html'),
           `<html>
         <head>
           <script>window.global = window;</script>
