@@ -4,15 +4,12 @@ import { useContextState } from '../../../hooks/ContextState/index.js'
 import { Header } from './Header.js'
 import { Fields } from './Fields.js'
 import { styled } from 'inlines'
-import { useClient } from '@based/react'
 import { TypeSchema } from '../constants.js'
 
 export const SchemaMain = ({ schema, setSchema, setSomethingChanged }) => {
-  const client = useClient()
   const [type] = useContextState('type', '')
   const [field] = useContextState('field', [])
-  const [db] = useContextState('db', 'default')
-  // const { loading, schema } = useSchema(db)
+
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const { types } = schema
 
@@ -88,41 +85,6 @@ export const SchemaMain = ({ schema, setSchema, setSomethingChanged }) => {
             setSomethingChanged(true)
 
             setSchema({ ...schema })
-            // setSchema({
-            //   schema: {
-            //     types: {
-            //       [type]: { fields: update },
-            //     },
-            //   },
-            // })
-
-            // if (type === 'root') {
-            //   return client
-            //     .call('db:set-schema', {
-            //       db,
-            //       mutate: true,
-            //       schema: {
-            //         rootType: {
-            //           fields: update,
-            //         },
-            //       },
-            //     })
-            //     .catch((e) => console.error('error updating schema', e))
-            // } else {
-            //   return client
-            //     .call('db:set-schema', {
-            //       db,
-            //       mutate: true,
-            //       schema: {
-            //         types: {
-            //           [type]: {
-            //             fields: update,
-            //           },
-            //         },
-            //       },
-            //     })
-            //     .catch((e) => console.error('error updating schema', e))
-            // }
           }}
         />
       </styled.div>

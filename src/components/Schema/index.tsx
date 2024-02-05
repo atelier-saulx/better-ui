@@ -35,11 +35,9 @@ export const Schema = ({
   }
 
   const onConfirm = async () => {
-    await console.log(' el confirmo')
-
     setSomethingChanged(false)
 
-    return client.call('db:set-schema', {
+    await client.call('db:set-schema', {
       db,
       mutate: true,
       schema: schema,
@@ -58,6 +56,7 @@ export const Schema = ({
       <Stack style={{ ...style }} justify="start" align="start">
         <StateProvider values={values} onChange={onChange}>
           <SchemaLeft schema={schema} />
+
           {renderCounter && (
             <SchemaMain
               schema={schema}
