@@ -16,6 +16,7 @@ export const Table = (p: {
   editable?: boolean
   field?: BasedSchemaFieldObject
   values?: any[]
+  sortable?: boolean
   onChange?: FormProps['onChange']
   onClick?: (data: any, index: number | string) => void
 }) => {
@@ -23,7 +24,7 @@ export const Table = (p: {
 
   const ctx: TableCtx = {
     fields: {
-      field: { type: 'references' },
+      field: { type: 'references', sortable: p.sortable },
     },
     editableReferences: p.editable,
     schema: p.schema,
@@ -37,7 +38,8 @@ export const Table = (p: {
         return t
       },
       onChangeHandler: (ctx, path, newValue, forceUpdate) => {
-        console.log('change', path)
+        console.log('change', path, newValue)
+        // new version etc
         return false
       },
       onFileUpload: async (props, updateHandler) => {},
@@ -114,8 +116,8 @@ export const Table = (p: {
       valueRef={valueRef.current}
       changeIndex={changeIndex}
       alwaysUseCols
-      //   onNew={addNew}
-      //   onRemove={removeItem}
+      // onNew={p.editable ? addNew : undefined}
+      onRemove={p.editable ? removeItem : undefined}
     />
   )
 }

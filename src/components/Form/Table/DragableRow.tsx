@@ -13,7 +13,7 @@ import { Path, TableCtx } from '../types.js'
 import { ColStack } from './ColStack.js'
 import { render } from 'react-dom'
 import { IconDrag } from '../IconDrag.js'
-import { getIdentifierField, readPath } from '../utils.js'
+import { getIdentifierField, readPath, readInfoField } from '../utils.js'
 import { json2csv } from 'json-2-csv'
 
 let draggingIndex = 0
@@ -54,7 +54,7 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
 
   // const f = ref.current.p.field
 
-  const { value } = readPath(ref.current.p.ctx, [
+  const { value, field } = readPath(ref.current.p.ctx, [
     ...ref.current.p.path,
     ref.current.p.index,
   ])
@@ -79,7 +79,7 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
           borderRadius: borderRadius('small'),
         }}
       >
-        <Text>FLAP</Text>
+        <Text>{readInfoField(value, field)}</Text>
       </Stack>
     </styled.div>,
     elem,

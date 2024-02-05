@@ -17,6 +17,24 @@ const IDENTIFIER_FIELDS = [
   'type',
 ]
 
+export const readInfoField = (obj: any, field: BasedSchemaField): string => {
+  console.log(field)
+
+  if ('name' in obj) {
+    return obj.name
+  }
+
+  if ('title' in obj) {
+    return obj.title
+  }
+
+  if ('id' in obj) {
+    return obj.id
+  }
+
+  return field.title ?? field.type
+}
+
 // TODO clean up
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
