@@ -7,7 +7,6 @@ import { Style } from 'inlines'
 import { SchemaConfirm } from './SchemaConfirm.js'
 import { useClient } from '@based/react'
 import { useContextState } from '../../hooks/ContextState/index.js'
-import { useUpdate } from '~'
 
 type SchemaProps = {
   schemaInput: {}
