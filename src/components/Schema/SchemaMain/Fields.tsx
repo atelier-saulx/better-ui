@@ -1,4 +1,4 @@
-import React, { useRef, FC } from 'react'
+import React, { useRef, FC, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import {
   DndContext,
@@ -45,6 +45,11 @@ export const Fields: FC<{
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   )
+
+  useEffect(() => {
+    console.log('DIDI IT CHAGNES??')
+    console.log(schema)
+  }, [schema])
 
   const overIdRef = useRef()
 

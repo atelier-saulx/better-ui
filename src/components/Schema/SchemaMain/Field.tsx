@@ -135,7 +135,15 @@ export const Field = ({
           </Stack>
 
           <Stack gap={12} justify="end">
-            {isObject && <SelectField path={objectPath} light />}
+            {isObject && (
+              <SelectField
+                path={objectPath}
+                light
+                setSchema={setSchema}
+                setSomethingChanged={setSomethingChanged}
+                schema={schema}
+              />
+            )}
             <FieldEditAndDelete
               item={fieldSchema}
               itemName={field}

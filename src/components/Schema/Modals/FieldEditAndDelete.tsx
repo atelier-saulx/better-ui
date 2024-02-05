@@ -121,7 +121,6 @@ export const FieldEditAndDelete = ({
                   //   },
                   // })
                   close('close it')
-                  console.log(deleteThis)
                 }}
               >
                 <Text variant="title-modal">{`Are you sure you want to delete ${itemName}?`}</Text>

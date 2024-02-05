@@ -7,6 +7,7 @@ import { Modal } from '../../Modal/index.js'
 import { useClient, useQuery } from '@based/react'
 import { GeneralOptions } from './GeneralOptions.js'
 import { SpecificOptions } from './SpecificOptions.js'
+import { deepCopy } from '@saulx/utils'
 
 type AddFieldProps = {
   fieldType: string
@@ -53,15 +54,10 @@ export const AddField = ({
     editItem ? { [itemName]: { ...editItem } } : { type: 'string' },
   )
 
-  const client = useClient()
+  // const client = useClient()
 
   const { data } = useQuery('db:schema')
   const { types, rootType } = data
-
-  /// log some
-  console.log('fieldName?', fieldName)
-  console.log('edit item ⛱ -->', editItem)
-  console.log('PATH???', path)
 
   React.useEffect(() => {
     console.log('did something changed in the meta:', meta)
@@ -156,11 +152,20 @@ export const AddField = ({
         console.log(fields, 'NEW FIELDS?? 🦞', schema)
 
         // update schema 🐠
-        schema.types[type].fields = { ...schema.types[type].fields, ...fields }
+        // schema.types[type].fields = {
+        //   ...schema.types[type].fields,
+        //   ...fields,
+        // }
+
+        schema.types[type].fields = {
+          ...schema.types[type].fields,
+          ...fields,
+        }
 
         setSomethingChanged(true)
 
-        setSchema({ ...schema })
+        // is this necessary???
+        //  setSchema({ ...schema })
 
         // SET IT
         // if (type === 'root') {

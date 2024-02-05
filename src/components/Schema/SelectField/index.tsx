@@ -108,8 +108,6 @@ export const SelectField = ({
                           setSomethingChanged={setSomethingChanged}
                         />
                       ))
-
-                      console.log('BBBB', fieldMeta)
                     }}
                   >
                     <Thumbnail

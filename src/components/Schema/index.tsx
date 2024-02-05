@@ -7,6 +7,7 @@ import { Style } from 'inlines'
 import { SchemaConfirm } from './SchemaConfirm.js'
 import { useClient } from '@based/react'
 import { useContextState } from '../../hooks/ContextState/index.js'
+import { deepCopy } from '@saulx/utils'
 
 type SchemaProps = {
   schemaInput: {}
@@ -21,26 +22,27 @@ export const Schema = ({
   values,
   onChange,
 }: SchemaProps) => {
-  const [schema, setSchema] = React.useState(schemaInput)
+  const OgSchema = deepCopy(schemaInput)
+
+  const [schema, setSchema] = React.useState(deepCopy(schemaInput))
   const [somethingChanged, setSomethingChanged] = React.useState(false)
   const [renderCounter, setRenderCounter] = React.useState(1)
+
+  console.log('OG', OgSchema)
+  console.log('SCHEMA INPUT', schemaInput)
 
   const client = useClient()
   const [db] = useContextState('db', 'default')
 
-  React.useEffect(() => {
-    console.log('🐸❌')
-  }, [renderCounter])
-
   const onCancel = () => {
-    setSchema(schemaInput)
     setRenderCounter(renderCounter + 1)
+    setSchema({ ...OgSchema })
     setSomethingChanged(false)
   }
 
   const onConfirm = async () => {
     setSomethingChanged(false)
-
+    console.log('CONFIRM THIS 🦧')
     await client.call('db:set-schema', {
       db,
       mutate: true,

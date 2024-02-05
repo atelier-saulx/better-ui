@@ -43,7 +43,7 @@ export const SchemaMain = ({ schema, setSchema, setSomethingChanged }) => {
   return (
     <Page>
       <Header
-        description={description}
+        description={description || ''}
         setSchema={setSchema}
         schema={schema}
         setSomethingChanged={setSomethingChanged}
@@ -84,7 +84,8 @@ export const SchemaMain = ({ schema, setSchema, setSomethingChanged }) => {
 
             setSomethingChanged(true)
 
-            setSchema({ ...schema })
+            // this??
+            // setSchema({ ...schema })
           }}
         />
       </styled.div>

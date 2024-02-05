@@ -37,6 +37,9 @@ export const useFieldsEvents = (
     field,
   )
 
+  console.log('filtered 🚒', filtered)
+  console.log(typeDef, '🚑')
+
   const { confirm } = Modal.useModal()
 
   const onDragStart = useCallback(({ active }: DragStartEvent) => {
