@@ -85,12 +85,12 @@ export const Field = ({
             <IconChevronDown />
           </Button>
         ) : null}
-        <Stack gap={16}>
-          <Stack gap={16} justify="start">
+        <Stack gap={12}>
+          <Stack gap={12} justify="start">
             <IconDrag
               style={{
                 cursor: isDragging ? 'grabbing' : 'grab',
-                '& svg': { width: 14, height: 14, marginLeft: 8 },
+                '& svg': { width: 14, height: 14, marginRight: 4 },
               }}
             />{' '}
             <Thumbnail
