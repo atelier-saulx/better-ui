@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Stack, StackProps, useSize } from '../../../index.js'
-import { BasedSchemaField } from '@based/schema'
+import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
 import { canUseColumns } from '../utils.js'
 import { getColSizes } from '../getColSizes.js'
 import { styled, Style } from 'inlines'
@@ -9,6 +9,29 @@ type SetColumns = (cols?: ReturnType<typeof getColSizes>) => void
 
 export const useColumns = () => {
   return React.useState<ReturnType<typeof getColSizes>>([])
+}
+
+const getCols = (
+  field: BasedSchemaFieldObject,
+  readOnly: boolean,
+  width: number,
+  displayAllFields: boolean,
+) => {
+  const cols = canUseColumns(field)
+
+  // force col usage as option
+
+  if (cols) {
+    const colFields = getColSizes(field, width, readOnly)
+    if (
+      !displayAllFields ||
+      colFields.length === Object.keys(field.properties).length
+    ) {
+      return colFields
+    }
+  }
+
+  return []
 }
 
 export function SizedStack({
@@ -33,14 +56,7 @@ export function SizedStack({
   const [width, setWidth] = React.useState(0)
   const sizeRef = useSize(({ width }) => {
     if (field.type === 'object') {
-      const cols = canUseColumns(field)
-      const colFields = getColSizes(field, width - correction, readOnly)
-      setColumns(
-        (cols && !displayAllFields) ||
-          colFields.length === Object.keys(field.properties).length
-          ? colFields
-          : [],
-      )
+      setColumns(getCols(field, readOnly, width - correction, displayAllFields))
     }
     setWidth(width)
   })
