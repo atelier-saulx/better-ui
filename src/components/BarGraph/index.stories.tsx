@@ -1,9 +1,26 @@
+import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { BarGraph } from '../../index.js'
+import { color } from '../../index.js'
 
 const meta: Meta<typeof BarGraph> = {
   title: 'Atoms/BarGraph',
   component: BarGraph,
+  decorators: [
+    (Story) => {
+      return (
+        <div
+          style={{
+            background: color('background', 'muted'),
+            height: '300px',
+            width: '100%',
+          }}
+        >
+          <Story />
+        </div>
+      )
+    },
+  ],
 }
 
 export default meta
@@ -11,6 +28,7 @@ export default meta
 export const Horizontal: StoryObj<typeof BarGraph> = {
   args: {
     legend: true,
+    muted: true,
     variant: 'horizontal',
     data: [
       {
@@ -61,6 +79,7 @@ export const Vertical: StoryObj<typeof BarGraph> = {
 export const StackedVertical: StoryObj<typeof BarGraph> = {
   args: {
     legend: true,
+
     variant: 'vertical',
     data: [
       {
@@ -90,6 +109,7 @@ export const StackedVertical: StoryObj<typeof BarGraph> = {
 export const StackedHorizontal: StoryObj<typeof BarGraph> = {
   args: {
     legend: true,
+
     variant: 'horizontal',
     data: [
       {

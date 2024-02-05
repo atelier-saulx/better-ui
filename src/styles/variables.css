@@ -83,4 +83,44 @@
   /* error muted */
   --semantic-color-error-muted: #c53434;
   --semantic-background-error-muted: #c5343429;
+
+  /* NON SEMANTIC COLORS VARS */
+  --non-semantic-color-red: #c53434;
+  --non-semantic-color-red-soft: rgba(197, 52, 52, 0.16);
+
+  --non-semantic-color-raspberry: #c03060;
+  --non-semantic-color-raspberry-soft: rgba(192, 48, 96, 0.16);
+
+  --non-semantic-color-magenta: rgba(177, 47, 134, 1);
+  --non-semantic-color-magenta-soft: rgba(228, 98, 141, 0.16);
+
+  --non-semantic-color-purple: #9939ac;
+  --non-semantic-color-purple-soft: rgba(153, 57, 172, 0.16);
+
+  --non-semantic-color-grape: #8040bf;
+  --non-semantic-color-grape-soft: rgba(128, 64, 191, 0.16);
+
+  --non-semantic-color-violet: #634eca;
+  --non-semantic-color-violet-soft: rgba(99, 78, 202, 0.16);
+
+  --non-semantic-color-blue: #3062d4;
+  --non-semantic-color-blue-soft: rgba(48, 98, 212, 0.16);
+
+  --non-semantic-color-cyan: #0870ba;
+  --non-semantic-color-cyan-soft: rgba(8, 112, 186, 0.16);
+
+  --non-semantic-color-teal: #0870ba;
+  --non-semantic-color-teal-soft: rgba(8, 112, 186, 0.16);
+
+  --non-semantic-color-aquamarine: #097c69;
+  --non-semantic-color-aquamarine-soft: rgba(9, 124, 105, 0.16);
+
+  --non-semantic-color-green: #1d7c4d;
+  --non-semantic-color-green-soft: rgba(29, 124, 77, 0.16);
+
+  --non-semantic-color-emerald: #347434;
+  --non-semantic-color-emerald-soft: rgba(52, 116, 52, 0.16);
+
+  --non-semantic-color-orange: #f59638;
+  --non-semantic-color-orange-soft: rgba(245, 150, 56, 0.16);
 }

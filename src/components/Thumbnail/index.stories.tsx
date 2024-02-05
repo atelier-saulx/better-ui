@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { faker } from '@faker-js/faker'
+import { color } from '../../index.js'
 
 const meta: Meta<typeof Thumbnail> = {
   title: 'Atoms/Thumbnail',
@@ -15,7 +16,7 @@ export const Image: StoryObj<typeof Thumbnail> = {
     src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     size: 'large',
     shape: 'square',
-    color: 'informative',
+    color: 'blue',
   },
 }
 
@@ -26,7 +27,7 @@ export const Icon: StoryObj<typeof Thumbnail> = {
     size: 'large',
     shape: 'circle',
     icon: <IconBorderLeft />,
-    color: 'informative-muted',
+    color: 'raspberry-soft',
   },
 }
 
@@ -35,7 +36,7 @@ export const Placeholder: StoryObj<typeof Thumbnail> = {
     text: 'AB',
     size: 'large',
     shape: 'circle',
-    color: 'positive-muted',
+    color: 'auto',
     outline: true,
   },
 }
@@ -64,7 +65,7 @@ export const Gallery = () => {
   return (
     <Stack grid>
       {facesNames.map((v) => {
-        return <Thumbnail text={v.firstName} key={v.id} />
+        return <Thumbnail outline text={v.firstName} key={v.id} />
       })}
     </Stack>
   )

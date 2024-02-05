@@ -14,149 +14,157 @@ import {
   IconLabel,
   IconTurnOff,
   IconGlobe,
+  IconInteger,
+  IconArray,
+  IconJson,
+  IconObject,
+  IconId,
+  IconString,
+  IconFloat,
+  IconRecord,
+  IconDigest,
 } from '../Icons/index.js'
 
 export const SCHEMA_FIELDS = {
   string: {
     label: 'String',
     description: 'Non internationalized string',
-    icon: <IconQuote />,
-    color: 'informative-muted',
+    icon: <IconString />,
+    color: 'violet-soft',
   },
   text: {
     label: 'Text',
     description: 'Text with formatting',
     icon: <IconText />,
-    color: 'informative-muted',
+    color: 'violet-soft',
   },
   richtext: {
     label: 'Rich Text',
     description: 'Texteditor with styling controls',
     icon: <IconFormatBold />,
-    color: 'informative-muted',
+    color: 'violet-soft',
   },
   number: {
     label: 'Number',
     description: 'A Float',
-    icon: <IconHelpFill />,
-    color: 'positive-muted',
+    icon: <IconFloat />,
+    color: 'blue-soft',
   },
   int: {
     label: 'Int',
     description: 'Whole numbers',
-    icon: <IconHelpFill />,
-    color: 'positive-muted',
+    icon: <IconInteger />,
+    color: 'blue-soft',
   },
   timestamp: {
     label: 'Timestamp',
     description: 'Timestamp',
     icon: <IconTimeClock />,
-    color: 'positive-muted',
+    color: 'blue-soft',
   },
   boolean: {
     label: 'Boolean',
     description: 'True or False',
     icon: <IconTurnOff />,
-    color: 'error-muted',
+    color: 'magenta-soft',
   },
   enum: {
     label: 'Enum',
     description: 'Set of named constants',
     icon: <IconDns />,
-    color: 'warning-muted',
+    color: 'aquamarine-soft',
   },
   array: {
     label: 'Array',
     description: 'A collection of similar types',
-    icon: <IconDns />,
-    color: 'warning-muted',
+    icon: <IconArray />,
+    color: 'aquamarine-soft',
   },
   object: {
     label: 'Object',
     description: 'Multiple types',
-    icon: <IconKey />,
-    color: 'warning-muted',
+    icon: <IconObject />,
+    color: 'aquamarine-soft',
   },
   record: {
     label: 'Record',
     description: 'Fixed collection',
-    icon: <IconDns />,
-    color: 'warning-muted',
+    icon: <IconRecord />,
+    color: 'aquamarine-soft',
   },
   set: {
     label: 'Set',
     description: 'Collection of unique values',
     icon: <IconDns />,
-    color: 'warning-muted',
+    color: 'aquamarine-soft',
   },
   json: {
     label: 'JSON',
     description: 'A JSON object',
-    icon: <IconHelpFill />,
-    color: 'warning-muted',
+    icon: <IconJson />,
+    color: 'red-soft',
   },
   cardinality: {
     label: 'Cardinality',
     description: 'From math',
     icon: <IconFunction />,
-    color: 'warning-muted',
+    color: 'teal-soft',
   },
   reference: {
     label: 'Reference',
     description: 'Single Ref',
     icon: <IconLink />,
-    color: 'neutral-muted',
+    color: 'purple-soft',
   },
   references: {
     label: 'References',
     description: 'Multiple Refs',
     icon: <IconLink />,
-    color: 'neutral-muted',
+    color: 'purple-soft',
   },
   // dont add these to add field modal, filter them out
   id: {
     label: 'Id',
     description: 'id',
-    icon: <IconTag />,
-    color: 'neutral-muted',
+    icon: <IconId />,
+    color: 'grey-soft',
   },
   type: {
     label: 'Type',
     description: 'type',
     icon: <IconLabel />,
-    color: 'neutral-muted',
+    color: 'grey-soft',
   },
   email: {
     label: 'Email',
     description: 'email',
     icon: <IconEmail />,
-    color: 'neutral-muted',
+    color: 'grey-soft',
   },
   digest: {
     label: 'Digest',
     description: 'password',
-    icon: <IconHelpFill />,
-    color: 'neutral-muted',
+    icon: <IconDigest />,
+    color: 'grey-soft',
   },
   url: {
     label: 'url',
     description: 'url',
     icon: <IconGlobe />,
-    color: 'neutral-muted',
+    color: 'grey-soft',
   },
 }
 
-export const SYSTEM_FIELDS = [
+export const SYSTEM_FIELDS = new Set([
   'type',
-  'ancestors',
-  'descendants',
   'id',
-  'aliases',
   'createdAt',
   'parents',
   'updatedAt',
   'children',
-]
+])
+
+export const ALWAYS_IGNORE = new Set(['descendants', 'ancestors', 'aliases'])
 
 export const STRING_FORMAT_OPTIONS = [
   { value: 'email' },
@@ -483,3 +491,31 @@ export const ARRAY_OPTIONS = [
   { value: 'object' },
   { value: 'string' },
 ]
+
+export type TypeSchema = {
+  prefix?: string
+  description?: string
+  fields: {
+    [key: string]: FieldSchema
+  }
+}
+
+export type FieldSchema = {
+  type: string
+  items?: FieldSchema
+  $delete?: boolean
+  values?: FieldSchema
+  index?: number
+  properties?: {
+    [key: string]: FieldSchema
+  }
+}
+
+export type BasedSchema = {
+  languages: string[]
+  rootType: TypeSchema
+  prefixToTypeMapping: { [key: string]: string }
+  types: {
+    [key: string]: TypeSchema
+  }
+}

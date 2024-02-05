@@ -5,7 +5,7 @@ import { Dropdown } from '../../Dropdown/index.js'
 import { IconMoreHorizontal } from '../../Icons/index.js'
 import { Text } from '../../Text/index.js'
 import { useClient, useQuery } from '@based/react'
-import { findPath } from '../utils/findPath.js'
+import { findPath } from '../findpath.js'
 import { AddField } from './AddField.js'
 
 export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
@@ -15,18 +15,30 @@ export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
 
   const { data } = useQuery('db:schema')
 
-  // console.log('item from fieldEditDelete', item)
-
   return (
     <Dropdown.Root>
       <Dropdown.Trigger>
-        <Button variant="neutral-transparent" shape="square">
+        <Button variant="neutral-transparent" shape="square" size="small">
           <IconMoreHorizontal />
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Items>
         <Dropdown.Item
           onClick={async () => {
+            console.log('clicked item', itemName)
+
+            const filteredPath = itemName.split('.').filter((field) => {
+              let isField = true
+              if (isField) {
+                isField = false
+                return true
+              }
+              if (field === 'properties') {
+                isField = true
+              }
+              return false
+            })
+
             const fieldMeta = await open(({ close }) => (
               <AddField
                 typeTitle={typeTitle}
@@ -34,6 +46,7 @@ export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
                 // use edit item for edit options
                 editItem={item}
                 itemName={itemName}
+                path={filteredPath}
                 onConfirm={close}
               />
             ))

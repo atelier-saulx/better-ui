@@ -1,8 +1,5 @@
 import * as React from 'react'
-import { Text } from '../../Text/index.js'
-import { Code } from '../../Code/index.js'
-import { Stack } from '../../Stack/index.js'
-import { Modal } from '../../Modal/index.js'
+import { Text, Code, Stack, Modal } from '../../../../index.js'
 import { useClient, useQuery } from '@based/react'
 
 export const AdvancedEditType = ({ onConfirm, typeTitle }) => {
