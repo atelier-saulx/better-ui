@@ -35,6 +35,7 @@ export const Field = ({
     type: fieldType,
     display: fieldDisplay,
     format: fieldFormat,
+    title: title,
   } = fieldSchema
   // const template = meta?.format || fieldType
 
@@ -111,7 +112,10 @@ export const Field = ({
               }}
               size={'small'}
             />
-            <Text variant="body-bold">{field}</Text>
+            <Text variant="body-bold">
+              {fieldSchema?.title ||
+                field.split('.')[field.split('.').length - 1]}
+            </Text>
             <Badge size="small" color="neutral-muted">
               {fieldType}
             </Badge>{' '}

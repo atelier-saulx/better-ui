@@ -75,6 +75,7 @@ export const AddField = ({
 }: AddFieldProps) => {
   const [meta, setMeta] = React.useReducer(metaReducer, editItem || {})
   const [fieldName, setFieldName] = React.useState(itemName)
+  const [displayName, setDisplayName] = React.useState(meta?.title)
   const [tabIndex, setTabIndex] = React.useState(1)
   // for arrays
   const [items, setItems] = React.useState(
@@ -108,6 +109,11 @@ export const AddField = ({
         const currentFields =
           type === 'root' ? rootType.fields : types[type].fields
 
+        /// 3 OPTIONS ,
+        //// 1. SETTING A FIELD,
+        //// 2. SETTING A NESTED FIELD
+        //// 3. EDITING A NESTED FIELD
+
         const fields = {}
         let from = currentFields
         let dest = fields
@@ -122,11 +128,6 @@ export const AddField = ({
           // @ts-ignore TODO: fix
           from = from[key]
         }
-
-        /// 3 OPTIONS ,
-        //// 1. SETTING A FIELD,
-        //// 2. SETTING A NESTED FIELD
-        //// 3. EDITING A NESTED FIELD
 
         if (path?.length > 1) {
           // 2. SETTING NESTED FIELDS
@@ -292,10 +293,18 @@ const GeneralOptions = ({
   return (
     <Stack gap={12} grid>
       <TextInput
-        label="Field Title"
+        label="Display title (optional)"
+        value={meta?.title}
+        onChange={(v) => {
+          setMeta({ field: 'title', value: v })
+        }}
+      />
+
+      <TextInput
+        label="Field name (in schema)"
         disabled={editItem}
         value={fieldName || meta?.title}
-        autoFocus
+        autoFocus={!editItem}
         onChange={(v) => {
           if (!editItem) {
             setFieldName(v.toLowerCase())
