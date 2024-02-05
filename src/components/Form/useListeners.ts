@@ -21,8 +21,6 @@ const createListeners = (
     onChangeHandler: (ctx, path, newValue, forceUpdate) => {
       const { field, value } = readPath(ctx, path)
 
-      console.info(path)
-
       if (valueRef.current.props.onChangeTransform) {
         newValue = valueRef.current.props.onChangeTransform(
           newValue,
