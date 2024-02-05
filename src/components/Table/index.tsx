@@ -107,6 +107,7 @@ export const Table = (p: {
       path={path}
       valueRef={valueRef.current}
       changeIndex={changeIndex}
+      alwaysUseCols
       //   onNew={addNew}
       //   onRemove={removeItem}
     />

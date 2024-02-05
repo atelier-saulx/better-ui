@@ -25,6 +25,7 @@ export const ReferencesTable = ({
   readOnly,
   onClickReference,
   changeIndex,
+  alwaysUseCols,
 }: {
   field: BasedSchemaFieldReferences
   valueRef: ValueRef
@@ -34,6 +35,7 @@ export const ReferencesTable = ({
   ctx: TableCtx
   readOnly: boolean
   path: Path
+  alwaysUseCols?: boolean
   changeIndex: (fromIndex: number, toIndex: number) => void
 }) => {
   const fieldSchema = genObjectSchema(valueRef.value)
@@ -86,7 +88,12 @@ export const ReferencesTable = ({
   }
 
   return (
-    <SizedStack field={fieldSchema} readOnly setColumns={setColumns}>
+    <SizedStack
+      field={fieldSchema}
+      readOnly
+      setColumns={setColumns}
+      alwaysUseCols={alwaysUseCols}
+    >
       <ColStack header noRemove={!onRemove}>
         {cols}
       </ColStack>

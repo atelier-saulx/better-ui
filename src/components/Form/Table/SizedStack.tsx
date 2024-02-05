@@ -12,14 +12,13 @@ export const useColumns = () => {
 }
 
 const getCols = (
+  alwaysUseCols: boolean,
   field: BasedSchemaFieldObject,
   readOnly: boolean,
   width: number,
   displayAllFields: boolean,
 ) => {
-  const cols = canUseColumns(field)
-
-  // force col usage as option
+  const cols = alwaysUseCols || canUseColumns(field)
 
   if (cols) {
     const colFields = getColSizes(field, width, readOnly)
@@ -44,6 +43,7 @@ export function SizedStack({
   style,
   justify = 'start',
   align = 'start',
+  alwaysUseCols = false,
 }: StackProps & {
   field: BasedSchemaField
   readOnly?: boolean
@@ -52,11 +52,20 @@ export function SizedStack({
   setColumns: SetColumns
   correction?: number
   style?: Style
+  alwaysUseCols?: boolean
 }) {
   const [width, setWidth] = React.useState(0)
   const sizeRef = useSize(({ width }) => {
     if (field.type === 'object') {
-      setColumns(getCols(field, readOnly, width - correction, displayAllFields))
+      setColumns(
+        getCols(
+          alwaysUseCols,
+          field,
+          readOnly,
+          width - correction,
+          displayAllFields,
+        ),
+      )
     }
     setWidth(width)
   })
