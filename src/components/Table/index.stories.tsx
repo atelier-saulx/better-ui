@@ -44,6 +44,7 @@ export const Default = () => {
 }
 
 export const EditableTable = () => {
+  // schema...
   return <Table values={data} editable />
 }
 
