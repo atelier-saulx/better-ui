@@ -98,16 +98,28 @@ export const FieldEditAndDelete = ({
                   // @ts-ignore
                   dest.$delete = true
 
-                  await client.call('db:set-schema', {
-                    mutate: true,
-                    schema: {
-                      types: {
-                        [typeTitle]: {
-                          fields,
-                        },
-                      },
-                    },
-                  })
+                  console.log('DELETE THIS', fields)
+
+                  // update schema 🐠
+                  schema.types[typeTitle].fields = {
+                    ...schema.types[typeTitle].fields,
+                    ...fields,
+                  }
+
+                  setSomethingChanged(true)
+
+                  setSchema({ ...schema })
+
+                  // await client.call('db:set-schema', {
+                  //   mutate: true,
+                  //   schema: {
+                  //     types: {
+                  //       [typeTitle]: {
+                  //         fields,
+                  //       },
+                  //     },
+                  //   },
+                  // })
                   close('close it')
                   console.log(deleteThis)
                 }}

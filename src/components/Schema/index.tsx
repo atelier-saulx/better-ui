@@ -7,6 +7,7 @@ import { Style } from 'inlines'
 import { SchemaConfirm } from './SchemaConfirm.js'
 import { useClient } from '@based/react'
 import { useContextState } from '../../hooks/ContextState/index.js'
+import { useUpdate } from '~'
 
 type SchemaProps = {
   schemaInput: {}
@@ -28,8 +29,12 @@ export const Schema = ({
   const client = useClient()
   const [db] = useContextState('db', 'default')
 
+  React.useEffect(() => {
+    console.log('🐸❌')
+  }, [renderCounter])
+
   const onCancel = () => {
-    setSchema({ ...schemaInput })
+    setSchema(schemaInput)
     setRenderCounter(renderCounter + 1)
     setSomethingChanged(false)
   }
