@@ -12,6 +12,7 @@ import {
   Stack,
   borderRadius,
 } from '../../../../index.js'
+import { Reference } from '../../Reference.js'
 
 type ReadProps = {
   ctx: TableCtx
@@ -65,6 +66,10 @@ const Value = (p: ReadProps) => {
         <Text variant="caption">{p.value}</Text>
       </Stack>
     )
+  }
+
+  if (p.field.type === 'reference') {
+    return <Reference readOnly variant="small" ctx={p.ctx} path={p.path} />
   }
 
   return <Text singleLine>{display(p.value, p.field) ?? ''}</Text>

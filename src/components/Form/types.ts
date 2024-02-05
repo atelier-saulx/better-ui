@@ -1,9 +1,9 @@
 import {
-  BasedSchema,
   BasedSchemaField,
   BasedSchemaFieldReference,
   BasedSchemaFieldReferences,
   BasedSchemaFieldString,
+  BasedSchemaPartial,
 } from '@based/schema'
 import { ButtonProps } from '../Button/index.js'
 
@@ -70,7 +70,7 @@ export type TableCtx = {
   fields: { [key: string]: BasedSchemaField }
   values: { [key: string]: any }
   variant: Variant
-  schema?: BasedSchema
+  schema?: BasedSchemaPartial
   listeners: Listeners
   // path like x.y.z
   fieldOverrides?: { [path: string]: BasedSchemaField }

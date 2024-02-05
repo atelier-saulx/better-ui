@@ -1,6 +1,7 @@
 import {
   BasedSchemaField,
   BasedSchemaFieldObject,
+  BasedSchemaFieldReference,
   BasedSchemaFieldString,
   BasedSchemaFieldTimeStamp,
 } from '@based/schema'
@@ -90,7 +91,14 @@ const FIELD_SIZES: {
     ],
     reference: [
       {
-        width: 200,
+        match: (field: BasedSchemaFieldReference) =>
+          field.allowedTypes &&
+          field.allowedTypes.length === 1 &&
+          field.allowedTypes[0] === 'file',
+        width: 250,
+      },
+      {
+        width: 300,
         flexible: true,
       },
     ],

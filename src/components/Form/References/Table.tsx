@@ -13,7 +13,10 @@ import {
 import { ObjectCollsRows } from '../Table/Arrays/ObjectCollumnRows.js'
 import { ValueRef } from '../Table/Arrays/types.js'
 import { SizedStack, useColumns } from '../Table/SizedStack.js'
-import { genObjectSchema } from './genObjectSchema.js'
+import {
+  genObjectSchema,
+  genObjectSchemaFromSchema,
+} from './genObjectSchema.js'
 
 export const ReferencesTable = ({
   valueRef,
@@ -38,7 +41,9 @@ export const ReferencesTable = ({
   alwaysUseCols?: boolean
   changeIndex: (fromIndex: number, toIndex: number) => void
 }) => {
-  const fieldSchema = genObjectSchema(valueRef.value)
+  const fieldSchema = ctx.schema
+    ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
+    : genObjectSchema(valueRef.value)
   const size = Object.keys(fieldSchema.properties).length
   const [colFields, setColumns] = useColumns()
 

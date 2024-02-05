@@ -34,7 +34,6 @@ const Select = (p: {
       }}
     />
   )
-
   const body = (
     <Stack gap={2}>
       {p.field.allowedTypes ? (
@@ -54,7 +53,6 @@ const Select = (p: {
       )}
     </Stack>
   )
-
   if (p.badge) {
     return (
       <Button variant="icon-only" onClick={p.onClick}>
@@ -64,7 +62,6 @@ const Select = (p: {
       </Button>
     )
   }
-
   return (
     <Button
       size="small"
@@ -110,6 +107,38 @@ const Info = (p: { value: Reference; onClick: () => void }) => {
   return <Id id={p.value} onClick={p.onClick} />
 }
 
+const getImg = (
+  value: any,
+  ctx: TableCtx,
+  field: BasedSchemaFieldReference,
+) => {
+  if (field.allowedTypes) {
+    for (const type of field.allowedTypes) {
+      if (typeof type === 'string') {
+        const t = ctx.schema?.types?.[type]
+        if (t) {
+          for (const key in t.fields) {
+            const f = t.fields[key]
+            if (f.type === 'reference') {
+              if (value[key]) {
+                // @ts-ignore
+                const src = getImg(value[key], ctx, f)
+                if (src) {
+                  return src
+                }
+              }
+            } else if (f.type === 'string' && f.contentMediaType) {
+              if (value[key]) {
+                return value[key]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 export const Image = (p: {
   ctx: TableCtx
   value: Reference
@@ -129,6 +158,18 @@ export const Image = (p: {
     hasFile = true
     if (p.value.mimeType) {
       mimeType = p.value.mimeType
+    }
+  }
+
+  if (
+    typeof p.value === 'object' &&
+    !src &&
+    p.ctx.schema &&
+    p.field.allowedTypes
+  ) {
+    src = getImg(p.value, p.ctx, p.field)
+    if (src) {
+      hasFile = true
     }
   }
 
@@ -161,11 +202,10 @@ export const Image = (p: {
       </Stack>
     )
   }
-
   return null
 }
 
-export function Reference({
+export function ReferenceEditable({
   ctx,
   path,
   variant = 'large',
@@ -260,4 +300,48 @@ export function Reference({
   }
 
   return <Select field={field} onClick={selectRef} />
+}
+
+export function ReferenceReadOnly(p: {
+  ctx: TableCtx
+  path: Path
+  variant?: 'large' | 'small'
+}) {
+  const { value, field } = readPath<BasedSchemaFieldReference>(p.ctx, p.path)
+  const isLarge = p.variant === 'large'
+  const id = value && typeof value === 'object' ? value.id : value
+  if (id) {
+    if (isLarge) {
+      return (
+        <Stack justify="start" direction="column">
+          <Image ctx={p.ctx} isLarge field={field} value={value} />
+          <Stack justify="end" gap={8} fitContent>
+            <Info value={value} onClick={() => {}} />
+          </Stack>
+        </Stack>
+      )
+    }
+    return (
+      <Stack justify="start">
+        <Image ctx={p.ctx} field={field} value={value} />
+        <Info onClick={() => {}} value={value} />
+      </Stack>
+    )
+  }
+  return <Text>-</Text>
+}
+
+export function Reference({
+  readOnly,
+  ...p
+}: {
+  ctx: TableCtx
+  path: Path
+  variant?: 'large' | 'small'
+  readOnly?: boolean
+}) {
+  if (readOnly) {
+    return <ReferenceReadOnly {...p} />
+  }
+  return <ReferenceEditable {...p} />
 }

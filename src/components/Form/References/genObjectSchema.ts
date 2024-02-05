@@ -1,4 +1,45 @@
-import { BasedSchemaFieldObject } from '@based/schema'
+import {
+  BasedSchemaFieldObject,
+  BasedSchemaFieldReferences,
+  BasedSchemaPartial,
+} from '@based/schema'
+
+export const genObjectSchemaFromSchema = (
+  value: any[],
+  field: BasedSchemaFieldReferences,
+  schema: BasedSchemaPartial,
+): BasedSchemaFieldObject => {
+  // Generate schema if none can be found
+  const objectSchema: BasedSchemaFieldObject = {
+    type: 'object',
+    properties: {},
+  }
+
+  if (field.allowedTypes) {
+    for (const type of field.allowedTypes) {
+      if (typeof type === 'string') {
+        const t = schema.types?.[type]?.fields
+        if (t) {
+          Object.assign(objectSchema.properties, t)
+        }
+      } else {
+        // TODO: Not supported yet
+        return genObjectSchema(value)
+      }
+    }
+
+    for (const key in objectSchema.properties) {
+      const props = objectSchema.properties[key]
+      // console.info('-', props)
+    }
+
+    // console.log(objectSchema)
+
+    return objectSchema
+  }
+
+  return genObjectSchema(value)
+}
 
 export const genObjectSchema = (value: any[]): BasedSchemaFieldObject => {
   const hasFields: Set<string> = new Set(['id'])

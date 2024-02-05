@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
-import { BasedSchemaField, BasedSchema } from '@based/schema'
+import { BasedSchemaField, BasedSchemaPartial } from '@based/schema'
 import { Stack, useUpdate } from '../../index.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
 import { deepCopy, deepMergeArrays } from '@saulx/utils'
@@ -60,7 +60,7 @@ export type FormProps = {
   fields: FormValues
   variant?: Variant
   // for later check ref types (can check ids and check allowedTypes)
-  schema?: BasedSchema
+  schema?: BasedSchemaPartial
   formRef?: {
     current: {
       confirm: () => Promise<FormValues>
@@ -163,6 +163,7 @@ export const Form = (p: FormProps) => {
     fields: p.fields,
     values: valueRef.current.values,
     listeners,
+    schema: p.schema,
   }
 
   return (

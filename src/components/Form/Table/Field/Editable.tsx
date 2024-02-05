@@ -71,7 +71,8 @@ export function EditableField({
           paddingLeft: 15,
         }}
       >
-        <Reference variant="small" ctx={ctx} path={path} />
+        FLAP
+        {/* <Reference variant="small" ctx={ctx} path={path} /> */}
       </Padder>
     )
   }

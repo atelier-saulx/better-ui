@@ -70,7 +70,6 @@ export function References({
 
   if (variant === 'large') {
     return (
-      // @ts-ignore
       <ReferencesTable
         field={field}
         readOnly={readOnly}
