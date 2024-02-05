@@ -14,13 +14,22 @@ import {
   IconLabel,
   IconTurnOff,
   IconGlobe,
+  IconInteger,
+  IconArray,
+  IconJson,
+  IconObject,
+  IconId,
+  IconString,
+  IconFloat,
+  IconRecord,
+  IconDigest,
 } from '../Icons/index.js'
 
 export const SCHEMA_FIELDS = {
   string: {
     label: 'String',
     description: 'Non internationalized string',
-    icon: <IconQuote />,
+    icon: <IconString />,
     color: 'purple-soft',
   },
   text: {
@@ -38,13 +47,13 @@ export const SCHEMA_FIELDS = {
   number: {
     label: 'Number',
     description: 'A Float',
-    icon: <IconHelpFill />,
+    icon: <IconFloat />,
     color: 'blue-soft',
   },
   int: {
     label: 'Int',
     description: 'Whole numbers',
-    icon: <IconHelpFill />,
+    icon: <IconInteger />,
     color: 'blue-soft',
   },
   timestamp: {
@@ -68,19 +77,19 @@ export const SCHEMA_FIELDS = {
   array: {
     label: 'Array',
     description: 'A collection of similar types',
-    icon: <IconDns />,
+    icon: <IconArray />,
     color: 'orange-soft',
   },
   object: {
     label: 'Object',
     description: 'Multiple types',
-    icon: <IconKey />,
+    icon: <IconObject />,
     color: 'orange-soft',
   },
   record: {
     label: 'Record',
     description: 'Fixed collection',
-    icon: <IconDns />,
+    icon: <IconRecord />,
     color: 'orange-soft',
   },
   set: {
@@ -92,7 +101,7 @@ export const SCHEMA_FIELDS = {
   json: {
     label: 'JSON',
     description: 'A JSON object',
-    icon: <IconHelpFill />,
+    icon: <IconJson />,
     color: 'orange-soft',
   },
   cardinality: {
@@ -117,7 +126,7 @@ export const SCHEMA_FIELDS = {
   id: {
     label: 'Id',
     description: 'id',
-    icon: <IconTag />,
+    icon: <IconId />,
     color: 'grey-soft',
   },
   type: {
@@ -135,7 +144,7 @@ export const SCHEMA_FIELDS = {
   digest: {
     label: 'Digest',
     description: 'password',
-    icon: <IconHelpFill />,
+    icon: <IconDigest />,
     color: 'grey-soft',
   },
   url: {

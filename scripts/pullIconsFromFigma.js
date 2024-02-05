@@ -25,6 +25,8 @@ setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }))
     size16: [],
   }
 
+  console.log(json, '🏰')
+
   for (const frame of json.document.children.find((v) => v.name === 'Icons')
     .children) {
     const key = frame.id === '14:10432' ? 'size20' : 'size16'
