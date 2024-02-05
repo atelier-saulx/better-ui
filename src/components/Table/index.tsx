@@ -3,24 +3,30 @@ import {
   BasedSchemaField,
   BasedSchemaFieldObject,
   BasedSchemaFieldReferences,
+  BasedSchemaPartial,
 } from '@based/schema'
 import { TableCtx } from '../Form/types.js'
 import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
+import { FormProps } from '../Form/index.js'
 
 export const Table = (p: {
+  schema?: BasedSchemaPartial
+  editable?: boolean
   field?: BasedSchemaFieldObject
   values?: any[]
+  onChange?: FormProps['onChange']
   onClick?: (data: any, index: number | string) => void
 }) => {
   const path = ['field']
 
-  // add everything for editable...
   const ctx: TableCtx = {
     fields: {
       field: { type: 'references' },
     },
+    editableReferences: p.editable,
+    schema: p.schema,
     variant: 'small',
     values: {
       field: p.values || [],
@@ -31,6 +37,7 @@ export const Table = (p: {
         return t
       },
       onChangeHandler: (ctx, path, newValue, forceUpdate) => {
+        console.log('change', path)
         return false
       },
       onFileUpload: async (props, updateHandler) => {},
@@ -101,7 +108,6 @@ export const Table = (p: {
   return (
     <ReferencesTable
       field={field}
-      readOnly
       onClickReference={clickRef}
       ctx={ctx}
       path={path}

@@ -27,7 +27,7 @@ const meta = {
 }
 export default meta
 
-const data = new Array(100).fill(null).map(() => ({
+const data = new Array(10).fill(null).map(() => ({
   id: faker.string.uuid().slice(0, 8),
   src: faker.image.avatar(),
   status: faker.lorem.words(1),
@@ -41,6 +41,10 @@ const data = new Array(100).fill(null).map(() => ({
 
 export const Default = () => {
   return <Table values={data} />
+}
+
+export const EditableTable = () => {
+  return <Table values={data} editable />
 }
 
 // const InfiniteQueryContent = () => {
