@@ -52,7 +52,7 @@ const Wrapper = ({
               }
             : undefined
         }
-        onClick={(e) => (disabled ? e.preventDefault() : console.log(e))}
+        onClick={(e) => (disabled ? e.preventDefault() : undefined)}
       >
         {children}
       </styled.label>
@@ -67,7 +67,7 @@ const Wrapper = ({
         cursor: disabled ? 'not-allowed' : 'default',
         ...style,
       }}
-      onClick={(e) => (disabled ? e.preventDefault() : console.log(e))}
+      onClick={(e) => (disabled ? e.preventDefault() : undefined)}
     >
       {children}
     </styled.div>
@@ -93,7 +93,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       disabled,
       style,
     },
-    ref
+    ref,
   ) => {
     const [state = '', setState] = useControllableState({
       value,
@@ -171,5 +171,5 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         ) : null}
       </Wrapper>
     )
-  }
+  },
 )
