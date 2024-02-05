@@ -86,11 +86,10 @@ export const AddField = ({
   const { data } = useQuery('db:schema')
   const { types, rootType } = data
 
-  // console.log('fieldType -->', fieldType)
-  // console.log('typeTitle', typeTitle)
-  // console.log('fieldname/ itemName --->', itemName)
-  // console.log('Edit items ---> ', editItem)
-  // console.log('field item ---> ', fieldItem)
+  /// log some
+  console.log('fieldName?', fieldName)
+  console.log('edit item ⛱ -->', editItem)
+  console.log('PATH???', path)
 
   React.useEffect(() => {
     console.log('did something changed in the meta:', meta)
@@ -106,8 +105,6 @@ export const AddField = ({
         let field = fieldName
         fieldType = fieldType.toLowerCase()
 
-        path = path
-
         const currentFields =
           type === 'root' ? rootType.fields : types[type].fields
 
@@ -115,26 +112,52 @@ export const AddField = ({
         let from = currentFields
         let dest = fields
         let i = 0
-        const l = path?.length
+        //// 3. EDITING A NESTED FIELD
+        const l = editItem && path.length > 1 ? path.length - 1 : path?.length
 
         while (i < l) {
           const key = path[i++]
           dest[key] = { ...from[key] }
           dest = dest[key]
-          console.log('DEST', dest)
           // @ts-ignore TODO: fix
           from = from[key]
-          console.log('FROM', from)
         }
 
+        /// 3 OPTIONS ,
+        //// 1. SETTING A FIELD,
+        //// 2. SETTING A NESTED FIELD
+        //// 3. EDITING A NESTED FIELD
+
         if (path?.length > 1) {
-          // nested dus..
+          // 2. SETTING NESTED FIELDS
           console.log(fields, '🆚 NESTED ??')
-          dest[field] = {
-            ...from[field],
+
+          let lastFieldNameKey =
+            fieldName.split('.')[fieldName.split('.').length - 1]
+
+          if (fieldType === 'array' || fieldType === 'set') {
+            dest[lastFieldNameKey] = {
+              ...from[field],
+              ...meta,
+              type: fieldType,
+              items: items,
+            }
+          } else if (fieldType === 'record') {
+            dest[lastFieldNameKey] = {
+              ...from[field],
+              ...meta,
+              type: fieldType,
+              values: [field].values || [],
+            }
+          } else {
+            dest[lastFieldNameKey] = {
+              ...from[field],
+              ...meta,
+              type: fieldType,
+            }
           }
         } else {
-          // set normal fields
+          // 1 SETTING A FIELDS
           // first add all meta options
           if (fieldType === 'rich text') {
             fields[field] = { type: 'json', format: 'rich-text', ...meta }
@@ -146,16 +169,14 @@ export const AddField = ({
             fields[field] = { values: [], ...fields[field] }
           } else if (fieldType === 'object') {
             fields[field] = { properties: {}, ...fields[field] }
-          } else if (
-            fieldType.toLowerCase() === 'array' ||
-            fieldType.toLowerCase() === 'set'
-          ) {
+          } else if (fieldType === 'array' || fieldType === 'set') {
             fields[field] = { items: items, ...fields[field] }
           }
         }
 
         console.log(fields, 'NEW FIELDS??')
 
+        // SET IT
         if (type === 'root') {
           client.call('db:set-schema', {
             mutate: true,
