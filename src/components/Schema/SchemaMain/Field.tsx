@@ -24,6 +24,9 @@ export const Field = ({
   isDragging = false,
   toggleExpand = null,
   collapsed = false,
+  schema,
+  setSchema,
+  setSomethingChanged,
 }) => {
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
@@ -137,6 +140,9 @@ export const Field = ({
               item={fieldSchema}
               itemName={field}
               typeTitle={type}
+              schema={schema}
+              setSchema={setSchema}
+              setSomethingChanged={setSomethingChanged}
             />
           </Stack>
         </Stack>

@@ -8,7 +8,14 @@ import { useClient, useQuery } from '@based/react'
 import { findPath } from '../findpath.js'
 import { AddField } from './AddField.js'
 
-export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
+export const FieldEditAndDelete = ({
+  item,
+  itemName,
+  typeTitle,
+  schema,
+  setSchema,
+  setSomethingChanged,
+}) => {
   const { open } = Modal.useModal()
 
   const client = useClient()
@@ -48,6 +55,9 @@ export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
                 itemName={itemName}
                 path={filteredPath}
                 onConfirm={close}
+                schema={schema}
+                setSchema={setSchema}
+                setSomethingChanged={setSomethingChanged}
               />
             ))
             console.log(fieldMeta, '?')

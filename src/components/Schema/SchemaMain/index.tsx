@@ -6,24 +6,22 @@ import { Fields } from './Fields.js'
 import { styled } from 'inlines'
 import { useClient } from '@based/react'
 import { TypeSchema } from '../constants.js'
-import { useSchema } from '../hooks/useSchema.js'
-import { SchemaConfirm } from '../SchemaConfirm.js'
 
-export const SchemaMain = () => {
+export const SchemaMain = ({ schema, setSchema, setSomethingChanged }) => {
   const client = useClient()
   const [type] = useContextState('type', '')
   const [field] = useContextState('field', [])
   const [db] = useContextState('db', 'default')
-  const { loading, schema } = useSchema(db)
+  // const { loading, schema } = useSchema(db)
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const { types } = schema
 
-  console.log('schema from MAIN 🌝, ', schema)
-  const description = schema.types[type]?.description
+  console.log('schema from SchemaMain 🌝, ', schema)
+  const description = schema?.types[type]?.description
 
-  if (loading) {
-    return null
-  }
+  // if (loading) {
+  //   return null
+  // }
 
   if (!type) {
     return (
@@ -45,34 +43,27 @@ export const SchemaMain = () => {
   // console.log('TypeDEf --->', typeDef)
   // console.log('Fields -->', fields)
 
-  const onCancel = () => {
-    console.log('le cancle ❌')
-  }
-
-  const onConfirm = async () => {
-    await console.log(' el confirmo')
-  }
-
   return (
     <Page>
-      <Header description={description} />
+      <Header
+        description={description}
+        setSchema={setSchema}
+        schema={schema}
+        setSomethingChanged={setSomethingChanged}
+      />
       <Stack style={{ marginBottom: 16, paddingLeft: 32 }}>
         <CheckboxInput
           label="Show system fields"
           value={includeSystemFields}
           onChange={toggleSystemFields}
         />
-        <styled.div>
-          <SchemaConfirm
-            onCancel={onCancel}
-            onConfirm={onConfirm}
-            hasChanges={true}
-          />
-        </styled.div>
+        <styled.div></styled.div>
       </Stack>
       <styled.div style={{ paddingLeft: 32 }}>
         <Fields
           schema={schema}
+          setSchema={setSchema}
+          setSomethingChanged={setSomethingChanged}
           includeSystemFields={includeSystemFields}
           onChange={(val) => {
             const update = {}
@@ -89,33 +80,49 @@ export const SchemaMain = () => {
             }
             Object.assign(dest, val)
 
-            if (type === 'root') {
-              return client
-                .call('db:set-schema', {
-                  db,
-                  mutate: true,
-                  schema: {
-                    rootType: {
-                      fields: update,
-                    },
-                  },
-                })
-                .catch((e) => console.error('error updating schema', e))
-            } else {
-              return client
-                .call('db:set-schema', {
-                  db,
-                  mutate: true,
-                  schema: {
-                    types: {
-                      [type]: {
-                        fields: update,
-                      },
-                    },
-                  },
-                })
-                .catch((e) => console.error('error updating schema', e))
-            }
+            console.log(update, 'update?? ')
+
+            // update schema 🐠
+            schema.types[type].fields = update
+
+            setSomethingChanged(true)
+
+            setSchema({ ...schema })
+            // setSchema({
+            //   schema: {
+            //     types: {
+            //       [type]: { fields: update },
+            //     },
+            //   },
+            // })
+
+            // if (type === 'root') {
+            //   return client
+            //     .call('db:set-schema', {
+            //       db,
+            //       mutate: true,
+            //       schema: {
+            //         rootType: {
+            //           fields: update,
+            //         },
+            //       },
+            //     })
+            //     .catch((e) => console.error('error updating schema', e))
+            // } else {
+            //   return client
+            //     .call('db:set-schema', {
+            //       db,
+            //       mutate: true,
+            //       schema: {
+            //         types: {
+            //           [type]: {
+            //             fields: update,
+            //           },
+            //         },
+            //       },
+            //     })
+            //     .catch((e) => console.error('error updating schema', e))
+            // }
           }}
         />
       </styled.div>

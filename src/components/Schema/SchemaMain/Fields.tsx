@@ -24,7 +24,15 @@ export const Fields: FC<{
   includeSystemFields: boolean
   onChange: (v: any) => void
   schema: any
-}> = ({ includeSystemFields, onChange, schema }) => {
+  setSchema?: () => void
+  setSomethingChanged?: (v: boolean) => void
+}> = ({
+  includeSystemFields,
+  onChange,
+  schema,
+  setSchema,
+  setSomethingChanged,
+}) => {
   const [type] = useContextState('type', '')
 
   const sensors = useSensors(
@@ -82,6 +90,9 @@ export const Fields: FC<{
                 isDragging={field === draggingField}
                 toggleExpand={toggleExpand}
                 collapsed={collapsed.has(field)}
+                schema={schema}
+                setSchema={setSchema}
+                setSomethingChanged={setSomethingChanged}
               />
             </Draggable>
           )
@@ -95,6 +106,9 @@ export const Fields: FC<{
               type={type}
               field={draggingField}
               fields={typeDef.fields}
+              schema={schema}
+              setSchema={setSchema}
+              setSomethingChanged={setSomethingChanged}
             />
           ) : null}
         </DragOverlay>,

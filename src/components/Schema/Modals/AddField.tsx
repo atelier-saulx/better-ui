@@ -15,6 +15,9 @@ type AddFieldProps = {
   editItem?: any
   itemName?: string
   path?: string[]
+  setSchema?: ({}) => void
+  schema?: any
+  setSomethingChanged?: (v: boolean) => boolean
 }
 
 const metaReducer = (state, action) => {
@@ -38,6 +41,9 @@ export const AddField = ({
   editItem,
   itemName = '',
   path,
+  setSchema,
+  schema,
+  setSomethingChanged,
 }: AddFieldProps) => {
   const [meta, setMeta] = React.useReducer(metaReducer, editItem || {})
   const [fieldName, setFieldName] = React.useState(itemName)
@@ -147,30 +153,37 @@ export const AddField = ({
           }
         }
 
-        console.log(fields, 'NEW FIELDS??')
+        console.log(fields, 'NEW FIELDS?? 🦞', schema)
+
+        // update schema 🐠
+        schema.types[type].fields = { ...schema.types[type].fields, ...fields }
+
+        setSomethingChanged(true)
+
+        setSchema({ ...schema })
 
         // SET IT
-        if (type === 'root') {
-          client.call('db:set-schema', {
-            mutate: true,
-            schema: {
-              rootType: {
-                fields,
-              },
-            },
-          })
-        } else {
-          client.call('db:set-schema', {
-            mutate: true,
-            schema: {
-              types: {
-                [type]: {
-                  fields,
-                },
-              },
-            },
-          })
-        }
+        // if (type === 'root') {
+        //   client.call('db:set-schema', {
+        //     mutate: true,
+        //     schema: {
+        //       rootType: {
+        //         fields,
+        //       },
+        //     },
+        //   })
+        // } else {
+        //   client.call('db:set-schema', {
+        //     mutate: true,
+        //     schema: {
+        //       types: {
+        //         [type]: {
+        //           fields,
+        //         },
+        //       },
+        //     },
+        //   })
+        // }
 
         onConfirm(meta)
       }}

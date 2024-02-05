@@ -17,9 +17,18 @@ const filterOutTheseFields = ['id', 'type', 'email', 'digest', 'url']
 type SelectNewFieldProps = {
   light?: boolean
   path?: string[]
+  setSchema?: ({}) => void
+  schema?: {}
+  setSomethingChanged?: (v: boolean) => boolean
 }
 
-export const SelectField = ({ light, path }: SelectNewFieldProps) => {
+export const SelectField = ({
+  light,
+  path,
+  setSchema,
+  schema,
+  setSomethingChanged,
+}: SelectNewFieldProps) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
 
@@ -94,6 +103,9 @@ export const SelectField = ({ light, path }: SelectNewFieldProps) => {
                           typeTitle={type}
                           onConfirm={close}
                           path={path}
+                          setSchema={setSchema}
+                          schema={schema}
+                          setSomethingChanged={setSomethingChanged}
                         />
                       ))
 

@@ -29,9 +29,13 @@ export default meta
 
 export const Default = () => {
   // get a schema
-  const { data, loading: loadingSchema } = useQuery('db:schema')
+  const { data, loading } = useQuery('db:schema')
 
-  console.log('Schema -->', data, 'loading =', loadingSchema)
+  console.log('Schema -->', data, 'loading =', loading)
 
-  return <Schema schema={data || { types: { fields: {} } }} />
+  if (loading) {
+    return null
+  }
+
+  return <Schema schemaInput={data} />
 }
