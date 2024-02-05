@@ -94,7 +94,11 @@ export const Form = (p: FormProps) => {
         valueRef.current.values,
         valueRef.current.changes,
         hash,
-        createBasedObject(ctx, valueRef.current.changes),
+        createBasedObject(
+          ctx,
+          valueRef.current.values,
+          valueRef.current.changes,
+        ),
       )
       valueRef.current.hasChanges = false
       valueRef.current.values = valueRef.current.props.values ?? {}
