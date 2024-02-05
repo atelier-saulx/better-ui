@@ -25,7 +25,6 @@ export const ReferencesTable = ({
   path,
   onRemove,
   field,
-  readOnly,
   onClickReference,
   changeIndex,
   alwaysUseCols,
@@ -36,11 +35,12 @@ export const ReferencesTable = ({
   onRemove?: (index: number) => void
   onClickReference: (ref: Reference) => void
   ctx: TableCtx
-  readOnly: boolean
   path: Path
   alwaysUseCols?: boolean
   changeIndex: (fromIndex: number, toIndex: number) => void
 }) => {
+  const readOnly = field.readOnly || ctx.editableReferences ? false : true
+
   const fieldSchema = ctx.schema
     ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
     : genObjectSchema(valueRef.value)
@@ -81,7 +81,7 @@ export const ReferencesTable = ({
   const nField: BasedSchemaFieldArray = {
     type: 'array',
     values: fieldSchema,
-    readOnly: true,
+    readOnly,
   }
 
   const newCtx: TableCtx = {
@@ -95,7 +95,7 @@ export const ReferencesTable = ({
   return (
     <SizedStack
       field={fieldSchema}
-      readOnly
+      readOnly={readOnly}
       setColumns={setColumns}
       alwaysUseCols={alwaysUseCols}
     >

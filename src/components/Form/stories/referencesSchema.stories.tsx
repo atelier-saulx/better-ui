@@ -18,7 +18,7 @@ const meta = {
 
 export default meta
 
-const people = new Array(50).fill(null).map(() => ({
+const people = new Array(10).fill(null).map(() => ({
   avatar: {
     src: faker.image.avatar(),
     name: faker.word.adverb(),
@@ -35,6 +35,8 @@ const people = new Array(50).fill(null).map(() => ({
   },
   name: faker.person.firstName(),
   id: faker.string.uuid().slice(0, 8),
+  password: faker.string.alphanumeric(10),
+  email: faker.internet.email(),
 }))
 
 export const ReferencesFullSchema = () => {
@@ -64,8 +66,54 @@ export const ReferencesFullSchema = () => {
             fields: {
               name: { type: 'string' },
               avatar: { type: 'reference', allowedTypes: ['file'] },
-              email: { type: 'string' },
+              email: { type: 'string', format: 'email' },
               password: { type: 'string', format: 'strongPassword' },
+            },
+          },
+          file: {
+            fields: {
+              mimeType: { type: 'string' },
+              name: { type: 'string' },
+              src: { type: 'string', contentMediaType: '*/*' },
+            },
+          },
+          category: {
+            fields: {
+              name: { type: 'string' },
+              logo: { type: 'reference', allowedTypes: ['file'] },
+            },
+          },
+        },
+      }}
+      onChange={(values, changed, checksum, based) => {
+        console.info({ values, changed, checksum, based })
+      }}
+    />
+  )
+}
+
+export const ReferencesFullSchemaEditable = () => {
+  return (
+    <Form
+      editableReferences
+      values={{
+        people,
+      }}
+      fields={{
+        people: {
+          sortable: true,
+          title: 'People time',
+          type: 'references',
+          allowedTypes: ['person'],
+        },
+      }}
+      schema={{
+        types: {
+          person: {
+            fields: {
+              name: { type: 'string' },
+              avatar: { type: 'reference', allowedTypes: ['file'] },
+              category: { type: 'reference', allowedTypes: ['category'] },
             },
           },
           file: {

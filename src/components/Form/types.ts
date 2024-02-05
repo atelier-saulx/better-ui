@@ -75,7 +75,7 @@ export type TableCtx = {
   // path like x.y.z
   fieldOverrides?: { [path: string]: BasedSchemaField }
   readOnly?: boolean
-  forceCols?: boolean
+  editableReferences?: boolean
 }
 
 export type Path = (string | number)[]

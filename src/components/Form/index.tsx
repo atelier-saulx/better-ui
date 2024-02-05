@@ -59,6 +59,7 @@ export type FormProps = {
   confirmLabel?: ReactNode
   fields: FormValues
   variant?: Variant
+  editableReferences?: boolean
   // for later check ref types (can check ids and check allowedTypes)
   schema?: BasedSchemaPartial
   formRef?: {
@@ -164,6 +165,7 @@ export const Form = (p: FormProps) => {
     values: valueRef.current.values,
     listeners,
     schema: p.schema,
+    editableReferences: p.editableReferences,
   }
 
   return (
