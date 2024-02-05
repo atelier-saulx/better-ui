@@ -142,12 +142,19 @@ export const AddField = ({
               type: fieldType,
               items: items,
             }
+          } else if (fieldType === 'object') {
+            dest[lastFieldNameKey] = {
+              ...from[field],
+              ...meta,
+              type: fieldType,
+              properties: {},
+            }
           } else if (fieldType === 'record') {
             dest[lastFieldNameKey] = {
               ...from[field],
               ...meta,
               type: fieldType,
-              values: [field].values || [],
+              values: [],
             }
           } else {
             dest[lastFieldNameKey] = {
