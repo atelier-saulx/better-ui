@@ -50,8 +50,10 @@ export function Thumbnail({
         justifyContent: 'center',
         alignItems: 'center',
         border: outline
-          ? `1px solid ${hashNonSemanticColor(text || src, true)}`
-          : `0px solid transparent`,
+          ? `1px solid ${getColor('non-semantic-color', colorProp as NonSemanticColor)}`
+          : outline && colorProp === 'auto'
+            ? `1px solid ${hashNonSemanticColor(text || src, true)}`
+            : `0px solid transparent`,
         color: colorProp.includes('soft')
           ? getColor(
               'non-semantic-color',
