@@ -6,7 +6,7 @@ import { styled } from 'inlines'
 import { SelectField } from '../SelectField/index.js'
 
 export const Header = ({ description }) => {
-  const [type, setType] = useContextState('type')
+  const [type] = useContextState('type')
 
   return (
     <styled.div style={{ marginBottom: 24 }}>

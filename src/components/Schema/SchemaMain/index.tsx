@@ -90,8 +90,6 @@ export const SchemaMain = () => {
             Object.assign(dest, val)
 
             if (type === 'root') {
-              console.log('duss......')
-
               return client
                 .call('db:set-schema', {
                   db,
@@ -104,7 +102,6 @@ export const SchemaMain = () => {
                 })
                 .catch((e) => console.error('error updating schema', e))
             } else {
-              console.log('duss.afeafewaf.....')
               return client
                 .call('db:set-schema', {
                   db,

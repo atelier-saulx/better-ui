@@ -2,7 +2,6 @@ import { useCallback, useState, RefObject } from 'react'
 import { arrayMove } from '@dnd-kit/sortable'
 import { getObjectId } from './utils.js'
 import { Modal } from '../../Modal/index.js'
-// import { useDialog } from '@based/ui'
 import { sortAndFlatten, filteredFields } from '../fieldParsers.js'
 import { UniqueIdentifier, DragStartEvent, DragEndEvent } from '@dnd-kit/core'
 import { useContextState } from '../../../hooks/ContextState/index.js'
@@ -123,9 +122,8 @@ export const useFieldsEvents = (
       resortedFields.forEach(setIndex)
 
       if (revert) {
-        console.log('🦞🐠')
         const ok = await confirm(
-          'Beware ,you are moving a field in or out of an object',
+          'Beware, you are moving a field in or out of an object',
           'Are you sure? This will update the schema and all related data',
         )
 

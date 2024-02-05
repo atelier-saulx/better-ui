@@ -15,16 +15,11 @@ import { styled } from 'inlines'
 const filterOutTheseFields = ['id', 'type', 'email', 'digest', 'url']
 
 type SelectNewFieldProps = {
-  fieldItem?: {}
   light?: boolean
   path?: string[]
 }
 
-export const SelectField = ({
-  fieldItem,
-  light,
-  path,
-}: SelectNewFieldProps) => {
+export const SelectField = ({ light, path }: SelectNewFieldProps) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
 
@@ -98,8 +93,6 @@ export const SelectField = ({
                           fieldType={SCHEMA_FIELDS[item].label}
                           typeTitle={type}
                           onConfirm={close}
-                          // if nested
-                          fieldItem={fieldItem}
                           path={path}
                         />
                       ))

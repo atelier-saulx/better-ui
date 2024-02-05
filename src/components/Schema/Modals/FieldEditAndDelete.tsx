@@ -18,7 +18,7 @@ export const FieldEditAndDelete = ({ item, itemName, typeTitle }) => {
   return (
     <Dropdown.Root>
       <Dropdown.Trigger>
-        <Button variant="neutral-transparent" shape="square">
+        <Button variant="neutral-transparent" shape="square" size="small">
           <IconMoreHorizontal />
         </Button>
       </Dropdown.Trigger>

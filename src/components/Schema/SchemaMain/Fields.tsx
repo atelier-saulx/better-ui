@@ -17,7 +17,6 @@ import {
 import { Draggable } from './Draggable.js'
 import { useContextState } from '../../../hooks/ContextState/index.js'
 import { Field } from './Field.js'
-// import { useSchema } from '../../../components/Schema'
 import { TypeSchema } from '../constants.js'
 import { useFieldsEvents } from './useFieldEvents.js'
 
@@ -27,8 +26,7 @@ export const Fields: FC<{
   schema: any
 }> = ({ includeSystemFields, onChange, schema }) => {
   const [type] = useContextState('type', '')
-  //   const [db] = useContextState('db', 'default')
-  //   const { schema } = useSchema(db)
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {

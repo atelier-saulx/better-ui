@@ -1,4 +1,3 @@
-import { useClient } from '@based/react'
 import React from 'react'
 import {
   Text,
@@ -26,8 +25,6 @@ export const Field = ({
   toggleExpand = null,
   collapsed = false,
 }) => {
-  // console.log('fields??', fields)
-
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
   const {
@@ -37,12 +34,10 @@ export const Field = ({
     format: fieldFormat,
     title: title,
   } = fieldSchema
-  // const template = meta?.format || fieldType
 
-  //   const { icon, color: iconColor } = templates[template] || {}
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
-  const lastIndex = path.length - 1
+
   const objectPath: string[] = isObject
     ? fieldType === 'record'
       ? [...path, 'values', 'properties']
@@ -137,14 +132,7 @@ export const Field = ({
           </Stack>
 
           <Stack gap={12} justify="end">
-            {isObject && (
-              <SelectField
-                // typeTitle={type}
-                path={objectPath}
-                fieldItem={{ [field]: { ...fields[field] } }}
-                light
-              />
-            )}
+            {isObject && <SelectField path={objectPath} light />}
             <FieldEditAndDelete
               item={fieldSchema}
               itemName={field}
