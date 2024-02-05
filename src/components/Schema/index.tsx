@@ -48,7 +48,6 @@ export const Schema = ({
 
   const onConfirm = async () => {
     setSomethingChanged(false)
-    console.log('CONFIRM THIS 🦧')
     await client.call('db:set-schema', {
       db,
       mutate: true,

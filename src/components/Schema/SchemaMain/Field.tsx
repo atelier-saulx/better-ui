@@ -101,6 +101,10 @@ export const Field = ({
               color={SCHEMA_FIELDS[fieldType]?.color}
               outline
               style={{
+                border:
+                  SCHEMA_FIELDS[fieldType]?.color === 'grey-soft'
+                    ? border()
+                    : 'inherit',
                 marginRight: 6,
                 borderRadius: 8,
                 '& svg': {
