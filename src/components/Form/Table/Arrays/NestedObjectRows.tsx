@@ -7,7 +7,7 @@ import {
   IconChevronRight,
   Badge,
 } from '../../../../index.js'
-import { getIdentifierField, isIterable, readParentType } from '../../utils.js'
+import { isIterable, readInfoField, readParentType } from '../../utils.js'
 import { Cell } from '../Cell.js'
 import { Field } from '../Field/index.js'
 import { RowProps } from './types.js'
@@ -19,13 +19,10 @@ export function NestedObjectRows(p: RowProps) {
 
   const rows: ReactNode[] = []
 
-  const field =
-    p.field.values.type === 'object' && getIdentifierField(p.field.values)
-
   for (let i = 0; i < p.value.value.length; i++) {
     const isOpen = openIndexes.current.has(i)
-    const item = p.value?.[i]
-    const title: ReactNode = field ? item?.[field] : p.field.values.title
+    const item = p.value.value?.[i]
+    const title: ReactNode = readInfoField(item, p.field.values)
 
     rows.push(
       <DragableRow
@@ -80,7 +77,7 @@ export function NestedObjectRows(p: RowProps) {
             )}
             <Stack gap={16} style={{ paddingRight: 12 }}>
               <Stack gap={16} justify="start">
-                <Badge color="neutral-muted">{i + 1}</Badge>
+                <Badge color="neutral-muted">{i}</Badge>
                 {title}
               </Stack>
               <Stack fitContent justify="end" gap={8}>
