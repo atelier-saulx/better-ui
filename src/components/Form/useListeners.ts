@@ -21,6 +21,8 @@ const createListeners = (
     onChangeHandler: (ctx, path, newValue, forceUpdate) => {
       const { field, value } = readPath(ctx, path)
 
+      console.info(path)
+
       if (valueRef.current.props.onChangeTransform) {
         newValue = valueRef.current.props.onChangeTransform(
           newValue,
@@ -90,7 +92,7 @@ const createListeners = (
 export const useListeners = (
   valueRef: MutableRefObject<ValueRef>,
   setChecksum: (checksum: number) => void,
-  update: () => void
+  update: () => void,
 ): Listeners => {
   return useMemo(() => {
     return createListeners(valueRef, setChecksum, update)
