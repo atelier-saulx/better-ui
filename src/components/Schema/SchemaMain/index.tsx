@@ -5,8 +5,16 @@ import { Header } from './Header.js'
 import { Fields } from './Fields.js'
 import { styled } from 'inlines'
 import { TypeSchema } from '../constants.js'
+import { SchemaConfirm } from '../SchemaConfirm.js'
 
-export const SchemaMain = ({ schema, setSchema, setSomethingChanged }) => {
+export const SchemaMain = ({
+  schema,
+  setSchema,
+  setSomethingChanged,
+  somethingChanged,
+  onCancel,
+  onConfirm,
+}) => {
   const [type] = useContextState('type', '')
   const [field] = useContextState('field', [])
 
@@ -54,7 +62,15 @@ export const SchemaMain = ({ schema, setSchema, setSomethingChanged }) => {
           value={includeSystemFields}
           onChange={toggleSystemFields}
         />
-        <styled.div></styled.div>
+        <styled.div>
+          {somethingChanged && (
+            <SchemaConfirm
+              onCancel={onCancel}
+              onConfirm={onConfirm}
+              hasChanges={somethingChanged}
+            />
+          )}
+        </styled.div>
       </Stack>
       <styled.div style={{ paddingLeft: 32 }}>
         <Fields

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Stack } from '../Stack/index.js'
 import { SchemaLeft } from './SchemaLeft/index.js'
 import { SchemaMain } from './SchemaMain/index.js'
@@ -8,6 +8,7 @@ import { SchemaConfirm } from './SchemaConfirm.js'
 import { useClient } from '@based/react'
 import { useContextState } from '../../hooks/ContextState/index.js'
 import { deepCopy } from '@saulx/utils'
+import { styled } from 'inlines'
 
 type SchemaProps = {
   schemaInput: {}
@@ -31,6 +32,11 @@ export const Schema = ({
   console.log('OG', OgSchema)
   console.log('SCHEMA INPUT', schemaInput)
 
+  useEffect(() => {
+    // fixes the type options
+    setSchema(deepCopy(schemaInput))
+  }, [schemaInput])
+
   const client = useClient()
   const [db] = useContextState('db', 'default')
 
@@ -52,22 +58,17 @@ export const Schema = ({
 
   return (
     <>
-      {somethingChanged && (
-        <SchemaConfirm
-          onCancel={onCancel}
-          onConfirm={onConfirm}
-          hasChanges={somethingChanged}
-        />
-      )}
       <Stack style={{ ...style }} justify="start" align="start">
         <StateProvider values={values} onChange={onChange}>
           <SchemaLeft schema={schema} />
-
           {renderCounter && (
             <SchemaMain
               schema={schema}
               setSchema={setSchema}
               setSomethingChanged={setSomethingChanged}
+              somethingChanged={somethingChanged}
+              onCancel={onCancel}
+              onConfirm={onConfirm}
             />
           )}
         </StateProvider>

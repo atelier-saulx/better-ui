@@ -52,7 +52,11 @@ const createListeners = (
           valueRef.current.values,
           valueRef.current.changes,
           hash,
-          createBasedObject(ctx, valueRef.current.changes),
+          createBasedObject(
+            ctx,
+            valueRef.current.values,
+            valueRef.current.changes,
+          ),
         )
       }
 

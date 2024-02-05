@@ -180,15 +180,8 @@ export const Default = () => {
           description: 'A src',
         },
       }}
-      onChange={(values, changed, checksum) => {
-        console.log(
-          'values:',
-          values,
-          'changed:',
-          changed,
-          'checksum:',
-          checksum,
-        )
+      onChange={(values, changed, checksum, based) => {
+        console.log(values, changed, checksum, based)
       }}
     />
   )

@@ -5,6 +5,7 @@ import {
 } from '@based/schema'
 import { TableCtx, Path } from './types.js'
 import { getStringWidth, textVariants } from '../../index.js'
+import humanizeString from 'humanize-string'
 
 const IDENTIFIER_FIELDS = [
   'name',
@@ -16,6 +17,22 @@ const IDENTIFIER_FIELDS = [
   'price',
   'type',
 ]
+
+export const readInfoField = (obj: any, field: BasedSchemaField): string => {
+  console.log(obj, field)
+
+  if (typeof obj === 'object') {
+    const str = getIdentifierFieldValue(obj)
+    if (str) {
+      return str
+    }
+  }
+
+  if (field.type === 'array') {
+  }
+
+  return field.title ?? humanizeString(field.type) ?? ''
+}
 
 // TODO clean up
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
