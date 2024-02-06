@@ -106,7 +106,7 @@ export const Field = ({
                 border:
                   SCHEMA_FIELDS[fieldType]?.color === 'grey-soft'
                     ? border()
-                    : 'inherit',
+                    : `1px solid ${color('non-semantic-color', SCHEMA_FIELDS[fieldType]?.color)}`,
                 marginRight: 6,
                 borderRadius: 8,
                 '& svg': {

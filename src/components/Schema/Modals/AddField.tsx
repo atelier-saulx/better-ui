@@ -4,10 +4,8 @@ import { Stack } from '../../Stack/index.js'
 import { Button } from '../../Button/index.js'
 import { border } from '../../../utils/colors.js'
 import { Modal } from '../../Modal/index.js'
-import { useClient, useQuery } from '@based/react'
 import { GeneralOptions } from './GeneralOptions.js'
 import { SpecificOptions } from './SpecificOptions.js'
-import { deepCopy } from '@saulx/utils'
 
 type AddFieldProps = {
   fieldType: string
@@ -54,9 +52,7 @@ export const AddField = ({
     editItem ? { [itemName]: { ...editItem } } : { type: 'string' },
   )
 
-  // const client = useClient()
-
-  console.log('🚙', fieldType, typeTitle, editItem, path, itemName)
+  // console.log('🚙', fieldType, typeTitle, editItem, path, itemName)
 
   // const { data } = useQuery('db:schema')
   // const { types, rootType } = data
@@ -150,7 +146,7 @@ export const AddField = ({
           }
         }
 
-        console.log(fields, 'NEW FIELDS?? 🦞', schema)
+        // console.log(fields, 'NEW FIELDS?? 🦞', schema)
 
         // update schema 🐠
         schema.types[type].fields = {

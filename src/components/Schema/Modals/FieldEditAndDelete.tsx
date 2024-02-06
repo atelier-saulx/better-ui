@@ -27,8 +27,6 @@ export const FieldEditAndDelete = ({
       <Dropdown.Items>
         <Dropdown.Item
           onClick={async () => {
-            console.log('clicked item', itemName)
-
             const filteredPath = itemName.split('.').filter((field) => {
               let isField = true
               if (isField) {
@@ -55,7 +53,6 @@ export const FieldEditAndDelete = ({
                 setSomethingChanged={setSomethingChanged}
               />
             ))
-            console.log(fieldMeta, '?')
           }}
         >
           Edit
