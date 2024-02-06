@@ -13,7 +13,8 @@ export type SetInputProps = {
   disabled?: boolean
   style?: Style
   checksum?: number
-  fieldItemType?: 'number' | 'integer' | 'string' | 'list'
+  fieldItemType?: 'number' | 'integer' | 'string'
+  options?: number[] | string[]
 }
 
 export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
@@ -27,6 +28,7 @@ export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
       description,
       fieldItemType,
       disabled,
+      options,
       style,
     },
     ref,
@@ -88,6 +90,7 @@ export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
             state={state}
             setState={setState}
             fieldItemType={fieldItemType}
+            options={options}
           />
         </Stack>
       </Stack>

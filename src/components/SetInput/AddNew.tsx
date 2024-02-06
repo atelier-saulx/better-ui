@@ -6,10 +6,12 @@ export const AddNew = ({
   state,
   setState,
   fieldItemType,
+  options,
 }: {
   state: (string | number)[]
   setState: (v: any[]) => void
-  fieldItemType?: 'integer' | 'number' | 'string' | 'list'
+  fieldItemType?: 'integer' | 'number' | 'string'
+  options?: number[] | string[]
 }) => {
   const [addNew, setAddNew] = React.useState<boolean>(false)
   const [newValue, setNewValue] = React.useState<string | number>()
@@ -19,6 +21,7 @@ export const AddNew = ({
       <Stack>
         <NewInput
           fieldItemType={fieldItemType}
+          options={options}
           onChange={(v) => {
             setNewValue(v)
           }}
