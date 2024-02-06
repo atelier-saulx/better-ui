@@ -16,6 +16,7 @@ import {
   STRING_FORMAT_DISPLAY_OPTIONS,
   STRING_FORMAT_OPTIONS,
 } from '../constants.js'
+import { SetInput } from '../../SetInput/index.js'
 
 type SpecificOptionsProps = {
   fieldType: string
@@ -200,7 +201,14 @@ export const SpecificOptions = ({
               }}
             />
           )}
-          <SelectInput
+
+          <SetInput
+            label="Allowed types"
+            value={meta?.allowedTypes}
+            onChange={(v) => setMeta({ field: 'allowedTypes', value: v })}
+          />
+
+          {/* <SelectInput
             style={{ width: '100%' }}
             label="Allowed types"
             value={meta?.allowedTypes}
@@ -214,7 +222,7 @@ export const SpecificOptions = ({
             onChange={(v) => {
               setMeta({ field: 'allowedTypes', value: v })
             }}
-          />
+          /> */}
           {fieldType === 'references' && (
             <CheckboxInput
               value={meta?.sortable}

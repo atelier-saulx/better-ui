@@ -5,7 +5,7 @@ export const NewInput = ({
   onChange,
   fieldItemType,
 }: {
-  fieldItemType?: 'integer' | 'number' | 'string'
+  fieldItemType?: 'integer' | 'number' | 'string' | 'list'
   onChange: (v: any) => void
 }) => {
   if (fieldItemType === 'number' || fieldItemType === 'integer') {

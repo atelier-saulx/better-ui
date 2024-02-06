@@ -11,8 +11,7 @@ export default meta
 export const Default: StoryObj<typeof SetInput> = {
   args: {
     fieldItemType: 'number',
-    title: 'Set Numbers',
-    // type: 'set',
+    label: 'Set Numbers',
     description: 'A set with numbers',
     value: [1, 2, 3, 6, 9],
     disabled: false,
@@ -21,7 +20,7 @@ export const Default: StoryObj<typeof SetInput> = {
 
 export const Strings: StoryObj<typeof SetInput> = {
   args: {
-    title: 'Set of strings',
+    label: 'Set of strings',
     description: 'A set with strings',
     value: ['flurp', 'snurp', 'derp'],
     onChange: (v) => console.log('onchange log: ', v),

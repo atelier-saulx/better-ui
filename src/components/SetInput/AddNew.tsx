@@ -9,7 +9,7 @@ export const AddNew = ({
 }: {
   state: (string | number)[]
   setState: (v: any[]) => void
-  fieldItemType?: 'integer' | 'number' | 'string'
+  fieldItemType?: 'integer' | 'number' | 'string' | 'list'
 }) => {
   const [addNew, setAddNew] = React.useState<boolean>(false)
   const [newValue, setNewValue] = React.useState<string | number>()
@@ -27,8 +27,11 @@ export const AddNew = ({
           justify="start"
           variant="small"
           onConfirm={() => {
-            const nValue = state ? [...state, newValue] : [newValue]
-            setState(nValue)
+            if (!state.includes(newValue)) {
+              const nValue = state ? [...state, newValue] : [newValue]
+              setState(nValue)
+            }
+
             setNewValue(undefined)
             setAddNew(false)
           }}

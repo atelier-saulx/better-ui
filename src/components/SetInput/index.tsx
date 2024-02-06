@@ -1,42 +1,29 @@
 import React from 'react'
-import { Style, styled } from 'inlines'
+import { Style } from 'inlines'
 import { Stack, Text, useControllableState } from '../../index.js'
 import { Tag } from './Tag.js'
 import { AddNew } from './AddNew.js'
-import { TableCtx } from '../Form/types.js'
-import { BasedSchemaFieldSet, Path } from '@based/schema'
 
 export type SetInputProps = {
-  placeholder?: string
   value: (string | number)[]
-  defaultValue?: string
   onChange?: (value: string[] | number[]) => void
   label?: string
-  options?: (
-    | { value: string; label?: string; prefix?: React.ReactNode }
-    | string
-  )[]
   variant?: 'large' | 'small'
-  error?: boolean
-  autoFocus?: boolean
   description?: string
   disabled?: boolean
   style?: Style
   checksum?: number
-  clearable?: boolean
-  title?: string
-  type?: string
-  fieldItemType?: 'number' | 'integer' | 'string'
+  fieldItemType?: 'number' | 'integer' | 'string' | 'list'
 }
 
 export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
   (
     {
-      value = [],
+      value,
       onChange,
       checksum,
       variant = 'large',
-      title,
+      label,
       description,
       fieldItemType,
       disabled,
@@ -66,9 +53,9 @@ export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
       >
         <Text
           weight="strong"
-          style={{ marginBottom: description ? '-2px' : 'inherit' }}
+          style={{ marginBottom: description ? '-2px' : '12px' }}
         >
-          {title}
+          {label}
         </Text>
         {description && (
           <Text color="secondary" style={{ marginBottom: 12 }}>
@@ -79,20 +66,22 @@ export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
           grid
           style={{ marginTop }}
           // display={value.length}
+          ref={ref}
         >
-          {state.map((v: string | number, index: number) => {
-            return (
-              <Tag
-                key={v}
-                value={v}
-                onRemove={() => {
-                  const nValue = [...state]
-                  nValue.splice(index, 1)
-                  setState(nValue)
-                }}
-              />
-            )
-          })}
+          {state.length > 0 &&
+            state.map((v: string | number, index: number) => {
+              return (
+                <Tag
+                  key={v}
+                  value={v}
+                  onRemove={() => {
+                    const nValue = [...state]
+                    nValue.splice(index, 1)
+                    setState(nValue)
+                  }}
+                />
+              )
+            })}
         </Stack>
         <Stack style={{ height: 52, width: 'auto' }}>
           <AddNew
