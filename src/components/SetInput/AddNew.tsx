@@ -1,20 +1,15 @@
 import React from 'react'
 import { Stack, Confirm, Button, IconPlus } from '../../index.js'
-import { BasedSchemaFieldSet } from '@based/schema'
 import { NewInput } from './NewInput.js'
-import { TableCtx } from '../Form/types.js'
-import { Path } from '@based/schema'
 
 export const AddNew = ({
-  field,
-  value,
-  ctx,
-  path,
+  state,
+  setState,
+  fieldItemType,
 }: {
-  ctx: TableCtx
-  field: BasedSchemaFieldSet
-  value: (string | number)[]
-  path: Path
+  state: (string | number)[]
+  setState: (v: any[]) => void
+  fieldItemType?: 'integer' | 'number' | 'string'
 }) => {
   const [addNew, setAddNew] = React.useState<boolean>(false)
   const [newValue, setNewValue] = React.useState<string | number>()
@@ -23,7 +18,7 @@ export const AddNew = ({
     return (
       <Stack>
         <NewInput
-          field={field}
+          fieldItemType={fieldItemType}
           onChange={(v) => {
             setNewValue(v)
           }}
@@ -32,8 +27,8 @@ export const AddNew = ({
           justify="start"
           variant="small"
           onConfirm={() => {
-            const nValue = value ? [...value, newValue] : [newValue]
-            ctx.listeners.onChangeHandler(ctx, path, nValue)
+            const nValue = state ? [...state, newValue] : [newValue]
+            setState(nValue)
             setNewValue(undefined)
             setAddNew(false)
           }}

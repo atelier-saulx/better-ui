@@ -26,34 +26,21 @@ export type SetInputProps = {
   clearable?: boolean
   title?: string
   type?: string
-  items?: { type: 'number' | 'string' | string }
-  // for the table
-  ctx?: TableCtx
-  field?: BasedSchemaFieldSet
-  path?: Path
+  fieldItemType?: 'number' | 'integer' | 'string'
 }
 
 export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
   (
     {
       value = [],
-      defaultValue,
       onChange,
       checksum,
-      label,
-      autoFocus,
       variant = 'large',
-      clearable,
-      error,
       title,
-      type,
-      items,
       description,
+      fieldItemType,
       disabled,
       style,
-      ctx,
-      field,
-      path,
     },
     ref,
   ) => {
@@ -68,7 +55,15 @@ export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
     console.log(state)
 
     return (
-      <Stack direction="column" align="start">
+      <Stack
+        direction="column"
+        align="start"
+        style={{
+          pointerEvents: disabled ? 'none' : 'auto',
+          opacity: disabled ? 0.6 : 1,
+          ...style,
+        }}
+      >
         <Text
           weight="strong"
           style={{ marginBottom: description ? '-2px' : 'inherit' }}
@@ -94,16 +89,17 @@ export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
                   const nValue = [...state]
                   nValue.splice(index, 1)
                   setState(nValue)
-                  console.log('new val-->', nValue)
-
-                  //   ctx.listeners.onChangeHandler(ctx, path, nValue)
                 }}
               />
             )
           })}
         </Stack>
         <Stack style={{ height: 52, width: 'auto' }}>
-          <AddNew field={field} value={value} ctx={ctx} path={path} />
+          <AddNew
+            state={state}
+            setState={setState}
+            fieldItemType={fieldItemType}
+          />
         </Stack>
       </Stack>
     )

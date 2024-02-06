@@ -4,12 +4,12 @@ import { BasedSchemaFieldSet } from '@based/schema'
 
 export const NewInput = ({
   onChange,
-  field,
+  fieldItemType,
 }: {
-  field: BasedSchemaFieldSet
+  fieldItemType?: 'integer' | 'number' | 'string'
   onChange: (v: any) => void
 }) => {
-  if (field.items.type === 'number' || field.items.type === 'integer') {
+  if (fieldItemType === 'number' || fieldItemType === 'integer') {
     return (
       <NumberInput
         style={{

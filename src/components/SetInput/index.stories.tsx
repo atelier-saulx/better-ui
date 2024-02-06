@@ -10,11 +10,12 @@ export default meta
 
 export const Default: StoryObj<typeof SetInput> = {
   args: {
-    items: { type: 'number' },
+    fieldItemType: 'number',
     title: 'Set Numbers',
     type: 'set',
     description: 'A set with numbers',
     value: [1, 2, 3, 6, 9],
+    disabled: false,
     // placeholder: 'Select something',
     // label: 'Favourite fruit',
     // description: 'What is your favourite?',
