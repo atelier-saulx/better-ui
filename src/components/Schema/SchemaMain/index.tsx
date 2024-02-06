@@ -21,12 +21,7 @@ export const SchemaMain = ({
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const { types } = schema
 
-  console.log('schema from SchemaMain 🌝, ', schema)
   const description = schema?.types[type]?.description
-
-  // if (loading) {
-  //   return null
-  // }
 
   if (!type) {
     return (
@@ -44,9 +39,6 @@ export const SchemaMain = ({
     console.error('[InvalidSchema] No fields on type', type)
     return null
   }
-
-  // console.log('TypeDEf --->', typeDef)
-  // console.log('Fields -->', fields)
 
   return (
     <Page>
@@ -97,11 +89,7 @@ export const SchemaMain = ({
 
             // update schema 🐠
             schema.types[type].fields = update
-
             setSomethingChanged(true)
-
-            // this??
-            // setSchema({ ...schema })
           }}
         />
       </styled.div>

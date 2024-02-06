@@ -4,7 +4,6 @@ import { Button } from '../../Button/index.js'
 import { Dropdown } from '../../Dropdown/index.js'
 import { IconMoreHorizontal } from '../../Icons/index.js'
 import { Text } from '../../Text/index.js'
-import { useClient, useQuery } from '@based/react'
 import { findPath } from '../findpath.js'
 import { AddField } from './AddField.js'
 
@@ -17,10 +16,6 @@ export const FieldEditAndDelete = ({
   setSomethingChanged,
 }) => {
   const { open } = Modal.useModal()
-
-  const client = useClient()
-
-  const { data } = useQuery('db:schema')
 
   return (
     <Dropdown.Root>
@@ -73,13 +68,13 @@ export const FieldEditAndDelete = ({
                 confirmProps={{ variant: 'error' }}
                 onConfirm={async () => {
                   const nestedPath = findPath(
-                    data.types[typeTitle].fields,
+                    schema.types[typeTitle].fields,
                     itemName,
                   )
 
                   nestedPath.push(itemName)
 
-                  const currentFields = data.types[typeTitle].fields
+                  const currentFields = schema.types[typeTitle].fields
                   const fields = {}
 
                   let from = currentFields
@@ -99,6 +94,8 @@ export const FieldEditAndDelete = ({
                   dest.$delete = true
 
                   console.log('DELETE THIS', fields)
+
+                  // for all nested fields delete those too
 
                   // update schema 🐠
                   schema.types[typeTitle].fields = {

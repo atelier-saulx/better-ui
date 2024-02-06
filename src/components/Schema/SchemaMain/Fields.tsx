@@ -46,11 +46,6 @@ export const Fields: FC<{
     }),
   )
 
-  useEffect(() => {
-    console.log('DIDI IT CHAGNES??')
-    console.log(schema)
-  }, [schema])
-
   const overIdRef = useRef()
 
   if (!type) {

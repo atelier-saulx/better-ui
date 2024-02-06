@@ -38,6 +38,8 @@ export const Field = ({
     title: title,
   } = fieldSchema
 
+  console.log('FIELDSCHEMA-->', fieldSchema)
+
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
 

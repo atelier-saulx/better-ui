@@ -160,32 +160,6 @@ export const AddField = ({
 
         setSomethingChanged(true)
 
-        // is this necessary???
-        //  setSchema({ ...schema })
-
-        // SET IT
-        // if (type === 'root') {
-        //   client.call('db:set-schema', {
-        //     mutate: true,
-        //     schema: {
-        //       rootType: {
-        //         fields,
-        //       },
-        //     },
-        //   })
-        // } else {
-        //   client.call('db:set-schema', {
-        //     mutate: true,
-        //     schema: {
-        //       types: {
-        //         [type]: {
-        //           fields,
-        //         },
-        //       },
-        //     },
-        //   })
-        // }
-
         onConfirm(meta)
       }}
     >

@@ -34,6 +34,10 @@ export const EditType = ({ onConfirm, typeTitle }) => {
             types: {
               [typeTitle]: {
                 description: description,
+                // meta ?? TODO yves // description dissappears if you set something??
+                meta: {
+                  description: description,
+                },
               },
             },
           },

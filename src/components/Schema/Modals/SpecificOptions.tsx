@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Text } from '../../Text/index.js'
 import { Stack } from '../../Stack/index.js'
 import { TextInput } from '../../TextInput/index.js'
 import { CheckboxInput } from '../../CheckboxInput/index.js'
@@ -34,6 +33,7 @@ export const SpecificOptions = ({
   items,
 }: SpecificOptionsProps) => {
   console.log('What is itemsS?', items)
+  const [showFromField, setShowFromField] = React.useState(false)
 
   return (
     // STRING & // TEXT
@@ -176,11 +176,34 @@ export const SpecificOptions = ({
         />
       ) : fieldType === 'reference' || fieldType === 'references' ? (
         <Stack gap={12} grid style={{ marginTop: 12 }}>
-          <CheckboxInput label="Bidirectional" />
-          <Text>From field if bidirectional</Text>
+          <CheckboxInput
+            label="Bidirectional"
+            value={meta?.bidirectional?.fromField.length > 1}
+            onChange={(v) => setShowFromField(v)}
+          />
+          {(showFromField || meta?.bidirectional?.fromField.length > 1) && (
+            <TextInput
+              label="from field"
+              value={meta?.bidirectional?.fromField}
+              onChange={(v) => {
+                if (showFromField) {
+                  setMeta({
+                    field: 'bidirectional',
+                    value: { fromField: v },
+                  })
+                } else {
+                  setMeta({
+                    field: 'bidirectional',
+                    value: null,
+                  })
+                }
+              }}
+            />
+          )}
           <SelectInput
             style={{ width: '100%' }}
             label="Allowed types"
+            value={meta?.allowedTypes}
             options={[
               { value: 'string', label: 'string []' },
               {
@@ -188,8 +211,17 @@ export const SpecificOptions = ({
                 label: '{type?: string: $filter: any | any[]}',
               },
             ]}
+            onChange={(v) => {
+              setMeta({ field: 'allowedTypes', value: v })
+            }}
           />
-          {fieldType === 'references' && <CheckboxInput label="Sortable" />}
+          {fieldType === 'references' && (
+            <CheckboxInput
+              value={meta?.sortable}
+              onChange={(v) => setMeta({ field: 'sortable', value: v })}
+              label="Sortable"
+            />
+          )}
         </Stack>
       ) : (
         '🙈'

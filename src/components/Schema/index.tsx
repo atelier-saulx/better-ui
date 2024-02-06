@@ -40,10 +40,6 @@ export const Schema = ({
   const client = useClient()
   const [db] = useContextState('db', 'default')
 
-  useEffect(() => {
-    console.log('SCHEMA NOW', schema)
-  }, [somethingChanged])
-
   const onCancel = () => {
     setRenderCounter(renderCounter + 1)
     setSchema({ ...OgSchema })
@@ -58,6 +54,10 @@ export const Schema = ({
       schema: schema,
     })
   }
+
+  useEffect(() => {
+    console.log('🏀 CJHANGED SCJEMA', schema)
+  }, [somethingChanged])
 
   return (
     <>
