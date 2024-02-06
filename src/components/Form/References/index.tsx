@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { BasedSchemaFieldReferences } from '@based/schema'
-import { Stack, Button, IconPlus } from '../../../index.js'
-import { Path, TableCtx, Reference } from '../types.js'
+import { Stack, Button, IconPlus, useUpdate } from '../../../index.js'
+import { Path, TableCtx, Reference, TableSort } from '../types.js'
 import { readPath } from '../utils.js'
 import { ReferencesTable } from './Table.js'
 import { ReferenceTag } from './Tag.js'
@@ -18,8 +18,27 @@ export function References({
 }) {
   const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
 
-  const valueRef = React.useRef<ValueRef>({ orderId: 0, value })
+  const update = useUpdate()
+
+  const valueRef = React.useRef<ValueRef & { sort?: TableSort }>({
+    orderId: 0,
+    value,
+    sort: {
+      exclude: new Set(['id', 'src']),
+      onSort: (field, dir) => {
+        console.log(field, dir)
+        valueRef.current.sort.sorted = { key: field, dir }
+
+        valueRef.current.value
+
+        update()
+      },
+    },
+  })
+
   valueRef.current.value = value
+
+  // useEffect for value... add hash
 
   const addNew = React.useCallback(async () => {
     const result = await ctx.listeners.onSelectReferences({
@@ -67,6 +86,11 @@ export function References({
   if (variant === 'large') {
     return (
       <ReferencesTable
+        sortByFields={
+          !(ctx.editableReferences && field.sortable)
+            ? valueRef.current.sort
+            : undefined
+        }
         field={field}
         onClickReference={clickRef}
         ctx={ctx}

@@ -1,7 +1,15 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { Button, Text, IconPlus, ScrollArea } from '../../../index.js'
-import { Path, TableCtx, Reference } from '../types.js'
+import {
+  Button,
+  Text,
+  IconPlus,
+  ScrollArea,
+  IconArrowDown,
+  color,
+  IconArrowUp,
+} from '../../../index.js'
+import { Path, TableCtx, Reference, TableSort } from '../types.js'
 import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
 import humanizeString from 'humanize-string'
@@ -40,7 +48,9 @@ export const ReferencesTable = ({
   onClickReference,
   changeIndex,
   alwaysUseCols,
+  sortByFields,
 }: {
+  sortByFields?: TableSort
   onScroll?: () => void
   field: BasedSchemaFieldReferences
   valueRef: ValueRef
@@ -60,7 +70,7 @@ export const ReferencesTable = ({
 
   const [colFields, setColumns] = useColumns()
 
-  if (!alwaysUseCols || useTags(fieldSchema)) {
+  if (!alwaysUseCols && useTags(fieldSchema)) {
     return (
       <>
         <styled.div style={{ marginTop: -24 }} />
@@ -78,12 +88,44 @@ export const ReferencesTable = ({
   }
 
   for (const f of colFields) {
-    // sortable by field
-    cols.push(
-      <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
-        <Text singleLine>{humanizeString(f.key)}</Text>
-      </Cell>,
-    )
+    if (
+      sortByFields &&
+      (sortByFields.include
+        ? sortByFields.include.has(f.key)
+        : !sortByFields.exclude?.has(f.key))
+    ) {
+      let prefix = null
+      let dir: 'asc' | 'desc' = 'asc'
+      if (sortByFields.sorted && sortByFields.sorted.key === f.key) {
+        dir = sortByFields.sorted.dir
+        prefix =
+          sortByFields.sorted.dir === 'desc' ? (
+            <IconArrowDown />
+          ) : (
+            <IconArrowUp />
+          )
+      }
+
+      cols.push(
+        <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
+          <Button
+            variant="icon-only"
+            prefix={prefix}
+            onClick={() => {
+              sortByFields.onSort(f.key, dir === 'desc' ? 'asc' : 'desc')
+            }}
+          >
+            <Text singleLine>{humanizeString(f.key)}</Text>
+          </Button>
+        </Cell>,
+      )
+    } else {
+      cols.push(
+        <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
+          <Text singleLine>{humanizeString(f.key)}</Text>
+        </Cell>,
+      )
+    }
   }
 
   const nField: BasedSchemaFieldArray = {

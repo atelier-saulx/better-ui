@@ -83,3 +83,10 @@ export type Path = (string | number)[]
 export type TableProps = { ctx: TableCtx; path: Path }
 
 export type Variant = 'regular' | 'small' | 'bare' | 'no-confirm'
+
+export type TableSort = {
+  exclude?: Set<string>
+  include?: Set<string>
+  sorted?: { key: string; dir: 'asc' | 'desc' }
+  onSort: (key: string, dir: 'asc' | 'desc') => void
+}
