@@ -1,19 +1,19 @@
 :root {
   /* content colors */
-  --content-primary: #1b242c;
+  /* --content-primary: #1b242c;
   --content-inverted: #ffffff;
   --content-secondary: #7e8b99;
-  --content-inverted-muted: #91aecb;
+  --content-inverted-muted: #91aecb; */
 
   /* background colors */
-  --background-neutral: #002b5e0d;
+  /* --background-neutral: #002b5e0d;
   --background-dimmer: #2e2e2e33;
   --background-screen: #ffffff;
   --background-muted: rgba(31, 82, 158, 0.02);
-  --background-inverted: #171e24;
+  --background-inverted: #171e24; */
 
   /* interactive colors */
-  --interactive-primary: #634eca;
+  /* --interactive-primary: #634eca;
   --interactive-primary-hover: #4e38bc;
   --interactive-primary-muted: color-mix(
     in srgb,
@@ -21,7 +21,7 @@
     transparent
   );
   --interactive-secondary: #04294421;
-  --interactive-secondary-hover: #10305433;
+  --interactive-secondary-hover: #10305433; */
 
   /* radiuses */
   --radius-tiny: 4px;

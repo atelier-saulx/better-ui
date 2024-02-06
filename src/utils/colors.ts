@@ -1,18 +1,5 @@
 import { hash } from '@saulx/hash'
 
-// export type SemanticVariant =
-//   | 'neutral'
-//   | 'informative'
-//   | 'positive'
-//   | 'warning'
-//   | 'error'
-//   | 'auto-muted'
-//   | 'neutral-muted'
-//   | 'informative-muted'
-//   | 'positive-muted'
-//   | 'warning-muted'
-//   | 'error-muted'
-
 export type Color = {
   content: 'primary' | 'inverted' | 'secondary' | 'inverted-muted'
   background: 'neutral' | 'muted' | 'dimmer' | 'screen' | 'inverted'
@@ -194,7 +181,7 @@ export const INTERACTIVE_COLORS = {
   'primary-hover': '#4e38bc',
   'primary-muted': `color-mix(
       in srgb,
-      var(--interactive-primary) 10%,
+      #634eca 10%,
       transparent
     )`,
   secondary: '#04294421',
