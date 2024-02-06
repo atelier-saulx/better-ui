@@ -74,28 +74,36 @@ export const FieldEditAndDelete = ({
 
                   nestedPath.push(itemName)
 
+                  let nestedPathArr = nestedPath[0].split('.')
+
                   const currentFields = schema.types[typeTitle].fields
                   const fields = {}
 
                   let from = currentFields
                   let dest = fields
                   let i = 0
-                  const l = nestedPath.length
+                  const l = nestedPathArr.length
 
                   while (i < l) {
-                    const key = nestedPath[i++]
-
+                    const key = nestedPathArr[i++]
                     dest[key] = { ...from[key] }
+
                     dest = dest[key]
+                    // add delete for the nested fields
+                    if (
+                      dest.hasOwnProperty('properties') &&
+                      itemName === nestedPathArr[nestedPathArr.length - 1]
+                    ) {
+                      for (const x in dest['properties']) {
+                        dest['properties'][x].$delete = true
+                      }
+                    }
+
                     from = from[key]
                   }
 
                   // @ts-ignore
                   dest.$delete = true
-
-                  console.log('DELETE THIS', fields)
-
-                  // for all nested fields delete those too
 
                   // update schema 🐠
                   schema.types[typeTitle].fields = {
@@ -107,16 +115,6 @@ export const FieldEditAndDelete = ({
 
                   setSchema({ ...schema })
 
-                  // await client.call('db:set-schema', {
-                  //   mutate: true,
-                  //   schema: {
-                  //     types: {
-                  //       [typeTitle]: {
-                  //         fields,
-                  //       },
-                  //     },
-                  //   },
-                  // })
                   close('close it')
                 }}
               >
