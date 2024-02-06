@@ -56,8 +56,10 @@ export const AddField = ({
 
   // const client = useClient()
 
-  const { data } = useQuery('db:schema')
-  const { types, rootType } = data
+  console.log('🚙', fieldType, typeTitle, editItem, path, itemName)
+
+  // const { data } = useQuery('db:schema')
+  // const { types, rootType } = data
 
   React.useEffect(() => {
     console.log('did something changed in the meta:', meta)
@@ -73,8 +75,7 @@ export const AddField = ({
         let field = fieldName
         fieldType = fieldType.toLowerCase()
 
-        const currentFields =
-          type === 'root' ? rootType.fields : types[type].fields
+        const currentFields = schema.types[type].fields
 
         /// 3 OPTIONS ,
         //// 1. SETTING A FIELD,
@@ -152,11 +153,6 @@ export const AddField = ({
         console.log(fields, 'NEW FIELDS?? 🦞', schema)
 
         // update schema 🐠
-        // schema.types[type].fields = {
-        //   ...schema.types[type].fields,
-        //   ...fields,
-        // }
-
         schema.types[type].fields = {
           ...schema.types[type].fields,
           ...fields,
