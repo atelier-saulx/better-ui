@@ -3,16 +3,17 @@ import { hash } from '@saulx/hash'
 import { styled, Style } from 'inlines'
 import {
   IconCheckLarge,
-  MUTED_SEMANTIC_COLORS,
+  SemanticBackgroundColors,
   SEMANTIC_COLORS,
-  SemanticVariant,
+  SemanticColors,
   borderRadius,
   color as getColor,
+  hashSemanticColor,
 } from '../../index.js'
 
 export type BadgeProps = {
   children: React.ReactNode
-  color?: SemanticVariant | 'auto' | 'auto-muted'
+  color?: SemanticColors | 'auto' | 'auto-muted'
   size?: 'regular' | 'small'
   copyValue?: string
   prefix?: React.ReactNode
@@ -24,7 +25,7 @@ export type BadgeProps = {
 export function Badge({
   children,
   copyValue,
-  color: colorProp = 'informative',
+  color = 'informative',
   size = 'regular',
   prefix,
   noCheckedIcon,
@@ -33,16 +34,16 @@ export function Badge({
 }: BadgeProps) {
   const [showCheck, setShowCheck] = React.useState(false)
 
-  const color = React.useMemo(() => {
-    if (colorProp === 'auto' || colorProp === 'auto-muted') {
-      const colors =
-        colorProp === 'auto' ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS
-      const index =
-        Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) + 1
-      return colors[index]
-    }
-    return colorProp
-  }, [colorProp, children])
+  // const color = React.useMemo(() => {
+  //   if (colorProp === 'auto' || colorProp === 'auto-muted') {
+  //     const colors =
+  //       colorProp === 'auto' ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS
+  //     const index =
+  //       Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) + 1
+  //     return colors[index]
+  //   }
+  //   return colorProp
+  // }, [colorProp, children])
 
   if (showCheck && !noCheckedIcon) {
     const icon = <IconCheckLarge size={size === 'regular' ? 16 : 12} />
@@ -75,8 +76,18 @@ export function Badge({
         padding: '0 8px',
         borderRadius: borderRadius('large'),
         fontWeight: 500,
-        color: getColor('semantic-color', color),
-        background: getColor('semantic-background', color),
+        color:
+          color === 'auto'
+            ? hashSemanticColor((children as string) || 'xx', true)
+            : color === 'auto-muted'
+              ? hashSemanticColor((children as string) || 'xx', false)
+              : getColor('semantic-color', color),
+        background:
+          color === 'auto'
+            ? hashSemanticColor((children as string) || '', false)
+            : color === 'auto-muted'
+              ? hashSemanticColor((children as string) || '', true)
+              : getColor('semantic-background', color),
         ...(size === 'regular' && {
           fontSize: '14px',
           lineHeight: '24px',

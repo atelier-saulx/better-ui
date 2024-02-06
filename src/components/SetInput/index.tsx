@@ -41,8 +41,6 @@ export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
 
     const marginTop = variant === 'small' ? 12 : 0
 
-    console.log(state)
-
     return (
       <Stack
         direction="column"
