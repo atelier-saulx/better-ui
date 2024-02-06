@@ -28,10 +28,10 @@ export const genObjectSchemaFromSchema = (
       }
     }
 
-    for (const key in objectSchema.properties) {
-      const props = objectSchema.properties[key]
-      // console.info('-', props)
-    }
+    // for (const key in objectSchema.properties) {
+    //   const props = objectSchema.properties[key]
+    //   // console.info('-', props)
+    // }
 
     // console.log(objectSchema)
 
