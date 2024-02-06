@@ -8,6 +8,7 @@ import humanizeString from 'humanize-string'
 import { References } from './index.js'
 import {
   BasedSchemaFieldArray,
+  BasedSchemaFieldObject,
   BasedSchemaFieldReferences,
 } from '@based/schema'
 import { ObjectCollsRows } from '../Table/Arrays/ObjectCollumnRows.js'
@@ -17,6 +18,16 @@ import {
   genObjectSchema,
   genObjectSchemaFromSchema,
 } from './genObjectSchema.js'
+
+const useTags = (fieldSchema: BasedSchemaFieldObject): boolean => {
+  const size = Object.keys(fieldSchema.properties).length
+  return (
+    size < 3 ||
+    (size === 3 &&
+      'id' in fieldSchema.properties &&
+      'src' in fieldSchema.properties)
+  )
+}
 
 export const ReferencesTable = ({
   valueRef,
@@ -46,16 +57,10 @@ export const ReferencesTable = ({
   const fieldSchema = ctx.schema
     ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
     : genObjectSchema(valueRef.value)
-  const size = Object.keys(fieldSchema.properties).length
+
   const [colFields, setColumns] = useColumns()
 
-  // only do this if not from externals
-  if (
-    size < 3 ||
-    (size === 3 &&
-      'id' in fieldSchema.properties &&
-      'src' in fieldSchema.properties)
-  ) {
+  if (!alwaysUseCols || useTags(fieldSchema)) {
     return (
       <>
         <styled.div style={{ marginTop: -24 }} />
@@ -110,6 +115,7 @@ export const ReferencesTable = ({
     />
   )
 
+  // OPTION: can add onScroll automaticly in the form if larger > 10 items for example
   if (onScroll) {
     objectCols = (
       <ScrollArea
@@ -120,6 +126,7 @@ export const ReferencesTable = ({
           position: 'relative',
         }}
       >
+        {/* pretty nasty hack... */}
         <styled.div
           style={{
             position: 'absolute',
