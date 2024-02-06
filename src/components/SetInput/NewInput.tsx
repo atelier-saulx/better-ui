@@ -1,6 +1,5 @@
 import React from 'react'
 import { NumberInput, TextInput } from '../../index.js'
-import { BasedSchemaFieldSet } from '@based/schema'
 
 export const NewInput = ({
   onChange,

@@ -12,30 +12,18 @@ export const Default: StoryObj<typeof SetInput> = {
   args: {
     fieldItemType: 'number',
     title: 'Set Numbers',
-    type: 'set',
+    // type: 'set',
     description: 'A set with numbers',
     value: [1, 2, 3, 6, 9],
     disabled: false,
-    // placeholder: 'Select something',
-    // label: 'Favourite fruit',
-    // description: 'What is your favourite?',
-    // disabled: false,
-    // options: [
-    //   {
-    //     label: 'Orange',
-    //     value: 'orange',
-    //     prefix: '🍊',
-    //   },
-    //   {
-    //     label: 'Banana',
-    //     value: 'banana',
-    //     prefix: '🍌',
-    //   },
-    //   ...Array.from({ length: 100 }).map((_, i) => ({
-    //     label: `Apple ${i}`,
-    //     value: `apple-${i}`,
-    //     prefix: '🍎',
-    //   })),
-    // ],
+  },
+}
+
+export const Strings: StoryObj<typeof SetInput> = {
+  args: {
+    title: 'Set of strings',
+    description: 'A set with strings',
+    value: ['flurp', 'snurp', 'derp'],
+    onChange: (v) => console.log('onchange log: ', v),
   },
 }
