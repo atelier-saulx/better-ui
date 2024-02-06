@@ -62,7 +62,7 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
   render(
     <styled.div
       style={{
-        width: 200,
+        // width: 200,
         transform: `translate(-10px,0px)`,
       }}
     >
@@ -74,7 +74,7 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
           height: 48,
           paddingLeft: 16,
           overflow: 'hidden',
-          width: 250,
+          // width: 250,
           paddingRight: 16,
           borderRadius: borderRadius('small'),
         }}
