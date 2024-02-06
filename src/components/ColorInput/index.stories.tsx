@@ -29,3 +29,7 @@ export const Error = () => {
 export const Disabled = () => {
   return <ColorInput disabled />
 }
+
+export const Undefined = () => {
+  return <ColorInput value={undefined} />
+}

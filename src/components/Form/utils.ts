@@ -19,8 +19,6 @@ const IDENTIFIER_FIELDS = [
 ]
 
 export const readInfoField = (obj: any, field: BasedSchemaField): string => {
-  console.log(obj, field)
-
   if (typeof obj === 'object') {
     const str = getIdentifierFieldValue(obj)
     if (str) {

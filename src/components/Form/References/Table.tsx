@@ -47,6 +47,7 @@ export const ReferencesTable = ({
   const size = Object.keys(fieldSchema.properties).length
   const [colFields, setColumns] = useColumns()
 
+  // only do this if not from externals
   if (
     size < 3 ||
     (size === 3 &&
@@ -63,7 +64,6 @@ export const ReferencesTable = ({
 
   const cols: React.ReactNode[] = [,]
 
-  // add this 28 to corractable?
   if (field.sortable) {
     cols.unshift(
       <styled.div style={{ minWidth: 28, maxWidth: 28 }} key="_dicon" />,
@@ -71,6 +71,7 @@ export const ReferencesTable = ({
   }
 
   for (const f of colFields) {
+    // sortable by field
     cols.push(
       <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
         <Text singleLine>{humanizeString(f.key)}</Text>
@@ -99,6 +100,7 @@ export const ReferencesTable = ({
       setColumns={setColumns}
       alwaysUseCols={alwaysUseCols}
     >
+      {/* add menu as option in header */}
       <ColStack header noRemove={!onRemove}>
         {cols}
       </ColStack>
@@ -112,7 +114,9 @@ export const ReferencesTable = ({
         path={path}
         colFields={colFields}
         field={nField}
+        // scroll bar here
       />
+      {/* if scrollable add this on top */}
       {onNew ? (
         <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
           <Button
