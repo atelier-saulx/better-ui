@@ -226,6 +226,7 @@ export const AddField = ({
           setMeta={setMeta}
           setItems={setItems}
           items={items}
+          schemaTypes={Object.keys(schema.types)}
         />
       )}
     </Modal>

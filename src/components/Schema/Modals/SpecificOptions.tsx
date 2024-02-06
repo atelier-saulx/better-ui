@@ -24,6 +24,7 @@ type SpecificOptionsProps = {
   setItems: ({}) => void
   items?: any
   meta?: any
+  schemaTypes?: string[]
 }
 
 export const SpecificOptions = ({
@@ -32,8 +33,8 @@ export const SpecificOptions = ({
   setMeta,
   setItems,
   items,
+  schemaTypes,
 }: SpecificOptionsProps) => {
-  console.log('What is itemsS?', items)
   const [showFromField, setShowFromField] = React.useState(false)
 
   return (
@@ -205,24 +206,10 @@ export const SpecificOptions = ({
           <SetInput
             label="Allowed types"
             value={meta?.allowedTypes}
+            options={schemaTypes}
             onChange={(v) => setMeta({ field: 'allowedTypes', value: v })}
           />
 
-          {/* <SelectInput
-            style={{ width: '100%' }}
-            label="Allowed types"
-            value={meta?.allowedTypes}
-            options={[
-              { value: 'string', label: 'string []' },
-              {
-                value: '{type?: string: $filter: any | any[]}',
-                label: '{type?: string: $filter: any | any[]}',
-              },
-            ]}
-            onChange={(v) => {
-              setMeta({ field: 'allowedTypes', value: v })
-            }}
-          /> */}
           {fieldType === 'references' && (
             <CheckboxInput
               value={meta?.sortable}

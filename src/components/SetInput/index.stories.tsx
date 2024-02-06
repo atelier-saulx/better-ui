@@ -31,7 +31,6 @@ export const Options: StoryObj<typeof SetInput> = {
   args: {
     label: 'Options',
     description: 'Set with predefined options',
-    //   value: ['flurp', 'snurp', 'derp'],
     options: ['cars', 'drinks', 'animals', 'shoes', 'bags'],
     onChange: (v) => console.log('onchange log: ', v),
   },
