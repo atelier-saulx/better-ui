@@ -93,15 +93,32 @@ export const border = (
   variant: 'default' | 'hover' | 'muted' | 'focus' | 'error' = 'default',
   size: number = 1,
 ) => {
-  return `${size}px solid var(--border-${variant})`
+  return `${size}px solid ${BORDER_COLORS[variant]}`
 }
 
 export const borderRadius = (
   radius: 'tiny' | 'small' | 'medium' | 'large' | 'full',
-) => `var(--radius-${radius})`
+) =>
+  radius === 'tiny'
+    ? '4px'
+    : radius === 'small'
+      ? '8px'
+      : radius === 'medium'
+        ? '10px'
+        : radius === 'large'
+          ? '24px'
+          : radius === 'full'
+            ? '9999px'
+            : '0px'
 
 export const boxShadow = (variant: 'focus' | 'error') =>
-  `var(--box-shadow-${variant})`
+  variant === 'focus'
+    ? `0 0 0 2px
+  color-mix(in srgb, #634eca 20%, transparent);`
+    : variant === 'error'
+      ? `0 0 0 2px
+  color-mix(in srgb, #c53434 20%, transparent)`
+      : null
 
 // hash non semantic
 export function hashNonSemanticColor(
@@ -174,6 +191,14 @@ export const BACKGROUND_COLORS = {
   screen: ' #ffffff',
   muted: 'rgba(31, 82, 158, 0.02)',
   inverted: ' #171e24',
+}
+
+export const BORDER_COLORS = {
+  muted: ' rgba(16, 40, 72, 0.09)',
+  default: ' rgba(15, 16, 19, 0.08)',
+  hover: '#10305433',
+  focus: '#634eca',
+  error: '#c53434',
 }
 
 export const INTERACTIVE_COLORS = {
