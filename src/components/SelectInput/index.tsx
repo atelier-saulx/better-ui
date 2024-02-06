@@ -218,7 +218,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               maxHeight: 'var(--radix-select-content-available-height)',
               borderRadius: borderRadius('small'),
               border: border(),
-              boxShadow: 'var(--shadow-elevation)',
+              boxShadow: boxShadow('elevation'),
             }}
             sideOffset={8}
           >

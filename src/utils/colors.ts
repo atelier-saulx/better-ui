@@ -111,14 +111,17 @@ export const borderRadius = (
             ? '9999px'
             : '0px'
 
-export const boxShadow = (variant: 'focus' | 'error') =>
+export const boxShadow = (variant: 'focus' | 'error' | 'elevation') =>
   variant === 'focus'
     ? `0 0 0 2px
   color-mix(in srgb, #634eca 20%, transparent);`
     : variant === 'error'
       ? `0 0 0 2px
   color-mix(in srgb, #c53434 20%, transparent)`
-      : null
+      : variant === 'elevation'
+        ? `0px 2px 8px -1px rgba(27, 36, 44, 0.08),
+      0px 2px 2px -1px rgba(27, 36, 44, 0.04)`
+        : null
 
 // hash non semantic
 export function hashNonSemanticColor(

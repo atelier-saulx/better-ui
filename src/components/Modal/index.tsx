@@ -12,6 +12,7 @@ import {
   IconAlertFill,
   ButtonProps,
   ScrollArea,
+  boxShadow,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -112,7 +113,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             borderRadius: borderRadius('small'),
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: 'var(--shadow-elevation)',
+            boxShadow: boxShadow('elevation'),
             outline: 'none',
             ...style,
           }}

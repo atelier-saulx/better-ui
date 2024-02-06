@@ -262,7 +262,7 @@ export function DateInput({
             padding: '16px 16px 0px',
             border: border(),
             background: color('background', 'screen'),
-            boxShadow: 'var(--shadow-elevation)',
+            boxShadow: boxShadow('elevation'),
             borderRadius: borderRadius('small'),
             overflowY: 'auto',
           }}
