@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { Button, Text, IconPlus } from '../../../index.js'
+import { Button, Text, IconPlus, ScrollArea } from '../../../index.js'
 import { Path, TableCtx, Reference } from '../types.js'
 import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
@@ -22,6 +22,7 @@ export const ReferencesTable = ({
   valueRef,
   onNew,
   ctx,
+  onScroll,
   path,
   onRemove,
   field,
@@ -29,6 +30,7 @@ export const ReferencesTable = ({
   changeIndex,
   alwaysUseCols,
 }: {
+  onScroll?: () => void
   field: BasedSchemaFieldReferences
   valueRef: ValueRef
   onNew?: () => Promise<any>
@@ -93,29 +95,63 @@ export const ReferencesTable = ({
     },
   }
 
+  let objectCols = (
+    <ObjectCollsRows
+      onClickRow={(v: any) => onClickReference(v)}
+      draggable={field.sortable}
+      value={valueRef}
+      ctx={newCtx}
+      changeIndex={changeIndex}
+      removeItem={onRemove}
+      path={path}
+      colFields={colFields}
+      field={nField}
+      // scroll bar here
+    />
+  )
+
+  if (onScroll) {
+    objectCols = (
+      <ScrollArea
+        style={{
+          flexGrow: 0,
+          maxHeight: '100%',
+          width: '100%',
+          position: 'relative',
+        }}
+      >
+        <styled.div
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+          }}
+        >
+          {objectCols}
+        </styled.div>
+      </ScrollArea>
+    )
+  }
+
   return (
     <SizedStack
       field={fieldSchema}
       readOnly={readOnly}
       setColumns={setColumns}
       alwaysUseCols={alwaysUseCols}
+      style={{
+        height: onScroll ? '100%' : 'auto',
+      }}
     >
       {/* add menu as option in header */}
       <ColStack header noRemove={!onRemove}>
         {cols}
       </ColStack>
-      <ObjectCollsRows
-        onClickRow={(v: any) => onClickReference(v)}
-        draggable={field.sortable}
-        value={valueRef}
-        ctx={newCtx}
-        changeIndex={changeIndex}
-        removeItem={onRemove}
-        path={path}
-        colFields={colFields}
-        field={nField}
-        // scroll bar here
-      />
+
+      {objectCols}
+
       {/* if scrollable add this on top */}
       {onNew ? (
         <styled.div style={{ marginTop: 8, marginBottom: 8 }}>

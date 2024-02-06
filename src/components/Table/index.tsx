@@ -18,6 +18,7 @@ export const Table = (p: {
   sortable?: boolean
   onChange?: FormProps['onChange']
   onClick?: (data: any, index: number | string) => void
+  onScroll?: () => void
 }) => {
   const path = ['field']
 
@@ -104,14 +105,13 @@ export const Table = (p: {
     })
   }, [])
 
-  // add on top
-
   return (
     <ReferencesTable
       field={field}
       onClickReference={clickRef}
       ctx={ctx}
       path={path}
+      onScroll={p.onScroll} // add new as option will go on top if onScroll
       valueRef={valueRef.current}
       changeIndex={changeIndex}
       alwaysUseCols
