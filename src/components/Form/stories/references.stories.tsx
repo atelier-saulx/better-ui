@@ -70,12 +70,12 @@ const getRandomRef = () => {
 
 export const References = () => {
   const { open } = Modal.useModal()
-
   return (
     <Form
       values={{
         refTags: faces,
         people: facesNames,
+        nonSortablePeople: facesNames.slice(0, 5),
         peopleLess: facesLess,
         refs: [
           'x211212',
@@ -123,6 +123,10 @@ export const References = () => {
         people: {
           sortable: true,
           title: 'People time',
+          type: 'references',
+        },
+        nonSortablePeople: {
+          title: 'People time (no drag)',
           type: 'references',
         },
         ref: {

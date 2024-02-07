@@ -87,6 +87,15 @@ export const Form = (p: FormProps) => {
 
   const [currentChecksum, setChecksum] = React.useState(p.checksum)
 
+  const ctxRef = useRef<TableCtx>({
+    variant: p.variant,
+    fields: p.fields,
+    values: valueRef.current.values,
+    listeners: useListeners(valueRef, setChecksum, update),
+    schema: p.schema,
+    editableReferences: p.editableReferences,
+  })
+
   const onConfirm = React.useCallback(async () => {
     try {
       const hash = hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
@@ -95,7 +104,7 @@ export const Form = (p: FormProps) => {
         valueRef.current.changes,
         hash,
         createBasedObject(
-          ctx,
+          ctxRef.current,
           valueRef.current.values,
           valueRef.current.changes,
         ),
@@ -160,17 +169,11 @@ export const Form = (p: FormProps) => {
     }
   }, [p.checksum, p.values])
 
-  // Memoize this
-  const listeners = useListeners(valueRef, setChecksum, update)
-
-  const ctx: TableCtx = {
-    variant: p.variant,
-    fields: p.fields,
-    values: valueRef.current.values,
-    listeners,
-    schema: p.schema,
-    editableReferences: p.editableReferences,
-  }
+  // so we can make a copy
+  ctxRef.current.variant = p.variant
+  ctxRef.current.values = valueRef.current.values
+  ctxRef.current.schema = p.schema
+  ctxRef.current.editableReferences = p.editableReferences
 
   return (
     <>
@@ -196,7 +199,7 @@ export const Form = (p: FormProps) => {
           .map(([key, field], i) => {
             return (
               <Field
-                ctx={ctx}
+                ctx={ctxRef.current}
                 key={key}
                 field={field}
                 propKey={key}

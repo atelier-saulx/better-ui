@@ -72,7 +72,6 @@ export type TableCtx = {
   variant: Variant
   schema?: BasedSchemaPartial
   listeners: Listeners
-  // path like x.y.z
   fieldOverrides?: { [path: string]: BasedSchemaField }
   readOnly?: boolean
   editableReferences?: boolean
@@ -88,5 +87,5 @@ export type TableSort = {
   exclude?: Set<string>
   include?: Set<string>
   sorted?: { key: string; dir: 'asc' | 'desc' }
-  onSort: (key: string, dir: 'asc' | 'desc') => void
+  onSort: (key: string, dir: 'asc' | 'desc', sort: TableSort) => void
 }

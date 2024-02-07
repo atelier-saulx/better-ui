@@ -21,43 +21,12 @@ export function References({
   const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
   const update = useUpdate()
 
-  const valueRef = React.useRef<
-    ValueRef & { sort?: TableSort; checksum?: number }
-  >({
+  const valueRef = React.useRef<ValueRef>({
     orderId: 0,
     value,
-    sort: {
-      exclude: new Set(['id', 'src']),
-      onSort: (key, dir) => {
-        if (!valueRef.current.checksum) {
-          valueRef.current.checksum = hashObjectIgnoreKeyOrder(
-            valueRef.current.value,
-          )
-          valueRef.current.value = [...valueRef.current.value]
-        }
-        valueRef.current.sort.sorted = { key, dir }
-        valueRef.current.value.sort((a, b) => {
-          return (
-            (a[key] > b[key] ? -1 : a[key] === b[key] ? 0 : 1) *
-            (dir === 'asc' ? -1 : 1)
-          )
-        })
-        update()
-      },
-    },
   })
 
-  // for sorting read only lists
-  if (valueRef.current.checksum) {
-    if (
-      hashObjectIgnoreKeyOrder(valueRef.current.value) !==
-      valueRef.current.checksum
-    ) {
-      valueRef.current.value = [...value]
-    }
-  } else {
-    valueRef.current.value = value
-  }
+  valueRef.current.value = value
 
   const addNew = React.useCallback(async () => {
     const result = await ctx.listeners.onSelectReferences({
@@ -105,11 +74,6 @@ export function References({
   if (variant === 'large') {
     return (
       <ReferencesTable
-        sortByFields={
-          !(ctx.editableReferences || field.sortable)
-            ? valueRef.current.sort
-            : undefined
-        }
         field={field}
         onClickReference={clickRef}
         ctx={ctx}

@@ -105,14 +105,17 @@ export const ReferencesTable = ({
             <IconArrowDown />
           )
       }
-
       cols.push(
         <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
           <Button
             variant="icon-only"
             prefix={prefix}
             onClick={() => {
-              sortByFields.onSort(f.key, dir === 'desc' ? 'asc' : 'desc')
+              sortByFields.onSort(
+                f.key,
+                dir === 'desc' ? 'asc' : 'desc',
+                sortByFields,
+              )
             }}
           >
             <Text singleLine>{humanizeString(f.key)}</Text>

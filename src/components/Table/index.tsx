@@ -4,11 +4,12 @@ import {
   BasedSchemaFieldReferences,
   BasedSchemaPartial,
 } from '@based/schema'
-import { TableCtx } from '../Form/types.js'
+import { TableCtx, TableSort } from '../Form/types.js'
 import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
 import { FormProps } from '../Form/index.js'
+import { useUpdate } from '../../index.js'
 
 export const Table = (p: {
   schema?: BasedSchemaPartial
@@ -16,10 +17,13 @@ export const Table = (p: {
   field?: BasedSchemaFieldObject
   values?: any[]
   sortable?: boolean
+  sort?: TableSort | true
   onChange?: FormProps['onChange']
   onClick?: (data: any, index: number | string) => void
   onScroll?: () => void
 }) => {
+  const update = useUpdate()
+
   const path = ['field']
 
   const ctx: TableCtx = {
@@ -105,8 +109,27 @@ export const Table = (p: {
     })
   }, [])
 
+  const sortRef = React.useRef<TableSort>(
+    p.sort === true
+      ? {
+          exclude: new Set(['id', 'src']),
+          onSort: (key, dir, sort) => {
+            sort.sorted = { key, dir }
+            valueRef.current.value.sort((a, b) => {
+              return (
+                (a[key] > b[key] ? -1 : a[key] === b[key] ? 0 : 1) *
+                (dir === 'asc' ? -1 : 1)
+              )
+            })
+            update()
+          },
+        }
+      : p.sort,
+  )
+
   return (
     <ReferencesTable
+      sortByFields={sortRef.current}
       field={field}
       onClickReference={clickRef}
       ctx={ctx}

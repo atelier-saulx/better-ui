@@ -1,16 +1,6 @@
 import * as React from 'react'
-import {
-  Modal,
-  Button,
-  Table,
-  useInfiniteQuery,
-  IconCopy,
-  IconDelete,
-  IconMoreVertical,
-  Dropdown,
-} from '../../index.js'
+import { Table, useUpdate } from '../../index.js'
 import { faker } from '@faker-js/faker'
-import { Provider } from '@based/react'
 import based from '@based/client'
 
 const client = based({
@@ -58,7 +48,36 @@ export const Default = () => {
         height: 500,
       }}
     >
-      <Table values={data} onScroll={() => {}} />
+      <Table values={data} onScroll={() => {}} sort />
+    </div>
+  )
+}
+
+export const CustomSort = () => {
+  const update = useUpdate()
+  return (
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table
+        values={data}
+        onScroll={() => {}}
+        sort={{
+          include: new Set(['id']),
+          onSort: (key, dir, sort) => {
+            sort.sorted = { key, dir }
+            data.sort((a, b) => {
+              return (
+                (a[key] > b[key] ? -1 : a[key] === b[key] ? 0 : 1) *
+                (dir === 'asc' ? -1 : 1)
+              )
+            })
+            update()
+          },
+        }}
+      />
     </div>
   )
 }
