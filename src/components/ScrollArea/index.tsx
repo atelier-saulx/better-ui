@@ -9,6 +9,7 @@ export type ScrollAreaProps = {
   variant?: 'primary' | 'neutral' | 'informative' | 'warning' | 'error'
   display?: 'hover' | 'always'
   shape?: 'square' | 'round'
+  onScroll?: React.UIEventHandler<HTMLDivElement>
 }
 
 const StyledThumb = styled(RxScrollArea.Thumb, {
@@ -35,76 +36,84 @@ const StyledScrollbar = styled(RxScrollArea.Scrollbar, {
   },
 })
 
-export const ScrollArea = ({
-  children,
-  variant = 'primary',
-  display = 'hover',
-  shape,
-  style,
-}: ScrollAreaProps) => {
-  const THUMB_COLOR =
-    variant === 'neutral'
-      ? getColor('background', 'inverted')
-      : variant === 'informative'
-        ? getColor('semantic-background', 'informative')
-        : variant === 'warning'
-          ? getColor('semantic-background', 'warning')
-          : variant === 'error'
-            ? getColor('semantic-background', 'error')
-            : 'var(--border-default)'
+export const ScrollArea = React.forwardRef(
+  (
+    {
+      children,
+      variant = 'primary',
+      display = 'hover',
+      shape,
+      style,
+      onScroll,
+    }: ScrollAreaProps,
+    ref,
+  ) => {
+    const THUMB_COLOR =
+      variant === 'neutral'
+        ? getColor('background', 'inverted')
+        : variant === 'informative'
+          ? getColor('semantic-background', 'informative')
+          : variant === 'warning'
+            ? getColor('semantic-background', 'warning')
+            : variant === 'error'
+              ? getColor('semantic-background', 'error')
+              : 'var(--border-default)'
 
-  return (
-    <RxScrollArea.Root
-      type={display}
-      style={{
-        width: '100%',
-        height: '100%',
-        maxHeight: '100%',
-      }}
-    >
-      <styled.div
+    return (
+      <RxScrollArea.Root
+        type={display}
         style={{
           width: '100%',
           height: '100%',
           maxHeight: '100%',
-          '& > div > div': {
-            minHeight: '100%',
-            height: '100%',
-          },
         }}
       >
-        <RxScrollArea.Viewport
+        <styled.div
+          ref={ref}
           style={{
             width: '100%',
             height: '100%',
             maxHeight: '100%',
-            borderRadius: 'inherit',
-            ...style,
+            '& > div > div': {
+              minHeight: '100%',
+              height: '100%',
+            },
           }}
         >
-          {children}
-        </RxScrollArea.Viewport>
-      </styled.div>
-      <StyledScrollbar orientation="vertical" style={{ width: 10 }}>
-        <StyledThumb
-          style={{
-            borderRadius: shape === 'square' ? 0 : 5,
-            background: THUMB_COLOR,
-          }}
-        />
-      </StyledScrollbar>
-      <StyledScrollbar
-        orientation="horizontal"
-        style={{ flexDirection: 'column', height: 10 }}
-      >
-        <StyledThumb
-          style={{
-            borderRadius: shape === 'square' ? 0 : 5,
-            background: THUMB_COLOR,
-          }}
-        />
-      </StyledScrollbar>
-      <RxScrollArea.Corner />
-    </RxScrollArea.Root>
-  )
-}
+          <RxScrollArea.Viewport
+            style={{
+              width: '100%',
+              height: '100%',
+              maxHeight: '100%',
+              borderRadius: 'inherit',
+              ...style,
+            }}
+            onScroll={onScroll}
+          >
+            {children}
+          </RxScrollArea.Viewport>
+        </styled.div>
+        <StyledScrollbar orientation="vertical" style={{ width: 10 }}>
+          <StyledThumb
+            style={{
+              borderRadius: shape === 'square' ? 0 : 5,
+              background: THUMB_COLOR,
+            }}
+          />
+        </StyledScrollbar>
+        <StyledScrollbar
+          orientation="horizontal"
+          style={{ flexDirection: 'column', height: 10 }}
+        >
+          <StyledThumb
+            style={{
+              borderRadius: shape === 'square' ? 0 : 5,
+              background: THUMB_COLOR,
+            }}
+          />
+        </StyledScrollbar>
+        <RxScrollArea.Corner />
+      </RxScrollArea.Root>
+    )
+  },
+)

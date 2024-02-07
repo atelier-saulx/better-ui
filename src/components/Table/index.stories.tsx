@@ -41,6 +41,18 @@ const dataSmall = new Array(10).fill(null).map(() => ({
   createdAt: faker.date.soon().valueOf(),
 }))
 
+const dataLots = new Array(1000).fill(null).map((v, index) => ({
+  nr: index, // check if all are numbers
+  src: faker.image.avatar(),
+  status: faker.lorem.words(1),
+  title: faker.lorem.sentence(3),
+  number: faker.number.int(10),
+  name: faker.person.fullName(),
+  price: faker.commerce.price(),
+  color: faker.color.rgb(),
+  createdAt: faker.date.soon().valueOf(),
+}))
+
 export const Default = () => {
   return (
     <div
@@ -48,14 +60,28 @@ export const Default = () => {
         height: 500,
       }}
     >
-      <Table values={data} onScroll={() => {}} sort />
+      <Table values={data} pagination sort />
     </div>
   )
 }
 
-const dataSorted = [...data].sort((a, b) => {
-  return a.price > b.price ? -1 : a.price === b.price ? 0 : 1
-})
+export const Infinite = () => {
+  return (
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table values={dataLots} pagination />
+    </div>
+  )
+}
+
+const sortByPrice = (a, b) => {
+  return a.price * 1 > b.price * 1 ? -1 : a.price * 1 === b.price * 1 ? 0 : 1
+}
+
+const dataSorted = [...data].sort(sortByPrice)
 
 export const CustomSort = () => {
   const update = useUpdate()
@@ -67,17 +93,14 @@ export const CustomSort = () => {
     >
       <Table
         values={dataSorted}
-        onScroll={() => {}}
+        pagination
         sort={{
           sorted: { key: 'price', dir: 'desc' },
           include: new Set(['price']),
           onSort: (key, dir, sort) => {
             sort.sorted = { key, dir }
             dataSorted.sort((a, b) => {
-              return (
-                (a[key] > b[key] ? -1 : a[key] === b[key] ? 0 : 1) *
-                (dir === 'asc' ? -1 : 1)
-              )
+              return sortByPrice(a, b) * (dir === 'asc' ? -1 : 1)
             })
             update()
           },

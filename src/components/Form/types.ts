@@ -73,6 +73,7 @@ export type TableCtx = {
   schema?: BasedSchemaPartial
   listeners: Listeners
   fieldOverrides?: { [path: string]: BasedSchemaField }
+  valueOverrides?: { [path: string]: any }
   readOnly?: boolean
   editableReferences?: boolean
 }
@@ -88,4 +89,11 @@ export type TableSort = {
   include?: Set<string>
   sorted?: { key: string; dir: 'asc' | 'desc' }
   onSort: (key: string, dir: 'asc' | 'desc', sort: TableSort) => void
+}
+
+export type TablePagination = {
+  type: 'scroll' | 'button'
+  total?: number
+  onScroll?: () => void
+  onPageChange?: (page: number, pageSize: number) => Promise<void>
 }

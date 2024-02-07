@@ -1,5 +1,6 @@
 import { BasedSchemaFieldArray } from '@based/schema'
 import { Path, TableCtx } from '../../types.js'
+import { Style } from 'inlines'
 
 export type RowProps = {
   value: ValueRef

@@ -4,12 +4,17 @@ import {
   Button,
   Text,
   IconPlus,
-  ScrollArea,
   IconArrowDown,
   color,
   IconArrowUp,
 } from '../../../index.js'
-import { Path, TableCtx, Reference, TableSort } from '../types.js'
+import {
+  Path,
+  TableCtx,
+  Reference,
+  TableSort,
+  TablePagination,
+} from '../types.js'
 import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
 import humanizeString from 'humanize-string'
@@ -19,13 +24,13 @@ import {
   BasedSchemaFieldObject,
   BasedSchemaFieldReferences,
 } from '@based/schema'
-import { ObjectCollsRows } from '../Table/Arrays/ObjectCollumnRows.js'
 import { ValueRef } from '../Table/Arrays/types.js'
 import { SizedStack, useColumns } from '../Table/SizedStack.js'
 import {
   genObjectSchema,
   genObjectSchemaFromSchema,
 } from './genObjectSchema.js'
+import { TableBody } from './TableBody.js'
 
 const useTags = (fieldSchema: BasedSchemaFieldObject): boolean => {
   const size = Object.keys(fieldSchema.properties).length
@@ -41,8 +46,8 @@ export const ReferencesTable = ({
   valueRef,
   onNew,
   ctx,
-  onScroll,
   path,
+  pagination,
   onRemove,
   field,
   onClickReference,
@@ -50,8 +55,8 @@ export const ReferencesTable = ({
   alwaysUseCols,
   sortByFields,
 }: {
+  pagination?: TablePagination
   sortByFields?: TableSort
-  onScroll?: () => void
   field: BasedSchemaFieldReferences
   valueRef: ValueRef
   onNew?: () => Promise<any>
@@ -145,48 +150,6 @@ export const ReferencesTable = ({
     },
   }
 
-  let objectCols = (
-    <ObjectCollsRows
-      onClickRow={(v: any) => onClickReference(v)}
-      draggable={field.sortable}
-      value={valueRef}
-      ctx={newCtx}
-      changeIndex={changeIndex}
-      removeItem={onRemove}
-      path={path}
-      colFields={colFields}
-      field={nField}
-      // scroll bar here
-    />
-  )
-
-  // OPTION: can add onScroll automaticly in the form if larger > 10 items for example
-  if (onScroll) {
-    objectCols = (
-      <ScrollArea
-        style={{
-          flexGrow: 0,
-          maxHeight: '100%',
-          width: '100%',
-          position: 'relative',
-        }}
-      >
-        {/* pretty nasty hack... */}
-        <styled.div
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-          }}
-        >
-          {objectCols}
-        </styled.div>
-      </ScrollArea>
-    )
-  }
-
   return (
     <SizedStack
       field={fieldSchema}
@@ -194,17 +157,26 @@ export const ReferencesTable = ({
       setColumns={setColumns}
       alwaysUseCols={alwaysUseCols}
       style={{
-        height: onScroll ? '100%' : 'auto',
+        // auto height
+        height: pagination?.type === 'scroll' ? '100%' : 'auto',
       }}
     >
-      {/* add menu as option in header */}
       <ColStack header noRemove={!onRemove}>
         {cols}
       </ColStack>
-
-      {objectCols}
-
-      {/* if scrollable add this on top */}
+      <TableBody
+        pagination={pagination}
+        onClickReference={onClickReference}
+        field={field}
+        valueRef={valueRef}
+        ctx={newCtx}
+        changeIndex={changeIndex}
+        onRemove={onRemove}
+        path={path}
+        colFields={colFields}
+        nField={nField}
+      />
+      {/* if scrollable add this on top ? */}
       {onNew ? (
         <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
           <Button

@@ -42,7 +42,7 @@ export const genObjectSchemaFromSchema = (
 }
 
 export const genObjectSchema = (value: any[]): BasedSchemaFieldObject => {
-  const hasFields: Set<string> = new Set(['id'])
+  const hasFields: Set<string> = new Set()
 
   for (const v of value) {
     if (typeof v === 'object') {
@@ -85,7 +85,7 @@ export const genObjectSchema = (value: any[]): BasedSchemaFieldObject => {
     } else {
       objectSchema.properties[key] = {
         type: 'string',
-        format: key === 'id' ? 'basedId' : null, //ass some more options here...
+        format: key === 'id' ? 'basedId' : null, // pass some more options here...
         contentMediaType: key === 'src' ? 'image/*' : null,
       }
     }
