@@ -127,10 +127,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ...(variant === 'primary' && {
             color: color('content', 'inverted'),
             background: color('interactive', 'primary'),
-            border: '1px solid var(--interactive-primary)',
+            border: `1px solid ${color('interactive', 'primary')}`,
             '&:hover': {
               background: color('interactive', 'primary-hover'),
-              border: '1px solid var(--interactive-primary-hover)',
+              border: `1px solid ${color('interactive', 'primary-hover')}`,
             },
           }),
           ...(variant === 'primary-transparent' && {
@@ -138,8 +138,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             background: 'transparent',
             border: 'transparent',
             '&:hover': {
-              background:
-                'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+              background: `color-mix(in srgb, ${color('interactive', 'primary')} 20%, transparent)`,
               border: 'transparent',
             },
           }),
@@ -163,20 +162,20 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(variant === 'error' && {
             color: color('content', 'inverted'),
-            background: 'var(--semantic-background-error)',
+            background: color('semantic-background', 'error'),
             border: border('error'),
             '&:hover': {
-              background: 'var(--semantic-background-error-hover)',
-              border: '1px solid var(--semantic-background-error-hover)',
+              background: color('semantic-background', 'error-hover'),
+              border: `1px solid ${color('semantic-background', 'error-hover')}`,
             },
           }),
           ...(variant === 'error-muted' && {
-            color: 'var(--semantic-color-error-muted)',
-            background: 'var(--semantic-background-error-muted)',
+            color: color('semantic-color', 'error-muted'),
+            background: color('semantic-background', 'error-muted'),
             border: 'transparent',
             '&:hover': {
               color: color('content', 'inverted'),
-              background: 'var(--semantic-background-error)',
+              background: color('semantic-background', 'error'),
             },
           }),
           ...(variant === 'primary-link' && {

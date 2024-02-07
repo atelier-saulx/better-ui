@@ -12,6 +12,7 @@ export type Color = {
   'semantic-color': SemanticColors
   'semantic-background': SemanticBackgroundColors
   'non-semantic-color': NonSemanticColor
+  border: 'muted' | 'default' | 'hover' | 'focus' | 'error'
 }
 
 export type NonSemanticColor =
@@ -83,10 +84,9 @@ export const color = <T extends keyof Color>(
     return SEMANTIC_BACKGROUND_COLORS[color as string]
   } else if (group === 'semantic-color') {
     return SEMANTIC_COLORS[color as string]
+  } else if (group === 'border') {
+    return BORDER_COLORS[color as string]
   }
-  // else {
-  //   return `var(--${group}-${color})`
-  // }
 }
 
 export const border = (
@@ -191,7 +191,7 @@ export const CONTENT_COLORS = {
 export const BACKGROUND_COLORS = {
   neutral: '#002b5e0d',
   dimmer: '#2e2e2e33',
-  screen: ' #ffffff',
+  screen: '#ffffff',
   muted: 'rgba(31, 82, 158, 0.02)',
   inverted: ' #171e24',
 }

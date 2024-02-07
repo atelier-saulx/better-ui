@@ -163,9 +163,8 @@ export function DateInput({
             flexDirection: 'column',
             width: '100%',
             '&[data-state="open"] > div': {
-              border: '1px solid var(--interactive-primary) !important',
-              boxShadow:
-                '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
+              border: `1px solid ${color('interactive', 'primary')}  !important`,
+              boxShadow: `0 0 0 2px color-mix(in srgb, ${color('interactive', 'primary')}  20%, transparent) !important`,
             },
             ...(error && {
               '&[data-state="open"] > div': {
@@ -212,7 +211,7 @@ export function DateInput({
                     : border('hover'),
               },
               '&:focus, &:focus:hover': {
-                border: '1px solid var(--interactive-primary)',
+                border: `1px solid ${color('interactive', 'primary')} `,
                 boxShadow: boxShadow('focus'),
               },
               ...(error && {
@@ -340,7 +339,7 @@ export function DateInput({
                       ? color('content', 'primary')
                       : color('content', 'secondary'),
                     ...(isToday(day) && {
-                      border: '1px solid var(--interactive-primary)',
+                      border: `1px solid ${color('interactive', 'primary')}`,
                     }),
                     ...(value &&
                       (typeof value === 'object'
@@ -352,7 +351,7 @@ export function DateInput({
                         color: color('content', 'inverted'),
                         '&:hover': {
                           background: color('interactive', 'primary-hover'),
-                          border: '1px solid var(--interactive-primary-hover)',
+                          border: `1px solid ${color('interactive', 'primary-hover')} `,
                         },
                       }),
                     ...(pendingRangePart &&
@@ -363,7 +362,7 @@ export function DateInput({
                       }) && {
                         background: isSameDay(pendingRangePart, day)
                           ? color('interactive', 'primary')
-                          : 'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+                          : `color-mix(in srgb, ${color('interactive', 'primary')} 20%, transparent)`,
                         ...(isSameDay(pendingRangePart, day) && {
                           color: color('content', 'inverted'),
                         }),
@@ -408,8 +407,7 @@ export function DateInput({
                               bottom: '0',
                               content: "''",
                               display: 'block',
-                              background:
-                                'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+                              background: `color-mix(in srgb, ${color('interactive', 'primary')}  20%, transparent)`,
                               width: '10px',
                               height: 'calc(100% + 2px)',
                               marginTop: '-1px',
@@ -436,11 +434,9 @@ export function DateInput({
                               },
                             }
                           : {
-                              background:
-                                'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+                              background: `color-mix(in srgb, ${color('interactive', 'primary')}  20%, transparent)`,
                               '&:hover': {
-                                background:
-                                  'color-mix(in srgb, var(--interactive-primary) 40%, transparent)',
+                                background: `color-mix(in srgb, ${color('interactive', 'primary')} 40%, transparent)`,
                               },
                             }),
                         borderTopLeftRadius:
@@ -473,8 +469,7 @@ export function DateInput({
                               bottom: '0',
                               content: "''",
                               display: 'block',
-                              background:
-                                'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+                              background: `color-mix(in srgb, ${color('interactive', 'primary')}  20%, transparent)`,
                               width: '10px',
                               height: 'calc(100% + 2px)',
                               marginTop: '-1px',

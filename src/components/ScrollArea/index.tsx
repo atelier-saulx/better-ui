@@ -51,7 +51,7 @@ export const ScrollArea = ({
           ? getColor('semantic-background', 'warning')
           : variant === 'error'
             ? getColor('semantic-background', 'error')
-            : 'var(--border-default)'
+            : getColor('border', 'default')
 
   return (
     <RxScrollArea.Root
