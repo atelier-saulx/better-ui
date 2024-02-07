@@ -35,6 +35,7 @@ import {
   IconFormatAlignRight,
   IconFormatBold,
   IconFormatItalic,
+  IconFormatUnderline,
   IconFormatStrikethrough,
   IconImage,
   IconLink,
@@ -58,12 +59,12 @@ export function ToolbarPlugin() {
   >('body')
   const [isBold, setIsBold] = useState(false)
   const [isItalic, setIsItalic] = useState(false)
+  const [isUnderline, setIsUnderline] = useState(false)
   const [isStrikeThrough, setIsStrikeThrough] = useState(false)
   const [isLink, setIsLink] = useState(false)
 
   const [canUndo, setCanUndo] = useState(false)
   const [canRedo, setCanRedo] = useState(false)
-  const [fontColor, setFontColor] = useState(color('content', 'primary'))
   const [fontSelection, setFontSelection] = useState()
 
   useEffect(() => {
@@ -82,6 +83,7 @@ export function ToolbarPlugin() {
         setIsBold(selection.hasFormat('bold'))
         setIsItalic(selection.hasFormat('italic'))
         setIsStrikeThrough(selection.hasFormat('strikethrough'))
+        setIsUnderline(selection.hasFormat('underline'))
 
         //font color
         $getSelectionStyleValueForProperty(
@@ -304,6 +306,20 @@ export function ToolbarPlugin() {
       />
       <Button
         size="small"
+        variant={isUnderline ? 'primary' : 'neutral-transparent'}
+        prefix={<IconFormatUnderline />}
+        shape="square"
+        onClick={() => {
+          editor.update(() => {
+            const selection = $getSelection()
+            if ($isRangeSelection(selection)) {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
+            }
+          })
+        }}
+      />
+      <Button
+        size="small"
         variant={isStrikeThrough ? 'primary' : 'neutral-transparent'}
         prefix={<IconFormatStrikethrough />}
         shape="square"
@@ -410,6 +426,7 @@ export function ToolbarPlugin() {
           })
         }}
       />
+
       {/* Color this text */}
       <FontColorModal
         mode="font"

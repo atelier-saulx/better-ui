@@ -111,6 +111,7 @@ export function RichTextEditor({
           '& .rte-p': {
             margin: 0,
             marginBottom: 14,
+            fontSize: 15,
             color: color('content', 'primary'),
           },
           '& .rte-bold': {
@@ -118,6 +119,9 @@ export function RichTextEditor({
           },
           '& .rte-italic': {
             fontStyle: 'italic',
+          },
+          '& .rte-underline': {
+            textDecoration: 'underline',
           },
           '& .rte-strikethrough': {
             textDecoration: 'line-through',
