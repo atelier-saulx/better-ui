@@ -36,7 +36,8 @@ export const Placeholder: StoryObj<typeof Thumbnail> = {
     text: 'AB',
     size: 'large',
     shape: 'circle',
-    color: 'auto',
+    // color: 'auto',
+    color: 'aquamarine-soft',
     outline: true,
   },
 }

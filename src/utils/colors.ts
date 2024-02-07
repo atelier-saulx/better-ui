@@ -82,6 +82,8 @@ export const color = <T extends keyof Color>(
     return INTERACTIVE_COLORS[color as string]
   } else if (group === 'semantic-background') {
     return SEMANTIC_BACKGROUND_COLORS[color as string]
+  } else if (group === 'non-semantic-color') {
+    return NON_SEMANTIC_COLOR[color as string]
   } else if (group === 'semantic-color') {
     return SEMANTIC_COLORS[color as string]
   } else if (group === 'border') {

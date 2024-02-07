@@ -35,7 +35,7 @@ export function Thumbnail({
   text,
   size = 'regular',
   shape = 'square',
-  color: colorProp = 'auto',
+  color = 'auto',
   icon,
   onClick,
   count,
@@ -50,26 +50,26 @@ export function Thumbnail({
         justifyContent: 'center',
         alignItems: 'center',
         border:
-          outline && colorProp !== 'auto'
-            ? `1px solid ${getColor('non-semantic-color', colorProp as NonSemanticColor)}`
-            : outline && colorProp === 'auto'
+          outline && color !== 'auto'
+            ? `1px solid ${getColor('non-semantic-color', color as NonSemanticColor)}`
+            : outline && color === 'auto'
               ? `1px solid ${hashNonSemanticColor(text || src, true)}`
               : `0px solid transparent`,
-        color: colorProp.includes('soft')
+        color: color.includes('soft')
           ? getColor(
               'non-semantic-color',
-              colorProp.slice(0, -5) as NonSemanticColor,
+              color.slice(0, -5) as NonSemanticColor,
             )
-          : colorProp === 'auto'
+          : color === 'auto'
             ? getColor('content', 'inverted')
-            : colorProp === 'auto-muted'
+            : color === 'auto-muted'
               ? hashNonSemanticColor(text || src)
               : hashNonSemanticColor(text || src),
 
         background:
-          colorProp !== 'auto' && colorProp !== 'auto-muted'
-            ? getColor('non-semantic-color', colorProp)
-            : colorProp === 'auto'
+          color !== 'auto' && color !== 'auto-muted'
+            ? getColor('non-semantic-color', color)
+            : color === 'auto'
               ? hashNonSemanticColor(text || src)
               : hashNonSemanticColor(text || src, true),
         ...(shape === 'square' && {
