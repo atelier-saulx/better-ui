@@ -73,6 +73,7 @@ export function RichTextEditor({
             display: 'flex',
             flexDirection: 'column',
             color: color('content', 'primary'),
+            lineHeight: '1.33',
             border: border(),
             '&:hover': {
               border: border('hover'),
@@ -94,18 +95,22 @@ export function RichTextEditor({
           },
           '& .rte-h1': {
             margin: 0,
+            marginBottom: 12,
             color: color('content', 'primary'),
           },
           '& .rte-h2': {
             margin: 0,
+            marginBottom: 10,
             color: color('content', 'primary'),
           },
           '& .rte-h3': {
             margin: 0,
+            marginBottom: 8,
             color: color('content', 'primary'),
           },
           '& .rte-p': {
             margin: 0,
+            marginBottom: 14,
             color: color('content', 'primary'),
           },
           '& .rte-bold': {

@@ -2,23 +2,46 @@ import React, { ReactNode, useState } from 'react'
 import { Button, Modal, ColorInput } from '../../../index.js'
 
 export function FontColorModal({
+  mode,
   children,
   onSave,
-  mode = 'add',
 }: {
+  mode?: 'background' | 'font'
   children: ReactNode
-  mode?: 'add' | 'edit'
   onSave: (value) => void
 }) {
+  const [color, setColor] = useState('')
+
   return (
     <Modal.Root>
       <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Overlay>
         {({ close }) => (
           <>
-            <Modal.Title>Change font color</Modal.Title>
+            <Modal.Title>
+              {mode === 'font'
+                ? 'Change the font color'
+                : 'Change the background color'}
+            </Modal.Title>
             <Modal.Body>
-              <ColorInput label="select a color" />
+              <ColorInput
+                label="select a color"
+                value={color}
+                onChange={(v) => setColor(v)}
+                style={{ marginBottom: 12 }}
+              />
+              <Button
+                variant="neutral"
+                onClick={() => {
+                  if (mode === 'font') {
+                    setColor('#1b242c')
+                  } else {
+                    setColor('#fff')
+                  }
+                }}
+              >
+                Set to default color
+              </Button>
             </Modal.Body>
             <Modal.Actions>
               <Button variant="neutral" onClick={close}>
@@ -26,7 +49,7 @@ export function FontColorModal({
               </Button>
               <Button
                 onClick={() => {
-                  //   onSave({ file, caption })
+                  onSave(color)
                   close()
                 }}
               >

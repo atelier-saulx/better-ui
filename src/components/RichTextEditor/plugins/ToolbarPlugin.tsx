@@ -164,11 +164,8 @@ export function ToolbarPlugin() {
       selection: any,
       skipHistoryStack?: boolean,
     ) => {
-      console.log('hellow??')
       editor.update(
         () => {
-          console.log('SELECTION0', selection)
-
           if (selection !== null) {
             $patchStyleText(selection as any, styles)
           }
@@ -178,15 +175,6 @@ export function ToolbarPlugin() {
     },
     [editor],
   )
-
-  const testColor = (styles) =>
-    useCallback(
-      (styles) => {
-        console.log('halloa?')
-        $patchStyleText(fontSelection as any, styles)
-      },
-      [fontSelection],
-    )
 
   return (
     <styled.div
@@ -422,23 +410,18 @@ export function ToolbarPlugin() {
           })
         }}
       />
+      {/* Color this text */}
       <FontColorModal
-        onSave={(v) => {
+        mode="font"
+        onSave={async (v) => {
+          await v
           editor.update(() => {
-            // console.log('onsave lefut', file, caption)
-
-            //            $patchStyleText(fontSelection as any, { color: 'red' })
-
-            // const selection = fontSelection
-
-            // applyStyleText({ color: 'red' }, selection, true)
-
-            testColor({ color: 'red' })
-
-            // editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-            //   src: file.src,
-            //   caption,
-            // })
+            if (v === color('content', 'primary') || v === '#1b242c') {
+              // remove color style from text
+              applyStyleText({ color: 'inherit' }, fontSelection, true)
+            } else {
+              applyStyleText({ color: v }, fontSelection, true)
+            }
           })
         }}
       >
@@ -447,7 +430,7 @@ export function ToolbarPlugin() {
           variant={'neutral-transparent'}
           prefix={
             <IconText
-              style={{ borderBottom: '4px solid orange', paddingBottom: 4 }}
+              style={{ borderBottom: '4px solid orange', paddingBottom: 2 }}
             />
           }
           shape="square"
@@ -455,10 +438,40 @@ export function ToolbarPlugin() {
             editor.update(() => {
               const selection = $getSelection()
               setFontSelection(selection as any)
-              console.log('BOOM BOOM')
-              applyStyleText({ color: 'red' }, selection, true)
-              // testColor({ color: 'red' })
-              //    $patchStyleText(fontSelection as any, { color: 'orange' })
+            })
+          }}
+        />
+      </FontColorModal>
+      {/* Background- Color this text */}
+      <FontColorModal
+        mode="background"
+        onSave={async (v) => {
+          await v
+          editor.update(() => {
+            if (v === color('background', 'screen') || v === '#fff') {
+              console.log('🏀🥎')
+              // remove color style from text
+              applyStyleText(
+                { backgroundColor: 'inherit' },
+                fontSelection,
+                true,
+              )
+            } else {
+              applyStyleText({ 'background-color': v }, fontSelection, true)
+            }
+          })
+        }}
+      >
+        <Button
+          size="small"
+          style={{ background: 'yellow' }}
+          variant={'neutral-transparent'}
+          prefix={<IconText />}
+          shape="square"
+          onClick={() => {
+            editor.update(() => {
+              const selection = $getSelection()
+              setFontSelection(selection as any)
             })
           }}
         />
