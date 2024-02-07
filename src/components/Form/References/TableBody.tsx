@@ -34,8 +34,12 @@ const TableBodyPaged = (p: TableBodyProps) => {
     pageCount?: number
     currentIndex?: number
     p?: string
+    start: number
+    end: number
     pageSize?: number
   }>({
+    start: 0,
+    end: 0,
     pageCount: 0,
     currentIndex: 0,
   })
@@ -43,18 +47,26 @@ const TableBodyPaged = (p: TableBodyProps) => {
   const update = useUpdate()
 
   const updateBlock = React.useCallback((index: number) => {
-    const n = size.current.pageCount
-    const start = Math.max(index * n, 0)
-    const end = Math.min((index + 2) * n, p.pagination.total)
     size.current.currentIndex = index
+    size.current.start = Math.max(index * size.current.pageCount, 0)
+    size.current.end = Math.min(
+      (index + 2) * size.current.pageCount,
+      p.pagination.total,
+    )
+    update()
+  }, [])
+
+  if (size.current.p) {
     size.current.ctx = {
       ...p.ctx,
       valueOverrides: {
-        [size.current.p]: p.valueRef.value.slice(start, end),
+        [size.current.p]: p.valueRef.value.slice(
+          size.current.start,
+          size.current.end,
+        ),
       },
     }
-    update()
-  }, [])
+  }
 
   const ref = useSize(({ height }) => {
     const n = Math.ceil(height / 48)
