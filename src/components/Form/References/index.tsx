@@ -6,6 +6,8 @@ import { readPath } from '../utils.js'
 import { ReferencesTable } from './Table.js'
 import { ReferenceTag } from './Tag.js'
 import { ValueRef } from '../Table/Arrays/types.js'
+import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
+import { deepCopy } from '@saulx/utils'
 
 export function References({
   ctx,
@@ -17,28 +19,45 @@ export function References({
   variant?: 'large' | 'small'
 }) {
   const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
-
   const update = useUpdate()
 
-  const valueRef = React.useRef<ValueRef & { sort?: TableSort }>({
+  const valueRef = React.useRef<
+    ValueRef & { sort?: TableSort; checksum?: number }
+  >({
     orderId: 0,
     value,
     sort: {
       exclude: new Set(['id', 'src']),
-      onSort: (field, dir) => {
-        console.log(field, dir)
-        valueRef.current.sort.sorted = { key: field, dir }
-
-        valueRef.current.value
-
+      onSort: (key, dir) => {
+        if (!valueRef.current.checksum) {
+          valueRef.current.checksum = hashObjectIgnoreKeyOrder(
+            valueRef.current.value,
+          )
+          valueRef.current.value = [...valueRef.current.value]
+        }
+        valueRef.current.sort.sorted = { key, dir }
+        valueRef.current.value.sort((a, b) => {
+          return (
+            (a[key] > b[key] ? -1 : a[key] === b[key] ? 0 : 1) *
+            (dir === 'asc' ? -1 : 1)
+          )
+        })
         update()
       },
     },
   })
 
-  valueRef.current.value = value
-
-  // useEffect for value... add hash
+  // for sorting read only lists
+  if (valueRef.current.checksum) {
+    if (
+      hashObjectIgnoreKeyOrder(valueRef.current.value) !==
+      valueRef.current.checksum
+    ) {
+      valueRef.current.value = [...value]
+    }
+  } else {
+    valueRef.current.value = value
+  }
 
   const addNew = React.useCallback(async () => {
     const result = await ctx.listeners.onSelectReferences({
@@ -87,7 +106,7 @@ export function References({
     return (
       <ReferencesTable
         sortByFields={
-          !(ctx.editableReferences && field.sortable)
+          !(ctx.editableReferences || field.sortable)
             ? valueRef.current.sort
             : undefined
         }
