@@ -53,6 +53,10 @@ export const Default = () => {
   )
 }
 
+const dataSorted = [...data].sort((a, b) => {
+  return a.price > b.price ? -1 : a.price === b.price ? 0 : 1
+})
+
 export const CustomSort = () => {
   const update = useUpdate()
   return (
@@ -62,13 +66,14 @@ export const CustomSort = () => {
       }}
     >
       <Table
-        values={data}
+        values={dataSorted}
         onScroll={() => {}}
         sort={{
-          include: new Set(['id']),
+          sorted: { key: 'price', dir: 'desc' },
+          include: new Set(['price']),
           onSort: (key, dir, sort) => {
             sort.sorted = { key, dir }
-            data.sort((a, b) => {
+            dataSorted.sort((a, b) => {
               return (
                 (a[key] > b[key] ? -1 : a[key] === b[key] ? 0 : 1) *
                 (dir === 'asc' ? -1 : 1)
