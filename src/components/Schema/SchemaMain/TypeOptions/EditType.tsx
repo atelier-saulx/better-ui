@@ -1,9 +1,12 @@
 import * as React from 'react'
-import { Text } from '../../Text/index.js'
-import { TextInput } from '../../TextInput/index.js'
-import { TextAreaInput } from '../../TextAreaInput/index.js'
-import { Stack } from '../../Stack/index.js'
-import { Modal } from '../../Modal/index.js'
+import {
+  Text,
+  TextInput,
+  TextAreaInput,
+  Stack,
+  Modal,
+} from '../../../../index.js'
+
 import { useClient, useQuery } from '@based/react'
 
 export const EditType = ({ onConfirm, typeTitle }) => {
@@ -31,6 +34,10 @@ export const EditType = ({ onConfirm, typeTitle }) => {
             types: {
               [typeTitle]: {
                 description: description,
+                // meta ?? TODO yves // description dissappears if you set something??
+                meta: {
+                  description: description,
+                },
               },
             },
           },

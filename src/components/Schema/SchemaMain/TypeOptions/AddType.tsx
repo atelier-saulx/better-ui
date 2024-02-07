@@ -1,11 +1,13 @@
 import * as React from 'react'
-import { Text } from '../../Text/index.js'
-import { TextInput } from '../../TextInput/index.js'
-import { TextAreaInput } from '../../TextAreaInput/index.js'
-import { Stack } from '../../Stack/index.js'
-import { Button } from '../../Button/index.js'
-import { Modal } from '../../Modal/index.js'
-import { IconPlus } from '../../Icons/index.js'
+import {
+  Text,
+  TextInput,
+  TextAreaInput,
+  Stack,
+  Button,
+  Modal,
+  IconPlus,
+} from '../../../../index.js'
 import { useClient } from '@based/react'
 
 type AddTypeProps = {

@@ -1,20 +1,21 @@
 import * as React from 'react'
-import { Button } from '../../Button/index.js'
-import { Dropdown } from '../../Dropdown/index.js'
+import { Button, Dropdown, Modal } from '../../../../index.js'
 import {
   IconEdit,
   IconMoreHorizontal,
   IconCopy,
   IconFunction,
   IconDelete,
-} from '../../Icons/index.js'
-import { Modal } from '../../Modal/index.js'
+} from '../../../Icons/index.js'
 import { EditType } from './EditType.js'
 import { CloneType } from './CloneType.js'
 import { AdvancedEditType } from './AdvancedEditType.js'
 import { DeleteType } from './DeleteType.js'
+import { useContextState } from '../../../../hooks/ContextState/index.js'
 
-export const TypeOptions = ({ typeTitle, setActive }) => {
+export const TypeOptions = () => {
+  const [type, setType] = useContextState('type')
+
   const modal = Modal.useModal()
 
   return (
@@ -29,7 +30,7 @@ export const TypeOptions = ({ typeTitle, setActive }) => {
           icon={<IconEdit />}
           onClick={() => {
             modal.open(({ close }) => {
-              return <EditType onConfirm={close} typeTitle={typeTitle} />
+              return <EditType onConfirm={close} typeTitle={type} />
             })
           }}
         >
@@ -39,7 +40,7 @@ export const TypeOptions = ({ typeTitle, setActive }) => {
           icon={<IconCopy />}
           onClick={() => {
             modal.open(({ close }) => {
-              return <CloneType onConfirm={close} typeTitle={typeTitle} />
+              return <CloneType onConfirm={close} typeTitle={type} />
             })
           }}
         >
@@ -49,9 +50,7 @@ export const TypeOptions = ({ typeTitle, setActive }) => {
           icon={<IconFunction />}
           onClick={() => {
             modal.open(({ close }) => {
-              return (
-                <AdvancedEditType onConfirm={close} typeTitle={typeTitle} />
-              )
+              return <AdvancedEditType onConfirm={close} typeTitle={type} />
             })
           }}
         >
@@ -65,8 +64,8 @@ export const TypeOptions = ({ typeTitle, setActive }) => {
               return (
                 <DeleteType
                   onConfirm={close}
-                  typeTitle={typeTitle}
-                  setActive={setActive}
+                  typeTitle={type}
+                  setActive={setType}
                 />
               )
             })

@@ -12,6 +12,7 @@ import {
   IconAlertFill,
   ButtonProps,
   ScrollArea,
+  boxShadow,
 } from '../../index.js'
 
 type UseModalContextProps = {
@@ -112,7 +113,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             borderRadius: borderRadius('small'),
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: 'var(--shadow-elevation)',
+            boxShadow: boxShadow('elevation'),
             outline: 'none',
             ...style,
           }}
@@ -149,7 +150,11 @@ export type ModalTitleProps = {
 export function Title({ children, description, style }: ModalTitleProps) {
   return (
     <styled.div style={{ padding: '20px 32px', ...style }}>
-      <Text color="primary" variant="title-modal" style={{ marginBottom: 12 }}>
+      <Text
+        color="primary"
+        variant="title-modal"
+        style={{ marginBottom: description ? 12 : 0 }}
+      >
         {children}
       </Text>
       {description && (

@@ -318,14 +318,14 @@ export default ({
         width={width}
         height={height}
       >
-        <path d={`M0,0L${width},1`} stroke="var(--border-default)" />
+        <path d={`M0,0L${width},1`} stroke={color('border', 'default')} />
         {labels.map((_, i) => {
           const y = (i + 1) * labelHeight
           return (
             <path
               key={i}
               d={`M0,${y}L${width},${y}`}
-              stroke="var(--border-default)"
+              stroke={color('border', 'default')}
             />
           )
         })}

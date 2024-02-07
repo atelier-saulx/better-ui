@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { SchemaEditor, Modal, Page } from '../../index.js'
+import { Schema, Modal, Page, border, borderRadius } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
@@ -10,13 +10,20 @@ const client = based({
   env: 'production',
 })
 
-const meta: Meta<typeof SchemaEditor> = {
+const meta: Meta<typeof Schema> = {
   title: 'Based/SchemaEditor',
   decorators: [
     (Story) => (
       <Provider client={client}>
         <Modal.Provider>
-          <Page style={{ width: 900 }}>
+          <Page
+            style={{
+              width: '100%',
+              height: '50vh',
+              border: border(),
+              borderRadius: borderRadius('medium'),
+            }}
+          >
             <Story />
           </Page>
         </Modal.Provider>
@@ -29,9 +36,13 @@ export default meta
 
 export const Default = () => {
   // get a schema
-  const { data, loading: loadingSchema } = useQuery('db:schema')
+  const { data, loading } = useQuery('db:schema')
 
-  console.log('Schema -->', data, 'loading =', loadingSchema)
+  console.log('Schema -->', data, 'loading =', loading)
 
-  return <SchemaEditor schema={data || { types: { fields: {} } }} />
+  if (loading) {
+    return null
+  }
+
+  return <Schema schemaInput={data} />
 }

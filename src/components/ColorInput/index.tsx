@@ -112,9 +112,8 @@ export function ColorInput({
         opacity: disabled ? 0.6 : 1,
         cursor: disabled ? 'not-allowed' : 'default',
         '&[data-state="open"] > div': {
-          border: '1px solid var(--interactive-primary) !important',
-          boxShadow:
-            '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
+          border: `1px solid ${color('interactive', 'primary')} !important`,
+          boxShadow: `0 0 0 2px color-mix(in srgb, ${color('interactive', 'primary')}  20%, transparent) !important`,
         },
         ...(error && {
           '&[data-state="open"] > div': {
@@ -172,7 +171,7 @@ export function ColorInput({
                 variant === 'small' ? '1px solid transparent' : border('hover'),
             },
             '&:focus, &:focus:hover': {
-              border: '1px solid var(--interactive-primary)',
+              border: `1px solid ${color('interactive', 'primary')} `,
               boxShadow: boxShadow('focus'),
             },
             ...(error && {
@@ -282,9 +281,8 @@ export function ColorInput({
                       transform: `translate3d(-50%,-50%,0)`,
                       width: 8,
                       height: 8,
-                      border: '2px solid var(--background-screen)',
-                      boxShadow:
-                        '0px 0px 2px var(--content-primary), inset 0px 0px 2px var(--content-primary)',
+                      border: `2px solid ${color('background', 'screen')} `,
+                      boxShadow: `0px 0px 2px ${color('content', 'primary')}, inset 0px 0px 2px ${color('content', 'primary')} `,
                       borderRadius: 9999,
                     }}
                   />

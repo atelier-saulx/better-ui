@@ -1,8 +1,5 @@
 import * as React from 'react'
-import { Text } from '../../Text/index.js'
-import { TextInput } from '../../TextInput/index.js'
-import { Stack } from '../../Stack/index.js'
-import { Modal } from '../../Modal/index.js'
+import { Text, TextInput, Stack, Modal } from '../../../../index.js'
 import { useClient } from '@based/react'
 
 export const DeleteType = ({ onConfirm, typeTitle, setActive }) => {

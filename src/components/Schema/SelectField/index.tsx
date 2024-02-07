@@ -4,28 +4,35 @@ import { IconPlus } from '../../Icons/index.js'
 import { Modal } from '../../Modal/index.js'
 import { Text } from '../../Text/index.js'
 import { TextInput } from '../../TextInput/index.js'
-import { Container } from '../../Container/index.js'
 import { Thumbnail } from '../../Thumbnail/index.js'
-import { AddField } from './AddField.js'
-import { SemanticVariant, color } from '../../../utils/colors.js'
+import { AddField } from '../Modals/AddField.js'
+import { NonSemanticColor, color } from '../../../utils/colors.js'
+import { useContextState } from '../../../hooks/ContextState/index.js'
 import { SCHEMA_FIELDS } from '../constants.js'
 import { Stack } from '../../Stack/index.js'
+import { styled } from 'inlines'
 
 const filterOutTheseFields = ['id', 'type', 'email', 'digest', 'url']
 
 type SelectNewFieldProps = {
-  typeTitle: string
-  fieldItem?: {}
   light?: boolean
+  path?: string[]
+  setSchema?: ({}) => void
+  schema?: {}
+  setSomethingChanged?: (v: boolean) => boolean
 }
 
-export const SelectNewField = ({
-  typeTitle,
-  fieldItem,
+export const SelectField = ({
   light,
+  path,
+  setSchema,
+  schema,
+  setSomethingChanged,
 }: SelectNewFieldProps) => {
   const [searchValue, setSearchValue] = React.useState('')
   const { open } = Modal.useModal()
+
+  const [type, setType] = useContextState('type')
 
   return (
     <Modal.Root>
@@ -75,34 +82,17 @@ export const SelectNewField = ({
                       .includes(searchValue.toLowerCase()),
                 )
                 .map((item, idx) => (
-                  <Container
+                  <Stack
+                    justify="start"
                     style={{
-                      // width: '48%',
-                      height: 'auto',
-                      border: '1px solid transparent',
-                      flexGrow: 1,
-                      display: 'inline-block',
-                      '& > div:first-child': {
-                        padding: '4px 4px 4px 8px !important',
+                      padding: '4px 8px',
+                      borderRadius: 8,
+                      '&:hover': {
+                        backgroundColor: color('background', 'neutral'),
                       },
                     }}
+                    gap={16}
                     key={idx}
-                    title={SCHEMA_FIELDS[item].label}
-                    description={SCHEMA_FIELDS[item].description}
-                    prefix={
-                      <Thumbnail
-                        icon={SCHEMA_FIELDS[item].icon}
-                        color={SCHEMA_FIELDS[item].color as SemanticVariant}
-                        style={{
-                          marginRight: 4,
-                          '& svg': {
-                            width: 16,
-                            height: 16,
-                          },
-                        }}
-                        size="small"
-                      />
-                    }
                     onClick={async () => {
                       close()
                       setSearchValue('')
@@ -110,17 +100,41 @@ export const SelectNewField = ({
                       const fieldMeta = await open(({ close }) => (
                         <AddField
                           fieldType={SCHEMA_FIELDS[item].label}
-                          typeTitle={typeTitle}
+                          typeTitle={type}
                           onConfirm={close}
-                          // if nested
-                          fieldItem={fieldItem}
+                          path={path}
+                          setSchema={setSchema}
+                          schema={schema}
+                          setSomethingChanged={setSomethingChanged}
                         />
                       ))
-
-                      console.log('BBBB', fieldMeta)
-                      // console.log('ClosedFLAP', result)
                     }}
-                  />
+                  >
+                    <Thumbnail
+                      icon={SCHEMA_FIELDS[item].icon}
+                      outline
+                      color={SCHEMA_FIELDS[item].color as NonSemanticColor}
+                      style={{
+                        '& svg': {
+                          width: 16,
+                          height: 16,
+                        },
+                      }}
+                      size="small"
+                    />
+
+                    <styled.div>
+                      <Text variant="body-bold">
+                        {SCHEMA_FIELDS[item].label}
+                      </Text>
+                      <Text
+                        variant="body-light"
+                        style={{ fontSize: 12, lineHeight: '16px' }}
+                      >
+                        {SCHEMA_FIELDS[item].description}
+                      </Text>
+                    </styled.div>
+                  </Stack>
                 ))}
             </Stack>
           </div>

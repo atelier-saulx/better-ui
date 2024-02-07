@@ -86,12 +86,11 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             flexDirection: 'column',
             width: '100%',
             '&[data-placeholder] > div': {
-              color: 'var(--content-secondary) !important',
+              color: `${color('content', 'secondary')} !important`,
             },
             '&[data-state="open"] > div': {
-              border: '1px solid var(--interactive-primary) !important',
-              boxShadow:
-                '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
+              border: `1px solid ${color('interactive', 'primary')} !important`,
+              boxShadow: `0 0 0 2px color-mix(in srgb, ${color('interactive', 'primary')}  20%, transparent) !important`,
             },
             ...(error && {
               '&[data-state="open"] > div': {
@@ -148,9 +147,8 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                         : border('hover'),
                   },
                   '&:focus': {
-                    border: '1px solid var(--interactive-primary)',
-                    boxShadow:
-                      '0 0 0 2px color-mix(in srgb, var(--interactive-primary) 20%, transparent) !important',
+                    border: `1px solid ${color('interactive', 'primary')}`,
+                    boxShadow: `0 0 0 2px color-mix(in srgb, ${color('interactive', 'primary')}  20%, transparent) !important`,
                   },
                   ...(error && {
                     border: border('error'),
@@ -218,7 +216,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               maxHeight: 'var(--radix-select-content-available-height)',
               borderRadius: borderRadius('small'),
               border: border(),
-              boxShadow: 'var(--shadow-elevation)',
+              boxShadow: boxShadow('elevation'),
             }}
             sideOffset={8}
           >

@@ -413,7 +413,7 @@ const App = () => {
     })
   }, [])
   for (const story of parsedStories) {
-    if (!story.story.default['title']) {
+    if (!story.story?.default['title']) {
       continue
     }
     const [section, component] = story.story.default.title.split('/')
