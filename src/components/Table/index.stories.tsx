@@ -85,9 +85,9 @@ export const LoadMore = () => {
         values={d}
         pagination={{
           loadMore: async (p) => {
-            await wait(Math.random() * 1e3)
+            await wait(Math.random() * 100)
             dataRef.current.data.push(
-              ...new Array(p.pageSize).fill(null).map((_, i) => ({
+              ...new Array(p.pageSize * 5).fill(null).map((_, i) => ({
                 id: faker.string.uuid().slice(0, 8),
                 src: faker.image.avatar(),
                 status: faker.lorem.words(1),

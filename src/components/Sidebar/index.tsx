@@ -93,7 +93,7 @@ export function Sidebar({
             <Stack
               justify={open ? 'start' : 'center'}
               style={{
-                paddingLeft: open ? 8 : 12,
+                paddingLeft: open ? 8 : 0,
                 width: '100%',
                 paddingBottom: open ? 24 : 12,
               }}
