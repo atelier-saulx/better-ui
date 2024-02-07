@@ -6,6 +6,7 @@ import {
   BasedSchemaPartial,
 } from '@based/schema'
 import { ButtonProps } from '../Button/index.js'
+import { Infinite } from '../Table/index.stories.js'
 
 export type Reference = string | ({ [key: string]: any } & { id: string })
 
@@ -94,6 +95,17 @@ export type TableSort = {
 export type TablePagination = {
   type: 'scroll' | 'button'
   total?: number
-  onScroll?: () => void
-  onPageChange?: (page: number, pageSize: number) => Promise<void>
+  onScroll?: (y: number, page: number, pageSize: number) => void
+  onPageChange?: (p: {
+    index: number
+    pageSize: number
+    start: number
+    end: number
+  }) => Promise<void>
+  loadMore?: (p: {
+    index: number
+    pageSize: number
+    start: number
+    end: number
+  }) => Promise<void>
 }

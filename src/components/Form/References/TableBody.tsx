@@ -1,6 +1,12 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { ScrollArea, useSize, useUpdate } from '../../../index.js'
+import {
+  ScrollArea,
+  Spinner,
+  Stack,
+  useSize,
+  useUpdate,
+} from '../../../index.js'
 import {
   Path,
   TableCtx,
@@ -29,7 +35,7 @@ type TableBodyProps = {
 }
 
 const TableBodyPaged = (p: TableBodyProps) => {
-  const size = React.useRef<{
+  const ref = React.useRef<{
     ctx?: TableCtx
     pageCount?: number
     currentIndex?: number
@@ -37,59 +43,102 @@ const TableBodyPaged = (p: TableBodyProps) => {
     start: number
     end: number
     pageSize?: number
+    pagination?: TablePagination
+    loading: boolean
+    loaded: number
   }>({
     start: 0,
     end: 0,
     pageCount: 0,
     currentIndex: 0,
+    loading: false,
+    loaded: -1,
   })
+
+  ref.current.pagination = p.pagination
 
   const update = useUpdate()
 
   const updateBlock = React.useCallback((index: number) => {
-    size.current.currentIndex = index
-    size.current.start = Math.max(index * size.current.pageCount, 0)
-    size.current.end = Math.min(
-      (index + 2) * size.current.pageCount,
-      p.pagination.total,
+    ref.current.currentIndex = index
+    ref.current.start = Math.max(index * ref.current.pageCount, 0)
+    ref.current.end = Math.min(
+      (index + 2) * ref.current.pageCount,
+      ref.current.pagination.total,
     )
+    if (ref.current.pagination.onPageChange) {
+      ref.current.pagination.onPageChange({
+        index,
+        pageSize: ref.current.pageCount,
+        start: ref.current.start,
+        end: ref.current.end,
+      })
+    }
     update()
   }, [])
 
-  if (size.current.p) {
-    size.current.ctx = {
+  if (ref.current.p) {
+    ref.current.ctx = {
       ...p.ctx,
       valueOverrides: {
-        [size.current.p]: p.valueRef.value.slice(
-          size.current.start,
-          size.current.end,
+        [ref.current.p]: p.valueRef.value.slice(
+          ref.current.start,
+          ref.current.end,
         ),
       },
     }
   }
 
-  const ref = useSize(({ height }) => {
+  const sizeRef = useSize(({ height }) => {
     const n = Math.ceil(height / 48)
-    if (n !== size.current.pageCount) {
-      size.current.p = p.path.join('.')
-      size.current.pageCount = n
-      size.current.pageSize = n * 48
+    if (n !== ref.current.pageCount) {
+      ref.current.p = p.path.join('.')
+      ref.current.pageCount = n
+      ref.current.pageSize = n * 48
       updateBlock(0)
     }
   })
 
   const onScroll = React.useCallback((e) => {
-    const block = Math.floor(
-      e.currentTarget.scrollTop / (size.current.pageCount * 48),
-    )
-    if (size.current.currentIndex !== block) {
+    const y = e.currentTarget.scrollTop
+    const block = Math.floor(y / (ref.current.pageCount * 48))
+    if (ref.current.pagination.loadMore) {
+      const total = ref.current.pagination.total
+      if (
+        e.currentTarget.scrollHeight - y - e.currentTarget.clientHeight === 0 &&
+        !ref.current.loading &&
+        ref.current.loaded < total
+      ) {
+        ref.current.loading = true
+        update()
+        ref.current.pagination
+          .loadMore({
+            index: block,
+            pageSize: ref.current.pageCount,
+            start: ref.current.start,
+            end: ref.current.end,
+          })
+          .finally(() => {
+            if (ref.current.loaded < total) {
+              ref.current.loaded = total
+            }
+            ref.current.loading = false
+            updateBlock(block)
+          })
+      }
+    }
+
+    if (ref.current.pagination.onScroll) {
+      ref.current.pagination.onScroll(y, block, ref.current.pageCount)
+    }
+    if (ref.current.currentIndex !== block) {
       updateBlock(block)
     }
   }, [])
 
   return (
     <ScrollArea
-      ref={ref}
+      ref={sizeRef}
       style={{
         flexGrow: 0,
         maxHeight: '100%',
@@ -108,26 +157,37 @@ const TableBodyPaged = (p: TableBodyProps) => {
           height: p.pagination.total * 48, // add bottom with load mroe
         }}
       >
-        {size.current.ctx ? (
+        {ref.current.ctx ? (
           <styled.div
             style={{
-              transform: `translate(0,${size.current.currentIndex * size.current.pageSize}px)`,
+              transform: `translate(0,${ref.current.currentIndex * ref.current.pageSize}px)`,
             }}
           >
             <ObjectCollsRows
               onClickRow={(v: any) => p.onClickReference(v)}
               draggable={p.field.sortable}
               value={{
-                value: size.current.ctx.valueOverrides[size.current.p],
+                value: ref.current.ctx.valueOverrides[ref.current.p],
                 orderId: p.valueRef.orderId,
               }}
-              ctx={size.current.ctx}
+              ctx={ref.current.ctx}
               changeIndex={p.changeIndex}
               removeItem={p.onRemove}
               path={p.path}
               colFields={p.colFields}
               field={p.nField}
             />
+            {ref.current.loading ? (
+              <Stack
+                justify="center"
+                align="center"
+                style={{
+                  height: 100,
+                }}
+              >
+                <Spinner size={24} color="secondary" />
+              </Stack>
+            ) : null}
           </styled.div>
         ) : null}
       </styled.div>

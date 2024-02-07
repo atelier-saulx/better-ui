@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
 import { faker } from '@faker-js/faker'
 import based from '@based/client'
+import { wait } from '@saulx/utils'
 
 const client = based({
   org: 'saulx',
@@ -65,6 +66,55 @@ export const Default = () => {
   )
 }
 
+export const LoadMore = () => {
+  const dataRef = React.useRef({
+    data: [...dataSmall],
+  })
+
+  const update = useUpdate()
+
+  const d = dataRef.current.data
+
+  return (
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table
+        values={d}
+        pagination={{
+          loadMore: async (p) => {
+            await wait(Math.random() * 1e3)
+            dataRef.current.data.push(
+              ...new Array(p.pageSize).fill(null).map((_, i) => ({
+                id: faker.string.uuid().slice(0, 8),
+                src: faker.image.avatar(),
+                status: faker.lorem.words(1),
+                title: faker.lorem.sentence(3),
+                number: i + dataRef.current.data.length,
+                name: faker.person.fullName(),
+                price: faker.commerce.price(),
+                color: faker.color.rgb(),
+                createdAt: faker.date.soon().valueOf(),
+              })),
+            )
+            update()
+          },
+          onPageChange: async (p) => {
+            dataRef.current.data[p.start + 1].name =
+              '$$$$$ ' + faker.person.fullName()
+            update()
+          },
+          total: d.length,
+          type: 'scroll',
+        }}
+        sort
+      />
+    </div>
+  )
+}
+
 export const Infinite = () => {
   return (
     <div
@@ -72,7 +122,7 @@ export const Infinite = () => {
         height: 500,
       }}
     >
-      <Table values={dataLots} pagination />
+      <Table values={dataLots} pagination sort />
     </div>
   )
 }
@@ -111,7 +161,6 @@ export const CustomSort = () => {
 }
 
 export const EditableTable = () => {
-  // schema...
   return <Table values={dataSmall} editable sortable />
 }
 

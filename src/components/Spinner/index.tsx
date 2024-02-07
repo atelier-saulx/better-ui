@@ -1,20 +1,21 @@
 import * as React from 'react'
 import { styled, Style } from 'inlines'
-import { color } from '../../index.js'
+import { Color, color as genColor } from '../../index.js'
 
 export type SpinnerProps = {
   size?: number
   style?: Style
+  color?: Color['interactive'] | 'inherit'
 }
 
-export function Spinner({ size = 64, style }: SpinnerProps) {
+export function Spinner({ size = 64, style, color = 'primary' }: SpinnerProps) {
   return (
     <styled.div
       style={{
         position: 'relative',
         height: size,
         width: size,
-        color: color('interactive', 'primary'),
+        color: color === 'inherit' ? 'inherit' : genColor('interactive', color),
         ...style,
       }}
     >
