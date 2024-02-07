@@ -1,11 +1,13 @@
 import * as React from 'react'
 import { BasedSchemaFieldReferences } from '@based/schema'
-import { Stack, Button, IconPlus } from '../../../index.js'
-import { Path, TableCtx, Reference } from '../types.js'
+import { Stack, Button, IconPlus, useUpdate } from '../../../index.js'
+import { Path, TableCtx, Reference, TableSort } from '../types.js'
 import { readPath } from '../utils.js'
 import { ReferencesTable } from './Table.js'
 import { ReferenceTag } from './Tag.js'
 import { ValueRef } from '../Table/Arrays/types.js'
+import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
+import { deepCopy } from '@saulx/utils'
 
 export function References({
   ctx,
@@ -17,8 +19,13 @@ export function References({
   variant?: 'large' | 'small'
 }) {
   const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
+  const update = useUpdate()
 
-  const valueRef = React.useRef<ValueRef>({ orderId: 0, value })
+  const valueRef = React.useRef<ValueRef>({
+    orderId: 0,
+    value,
+  })
+
   valueRef.current.value = value
 
   const addNew = React.useCallback(async () => {

@@ -1,17 +1,8 @@
 import * as React from 'react'
-import {
-  Modal,
-  Button,
-  Table,
-  useInfiniteQuery,
-  IconCopy,
-  IconDelete,
-  IconMoreVertical,
-  Dropdown,
-} from '../../index.js'
+import { Table, useUpdate } from '../../index.js'
 import { faker } from '@faker-js/faker'
-import { Provider } from '@based/react'
 import based from '@based/client'
+import { wait } from '@saulx/utils'
 
 const client = based({
   org: 'saulx',
@@ -51,6 +42,18 @@ const dataSmall = new Array(10).fill(null).map(() => ({
   createdAt: faker.date.soon().valueOf(),
 }))
 
+const dataLots = new Array(1000).fill(null).map((v, index) => ({
+  nr: index, // check if all are numbers
+  src: faker.image.avatar(),
+  status: faker.lorem.words(1),
+  title: faker.lorem.sentence(3),
+  number: faker.number.int(10),
+  name: faker.person.fullName(),
+  price: faker.commerce.price(),
+  color: faker.color.rgb(),
+  createdAt: faker.date.soon().valueOf(),
+}))
+
 export const Default = () => {
   return (
     <div
@@ -58,13 +61,106 @@ export const Default = () => {
         height: 500,
       }}
     >
-      <Table values={data} onScroll={() => {}} />
+      <Table values={data} pagination sort />
+    </div>
+  )
+}
+
+export const LoadMore = () => {
+  const dataRef = React.useRef({
+    data: [...dataSmall],
+  })
+
+  const update = useUpdate()
+
+  const d = dataRef.current.data
+
+  return (
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table
+        values={d}
+        pagination={{
+          loadMore: async (p) => {
+            await wait(Math.random() * 100)
+            dataRef.current.data.push(
+              ...new Array(p.pageSize * 5).fill(null).map((_, i) => ({
+                id: faker.string.uuid().slice(0, 8),
+                src: faker.image.avatar(),
+                status: faker.lorem.words(1),
+                title: faker.lorem.sentence(3),
+                number: i + dataRef.current.data.length,
+                name: faker.person.fullName(),
+                price: faker.commerce.price(),
+                color: faker.color.rgb(),
+                createdAt: faker.date.soon().valueOf(),
+              })),
+            )
+            update()
+          },
+          onPageChange: async (p) => {
+            dataRef.current.data[p.start + 1].name =
+              '$$$$$ ' + faker.person.fullName()
+            update()
+          },
+          total: d.length,
+          type: 'scroll',
+        }}
+        sort
+      />
+    </div>
+  )
+}
+
+export const Infinite = () => {
+  return (
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table values={dataLots} pagination sort />
+    </div>
+  )
+}
+
+const sortByPrice = (a, b) => {
+  return a.price * 1 > b.price * 1 ? -1 : a.price * 1 === b.price * 1 ? 0 : 1
+}
+
+const dataSorted = [...data].sort(sortByPrice)
+
+export const CustomSort = () => {
+  const update = useUpdate()
+  return (
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table
+        values={dataSorted}
+        pagination
+        sort={{
+          sorted: { key: 'price', dir: 'desc' },
+          include: new Set(['price']),
+          onSort: (key, dir, sort) => {
+            sort.sorted = { key, dir }
+            dataSorted.sort((a, b) => {
+              return sortByPrice(a, b) * (dir === 'asc' ? -1 : 1)
+            })
+            update()
+          },
+        }}
+      />
     </div>
   )
 }
 
 export const EditableTable = () => {
-  // schema...
   return <Table values={dataSmall} editable sortable />
 }
 

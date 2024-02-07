@@ -4,22 +4,26 @@ import {
   BasedSchemaFieldReferences,
   BasedSchemaPartial,
 } from '@based/schema'
-import { TableCtx } from '../Form/types.js'
+import { TableCtx, TablePagination, TableSort } from '../Form/types.js'
 import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
 import { FormProps } from '../Form/index.js'
+import { useUpdate } from '../../index.js'
 
 export const Table = (p: {
+  pagination?: TablePagination | true
+  sort?: TableSort | true
   schema?: BasedSchemaPartial
   editable?: boolean
   field?: BasedSchemaFieldObject
   values?: any[]
-  sortable?: boolean
+  sortable?: boolean // maybe rename to orderable (everywhere)
   onChange?: FormProps['onChange']
   onClick?: (data: any, index: number | string) => void
-  onScroll?: () => void
 }) => {
+  const update = useUpdate()
+
   const path = ['field']
 
   const ctx: TableCtx = {
@@ -105,18 +109,43 @@ export const Table = (p: {
     })
   }, [])
 
+  const sortRef = React.useRef<TableSort>(
+    p.sort === true
+      ? {
+          exclude: new Set(['src']),
+          onSort: (key, dir, sort) => {
+            sort.sorted = { key, dir }
+            valueRef.current.value.sort((a, b) => {
+              return (
+                (a[key] > b[key] ? -1 : a[key] === b[key] ? 0 : 1) *
+                (dir === 'asc' ? -1 : 1)
+              )
+            })
+            update()
+          },
+        }
+      : p.sort,
+  )
+
   return (
     <ReferencesTable
+      sortByFields={sortRef.current}
       field={field}
       onClickReference={clickRef}
       ctx={ctx}
       path={path}
-      onScroll={p.onScroll} // add new as option will go on top if onScroll
       valueRef={valueRef.current}
       changeIndex={changeIndex}
       alwaysUseCols
-      // onNew={p.editable ? addNew : undefined}
       onRemove={p.editable ? removeItem : undefined}
+      pagination={
+        p.pagination === true
+          ? {
+              type: 'scroll',
+              total: valueRef.current.value.length,
+            }
+          : p.pagination
+      }
     />
   )
 }

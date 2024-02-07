@@ -6,6 +6,7 @@ import {
   BasedSchemaPartial,
 } from '@based/schema'
 import { ButtonProps } from '../Button/index.js'
+import { Infinite } from '../Table/index.stories.js'
 
 export type Reference = string | ({ [key: string]: any } & { id: string })
 
@@ -72,8 +73,8 @@ export type TableCtx = {
   variant: Variant
   schema?: BasedSchemaPartial
   listeners: Listeners
-  // path like x.y.z
   fieldOverrides?: { [path: string]: BasedSchemaField }
+  valueOverrides?: { [path: string]: any }
   readOnly?: boolean
   editableReferences?: boolean
 }
@@ -83,3 +84,28 @@ export type Path = (string | number)[]
 export type TableProps = { ctx: TableCtx; path: Path }
 
 export type Variant = 'regular' | 'small' | 'bare' | 'no-confirm'
+
+export type TableSort = {
+  exclude?: Set<string>
+  include?: Set<string>
+  sorted?: { key: string; dir: 'asc' | 'desc' }
+  onSort: (key: string, dir: 'asc' | 'desc', sort: TableSort) => void
+}
+
+export type TablePagination = {
+  type: 'scroll' | 'button'
+  total?: number
+  onScroll?: (y: number, page: number, pageSize: number) => void
+  onPageChange?: (p: {
+    index: number
+    pageSize: number
+    start: number
+    end: number
+  }) => Promise<void>
+  loadMore?: (p: {
+    index: number
+    pageSize: number
+    start: number
+    end: number
+  }) => Promise<void>
+}

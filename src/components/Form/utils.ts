@@ -49,24 +49,33 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   let readOnly = ctx.readOnly
 
   const hasOverrides = ctx.fieldOverrides
+  const hasValueOverrides = ctx.valueOverrides
 
   let sO = ''
 
   for (const k of path) {
     let noFieldSelect = false
-    if (hasOverrides) {
+    let noValueSelect = false
+    if (hasOverrides || hasValueOverrides) {
       if (sO) {
         sO += '.' + k
       } else {
         sO += k
       }
-      if (hasOverrides[sO]) {
+      if (hasOverrides?.[sO]) {
         selectedField = hasOverrides[sO]
         noFieldSelect = true
       }
+      if (hasValueOverrides?.[sO]) {
+        selectedValue = hasValueOverrides[sO]
+        noValueSelect = true
+      }
     }
 
-    selectedValue = selectedValue?.[k]
+    if (!noValueSelect) {
+      selectedValue = selectedValue?.[k]
+    }
+
     const type = selectedField.type
     if (!noFieldSelect) {
       if (type) {

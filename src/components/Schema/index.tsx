@@ -55,27 +55,21 @@ export const Schema = ({
     })
   }
 
-  useEffect(() => {
-    console.log('🏀 CJHANGED SCJEMA', schema)
-  }, [somethingChanged])
-
   return (
-    <>
-      <Stack style={{ ...style }} justify="start" align="start">
-        <StateProvider values={values} onChange={onChange}>
-          <SchemaLeft schema={schema} />
-          {renderCounter && (
-            <SchemaMain
-              schema={schema}
-              setSchema={setSchema}
-              setSomethingChanged={setSomethingChanged}
-              somethingChanged={somethingChanged}
-              onCancel={onCancel}
-              onConfirm={onConfirm}
-            />
-          )}
-        </StateProvider>
-      </Stack>
-    </>
+    <Stack style={{ ...style, height: '100%' }} justify="start" align="start">
+      <StateProvider values={values} onChange={onChange}>
+        <SchemaLeft schema={schema} />
+        {renderCounter && (
+          <SchemaMain
+            schema={schema}
+            setSchema={setSchema}
+            setSomethingChanged={setSomethingChanged}
+            somethingChanged={somethingChanged}
+            onCancel={onCancel}
+            onConfirm={onConfirm}
+          />
+        )}
+      </StateProvider>
+    </Stack>
   )
 }

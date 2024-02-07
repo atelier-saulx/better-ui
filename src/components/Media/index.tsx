@@ -36,15 +36,18 @@ const MediaInner = ({
 
   if (type.startsWith('image/')) {
     return (
-      <img
-        src={src}
-        style={{
-          display: 'block',
-          width: '100%',
-          height: '100%',
-          objectFit: variant,
-        }}
-      />
+      <>
+        <img
+          key={src}
+          src={src}
+          style={{
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            objectFit: variant,
+          }}
+        />
+      </>
     )
   }
 
@@ -131,7 +134,7 @@ const MediaInner = ({
   }
 
   return (
-    <div
+    <styled.div
       style={{
         padding,
         height: '100%',
@@ -150,7 +153,7 @@ const MediaInner = ({
           maxWidth: 128,
         }}
       />
-      <div
+      <styled.div
         style={{
           position: 'absolute',
           inset: 0,
@@ -164,8 +167,8 @@ const MediaInner = ({
         }}
       >
         {fileText}
-      </div>
-    </div>
+      </styled.div>
+    </styled.div>
   )
 }
 
