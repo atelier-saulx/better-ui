@@ -417,7 +417,6 @@ export function ToolbarPlugin() {
           await v
           editor.update(() => {
             if (v === color('content', 'primary') || v === '#1b242c') {
-              // remove color style from text
               applyStyleText({ color: 'inherit' }, fontSelection, true)
             } else {
               applyStyleText({ color: v }, fontSelection, true)
@@ -449,10 +448,8 @@ export function ToolbarPlugin() {
           await v
           editor.update(() => {
             if (v === color('background', 'screen') || v === '#fff') {
-              console.log('🏀🥎')
-              // remove color style from text
               applyStyleText(
-                { backgroundColor: 'inherit' },
+                { 'background-color': 'inherit' },
                 fontSelection,
                 true,
               )
