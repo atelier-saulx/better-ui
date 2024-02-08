@@ -14,7 +14,7 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin.js'
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin.js'
 import { Placeholder } from './components/Placeholder.js'
 import { BehaviourPlugin } from './plugins/BehaviourPlugin.js'
-import { HeadingNode } from '@lexical/rich-text'
+import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { LinkNode } from '@lexical/link'
 import { ListNode, ListItemNode } from '@lexical/list'
 import { styled } from 'inlines'
@@ -31,7 +31,7 @@ export type RichTextEditorProps = {
 const CONFIG = {
   editable: true,
   namespace: '__based_rte',
-  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode],
+  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode, QuoteNode],
   onError: (error) => {
     console.error('rte error:', error)
   },
@@ -42,6 +42,7 @@ const CONFIG = {
       h3: 'rte-h3',
     },
     paragraph: 'rte-p',
+    quote: 'rte-blockquote',
     text: {
       bold: 'rte-bold',
       italic: 'rte-italic',
@@ -132,6 +133,9 @@ export function RichTextEditor({
           '& .rte-ul': {
             paddingLeft: 32,
             margin: 0,
+          },
+          '& .rte-blockquote': {
+            background: 'yellow',
           },
         }}
       >

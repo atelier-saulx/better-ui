@@ -25,7 +25,12 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
   REMOVE_LIST_COMMAND,
 } from '@lexical/list'
-import { $createHeadingNode, $isHeadingNode } from '@lexical/rich-text'
+import {
+  $createHeadingNode,
+  $isHeadingNode,
+  $isQuoteNode,
+  $createQuoteNode,
+} from '@lexical/rich-text'
 import {
   Button,
   Dropdown,
@@ -42,6 +47,7 @@ import {
   IconListBullet,
   IconText,
   IconRepeat,
+  IconHelpFill,
 } from '../../../index.js'
 import {
   $setBlocksType,
@@ -55,7 +61,7 @@ import { FontColorModal } from '../components/FontColorModal.js'
 export function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
   const [type, setType] = useState<
-    'title' | 'heading' | 'subheading' | 'body' | 'bullet'
+    'title' | 'heading' | 'subheading' | 'body' | 'bullet' | 'blockquote'
   >('body')
   const [isBold, setIsBold] = useState(false)
   const [isItalic, setIsItalic] = useState(false)
@@ -66,10 +72,6 @@ export function ToolbarPlugin() {
   const [canUndo, setCanUndo] = useState(false)
   const [canRedo, setCanRedo] = useState(false)
   const [fontSelection, setFontSelection] = useState()
-
-  useEffect(() => {
-    console.log('🥟', fontSelection)
-  }, [fontSelection])
 
   useEffect(() => {
     editor.registerUpdateListener(({ editorState }) => {
@@ -137,6 +139,8 @@ export function ToolbarPlugin() {
               break
             }
           }
+        } else if ($isQuoteNode(element)) {
+          setType('blockquote')
         } else if ($isParagraphNode(element)) {
           setType('body')
         }
@@ -271,6 +275,24 @@ export function ToolbarPlugin() {
             }}
           >
             Body
+          </Dropdown.Item>
+          <Dropdown.Item
+            icon={type === 'body' && <IconCheckLarge />}
+            onClick={() => {
+              editor.update(() => {
+                const selection = $getSelection()
+                if ($isRangeSelection(selection)) {
+                  selection.getNodes().forEach((node) => {
+                    if ($isTextNode(node)) {
+                      node.setFormat(0)
+                    }
+                  })
+                  $setBlocksType(selection, () => $createQuoteNode())
+                }
+              })
+            }}
+          >
+            Quote
           </Dropdown.Item>
         </Dropdown.Items>
       </Dropdown.Root>
@@ -423,6 +445,21 @@ export function ToolbarPlugin() {
             if ($isRangeSelection(selection)) {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
             }
+          })
+        }}
+      />
+      <Button
+        size="small"
+        variant={'neutral-transparent'}
+        prefix={<IconHelpFill />}
+        shape="square"
+        onClick={() => {
+          console.log('snurpt')
+
+          editor.update(() => {
+            const selection = $getSelection()
+            $setBlocksType(selection as any, () => 'blockquote')
+            $setBlocksType(selection as any, () => $createQuoteNode())
           })
         }}
       />
