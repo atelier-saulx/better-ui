@@ -375,7 +375,7 @@ export function ToolbarPlugin() {
       />
       <AddImageModal
         onSave={({ file, caption }) => {
-          console.log('onsave lefut', file, caption)
+          // console.log('onsave lefut', file, caption)
           editor.update(() => {
             editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
               src: file.src,
