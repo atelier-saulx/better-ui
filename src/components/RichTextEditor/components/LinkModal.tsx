@@ -5,7 +5,6 @@ export function LinkModal({
   children,
   onSave,
 }: {
-  test
   children: ReactNode
   onSave: (value: string, targetBlank: boolean) => void
 }) {
