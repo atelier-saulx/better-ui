@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import './index.css'
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext.js'
 import { eventFiles } from '@lexical/rich-text'
@@ -243,7 +242,7 @@ function setTargetLine(
   targetLineElem.style.width = `${
     anchorWidth - (TEXT_BOX_HORIZONTAL_PADDING - SPACE) * 2
   }px`
-  targetLineElem.style.opacity = '.4'
+  targetLineElem.style.opacity = '1'
 }
 
 function hideTargetLine(targetLineElem: HTMLElement | null) {
