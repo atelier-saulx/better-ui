@@ -47,7 +47,7 @@ import {
   IconListBullet,
   IconText,
   IconRepeat,
-  IconHelpFill,
+  IconQuote,
 } from '../../../index.js'
 import {
   $setBlocksType,
@@ -276,24 +276,6 @@ export function ToolbarPlugin() {
           >
             Body
           </Dropdown.Item>
-          <Dropdown.Item
-            icon={type === 'body' && <IconCheckLarge />}
-            onClick={() => {
-              editor.update(() => {
-                const selection = $getSelection()
-                if ($isRangeSelection(selection)) {
-                  selection.getNodes().forEach((node) => {
-                    if ($isTextNode(node)) {
-                      node.setFormat(0)
-                    }
-                  })
-                  $setBlocksType(selection, () => $createQuoteNode())
-                }
-              })
-            }}
-          >
-            Quote
-          </Dropdown.Item>
         </Dropdown.Items>
       </Dropdown.Root>
       <Button
@@ -451,14 +433,12 @@ export function ToolbarPlugin() {
       <Button
         size="small"
         variant={'neutral-transparent'}
-        prefix={<IconHelpFill />}
+        prefix={<IconQuote />}
         shape="square"
         onClick={() => {
-          console.log('snurpt')
-
           editor.update(() => {
             const selection = $getSelection()
-            $setBlocksType(selection as any, () => 'blockquote')
+
             $setBlocksType(selection as any, () => $createQuoteNode())
           })
         }}
@@ -483,7 +463,11 @@ export function ToolbarPlugin() {
           variant={'neutral-transparent'}
           prefix={
             <IconText
-              style={{ borderBottom: '4px solid orange', paddingBottom: 2 }}
+              style={{
+                color: color('non-semantic-color', 'green'),
+                borderBottom: `4px solid ${color('non-semantic-color', 'green')}`,
+                paddingBottom: 3,
+              }}
             />
           }
           shape="square"
@@ -515,7 +499,7 @@ export function ToolbarPlugin() {
       >
         <Button
           size="small"
-          style={{ background: 'yellow' }}
+          style={{ background: color('non-semantic-color', 'purple-soft') }}
           variant={'neutral-transparent'}
           prefix={<IconText />}
           shape="square"
