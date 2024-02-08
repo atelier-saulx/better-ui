@@ -48,7 +48,7 @@ import * as f7145042216623 from "../../src/components/Form/stories/record.storie
 import * as f47303550426 from "../../src/components/Form/stories/references.stories.js"
 import * as f11229660430731 from "../../src/components/Form/stories/referencesSchema.stories.js"
 import * as f7012957941312 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f13852923402373,f15285278589437,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f13659776204836,f16096448594379,f5024396229712,f523702835381,f16494901165491,f5376768019532,f13113167991056,f3246165100817,f11708898986714,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f3747781814494,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f7012957941312]
+export const stories = [f13852923402373,f15285278589437,f3593820932342,f4580959827109,f4500130912786,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f13659776204836,f16096448594379,f5024396229712,f523702835381,f16494901165491,f13113167991056,f5376768019532,f3246165100817,f11708898986714,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f3747781814494,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f7012957941312]
 export const parsedStories = [{ id: "f13852923402373", story: f13852923402373, path: "/Users/yvesbeer/dev/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -331,19 +331,6 @@ export const ButtonSmall: StoryObj<typeof Button> = {
     },
   },
 }
-`},{ id: "f4500130912786", story: f4500130912786, path: "/Users/yvesbeer/dev/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
-
-const meta: Meta<typeof Calendar> = {
-  title: 'Atoms/Calendar',
-  component: Calendar,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof Calendar> = {
-  args: {},
-}
 `},{ id: "f4580959827109", story: f4580959827109, path: "/Users/yvesbeer/dev/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -370,6 +357,19 @@ export const Toggle: StoryObj<typeof CheckboxInput> = {
     variant: 'toggle',
     disabled: false,
   },
+}
+`},{ id: "f4500130912786", story: f4500130912786, path: "/Users/yvesbeer/dev/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Calendar> = {
+  title: 'Atoms/Calendar',
+  component: Calendar,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof Calendar> = {
+  args: {},
 }
 `},{ id: "f8528690964461", story: f8528690964461, path: "/Users/yvesbeer/dev/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -1913,26 +1913,6 @@ export const Default: StoryObj<typeof Page> = {
     style: { maxHeight: 324 },
   },
 }
-`},{ id: "f5376768019532", story: f5376768019532, path: "/Users/yvesbeer/dev/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
-import { RichTextEditor } from '../../index.js'
-
-const meta: Meta<typeof RichTextEditor> = {
-  title: 'Inputs/RichTextEditor',
-  component: RichTextEditor,
-}
-
-export default meta
-
-export const Default: StoryObj<typeof RichTextEditor> = {
-  args: {
-    autoFocus: true,
-    placeholder: 'Enter some rich text...',
-    onChange: ({ json, html }) => {
-      console.log('onchange html --> ', html)
-      console.log('onchange json --> ', json)
-    },
-  },
-}
 `},{ id: "f13113167991056", story: f13113167991056, path: "/Users/yvesbeer/dev/better-ui/src/components/PieGraph/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
 import { PieGraph } from '../../index.js'
 
@@ -1968,6 +1948,26 @@ export const Default: StoryObj<typeof PieGraph> = {
         value: 2566,
       },
     ],
+  },
+}
+`},{ id: "f5376768019532", story: f5376768019532, path: "/Users/yvesbeer/dev/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
+import { RichTextEditor } from '../../index.js'
+
+const meta: Meta<typeof RichTextEditor> = {
+  title: 'Inputs/RichTextEditor',
+  component: RichTextEditor,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof RichTextEditor> = {
+  args: {
+    autoFocus: true,
+    placeholder: 'Enter some rich text...',
+    onChange: ({ json, html }) => {
+      console.log('onchange html --> ', html)
+      console.log('onchange json --> ', json)
+    },
   },
 }
 `},{ id: "f3246165100817", story: f3246165100817, path: "/Users/yvesbeer/dev/better-ui/src/components/Schema/index.stories.tsx", file: `import * as React from 'react'
