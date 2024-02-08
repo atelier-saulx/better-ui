@@ -101,17 +101,17 @@ export function RichTextEditor({
           },
           '& .rte-h1': {
             margin: 0,
-            marginBottom: 12,
+            marginBottom: 14,
             color: color('content', 'primary'),
           },
           '& .rte-h2': {
             margin: 0,
-            marginBottom: 10,
+            marginBottom: 12,
             color: color('content', 'primary'),
           },
           '& .rte-h3': {
             margin: 0,
-            marginBottom: 8,
+            marginBottom: 10,
             color: color('content', 'primary'),
           },
           '& .rte-p': {
@@ -147,7 +147,7 @@ export function RichTextEditor({
             position: 'relative',
             fontSize: 16,
             textAlign: 'center',
-            marginBottom: 16,
+            marginBottom: 14,
           },
           '& .rte-blockquote::before': {
             content: '" "',

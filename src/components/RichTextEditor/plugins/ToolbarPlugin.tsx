@@ -57,6 +57,7 @@ import {
 import { AddImageModal } from '../components/AddImageModal.js'
 import { INSERT_IMAGE_COMMAND } from './ImagePlugin.js'
 import { FontColorModal } from '../components/FontColorModal.js'
+import { LinkModal } from '../components/LinkModal.js'
 
 export function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -337,20 +338,25 @@ export function ToolbarPlugin() {
           })
         }}
       />
-      <Button
-        size="small"
-        variant={isLink ? 'primary' : 'neutral-transparent'}
-        prefix={<IconLink />}
-        shape="square"
-        onClick={() => {
+      <LinkModal
+        onSave={(value, targetBlank) => {
+          console.log(value, targetBlank)
+
           editor.update(() => {
-            editor.dispatchCommand(
-              TOGGLE_LINK_COMMAND,
-              isLink ? null : prompt('enter url'),
-            )
+            editor.dispatchCommand(TOGGLE_LINK_COMMAND, {
+              url: value,
+              target: targetBlank ? '_blank' : '_self',
+            })
           })
         }}
-      />
+      >
+        <Button
+          size="small"
+          variant={isLink ? 'primary' : 'neutral-transparent'}
+          prefix={<IconLink />}
+          shape="square"
+        />
+      </LinkModal>
       <Button
         size="small"
         variant={type === 'bullet' ? 'primary' : 'neutral-transparent'}
