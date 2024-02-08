@@ -140,7 +140,16 @@ export function RichTextEditor({
             margin: 0,
           },
           '& .rte-blockquote': {
-            background: 'yellow',
+            background: color('background', 'muted'),
+            padding: '8px 16px',
+            fontStyle: 'italic',
+            fontFamily: 'serif',
+          },
+          '& .rte-blockquote::before': {
+            content: '" "',
+            width: 10,
+            height: 10,
+            background: 'red',
           },
           // dragg blocks
           '& .draggable-block-menu': {
