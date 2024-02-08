@@ -5,7 +5,7 @@ const config: BasedFunctionConfig = {
   name: 'playground-app',
   public: true,
   main: './app.tsx',
-  path: '/playground',
+  path: '/',
 }
 
 export default config
