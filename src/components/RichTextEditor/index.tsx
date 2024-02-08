@@ -22,6 +22,7 @@ import { color, border, boxShadow } from '../../index.js'
 import { ToolbarPlugin } from './plugins/ToolbarPlugin.js'
 import { ImagePlugin } from './plugins/ImagePlugin.js'
 import { ImageNode } from './nodes/ImageNode.js'
+import DraggableBlockPlugin from './plugins/DraggableBlockPlugin.js'
 
 export type RichTextEditorProps = {
   placeholder?: string
@@ -65,14 +66,18 @@ export function RichTextEditor({
   onChange,
   defaultValue,
 }: RichTextEditorProps) {
+  const editorContainerRef = React.useRef<HTMLDivElement | null>()
+
   return (
     <LexicalComposer initialConfig={CONFIG}>
       <styled.div
+        ref={editorContainerRef}
         style={{
           position: 'relative',
           '& .rte': {
             display: 'flex',
             flexDirection: 'column',
+            position: 'relative',
             color: color('content', 'primary'),
             lineHeight: '1.33',
             border: border(),
@@ -146,6 +151,9 @@ export function RichTextEditor({
           placeholder={<Placeholder>{placeholder}</Placeholder>}
           ErrorBoundary={LexicalErrorBoundary}
         />
+        {editorContainerRef && (
+          <DraggableBlockPlugin anchorElem={editorContainerRef?.current} />
+        )}
         <ImagePlugin />
         <ListPlugin />
         <LinkPlugin />
