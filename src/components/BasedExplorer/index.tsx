@@ -3,9 +3,6 @@ import * as React from 'react'
 import { Table } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 
-// TODO bugs on table:
-// if the initial page of items doesnt fill the table then loadmore never gets called
-
 export type BasedExplorerProps = {
   type: 'table'
   onItemClick?: (item: any) => void
