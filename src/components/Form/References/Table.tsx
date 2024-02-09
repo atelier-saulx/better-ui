@@ -27,6 +27,7 @@ import {
 import { ValueRef } from '../Table/Arrays/types.js'
 import { SizedStack, useColumns } from '../Table/SizedStack.js'
 import {
+  decorateObjectSchema,
   genObjectSchema,
   genObjectSchemaFromSchema,
 } from './genObjectSchema.js'
@@ -72,7 +73,7 @@ export const ReferencesTable = ({
   const readOnly = field.readOnly || ctx.editableReferences ? false : true
 
   if (!fieldSchema) {
-    fieldSchema = ctx.schema
+    const generatedSchema = ctx.schema
       ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
       : genObjectSchema(valueRef.value).field
 
@@ -84,10 +85,10 @@ export const ReferencesTable = ({
       'updatedAt',
       'descendants',
     ]) {
-      delete fieldSchema.properties[defaultBasedField]
+      delete generatedSchema.properties[defaultBasedField]
     }
 
-    console.log(fieldSchema)
+    fieldSchema = decorateObjectSchema(generatedSchema)
   }
 
   const [colFields, setColumns] = useColumns()

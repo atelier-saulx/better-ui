@@ -237,7 +237,7 @@ export const StackedHorizontal: StoryObj<typeof BarGraph> = {
   },
 }
 `},{ id: "f7416220464218", story: f7416220464218, path: "/Users/vassbence/projects/better-ui/src/components/BasedExplorer/index.stories.tsx", file: `import * as React from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 import { BasedExplorer } from '../../index.js'
 import based from '@based/client'
 import { Provider } from '@based/react'
@@ -262,22 +262,39 @@ const meta: Meta<typeof BasedExplorer> = {
 
 export default meta
 
-export const Default: StoryObj<typeof BasedExplorer> = {
-  args: {
-    query: ({ limit, offset }) => ({
-      data: {
-        $all: true,
-        $list: {
-          $limit: limit,
-          $offset: offset,
-          $find: {
-            $traverse: 'children',
-            $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+export const Default = () => {
+  return (
+    <div style={{ height: 500 }}>
+      <BasedExplorer
+        query={({ limit, offset }) => ({
+          data: {
+            $all: true,
+            $list: {
+              $limit: limit,
+              $offset: offset,
+              $find: {
+                $traverse: 'children',
+                $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+              },
+            },
           },
-        },
-      },
-    }),
-  },
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: 'children',
+              $filter: [
+                {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: 'todo',
+                },
+              ],
+            },
+          },
+        })}
+      />
+    </div>
+  )
 }
 `},{ id: "f2084790011414", story: f2084790011414, path: "/Users/vassbence/projects/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'

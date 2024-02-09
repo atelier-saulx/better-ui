@@ -82,10 +82,16 @@ export const genObjectSchema = (
   // Generate schema if none can be found
   const objectSchema: BasedSchemaFieldObject = {
     type: 'object',
-    properties: {},
+    properties: Object.fromEntries(
+      [...hasFields.values()].map((key) => [key, { type: 'string' }]),
+    ),
   }
 
-  for (const key of hasFields.values()) {
+  return { field: objectSchema }
+}
+
+export function decorateObjectSchema(objectSchema: BasedSchemaFieldObject) {
+  for (const key of Object.keys(objectSchema.properties)) {
     if (key === 'number' || key === 'count') {
       objectSchema.properties[key] = {
         type: 'number',
@@ -110,11 +116,11 @@ export const genObjectSchema = (
     } else {
       objectSchema.properties[key] = {
         type: 'string',
-        format: key === 'id' ? 'basedId' : null, // pass some more options here...
+        format: key === 'id' ? 'basedId' : null,
         contentMediaType: key === 'src' ? 'image/*' : null,
       }
     }
   }
 
-  return { field: objectSchema }
+  return objectSchema
 }
