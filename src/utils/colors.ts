@@ -113,7 +113,9 @@ export const borderRadius = (
             ? '9999px'
             : '0px'
 
-export const boxShadow = (variant: 'focus' | 'error' | 'elevation') =>
+export const boxShadow = (
+  variant: 'focus' | 'error' | 'elevation' = 'elevation',
+) =>
   variant === 'focus'
     ? `0 0 0 2px
   color-mix(in srgb, #634eca 20%, transparent);`

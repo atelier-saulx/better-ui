@@ -31,8 +31,11 @@ export function AddEmbedModal({
               </Button>
               <Button
                 onClick={() => {
+                  console.log('HTML --> 🏀', html)
                   onSave(html)
                   close()
+
+                  setHtml('')
                 }}
               >
                 Save changes

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { styled } from 'inlines'
-import { color, border } from '../../../index.js'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext.js'
 import {
   $getSelection,
@@ -32,6 +31,8 @@ import {
   $createQuoteNode,
 } from '@lexical/rich-text'
 import {
+  color,
+  border,
   Button,
   Dropdown,
   IconCheckLarge,
@@ -49,7 +50,7 @@ import {
   IconRepeat,
   IconQuote,
   IconChevronDown,
-  IconLayerThree,
+  IconAttachment,
 } from '../../../index.js'
 import {
   $setBlocksType,
@@ -543,31 +544,22 @@ export function ToolbarPlugin() {
       </FontColorModal>
 
       <AddEmbedModal
-        onSave={(v) => {
+        onSave={async (v) => {
+          await v
           editor.update(() => {
-            editor.dispatchCommand(INSERT_EMBED_COMMAND, v)
+            editor.dispatchCommand(INSERT_EMBED_COMMAND, {
+              html: v,
+            })
           })
         }}
       >
         <Button
           size="small"
           variant="neutral-transparent"
-          prefix={<IconLayerThree />}
+          prefix={<IconAttachment />}
           shape="square"
         />
       </AddEmbedModal>
-
-      {/* <AddEmbedModal
-        onSave={({ html }) => {
-          editor.update(() => {
-            editor.dispatchCommand(INSERT_EMBED_COMMAND, {
-              html,
-            })
-          })
-        }}
-      >
-        <Button size="small" color="system" icon={<IconLayerThree />} />
-      </AddEmbedModal> */}
 
       <styled.div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
         <Button
