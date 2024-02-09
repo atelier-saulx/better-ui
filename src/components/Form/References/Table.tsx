@@ -54,11 +54,13 @@ export const ReferencesTable = ({
   changeIndex,
   alwaysUseCols,
   sortByFields,
+  fieldSchema,
 }: {
   pagination?: TablePagination
   sortByFields?: TableSort
   field: BasedSchemaFieldReferences
   valueRef: ValueRef
+  fieldSchema?: BasedSchemaFieldObject
   onNew?: () => Promise<any>
   onRemove?: (index: number) => void
   onClickReference: (ref: Reference) => void
@@ -69,9 +71,11 @@ export const ReferencesTable = ({
 }) => {
   const readOnly = field.readOnly || ctx.editableReferences ? false : true
 
-  const fieldSchema = ctx.schema
-    ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
-    : genObjectSchema(valueRef.value).field
+  if (!fieldSchema) {
+    fieldSchema = ctx.schema
+      ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
+      : genObjectSchema(valueRef.value).field
+  }
 
   const [colFields, setColumns] = useColumns()
 

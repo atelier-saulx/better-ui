@@ -6,7 +6,10 @@ import { useClient, useQuery } from '@based/react'
 export type BasedExplorerProps = {
   type: 'table'
   onItemClick?: (item: any) => void
-  query: ({ limit, offset }: { limit: number; offset: number }) => any
+  query: ({ limit, offset }: { limit: number; offset: number }) => {
+    data: any
+    total?: any
+  }
   queryEndpoint?: string
 }
 
@@ -20,7 +23,8 @@ export function BasedExplorer({
   >([])
   const [data, setData] = React.useState<any[]>([])
   const flatData = data.flatMap((e) => e?.data ?? [])
-  const { data: schema, loading: schemaLoading } = useQuery('db:schema')
+  const total = data?.[0]?.total ?? flatData.length
+  const { data: schema } = useQuery('db:schema')
 
   function fetchPage({ limit, offset }: any) {
     const index = querySubscriptions.current.length
@@ -28,6 +32,8 @@ export function BasedExplorer({
     querySubscriptions.current[index] = client
       .query(queryEndpoint, query({ limit: limit, offset: offset }))
       .subscribe((chunk) => {
+        console.log('fetchpage', offset, chunk)
+
         setData((prevData) => {
           const newData = [...prevData]
           newData[index] = chunk
@@ -39,11 +45,12 @@ export function BasedExplorer({
   return (
     <div style={{ height: 500 }}>
       <Table
-        values={flatData}
         schema={schema}
+        values={flatData}
+        sort
         pagination={{
           type: 'scroll',
-          total: flatData.length,
+          total: total,
           onPageChange: async (p) => {
             fetchPage({
               offset: p.start,
@@ -51,7 +58,6 @@ export function BasedExplorer({
             })
           },
         }}
-        sort
       />
     </div>
   )

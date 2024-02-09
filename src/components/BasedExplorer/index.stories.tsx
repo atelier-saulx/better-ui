@@ -34,12 +34,23 @@ export const Default: StoryObj<typeof BasedExplorer> = {
           $offset: offset,
           $find: {
             $traverse: 'children',
-            // perf opt check if this has a type
-            // $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+            $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
           },
         },
       },
-      // total: {} TODO add optional aggregate query
+      total: {
+        $aggregate: {
+          $function: 'count',
+          $traverse: 'children',
+          $filter: [
+            {
+              $field: 'type',
+              $operator: '=',
+              $value: 'todo',
+            },
+          ],
+        },
+      },
     }),
   },
 }
