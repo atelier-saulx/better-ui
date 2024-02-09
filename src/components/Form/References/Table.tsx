@@ -75,6 +75,19 @@ export const ReferencesTable = ({
     fieldSchema = ctx.schema
       ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
       : genObjectSchema(valueRef.value).field
+
+    for (const defaultBasedField of [
+      'aliases',
+      'ancestors',
+      'children',
+      'parents',
+      'updatedAt',
+      'descendants',
+    ]) {
+      delete fieldSchema.properties[defaultBasedField]
+    }
+
+    console.log(fieldSchema)
   }
 
   const [colFields, setColumns] = useColumns()

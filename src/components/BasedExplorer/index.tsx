@@ -4,7 +4,6 @@ import { Table } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 
 export type BasedExplorerProps = {
-  type: 'table'
   onItemClick?: (item: any) => void
   query: ({ limit, offset }: { limit: number; offset: number }) => {
     data: any
@@ -32,8 +31,6 @@ export function BasedExplorer({
     querySubscriptions.current[index] = client
       .query(queryEndpoint, query({ limit: limit, offset: offset }))
       .subscribe((chunk) => {
-        console.log('fetchpage', offset, chunk)
-
         setData((prevData) => {
           const newData = [...prevData]
           newData[index] = chunk
@@ -43,22 +40,20 @@ export function BasedExplorer({
   }
 
   return (
-    <div style={{ height: 500 }}>
-      <Table
-        schema={schema}
-        values={flatData}
-        sort
-        pagination={{
-          type: 'scroll',
-          total: total,
-          onPageChange: async (p) => {
-            fetchPage({
-              offset: p.start,
-              limit: p.end === 0 ? p.pageSize : p.end - p.start,
-            })
-          },
-        }}
-      />
-    </div>
+    <Table
+      schema={schema}
+      values={flatData}
+      sort
+      pagination={{
+        type: 'scroll',
+        total: total,
+        onPageChange: async (p) => {
+          fetchPage({
+            offset: p.start,
+            limit: p.end === 0 ? p.pageSize : p.end - p.start,
+          })
+        },
+      }}
+    />
   )
 }
