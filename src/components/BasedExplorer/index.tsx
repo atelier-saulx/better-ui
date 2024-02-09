@@ -3,6 +3,10 @@ import * as React from 'react'
 import { Table } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 
+// TODO table problems:
+// pagination: scroll actually requires the correct total amount despite it being marked as optional
+// if the data is async the fields are not correctly figured out
+
 export type BasedExplorerProps = {
   type: 'table'
   onItemClick?: (item: any) => void
@@ -42,16 +46,20 @@ export function BasedExplorer({
 
   console.log(schema, flatData)
 
+  // if (!schema || !flatData.length) return
+
   return (
     <div style={{ height: 500 }}>
       <Table
-        values={flatData}
-        // pagination={{
-        //   type: 'scroll',
-        //   loadMore: async () => {
-        //     console.log('loadmore called')
-        //   },
-        // }}
+        values={flatData ?? []}
+        pagination={{
+          type: 'scroll',
+          total: (flatData ?? []).length,
+          loadMore: async () => {
+            console.log('loadmore called')
+          },
+        }}
+        sort
       />
     </div>
   )
