@@ -28,6 +28,7 @@ export const Table = (p: {
 
   const ctx: TableCtx = {
     fields: {
+      // From query we can generate a more specific one
       field: { type: 'references', sortable: p.sortable },
     },
     editableReferences: p.editable,

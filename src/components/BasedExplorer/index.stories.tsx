@@ -34,7 +34,8 @@ export const Default: StoryObj<typeof BasedExplorer> = {
           $offset: offset,
           $find: {
             $traverse: 'children',
-            $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+            // perf opt check if this has a type
+            // $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
           },
         },
       },

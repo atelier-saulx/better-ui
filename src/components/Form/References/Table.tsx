@@ -71,7 +71,7 @@ export const ReferencesTable = ({
 
   const fieldSchema = ctx.schema
     ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
-    : genObjectSchema(valueRef.value)
+    : genObjectSchema(valueRef.value).field
 
   const [colFields, setColumns] = useColumns()
 

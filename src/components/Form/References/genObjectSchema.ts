@@ -9,7 +9,6 @@ export const genObjectSchemaFromSchema = (
   value: any[],
   field: BasedSchemaFieldReferences,
   schema: BasedSchemaPartial,
-  types?: AllowedTypes,
 ): BasedSchemaFieldObject => {
   // Generate schema if none can be found
   const objectSchema: BasedSchemaFieldObject = {
@@ -17,39 +16,67 @@ export const genObjectSchemaFromSchema = (
     properties: {},
   }
 
-  if (!types) types = field.allowedTypes
+  let types: AllowedTypes = field.allowedTypes
+
+  if (!types) {
+    const generatedObjectSchema = genObjectSchema(value, schema)
+    if (generatedObjectSchema.types) {
+      types = [...generatedObjectSchema.types.values()]
+    } else {
+      return generatedObjectSchema.field
+    }
+  }
 
   if (types) {
     for (const type of types) {
       if (typeof type === 'string') {
         const t = schema.types?.[type]?.fields
         if (t) {
+          // prob want to make this a bit nicer
           Object.assign(objectSchema.properties, t)
         }
       } else {
-        return genObjectSchema(value)
+        // later...
+        return genObjectSchema(value).field
       }
     }
-
     return objectSchema
   }
-
-  const generatedObjectSchema = genObjectSchema(value)
-
-  return generatedObjectSchema
 }
 
-export const genObjectSchema = (value: any[]): BasedSchemaFieldObject => {
+export const genObjectSchema = (
+  value: any[],
+  schema?: BasedSchemaPartial,
+): { field?: BasedSchemaFieldObject; types?: Set<string> } => {
   const hasFields: Set<string> = new Set()
+
+  const types: Set<string> = schema ? new Set() : undefined
 
   for (const v of value) {
     if (typeof v === 'object') {
       for (const k in v) {
         if (typeof v[k] !== 'object') {
+          if (types) {
+            if (typeof v[k] === 'string') {
+              if (k === 'type' && v[k] in schema.types) {
+                types.add(v[k])
+              } else if (k === 'id' && v[k].length > 4) {
+                const typeFromPrefix =
+                  schema.prefixToTypeMapping?.[k.slice(0, 2)]
+                if (typeFromPrefix) {
+                  types.add(typeFromPrefix)
+                }
+              }
+            }
+          }
           hasFields.add(k)
         }
       }
     }
+  }
+
+  if (types?.size) {
+    return { types }
   }
 
   // Generate schema if none can be found
@@ -89,5 +116,5 @@ export const genObjectSchema = (value: any[]): BasedSchemaFieldObject => {
     }
   }
 
-  return objectSchema
+  return { field: objectSchema }
 }
