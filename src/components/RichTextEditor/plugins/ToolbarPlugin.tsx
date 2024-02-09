@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { styled } from 'inlines'
-import { ColorInput, color } from '../../../index.js'
+import { color, border } from '../../../index.js'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext.js'
 import {
   $getSelection,
@@ -48,6 +48,7 @@ import {
   IconText,
   IconRepeat,
   IconQuote,
+  IconChevronDown,
 } from '../../../index.js'
 import {
   $setBlocksType,
@@ -189,10 +190,17 @@ export function ToolbarPlugin() {
         display: 'flex',
         alignItems: 'center',
         height: 48,
+        backgroundColor: color('background', 'muted'),
         // '& > * + *': {
         //   marginLeft: '5px',
         // },
         gap: 10,
+        paddingLeft: '10px',
+        paddingRight: '10px',
+        borderTopRightRadius: '8px',
+        borderTopLeftRadius: '8px',
+        border: border(),
+        borderBottom: '0px solid transparent',
       }}
     >
       <Dropdown.Root>
@@ -201,7 +209,20 @@ export function ToolbarPlugin() {
             size="small"
             shape="square"
             variant="neutral-transparent"
-            prefix={<IconText />}
+            prefix={
+              <>
+                <IconText />
+                <IconChevronDown
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 10,
+                    width: 10,
+                    height: 10,
+                  }}
+                />
+              </>
+            }
           />
         </Dropdown.Trigger>
         <Dropdown.Items>
@@ -470,8 +491,8 @@ export function ToolbarPlugin() {
           prefix={
             <IconText
               style={{
-                color: color('non-semantic-color', 'green'),
-                borderBottom: `4px solid ${color('non-semantic-color', 'green')}`,
+                color: color('non-semantic-color', 'blue'),
+                borderBottom: `4px solid ${color('non-semantic-color', 'blue')}`,
                 paddingBottom: 3,
               }}
             />
@@ -505,7 +526,7 @@ export function ToolbarPlugin() {
       >
         <Button
           size="small"
-          style={{ background: color('non-semantic-color', 'purple-soft') }}
+          style={{ background: color('non-semantic-color', 'blue-soft') }}
           variant={'neutral-transparent'}
           prefix={<IconText />}
           shape="square"

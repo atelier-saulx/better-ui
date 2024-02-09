@@ -18,7 +18,7 @@ import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { LinkNode } from '@lexical/link'
 import { ListNode, ListItemNode } from '@lexical/list'
 import { styled } from 'inlines'
-import { color, border, boxShadow } from '../../index.js'
+import { color, border, boxShadow, ScrollArea } from '../../index.js'
 import { ToolbarPlugin } from './plugins/ToolbarPlugin.js'
 import { ImagePlugin } from './plugins/ImagePlugin.js'
 import { ImageNode } from './nodes/ImageNode.js'
@@ -26,6 +26,7 @@ import DraggableBlockPlugin from './plugins/DraggableBlockPlugin.js'
 
 export type RichTextEditorProps = {
   placeholder?: string
+  height?: number
 } & ValuePluginProps &
   AutoFocusPluginProps
 
@@ -66,11 +67,14 @@ export function RichTextEditor({
   autoFocus,
   onChange,
   defaultValue,
+  height = 500,
 }: RichTextEditorProps) {
   const editorContainerRef = React.useRef<HTMLDivElement | null>()
 
   return (
     <LexicalComposer initialConfig={CONFIG}>
+      <ToolbarPlugin />
+
       <styled.div
         ref={editorContainerRef}
         style={{
@@ -81,25 +85,28 @@ export function RichTextEditor({
             position: 'relative',
             color: color('content', 'primary'),
             lineHeight: '1.33',
-            border: border(),
-            '&:hover': {
-              border: border('hover'),
-            },
-            '&:focus': {
-              border: border('focus'),
-              boxShadow: boxShadow('focus'),
-            },
-            borderRadius: '8px',
-            padding: '16px',
+            // border: border(),
+            // '&:hover': {
+            //   border: border('hover'),
+            // },
+            // '&:focus': {
+            //   border: border('focus'),
+            //   boxShadow: boxShadow('focus'),
+            // },
+            // borderRadius: '8px',
+            borderBottomLeftRadius: '8px',
+            borderBottomRightRadius: '8px',
+            padding: '16px ',
             minHeight: '300px',
             outline: 'none',
+            height: height,
           },
           // keeping focus on the editor when a toolbar button is clicked
           // might not want this for everything so change later if needed
-          '&:focus-within .rte': {
-            border: border('focus'),
-            boxShadow: boxShadow('focus'),
-          },
+          // '&:focus-within .rte': {
+          //   //  border: border('focus'),
+          //   //  boxShadow: boxShadow('focus'),
+          // },
           '& .rte-h1': {
             margin: 0,
             marginBottom: 14,
@@ -181,7 +188,7 @@ export function RichTextEditor({
             cursor: 'grab',
             opacity: 0,
             position: 'absolute',
-            left: '-16px',
+            left: '-13px',
             top: 0,
             willChange: 'transform',
           },
@@ -200,9 +207,10 @@ export function RichTextEditor({
             backgroundColor: color('background', 'screen'),
             border: border(),
             borderRadius: '4px',
-            width: 22,
+            width: 18,
             height: 22,
-            padding: 2,
+            padding: '2px 0px',
+            zIndex: 1,
           },
           '& .draggable-block-target-line': {
             pointerEvents: 'none',
@@ -216,23 +224,41 @@ export function RichTextEditor({
           },
         }}
       >
-        <ToolbarPlugin />
-
-        <RichTextPlugin
-          contentEditable={<ContentEditable className="rte" />}
-          placeholder={<Placeholder>{placeholder}</Placeholder>}
-          ErrorBoundary={LexicalErrorBoundary}
-        />
-        {editorContainerRef && (
-          <DraggableBlockPlugin anchorElem={editorContainerRef?.current} />
-        )}
-        <ImagePlugin />
-        <ListPlugin />
-        <LinkPlugin />
-        <BehaviourPlugin />
-        <HistoryPlugin />
-        <AutoFocusPlugin autoFocus={autoFocus} />
-        <ValuePlugin defaultValue={defaultValue} onChange={onChange} />
+        <ScrollArea
+          style={{
+            maxHeight: height,
+            border: border(),
+            borderBottomLeftRadius: '8px',
+            borderBottomRightRadius: '8px',
+            // '&:hover': {
+            //   border: border('hover'),
+            // },
+            // '&:focus': {
+            //   border: border('focus'),
+            //   boxShadow: boxShadow('focus'),
+            // },
+            // '&:focus-within ': {
+            //   border: border('focus'),
+            //   boxShadow: boxShadow('focus'),
+            // },
+          }}
+        >
+          <RichTextPlugin
+            contentEditable={<ContentEditable className="rte" />}
+            placeholder={<Placeholder>{placeholder}</Placeholder>}
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+          {editorContainerRef && (
+            <DraggableBlockPlugin anchorElem={editorContainerRef?.current} />
+          )}
+          <ImagePlugin />
+          <ListPlugin />
+          <LinkPlugin />
+          <BehaviourPlugin />
+          <HistoryPlugin />
+          <AutoFocusPlugin autoFocus={autoFocus} />
+          <ValuePlugin defaultValue={defaultValue} onChange={onChange} />
+        </ScrollArea>
       </styled.div>
     </LexicalComposer>
   )
