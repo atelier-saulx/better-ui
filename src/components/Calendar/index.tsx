@@ -19,6 +19,7 @@ import {
   borderRadius,
   textVariants,
 } from '../../index.js'
+import { styled } from 'inlines'
 
 export type CalendarProps = {}
 
@@ -39,14 +40,14 @@ export function Calendar(_: CalendarProps) {
   }, [displayMonth])
 
   return (
-    <div
+    <styled.div
       style={{
         border: border(),
         borderRadius: borderRadius('medium'),
         padding: 24,
       }}
     >
-      <div
+      <styled.div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -56,8 +57,8 @@ export function Calendar(_: CalendarProps) {
           fontSize: 16,
         }}
       >
-        <div>{format(displayMonth, 'MMMM yyyy')}</div>
-        <div>
+        <styled.div>{format(displayMonth, 'MMMM yyyy')}</styled.div>
+        <styled.div>
           <Button
             size="small"
             variant="neutral-transparent"
@@ -78,9 +79,9 @@ export function Calendar(_: CalendarProps) {
           >
             <IconChevronTop />
           </Button>
-        </div>
-      </div>
-      <div
+        </styled.div>
+      </styled.div>
+      <styled.div
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(7, 1fr)',
@@ -119,7 +120,7 @@ export function Calendar(_: CalendarProps) {
             {isSameMonth(day, displayMonth) && format(day, 'd')}
           </div>
         ))}
-      </div>
-    </div>
+      </styled.div>
+    </styled.div>
   )
 }
