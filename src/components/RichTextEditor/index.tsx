@@ -18,11 +18,13 @@ import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { LinkNode } from '@lexical/link'
 import { ListNode, ListItemNode } from '@lexical/list'
 import { styled } from 'inlines'
-import { color, border, boxShadow, ScrollArea } from '../../index.js'
+import { color, border, ScrollArea } from '../../index.js'
 import { ToolbarPlugin } from './plugins/ToolbarPlugin.js'
 import { ImagePlugin } from './plugins/ImagePlugin.js'
 import { ImageNode } from './nodes/ImageNode.js'
+import { EmbedPlugin } from './plugins/EmbedPlugin.js'
 import DraggableBlockPlugin from './plugins/DraggableBlockPlugin.js'
+import { EmbedNode } from './nodes/EmbedNode.js'
 
 export type RichTextEditorProps = {
   placeholder?: string
@@ -33,7 +35,15 @@ export type RichTextEditorProps = {
 const CONFIG = {
   editable: true,
   namespace: '__based_rte',
-  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode, QuoteNode],
+  nodes: [
+    HeadingNode,
+    LinkNode,
+    ListNode,
+    ListItemNode,
+    ImageNode,
+    QuoteNode,
+    EmbedNode,
+  ],
   onError: (error) => {
     console.error('rte error:', error)
   },
@@ -239,6 +249,7 @@ export function RichTextEditor({
           {editorContainerRef && (
             <DraggableBlockPlugin anchorElem={editorContainerRef?.current} />
           )}
+          <EmbedPlugin />
           <ImagePlugin />
           <ListPlugin />
           <LinkPlugin />

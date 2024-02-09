@@ -49,6 +49,7 @@ import {
   IconRepeat,
   IconQuote,
   IconChevronDown,
+  IconLayerThree,
 } from '../../../index.js'
 import {
   $setBlocksType,
@@ -57,8 +58,10 @@ import {
 } from '@lexical/selection'
 import { AddImageModal } from '../components/AddImageModal.js'
 import { INSERT_IMAGE_COMMAND } from './ImagePlugin.js'
+import { INSERT_EMBED_COMMAND } from './EmbedPlugin.js'
 import { FontColorModal } from '../components/FontColorModal.js'
 import { LinkModal } from '../components/LinkModal.js'
+import { AddEmbedModal } from '../components/AddEmbedModal.js'
 
 export function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -538,6 +541,21 @@ export function ToolbarPlugin() {
           }}
         />
       </FontColorModal>
+
+      <AddEmbedModal
+        onSave={(v) => {
+          editor.update(() => {
+            editor.dispatchCommand(INSERT_EMBED_COMMAND, v)
+          })
+        }}
+      >
+        <Button
+          size="small"
+          variant="neutral-transparent"
+          prefix={<IconLayerThree />}
+          shape="square"
+        />
+      </AddEmbedModal>
 
       {/* <AddEmbedModal
         onSave={({ html }) => {

@@ -11,7 +11,6 @@ import {
   ImageNode,
   ImageNodePayload,
 } from '../nodes/ImageNode.js'
-import { $insertNodeToNearestRoot } from '@lexical/utils'
 
 export const INSERT_IMAGE_COMMAND: LexicalCommand<ImageNodePayload> =
   createCommand('INSERT_IMAGE_COMMAND')
@@ -28,7 +27,6 @@ export function ImagePlugin(): ReactNode | null {
       INSERT_IMAGE_COMMAND,
       (payload) => {
         const imageNode = $createImageNode(payload)
-        //  $insertNodeToNearestRoot(imageNode)
         $insertNodes([imageNode])
 
         return true
