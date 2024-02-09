@@ -1,5 +1,10 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext.js'
-import { COMMAND_PRIORITY_EDITOR, createCommand, LexicalCommand } from 'lexical'
+import {
+  $insertNodes,
+  COMMAND_PRIORITY_EDITOR,
+  createCommand,
+  LexicalCommand,
+} from 'lexical'
 import { ReactNode, useEffect } from 'react'
 import {
   $createImageNode,
@@ -23,7 +28,8 @@ export function ImagePlugin(): ReactNode | null {
       INSERT_IMAGE_COMMAND,
       (payload) => {
         const imageNode = $createImageNode(payload)
-        $insertNodeToNearestRoot(imageNode)
+        //  $insertNodeToNearestRoot(imageNode)
+        $insertNodes([imageNode])
 
         return true
       },
