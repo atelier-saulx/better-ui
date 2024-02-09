@@ -51,10 +51,10 @@ export function BasedExplorer({
   return (
     <div style={{ height: 500 }}>
       <Table
-        values={flatData ?? []}
+        values={flatData}
         pagination={{
           type: 'scroll',
-          total: (flatData ?? []).length,
+          total: flatData.length,
           loadMore: async () => {
             console.log('loadmore called')
           },

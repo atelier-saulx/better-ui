@@ -1,9 +1,10 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect, useRef } from 'react'
 import { Stack, StackProps, useSize } from '../../../index.js'
 import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
 import { canUseColumns } from '../utils.js'
 import { getColSizes } from '../getColSizes.js'
 import { styled, Style } from 'inlines'
+import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 
 type SetColumns = (cols?: ReturnType<typeof getColSizes>) => void
 
@@ -55,6 +56,7 @@ export function SizedStack({
   alwaysUseCols?: boolean
 }) {
   const [width, setWidth] = React.useState(0)
+
   const sizeRef = useSize(({ width }) => {
     if (field.type === 'object') {
       setColumns(
@@ -69,6 +71,20 @@ export function SizedStack({
     }
     setWidth(width)
   })
+
+  useEffect(() => {
+    if (field.type === 'object' && width) {
+      setColumns(
+        getCols(
+          alwaysUseCols,
+          field,
+          readOnly,
+          width - correction,
+          displayAllFields,
+        ),
+      )
+    }
+  }, [hashObjectIgnoreKeyOrder(field)])
 
   if (field.type === 'object') {
     return (
