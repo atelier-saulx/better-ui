@@ -38,6 +38,7 @@ export const Default: StoryObj<typeof BasedExplorer> = {
           },
         },
       },
+      // total: {} TODO add optional aggregate query
     }),
   },
 }

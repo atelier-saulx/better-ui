@@ -3,9 +3,8 @@ import * as React from 'react'
 import { Table } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 
-// TODO table problems:
-// pagination: scroll actually requires the correct total amount despite it being marked as optional
-// if the data is async the fields are not correctly figured out
+// TODO bugs on table:
+// if the initial page of items doesnt fill the table then loadmore never gets called
 
 export type BasedExplorerProps = {
   type: 'table'
@@ -26,11 +25,11 @@ export function BasedExplorer({
   const flatData = data.flatMap((e) => e?.data ?? [])
   const { data: schema, loading: schemaLoading } = useQuery('db:schema')
 
-  function fetchPage() {
+  function fetchPage({ limit, offset }: any) {
     const index = querySubscriptions.current.length
 
     querySubscriptions.current[index] = client
-      .query(queryEndpoint, query({ limit: 100, offset: 0 }))
+      .query(queryEndpoint, query({ limit: limit, offset: offset }))
       .subscribe((chunk) => {
         setData((prevData) => {
           const newData = [...prevData]
@@ -40,23 +39,19 @@ export function BasedExplorer({
       })
   }
 
-  React.useEffect(() => {
-    fetchPage()
-  }, [])
-
-  console.log(schema, flatData)
-
-  // if (!schema || !flatData.length) return
-
   return (
     <div style={{ height: 500 }}>
       <Table
         values={flatData}
+        schema={schema}
         pagination={{
           type: 'scroll',
           total: flatData.length,
-          loadMore: async () => {
-            console.log('loadmore called')
+          onPageChange: async (p) => {
+            fetchPage({
+              offset: p.start,
+              limit: p.end === 0 ? p.pageSize : p.end - p.start,
+            })
           },
         }}
         sort

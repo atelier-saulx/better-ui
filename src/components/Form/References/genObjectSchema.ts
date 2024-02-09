@@ -1,4 +1,5 @@
 import {
+  AllowedTypes,
   BasedSchemaFieldObject,
   BasedSchemaFieldReferences,
   BasedSchemaPartial,
@@ -8,6 +9,7 @@ export const genObjectSchemaFromSchema = (
   value: any[],
   field: BasedSchemaFieldReferences,
   schema: BasedSchemaPartial,
+  types?: AllowedTypes,
 ): BasedSchemaFieldObject => {
   // Generate schema if none can be found
   const objectSchema: BasedSchemaFieldObject = {
@@ -15,30 +17,26 @@ export const genObjectSchemaFromSchema = (
     properties: {},
   }
 
-  if (field.allowedTypes) {
-    for (const type of field.allowedTypes) {
+  if (!types) types = field.allowedTypes
+
+  if (types) {
+    for (const type of types) {
       if (typeof type === 'string') {
         const t = schema.types?.[type]?.fields
         if (t) {
           Object.assign(objectSchema.properties, t)
         }
       } else {
-        // TODO: Not supported yet
         return genObjectSchema(value)
       }
     }
 
-    // for (const key in objectSchema.properties) {
-    //   const props = objectSchema.properties[key]
-    //   // console.info('-', props)
-    // }
-
-    // console.log(objectSchema)
-
     return objectSchema
   }
 
-  return genObjectSchema(value)
+  const generatedObjectSchema = genObjectSchema(value)
+
+  return generatedObjectSchema
 }
 
 export const genObjectSchema = (value: any[]): BasedSchemaFieldObject => {
