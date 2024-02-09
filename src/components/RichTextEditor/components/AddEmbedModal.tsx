@@ -23,6 +23,7 @@ export function AddEmbedModal({
                 onChange={(v) => setHtml(v)}
                 style={{ marginBottom: 12 }}
                 autoFocus
+                language="html"
               />
             </Modal.Body>
             <Modal.Actions>
@@ -31,7 +32,6 @@ export function AddEmbedModal({
               </Button>
               <Button
                 onClick={() => {
-                  console.log('HTML --> 🏀', html)
                   onSave(html)
                   close()
 

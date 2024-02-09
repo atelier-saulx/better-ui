@@ -20,6 +20,7 @@ export function LinkModal({
             <Modal.Title>Set an url</Modal.Title>
             <Modal.Body>
               <TextInput
+                autoFocus
                 label="Enter an url"
                 value={url}
                 onChange={(v) => setUrl(v)}
