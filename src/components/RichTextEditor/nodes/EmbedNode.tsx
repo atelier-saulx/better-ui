@@ -10,8 +10,7 @@ import {
   DecoratorBlockNode,
   SerializedDecoratorBlockNode,
 } from '@lexical/react/LexicalDecoratorBlockNode.js'
-import { styled } from 'inlines'
-import { border, boxShadow, color } from '../../../utils/colors.js'
+import { EmbedComponent } from '../components/EmbedComponent.js'
 
 export type EmbedNodePayload = {
   html: string
@@ -50,23 +49,7 @@ export class EmbedNode extends DecoratorBlockNode {
   }
 
   override decorate(): JSX.Element {
-    return (
-      <styled.div
-        key={this.__key}
-        style={{
-          border: border(),
-          boxShadow: boxShadow(),
-          borderRadius: 4,
-          width: 'fit-content',
-          padding: 16,
-          backgroundColor: color('background', 'muted'),
-          marginBottom: 12,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-        dangerouslySetInnerHTML={{ __html: this.__html }}
-      />
-    )
+    return <EmbedComponent html={this.__html} nodeKey={this.__key} />
   }
 
   static override importJSON(serializedNode: SerializedEmbedNode): EmbedNode {
