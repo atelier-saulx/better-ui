@@ -1,6 +1,6 @@
 import { BasedQuery } from '@based/client'
 import * as React from 'react'
-import { Table } from '../../index.js'
+import { Table, useUpdate } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 
 export type BasedExplorerProps = {
@@ -17,41 +17,45 @@ export function BasedExplorer({
   queryEndpoint = 'db',
 }: BasedExplorerProps) {
   const client = useClient()
-  const querySubscriptions = React.useRef<
-    (ReturnType<typeof BasedQuery.prototype.subscribe> | null)[]
-  >([])
-  const [data, setData] = React.useState<any[]>([])
-  const flatData = data.flatMap((e) => e?.data ?? [])
-  const total = data?.[0]?.total ?? flatData.length
+  const update = useUpdate()
+
   const { data: schema } = useQuery('db:schema')
-
-  function fetchPage({ limit, offset }: any) {
-    const index = querySubscriptions.current.length
-
-    querySubscriptions.current[index] = client
-      .query(queryEndpoint, query({ limit: limit, offset: offset }))
-      .subscribe((chunk) => {
-        setData((prevData) => {
-          const newData = [...prevData]
-          newData[index] = chunk
-          return newData
-        })
-      })
-  }
+  const ref = React.useRef<{
+    prevSub?: ReturnType<BasedQuery['subscribe']>
+    block: { data: any[]; total: number }
+    total: number
+  }>({
+    block: { data: [], total: 0 },
+    total: 0,
+  })
 
   return (
     <Table
       schema={schema}
-      values={flatData}
+      values={ref.current?.block.data}
+      isBlock
       sort
       pagination={{
         type: 'scroll',
-        total: total,
+        total: ref.current.total,
         onPageChange: async (p) => {
-          fetchPage({
-            offset: p.start,
-            limit: p.end === 0 ? p.pageSize : p.end - p.start,
-          })
+          if (ref.current.prevSub) {
+            ref.current.prevSub()
+          }
+
+          ref.current.prevSub = client
+            .query(
+              queryEndpoint,
+              query({
+                limit: p.end === 0 ? p.pageSize : p.end - p.start,
+                offset: p.start,
+              }),
+            )
+            .subscribe((d) => {
+              ref.current.total = d.total
+              ref.current.block = d
+              update()
+            })
         },
       }}
     />

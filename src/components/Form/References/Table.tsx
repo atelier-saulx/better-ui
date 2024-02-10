@@ -56,6 +56,7 @@ export const ReferencesTable = ({
   alwaysUseCols,
   sortByFields,
   fieldSchema,
+  isBlock,
 }: {
   pagination?: TablePagination
   sortByFields?: TableSort
@@ -69,6 +70,7 @@ export const ReferencesTable = ({
   path: Path
   alwaysUseCols?: boolean
   changeIndex: (fromIndex: number, toIndex: number) => void
+  isBlock?: boolean
 }) => {
   const readOnly = field.readOnly || ctx.editableReferences ? false : true
 
@@ -89,6 +91,9 @@ export const ReferencesTable = ({
     }
 
     fieldSchema = decorateObjectSchema(generatedSchema)
+
+    fieldSchema.properties.id = { type: 'string'}
+
   }
 
   const [colFields, setColumns] = useColumns()
@@ -193,6 +198,7 @@ export const ReferencesTable = ({
         path={path}
         colFields={colFields}
         nField={nField}
+        isBlock={isBlock}
       />
       {/* if scrollable add this on top ? */}
       {onNew ? (

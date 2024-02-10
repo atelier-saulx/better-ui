@@ -13,7 +13,8 @@ export const genObjectSchemaFromSchema = (
   // Generate schema if none can be found
   const objectSchema: BasedSchemaFieldObject = {
     type: 'object',
-    properties: {},
+    properties: {
+    },
   }
 
   let types: AllowedTypes = field.allowedTypes

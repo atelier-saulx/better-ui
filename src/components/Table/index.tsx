@@ -21,6 +21,7 @@ export const Table = (p: {
   sortable?: boolean // maybe rename to orderable (everywhere)
   onChange?: FormProps['onChange']
   onClick?: (data: any, index: number | string) => void
+  isBlock?: boolean
 }) => {
   const update = useUpdate()
 
@@ -137,6 +138,7 @@ export const Table = (p: {
       valueRef={valueRef.current}
       changeIndex={changeIndex}
       alwaysUseCols
+      isBlock={p.isBlock}
       onRemove={p.editable ? removeItem : undefined}
       pagination={
         p.pagination === true

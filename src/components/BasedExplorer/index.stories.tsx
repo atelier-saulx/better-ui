@@ -34,25 +34,30 @@ export const Default = () => {
             $list: {
               $limit: limit,
               $offset: offset,
+              $sort: {
+                $field: 'name',
+                $order: 'asc'
+              },
               $find: {
                 $traverse: 'children',
                 $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
               },
             },
           },
-          total: {
-            $aggregate: {
-              $function: 'count',
-              $traverse: 'children',
-              $filter: [
-                {
-                  $field: 'type',
-                  $operator: '=',
-                  $value: 'todo',
-                },
-              ],
-            },
-          },
+          total: { $value: 9e99 }
+          // total: {
+          //   $aggregate: {
+          //     $function: 'count',
+          //     $traverse: 'children',
+          //     $filter: [
+          //       {
+          //         $field: 'type',
+          //         $operator: '=',
+          //         $value: 'todo',
+          //       },
+          //     ],
+          //   },
+          // },
         })}
       />
     </div>
