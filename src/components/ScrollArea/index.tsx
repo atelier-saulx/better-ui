@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
-import 'overlayscrollbars/overlayscrollbars.css'
 
 export type ScrollAreaProps = {
   children: React.ReactNode

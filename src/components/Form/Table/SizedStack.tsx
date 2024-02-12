@@ -72,14 +72,14 @@ export function SizedStack({
 
   if (field.type === 'object') {
     return (
-      <styled.div style={{ width: '100%' }}>
+      <styled.div style={{ width: '100%', height: '100%' }}>
         <styled.div ref={sizeRef} style={{ width: '100%' }} />
-        <styled.div style={{ width: 200 }}>
+        <styled.div style={{ width: 200, height: '100%' }}>
           <Stack
             justify={justify}
             align={align}
             direction="column"
-            style={{ width, ...style }}
+            style={{ width, ...style, height: '100%' }}
           >
             {children}
           </Stack>
@@ -88,5 +88,9 @@ export function SizedStack({
     )
   }
 
-  return <Stack direction="column">{children}</Stack>
+  return (
+    <Stack style={style} direction="column">
+      {children}
+    </Stack>
+  )
 }
