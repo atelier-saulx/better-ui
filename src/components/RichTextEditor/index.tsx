@@ -7,7 +7,6 @@ import {
 } from './plugins/AutoFocusPlugin.js'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin.js'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin.js'
-// TODO what's a .prod.js import? are the other imports correct?
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary.prod.js'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable.js'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin.js'
@@ -95,14 +94,6 @@ export function RichTextEditor({
             position: 'relative',
             color: color('content', 'primary'),
             lineHeight: '1.33',
-            // border: border(),
-            // '&:hover': {
-            //   border: border('hover'),
-            // },
-            // '&:focus': {
-            //   border: border('focus'),
-            //   boxShadow: boxShadow('focus'),
-            // },
             borderBottomLeftRadius: '8px',
             borderBottomRightRadius: '8px',
             padding: '16px ',
@@ -110,12 +101,6 @@ export function RichTextEditor({
             outline: 'none',
             height: `${height}px`,
           },
-          // keeping focus on the editor when a toolbar button is clicked
-          // might not want this for everything so change later if needed
-          // '&:focus-within .rte': {
-          //   //  border: border('focus'),
-          //   //  boxShadow: boxShadow('focus'),
-          // },
           '& .rte-h1': {
             margin: '0px',
             marginBottom: '14px',
