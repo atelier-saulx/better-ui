@@ -40,6 +40,7 @@ export function SizedStack({
   children,
   displayAllFields,
   setColumns,
+  setHeight,
   correction = 64 * 2,
   style,
   justify = 'start',
@@ -52,12 +53,19 @@ export function SizedStack({
   displayAllFields?: boolean
   setColumns: SetColumns
   correction?: number
+  setHeight?: (h: number) => void
   style?: Style
   alwaysUseCols?: boolean
 }) {
   const [width, setWidth] = React.useState(0)
 
-  const sizeRef = useSize(({ width }) => {
+  const sizeRef = useSize(({ width, height }, elem) => {
+    // @ts-ignore
+    // console.info('H', height, elem.parentNode.getBoundingClientRect().height)
+    if (setHeight) {
+      // @ts-ignore
+      setHeight(elem.parentNode.getBoundingClientRect().height)
+    }
     if (field.type === 'object') {
       setColumns(
         getCols(

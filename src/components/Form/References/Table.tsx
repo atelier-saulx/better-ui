@@ -52,7 +52,9 @@ export const ReferencesTable = ({
   sortByFields,
   fieldSchema,
   isBlock,
+  isLoading,
 }: {
+  isLoading?: boolean
   pagination?: TablePagination
   sortByFields?: TableSort
   field: BasedSchemaFieldReferences
@@ -68,6 +70,8 @@ export const ReferencesTable = ({
   isBlock?: boolean
 }) => {
   const readOnly = field.readOnly || ctx.editableReferences ? false : true
+
+  const [height, setHeight] = React.useState(0)
 
   if (!fieldSchema) {
     fieldSchema = genObjectSchema(valueRef.value, field, ctx.schema)
@@ -152,6 +156,9 @@ export const ReferencesTable = ({
 
   return (
     <SizedStack
+      setHeight={(h) => {
+        setHeight(h)
+      }}
       field={fieldSchema}
       readOnly={readOnly}
       setColumns={setColumns}
@@ -165,6 +172,8 @@ export const ReferencesTable = ({
         {cols}
       </ColStack>
       <TableBody
+        height={height}
+        isLoading={isLoading}
         pagination={pagination}
         onClickReference={onClickReference}
         field={field}

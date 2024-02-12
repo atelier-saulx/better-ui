@@ -33,6 +33,8 @@ type TableBodyProps = {
   colFields: ColSizes
   nField: BasedSchemaFieldArray
   isBlock?: boolean
+  isLoading?: boolean
+  height?: number
 }
 
 const TableBodyPaged = (p: TableBodyProps) => {
@@ -64,7 +66,7 @@ const TableBodyPaged = (p: TableBodyProps) => {
     ref.current.currentIndex = index
     ref.current.start = Math.max(index * ref.current.pageCount, 0)
     ref.current.end = Math.min(
-      (index + 4) * ref.current.pageCount,
+      (index + 2) * ref.current.pageCount,
       ref.current.pagination.total,
     )
     ref.current.pagination.onPageChange?.({
@@ -87,16 +89,15 @@ const TableBodyPaged = (p: TableBodyProps) => {
     }
   }
 
-  const sizeRef = useSize(({ height, width }) => {
-    const n = Math.ceil(height / 48)
-
-    if (n !== ref.current.pageCount) {
+  React.useEffect(() => {
+    const n = Math.ceil(p.height / 48)
+    if (n !== ref.current.pageCount && n) {
       ref.current.p = p.path.join('.')
       ref.current.pageCount = n
       ref.current.pageSize = n * 48
       updateBlock(0)
     }
-  })
+  }, [p.height])
 
   const onScroll = React.useCallback((e) => {
     const y = e.currentTarget.scrollTop
@@ -138,7 +139,6 @@ const TableBodyPaged = (p: TableBodyProps) => {
 
   return (
     <ScrollArea
-      ref={sizeRef}
       style={{
         flexGrow: 0,
         maxHeight: '100%',
@@ -172,6 +172,7 @@ const TableBodyPaged = (p: TableBodyProps) => {
                 value: ref.current.ctx.valueOverrides[ref.current.p],
                 orderId: p.valueRef.orderId,
               }}
+              isLoading={p.isLoading}
               ctx={ref.current.ctx}
               changeIndex={p.changeIndex}
               removeItem={p.onRemove}

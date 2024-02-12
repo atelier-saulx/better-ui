@@ -1,6 +1,8 @@
 import * as React from 'react'
 
-export function useSize(onSizeChange: (rect: DOMRect) => void) {
+export function useSize(
+  onSizeChange: (rect: DOMRect, elem: HTMLElement) => void,
+) {
   const elem = React.useRef<HTMLElement | null>(null)
   const sizeRef = React.useRef({
     onSizeChange,
@@ -11,7 +13,7 @@ export function useSize(onSizeChange: (rect: DOMRect) => void) {
   const observer = React.useMemo(() => {
     return new ResizeObserver((entries) => {
       const rect = entries[0].target.getBoundingClientRect()
-      sizeRef.current.onSizeChange(rect)
+      sizeRef.current.onSizeChange(rect, elem.current)
     })
   }, [])
 

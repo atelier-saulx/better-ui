@@ -17,6 +17,7 @@ export const Table = (p: {
   schema?: BasedSchemaPartial
   editable?: boolean
   field?: BasedSchemaFieldObject
+  isLoading?: boolean
   values?: any[]
   sortable?: boolean // maybe rename to orderable (everywhere)
   onChange?: FormProps['onChange']
@@ -137,6 +138,7 @@ export const Table = (p: {
       path={path}
       valueRef={valueRef.current}
       changeIndex={changeIndex}
+      isLoading={p.isLoading}
       alwaysUseCols
       isBlock={p.isBlock}
       onRemove={p.editable ? removeItem : undefined}
