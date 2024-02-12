@@ -28,16 +28,21 @@ export const Default = () => {
   return (
     <div style={{ height: '50vh' }}>
       <BasedExplorer
+        onItemClick={(item) => {
+          alert('clicked item ' + item.id)
+        }}
         query={({ limit, offset, sort }) => ({
           data: {
             $all: true,
             $list: {
               $limit: limit,
               $offset: offset,
-              $sort: {
-                $field: sort?.key ?? 'index',
-                $order: sort?.dir ?? 'asc',
-              },
+              ...(sort && {
+                $sort: {
+                  $field: sort.key,
+                  $order: sort.dir,
+                },
+              }),
               $find: {
                 $traverse: 'children',
                 $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],

@@ -32,6 +32,7 @@ export function BasedExplorer({
   query,
   queryEndpoint = 'db',
   totalQuery,
+  onItemClick,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
@@ -116,6 +117,7 @@ export function BasedExplorer({
       values={ref.current?.block.data}
       isBlock
       isLoading={ref.current.isLoading}
+      onClick={onItemClick}
       sort={{
         onSort(key, dir, sort) {
           sort.sorted = { key, dir }
