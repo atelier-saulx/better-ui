@@ -69,6 +69,7 @@ const TableBodyPaged = (p: TableBodyProps) => {
       (index + 2) * ref.current.pageCount,
       ref.current.pagination.total,
     )
+
     ref.current.pagination.onPageChange?.({
       index,
       pageSize: ref.current.pageCount,

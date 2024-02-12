@@ -38,7 +38,7 @@ export const Default = () => {
               $limit: limit,
               $offset: offset,
               $sort: {
-                $field: 'name',
+                $field: 'index',
                 $order: 'asc',
               },
               $find: {
