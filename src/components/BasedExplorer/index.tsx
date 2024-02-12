@@ -30,8 +30,6 @@ export function BasedExplorer({
     total: 0,
   })
 
-  console.log('check the schema need oldToNew etc', schema)
-
   return (
     <Table
       schema={schema ? convertOldToNew(schema) : undefined}
@@ -45,7 +43,6 @@ export function BasedExplorer({
           if (ref.current.prevSub) {
             ref.current.prevSub()
           }
-
           ref.current.prevSub = client
             .query(
               queryEndpoint,
