@@ -89,8 +89,8 @@ export function EmbedComponent({
   return (
     <styled.div
       style={{ marginBottom: 12 }}
-      // onMouseOver={() => setHover(true)}
-      // onMouseLeave={() => setHover(false)}
+      onMouseOver={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
       <styled.div
         ref={ref}
@@ -125,8 +125,6 @@ export function EmbedComponent({
           <AddEmbedModal
             onSave={async (v) => {
               await v
-
-              console.log('V for vedetta', v)
 
               editor.update(() => {
                 const node = $getNodeByKey(nodeKey)

@@ -28,7 +28,7 @@ export function FontColorModal({
                 label="select a color"
                 value={color}
                 onChange={(v) => setColor(v)}
-                style={{ marginBottom: 12 }}
+                style={{ marginBottom: '16px' }}
               />
               <Button
                 variant="neutral"
