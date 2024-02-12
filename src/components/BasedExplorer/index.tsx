@@ -2,10 +2,10 @@ import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { convertOldToNew } from '@based/schema'
-import { hash } from '@saulx/hash'
 
 export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
+  queryEndpoint?: string
   query: ({
     limit,
     offset,
@@ -16,9 +16,8 @@ export type BasedExplorerProps = {
     sort?: { key: string; dir: 'asc' | 'desc' }
   }) => {
     data: any
-    total?: any
   }
-  queryEndpoint?: string
+  totalQuery?: any
 }
 
 type ActiveSub = {
@@ -26,12 +25,13 @@ type ActiveSub = {
   limit: number
   loaded: boolean
   offset: number
-  data: { data: any[]; total: number }
+  data: { data: any[] }
 }
 
 export function BasedExplorer({
   query,
   queryEndpoint = 'db',
+  totalQuery,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
@@ -39,21 +39,25 @@ export function BasedExplorer({
   const { data: schema } = useQuery('db:schema')
   const ref = React.useRef<{
     activeSubs: Map<string, ActiveSub>
-    total: number
-    block: { data: any[]; total: number }
+    block: { data: any[] }
     isLoading: boolean
     loadTimer?: ReturnType<typeof setTimeout>
     start: number
     end: number
     sort?: { key: string; dir: 'asc' | 'desc' }
   }>({
-    block: { data: [], total: 0 },
-    total: 0,
+    block: { data: [] },
     activeSubs: new Map(),
     isLoading: true,
     start: 0,
     end: 0,
   })
+  const { data: totalData, loading: totalLoading } = useQuery(
+    queryEndpoint,
+    totalQuery,
+  )
+
+  console.log('totalquery', totalData?.total ?? 0, totalLoading)
 
   const updateBlocks = React.useCallback(() => {
     ref.current.isLoading = false
@@ -95,7 +99,7 @@ export function BasedExplorer({
 
     if (loaded) {
       if (blockFilled >= len) {
-        ref.current.block = { data: block, total: ref.current.total }
+        ref.current.block = { data: block }
       }
 
       if (ref.current.loadTimer !== null) {
@@ -105,8 +109,6 @@ export function BasedExplorer({
       update()
     }
   }, [])
-
-  console.log(ref.current.activeSubs)
 
   return (
     <Table
@@ -127,7 +129,6 @@ export function BasedExplorer({
               offset: sub.offset,
               data: {
                 data: [],
-                total: 0,
               },
               close: () => {},
             }
@@ -145,7 +146,6 @@ export function BasedExplorer({
               )
               .subscribe((d) => {
                 newSub.loaded = true
-                ref.current.total = d.total
                 newSub.data = d
                 updateBlocks()
               })
@@ -154,7 +154,7 @@ export function BasedExplorer({
       }}
       pagination={{
         type: 'scroll',
-        total: ref.current.total,
+        total: totalData?.total ?? 0,
         onPageChange: async (p) => {
           if (p.end === 0) {
             p.end = p.pageSize * 2
@@ -188,7 +188,6 @@ export function BasedExplorer({
             offset,
             data: {
               data: [],
-              total: 0,
             },
             close: () => {},
           }
@@ -207,7 +206,6 @@ export function BasedExplorer({
               )
               .subscribe((d) => {
                 newSub.loaded = true
-                ref.current.total = d.total
                 newSub.data = d
                 updateBlocks()
               })

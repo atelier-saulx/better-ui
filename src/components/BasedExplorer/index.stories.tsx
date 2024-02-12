@@ -24,49 +24,41 @@ const meta: Meta<typeof BasedExplorer> = {
 
 export default meta
 
-// total seperate q
-// sort
-
 export const Default = () => {
   return (
     <div style={{ height: '50vh' }}>
       <BasedExplorer
-        query={({ limit, offset, sort }) => {
-          console.log('sort on the query fn', {
-            $field: sort?.key ?? 'index',
-            $order: sort?.dir ?? 'asc',
-          })
-
-          return {
-            data: {
-              $all: true,
-              $list: {
-                $limit: limit,
-                $offset: offset,
-                $sort: {
-                  $field: sort?.key ?? 'index',
-                  $order: sort?.dir ?? 'asc',
-                },
-                $find: {
-                  $traverse: 'children',
-                  $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
-                },
+        query={({ limit, offset, sort }) => ({
+          data: {
+            $all: true,
+            $list: {
+              $limit: limit,
+              $offset: offset,
+              $sort: {
+                $field: sort?.key ?? 'index',
+                $order: sort?.dir ?? 'asc',
               },
-            },
-            total: {
-              $aggregate: {
-                $function: 'count',
+              $find: {
                 $traverse: 'children',
-                $filter: [
-                  {
-                    $field: 'type',
-                    $operator: '=',
-                    $value: 'todo',
-                  },
-                ],
+                $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
               },
             },
-          }
+          },
+        })}
+        totalQuery={{
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: 'children',
+              $filter: [
+                {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: 'todo',
+                },
+              ],
+            },
+          },
         }}
       />
     </div>
