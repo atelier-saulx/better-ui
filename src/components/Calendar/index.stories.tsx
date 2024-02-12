@@ -26,7 +26,7 @@ const meta: Meta<typeof Calendar> = {
 
 export default meta
 
-const data = new Array(10).fill(null).map(() => ({
+const data = new Array(20).fill(null).map(() => ({
   id: faker.string.uuid().slice(0, 8),
   src: faker.image.avatar(),
   status: faker.lorem.words(1),
