@@ -86,13 +86,6 @@ const TableBodyPaged = (p: TableBodyProps) => {
           : p.valueRef.value.slice(ref.current.start, ref.current.end),
       },
     }
-
-    console.info(
-      p.isBlock,
-      p.isBlock
-        ? p.valueRef.value
-        : p.valueRef.value.slice(ref.current.start, ref.current.end),
-    )
   }
 
   const sizeRef = useSize(({ height, width }) => {
