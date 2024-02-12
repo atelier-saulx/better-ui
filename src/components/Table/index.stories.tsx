@@ -37,7 +37,7 @@ const dataSmall = new Array(10).fill(null).map(() => ({
   title: faker.lorem.sentence(3),
   number: faker.number.int(10),
   name: faker.person.fullName(),
-  price: faker.commerce.price(),
+  price: Number(faker.commerce.price()),
   color: faker.color.rgb(),
   createdAt: faker.date.soon().valueOf(),
 }))
@@ -94,7 +94,7 @@ export const LoadMore = () => {
                 title: faker.lorem.sentence(3),
                 number: i + dataRef.current.data.length,
                 name: faker.person.fullName(),
-                price: faker.commerce.price(),
+                price: Number(faker.commerce.price()),
                 color: faker.color.rgb(),
                 createdAt: faker.date.soon().valueOf(),
               })),
@@ -162,4 +162,20 @@ export const CustomSort = () => {
 
 export const EditableTable = () => {
   return <Table values={dataSmall} editable sortable />
+}
+
+export const SmallTable = () => {
+  return (
+    <Table
+      values={dataSmall}
+      field={{
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'basedId' },
+          color: { type: 'string', format: 'rgbColor' },
+          price: { type: 'number', display: 'euro' },
+        },
+      }}
+    />
+  )
 }

@@ -133,6 +133,7 @@ export const Table = (p: {
     <ReferencesTable
       sortByFields={sortRef.current}
       field={field}
+      fieldSchema={p.field}
       onClickReference={clickRef}
       ctx={ctx}
       path={path}
