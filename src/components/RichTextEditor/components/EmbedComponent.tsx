@@ -11,7 +11,7 @@ import {
   KEY_BACKSPACE_COMMAND,
   KEY_DELETE_COMMAND,
 } from 'lexical'
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { styled } from 'inlines'
 import { BLUR_COMMAND, COMMAND_PRIORITY_EDITOR } from 'lexical'
 import { $isEmbedNode } from '../nodes/EmbedNode.js'
@@ -29,6 +29,7 @@ export function EmbedComponent({
   const [editor] = useLexicalComposerContext()
   const [isSelected, setSelected, clearSelection] =
     useLexicalNodeSelection(nodeKey)
+  const [hover, setHover] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
 
   const onDelete = useCallback(
@@ -86,7 +87,11 @@ export function EmbedComponent({
   }, [clearSelection, editor, isSelected, nodeKey, onDelete, setSelected])
 
   return (
-    <styled.div style={{ marginBottom: 12 }}>
+    <styled.div
+      style={{ marginBottom: 12 }}
+      // onMouseOver={() => setHover(true)}
+      // onMouseLeave={() => setHover(false)}
+    >
       <styled.div
         ref={ref}
         // key={nodeKey}
@@ -103,40 +108,42 @@ export function EmbedComponent({
         }}
         dangerouslySetInnerHTML={{ __html: html }}
       />
-      <Stack gap={12} style={{ marginTop: '-12px' }} justify="center">
-        <Button
-          variant="error"
-          prefix={<IconDelete />}
-          onClick={() => {
-            editor.update(() => {
-              const node = $getNodeByKey(nodeKey)
-              node.remove()
-            })
-          }}
-        >
-          Delete Embed
-        </Button>
-        <AddEmbedModal
-          onSave={async (v) => {
-            await v
+      {hover && (
+        <Stack gap={12} style={{ marginTop: '-12px' }} justify="center">
+          <Button
+            variant="error"
+            prefix={<IconDelete />}
+            onClick={() => {
+              editor.update(() => {
+                const node = $getNodeByKey(nodeKey)
+                node.remove()
+              })
+            }}
+          >
+            Delete Embed
+          </Button>
+          <AddEmbedModal
+            onSave={async (v) => {
+              await v
 
-            console.log('V for vedetta', v)
+              console.log('V for vedetta', v)
 
-            editor.update(() => {
-              const node = $getNodeByKey(nodeKey)
+              editor.update(() => {
+                const node = $getNodeByKey(nodeKey)
 
-              if ($isEmbedNode(node)) {
-                const writable = node.getWritable()
-                if (v) {
-                  writable.__html = v
+                if ($isEmbedNode(node)) {
+                  const writable = node.getWritable()
+                  if (v) {
+                    writable.__html = v
+                  }
                 }
-              }
-            })
-          }}
-        >
-          <Button prefix={<IconEdit />}>Edit</Button>
-        </AddEmbedModal>
-      </Stack>
+              })
+            }}
+          >
+            <Button prefix={<IconEdit />}>Edit</Button>
+          </AddEmbedModal>
+        </Stack>
+      )}
     </styled.div>
   )
 }
