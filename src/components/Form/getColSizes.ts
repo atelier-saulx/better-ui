@@ -23,6 +23,11 @@ const FIELD_SIZES: {
         width: 210,
       },
     ],
+    integer: [
+      {
+        width: 180,
+      },
+    ],
     number: [
       {
         width: 180,
@@ -121,6 +126,11 @@ const FIELD_SIZES: {
         width: 200,
       },
     ],
+    integer: [
+      {
+        width: 120,
+      },
+    ],
     number: [
       {
         width: 120,
@@ -202,6 +212,7 @@ export const getColSizes = (
   }
 
   // TODO PERF: do sorting faster in the for loop thats there allready
+  // or make sure it gets called less often
   fields.sort((a, b) => {
     return a.field.index > b.field.index
       ? -1
