@@ -6,7 +6,15 @@ import { hash } from '@saulx/hash'
 
 export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
-  query: ({ limit, offset }: { limit: number; offset: number }) => {
+  query: ({
+    limit,
+    offset,
+    sort,
+  }: {
+    limit: number
+    offset: number
+    sort?: { key: string; dir: 'asc' | 'desc' }
+  }) => {
     data: any
     total?: any
   }
@@ -37,6 +45,7 @@ export function BasedExplorer({
     loadTimer?: ReturnType<typeof setTimeout>
     start: number
     end: number
+    sort?: { key: string; dir: 'asc' | 'desc' }
   }>({
     block: { data: [], total: 0 },
     total: 0,
@@ -97,13 +106,56 @@ export function BasedExplorer({
     }
   }, [])
 
+  console.log(ref.current.activeSubs)
+
   return (
     <Table
       schema={schema ? convertOldToNew(schema) : undefined}
       values={ref.current?.block.data}
       isBlock
       isLoading={ref.current.isLoading}
-      sort
+      sort={{
+        onSort(key, dir, sort) {
+          sort.sorted = { key, dir }
+          ref.current.sort = { key, dir }
+          console.log('onsort lefut', ref.current.sort)
+
+          for (const [id, sub] of ref.current.activeSubs) {
+            sub.close()
+
+            const newSub: ActiveSub = {
+              loaded: false,
+              limit: sub.limit,
+              offset: sub.offset,
+              data: {
+                data: [],
+                total: 0,
+              },
+              close: () => {},
+            }
+
+            newSub.close = client
+              .query(
+                queryEndpoint,
+                query({
+                  limit: sub.limit,
+                  offset: sub.offset,
+                  sort: ref.current.sort,
+                }),
+              )
+              .subscribe((d) => {
+                newSub.loaded = true
+                ref.current.total = d.total
+                newSub.data = d
+                updateBlocks()
+              })
+
+            ref.current.activeSubs.set(id, newSub)
+          }
+
+          update()
+        },
+      }}
       pagination={{
         type: 'scroll',
         total: ref.current.total,
@@ -154,6 +206,7 @@ export function BasedExplorer({
                 query({
                   limit,
                   offset,
+                  sort: ref.current.sort,
                 }),
               )
               .subscribe((d) => {

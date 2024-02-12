@@ -31,37 +31,43 @@ export const Default = () => {
   return (
     <div style={{ height: 500 }}>
       <BasedExplorer
-        query={({ limit, offset }) => ({
-          data: {
-            $all: true,
-            $list: {
-              $limit: limit,
-              $offset: offset,
-              $sort: {
-                $field: 'index',
-                $order: 'asc',
-              },
-              $find: {
-                $traverse: 'children',
-                $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
-              },
-            },
-          },
-          // total: { $value: 9e99 },
-          total: {
-            $aggregate: {
-              $function: 'count',
-              $traverse: 'children',
-              $filter: [
-                {
-                  $field: 'type',
-                  $operator: '=',
-                  $value: 'todo',
+        query={({ limit, offset, sort }) => {
+          console.log('sort on the query fn', {
+            $field: sort?.key ?? 'index',
+            $order: sort?.dir ?? 'asc',
+          })
+
+          return {
+            data: {
+              $all: true,
+              $list: {
+                $limit: limit,
+                $offset: offset,
+                $sort: {
+                  $field: sort?.key ?? 'index',
+                  $order: sort?.dir ?? 'asc',
                 },
-              ],
+                $find: {
+                  $traverse: 'children',
+                  $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+                },
+              },
             },
-          },
-        })}
+            total: {
+              $aggregate: {
+                $function: 'count',
+                $traverse: 'children',
+                $filter: [
+                  {
+                    $field: 'type',
+                    $operator: '=',
+                    $value: 'todo',
+                  },
+                ],
+              },
+            },
+          }
+        }}
       />
     </div>
   )
