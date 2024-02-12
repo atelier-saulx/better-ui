@@ -118,8 +118,6 @@ export function BasedExplorer({
         onSort(key, dir, sort) {
           sort.sorted = { key, dir }
           ref.current.sort = { key, dir }
-          console.log('onsort lefut', ref.current.sort)
-
           for (const [id, sub] of ref.current.activeSubs) {
             sub.close()
 
@@ -133,6 +131,8 @@ export function BasedExplorer({
               },
               close: () => {},
             }
+
+            ref.current.activeSubs.set(id, newSub)
 
             newSub.close = client
               .query(
@@ -149,11 +149,7 @@ export function BasedExplorer({
                 newSub.data = d
                 updateBlocks()
               })
-
-            ref.current.activeSubs.set(id, newSub)
           }
-
-          update()
         },
       }}
       pagination={{
