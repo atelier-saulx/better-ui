@@ -71,8 +71,6 @@ export function BasedExplorer({
     for (let i = 0; i < len; i++) {
       let realI = i + ref.current.start
       ref.current.activeSubs.forEach((s, id) => {
-        console.log(id, { realI, loaded: s.loaded })
-
         if (s.offset <= realI && realI < s.limit + s.offset) {
           if (!s.loaded) {
             loaded = false
