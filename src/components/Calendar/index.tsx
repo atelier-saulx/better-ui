@@ -21,9 +21,11 @@ import {
 } from '../../index.js'
 import { styled } from 'inlines'
 
-export type CalendarProps = {}
+export type CalendarProps = {
+  data?: {}[]
+}
 
-export function Calendar(_: CalendarProps) {
+export const Calendar = ({ data }: CalendarProps) => {
   const [displayMonth, setDisplayMonth] = React.useState(new Date())
 
   const getDays = React.useCallback(() => {
@@ -38,6 +40,8 @@ export function Calendar(_: CalendarProps) {
 
     return days
   }, [displayMonth])
+
+  console.log(data, 'from calender')
 
   return (
     <styled.div
