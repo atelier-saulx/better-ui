@@ -34,7 +34,6 @@ type TableBodyProps = {
   nField: BasedSchemaFieldArray
   isBlock?: boolean
   isLoading?: boolean
-  height?: number
 }
 
 const TableBodyPaged = (p: TableBodyProps) => {
@@ -69,7 +68,6 @@ const TableBodyPaged = (p: TableBodyProps) => {
       (index + 2) * ref.current.pageCount,
       ref.current.pagination.total,
     )
-
     ref.current.pagination.onPageChange?.({
       index,
       pageSize: ref.current.pageCount,
@@ -90,15 +88,16 @@ const TableBodyPaged = (p: TableBodyProps) => {
     }
   }
 
-  React.useEffect(() => {
-    const n = Math.ceil(p.height / 48)
-    if (n !== ref.current.pageCount && n) {
+  const sizeRef = useSize(({ height, width }) => {
+    const n = Math.ceil(height / 48)
+
+    if (n !== ref.current.pageCount) {
       ref.current.p = p.path.join('.')
       ref.current.pageCount = n
       ref.current.pageSize = n * 48
       updateBlock(0)
     }
-  }, [p.height])
+  })
 
   const onScroll = React.useCallback((e) => {
     const y = e.currentTarget.scrollTop
@@ -140,6 +139,7 @@ const TableBodyPaged = (p: TableBodyProps) => {
 
   return (
     <ScrollArea
+      ref={sizeRef}
       style={{
         flexGrow: 0,
         maxHeight: '100%',

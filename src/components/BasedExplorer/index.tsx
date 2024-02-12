@@ -49,9 +49,28 @@ export function BasedExplorer({
     const len = ref.current.end - ref.current.start
     const block: any[] = new Array(len)
     let blockFilled = 0
+
+    ref.current.activeSubs.forEach((s, id) => {
+      const r1 = ref.current.start
+      const r2 = ref.current.end
+      const total = s.offset + s.limit
+
+      if (r1 > total) {
+        // console.info('KILL', r1, r2, id)
+        s.close()
+        ref.current.activeSubs.delete(id)
+      } else if (s.offset > r2) {
+        // console.info('KILL', r1, r2, id)
+        s.close()
+        ref.current.activeSubs.delete(id)
+      }
+    })
+
+    console.log([...ref.current.activeSubs.keys()])
+
     for (let i = 0; i < len; i++) {
       let realI = i + ref.current.start
-      ref.current.activeSubs.forEach((s, key) => {
+      ref.current.activeSubs.forEach((s) => {
         if (s.offset <= realI && realI < s.limit + s.offset) {
           const correction = s.offset - ref.current.start
           blockFilled++

@@ -156,9 +156,6 @@ export const ReferencesTable = ({
 
   return (
     <SizedStack
-      setHeight={(h) => {
-        setHeight(h)
-      }}
       field={fieldSchema}
       readOnly={readOnly}
       setColumns={setColumns}
@@ -172,7 +169,6 @@ export const ReferencesTable = ({
         {cols}
       </ColStack>
       <TableBody
-        height={height}
         isLoading={isLoading}
         pagination={pagination}
         onClickReference={onClickReference}
