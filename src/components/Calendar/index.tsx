@@ -110,24 +110,27 @@ export const Calendar = ({ data }: CalendarProps) => {
           display: 'grid',
           gridTemplateColumns: 'repeat(7, 1fr)',
           gap: '0px',
+          border: border(),
+          borderRadius: 8,
         }}
       >
         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
           <styled.div
             key={index}
             style={{
-              height: 24,
+              height: 48,
               width: 124,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: border(),
-              backgroundColor: color('interactive', 'primary-muted'),
+              borderBottom: border(),
+              borderRight: index === 6 ? 'none' : border(),
+              borderTopLeftRadius: index === 0 ? 8 : 0,
+              borderTopRightRadius: index === 6 ? 8 : 0,
+              backgroundColor: color('background', 'muted'),
             }}
           >
-            <Text style={{ color: color('interactive', 'primary') }}>
-              {day}
-            </Text>
+            <Text weight="strong">{day}</Text>
           </styled.div>
         ))}
         {getDays().map((day) => {
@@ -157,22 +160,29 @@ export const Calendar = ({ data }: CalendarProps) => {
                 {isSameMonth(day, displayMonth) && format(day, 'd')}
               </Text>
 
-              {dayDates.map((item, idx) => (
-                <Text
-                  key={idx}
-                  singleLine
-                  style={{
-                    fontSize: 13,
-                    marginBottom: 2,
-                    marginBlockEnd: '0px',
-                    marginBlockStart: '0px',
-                    lineHeight: '15px',
-                    borderBottom: border(),
-                  }}
-                >
-                  {item?.title}
-                </Text>
-              ))}
+              {dayDates.map((item: { title?: string }, idx) =>
+                idx < 4 ? (
+                  <Text
+                    key={idx}
+                    singleLine
+                    style={{
+                      fontSize: 13,
+                      marginBottom: 2,
+                      marginBlockEnd: '0px',
+                      marginBlockStart: '0px',
+                      lineHeight: '15px',
+                      borderBottom: border(),
+                    }}
+                  >
+                    {item?.title}
+                  </Text>
+                ) : null,
+              )}
+              {dayDates.length > 4 && (
+                <Button variant="neutral" size="small">
+                  {dayDates.length - 4} more
+                </Button>
+              )}
             </Stack>
           )
         })}
