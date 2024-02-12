@@ -262,30 +262,33 @@ const meta: Meta<typeof BasedExplorer> = {
 
 export default meta
 
-// total seperate q
-// sort
-
 export const Default = () => {
   return (
-    <div style={{ height: 500 }}>
+    <div style={{ height: '50vh' }}>
       <BasedExplorer
-        query={({ limit, offset }) => ({
+        onItemClick={(item) => {
+          alert('clicked item ' + item.id)
+        }}
+        query={({ limit, offset, sort }) => ({
           data: {
             $all: true,
             $list: {
               $limit: limit,
               $offset: offset,
-              $sort: {
-                $field: 'index',
-                $order: 'asc',
-              },
+              ...(sort && {
+                $sort: {
+                  $field: sort.key,
+                  $order: sort.dir,
+                },
+              }),
               $find: {
                 $traverse: 'children',
                 $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
               },
             },
           },
-          // total: { $value: 9e99 },
+        })}
+        totalQuery={{
           total: {
             $aggregate: {
               $function: 'count',
@@ -299,7 +302,7 @@ export const Default = () => {
               ],
             },
           },
-        })}
+        }}
       />
     </div>
   )
@@ -989,7 +992,7 @@ import {
   IconMoreHorizontal,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/Grid',
@@ -2534,7 +2537,7 @@ export const GridFixedHeight: StoryObj<typeof Stack> = {
 }
 `},{ id: "f16457632158462", story: f16457632158462, path: "/Users/vassbence/projects/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
 
@@ -2571,7 +2574,7 @@ const dataSmall = new Array(10).fill(null).map(() => ({
   title: faker.lorem.sentence(3),
   number: faker.number.int(10),
   name: faker.person.fullName(),
-  price: faker.commerce.price(),
+  price: Number(faker.commerce.price()),
   color: faker.color.rgb(),
   createdAt: faker.date.soon().valueOf(),
 }))
@@ -2628,7 +2631,7 @@ export const LoadMore = () => {
                 title: faker.lorem.sentence(3),
                 number: i + dataRef.current.data.length,
                 name: faker.person.fullName(),
-                price: faker.commerce.price(),
+                price: Number(faker.commerce.price()),
                 color: faker.color.rgb(),
                 createdAt: faker.date.soon().valueOf(),
               })),
@@ -2696,6 +2699,22 @@ export const CustomSort = () => {
 
 export const EditableTable = () => {
   return <Table values={dataSmall} editable sortable />
+}
+
+export const SmallTable = () => {
+  return (
+    <Table
+      values={dataSmall}
+      field={{
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'basedId' },
+          color: { type: 'string', format: 'rgbColor' },
+          price: { type: 'number', display: 'euro' },
+        },
+      }}
+    />
+  )
 }
 `},{ id: "f4403319537853", story: f4403319537853, path: "/Users/vassbence/projects/better-ui/src/components/Text/index.stories.tsx", file: `import { Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -2833,7 +2852,7 @@ export const Disabled: StoryObj<typeof TextInput> = {
 `},{ id: "f8582702281036", story: f8582702281036, path: "/Users/vassbence/projects/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta: Meta<typeof Thumbnail> = {
   title: 'Atoms/Thumbnail',
@@ -3832,7 +3851,7 @@ export const Record = () => {
 }
 `},{ id: "f16815800280314", story: f16815800280314, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/references.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta = {
   title: 'Form/References',
@@ -4015,7 +4034,7 @@ export const References = () => {
 }
 `},{ id: "f10025904474475", story: f10025904474475, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/referencesSchema.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta = {
   title: 'Form/ReferencesSchema',
