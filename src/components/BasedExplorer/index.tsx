@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { convertOldToNew } from '@based/schema'
+import { hash } from '@saulx/hash'
 
 export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
@@ -69,12 +70,13 @@ export function BasedExplorer({
 
     for (let i = 0; i < len; i++) {
       let realI = i + ref.current.start
-      ref.current.activeSubs.forEach((s) => {
+      ref.current.activeSubs.forEach((s, id) => {
+        console.log(id, { realI, loaded: s.loaded })
+
         if (s.offset <= realI && realI < s.limit + s.offset) {
           if (!s.loaded) {
             loaded = false
           }
-
           const correction = s.offset - ref.current.start
           blockFilled++
           if (s.data.data[i - correction]) {
@@ -88,6 +90,7 @@ export function BasedExplorer({
       if (blockFilled >= len) {
         ref.current.block = { data: block, total: ref.current.total }
       }
+
       if (ref.current.loadTimer !== null) {
         ref.current.loadTimer = null
         clearTimeout(ref.current.loadTimer)
@@ -95,6 +98,8 @@ export function BasedExplorer({
       update()
     }
   }, [])
+
+  console.log('RENDER', hash(ref.current.block.data), ref.current.block?.data)
 
   return (
     <Table
@@ -145,6 +150,8 @@ export function BasedExplorer({
           }
 
           if (!ref.current.activeSubs.has(id)) {
+            ref.current.activeSubs.set(id, newSub)
+
             newSub.close = client
               .query(
                 queryEndpoint,
@@ -159,7 +166,6 @@ export function BasedExplorer({
                 newSub.data = d
                 updateBlocks()
               })
-            ref.current.activeSubs.set(id, newSub)
           } else {
             updateBlocks()
           }
