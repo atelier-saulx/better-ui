@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
 

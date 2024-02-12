@@ -29,7 +29,7 @@ export default meta
 
 export const Default = () => {
   return (
-    <div style={{ height: 500 }}>
+    <div style={{ height: '50vh' }}>
       <BasedExplorer
         query={({ limit, offset, sort }) => {
           console.log('sort on the query fn', {
