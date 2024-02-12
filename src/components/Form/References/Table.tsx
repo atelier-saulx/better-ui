@@ -5,7 +5,6 @@ import {
   Text,
   IconPlus,
   IconArrowDown,
-  color,
   IconArrowUp,
 } from '../../../index.js'
 import {
@@ -26,11 +25,7 @@ import {
 } from '@based/schema'
 import { ValueRef } from '../Table/Arrays/types.js'
 import { SizedStack, useColumns } from '../Table/SizedStack.js'
-import {
-  decorateObjectSchema,
-  genObjectSchema,
-  genObjectSchemaFromSchema,
-} from './genObjectSchema.js'
+import { genObjectSchema } from './genObjectSchema.js'
 import { TableBody } from './TableBody.js'
 
 const useTags = (fieldSchema: BasedSchemaFieldObject): boolean => {
@@ -75,25 +70,7 @@ export const ReferencesTable = ({
   const readOnly = field.readOnly || ctx.editableReferences ? false : true
 
   if (!fieldSchema) {
-    const generatedSchema = ctx.schema
-      ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
-      : genObjectSchema(valueRef.value).field
-
-    for (const defaultBasedField of [
-      'aliases',
-      'ancestors',
-      'children',
-      'parents',
-      'updatedAt',
-      'descendants',
-    ]) {
-      delete generatedSchema.properties[defaultBasedField]
-    }
-
-    fieldSchema = decorateObjectSchema(generatedSchema)
-
-    fieldSchema.properties.id = { type: 'string'}
-
+    fieldSchema = genObjectSchema(valueRef.value, field, ctx.schema)
   }
 
   const [colFields, setColumns] = useColumns()

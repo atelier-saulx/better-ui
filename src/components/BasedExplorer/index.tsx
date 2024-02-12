@@ -2,6 +2,7 @@ import { BasedQuery } from '@based/client'
 import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
+import { convertOldToNew } from '@based/schema'
 
 export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
@@ -29,9 +30,11 @@ export function BasedExplorer({
     total: 0,
   })
 
+  console.log('check the schema need oldToNew etc', schema)
+
   return (
     <Table
-      schema={schema}
+      schema={schema ? convertOldToNew(schema) : undefined}
       values={ref.current?.block.data}
       isBlock
       sort
