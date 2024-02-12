@@ -97,8 +97,6 @@ export function BasedExplorer({
     }
   }, [])
 
-  console.log('RENDER', hash(ref.current.block.data), ref.current.block?.data)
-
   return (
     <Table
       schema={schema ? convertOldToNew(schema) : undefined}
