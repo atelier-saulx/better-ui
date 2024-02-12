@@ -6,6 +6,7 @@ import {
   startOfMonth,
   endOfMonth,
   addDays,
+  addYears,
   compareAsc,
   endOfWeek,
   format,
@@ -23,14 +24,26 @@ import {
   Text,
   color,
   Stack,
+  Dropdown,
+  boxShadow,
+  IconChevronLeft,
+  IconChevronRight,
 } from '../../index.js'
 import { styled } from 'inlines'
 
 export type CalendarProps = {
   data?: {}[]
+  timestampField?: string
+  labelField?: string
+  view?: 'month' | 'week'
 }
 
-export const Calendar = ({ data }: CalendarProps) => {
+export const Calendar = ({
+  data,
+  timestampField = 'createdAt',
+  labelField = 'title',
+  view = 'month',
+}: CalendarProps) => {
   const [displayMonth, setDisplayMonth] = React.useState(new Date())
 
   const getDays = React.useCallback(() => {
@@ -46,22 +59,10 @@ export const Calendar = ({ data }: CalendarProps) => {
     return days
   }, [displayMonth])
 
-  console.log(data, 'from calender')
-
-  // timestamps to the right days
-  // console.log('-> to Date', toDate(1707747955118))
-  // console.log('-> new Date,', new Date(2014, 2, 11, 18, 0))
-  // console.log(isSameDay(1392098430000, new Date(2014, 1, 11, 18, 0)))
-  // console.log('display month', displayMonth)
-
-  //1 filter the right month and year from data
-  // TODO variable field createdAt...
+  // filter the monthly data
   let monthData = data.filter((item) =>
-    isSameMonth(displayMonth, item['createdAt']),
+    isSameMonth(displayMonth, item[timestampField]),
   )
-
-  console.log(monthData, '🍟')
-  //2 from that data filter the right days
 
   return (
     <styled.div
@@ -69,20 +70,12 @@ export const Calendar = ({ data }: CalendarProps) => {
         border: border(),
         borderRadius: borderRadius('medium'),
         padding: 24,
+        maxWidth: 916,
+        width: '100%',
       }}
     >
-      <styled.div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingBottom: 24,
-          ...textVariants['body-strong'],
-          fontSize: 16,
-        }}
-      >
-        <styled.div>{format(displayMonth, 'MMMM yyyy')}</styled.div>
-        <styled.div>
+      <Stack style={{ marginBottom: 16 }}>
+        <Stack justify="start" gap={0}>
           <Button
             size="small"
             variant="neutral-transparent"
@@ -91,7 +84,7 @@ export const Calendar = ({ data }: CalendarProps) => {
               setDisplayMonth(addMonths(displayMonth, -1))
             }}
           >
-            <IconChevronDown />
+            <IconChevronLeft />
           </Button>
           <Button
             size="small"
@@ -101,16 +94,49 @@ export const Calendar = ({ data }: CalendarProps) => {
               setDisplayMonth(addMonths(displayMonth, 1))
             }}
           >
+            <IconChevronRight />
+          </Button>
+          <Text style={{ marginLeft: 10 }} variant="title-modal">
+            {format(displayMonth, 'MMMM')}
+          </Text>
+        </Stack>
+
+        <Stack justify="end" gap={0}>
+          <Text variant="title-modal" style={{ marginRight: 10 }}>
+            {format(displayMonth, 'yyyy')}
+          </Text>
+          <Button
+            size="small"
+            variant="neutral-transparent"
+            shape="square"
+            onClick={() => {
+              setDisplayMonth(addYears(displayMonth, -1))
+            }}
+          >
             <IconChevronTop />
           </Button>
-        </styled.div>
-      </styled.div>
+          <Button
+            size="small"
+            variant="neutral-transparent"
+            shape="square"
+            onClick={() => {
+              setDisplayMonth(addYears(displayMonth, 1))
+            }}
+          >
+            <IconChevronDown />
+          </Button>
+        </Stack>
+      </Stack>
+
       <styled.div
         style={{
           display: 'grid',
+          maxWidth: 868,
+          width: '100%',
           gridTemplateColumns: 'repeat(7, 1fr)',
           gap: '0px',
           border: border(),
+          borderRight: 'none',
           borderRadius: 8,
         }}
       >
@@ -119,12 +145,11 @@ export const Calendar = ({ data }: CalendarProps) => {
             key={index}
             style={{
               height: 48,
-              width: 124,
+              // width: 124,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              borderBottom: border(),
-              borderRight: index === 6 ? 'none' : border(),
+              borderRight: border(),
               borderTopLeftRadius: index === 0 ? 8 : 0,
               borderTopRightRadius: index === 6 ? 8 : 0,
               backgroundColor: color('background', 'muted'),
@@ -133,10 +158,9 @@ export const Calendar = ({ data }: CalendarProps) => {
             <Text weight="strong">{day}</Text>
           </styled.div>
         ))}
-        {getDays().map((day) => {
-          // TODO Variable craetedat
+        {getDays().map((day, idx) => {
           const dayDates = monthData.filter((item) =>
-            isSameDay(day, item['createdAt']),
+            isSameDay(day, item[timestampField]),
           )
 
           return (
@@ -144,44 +168,119 @@ export const Calendar = ({ data }: CalendarProps) => {
               key={day.toISOString()}
               style={{
                 height: 124,
-                width: 124,
-                border: border(),
-                borderRadius: 4,
+                // width: 124,
+                aspectRatio: 1,
+                borderTop: border(),
+                borderRight: border(),
+                borderBottomRightRadius: idx === 34 ? 8 : 0,
                 position: 'relative',
-                paddingTop: 32,
+                padding: '28px 8px 20px 8px',
               }}
               gap={2}
               grid
             >
-              <Text
-                color="secondary"
-                style={{ position: 'absolute', right: 8, top: 3 }}
-              >
-                {isSameMonth(day, displayMonth) && format(day, 'd')}
-              </Text>
+              {isSameDay(day, Date.now()) ? (
+                <Text
+                  color="inverted"
+                  style={{
+                    position: 'absolute',
+                    right: 8,
+                    top: 3,
+                    backgroundColor: color('interactive', 'primary'),
+                    borderRadius: '50%',
+                    width: 20,
+                    height: 20,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '13px',
+                  }}
+                >
+                  {isSameMonth(day, displayMonth) && format(day, 'd')}
+                </Text>
+              ) : (
+                <Text
+                  color="secondary"
+                  style={{ position: 'absolute', right: 8, top: 3 }}
+                >
+                  {isSameMonth(day, displayMonth) && format(day, 'd')}
+                </Text>
+              )}
 
               {dayDates.map((item: { title?: string }, idx) =>
                 idx < 4 ? (
-                  <Text
-                    key={idx}
-                    singleLine
-                    style={{
-                      fontSize: 13,
-                      marginBottom: 2,
-                      marginBlockEnd: '0px',
-                      marginBlockStart: '0px',
-                      lineHeight: '15px',
-                      borderBottom: border(),
-                    }}
+                  <styled.div
+                    onClick={() => console.log('clicked ->', item[labelField])}
                   >
-                    {item?.title}
-                  </Text>
+                    <Text
+                      key={idx}
+                      singleLine
+                      style={{
+                        fontSize: 13,
+                        marginBottom: 2,
+                        marginBlockEnd: '0px',
+                        marginBlockStart: '0px',
+                        lineHeight: '15px',
+                        cursor: 'pointer',
+                        '&:hover': {
+                          color: `${color('content', 'secondary')} !important`,
+                        },
+                      }}
+                      // @ts-ignore
+                    >
+                      {item[labelField]}
+                    </Text>
+                  </styled.div>
                 ) : null,
               )}
               {dayDates.length > 4 && (
-                <Button variant="neutral" size="small">
-                  {dayDates.length - 4} more
-                </Button>
+                <Dropdown.Root>
+                  <Dropdown.Trigger>
+                    <Button
+                      variant="neutral"
+                      size="small"
+                      style={{
+                        boxShadow: boxShadow('elevation'),
+                        marginTop: 4,
+                        background: color('background', 'screen'),
+                        position: 'absolute',
+                        borderRadius: 4,
+                        zIndex: 1,
+                        bottom: '-6px',
+                        '& > div > div': {
+                          fontSize: '13px !important',
+                          lineHeight: '16px !important',
+                        },
+                      }}
+                    >
+                      {dayDates.length - 4} more
+                    </Button>
+                  </Dropdown.Trigger>
+                  <Dropdown.Items>
+                    <styled.div
+                      style={{
+                        backgroundColor: color('background', 'muted'),
+                        padding: '8px 16px',
+                        margin: '-8px -8px 6px -8px',
+                        borderBottom: border(),
+                      }}
+                    >
+                      <Text weight="strong">
+                        {format(day, 'd')} {format(displayMonth, 'MMMM yyyy')}
+                      </Text>
+                    </styled.div>
+                    {dayDates.map((_: { title?: string }, i) => (
+                      <Dropdown.Item
+                        key={i}
+                        onClick={() => {
+                          console.log('Snurp clicked')
+                        }}
+                      >
+                        {_[labelField]}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Items>
+                </Dropdown.Root>
               )}
             </Stack>
           )
