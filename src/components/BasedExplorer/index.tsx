@@ -15,6 +15,7 @@ export type BasedExplorerProps = {
 type ActiveSub = {
   close: () => void
   limit: number
+  loaded: boolean
   offset: number
   data: { data: any[]; total: number }
 }
@@ -50,28 +51,30 @@ export function BasedExplorer({
     const block: any[] = new Array(len)
     let blockFilled = 0
 
+    let loaded = true
+
     ref.current.activeSubs.forEach((s, id) => {
       const r1 = ref.current.start
       const r2 = ref.current.end
       const total = s.offset + s.limit
 
       if (r1 > total) {
-        // console.info('KILL', r1, r2, id)
         s.close()
         ref.current.activeSubs.delete(id)
       } else if (s.offset > r2) {
-        // console.info('KILL', r1, r2, id)
         s.close()
         ref.current.activeSubs.delete(id)
       }
     })
 
-    console.log([...ref.current.activeSubs.keys()])
-
     for (let i = 0; i < len; i++) {
       let realI = i + ref.current.start
       ref.current.activeSubs.forEach((s) => {
         if (s.offset <= realI && realI < s.limit + s.offset) {
+          if (!s.loaded) {
+            loaded = false
+          }
+
           const correction = s.offset - ref.current.start
           blockFilled++
           if (s.data.data[i - correction]) {
@@ -80,14 +83,17 @@ export function BasedExplorer({
         }
       })
     }
-    if (blockFilled >= len) {
-      ref.current.block = { data: block, total: ref.current.total }
+
+    if (loaded) {
+      if (blockFilled >= len) {
+        ref.current.block = { data: block, total: ref.current.total }
+      }
+      if (ref.current.loadTimer !== null) {
+        ref.current.loadTimer = null
+        clearTimeout(ref.current.loadTimer)
+      }
+      update()
     }
-    if (ref.current.loadTimer !== null) {
-      ref.current.loadTimer = null
-      clearTimeout(ref.current.loadTimer)
-    }
-    update()
   }, [])
 
   return (
@@ -129,6 +135,7 @@ export function BasedExplorer({
 
           const newSub: ActiveSub = {
             limit,
+            loaded: false,
             offset,
             data: {
               data: [],
@@ -147,6 +154,7 @@ export function BasedExplorer({
                 }),
               )
               .subscribe((d) => {
+                newSub.loaded = true
                 ref.current.total = d.total
                 newSub.data = d
                 updateBlocks()
