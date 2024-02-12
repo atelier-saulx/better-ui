@@ -1,8 +1,9 @@
+import 'overlayscrollbars/overlayscrollbars.css'
 import './styles/reset.css'
-import './styles/variables.css'
 import './styles/fonts.css'
 import './styles/keyframes.css'
 import './styles/syntax.css'
+import './styles/variables.css'
 
 export * from './components/Badge/index.js'
 export * from './components/FileInput/index.js'

@@ -154,7 +154,9 @@ const TableBodyPaged = (p: TableBodyProps) => {
           bottom: 0,
           left: 0,
           right: 0,
-          height: p.pagination.total * 48 + (p.pagination.loadMore ? 48 : 0), // add bottom with load mroe
+          height:
+            ref.current.pagination.total * 48 +
+            (ref.current.pagination.loadMore ? 48 : 0), // add bottom with load mroe
         }}
       >
         {ref.current.ctx ? (

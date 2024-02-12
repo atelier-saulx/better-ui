@@ -3,10 +3,10 @@
   "type": "module",
   "version": "6.0.6-alpha",
   "scripts": {
-    "build-playground": "npx ts-node --esm ./scripts/playground/index.ts -p",
-    "dev": "npx ts-node --esm ./scripts/playground/index.ts && npx esbuild  ./scripts/playground/playground.tsx --outdir=./scripts/playground/out/ --bundle  --serve --watch --servedir=./scripts/playground/out --platform=browser --sourcemap",
+    "dev": "npx @based/cli dev",
     "ts-watch": "npx tsc -w",
-    "build": "rm -rf dist && npx tsc && cp -r ./src/styles ./dist/styles "
+    "build": "rm -rf dist && npx tsc && cp -r ./src/styles ./dist/styles",
+    "build:playground": "npx @based/storybook --target=src --destination=functions/playground"
   },
   "main": "./dist/index.js",
   "prettier": "@saulx/prettier-config",
@@ -32,16 +32,14 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@saulx/hash": "^3.0.0",
     "@saulx/utils": "^4.1.0",
-    "@tanstack/react-table": "8.10.7",
-    "@tanstack/react-virtual": "3.0.0-alpha.0",
     "date-fns": "^2.30.0",
     "hls.js": "^1.4.14",
     "humanize-string": "^3.0.0",
     "inlines": "0.4.0-alpha.1",
     "json-2-csv": "^5.0.1",
     "lexical": "0.12.2",
-    "overlayscrollbars-react": "^0.5.4",
     "overlayscrollbars": "2.5.0",
+    "overlayscrollbars-react": "^0.5.4",
     "prismjs": "^1.29.0",
     "react-file-drop": "^3.1.6",
     "react-merge-refs": "^2.1.1",
@@ -53,7 +51,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@based/cli": "^5.12.2",
+    "@based/storybook": "^1.0.0",
+    "@based/cli": "^5.13.0",
     "@based/functions": "^2.2.2",
     "@faker-js/faker": "^8.3.1",
     "@saulx/prettier-config": "^2.0.0",
