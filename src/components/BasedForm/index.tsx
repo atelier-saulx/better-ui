@@ -1,22 +1,94 @@
 import { useClient, useQuery } from '@based/react'
-import { BasedSchemaType, convertOldToNew } from '@based/schema'
+import {
+  BasedSchema,
+  BasedSchemaField,
+  BasedSchemaFieldObject,
+  BasedSchemaType,
+  convertOldToNew,
+} from '@based/schema'
 import * as React from 'react'
-import { Form } from '../../index.js'
+import { Form, Modal } from '../../index.js'
+import { SelectReferenceModal } from './SelectReferenceModal.js'
 
 export type BasedFormProps = {
   id: string
   includedFields?: string[]
+  excludeCommonFields?: boolean
 }
 
-export function BasedForm({ id, includedFields }: BasedFormProps) {
+export function BasedForm({
+  id,
+  includedFields,
+  excludeCommonFields = true,
+}: BasedFormProps) {
   const client = useClient()
+  const { open } = Modal.useModal()
+
   const { data: rawSchema } = useQuery('db:schema')
-  const { data: item } = useQuery('db', { $id: id, $all: true })
+  const schema = React.useMemo(() => {
+    if (!rawSchema) return
+
+    return convertOldToNew(rawSchema)
+  }, [rawSchema])
+
+  const [query, setQuery] = React.useState<any>()
+  const { data: item } = useQuery('db', query)
+  React.useEffect(() => {
+    async function constructQuery() {
+      const item = await client.call('db:get', { $id: id, $all: true })
+      const fields = schema.types[item.type].fields
+
+      const query = {
+        $id: id,
+      }
+
+      // TODO walk fields recursively and construct a query where every reference is fetched for the item
+      // TODO figure out how to get multi references in the query
+
+      function walkFields(fields: BasedSchemaType['fields'], query: any) {
+        for (const field in fields) {
+          if (fields[field].type === 'reference') {
+            query[field] = { $all: true }
+          }
+          if (fields[field].type === 'references') {
+            query[field] = { $all: true }
+          }
+          // if (fields[field].type === 'object') {
+          //   walkFields(
+          //     (fields[field] as BasedSchemaFieldObject).properties,
+          //     query[field],
+          //   )
+          // }
+        }
+      }
+
+      walkFields(fields, { $id: id })
+      console.log(query)
+
+      setQuery({
+        $id: id,
+        $all: true,
+        // attachment: { $all: true },
+        // attachments: { $all: true },
+        // objectproperty: {
+        //   $all: true,
+        //   nestedreference: { $all: true },
+        //   nestedreferences: { $all: true },
+        //   deep: {
+        //     $all: true,
+        //     deepreference: { $all: true },
+        //   },
+        // },
+      })
+    }
+
+    if (!schema) return
+    constructQuery()
+  }, [id, schema])
 
   const fields = React.useMemo(() => {
-    if (!rawSchema || !item) return
+    if (!item) return
 
-    const schema = convertOldToNew(rawSchema)
     let fields: BasedSchemaType['fields']
 
     if (schema.types[item.type]) {
@@ -29,7 +101,7 @@ export function BasedForm({ id, includedFields }: BasedFormProps) {
           delete fields[key]
         }
       }
-    } else {
+    } else if (excludeCommonFields) {
       for (const key in fields) {
         if (
           [
@@ -46,21 +118,43 @@ export function BasedForm({ id, includedFields }: BasedFormProps) {
       }
     }
 
-    console.log('fields found:', fields)
-
     return fields
-  }, [item, rawSchema, includedFields])
+  }, [item, schema, includedFields])
 
-  if (!fields) return
+  if (!fields || !schema) return
 
   return (
-    <Form
-      values={item}
-      fields={fields}
-      onChange={async (_values, _changed, _checksum, based) => {
-        console.log('calling db:set with:', { $id: id, ...based })
-        await client.call('db:set', { $id: id, ...based })
-      }}
-    />
+    <>
+      <Form
+        schema={schema}
+        values={item}
+        fields={fields}
+        onChange={async (_values, _changed, _checksum, based) => {
+          await client.call('db:set', { $id: id, ...based })
+        }}
+        onSelectReference={async () => {
+          const selectedReference = await open(({ close }) => (
+            <SelectReferenceModal
+              onSelect={(reference) => {
+                close(reference)
+              }}
+            />
+          ))
+
+          return selectedReference.id
+        }}
+        onSelectReferences={async () => {
+          const selectedReference = await open(({ close }) => (
+            <SelectReferenceModal
+              onSelect={(reference) => {
+                close(reference)
+              }}
+            />
+          ))
+
+          return [selectedReference.id]
+        }}
+      />
+    </>
   )
 }

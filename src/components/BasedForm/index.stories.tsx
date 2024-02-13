@@ -1,6 +1,6 @@
 import * as React from 'react'
 import type { Meta } from '@storybook/react'
-import { BasedForm } from '../../index.js'
+import { BasedForm, Modal } from '../../index.js'
 import based from '@based/client'
 import { Provider } from '@based/react'
 
@@ -16,7 +16,9 @@ const meta: Meta<typeof BasedForm> = {
   decorators: [
     (Story) => (
       <Provider client={client}>
-        <Story />
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
       </Provider>
     ),
   ],
@@ -27,7 +29,7 @@ export default meta
 export const Default = () => {
   return (
     <div>
-      <BasedForm id="1001532335" />
+      <BasedForm id="10ff8f6f00" />
     </div>
   )
 }
