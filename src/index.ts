@@ -78,5 +78,6 @@ export * from './hooks/useTheme/index.js'
 export * from './hooks/useUploadFile/index.js'
 export * from './hooks/useUpdate/index.js'
 export * from './hooks/useSize/index.js'
+export * from './hooks/useLanguage/index.js'
 
 export * from './components/Code/prettier.js'

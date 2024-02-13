@@ -8,6 +8,7 @@ import {
 } from '@based/schema'
 import * as React from 'react'
 import { Form, Modal } from '../../index.js'
+import { useLanguage } from '../../hooks/useLanguage/index.js'
 import { SelectReferenceModal } from './SelectReferenceModal.js'
 
 export type BasedFormProps = {
@@ -21,11 +22,11 @@ export function BasedForm({
   id,
   includedFields,
   excludeCommonFields = true,
-  language = 'en',
+  language,
 }: BasedFormProps) {
   const client = useClient()
   const { open } = Modal.useModal()
-
+  const [languageState] = useLanguage()
   const { data: rawSchema } = useQuery('db:schema')
   const schema = React.useMemo(() => {
     if (!rawSchema) return
@@ -35,6 +36,9 @@ export function BasedForm({
 
   const [query, setQuery] = React.useState<any>()
   const { data: item } = useQuery('db', query)
+
+  language ||= languageState
+
   React.useEffect(() => {
     async function constructQuery() {
       const item = await client.call('db:get', { $id: id, $all: true })

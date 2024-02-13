@@ -58,8 +58,6 @@ export function BasedExplorer({
     totalQuery,
   )
 
-  console.log('totalquery', totalData?.total ?? 0, totalLoading)
-
   const updateBlocks = React.useCallback(() => {
     ref.current.isLoading = false
     const len = ref.current.end - ref.current.start
