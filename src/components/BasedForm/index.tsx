@@ -1,7 +1,5 @@
 import { useClient, useQuery } from '@based/react'
 import {
-  BasedSchema,
-  BasedSchemaField,
   BasedSchemaFieldObject,
   BasedSchemaType,
   convertOldToNew,
@@ -28,9 +26,10 @@ export function BasedForm({
   const { data: rawSchema } = useQuery('db:schema')
   const schema = React.useMemo(() => {
     if (!rawSchema) return
-
     return convertOldToNew(rawSchema)
   }, [rawSchema])
+
+  console.log('?????????', rawSchema, schema)
 
   const [query, setQuery] = React.useState<any>()
   const { data: item, loading, checksum } = useQuery('db', query)
@@ -84,12 +83,13 @@ export function BasedForm({
     }
 
     if (includedFields) {
-      for (const key in fields) {
-        if (!includedFields.includes(key)) {
-          delete fields[key]
-        }
-      }
-    } else if (excludeCommonFields) {
+      return includedFields.reduce((newFields, field) => {
+        newFields[field] = fields[field]
+        return newFields
+      }, {})
+    }
+
+    if (excludeCommonFields) {
       for (const key in fields) {
         if (
           [
