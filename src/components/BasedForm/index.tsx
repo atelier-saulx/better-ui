@@ -17,8 +17,6 @@ export type BasedFormProps = {
   language?: string
 }
 
-// TODO add $language to the query but also dont forget to use to db:set
-
 export function BasedForm({
   id,
   includedFields,
@@ -44,10 +42,9 @@ export function BasedForm({
 
       const query = {
         $id: id,
+        $language: language,
+        $all: true,
       }
-
-      // TODO walk fields recursively and construct a query where every reference is fetched for the item
-      // TODO figure out how to get multi references in the query
 
       function walkFields(fields: BasedSchemaType['fields'], query: any) {
         for (const field in fields) {
@@ -55,36 +52,22 @@ export function BasedForm({
             query[field] = { $all: true }
           }
           if (fields[field].type === 'references') {
-            query[field] = { $all: true }
+            query[field] = { $all: true, $list: true }
           }
-          // if (fields[field].type === 'object') {
-          //   walkFields(
-          //     (fields[field] as BasedSchemaFieldObject).properties,
-          //     query[field],
-          //   )
-          // }
+          if (fields[field].type === 'object') {
+            query[field] = {
+              $all: true,
+            }
+            walkFields(
+              (fields[field] as BasedSchemaFieldObject).properties,
+              query[field],
+            )
+          }
         }
       }
 
-      walkFields(fields, { $id: id })
-      console.log(query)
-
-      setQuery({
-        $id: id,
-        $language: language,
-        $all: true,
-        // attachment: { $all: true },
-        // attachments: { $all: true },
-        // objectproperty: {
-        //   $all: true,
-        //   nestedreference: { $all: true },
-        //   nestedreferences: { $all: true },
-        //   deep: {
-        //     $all: true,
-        //     deepreference: { $all: true },
-        //   },
-        // },
-      })
+      walkFields(fields, query)
+      setQuery(query)
     }
 
     if (!schema) return
@@ -128,6 +111,8 @@ export function BasedForm({
 
   if (!fields || !schema) return
 
+  console.log(query)
+
   return (
     <>
       <Form
@@ -135,6 +120,11 @@ export function BasedForm({
         values={item}
         fields={fields}
         onChange={async (_values, _changed, _checksum, based) => {
+          console.log('db:set called with:', {
+            $id: id,
+            $language: language,
+            ...based,
+          })
           await client.call('db:set', {
             $id: id,
             $language: language,
