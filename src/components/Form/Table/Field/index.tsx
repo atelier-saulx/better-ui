@@ -7,6 +7,12 @@ import { ReadOnlyField } from './ReadOnly.js'
 export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field, readOnly } = readPath(ctx, path)
 
+  if (!field) {
+    console.log('GET PATH NO FIELD', path, field)
+
+    return 'no field...'
+  }
+
   if (readOnly) {
     return <ReadOnlyField value={value} field={field} ctx={ctx} path={path} />
   } else {

@@ -17,10 +17,12 @@ export const Table = (p: {
   schema?: BasedSchemaPartial
   editable?: boolean
   field?: BasedSchemaFieldObject
+  isLoading?: boolean
   values?: any[]
   sortable?: boolean // maybe rename to orderable (everywhere)
   onChange?: FormProps['onChange']
   onClick?: (data: any, index: number | string) => void
+  isBlock?: boolean
 }) => {
   const update = useUpdate()
 
@@ -131,12 +133,15 @@ export const Table = (p: {
     <ReferencesTable
       sortByFields={sortRef.current}
       field={field}
+      fieldSchema={p.field}
       onClickReference={clickRef}
       ctx={ctx}
       path={path}
       valueRef={valueRef.current}
       changeIndex={changeIndex}
+      isLoading={p.isLoading}
       alwaysUseCols
+      isBlock={p.isBlock}
       onRemove={p.editable ? removeItem : undefined}
       pagination={
         p.pagination === true

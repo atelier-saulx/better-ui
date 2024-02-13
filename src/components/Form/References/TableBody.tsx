@@ -32,6 +32,8 @@ type TableBodyProps = {
   path: Path
   colFields: ColSizes
   nField: BasedSchemaFieldArray
+  isBlock?: boolean
+  isLoading?: boolean
 }
 
 const TableBodyPaged = (p: TableBodyProps) => {
@@ -66,14 +68,12 @@ const TableBodyPaged = (p: TableBodyProps) => {
       (index + 2) * ref.current.pageCount,
       ref.current.pagination.total,
     )
-    if (ref.current.pagination.onPageChange) {
-      ref.current.pagination.onPageChange({
-        index,
-        pageSize: ref.current.pageCount,
-        start: ref.current.start,
-        end: ref.current.end,
-      })
-    }
+    ref.current.pagination.onPageChange?.({
+      index,
+      pageSize: ref.current.pageCount,
+      start: ref.current.start,
+      end: ref.current.end,
+    })
     update()
   }, [])
 
@@ -81,15 +81,14 @@ const TableBodyPaged = (p: TableBodyProps) => {
     ref.current.ctx = {
       ...p.ctx,
       valueOverrides: {
-        [ref.current.p]: p.valueRef.value.slice(
-          ref.current.start,
-          ref.current.end,
-        ),
+        [ref.current.p]: p.isBlock
+          ? p.valueRef.value
+          : p.valueRef.value.slice(ref.current.start, ref.current.end),
       },
     }
   }
 
-  const sizeRef = useSize(({ height }) => {
+  const sizeRef = useSize(({ height, width }) => {
     const n = Math.ceil(height / 48)
     if (n !== ref.current.pageCount) {
       ref.current.p = p.path.join('.')
@@ -131,6 +130,7 @@ const TableBodyPaged = (p: TableBodyProps) => {
     if (ref.current.pagination.onScroll) {
       ref.current.pagination.onScroll(y, block, ref.current.pageCount)
     }
+
     if (ref.current.currentIndex !== block) {
       updateBlock(block)
     }
@@ -172,6 +172,7 @@ const TableBodyPaged = (p: TableBodyProps) => {
                 value: ref.current.ctx.valueOverrides[ref.current.p],
                 orderId: p.valueRef.orderId,
               }}
+              isLoading={p.isLoading}
               ctx={ref.current.ctx}
               changeIndex={p.changeIndex}
               removeItem={p.onRemove}

@@ -243,7 +243,7 @@ export const Field = ({
     )
   }
 
-  if (type === 'number') {
+  if (type === 'number' || type === 'integer') {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta: Meta<typeof Thumbnail> = {
   title: 'Atoms/Thumbnail',

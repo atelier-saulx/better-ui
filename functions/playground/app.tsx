@@ -1,56 +1,57 @@
 import { startPlayground } from '@based/storybook/playground'
-import * as f2709786937207 from "../../src/components/Badge/index.stories.js"
-import * as f12456265071631 from "../../src/components/BarGraph/index.stories.js"
-import * as f1403935485412 from "../../src/components/Button/index.stories.js"
-import * as f12539861850560 from "../../src/components/Calendar/index.stories.js"
-import * as f13557855690583 from "../../src/components/CheckboxInput/index.stories.js"
-import * as f14261403483167 from "../../src/components/Code/index.stories.js"
-import * as f5470738912473 from "../../src/components/ColorInput/index.stories.js"
-import * as f6155456052992 from "../../src/components/Confirm/index.stories.js"
-import * as f2676674344469 from "../../src/components/Container/index.stories.js"
-import * as f15918582868135 from "../../src/components/CurrentDay/index.stories.js"
-import * as f5347209449136 from "../../src/components/DateInput/index.stories.js"
-import * as f12984134904489 from "../../src/components/Dropdown/index.stories.js"
-import * as f12162171475362 from "../../src/components/FileInput/index.stories.js"
-import * as f11927335739210 from "../../src/components/Grid/index.stories.js"
-import * as f10261065846765 from "../../src/components/Header/index.stories.js"
-import * as f6035430303946 from "../../src/components/Icons/index.stories.js"
-import * as f10173362420623 from "../../src/components/KeyboardShortcut/index.stories.js"
-import * as f1153425962678 from "../../src/components/LanguageInput/index.stories.js"
-import * as f4437124256520 from "../../src/components/Layout/index.stories.js"
-import * as f1126609356048 from "../../src/components/LineGraph/index.stories.js"
-import * as f16765197606902 from "../../src/components/Media/index.stories.js"
-import * as f936609549945 from "../../src/components/Modal/index.stories.js"
-import * as f5634334384066 from "../../src/components/Note/index.stories.js"
-import * as f5909785848135 from "../../src/components/NumberInput/index.stories.js"
-import * as f16472063764097 from "../../src/components/Page/index.stories.js"
-import * as f9460110149634 from "../../src/components/PieGraph/index.stories.js"
-import * as f12047187696222 from "../../src/components/RichTextEditor/index.stories.js"
-import * as f6285988781667 from "../../src/components/Schema/index.stories.js"
-import * as f16126198374920 from "../../src/components/ScrollArea/index.stories.js"
-import * as f15513603856812 from "../../src/components/SelectInput/index.stories.js"
-import * as f4412292282470 from "../../src/components/SetInput/index.stories.js"
-import * as f10196973367128 from "../../src/components/Sidebar/index.stories.js"
-import * as f13597506036687 from "../../src/components/Spinner/index.stories.js"
-import * as f17293536255708 from "../../src/components/Stack/index.stories.js"
-import * as f17512554344332 from "../../src/components/Table/index.stories.js"
-import * as f16386070420783 from "../../src/components/Text/index.stories.js"
-import * as f7144734297614 from "../../src/components/TextAreaInput/index.stories.js"
-import * as f5979046522585 from "../../src/components/TextInput/index.stories.js"
-import * as f2542458627838 from "../../src/components/Thumbnail/index.stories.js"
-import * as f10219561566831 from "../../src/components/Toast/index.stories.js"
-import * as f12164388818727 from "../../src/components/Tooltip/index.stories.js"
-import * as f14744076215203 from "../../src/components/Video/index.stories.js"
-import * as f8139019256634 from "../../src/components/Form/stories/arrays.stories.js"
-import * as f11284618058075 from "../../src/components/Form/stories/default.stories.js"
-import * as f12399833393765 from "../../src/components/Form/stories/object.stories.js"
-import * as f9013842098998 from "../../src/components/Form/stories/readonly.stories.js"
-import * as f8217294240285 from "../../src/components/Form/stories/record.stories.js"
-import * as f12909404527880 from "../../src/components/Form/stories/references.stories.js"
-import * as f11010240342713 from "../../src/components/Form/stories/referencesSchema.stories.js"
-import * as f7234131307474 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f2709786937207,f12456265071631,f1403935485412,f12539861850560,f13557855690583,f14261403483167,f5470738912473,f6155456052992,f2676674344469,f15918582868135,f5347209449136,f12984134904489,f12162171475362,f11927335739210,f10261065846765,f6035430303946,f10173362420623,f1153425962678,f4437124256520,f1126609356048,f16765197606902,f936609549945,f5634334384066,f5909785848135,f16472063764097,f9460110149634,f12047187696222,f6285988781667,f16126198374920,f15513603856812,f4412292282470,f10196973367128,f13597506036687,f17293536255708,f17512554344332,f16386070420783,f7144734297614,f5979046522585,f2542458627838,f10219561566831,f12164388818727,f14744076215203,f8139019256634,f11284618058075,f12399833393765,f9013842098998,f8217294240285,f12909404527880,f11010240342713,f7234131307474]
-export const parsedStories = [{ id: "f2709786937207", story: f2709786937207, path: "/Users/jimdebeer/saulx/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
+import * as f1130922799717 from "../../src/components/Badge/index.stories.js"
+import * as f12564555305565 from "../../src/components/BarGraph/index.stories.js"
+import * as f7416220464218 from "../../src/components/BasedExplorer/index.stories.js"
+import * as f2084790011414 from "../../src/components/Button/index.stories.js"
+import * as f16905658949426 from "../../src/components/Calendar/index.stories.js"
+import * as f1681034936069 from "../../src/components/CheckboxInput/index.stories.js"
+import * as f13619739889741 from "../../src/components/Code/index.stories.js"
+import * as f17306232299723 from "../../src/components/ColorInput/index.stories.js"
+import * as f4948859476466 from "../../src/components/Confirm/index.stories.js"
+import * as f9344752088327 from "../../src/components/Container/index.stories.js"
+import * as f3057415892789 from "../../src/components/CurrentDay/index.stories.js"
+import * as f6239386911682 from "../../src/components/DateInput/index.stories.js"
+import * as f10288907520891 from "../../src/components/Dropdown/index.stories.js"
+import * as f1361056666384 from "../../src/components/FileInput/index.stories.js"
+import * as f14989200246520 from "../../src/components/Grid/index.stories.js"
+import * as f8646848099263 from "../../src/components/Header/index.stories.js"
+import * as f1926324559992 from "../../src/components/Icons/index.stories.js"
+import * as f6622038122973 from "../../src/components/KeyboardShortcut/index.stories.js"
+import * as f6271760022916 from "../../src/components/LanguageInput/index.stories.js"
+import * as f14974680308474 from "../../src/components/Layout/index.stories.js"
+import * as f10413842030050 from "../../src/components/LineGraph/index.stories.js"
+import * as f409919741252 from "../../src/components/Media/index.stories.js"
+import * as f13867817006251 from "../../src/components/Modal/index.stories.js"
+import * as f2391256762992 from "../../src/components/Note/index.stories.js"
+import * as f10190487816981 from "../../src/components/NumberInput/index.stories.js"
+import * as f8544279227411 from "../../src/components/Page/index.stories.js"
+import * as f10692938591024 from "../../src/components/PieGraph/index.stories.js"
+import * as f974043384684 from "../../src/components/RichTextEditor/index.stories.js"
+import * as f13329917722609 from "../../src/components/Schema/index.stories.js"
+import * as f13087660182010 from "../../src/components/ScrollArea/index.stories.js"
+import * as f6536975305054 from "../../src/components/SelectInput/index.stories.js"
+import * as f10824936630228 from "../../src/components/SetInput/index.stories.js"
+import * as f7822376808362 from "../../src/components/Sidebar/index.stories.js"
+import * as f2312747410077 from "../../src/components/Spinner/index.stories.js"
+import * as f8523906341550 from "../../src/components/Stack/index.stories.js"
+import * as f16457632158462 from "../../src/components/Table/index.stories.js"
+import * as f4403319537853 from "../../src/components/Text/index.stories.js"
+import * as f4363912759740 from "../../src/components/TextAreaInput/index.stories.js"
+import * as f3910853229259 from "../../src/components/TextInput/index.stories.js"
+import * as f8582702281036 from "../../src/components/Thumbnail/index.stories.js"
+import * as f15599106587773 from "../../src/components/Toast/index.stories.js"
+import * as f14542094828981 from "../../src/components/Tooltip/index.stories.js"
+import * as f6004462968497 from "../../src/components/Video/index.stories.js"
+import * as f2872478104456 from "../../src/components/Form/stories/arrays.stories.js"
+import * as f4444441197193 from "../../src/components/Form/stories/default.stories.js"
+import * as f12741420372279 from "../../src/components/Form/stories/object.stories.js"
+import * as f16286765462020 from "../../src/components/Form/stories/readonly.stories.js"
+import * as f12122853271055 from "../../src/components/Form/stories/record.stories.js"
+import * as f16815800280314 from "../../src/components/Form/stories/references.stories.js"
+import * as f10025904474475 from "../../src/components/Form/stories/referencesSchema.stories.js"
+import * as f6183036884064 from "../../src/components/Form/stories/set.stories.js"
+export const stories = [f1130922799717,f12564555305565,f7416220464218,f2084790011414,f16905658949426,f1681034936069,f13619739889741,f17306232299723,f4948859476466,f9344752088327,f3057415892789,f6239386911682,f10288907520891,f1361056666384,f14989200246520,f8646848099263,f1926324559992,f6622038122973,f6271760022916,f14974680308474,f10413842030050,f409919741252,f13867817006251,f2391256762992,f10190487816981,f8544279227411,f10692938591024,f974043384684,f13329917722609,f13087660182010,f6536975305054,f10824936630228,f7822376808362,f2312747410077,f8523906341550,f16457632158462,f4403319537853,f4363912759740,f3910853229259,f8582702281036,f15599106587773,f14542094828981,f6004462968497,f2872478104456,f4444441197193,f12741420372279,f16286765462020,f12122853271055,f16815800280314,f10025904474475,f6183036884064]
+export const parsedStories = [{ id: "f1130922799717", story: f1130922799717, path: "/Users/vassbence/projects/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -98,7 +99,7 @@ export const Copyable: StoryObj<typeof Badge> = {
     color: { control: 'select' },
   },
 }
-`},{ id: "f12456265071631", story: f12456265071631, path: "/Users/jimdebeer/saulx/better-ui/src/components/BarGraph/index.stories.tsx", file: `import React from 'react'
+`},{ id: "f12564555305565", story: f12564555305565, path: "/Users/vassbence/projects/better-ui/src/components/BarGraph/index.stories.tsx", file: `import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { BarGraph } from '../../index.js'
 import { color } from '../../index.js'
@@ -235,7 +236,78 @@ export const StackedHorizontal: StoryObj<typeof BarGraph> = {
     ],
   },
 }
-`},{ id: "f1403935485412", story: f1403935485412, path: "/Users/jimdebeer/saulx/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f7416220464218", story: f7416220464218, path: "/Users/vassbence/projects/better-ui/src/components/BasedExplorer/index.stories.tsx", file: `import * as React from 'react'
+import type { Meta } from '@storybook/react'
+import { BasedExplorer } from '../../index.js'
+import based from '@based/client'
+import { Provider } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
+
+const meta: Meta<typeof BasedExplorer> = {
+  title: 'Based/BasedExplorer',
+  component: BasedExplorer,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const Default = () => {
+  return (
+    <div style={{ height: '50vh' }}>
+      <BasedExplorer
+        onItemClick={(item) => {
+          alert('clicked item ' + item.id)
+        }}
+        query={({ limit, offset, sort }) => ({
+          data: {
+            $all: true,
+            $list: {
+              $limit: limit,
+              $offset: offset,
+              ...(sort && {
+                $sort: {
+                  $field: sort.key,
+                  $order: sort.dir,
+                },
+              }),
+              $find: {
+                $traverse: 'children',
+                $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+              },
+            },
+          },
+        })}
+        totalQuery={{
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: 'children',
+              $filter: [
+                {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: 'todo',
+                },
+              ],
+            },
+          },
+        }}
+      />
+    </div>
+  )
+}
+`},{ id: "f2084790011414", story: f2084790011414, path: "/Users/vassbence/projects/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { IconCopy, IconMoreVertical, Button } from '../../index.js'
 
@@ -332,7 +404,7 @@ export const ButtonSmall: StoryObj<typeof Button> = {
     },
   },
 }
-`},{ id: "f12539861850560", story: f12539861850560, path: "/Users/jimdebeer/saulx/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
+`},{ id: "f16905658949426", story: f16905658949426, path: "/Users/vassbence/projects/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Calendar> = {
@@ -345,7 +417,7 @@ export default meta
 export const Default: StoryObj<typeof Calendar> = {
   args: {},
 }
-`},{ id: "f13557855690583", story: f13557855690583, path: "/Users/jimdebeer/saulx/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
+`},{ id: "f1681034936069", story: f1681034936069, path: "/Users/vassbence/projects/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof CheckboxInput> = {
@@ -372,7 +444,7 @@ export const Toggle: StoryObj<typeof CheckboxInput> = {
     disabled: false,
   },
 }
-`},{ id: "f14261403483167", story: f14261403483167, path: "/Users/jimdebeer/saulx/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
+`},{ id: "f13619739889741", story: f13619739889741, path: "/Users/vassbence/projects/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Code> = {
@@ -453,7 +525,7 @@ export const Small: StoryObj<typeof Code> = {
     color: { control: 'select' },
   },
 }
-`},{ id: "f5470738912473", story: f5470738912473, path: "/Users/jimdebeer/saulx/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f17306232299723", story: f17306232299723, path: "/Users/vassbence/projects/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
 import { ColorInput } from '../../index.js'
 
 const meta = {
@@ -488,7 +560,7 @@ export const Disabled = () => {
 export const Undefined = () => {
   return <ColorInput value={undefined} />
 }
-`},{ id: "f6155456052992", story: f6155456052992, path: "/Users/jimdebeer/saulx/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
+`},{ id: "f4948859476466", story: f4948859476466, path: "/Users/vassbence/projects/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Confirm> = {
@@ -507,7 +579,7 @@ export const Icons: StoryObj<typeof Confirm> = {
     variant: 'small',
   },
 }
-`},{ id: "f2676674344469", story: f2676674344469, path: "/Users/jimdebeer/saulx/better-ui/src/components/Container/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f9344752088327", story: f9344752088327, path: "/Users/vassbence/projects/better-ui/src/components/Container/index.stories.tsx", file: `import * as React from 'react'
 import {
   Container,
   Thumbnail,
@@ -672,7 +744,7 @@ export const Expandable: StoryObj<typeof Container> = {
     children: <Button>This is a button</Button>,
   },
 }
-`},{ id: "f15918582868135", story: f15918582868135, path: "/Users/jimdebeer/saulx/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
+`},{ id: "f3057415892789", story: f3057415892789, path: "/Users/vassbence/projects/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof CurrentDay> = {
@@ -685,7 +757,7 @@ export default meta
 export const Default: StoryObj<typeof CurrentDay> = {
   args: { value: new Date().getTime() },
 }
-`},{ id: "f5347209449136", story: f5347209449136, path: "/Users/jimdebeer/saulx/better-ui/src/components/DateInput/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f6239386911682", story: f6239386911682, path: "/Users/vassbence/projects/better-ui/src/components/DateInput/index.stories.tsx", file: `import * as React from 'react'
 import { DateInput } from '../../index.js'
 
 const meta = {
@@ -764,7 +836,7 @@ export const Small = () => {
     />
   )
 }
-`},{ id: "f12984134904489", story: f12984134904489, path: "/Users/jimdebeer/saulx/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f10288907520891", story: f10288907520891, path: "/Users/vassbence/projects/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
 import {
   Button,
   DropdownHookProvider,
@@ -844,7 +916,7 @@ export const Hook = () => {
     </Button>
   )
 }
-`},{ id: "f12162171475362", story: f12162171475362, path: "/Users/jimdebeer/saulx/better-ui/src/components/FileInput/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f1361056666384", story: f1361056666384, path: "/Users/vassbence/projects/better-ui/src/components/FileInput/index.stories.tsx", file: `import * as React from 'react'
 import { useUploadFile, FileInput } from '../../index.js'
 import { Provider } from '@based/react'
 import based from '@based/client'
@@ -910,7 +982,7 @@ export const RealUpload = () => {
     </Provider>
   )
 }
-`},{ id: "f11927335739210", story: f11927335739210, path: "/Users/jimdebeer/saulx/better-ui/src/components/Grid/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f14989200246520", story: f14989200246520, path: "/Users/vassbence/projects/better-ui/src/components/Grid/index.stories.tsx", file: `import * as React from 'react'
 import {
   Grid,
   Dropdown,
@@ -920,7 +992,7 @@ import {
   IconMoreHorizontal,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/Grid',
@@ -1017,7 +1089,7 @@ export const SortableRow = () => {
     </div>
   )
 }
-`},{ id: "f10261065846765", story: f10261065846765, path: "/Users/jimdebeer/saulx/better-ui/src/components/Header/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f8646848099263", story: f8646848099263, path: "/Users/vassbence/projects/better-ui/src/components/Header/index.stories.tsx", file: `import * as React from 'react'
 import {
   Header,
   Dropdown,
@@ -1096,7 +1168,7 @@ export const BackButton = () => {
     />
   )
 }
-`},{ id: "f6035430303946", story: f6035430303946, path: "/Users/jimdebeer/saulx/better-ui/src/components/Icons/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f1926324559992", story: f1926324559992, path: "/Users/vassbence/projects/better-ui/src/components/Icons/index.stories.tsx", file: `import * as React from 'react'
 // also fix this
 import * as Icons from './index.js'
 import { styled } from 'inlines'
@@ -1150,7 +1222,7 @@ export const Default = () => {
     </div>
   )
 }
-`},{ id: "f10173362420623", story: f10173362420623, path: "/Users/jimdebeer/saulx/better-ui/src/components/KeyboardShortcut/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f6622038122973", story: f6622038122973, path: "/Users/vassbence/projects/better-ui/src/components/KeyboardShortcut/index.stories.tsx", file: `import * as React from 'react'
 import { KeyboardShortcut } from '../../index.js'
 import type { Meta } from '@storybook/react'
 
@@ -1176,7 +1248,7 @@ export const Modifier = () => {
 export const DoubleModifier = () => {
   return <KeyboardShortcut shortcut="Cmd+Alt+A" />
 }
-`},{ id: "f1153425962678", story: f1153425962678, path: "/Users/jimdebeer/saulx/better-ui/src/components/LanguageInput/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f6271760022916", story: f6271760022916, path: "/Users/vassbence/projects/better-ui/src/components/LanguageInput/index.stories.tsx", file: `import * as React from 'react'
 import { LanguageInput } from '../../index.js'
 import type { Meta } from '@storybook/react'
 
@@ -1197,7 +1269,7 @@ export const Default = () => {
     />
   )
 }
-`},{ id: "f4437124256520", story: f4437124256520, path: "/Users/jimdebeer/saulx/better-ui/src/components/Layout/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f14974680308474", story: f14974680308474, path: "/Users/vassbence/projects/better-ui/src/components/Layout/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import {
   Layout,
@@ -1298,7 +1370,7 @@ export const Default = () => {
     </Layout>
   )
 }
-`},{ id: "f1126609356048", story: f1126609356048, path: "/Users/jimdebeer/saulx/better-ui/src/components/LineGraph/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f10413842030050", story: f10413842030050, path: "/Users/vassbence/projects/better-ui/src/components/LineGraph/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import { LineGraph } from '../../index.js'
 
@@ -1403,7 +1475,7 @@ export const Multi = () => {
     </div>
   )
 }
-`},{ id: "f16765197606902", story: f16765197606902, path: "/Users/jimdebeer/saulx/better-ui/src/components/Media/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f409919741252", story: f409919741252, path: "/Users/vassbence/projects/better-ui/src/components/Media/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import { color, Media, Stack } from '../../index.js'
 
@@ -1509,7 +1581,7 @@ export const Large = () => {
     </Stack>
   )
 }
-`},{ id: "f936609549945", story: f936609549945, path: "/Users/jimdebeer/saulx/better-ui/src/components/Modal/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f13867817006251", story: f13867817006251, path: "/Users/vassbence/projects/better-ui/src/components/Modal/index.stories.tsx", file: `import * as React from 'react'
 import { Modal, Button, TextInput, SelectInput } from '../../index.js'
 import { styled } from 'inlines'
 
@@ -1798,7 +1870,7 @@ export const ModalConfirm = () => {
     </div>
   )
 }
-`},{ id: "f5634334384066", story: f5634334384066, path: "/Users/jimdebeer/saulx/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
+`},{ id: "f2391256762992", story: f2391256762992, path: "/Users/vassbence/projects/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Note> = {
@@ -1842,7 +1914,7 @@ export const Neutral: StoryObj<typeof Note> = {
     variant: 'neutral',
   },
 }
-`},{ id: "f5909785848135", story: f5909785848135, path: "/Users/jimdebeer/saulx/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
+`},{ id: "f10190487816981", story: f10190487816981, path: "/Users/vassbence/projects/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof NumberInput> = {
@@ -1878,7 +1950,7 @@ export const Error: StoryObj<typeof NumberInput> = {
     error: true,
   },
 }
-`},{ id: "f16472063764097", story: f16472063764097, path: "/Users/jimdebeer/saulx/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f8544279227411", story: f8544279227411, path: "/Users/vassbence/projects/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
 import { Page, Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { styled } from 'inlines'
@@ -1914,7 +1986,7 @@ export const Default: StoryObj<typeof Page> = {
     style: { maxHeight: 324 },
   },
 }
-`},{ id: "f9460110149634", story: f9460110149634, path: "/Users/jimdebeer/saulx/better-ui/src/components/PieGraph/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
+`},{ id: "f10692938591024", story: f10692938591024, path: "/Users/vassbence/projects/better-ui/src/components/PieGraph/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
 import { PieGraph } from '../../index.js'
 
 const meta: Meta<typeof PieGraph> = {
@@ -1951,7 +2023,7 @@ export const Default: StoryObj<typeof PieGraph> = {
     ],
   },
 }
-`},{ id: "f12047187696222", story: f12047187696222, path: "/Users/jimdebeer/saulx/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
+`},{ id: "f974043384684", story: f974043384684, path: "/Users/vassbence/projects/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
 import { RichTextEditor } from '../../index.js'
 
 const meta: Meta<typeof RichTextEditor> = {
@@ -1971,7 +2043,7 @@ export const Default: StoryObj<typeof RichTextEditor> = {
     },
   },
 }
-`},{ id: "f6285988781667", story: f6285988781667, path: "/Users/jimdebeer/saulx/better-ui/src/components/Schema/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f13329917722609", story: f13329917722609, path: "/Users/vassbence/projects/better-ui/src/components/Schema/index.stories.tsx", file: `import * as React from 'react'
 import { Schema, Modal, Page, border, borderRadius } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
@@ -2019,7 +2091,7 @@ export const Default = () => {
 
   return <Schema schemaInput={data} />
 }
-`},{ id: "f16126198374920", story: f16126198374920, path: "/Users/jimdebeer/saulx/better-ui/src/components/ScrollArea/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f13087660182010", story: f13087660182010, path: "/Users/vassbence/projects/better-ui/src/components/ScrollArea/index.stories.tsx", file: `import * as React from 'react'
 import { ScrollArea } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { styled } from 'inlines'
@@ -2062,7 +2134,7 @@ export const Default: StoryObj<typeof ScrollArea> = {
     style: { maxHeight: 324 },
   },
 }
-`},{ id: "f15513603856812", story: f15513603856812, path: "/Users/jimdebeer/saulx/better-ui/src/components/SelectInput/index.stories.tsx", file: `import { SelectInput } from '../../index.js'
+`},{ id: "f6536975305054", story: f6536975305054, path: "/Users/vassbence/projects/better-ui/src/components/SelectInput/index.stories.tsx", file: `import { SelectInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof SelectInput> = {
@@ -2131,7 +2203,7 @@ export const Error: StoryObj<typeof SelectInput> = {
     error: true,
   },
 }
-`},{ id: "f4412292282470", story: f4412292282470, path: "/Users/jimdebeer/saulx/better-ui/src/components/SetInput/index.stories.tsx", file: `import { SetInput } from '../../index.js'
+`},{ id: "f10824936630228", story: f10824936630228, path: "/Users/vassbence/projects/better-ui/src/components/SetInput/index.stories.tsx", file: `import { SetInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof SetInput> = {
@@ -2168,7 +2240,7 @@ export const Options: StoryObj<typeof SetInput> = {
     onChange: (v) => console.log('onchange log: ', v),
   },
 }
-`},{ id: "f10196973367128", story: f10196973367128, path: "/Users/jimdebeer/saulx/better-ui/src/components/Sidebar/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f7822376808362", story: f7822376808362, path: "/Users/vassbence/projects/better-ui/src/components/Sidebar/index.stories.tsx", file: `import * as React from 'react'
 import {
   Sidebar,
   IconViewBoxes,
@@ -2385,7 +2457,7 @@ export const GroupsCollapsed = () => {
     />
   )
 }
-`},{ id: "f13597506036687", story: f13597506036687, path: "/Users/jimdebeer/saulx/better-ui/src/components/Spinner/index.stories.tsx", file: `import { Spinner } from '../../index.js'
+`},{ id: "f2312747410077", story: f2312747410077, path: "/Users/vassbence/projects/better-ui/src/components/Spinner/index.stories.tsx", file: `import { Spinner } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Spinner> = {
@@ -2400,7 +2472,7 @@ export const Default: StoryObj<typeof Spinner> = {
     size: 48,
   },
 }
-`},{ id: "f17293536255708", story: f17293536255708, path: "/Users/jimdebeer/saulx/better-ui/src/components/Stack/index.stories.tsx", file: `import React, { ReactNode } from 'react'
+`},{ id: "f8523906341550", story: f8523906341550, path: "/Users/vassbence/projects/better-ui/src/components/Stack/index.stories.tsx", file: `import React, { ReactNode } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Stack, border, borderRadius } from '../../index.js'
 
@@ -2463,9 +2535,9 @@ export const GridFixedHeight: StoryObj<typeof Stack> = {
     children: manyChildren,
   },
 }
-`},{ id: "f17512554344332", story: f17512554344332, path: "/Users/jimdebeer/saulx/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f16457632158462", story: f16457632158462, path: "/Users/vassbence/projects/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
 
@@ -2502,7 +2574,7 @@ const dataSmall = new Array(10).fill(null).map(() => ({
   title: faker.lorem.sentence(3),
   number: faker.number.int(10),
   name: faker.person.fullName(),
-  price: faker.commerce.price(),
+  price: Number(faker.commerce.price()),
   color: faker.color.rgb(),
   createdAt: faker.date.soon().valueOf(),
 }))
@@ -2559,7 +2631,7 @@ export const LoadMore = () => {
                 title: faker.lorem.sentence(3),
                 number: i + dataRef.current.data.length,
                 name: faker.person.fullName(),
-                price: faker.commerce.price(),
+                price: Number(faker.commerce.price()),
                 color: faker.color.rgb(),
                 createdAt: faker.date.soon().valueOf(),
               })),
@@ -2629,98 +2701,22 @@ export const EditableTable = () => {
   return <Table values={dataSmall} editable sortable />
 }
 
-// const InfiniteQueryContent = () => {
-//   const [itemToDelete, setItemToDelete] = React.useState(null)
-//   const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
-//     accessFn: (data) => data.files,
-//     queryFn: (offset) => ({
-//       $id: 'root',
-//       files: {
-//         $all: true,
-//         $list: {
-//           $sort: { $field: 'updatedAt', $order: 'desc' },
-//           $offset: offset,
-//           $limit: 25,
-//           $find: {
-//             $traverse: 'children',
-//             $filter: {
-//               $operator: '=',
-//               $field: 'type',
-//               $value: 'todo',
-//             },
-//           },
-//         },
-//       },
-//     }),
-//   })
-
-//   return (
-//     <>
-//       <div style={{ height: '100svh' }}>
-//         <Table
-//           data={data}
-//           onScrollToBottom={fetchMore}
-//           onVisibleElementsChange={setVisibleElements}
-//           rowAction={(row) => (
-//             <Dropdown.Root>
-//               <Dropdown.Trigger>
-//                 <Button shape="square" variant="neutral-transparent">
-//                   <IconMoreVertical />
-//                 </Button>
-//               </Dropdown.Trigger>
-//               <Dropdown.Items>
-//                 <Dropdown.Item icon={<IconCopy />}>Copy</Dropdown.Item>
-//                 <Dropdown.Item
-//                   icon={<IconDelete />}
-//                   onClick={() => {
-//                     setItemToDelete(row.id)
-//                   }}
-//                 >
-//                   Delete
-//                 </Dropdown.Item>
-//               </Dropdown.Items>
-//             </Dropdown.Root>
-//           )}
-//         />
-//       </div>
-//       {itemToDelete && (
-//         <Modal.Root
-//           open
-//           onOpenChange={() => {
-//             setItemToDelete(null)
-//           }}
-//         >
-//           <Modal.Overlay>
-//             {({ close }) => (
-//               <>
-//                 <Modal.Title description="Are you sure? This action cannot be undone.">
-//                   Deleting item #{itemToDelete}
-//                 </Modal.Title>
-//                 <Modal.Actions>
-//                   <Button onClick={close} variant="neutral">
-//                     Cancel
-//                   </Button>
-//                   <Button onClick={close} variant="error">
-//                     Delete
-//                   </Button>
-//                 </Modal.Actions>
-//               </>
-//             )}
-//           </Modal.Overlay>
-//         </Modal.Root>
-//       )}
-//     </>
-//   )
-// }
-
-// export const InfiniteQuery = () => {
-//   return (
-//     <Provider client={client}>
-//       <InfiniteQueryContent />
-//     </Provider>
-//   )
-// }
-`},{ id: "f16386070420783", story: f16386070420783, path: "/Users/jimdebeer/saulx/better-ui/src/components/Text/index.stories.tsx", file: `import { Text } from '../../index.js'
+export const SmallTable = () => {
+  return (
+    <Table
+      values={dataSmall}
+      field={{
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'basedId' },
+          color: { type: 'string', format: 'rgbColor' },
+          price: { type: 'number', display: 'euro' },
+        },
+      }}
+    />
+  )
+}
+`},{ id: "f4403319537853", story: f4403319537853, path: "/Users/vassbence/projects/better-ui/src/components/Text/index.stories.tsx", file: `import { Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Text> = {
@@ -2781,7 +2777,7 @@ export const caption: StoryObj<typeof Text> = {
     variant: 'caption',
   },
 }
-`},{ id: "f7144734297614", story: f7144734297614, path: "/Users/jimdebeer/saulx/better-ui/src/components/TextAreaInput/index.stories.tsx", file: `import { TextAreaInput } from '../../index.js'
+`},{ id: "f4363912759740", story: f4363912759740, path: "/Users/vassbence/projects/better-ui/src/components/TextAreaInput/index.stories.tsx", file: `import { TextAreaInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof TextAreaInput> = {
@@ -2814,7 +2810,7 @@ export const Error: StoryObj<typeof TextAreaInput> = {
     error: true,
   },
 }
-`},{ id: "f5979046522585", story: f5979046522585, path: "/Users/jimdebeer/saulx/better-ui/src/components/TextInput/index.stories.tsx", file: `import { TextInput } from '../../index.js'
+`},{ id: "f3910853229259", story: f3910853229259, path: "/Users/vassbence/projects/better-ui/src/components/TextInput/index.stories.tsx", file: `import { TextInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof TextInput> = {
@@ -2853,10 +2849,10 @@ export const Disabled: StoryObj<typeof TextInput> = {
     disabled: true,
   },
 }
-`},{ id: "f2542458627838", story: f2542458627838, path: "/Users/jimdebeer/saulx/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f8582702281036", story: f8582702281036, path: "/Users/vassbence/projects/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta: Meta<typeof Thumbnail> = {
   title: 'Atoms/Thumbnail',
@@ -2967,7 +2963,7 @@ export const GalleryMutedOutlineCircle = () => {
     </Stack>
   )
 }
-`},{ id: "f10219561566831", story: f10219561566831, path: "/Users/jimdebeer/saulx/better-ui/src/components/Toast/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f15599106587773", story: f15599106587773, path: "/Users/vassbence/projects/better-ui/src/components/Toast/index.stories.tsx", file: `import * as React from 'react'
 import {
   Button,
   Stack,
@@ -3041,7 +3037,7 @@ export const Default = () => {
     </ToastProvider>
   )
 }
-`},{ id: "f12164388818727", story: f12164388818727, path: "/Users/jimdebeer/saulx/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f14542094828981", story: f14542094828981, path: "/Users/vassbence/projects/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
 import { Button, Tooltip } from '../../index.js'
 
 const meta = {
@@ -3056,7 +3052,7 @@ export const Default = () => {
     </Tooltip>
   )
 }
-`},{ id: "f14744076215203", story: f14744076215203, path: "/Users/jimdebeer/saulx/better-ui/src/components/Video/index.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f6004462968497", story: f6004462968497, path: "/Users/vassbence/projects/better-ui/src/components/Video/index.stories.tsx", file: `import * as React from 'react'
 import { Video } from '../../index.js'
 
 const meta = {
@@ -3085,7 +3081,7 @@ export const WithCustomThumbnail = () => {
 export const HLS = () => {
   return <Video src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
 }
-`},{ id: "f8139019256634", story: f8139019256634, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/arrays.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f2872478104456", story: f2872478104456, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/arrays.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 import { objectField } from './objectField.js'
 import { deepMerge } from '@saulx/utils'
@@ -3260,7 +3256,7 @@ export const Arrays = () => {
     />
   )
 }
-`},{ id: "f11284618058075", story: f11284618058075, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/default.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f4444441197193", story: f4444441197193, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/default.stories.tsx", file: `import * as React from 'react'
 import { Form, border, Modal } from '../../../index.js'
 import { wait } from '@saulx/utils'
 
@@ -3574,7 +3570,7 @@ export const Bare = () => {
     </div>
   )
 }
-`},{ id: "f12399833393765", story: f12399833393765, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/object.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f12741420372279", story: f12741420372279, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/object.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 import { wait } from '@saulx/utils'
 import { objectField } from './objectField.js'
@@ -3691,7 +3687,7 @@ export const ObjectReadOnly = () => {
     />
   )
 }
-`},{ id: "f9013842098998", story: f9013842098998, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/readonly.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f16286765462020", story: f16286765462020, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/readonly.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 import { faker } from '@faker-js/faker'
 
@@ -3732,7 +3728,7 @@ export const ReadOnly = () => {
     />
   )
 }
-`},{ id: "f8217294240285", story: f8217294240285, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/record.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f12122853271055", story: f12122853271055, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/record.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 
 const meta = {
@@ -3853,9 +3849,9 @@ export const Record = () => {
     />
   )
 }
-`},{ id: "f12909404527880", story: f12909404527880, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/references.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f16815800280314", story: f16815800280314, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/references.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta = {
   title: 'Form/References',
@@ -4036,9 +4032,9 @@ export const References = () => {
     />
   )
 }
-`},{ id: "f11010240342713", story: f11010240342713, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/referencesSchema.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f10025904474475", story: f10025904474475, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/referencesSchema.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta = {
   title: 'Form/ReferencesSchema',
@@ -4175,7 +4171,7 @@ export const ReferencesFullSchemaEditable = () => {
     />
   )
 }
-`},{ id: "f7234131307474", story: f7234131307474, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/set.stories.tsx", file: `import * as React from 'react'
+`},{ id: "f6183036884064", story: f6183036884064, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/set.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 
 const meta = {

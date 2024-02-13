@@ -24,7 +24,7 @@ export function Cell({
       style={{
         minHeight: 48,
         flexGrow: 1,
-        maxWidth: flexible ? '100%' : width,
+        // maxWidth: '100%', // flexible ? '100%' : width,
         minWidth: width,
         borderRight: border ? getBorder() : undefined,
         paddingLeft: isKey ? 20 : 0,

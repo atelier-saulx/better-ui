@@ -1,13 +1,11 @@
 import * as React from 'react'
 import { BasedSchemaFieldReferences } from '@based/schema'
 import { Stack, Button, IconPlus, useUpdate } from '../../../index.js'
-import { Path, TableCtx, Reference, TableSort } from '../types.js'
+import { Path, TableCtx, Reference } from '../types.js'
 import { readPath } from '../utils.js'
 import { ReferencesTable } from './Table.js'
 import { ReferenceTag } from './Tag.js'
 import { ValueRef } from '../Table/Arrays/types.js'
-import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
-import { deepCopy } from '@saulx/utils'
 
 export function References({
   ctx,
