@@ -111,8 +111,6 @@ export function BasedForm({
 
   if (!fields || !schema) return
 
-  console.log(query)
-
   return (
     <>
       <Form
@@ -120,11 +118,6 @@ export function BasedForm({
         values={item}
         fields={fields}
         onChange={async (_values, _changed, _checksum, based) => {
-          console.log('db:set called with:', {
-            $id: id,
-            $language: language,
-            ...based,
-          })
           await client.call('db:set', {
             $id: id,
             $language: language,
