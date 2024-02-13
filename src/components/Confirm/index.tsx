@@ -39,7 +39,12 @@ export function Confirm({
         }}
       >
         {label ? (
-          <Text style={{ marginRight: 12 }} color="secondary">
+          <Text
+            singleLine
+            noSelect
+            style={{ marginRight: 12 }}
+            color="secondary"
+          >
             {label}
           </Text>
         ) : null}

@@ -148,8 +148,13 @@ export function SetField({
   path: Path
   variant?: 'large' | 'small'
 }) {
+  console.log('PAth', path)
+  console.log('CTX', ctx)
+
   const { value = [], field } = readPath<BasedSchemaFieldSet>(ctx, path)
   const marginTop = variant === 'small' ? 12 : 0
+
+  console.log('-->', value, field)
 
   return (
     <Stack direction="column" align="start">

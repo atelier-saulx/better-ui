@@ -43,6 +43,7 @@ export const Field = ({
           }}
         >
           <SelectInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             options={field.enum}
             value={ctx.values[key]}
@@ -64,6 +65,7 @@ export const Field = ({
           }}
         >
           <CheckboxInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             variant="toggle"
             value={ctx.values[key]}
@@ -84,7 +86,7 @@ export const Field = ({
             width: 450,
           }}
         >
-          <Reference path={path} ctx={ctx} />
+          <Reference readOnly={field.readOnly} path={path} ctx={ctx} />
         </styled.div>
       </FormField>
     )
@@ -130,6 +132,7 @@ export const Field = ({
           }}
         >
           <Code
+            // TODO disabled={field.readOnly}
             copy
             color={
               field.format === 'json' || field.format === 'markdown'
@@ -157,6 +160,7 @@ export const Field = ({
           }}
         >
           <ColorInput
+            disabled={field.readOnly}
             value={ctx.values[key]}
             onChange={(value) => {
               ctx.listeners.onChangeHandler(ctx, path, value)
@@ -176,6 +180,7 @@ export const Field = ({
           }}
         >
           <FileInput
+            disabled={field.readOnly}
             mimeType={field.contentMediaType}
             value={ctx.values[key] ? { src: ctx.values[key] } : undefined}
             onChange={async (file, updateProgress) => {
@@ -205,6 +210,7 @@ export const Field = ({
           }}
         >
           <TextAreaInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             value={ctx.values[key] as string}
             onChange={(value) => {
@@ -225,6 +231,7 @@ export const Field = ({
           }}
         >
           <TextInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             value={ctx.values[key] as string}
             onChange={(value) => {
@@ -236,7 +243,7 @@ export const Field = ({
     )
   }
 
-  if (type === 'number') {
+  if (type === 'number' || type === 'integer') {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
@@ -245,6 +252,7 @@ export const Field = ({
           }}
         >
           <NumberInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             value={ctx.values[key] as number}
             onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
@@ -263,6 +271,7 @@ export const Field = ({
           }}
         >
           <DateInput
+            disabled={field.readOnly}
             time
             value={ctx.values[key] as number}
             onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}

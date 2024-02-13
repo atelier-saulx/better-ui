@@ -1,7 +1,19 @@
 import * as React from 'react'
 import { styled } from 'inlines'
-import { Stack, Button, Text, IconPlus, useSize } from '../../../index.js'
-import { Path, TableCtx, Reference } from '../types.js'
+import {
+  Button,
+  Text,
+  IconPlus,
+  IconArrowDown,
+  IconArrowUp,
+} from '../../../index.js'
+import {
+  Path,
+  TableCtx,
+  Reference,
+  TableSort,
+  TablePagination,
+} from '../types.js'
 import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
 import humanizeString from 'humanize-string'
@@ -11,53 +23,63 @@ import {
   BasedSchemaFieldObject,
   BasedSchemaFieldReferences,
 } from '@based/schema'
-import { getColSizes } from '../getColSizes.js'
-import { ObjectCollsRows } from '../Table/Arrays/ObjectCollumnRows.js'
 import { ValueRef } from '../Table/Arrays/types.js'
+import { SizedStack, useColumns } from '../Table/SizedStack.js'
+import { genObjectSchema } from './genObjectSchema.js'
+import { TableBody } from './TableBody.js'
+
+const useTags = (fieldSchema: BasedSchemaFieldObject): boolean => {
+  const size = Object.keys(fieldSchema.properties).length
+  return (
+    size < 3 ||
+    (size === 3 &&
+      'id' in fieldSchema.properties &&
+      'src' in fieldSchema.properties)
+  )
+}
 
 export const ReferencesTable = ({
   valueRef,
   onNew,
   ctx,
   path,
+  pagination,
   onRemove,
   field,
-  readOnly,
   onClickReference,
   changeIndex,
+  alwaysUseCols,
+  sortByFields,
+  fieldSchema,
+  isBlock,
+  isLoading,
 }: {
+  isLoading?: boolean
+  pagination?: TablePagination
+  sortByFields?: TableSort
   field: BasedSchemaFieldReferences
   valueRef: ValueRef
-  onNew: () => Promise<any>
-  onRemove: (index: number) => void
+  fieldSchema?: BasedSchemaFieldObject
+  onNew?: () => Promise<any>
+  onRemove?: (index: number) => void
   onClickReference: (ref: Reference) => void
   ctx: TableCtx
-  readOnly: boolean
   path: Path
+  alwaysUseCols?: boolean
   changeIndex: (fromIndex: number, toIndex: number) => void
+  isBlock?: boolean
 }) => {
-  const { value } = valueRef
+  const readOnly = field.readOnly || ctx.editableReferences ? false : true
 
-  const cols: React.ReactNode[] = [,]
-  const hasFields: Set<string> = new Set(['id'])
-  const [width, setWidth] = React.useState(0)
-  const sizeRef = useSize(({ width }) => {
-    setWidth(width - 64 * 2)
-  })
-  for (const v of value) {
-    if (typeof v === 'object') {
-      for (const k in v) {
-        if (typeof v[k] !== 'object') {
-          hasFields.add(k)
-        }
-      }
-    }
+  const [height, setHeight] = React.useState(0)
+
+  if (!fieldSchema) {
+    fieldSchema = genObjectSchema(valueRef.value, field, ctx.schema)
   }
-  const fields: string[] = []
-  if (
-    hasFields.size < 3 ||
-    (hasFields.size === 3 && hasFields.has('id') && hasFields.has('src'))
-  ) {
+
+  const [colFields, setColumns] = useColumns()
+
+  if (!alwaysUseCols && useTags(fieldSchema)) {
     return (
       <>
         <styled.div style={{ marginTop: -24 }} />
@@ -66,28 +88,7 @@ export const ReferencesTable = ({
     )
   }
 
-  // Generate schema if none can be found
-  const objectSchema: BasedSchemaFieldObject = {
-    type: 'object',
-    properties: {},
-  }
-  for (const key of hasFields.values()) {
-    fields.push(key)
-    if (/(date)|(time)|(createdAt)|(lastUpdated)|(birthday)/i.test(key)) {
-      objectSchema.properties[key] = {
-        type: 'timestamp',
-        display: 'human',
-      }
-    } else {
-      objectSchema.properties[key] = {
-        type: 'string',
-        format: key === 'id' ? 'basedId' : null, //ass some more options here...
-        contentMediaType: key === 'src' ? 'image/*' : null,
-      }
-    }
-  }
-
-  const colFields = getColSizes(objectSchema, width, true)
+  const cols: React.ReactNode[] = [,]
 
   if (field.sortable) {
     cols.unshift(
@@ -96,17 +97,53 @@ export const ReferencesTable = ({
   }
 
   for (const f of colFields) {
-    cols.push(
-      <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
-        <Text singleLine>{humanizeString(f.key)}</Text>
-      </Cell>,
-    )
+    if (
+      sortByFields &&
+      (sortByFields.include
+        ? sortByFields.include.has(f.key)
+        : !sortByFields.exclude?.has(f.key))
+    ) {
+      let prefix = null
+      let dir: 'asc' | 'desc' = 'asc'
+      if (sortByFields.sorted && sortByFields.sorted.key === f.key) {
+        dir = sortByFields.sorted.dir
+        prefix =
+          sortByFields.sorted.dir === 'desc' ? (
+            <IconArrowDown />
+          ) : (
+            <IconArrowUp />
+          )
+      }
+      cols.push(
+        <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
+          <Button
+            variant="icon-only"
+            prefix={prefix}
+            onClick={() => {
+              sortByFields.onSort(
+                f.key,
+                dir === 'desc' ? 'asc' : 'desc',
+                sortByFields,
+              )
+            }}
+          >
+            <Text singleLine>{humanizeString(f.key)}</Text>
+          </Button>
+        </Cell>,
+      )
+    } else {
+      cols.push(
+        <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
+          <Text singleLine>{humanizeString(f.key)}</Text>
+        </Cell>,
+      )
+    }
   }
 
   const nField: BasedSchemaFieldArray = {
     type: 'array',
-    values: objectSchema,
-    readOnly: true,
+    values: fieldSchema,
+    readOnly,
   }
 
   const newCtx: TableCtx = {
@@ -118,30 +155,46 @@ export const ReferencesTable = ({
   }
 
   return (
-    <Stack ref={sizeRef} justify="start" align="start" direction="column">
-      <ColStack header>{cols}</ColStack>
-      <ObjectCollsRows
-        // add this like an action
-        onClickRow={(v: any) => onClickReference(v)}
-        draggable={field.sortable}
-        value={valueRef}
+    <SizedStack
+      field={fieldSchema}
+      readOnly={readOnly}
+      setColumns={setColumns}
+      alwaysUseCols={alwaysUseCols}
+      style={{
+        // auto height
+        height: pagination?.type === 'scroll' ? '100%' : 'auto',
+      }}
+    >
+      <ColStack header noRemove={!onRemove}>
+        {cols}
+      </ColStack>
+      <TableBody
+        isLoading={isLoading}
+        pagination={pagination}
+        onClickReference={onClickReference}
+        field={field}
+        valueRef={valueRef}
         ctx={newCtx}
         changeIndex={changeIndex}
-        removeItem={onRemove}
+        onRemove={onRemove}
         path={path}
         colFields={colFields}
-        field={nField} // allow refs...
+        nField={nField}
+        isBlock={isBlock}
       />
-      <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
-        <Button
-          onClick={onNew}
-          size="small"
-          variant="neutral-transparent"
-          prefix={<IconPlus />}
-        >
-          Add
-        </Button>
-      </styled.div>
-    </Stack>
+      {/* if scrollable add this on top ? */}
+      {onNew ? (
+        <styled.div style={{ marginTop: 8, marginBottom: 8 }}>
+          <Button
+            onClick={onNew}
+            size="small"
+            variant="neutral-transparent"
+            prefix={<IconPlus />}
+          >
+            Add
+          </Button>
+        </styled.div>
+      ) : null}
+    </SizedStack>
   )
 }

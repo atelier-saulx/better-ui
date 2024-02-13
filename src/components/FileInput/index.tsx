@@ -225,9 +225,9 @@ function StyledStatus({
               borderRadius: borderRadius('small'),
               ...(status === 'initial' && {
                 cursor: 'pointer',
-                border: '1px dashed var(--interactive-secondary)',
+                border: `1px dashed ${color('interactive', 'secondary')} `,
                 '&:hover': {
-                  border: '1px dashed var(--interactive-secondary-hover)',
+                  border: `1px dashed ${color('interactive', 'secondary-hover')} `,
                 },
               }),
               ...(status === 'uploading' && {
@@ -238,9 +238,9 @@ function StyledStatus({
               }),
               ...(status === 'error' && {
                 cursor: 'pointer',
-                border: '1px dashed var(--semantic-background-error)',
+                border: `1px dashed ${color('semantic-background', 'error')} `,
                 '&:hover': {
-                  border: '1px dashed var(--semantic-background-error-hover)',
+                  border: `1px dashed ${color('semantic-background', 'error-hover')}`,
                 },
               }),
             }
@@ -429,18 +429,12 @@ function UploadingStatus({ progress }: { progress: number }) {
         fill="none"
         style={{ transform: 'rotate(270deg)' }}
       >
+        <circle cx="10" cy="10" r="7" stroke="#04294421" strokeWidth="2" />
         <circle
           cx="10"
           cy="10"
           r="7"
-          stroke="var(--interactive-secondary)"
-          strokeWidth="2"
-        />
-        <circle
-          cx="10"
-          cy="10"
-          r="7"
-          stroke="var(--interactive-primary)"
+          stroke="#634eca"
           strokeWidth="2"
           strokeLinecap="round"
           pathLength="100"

@@ -47,10 +47,14 @@ export const ColStack = React.forwardRef(
       children,
       header,
       action,
+      hover,
+      noRemove,
       ...p
     }: {
+      hover?: boolean
       onRemove?: MouseEventHandler<'div'>
       action?: ReactNode
+      noRemove?: boolean
       header?: boolean
     } & StackProps,
     ref,
@@ -64,6 +68,7 @@ export const ColStack = React.forwardRef(
             ...style,
 
             ...(header && {
+              height: 48,
               background: color('background', 'muted'),
               borderBottom: border(),
             }),
@@ -72,13 +77,17 @@ export const ColStack = React.forwardRef(
               borderRight: '0px solid transparent !important',
             },
 
-            '& >:nth-last-child(2)': {
-              borderRight: '0px solid transparent !important',
-            },
-            '& >:nth-last-child(1)': {
-              opacity: 0,
-              transition: 'opacity 0.1s',
-            },
+            '& >:nth-last-child(2)': noRemove
+              ? {}
+              : {
+                  borderRight: '0px solid transparent !important',
+                },
+            '& >:nth-last-child(1)': noRemove
+              ? {}
+              : {
+                  opacity: 0,
+                  transition: 'opacity 0.1s',
+                },
 
             '&:hover': header
               ? {}
@@ -93,7 +102,9 @@ export const ColStack = React.forwardRef(
           {...p}
         >
           {children}
-          <Action action={action} header={header} onRemove={onRemove} />
+          {noRemove ? null : (
+            <Action action={action} header={header} onRemove={onRemove} />
+          )}
         </Stack>
       )
     }
@@ -104,6 +115,11 @@ export const ColStack = React.forwardRef(
           '& >:last-child': {
             borderRight: '0px solid transparent !important',
           },
+          '&:hover': hover
+            ? {
+                backgroundColor: `${color('background', 'muted')} !important`,
+              }
+            : null,
         }}
         justify="start"
         {...p}

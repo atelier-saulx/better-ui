@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta = {
   title: 'Form/References',
@@ -70,12 +70,12 @@ const getRandomRef = () => {
 
 export const References = () => {
   const { open } = Modal.useModal()
-
   return (
     <Form
       values={{
         refTags: faces,
         people: facesNames,
+        nonSortablePeople: facesNames.slice(0, 5),
         peopleLess: facesLess,
         refs: [
           'x211212',
@@ -120,6 +120,15 @@ export const References = () => {
         })
       }}
       fields={{
+        people: {
+          sortable: true,
+          title: 'People time',
+          type: 'references',
+        },
+        nonSortablePeople: {
+          title: 'People time (no drag)',
+          type: 'references',
+        },
         ref: {
           title: 'Single reference',
           type: 'reference',
@@ -141,11 +150,7 @@ export const References = () => {
           title: 'People',
           type: 'references',
         },
-        people: {
-          sortable: true,
-          title: 'People time',
-          type: 'references',
-        },
+
         refs: {
           title: 'Multi references',
           type: 'references',

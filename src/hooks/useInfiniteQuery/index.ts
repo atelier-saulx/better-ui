@@ -28,11 +28,11 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const [data, setData] = useState<any[]>([])
   const chunkSize = useMemo(
     () => Math.max(...data.map((e) => (e ? accessFn(e) : []).length)),
-    [data, accessFn]
+    [data, accessFn],
   )
   const flatData = useMemo(
     () => data.flatMap((e) => (e ? accessFn(e) : [])),
-    [data, accessFn]
+    [data, accessFn],
   )
 
   const fetchMore = useCallback(() => {
@@ -68,10 +68,10 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
   useEffect(() => {
     if (visibleElements?.length) {
       const firstVisibleChunkIndex = Math.floor(
-        Math.min(...visibleElements) / chunkSize
+        Math.min(...visibleElements) / chunkSize,
       )
       const lastVisibleChunkIndex = Math.ceil(
-        Math.max(...visibleElements) / chunkSize
+        Math.max(...visibleElements) / chunkSize,
       )
 
       for (let i = 0; i < subscriptions.current.length; i++) {

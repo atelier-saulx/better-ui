@@ -78,8 +78,6 @@ export function Record({ ctx, path }: TableProps) {
     ctx.listeners.onChangeHandler(ctx, path, nValue)
   }
 
-  //   const cols = canUseColumns(field)
-
   const [width, setWidth] = React.useState(0)
 
   const sizeRef = useSize(({ width }) => {

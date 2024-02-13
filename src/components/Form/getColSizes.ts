@@ -1,13 +1,14 @@
 import {
   BasedSchemaField,
   BasedSchemaFieldObject,
+  BasedSchemaFieldReference,
   BasedSchemaFieldString,
   BasedSchemaFieldTimeStamp,
 } from '@based/schema'
 import { ColSizes } from './types.js'
 
 type SizeMatcher = {
-  match?: (field: BasedSchemaField) => boolean
+  match?: (field: BasedSchemaField, key: string) => boolean
   width: number
   flexible?: boolean
   insertAtStart?: boolean
@@ -22,9 +23,19 @@ const FIELD_SIZES: {
         width: 210,
       },
     ],
+    integer: [
+      {
+        width: 180,
+      },
+    ],
     number: [
       {
         width: 180,
+      },
+    ],
+    boolean: [
+      {
+        width: 75,
       },
     ],
     string: [
@@ -60,8 +71,16 @@ const FIELD_SIZES: {
   readOnly: {
     string: [
       {
+        match: (field: BasedSchemaFieldString, key) => key === 'type',
+        width: 140,
+      },
+      {
+        match: (field: BasedSchemaFieldString) => field.format === 'rgbColor',
+        width: 140,
+      },
+      {
         match: (field: BasedSchemaFieldString) => field.format === 'basedId',
-        width: 120,
+        width: 130,
         insertAtStart: true,
       },
       {
@@ -74,9 +93,21 @@ const FIELD_SIZES: {
         width: 66,
       },
     ],
+    boolean: [
+      {
+        width: 75,
+      },
+    ],
     reference: [
       {
-        width: 200,
+        match: (field: BasedSchemaFieldReference) =>
+          field.allowedTypes &&
+          field.allowedTypes.length === 1 &&
+          field.allowedTypes[0] === 'file',
+        width: 250,
+      },
+      {
+        width: 300,
         flexible: true,
       },
     ],
@@ -92,7 +123,12 @@ const FIELD_SIZES: {
         width: 300,
       },
       {
-        width: 160,
+        width: 200,
+      },
+    ],
+    integer: [
+      {
+        width: 120,
       },
     ],
     number: [
@@ -109,6 +145,10 @@ const FIELD_SIZES: {
   },
 }
 
+for (const group in FIELD_SIZES) {
+  FIELD_SIZES[group].text = FIELD_SIZES[group].string
+}
+
 export const getColSizes = (
   fieldSchema: BasedSchemaFieldObject,
   width: number,
@@ -120,7 +160,9 @@ export const getColSizes = (
 
   const SIZES = !readOnly ? FIELD_SIZES.editable : FIELD_SIZES.readOnly
 
-  const percentageFields: ColSizes = []
+  const fields: ColSizes = []
+
+  //  handle index
 
   for (const key in fieldSchema.properties) {
     const field = fieldSchema.properties[key]
@@ -128,7 +170,7 @@ export const getColSizes = (
     let match: SizeMatcher
 
     for (const matcher of sizedType) {
-      if (!matcher.match || matcher.match(field)) {
+      if (!matcher.match || matcher.match(field, key)) {
         match = matcher
         break
       }
@@ -149,25 +191,35 @@ export const getColSizes = (
       totalFlexFields++
       spread += width
       if (insertAtStart) {
-        percentageFields.unshift({ key, field, flexible: true })
+        fields.unshift({ key, field, flexible: true })
       } else {
-        percentageFields.push({ key, field, flexible: true })
+        fields.push({ key, field, flexible: true })
       }
     } else {
       total -= width
       if (insertAtStart) {
-        percentageFields.unshift({ key, width, field })
+        fields.unshift({ key, width, field })
       } else {
-        percentageFields.push({ key, width, field })
+        fields.push({ key, width, field })
       }
     }
   }
 
-  for (const f of percentageFields) {
+  for (const f of fields) {
     if (!f.width) {
       f.width = Math.floor((total + spread) / totalFlexFields)
     }
   }
 
-  return percentageFields
+  // TODO PERF: do sorting faster in the for loop thats there allready
+  // or make sure it gets called less often
+  fields.sort((a, b) => {
+    return a.field.index > b.field.index
+      ? -1
+      : a.field.index === b.field.index
+        ? 0
+        : 1
+  })
+
+  return fields
 }

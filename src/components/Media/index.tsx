@@ -26,7 +26,7 @@ const MediaInner = ({
   thumbnail,
   variant,
 }: {
-  size?: 'small' | 'medium' | 'large'
+  size?: 'small' | 'regular' | 'large'
   src?: string
   type?: string
   thumbnail?: string
@@ -36,15 +36,18 @@ const MediaInner = ({
 
   if (type.startsWith('image/')) {
     return (
-      <img
-        src={src}
-        style={{
-          display: 'block',
-          width: '100%',
-          height: '100%',
-          objectFit: variant,
-        }}
-      />
+      <>
+        <img
+          key={src}
+          src={src}
+          style={{
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            objectFit: variant,
+          }}
+        />
+      </>
     )
   }
 
@@ -131,7 +134,7 @@ const MediaInner = ({
   }
 
   return (
-    <div
+    <styled.div
       style={{
         padding,
         height: '100%',
@@ -150,7 +153,7 @@ const MediaInner = ({
           maxWidth: 128,
         }}
       />
-      <div
+      <styled.div
         style={{
           position: 'absolute',
           inset: 0,
@@ -160,12 +163,12 @@ const MediaInner = ({
           ...textVariants['body-strong'],
           color: color('interactive', 'primary'),
           textTransform: 'uppercase',
-          fontSize: size === 'small' ? 7 : size === 'medium' ? 14 : 24,
+          fontSize: size === 'small' ? 7 : size === 'regular' ? 14 : 24,
         }}
       >
         {fileText}
-      </div>
-    </div>
+      </styled.div>
+    </styled.div>
   )
 }
 
@@ -177,7 +180,7 @@ export function Media({
   style,
 }: MediaProps) {
   const containerElem = React.useRef<HTMLDivElement | null>(null)
-  const [size, setSize] = React.useState<'small' | 'medium' | 'large'>(null)
+  const [size, setSize] = React.useState<'small' | 'regular' | 'large'>(null)
 
   if (!type && src) {
     type = getMimeType(src)
@@ -193,7 +196,7 @@ export function Media({
       }
 
       if (width < 400 || height < 400) {
-        setSize('medium')
+        setSize('regular')
         return
       }
 
@@ -211,7 +214,7 @@ export function Media({
         containerElem.current = null
       }
     },
-    [observer]
+    [observer],
   )
 
   return (

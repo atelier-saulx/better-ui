@@ -179,7 +179,7 @@ export const TextAreaInput = React.forwardRef<
                     : border('hover'),
               },
               '&:focus, &:focus:hover': {
-                border: '1px solid var(--interactive-primary)',
+                border: `1px solid ${color('interactive', 'primary')}`,
                 boxShadow: boxShadow('focus'),
               },
               resize: 'none',

@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
-import { BasedSchemaField, BasedSchema } from '@based/schema'
+import { BasedSchemaField, BasedSchemaPartial } from '@based/schema'
 import { Stack, useUpdate } from '../../index.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
 import { deepCopy, deepMergeArrays } from '@saulx/utils'
@@ -59,8 +59,9 @@ export type FormProps = {
   confirmLabel?: ReactNode
   fields: FormValues
   variant?: Variant
+  editableReferences?: boolean
   // for later check ref types (can check ids and check allowedTypes)
-  schema?: BasedSchema
+  schema?: BasedSchemaPartial
   formRef?: {
     current: {
       confirm: () => Promise<FormValues>
@@ -86,6 +87,15 @@ export const Form = (p: FormProps) => {
 
   const [currentChecksum, setChecksum] = React.useState(p.checksum)
 
+  const ctxRef = useRef<TableCtx>({
+    variant: p.variant,
+    fields: p.fields,
+    values: valueRef.current.values,
+    listeners: useListeners(valueRef, setChecksum, update),
+    schema: p.schema,
+    editableReferences: p.editableReferences,
+  })
+
   const onConfirm = React.useCallback(async () => {
     try {
       const hash = hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
@@ -93,7 +103,11 @@ export const Form = (p: FormProps) => {
         valueRef.current.values,
         valueRef.current.changes,
         hash,
-        createBasedObject(ctx, valueRef.current.changes),
+        createBasedObject(
+          ctxRef.current,
+          valueRef.current.values,
+          valueRef.current.changes,
+        ),
       )
       valueRef.current.hasChanges = false
       valueRef.current.values = valueRef.current.props.values ?? {}
@@ -155,40 +169,45 @@ export const Form = (p: FormProps) => {
     }
   }, [p.checksum, p.values])
 
-  // Memoize this
-  const listeners = useListeners(valueRef, setChecksum, update)
-
-  const ctx: TableCtx = {
-    variant: p.variant,
-    fields: p.fields,
-    values: valueRef.current.values,
-    listeners,
-  }
+  // so we can make a copy
+  ctxRef.current.variant = p.variant
+  ctxRef.current.values = valueRef.current.values
+  ctxRef.current.schema = p.schema
+  ctxRef.current.editableReferences = p.editableReferences
 
   return (
-    <Stack gap={32} direction="column" align="start">
-      {Object.entries(p.fields)
-        .sort(([, a], [, b]) => {
-          return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
-        })
-        .map(([key, field], i) => {
-          return (
-            <Field
-              ctx={ctx}
-              key={key}
-              field={field}
-              propKey={key}
-              autoFocus={p.autoFocus && i === 0}
-            />
-          )
-        })}
-      <FormConfirm
-        confirmLabel={p.confirmLabel}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-        hasChanges={valueRef.current.hasChanges}
-        variant={p.variant}
-      />
-    </Stack>
+    <>
+      <Stack
+        gap={32}
+        direction="column"
+        align="start"
+        style={{
+          position: 'relative',
+        }}
+      >
+        <FormConfirm
+          confirmLabel={p.confirmLabel}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          hasChanges={valueRef.current.hasChanges}
+          variant={p.variant}
+        />
+        {Object.entries(p.fields)
+          .sort(([, a], [, b]) => {
+            return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
+          })
+          .map(([key, field], i) => {
+            return (
+              <Field
+                ctx={ctxRef.current}
+                key={key}
+                field={field}
+                propKey={key}
+                autoFocus={p.autoFocus && i === 0}
+              />
+            )
+          })}
+      </Stack>
+    </>
   )
 }

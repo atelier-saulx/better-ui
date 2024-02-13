@@ -5,6 +5,7 @@ import {
 } from '@based/schema'
 import { TableCtx, Path } from './types.js'
 import { getStringWidth, textVariants } from '../../index.js'
+import humanizeString from 'humanize-string'
 
 const IDENTIFIER_FIELDS = [
   'name',
@@ -17,6 +18,26 @@ const IDENTIFIER_FIELDS = [
   'type',
 ]
 
+export const readInfoField = (obj: any, field: BasedSchemaField): string => {
+  if (typeof obj === 'object') {
+    const str = getIdentifierFieldValue(obj)
+    if (str) {
+      return str
+    }
+  }
+
+  if (isSmallField(field)) {
+    console.log('D', field, obj)
+    return obj
+  }
+
+  if (field.type === 'array') {
+    //
+  }
+
+  return field.title ?? humanizeString(field.type) ?? ''
+}
+
 // TODO clean up
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
@@ -28,24 +49,33 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   let readOnly = ctx.readOnly
 
   const hasOverrides = ctx.fieldOverrides
+  const hasValueOverrides = ctx.valueOverrides
 
   let sO = ''
 
   for (const k of path) {
     let noFieldSelect = false
-    if (hasOverrides) {
+    let noValueSelect = false
+    if (hasOverrides || hasValueOverrides) {
       if (sO) {
         sO += '.' + k
       } else {
         sO += k
       }
-      if (hasOverrides[sO]) {
+      if (hasOverrides?.[sO]) {
         selectedField = hasOverrides[sO]
         noFieldSelect = true
       }
+      if (hasValueOverrides?.[sO]) {
+        selectedValue = hasValueOverrides[sO]
+        noValueSelect = true
+      }
     }
 
-    selectedValue = selectedValue?.[k]
+    if (!noValueSelect) {
+      selectedValue = selectedValue?.[k]
+    }
+
     const type = selectedField.type
     if (!noFieldSelect) {
       if (type) {
@@ -59,6 +89,10 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
         selectedField = selectedField[k]
       }
 
+      if (!selectedField) {
+        break
+      }
+
       if (selectedField.readOnly) {
         readOnly = true
       }
@@ -68,6 +102,7 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
       }
     }
   }
+
   return { field: selectedField, value: selectedValue, readOnly }
 }
 

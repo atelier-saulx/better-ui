@@ -14,7 +14,7 @@ export const Default: StoryObj<typeof Badge> = {
   args: {
     children: "I'm a badge",
     size: 'regular',
-    color: 'informative',
+    color: 'auto-muted',
   },
   argTypes: {
     color: { control: 'select' },
@@ -25,7 +25,7 @@ export const PrefixAndSuffix: StoryObj<typeof Badge> = {
   args: {
     children: "I'm a badge",
     size: 'regular',
-    color: 'informative',
+    color: 'auto',
     prefix: <IconSmallBolt />,
     suffix: <IconSmallBolt />,
   },
