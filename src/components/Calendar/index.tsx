@@ -35,7 +35,7 @@ export type CalendarProps = {
   data?: {}[]
   timestampField?: string
   labelField?: string
-  view?: 'month' | 'week'
+  view?: 'month' | 'week' | 'day'
 }
 
 export const Calendar = ({
@@ -70,7 +70,7 @@ export const Calendar = ({
         border: border(),
         borderRadius: borderRadius('medium'),
         padding: 24,
-        maxWidth: 916,
+        // maxWidth: 916,
         width: '100%',
       }}
     >
@@ -131,7 +131,7 @@ export const Calendar = ({
       <styled.div
         style={{
           display: 'grid',
-          maxWidth: 868,
+          //  maxWidth: 868,
           width: '100%',
           gridTemplateColumns: 'repeat(7, 1fr)',
           gap: '0px',
@@ -174,7 +174,7 @@ export const Calendar = ({
                 borderRight: border(),
                 borderBottomRightRadius: idx === 34 ? 8 : 0,
                 position: 'relative',
-                padding: '28px 8px 20px 8px',
+                padding: '22px 8px 26px 8px',
               }}
               gap={2}
               grid
@@ -237,19 +237,15 @@ export const Calendar = ({
                 <Dropdown.Root>
                   <Dropdown.Trigger>
                     <Button
-                      variant="neutral"
+                      variant="primary-link"
                       size="small"
                       style={{
-                        boxShadow: boxShadow('elevation'),
-                        marginTop: 4,
-                        background: color('background', 'screen'),
                         position: 'absolute',
-                        borderRadius: 4,
-                        zIndex: 1,
-                        bottom: '-6px',
+                        bottom: '6px',
                         '& > div > div': {
                           fontSize: '13px !important',
                           lineHeight: '16px !important',
+                          fontWeight: '600 !important',
                         },
                       }}
                     >
