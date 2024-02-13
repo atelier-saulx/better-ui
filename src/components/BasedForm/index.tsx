@@ -14,12 +14,16 @@ export type BasedFormProps = {
   id: string
   includedFields?: string[]
   excludeCommonFields?: boolean
+  language?: string
 }
+
+// TODO add $language to the query but also dont forget to use to db:set
 
 export function BasedForm({
   id,
   includedFields,
   excludeCommonFields = true,
+  language = 'en',
 }: BasedFormProps) {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -67,6 +71,7 @@ export function BasedForm({
 
       setQuery({
         $id: id,
+        $language: language,
         $all: true,
         // attachment: { $all: true },
         // attachments: { $all: true },
@@ -84,7 +89,7 @@ export function BasedForm({
 
     if (!schema) return
     constructQuery()
-  }, [id, schema])
+  }, [id, schema, language])
 
   const fields = React.useMemo(() => {
     if (!item) return
@@ -130,7 +135,11 @@ export function BasedForm({
         values={item}
         fields={fields}
         onChange={async (_values, _changed, _checksum, based) => {
-          await client.call('db:set', { $id: id, ...based })
+          await client.call('db:set', {
+            $id: id,
+            $language: language,
+            ...based,
+          })
         }}
         onSelectReference={async () => {
           const selectedReference = await open(({ close }) => (
