@@ -29,7 +29,7 @@ export default meta
 export const Default = () => {
   return (
     <div>
-      <BasedForm id="10ff8f6f00" language="en" />
+      <BasedForm id="10ff8f6f00" />
     </div>
   )
 }

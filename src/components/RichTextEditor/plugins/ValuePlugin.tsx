@@ -1,12 +1,15 @@
 import * as React from 'react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext.js'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin.js'
-import { $generateHtmlFromNodes } from '@lexical/html'
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
+import { $getRoot, $insertNodes } from 'lexical'
 
 export type ValuePluginProps = {
   defaultValue?: string
   onChange?: ({ json, html }: { json: string; html: string }) => void
 }
+
+// TODO make default value pick between JSON and HTML correctly
 
 export function ValuePlugin({ defaultValue, onChange }: ValuePluginProps) {
   const [editor] = useLexicalComposerContext()
@@ -16,7 +19,15 @@ export function ValuePlugin({ defaultValue, onChange }: ValuePluginProps) {
     if (defaultValue && isFirstRender && editor) {
       setIsFirstRender(false)
       editor.update(() => {
-        editor.setEditorState(editor.parseEditorState(JSON.parse(defaultValue)))
+        const parser = new DOMParser()
+        const dom = parser.parseFromString(defaultValue, 'text/html')
+        const nodes = $generateNodesFromDOM(editor, dom)
+
+        $getRoot().select()
+        $insertNodes(nodes)
+
+        // TODO this is for json, above the rest is for HTML
+        // editor.setEditorState(editor.parseEditorState(JSON.parse(defaultValue)))
       })
     }
   }, [isFirstRender, defaultValue, editor])

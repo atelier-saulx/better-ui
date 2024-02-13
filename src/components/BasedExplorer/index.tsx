@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, useUpdate } from '../../index.js'
+import { Table, useLanguage, useUpdate } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { convertOldToNew } from '@based/schema'
 
@@ -36,6 +36,7 @@ export function BasedExplorer({
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
+  const [language] = useLanguage()
 
   const { data: schema } = useQuery('db:schema')
   const ref = React.useRef<{
@@ -136,14 +137,14 @@ export function BasedExplorer({
             ref.current.activeSubs.set(id, newSub)
 
             newSub.close = client
-              .query(
-                queryEndpoint,
-                query({
+              .query(queryEndpoint, {
+                $language: language,
+                ...query({
                   limit: sub.limit,
                   offset: sub.offset,
                   sort: ref.current.sort,
                 }),
-              )
+              })
               .subscribe((d) => {
                 newSub.loaded = true
                 newSub.data = d
@@ -196,14 +197,14 @@ export function BasedExplorer({
             ref.current.activeSubs.set(id, newSub)
 
             newSub.close = client
-              .query(
-                queryEndpoint,
-                query({
+              .query(queryEndpoint, {
+                $language: language,
+                ...query({
                   limit,
                   offset,
                   sort: ref.current.sort,
                 }),
-              )
+              })
               .subscribe((d) => {
                 newSub.loaded = true
                 newSub.data = d

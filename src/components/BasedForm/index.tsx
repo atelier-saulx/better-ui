@@ -15,18 +15,16 @@ export type BasedFormProps = {
   id: string
   includedFields?: string[]
   excludeCommonFields?: boolean
-  language?: string
 }
 
 export function BasedForm({
   id,
   includedFields,
   excludeCommonFields = true,
-  language,
 }: BasedFormProps) {
   const client = useClient()
   const { open } = Modal.useModal()
-  const [languageState] = useLanguage()
+  const [language] = useLanguage()
   const { data: rawSchema } = useQuery('db:schema')
   const schema = React.useMemo(() => {
     if (!rawSchema) return
@@ -36,8 +34,7 @@ export function BasedForm({
 
   const [query, setQuery] = React.useState<any>()
   const { data: item } = useQuery('db', query)
-
-  language ||= languageState
+  console.log(JSON.stringify({ query, item }, null, 2))
 
   React.useEffect(() => {
     async function constructQuery() {
