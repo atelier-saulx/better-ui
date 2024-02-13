@@ -47,9 +47,38 @@ export const Default = () => {
   return (
     <Calendar
       data={fakedata}
-      labelField="name"
-      //timestampField="updatedAt"
+      labelField="title"
+      timestampField="updatedAt"
       view="month"
+    />
+  )
+}
+
+export const WeekView = () => {
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 20,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Calendar
+      data={fakedata}
+      labelField="title"
+      timestampField="updatedAt"
+      view="week"
     />
   )
 }
