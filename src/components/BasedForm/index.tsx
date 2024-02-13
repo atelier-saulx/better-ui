@@ -115,6 +115,8 @@ export function BasedForm({
 
   if (!fields || !schema) return
 
+  console.log('------>', schema)
+
   return (
     <>
       <Form
