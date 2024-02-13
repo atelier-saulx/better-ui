@@ -407,13 +407,12 @@ export const ButtonSmall: StoryObj<typeof Button> = {
 `},{ id: "f4500130912786", story: f4500130912786, path: "/Users/yvesbeer/dev/better-ui/src/components/Calendar/index.stories.tsx", file: `import React from 'react'
 import { Calendar } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { fakeDate } from './fakeData.js'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 
 const client = based({
-  org: 'demo',
-  project: 'demo',
+  org: 'saulx',
+  project: 'based-ui',
   env: 'production',
 })
 
@@ -431,13 +430,29 @@ const meta: Meta<typeof Calendar> = {
 export default meta
 
 export const Default = () => {
-  const { data: fakedata, loading } = useQuery('fakedata')
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 20,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
 
   console.log('fake data --> from function 🍝', fakedata)
 
   return (
     <Calendar
-      data={fakeDate}
+      data={fakedata}
       labelField="name"
       //timestampField="updatedAt"
       view="month"
@@ -1019,7 +1034,14 @@ import {
   IconMoreHorizontal,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/Grid',
@@ -1027,22 +1049,31 @@ const meta: Meta<typeof Grid> = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
 
-const items = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  title: faker.system.commonFileName(),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  image: faker.image.url(),
-  renderAs: faker.helpers.arrayElement(['folder', 'file', 'image']) as
-    | 'folder'
-    | 'file'
-    | 'image',
-}))
-
 export const Default = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -1066,6 +1097,19 @@ export const Default = () => {
 }
 
 export const Row = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -1090,6 +1134,19 @@ export const Row = () => {
 }
 
 export const SortableRow = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -2564,9 +2621,9 @@ export const GridFixedHeight: StoryObj<typeof Stack> = {
 }
 `},{ id: "f3747781814494", story: f3747781814494, path: "/Users/yvesbeer/dev/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
+import { Provider, useQuery } from '@based/react'
 
 const client = based({
   org: 'saulx',
@@ -2574,51 +2631,50 @@ const client = based({
   env: 'production',
 })
 
+const DataStuff = ({ Story }) => {
+  const { data, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    delete data[i].arraySize
+    data[i].price = Number(data[i].price)
+  }
+
+  const dataSorted = [...data].sort(sortByPrice)
+
+  return <Story data={data ?? []} dataSorted={dataSorted} />
+}
+
 const meta = {
   title: 'Components/Table',
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <DataStuff Story={Story} />
+      </Provider>
+    ),
+  ],
 }
 export default meta
 
-const data = new Array(100).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: faker.commerce.price(),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-const dataSmall = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: Number(faker.commerce.price()),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-const dataLots = new Array(1000).fill(null).map((v, index) => ({
-  nr: index, // check if all are numbers
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: faker.commerce.price(),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-export const Default = () => {
+export const Default = ({ data }) => {
   return (
     <div
       style={{
@@ -2630,14 +2686,31 @@ export const Default = () => {
   )
 }
 
-export const LoadMore = () => {
-  const dataRef = React.useRef({
-    data: [...dataSmall],
+export const LoadMore = ({ data }) => {
+  const [dataFetch, setDataFetch] = React.useState({
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
   })
 
-  const update = useUpdate()
+  const dataRef = React.useRef({
+    data: [...data],
+  })
+
+  const { data: more } = useQuery('fakedata', {
+    ...dataFetch,
+  })
 
   const d = dataRef.current.data
+
+  const update = useUpdate()
 
   return (
     <div
@@ -2650,24 +2723,25 @@ export const LoadMore = () => {
         pagination={{
           loadMore: async (p) => {
             await wait(Math.random() * 1000)
-            dataRef.current.data.push(
-              ...new Array(p.pageSize * 5).fill(null).map((_, i) => ({
-                id: faker.string.uuid().slice(0, 8),
-                src: faker.image.avatar(),
-                status: faker.lorem.words(1),
-                title: faker.lorem.sentence(3),
-                number: i + dataRef.current.data.length,
-                name: faker.person.fullName(),
-                price: Number(faker.commerce.price()),
-                color: faker.color.rgb(),
-                createdAt: faker.date.soon().valueOf(),
-              })),
-            )
+
+            setDataFetch({
+              arraySize: Math.floor(Math.random() * 15) + 10,
+              id: '',
+              src: '',
+              status: '',
+              title: '',
+              number: '',
+              name: '',
+              price: '',
+              color: '',
+              createdAt: '',
+            })
+
+            await dataRef.current.data.push(...more)
             update()
           },
           onPageChange: async (p) => {
-            dataRef.current.data[p.start + 1].name =
-              '$$$$$ ' + faker.person.fullName()
+            dataRef.current.data[p.start + 1].name = '$$$$$ ' + 'snurp'
             update()
           },
           total: d.length,
@@ -2680,6 +2754,28 @@ export const LoadMore = () => {
 }
 
 export const Infinite = () => {
+  const { data: dataLots, loading } = useQuery('fakedata', {
+    arraySize: 1000,
+    // nr: index, // check if all are numbers
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < dataLots.length; i++) {
+    delete dataLots[i].arraySize
+    dataLots['nr'] = i
+  }
+
   return (
     <div
       style={{
@@ -2695,10 +2791,9 @@ const sortByPrice = (a, b) => {
   return a.price * 1 > b.price * 1 ? -1 : a.price * 1 === b.price * 1 ? 0 : 1
 }
 
-const dataSorted = [...data].sort(sortByPrice)
-
-export const CustomSort = () => {
+export const CustomSort = ({ dataSorted }) => {
   const update = useUpdate()
+
   return (
     <div
       style={{
@@ -2725,10 +2820,59 @@ export const CustomSort = () => {
 }
 
 export const EditableTable = () => {
-  return <Table values={dataSmall} editable sortable />
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Table
+      values={dataSmall}
+      editable
+      sortable
+      field={{
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'basedId' },
+          color: { type: 'string', format: 'rgbColor' },
+          price: { type: 'number', display: 'euro' },
+          createdAt: { type: 'timestamp' },
+        },
+      }}
+    />
+  )
 }
 
 export const SmallTable = () => {
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Table
       values={dataSmall}
@@ -2879,11 +3023,25 @@ export const Disabled: StoryObj<typeof TextInput> = {
 `},{ id: "f7395640043052", story: f7395640043052, path: "/Users/yvesbeer/dev/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Thumbnail> = {
   title: 'Atoms/Thumbnail',
   component: Thumbnail,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
@@ -2928,21 +3086,21 @@ export const Counter: StoryObj<typeof Thumbnail> = {
   },
 }
 
-const facesNames = new Array(100).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  firstName: faker.person.firstName(),
-  createdAt: faker.date.recent().valueOf(),
-  lastUpdated: faker.date.recent().valueOf(),
-  powerTime: faker.date.recent().valueOf(),
-  city: faker.location.city(),
-}))
-
 export const Gallery = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return <Thumbnail outline text={v.firstName} key={v.id} />
       })}
     </Stack>
@@ -2950,9 +3108,20 @@ export const Gallery = () => {
 }
 
 export const GalleryMuted = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return <Thumbnail color="auto-muted" text={v.firstName} key={v.id} />
       })}
     </Stack>
@@ -2960,9 +3129,20 @@ export const GalleryMuted = () => {
 }
 
 export const GalleryMutedOutline = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return (
           <Thumbnail outline color="auto-muted" text={v.firstName} key={v.id} />
         )
@@ -2972,9 +3152,20 @@ export const GalleryMutedOutline = () => {
 }
 
 export const GalleryMutedOutlineCircle = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return (
           <Thumbnail
             size="extra-extra-large"
@@ -3716,7 +3907,6 @@ export const ObjectReadOnly = () => {
 }
 `},{ id: "f17137229366244", story: f17137229366244, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/readonly.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
 
 const meta = {
   title: 'Form/ReadOnly',
@@ -3738,10 +3928,10 @@ export const ReadOnly = () => {
   return (
     <Form
       values={{
-        id: faker.string.uuid().slice(0, 8),
-        email: faker.internet.email(),
-        name: faker.person.firstName(),
-        password: faker.string.alphanumeric(10),
+        id: 'b28237fa',
+        email: 'Ashlynn_Schamberger0@gmail.com',
+        name: 'Marcia',
+        password: 'U4GKHXd829',
       }}
       fields={{
         id: { type: 'string', readOnly: true },
@@ -3878,7 +4068,14 @@ export const Record = () => {
 }
 `},{ id: "f47303550426", story: f47303550426, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/references.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
   title: 'Form/References',
@@ -3887,67 +4084,76 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
     ),
   ],
 }
 
 export default meta
 
-const faces = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-}))
+const getRandomRef = async (choices) => {
+  let choice = new Object()
 
-const facesNames = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  firstName: faker.person.firstName(),
-  createdAt: faker.date.recent().valueOf(),
-  lastUpdated: faker.date.recent().valueOf(),
-  powerTime: faker.date.recent().valueOf(),
-  city: faker.location.city(),
-}))
+  for (const key in choices) {
+    if (key === 'id') {
+      choice[key] = choices['id']
+    } else if (key === 'arraySize') {
+    } else if (Math.random() < 0.5) {
+      choice[key] = choices[key]
+    }
+  }
 
-const facesLess = new Array(20).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  name: faker.person.firstName(),
-}))
+  await console.log('CHOICE 🍖', { ...choice })
 
-const getRandomRef = () => {
-  const id = faker.string.uuid().slice(0, 8)
-  const choices = [
-    {
-      id,
-      src: faker.image.avatar(),
-      name: faker.person.fullName(),
-    },
-    { id, title: faker.lorem.sentence(3) },
-    id,
-    {
-      id,
-      status: faker.lorem.words(1),
-      title: faker.lorem.sentence(3),
-      src: faker.image.avatar(),
-      number: faker.number.int(10),
-      name: faker.person.fullName(),
-    },
-    {
-      id,
-      src: faker.image.avatar(),
-      name: faker.person.fullName(),
-      status: faker.lorem.words(1),
-    },
-  ]
-  return choices[Math.floor(Math.random() * choices.length)]
+  return { ...choice }
 }
 
 export const References = () => {
   const { open } = Modal.useModal()
+
+  const { data: faces } = useQuery('fakedata', {
+    arraySize: 50,
+    src: '',
+    id: '',
+  })
+
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 50,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
+
+  const { data: facesLess } = useQuery('fakedata', {
+    arraySize: 20,
+    src: '',
+    id: '',
+    name: '',
+  })
+
+  const { data: choices } = useQuery('fakedata', {
+    arraySize: 1,
+    id: '',
+    title: '',
+    name: '',
+    src: '',
+    status: '',
+    number: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       values={{
@@ -3968,7 +4174,7 @@ export const References = () => {
       onClickReference={async ({ path }) => {
         open(({ close }) => {
           return (
-            <Modal onConfirm={() => close(getRandomRef())}>
+            <Modal onConfirm={() => close(getRandomRef(choices[0]))}>
               <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
             </Modal>
           )
@@ -3977,7 +4183,10 @@ export const References = () => {
       onSelectReference={async ({ path }) => {
         return open(({ close }) => {
           return (
-            <Modal variant="large" onConfirm={() => close(getRandomRef())}>
+            <Modal
+              variant="large"
+              onConfirm={() => close(getRandomRef(choices[0]))}
+            >
               <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
             </Modal>
           )
@@ -3988,7 +4197,7 @@ export const References = () => {
           const newItems: any[] = []
           const len = ~~(Math.random() * 100)
           for (let i = 0; i < len; i++) {
-            newItems.push(getRandomRef())
+            newItems.push(getRandomRef(choices[0]))
           }
           return (
             <Modal variant="large" onConfirm={() => close(newItems)}>
@@ -4061,7 +4270,14 @@ export const References = () => {
 }
 `},{ id: "f11229660430731", story: f11229660430731, path: "/Users/yvesbeer/dev/better-ui/src/components/Form/stories/referencesSchema.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
   title: 'Form/ReferencesSchema',
@@ -4070,37 +4286,44 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
     ),
   ],
 }
 
 export default meta
 
-const people = new Array(10).fill(null).map(() => ({
-  avatar: {
-    src: faker.image.avatar(),
-    name: faker.word.adverb(),
-    id: faker.string.uuid().slice(0, 8),
-  },
-  category: {
-    id: faker.string.uuid().slice(0, 8),
-    name: 'Category ' + faker.word.adverb(),
-    logo: {
-      src: faker.image.avatar(),
-      name: faker.word.adverb(),
-      id: faker.string.uuid().slice(0, 8),
-    },
-  },
-  name: faker.person.firstName(),
-  id: faker.string.uuid().slice(0, 8),
-  password: faker.string.alphanumeric(10),
-  email: faker.internet.email(),
-}))
-
 export const ReferencesFullSchema = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       values={{
@@ -4154,6 +4377,32 @@ export const ReferencesFullSchema = () => {
 }
 
 export const ReferencesFullSchemaEditable = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       editableReferences

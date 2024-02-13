@@ -64,17 +64,6 @@ export const Counter: StoryObj<typeof Thumbnail> = {
   },
 }
 
-// const facesNames = new Array(100).fill(null).map(() => ({
-//   src: faker.image.avatar(),
-//   id: faker.string.uuid().slice(0, 8),
-//   description: faker.lorem.words({ min: 0, max: 10 }),
-//   firstName: faker.person.firstName(),
-//   createdAt: faker.date.recent().valueOf(),
-//   lastUpdated: faker.date.recent().valueOf(),
-//   powerTime: faker.date.recent().valueOf(),
-//   city: faker.location.city(),
-// }))
-
 export const Gallery = () => {
   const { data: facesNames, loading } = useQuery('fakedata', {
     arraySize: 100,
