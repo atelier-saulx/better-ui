@@ -13,9 +13,8 @@ export const Default: StoryObj<typeof RichTextEditor> = {
     height: 540,
     autoFocus: true,
     placeholder: 'Enter some rich text...',
-    onChange: ({ json, html }) => {
+    onChange: (html) => {
       console.log('onchange html --> ', html)
-      console.log('onchange json --> ', json)
     },
   },
 }
