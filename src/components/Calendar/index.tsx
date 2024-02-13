@@ -210,10 +210,10 @@ export const Calendar = ({
               {dayDates.map((item: { title?: string }, idx) =>
                 idx < 4 ? (
                   <styled.div
+                    key={idx}
                     onClick={() => console.log('clicked ->', item[labelField])}
                   >
                     <Text
-                      key={idx}
                       singleLine
                       style={{
                         fontSize: 13,
