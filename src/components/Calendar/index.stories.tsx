@@ -6,8 +6,8 @@ import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 
 const client = based({
-  org: 'demo',
-  project: 'demo',
+  org: 'saulx',
+  project: 'based-ui',
   env: 'production',
 })
 
@@ -27,7 +27,7 @@ export default meta
 export const Default = () => {
   const { data: fakedata, loading } = useQuery('fakedata')
 
-  console.log(fakedata)
+  console.log('fake data --> from function 🍝', fakedata)
 
   return (
     <Calendar
