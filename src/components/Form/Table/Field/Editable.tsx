@@ -166,7 +166,7 @@ export function EditableField({
     )
   }
 
-  if (field.type === 'number') {
+  if (field.type === 'number' || field.type === 'integer') {
     return (
       <Padder>
         <NumberInput

@@ -52,6 +52,7 @@ export * from './components/Note/index.js'
 export * from './components/LanguageInput/index.js'
 export * from './components/Spinner/index.js'
 export * from './components/RichTextEditor/index.js'
+export * from './components/BasedExplorer/index.js'
 
 export { Modal } from './components/Modal/index.js'
 

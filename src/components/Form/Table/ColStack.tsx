@@ -68,6 +68,7 @@ export const ColStack = React.forwardRef(
             ...style,
 
             ...(header && {
+              height: 48,
               background: color('background', 'muted'),
               borderBottom: border(),
             }),

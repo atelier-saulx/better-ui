@@ -89,6 +89,10 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
         selectedField = selectedField[k]
       }
 
+      if (!selectedField) {
+        break
+      }
+
       if (selectedField.readOnly) {
         readOnly = true
       }
@@ -98,6 +102,7 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
       }
     }
   }
+
   return { field: selectedField, value: selectedValue, readOnly }
 }
 
