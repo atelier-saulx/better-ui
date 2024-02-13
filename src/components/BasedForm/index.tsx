@@ -33,15 +33,19 @@ export function BasedForm({
   }, [rawSchema])
 
   const [query, setQuery] = React.useState<any>()
-  const { data: item } = useQuery('db', query)
+  const { data: item, loading, checksum } = useQuery('db', query)
   console.log(
-    JSON.stringify({ language: query?.$language, song: item?.song }, null, 2),
+    JSON.stringify(
+      { loading, language: query?.$language, song: item?.song },
+      null,
+      2,
+    ),
   )
 
   React.useEffect(() => {
     async function constructQuery() {
-      const item = await client.call('db:get', { $id: id, $all: true })
-      const fields = schema.types[item.type].fields
+      const type = schema.prefixToTypeMapping[id.substring(0, 2)]
+      const fields = schema.types[type].fields
 
       const query = {
         $id: id,
@@ -114,49 +118,46 @@ export function BasedForm({
 
   if (!fields || !schema) return
 
-  console.log('------>', schema)
-
   return (
-    <>
-      <Form
-        schema={schema}
-        values={item}
-        fields={fields}
-        onChange={async (_values, _changed, _checksum, based) => {
-          console.log('db:set called with', {
-            $id: id,
-            $language: language,
-            ...based,
-          })
-          await client.call('db:set', {
-            $id: id,
-            $language: language,
-            ...based,
-          })
-        }}
-        onSelectReference={async () => {
-          const selectedReference = await open(({ close }) => (
-            <SelectReferenceModal
-              onSelect={(reference) => {
-                close(reference)
-              }}
-            />
-          ))
+    <Form
+      checksum={checksum}
+      schema={schema}
+      values={JSON.parse(JSON.stringify(item))}
+      fields={fields}
+      onChange={async (_values, _changed, _checksum, based) => {
+        console.log('db:set called with', {
+          $id: id,
+          $language: language,
+          ...based,
+        })
+        await client.call('db:set', {
+          $id: id,
+          $language: language,
+          ...based,
+        })
+      }}
+      onSelectReference={async () => {
+        const selectedReference = await open(({ close }) => (
+          <SelectReferenceModal
+            onSelect={(reference) => {
+              close(reference)
+            }}
+          />
+        ))
 
-          return selectedReference.id
-        }}
-        onSelectReferences={async () => {
-          const selectedReference = await open(({ close }) => (
-            <SelectReferenceModal
-              onSelect={(reference) => {
-                close(reference)
-              }}
-            />
-          ))
+        return selectedReference.id
+      }}
+      onSelectReferences={async () => {
+        const selectedReference = await open(({ close }) => (
+          <SelectReferenceModal
+            onSelect={(reference) => {
+              close(reference)
+            }}
+          />
+        ))
 
-          return [selectedReference.id]
-        }}
-      />
-    </>
+        return [selectedReference.id]
+      }}
+    />
   )
 }
