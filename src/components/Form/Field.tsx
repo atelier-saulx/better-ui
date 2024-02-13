@@ -126,6 +126,7 @@ export const Field = ({
   // TODO correct check
   // if (type === 'string' && field.format === 'html') {
   if (key === 'content') {
+    // on blur / focus
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
@@ -134,9 +135,8 @@ export const Field = ({
           }}
         >
           <RichTextEditor
-            key={key}
-            defaultValue={ctx.values[key]}
-            onChange={({ html }) => {
+            value={ctx.values[key]}
+            onChange={(html) => {
               ctx.listeners.onChangeHandler(ctx, path, html)
             }}
           />

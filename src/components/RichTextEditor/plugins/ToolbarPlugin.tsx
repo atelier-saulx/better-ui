@@ -83,7 +83,7 @@ export function ToolbarPlugin() {
   const [fontSelection, setFontSelection] = useState()
 
   useEffect(() => {
-    editor.registerUpdateListener(({ editorState }) => {
+    return editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         const selection = $getSelection()
 

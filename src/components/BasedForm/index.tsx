@@ -34,13 +34,6 @@ export function BasedForm({
 
   const [query, setQuery] = React.useState<any>()
   const { data: item, loading, checksum } = useQuery('db', query)
-  console.log(
-    JSON.stringify(
-      { loading, language: query?.$language, song: item?.song },
-      null,
-      2,
-    ),
-  )
 
   React.useEffect(() => {
     async function constructQuery() {
@@ -120,16 +113,10 @@ export function BasedForm({
 
   return (
     <Form
-      checksum={checksum}
       schema={schema}
-      values={JSON.parse(JSON.stringify(item))}
+      values={item}
       fields={fields}
       onChange={async (_values, _changed, _checksum, based) => {
-        console.log('db:set called with', {
-          $id: id,
-          $language: language,
-          ...based,
-        })
         await client.call('db:set', {
           $id: id,
           $language: language,
