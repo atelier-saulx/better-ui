@@ -60,7 +60,7 @@ export const Calendar = ({
   }, [displayMonth])
 
   // filter the monthly data
-  let monthData = data.filter((item) =>
+  let monthData = data?.filter((item) =>
     isSameMonth(displayMonth, item[timestampField]),
   )
 

@@ -1,6 +1,13 @@
 import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
   title: 'Form/ReferencesSchema',
@@ -9,37 +16,44 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
     ),
   ],
 }
 
 export default meta
 
-const people = new Array(10).fill(null).map(() => ({
-  avatar: {
-    src: faker.image.avatar(),
-    name: faker.word.adverb(),
-    id: faker.string.uuid().slice(0, 8),
-  },
-  category: {
-    id: faker.string.uuid().slice(0, 8),
-    name: 'Category ' + faker.word.adverb(),
-    logo: {
-      src: faker.image.avatar(),
-      name: faker.word.adverb(),
-      id: faker.string.uuid().slice(0, 8),
-    },
-  },
-  name: faker.person.firstName(),
-  id: faker.string.uuid().slice(0, 8),
-  password: faker.string.alphanumeric(10),
-  email: faker.internet.email(),
-}))
-
 export const ReferencesFullSchema = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       values={{
@@ -93,6 +107,32 @@ export const ReferencesFullSchema = () => {
 }
 
 export const ReferencesFullSchemaEditable = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       editableReferences
