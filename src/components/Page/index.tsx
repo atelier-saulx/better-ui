@@ -56,16 +56,18 @@ export function PageHeader(p: {
       }}
     >
       <styled.div>
-        <Text
-          style={{
-            color: p.color
-              ? getColor('semantic-background', p.color)
-              : undefined,
-          }}
-          variant="title"
-        >
-          {p.title}
-        </Text>
+        {p.title ? (
+          <Text
+            style={{
+              color: p.color
+                ? getColor('semantic-background', p.color)
+                : undefined,
+            }}
+            variant="title"
+          >
+            {p.title}
+          </Text>
+        ) : null}
         {p.description ? (
           <Text style={{ marginTop: 8 }} variant="body" color="secondary">
             {p.description}

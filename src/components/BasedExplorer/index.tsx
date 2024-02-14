@@ -238,8 +238,6 @@ export function BasedExplorer({
     totalQuery = (p) => {
       const q = query({ filter: p.filter, limit: 0, offset: 0, language })
       if (q.data?.$list?.$find?.$filter && q.data?.$list?.$find.$traverse) {
-        console.log(q)
-
         return {
           total: {
             $aggregate: {
@@ -350,14 +348,6 @@ export function BasedExplorer({
         })
     }
   }, [])
-
-  // if (totalQuery && totalLoading) {
-  //   return (
-  //     <Container>
-  //       <Spinner size={32} color="secondary" />
-  //     </Container>
-  //   )
-  // }
 
   if (!fields && schema) {
     fields = generateFieldsFromQuery(
