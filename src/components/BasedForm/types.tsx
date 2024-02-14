@@ -16,6 +16,7 @@ export type BasedFormProps = {
     schema: BasedSchema
   }) => any
   onChange?: FormProps['onChange']
+  transformResults?: (any) => any
 }
 
 export type BasedFormRef = {

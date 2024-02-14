@@ -20,6 +20,7 @@ export function BasedForm({
   onChange,
   queryEndpoint = 'db',
   fields,
+  transformResults,
 }: BasedFormProps) {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -74,7 +75,7 @@ export function BasedForm({
   return (
     <Form
       schema={schema}
-      values={values}
+      values={transformResults ? transformResults(values) : values}
       fields={ref.current.currentFields}
       onChange={
         onChange ??
