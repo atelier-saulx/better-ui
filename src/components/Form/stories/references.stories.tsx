@@ -102,7 +102,6 @@ export const References = () => {
         })
       }}
       onSelectReference={async ({ path }) => {
-        console.log('path', path)
         return open(({ close }) => {
           return (
             <Modal variant="large" onConfirm={() => close(choices[0])}>
