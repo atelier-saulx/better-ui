@@ -51,7 +51,7 @@ export const FormConfirm = (p: {
       style={{
         top: '0px',
         height: 0,
-        zIndex: 1,
+        zIndex: isSticky ? 1 : 0,
         maxHeight: 0,
         position: 'sticky',
       }}

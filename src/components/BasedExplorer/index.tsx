@@ -28,6 +28,10 @@ type ActiveSub = {
   data: { data: any[] }
 }
 
+// add query parser
+// allow field override
+// fix crash in example
+
 export function BasedExplorer({
   query,
   queryEndpoint = 'db',
