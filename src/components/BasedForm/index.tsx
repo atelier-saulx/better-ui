@@ -82,9 +82,12 @@ export function BasedForm({
           ...based,
         })
       }}
-      onSelectReference={async () => {
+      onSelectReference={async ({ field }) => {
         const selectedReference = await open(({ close }) => (
           <SelectReferenceModal
+            types={field.allowedTypes?.map((e) =>
+              typeof e === 'string' ? e : e.type,
+            )}
             onSelect={(reference) => {
               close(reference)
             }}
@@ -95,9 +98,12 @@ export function BasedForm({
           return selectedReference.id
         }
       }}
-      onSelectReferences={async () => {
+      onSelectReferences={async ({ field }) => {
         const selectedReference = await open(({ close }) => (
           <SelectReferenceModal
+            types={field.allowedTypes?.map((e) =>
+              typeof e === 'string' ? e : e.type,
+            )}
             onSelect={(reference) => {
               close(reference)
             }}
