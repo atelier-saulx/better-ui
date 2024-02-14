@@ -71,8 +71,6 @@ export const ReferencesTable = ({
 }) => {
   const readOnly = field.readOnly || ctx.editableReferences ? false : true
 
-  const [height, setHeight] = React.useState(0)
-
   if (!fieldSchema) {
     fieldSchema = genObjectSchema(valueRef.value, field, ctx.schema)
   }
