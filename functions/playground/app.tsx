@@ -3626,11 +3626,6 @@ export const Default = () => {
         number: cnt,
       }}
       fields={{
-        name: {
-          title: 'Name',
-          type: 'string',
-          description: 'A name of someone',
-        },
         dope: {
           title: 'Is it dope?',
           type: 'boolean',
@@ -3641,6 +3636,12 @@ export const Default = () => {
           type: 'number',
           minimum: 10,
           maximum: 10,
+        },
+        name: {
+          title: 'Name',
+          index: 0,
+          type: 'string',
+          description: 'A name of someone',
         },
         createdAt: {
           type: 'timestamp',
@@ -3656,6 +3657,12 @@ export const Default = () => {
           description: 'This is a logo',
           type: 'reference',
           allowedTypes: ['file'],
+        },
+        id: {
+          index: 1,
+          readOnly: true,
+          type: 'string',
+          format: 'basedId',
         },
         category: {
           title: 'Category',
@@ -4502,6 +4509,65 @@ export const ReferencesFullSchemaEditable = () => {
             fields: {
               name: { type: 'string' },
               logo: { type: 'reference', allowedTypes: ['file'] },
+            },
+          },
+        },
+      }}
+      onChange={(values, changed, checksum, based) => {
+        console.info({ values, changed, checksum, based })
+      }}
+    />
+  )
+}
+
+export const NoFlexibleWidth = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Form
+      editableReferences
+      values={{
+        people,
+      }}
+      fields={{
+        people: {
+          sortable: true,
+          title: 'People time',
+          type: 'references',
+          allowedTypes: ['person'],
+        },
+      }}
+      schema={{
+        types: {
+          person: {
+            fields: {
+              id: { type: 'string', format: 'basedId', readOnly: true },
+              price: { type: 'number' },
+              bla: { type: 'number' },
             },
           },
         },

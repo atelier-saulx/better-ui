@@ -211,7 +211,7 @@ export const getColSizes = (
   if (!hasFlexible) {
     totalFlexFields = fields.length
     for (const f of fields) {
-      f.width = Math.floor((total + spread) / totalFlexFields)
+      f.width = Math.floor(width / totalFlexFields)
     }
   } else {
     for (const f of fields) {
