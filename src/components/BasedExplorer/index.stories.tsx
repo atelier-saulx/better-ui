@@ -98,7 +98,18 @@ export const FieldsFromQuery = () => {
               }),
               $find: {
                 $traverse: 'children',
-                $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+                $filter: [
+                  {
+                    $operator: '=',
+                    $field: 'type',
+                    $value: 'todo',
+                    $or: {
+                      $operator: '=',
+                      $field: 'type',
+                      $value: 'user',
+                    },
+                  },
+                ],
               },
             },
           },
@@ -112,7 +123,7 @@ export const FieldsFromQuery = () => {
                 {
                   $field: 'type',
                   $operator: '=',
-                  $value: 'todo',
+                  $value: ['todo', 'user'],
                 },
               ],
             },

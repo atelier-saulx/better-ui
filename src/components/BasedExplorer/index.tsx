@@ -144,6 +144,10 @@ export const generateFieldsFromQuery = (
         Object.assign(fields, generateFromType(fieldType).fields)
       }
     }
+
+    if (fields && types.length > 1) {
+      fields.type = { type: 'string', index: -1 } // format based type
+    }
   }
   console.log(fields)
   return fields
