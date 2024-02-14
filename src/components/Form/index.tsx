@@ -194,7 +194,9 @@ export const Form = (p: FormProps) => {
         />
         {Object.entries(p.fields)
           .sort(([, a], [, b]) => {
-            return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
+            const aIndex = a.index ?? 1e6
+            const bIndex = b.index ?? 1e6
+            return aIndex === bIndex ? 0 : aIndex > bIndex ? 1 : -1
           })
           .map(([key, field], i) => {
             return (

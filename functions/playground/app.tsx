@@ -1,4 +1,5 @@
 import { startPlayground } from '@based/storybook/playground'
+<<<<<<< HEAD
 import * as f13852923402373 from '../../src/components/Badge/index.stories.js'
 import * as f15285278589437 from '../../src/components/BarGraph/index.stories.js'
 import * as f11824060859706 from '../../src/components/BasedExplorer/index.stories.js'
@@ -111,6 +112,63 @@ export const parsedStories = [
     story: f13852923402373,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Badge/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+import * as f2709786937207 from "../../src/components/Badge/index.stories.js"
+import * as f12456265071631 from "../../src/components/BarGraph/index.stories.js"
+import * as f11157301100584 from "../../src/components/BasedExplorer/index.stories.js"
+import * as f14236239578965 from "../../src/components/BasedForm/index.stories.js"
+import * as f1403935485412 from "../../src/components/Button/index.stories.js"
+import * as f12539861850560 from "../../src/components/Calendar/index.stories.js"
+import * as f13557855690583 from "../../src/components/CheckboxInput/index.stories.js"
+import * as f14261403483167 from "../../src/components/Code/index.stories.js"
+import * as f5470738912473 from "../../src/components/ColorInput/index.stories.js"
+import * as f6155456052992 from "../../src/components/Confirm/index.stories.js"
+import * as f2676674344469 from "../../src/components/Container/index.stories.js"
+import * as f15918582868135 from "../../src/components/CurrentDay/index.stories.js"
+import * as f5347209449136 from "../../src/components/DateInput/index.stories.js"
+import * as f12984134904489 from "../../src/components/Dropdown/index.stories.js"
+import * as f12162171475362 from "../../src/components/FileInput/index.stories.js"
+import * as f11927335739210 from "../../src/components/Grid/index.stories.js"
+import * as f10261065846765 from "../../src/components/Header/index.stories.js"
+import * as f6035430303946 from "../../src/components/Icons/index.stories.js"
+import * as f10173362420623 from "../../src/components/KeyboardShortcut/index.stories.js"
+import * as f1153425962678 from "../../src/components/LanguageInput/index.stories.js"
+import * as f4437124256520 from "../../src/components/Layout/index.stories.js"
+import * as f1126609356048 from "../../src/components/LineGraph/index.stories.js"
+import * as f16765197606902 from "../../src/components/Media/index.stories.js"
+import * as f936609549945 from "../../src/components/Modal/index.stories.js"
+import * as f5634334384066 from "../../src/components/Note/index.stories.js"
+import * as f5909785848135 from "../../src/components/NumberInput/index.stories.js"
+import * as f16472063764097 from "../../src/components/Page/index.stories.js"
+import * as f9460110149634 from "../../src/components/PieGraph/index.stories.js"
+import * as f12047187696222 from "../../src/components/RichTextEditor/index.stories.js"
+import * as f6285988781667 from "../../src/components/Schema/index.stories.js"
+import * as f16126198374920 from "../../src/components/ScrollArea/index.stories.js"
+import * as f15513603856812 from "../../src/components/SelectInput/index.stories.js"
+import * as f4412292282470 from "../../src/components/SetInput/index.stories.js"
+import * as f10196973367128 from "../../src/components/Sidebar/index.stories.js"
+import * as f13597506036687 from "../../src/components/Spinner/index.stories.js"
+import * as f17293536255708 from "../../src/components/Stack/index.stories.js"
+import * as f17512554344332 from "../../src/components/Table/index.stories.js"
+import * as f16386070420783 from "../../src/components/Text/index.stories.js"
+import * as f7144734297614 from "../../src/components/TextAreaInput/index.stories.js"
+import * as f5979046522585 from "../../src/components/TextInput/index.stories.js"
+import * as f2542458627838 from "../../src/components/Thumbnail/index.stories.js"
+import * as f10219561566831 from "../../src/components/Toast/index.stories.js"
+import * as f12164388818727 from "../../src/components/Tooltip/index.stories.js"
+import * as f14744076215203 from "../../src/components/Video/index.stories.js"
+import * as f8139019256634 from "../../src/components/Form/stories/arrays.stories.js"
+import * as f11284618058075 from "../../src/components/Form/stories/default.stories.js"
+import * as f12399833393765 from "../../src/components/Form/stories/object.stories.js"
+import * as f9013842098998 from "../../src/components/Form/stories/readonly.stories.js"
+import * as f8217294240285 from "../../src/components/Form/stories/record.stories.js"
+import * as f12909404527880 from "../../src/components/Form/stories/references.stories.js"
+import * as f11010240342713 from "../../src/components/Form/stories/referencesSchema.stories.js"
+import * as f14738857374909 from "../../src/components/Form/stories/richText.stories.js"
+import * as f7234131307474 from "../../src/components/Form/stories/set.stories.js"
+export const stories = [f2709786937207,f12456265071631,f11157301100584,f14236239578965,f1403935485412,f12539861850560,f13557855690583,f14261403483167,f5470738912473,f6155456052992,f2676674344469,f15918582868135,f5347209449136,f12984134904489,f12162171475362,f11927335739210,f10261065846765,f6035430303946,f10173362420623,f1153425962678,f4437124256520,f1126609356048,f16765197606902,f936609549945,f5634334384066,f5909785848135,f16472063764097,f9460110149634,f12047187696222,f6285988781667,f16126198374920,f15513603856812,f4412292282470,f10196973367128,f13597506036687,f17293536255708,f17512554344332,f16386070420783,f7144734297614,f5979046522585,f2542458627838,f10219561566831,f12164388818727,f14744076215203,f8139019256634,f11284618058075,f12399833393765,f9013842098998,f8217294240285,f12909404527880,f11010240342713,f14738857374909,f7234131307474]
+export const parsedStories = [{ id: "f2709786937207", story: f2709786937207, path: "/Users/jimdebeer/saulx/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -158,6 +216,7 @@ export const Copyable: StoryObj<typeof Badge> = {
     color: { control: 'select' },
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -165,6 +224,9 @@ export const Copyable: StoryObj<typeof Badge> = {
     story: f15285278589437,
     path: '/Users/yvesbeer/dev/better-ui/src/components/BarGraph/index.stories.tsx',
     file: `import React from 'react'
+=======
+`},{ id: "f12456265071631", story: f12456265071631, path: "/Users/jimdebeer/saulx/better-ui/src/components/BarGraph/index.stories.tsx", file: `import React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 import { BarGraph } from '../../index.js'
 import { color } from '../../index.js'
@@ -301,6 +363,7 @@ export const StackedHorizontal: StoryObj<typeof BarGraph> = {
     ],
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -308,6 +371,9 @@ export const StackedHorizontal: StoryObj<typeof BarGraph> = {
     story: f11824060859706,
     path: '/Users/yvesbeer/dev/better-ui/src/components/BasedExplorer/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f11157301100584", story: f11157301100584, path: "/Users/jimdebeer/saulx/better-ui/src/components/BasedExplorer/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta } from '@storybook/react'
 import { BasedExplorer } from '../../index.js'
 import based from '@based/client'
@@ -378,6 +444,7 @@ export const Default = () => {
     </div>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -385,6 +452,9 @@ export const Default = () => {
     story: f17092004167783,
     path: '/Users/yvesbeer/dev/better-ui/src/components/BasedForm/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f14236239578965", story: f14236239578965, path: "/Users/jimdebeer/saulx/better-ui/src/components/BasedForm/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta } from '@storybook/react'
 import { BasedForm, Modal } from '../../index.js'
 import based from '@based/client'
@@ -419,6 +489,7 @@ export const Default = () => {
     </div>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -426,6 +497,9 @@ export const Default = () => {
     story: f3593820932342,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Button/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f1403935485412", story: f1403935485412, path: "/Users/jimdebeer/saulx/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 import { IconCopy, IconMoreVertical, Button } from '../../index.js'
 
@@ -522,6 +596,7 @@ export const ButtonSmall: StoryObj<typeof Button> = {
     },
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -530,17 +605,64 @@ export const ButtonSmall: StoryObj<typeof Button> = {
     path: '/Users/yvesbeer/dev/better-ui/src/components/Calendar/index.stories.tsx',
     file: `import { Calendar } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
+=======
+`},{ id: "f12539861850560", story: f12539861850560, path: "/Users/jimdebeer/saulx/better-ui/src/components/Calendar/index.stories.tsx", file: `import React from 'react'
+import { Calendar } from '../../index.js'
+import type { Meta } from '@storybook/react'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 
 const meta: Meta<typeof Calendar> = {
   title: 'Atoms/Calendar',
-  component: Calendar,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
 
-export const Default: StoryObj<typeof Calendar> = {
-  args: {},
+export const Default = () => {
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 20,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  console.log('fake data --> from function 🍝', fakedata)
+
+  return (
+    <Calendar
+      data={fakedata}
+      labelField="title"
+      timestampField="updatedAt"
+      view="month"
+    />
+  )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -548,6 +670,38 @@ export const Default: StoryObj<typeof Calendar> = {
     story: f4580959827109,
     path: '/Users/yvesbeer/dev/better-ui/src/components/CheckboxInput/index.stories.tsx',
     file: `import { CheckboxInput } from '../../index.js'
+=======
+
+export const WeekView = () => {
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 20,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Calendar
+      data={fakedata}
+      labelField="title"
+      timestampField="updatedAt"
+      view="week"
+    />
+  )
+}
+`},{ id: "f13557855690583", story: f13557855690583, path: "/Users/jimdebeer/saulx/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof CheckboxInput> = {
@@ -574,6 +728,7 @@ export const Toggle: StoryObj<typeof CheckboxInput> = {
     disabled: false,
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -581,6 +736,9 @@ export const Toggle: StoryObj<typeof CheckboxInput> = {
     story: f8528690964461,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Code/index.stories.tsx',
     file: `import { Code } from '../../index.js'
+=======
+`},{ id: "f14261403483167", story: f14261403483167, path: "/Users/jimdebeer/saulx/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Code> = {
@@ -661,6 +819,7 @@ export const Small: StoryObj<typeof Code> = {
     color: { control: 'select' },
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -668,6 +827,9 @@ export const Small: StoryObj<typeof Code> = {
     story: f34361547883,
     path: '/Users/yvesbeer/dev/better-ui/src/components/ColorInput/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f5470738912473", story: f5470738912473, path: "/Users/jimdebeer/saulx/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { ColorInput } from '../../index.js'
 
 const meta = {
@@ -702,6 +864,7 @@ export const Disabled = () => {
 export const Undefined = () => {
   return <ColorInput value={undefined} />
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -709,6 +872,9 @@ export const Undefined = () => {
     story: f12016318073042,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Confirm/index.stories.tsx',
     file: `import { Confirm } from '../../index.js'
+=======
+`},{ id: "f6155456052992", story: f6155456052992, path: "/Users/jimdebeer/saulx/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Confirm> = {
@@ -727,6 +893,7 @@ export const Icons: StoryObj<typeof Confirm> = {
     variant: 'small',
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -734,6 +901,9 @@ export const Icons: StoryObj<typeof Confirm> = {
     story: f9180076508071,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Container/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f2676674344469", story: f2676674344469, path: "/Users/jimdebeer/saulx/better-ui/src/components/Container/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import {
   Container,
   Thumbnail,
@@ -898,6 +1068,7 @@ export const Expandable: StoryObj<typeof Container> = {
     children: <Button>This is a button</Button>,
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -905,6 +1076,9 @@ export const Expandable: StoryObj<typeof Container> = {
     story: f13725674986069,
     path: '/Users/yvesbeer/dev/better-ui/src/components/CurrentDay/index.stories.tsx',
     file: `import { CurrentDay } from '../../index.js'
+=======
+`},{ id: "f15918582868135", story: f15918582868135, path: "/Users/jimdebeer/saulx/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof CurrentDay> = {
@@ -917,6 +1091,7 @@ export default meta
 export const Default: StoryObj<typeof CurrentDay> = {
   args: { value: new Date().getTime() },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -924,6 +1099,9 @@ export const Default: StoryObj<typeof CurrentDay> = {
     story: f1710171245218,
     path: '/Users/yvesbeer/dev/better-ui/src/components/DateInput/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f5347209449136", story: f5347209449136, path: "/Users/jimdebeer/saulx/better-ui/src/components/DateInput/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { DateInput } from '../../index.js'
 
 const meta = {
@@ -1002,6 +1180,7 @@ export const Small = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1009,6 +1188,9 @@ export const Small = () => {
     story: f5605024078747,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Dropdown/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f12984134904489", story: f12984134904489, path: "/Users/jimdebeer/saulx/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import {
   Button,
   DropdownHookProvider,
@@ -1088,6 +1270,7 @@ export const Hook = () => {
     </Button>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1095,6 +1278,9 @@ export const Hook = () => {
     story: f13761243736048,
     path: '/Users/yvesbeer/dev/better-ui/src/components/FileInput/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f12162171475362", story: f12162171475362, path: "/Users/jimdebeer/saulx/better-ui/src/components/FileInput/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { useUploadFile, FileInput } from '../../index.js'
 import { Provider } from '@based/react'
 import based from '@based/client'
@@ -1160,6 +1346,7 @@ export const RealUpload = () => {
     </Provider>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1167,6 +1354,9 @@ export const RealUpload = () => {
     story: f10957906438872,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Grid/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f11927335739210", story: f11927335739210, path: "/Users/jimdebeer/saulx/better-ui/src/components/Grid/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import {
   Grid,
   Dropdown,
@@ -1176,7 +1366,14 @@ import {
   IconMoreHorizontal,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/Grid',
@@ -1184,22 +1381,31 @@ const meta: Meta<typeof Grid> = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
 
-const items = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  title: faker.system.commonFileName(),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  image: faker.image.url(),
-  renderAs: faker.helpers.arrayElement(['folder', 'file', 'image']) as
-    | 'folder'
-    | 'file'
-    | 'image',
-}))
-
 export const Default = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -1223,6 +1429,19 @@ export const Default = () => {
 }
 
 export const Row = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -1247,6 +1466,19 @@ export const Row = () => {
 }
 
 export const SortableRow = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -1273,6 +1505,7 @@ export const SortableRow = () => {
     </div>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1280,6 +1513,9 @@ export const SortableRow = () => {
     story: f8608274230751,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Header/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f10261065846765", story: f10261065846765, path: "/Users/jimdebeer/saulx/better-ui/src/components/Header/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import {
   Header,
   Dropdown,
@@ -1358,6 +1594,7 @@ export const BackButton = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1365,6 +1602,9 @@ export const BackButton = () => {
     story: f7041630938200,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Icons/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f6035430303946", story: f6035430303946, path: "/Users/jimdebeer/saulx/better-ui/src/components/Icons/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 // also fix this
 import * as Icons from './index.js'
 import { styled } from 'inlines'
@@ -1418,6 +1658,7 @@ export const Default = () => {
     </div>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1425,6 +1666,9 @@ export const Default = () => {
     story: f10987838370173,
     path: '/Users/yvesbeer/dev/better-ui/src/components/KeyboardShortcut/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f10173362420623", story: f10173362420623, path: "/Users/jimdebeer/saulx/better-ui/src/components/KeyboardShortcut/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { KeyboardShortcut } from '../../index.js'
 import type { Meta } from '@storybook/react'
 
@@ -1450,6 +1694,7 @@ export const Modifier = () => {
 export const DoubleModifier = () => {
   return <KeyboardShortcut shortcut="Cmd+Alt+A" />
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1457,6 +1702,9 @@ export const DoubleModifier = () => {
     story: f5364602761060,
     path: '/Users/yvesbeer/dev/better-ui/src/components/LanguageInput/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f1153425962678", story: f1153425962678, path: "/Users/jimdebeer/saulx/better-ui/src/components/LanguageInput/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { LanguageInput } from '../../index.js'
 import type { Meta } from '@storybook/react'
 
@@ -1477,6 +1725,7 @@ export const Default = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1484,6 +1733,9 @@ export const Default = () => {
     story: f13987867859930,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Layout/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f4437124256520", story: f4437124256520, path: "/Users/jimdebeer/saulx/better-ui/src/components/Layout/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta } from '@storybook/react'
 import {
   Layout,
@@ -1584,6 +1836,7 @@ export const Default = () => {
     </Layout>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1591,6 +1844,9 @@ export const Default = () => {
     story: f16563245806786,
     path: '/Users/yvesbeer/dev/better-ui/src/components/LineGraph/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f1126609356048", story: f1126609356048, path: "/Users/jimdebeer/saulx/better-ui/src/components/LineGraph/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta } from '@storybook/react'
 import { LineGraph } from '../../index.js'
 
@@ -1695,6 +1951,7 @@ export const Multi = () => {
     </div>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1702,6 +1959,9 @@ export const Multi = () => {
     story: f13659776204836,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Media/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f16765197606902", story: f16765197606902, path: "/Users/jimdebeer/saulx/better-ui/src/components/Media/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta } from '@storybook/react'
 import { color, Media, Stack } from '../../index.js'
 
@@ -1807,6 +2067,7 @@ export const Large = () => {
     </Stack>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -1814,6 +2075,9 @@ export const Large = () => {
     story: f16096448594379,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Modal/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f936609549945", story: f936609549945, path: "/Users/jimdebeer/saulx/better-ui/src/components/Modal/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Modal, Button, TextInput, SelectInput } from '../../index.js'
 import { styled } from 'inlines'
 
@@ -2102,6 +2366,7 @@ export const ModalConfirm = () => {
     </div>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2109,6 +2374,9 @@ export const ModalConfirm = () => {
     story: f5024396229712,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Note/index.stories.tsx',
     file: `import { Note } from '../../index.js'
+=======
+`},{ id: "f5634334384066", story: f5634334384066, path: "/Users/jimdebeer/saulx/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Note> = {
@@ -2152,6 +2420,7 @@ export const Neutral: StoryObj<typeof Note> = {
     variant: 'neutral',
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2159,6 +2428,9 @@ export const Neutral: StoryObj<typeof Note> = {
     story: f523702835381,
     path: '/Users/yvesbeer/dev/better-ui/src/components/NumberInput/index.stories.tsx',
     file: `import { NumberInput } from '../../index.js'
+=======
+`},{ id: "f5909785848135", story: f5909785848135, path: "/Users/jimdebeer/saulx/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof NumberInput> = {
@@ -2194,6 +2466,7 @@ export const Error: StoryObj<typeof NumberInput> = {
     error: true,
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2201,6 +2474,9 @@ export const Error: StoryObj<typeof NumberInput> = {
     story: f16494901165491,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Page/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f16472063764097", story: f16472063764097, path: "/Users/jimdebeer/saulx/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Page, Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { styled } from 'inlines'
@@ -2236,6 +2512,7 @@ export const Default: StoryObj<typeof Page> = {
     style: { maxHeight: 324 },
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2243,6 +2520,9 @@ export const Default: StoryObj<typeof Page> = {
     story: f13113167991056,
     path: '/Users/yvesbeer/dev/better-ui/src/components/PieGraph/index.stories.tsx',
     file: `import type { Meta, StoryObj } from '@storybook/react'
+=======
+`},{ id: "f9460110149634", story: f9460110149634, path: "/Users/jimdebeer/saulx/better-ui/src/components/PieGraph/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { PieGraph } from '../../index.js'
 
 const meta: Meta<typeof PieGraph> = {
@@ -2279,6 +2559,7 @@ export const Default: StoryObj<typeof PieGraph> = {
     ],
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2286,6 +2567,9 @@ export const Default: StoryObj<typeof PieGraph> = {
     story: f5376768019532,
     path: '/Users/yvesbeer/dev/better-ui/src/components/RichTextEditor/index.stories.tsx',
     file: `import type { Meta, StoryObj } from '@storybook/react'
+=======
+`},{ id: "f12047187696222", story: f12047187696222, path: "/Users/jimdebeer/saulx/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { RichTextEditor } from '../../index.js'
 
 const meta: Meta<typeof RichTextEditor> = {
@@ -2305,6 +2589,7 @@ export const Default: StoryObj<typeof RichTextEditor> = {
     },
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2312,6 +2597,9 @@ export const Default: StoryObj<typeof RichTextEditor> = {
     story: f3246165100817,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Schema/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f6285988781667", story: f6285988781667, path: "/Users/jimdebeer/saulx/better-ui/src/components/Schema/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Schema, Modal, Page, border, borderRadius } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
@@ -2359,6 +2647,7 @@ export const Default = () => {
 
   return <Schema schemaInput={data} />
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2366,6 +2655,9 @@ export const Default = () => {
     story: f11708898986714,
     path: '/Users/yvesbeer/dev/better-ui/src/components/ScrollArea/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f16126198374920", story: f16126198374920, path: "/Users/jimdebeer/saulx/better-ui/src/components/ScrollArea/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { ScrollArea } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { styled } from 'inlines'
@@ -2408,6 +2700,7 @@ export const Default: StoryObj<typeof ScrollArea> = {
     style: { maxHeight: 324 },
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2415,6 +2708,9 @@ export const Default: StoryObj<typeof ScrollArea> = {
     story: f1222778416958,
     path: '/Users/yvesbeer/dev/better-ui/src/components/SelectInput/index.stories.tsx',
     file: `import { SelectInput } from '../../index.js'
+=======
+`},{ id: "f15513603856812", story: f15513603856812, path: "/Users/jimdebeer/saulx/better-ui/src/components/SelectInput/index.stories.tsx", file: `import { SelectInput } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof SelectInput> = {
@@ -2483,6 +2779,7 @@ export const Error: StoryObj<typeof SelectInput> = {
     error: true,
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2490,6 +2787,9 @@ export const Error: StoryObj<typeof SelectInput> = {
     story: f11970208694964,
     path: '/Users/yvesbeer/dev/better-ui/src/components/SetInput/index.stories.tsx',
     file: `import { SetInput } from '../../index.js'
+=======
+`},{ id: "f4412292282470", story: f4412292282470, path: "/Users/jimdebeer/saulx/better-ui/src/components/SetInput/index.stories.tsx", file: `import { SetInput } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof SetInput> = {
@@ -2526,6 +2826,7 @@ export const Options: StoryObj<typeof SetInput> = {
     onChange: (v) => console.log('onchange log: ', v),
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2533,6 +2834,9 @@ export const Options: StoryObj<typeof SetInput> = {
     story: f11126463513738,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Sidebar/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f10196973367128", story: f10196973367128, path: "/Users/jimdebeer/saulx/better-ui/src/components/Sidebar/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import {
   Sidebar,
   IconViewBoxes,
@@ -2749,6 +3053,7 @@ export const GroupsCollapsed = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2756,6 +3061,9 @@ export const GroupsCollapsed = () => {
     story: f11214281122365,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Spinner/index.stories.tsx',
     file: `import { Spinner } from '../../index.js'
+=======
+`},{ id: "f13597506036687", story: f13597506036687, path: "/Users/jimdebeer/saulx/better-ui/src/components/Spinner/index.stories.tsx", file: `import { Spinner } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Spinner> = {
@@ -2770,6 +3078,7 @@ export const Default: StoryObj<typeof Spinner> = {
     size: 48,
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2777,6 +3086,9 @@ export const Default: StoryObj<typeof Spinner> = {
     story: f10867194610830,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Stack/index.stories.tsx',
     file: `import React, { ReactNode } from 'react'
+=======
+`},{ id: "f17293536255708", story: f17293536255708, path: "/Users/jimdebeer/saulx/better-ui/src/components/Stack/index.stories.tsx", file: `import React, { ReactNode } from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 import { Stack, border, borderRadius } from '../../index.js'
 
@@ -2839,6 +3151,7 @@ export const GridFixedHeight: StoryObj<typeof Stack> = {
     children: manyChildren,
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -2846,10 +3159,13 @@ export const GridFixedHeight: StoryObj<typeof Stack> = {
     story: f3747781814494,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Table/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f17512554344332", story: f17512554344332, path: "/Users/jimdebeer/saulx/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Table, useUpdate } from '../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
+import { Provider, useQuery } from '@based/react'
 
 const client = based({
   org: 'saulx',
@@ -2857,51 +3173,50 @@ const client = based({
   env: 'production',
 })
 
+const DataStuff = ({ Story }) => {
+  const { data, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    delete data[i].arraySize
+    data[i].price = Number(data[i].price)
+  }
+
+  const dataSorted = [...data].sort(sortByPrice)
+
+  return <Story data={data ?? []} dataSorted={dataSorted} />
+}
+
 const meta = {
   title: 'Components/Table',
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <DataStuff Story={Story} />
+      </Provider>
+    ),
+  ],
 }
 export default meta
 
-const data = new Array(100).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: faker.commerce.price(),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-const dataSmall = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: Number(faker.commerce.price()),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-const dataLots = new Array(1000).fill(null).map((v, index) => ({
-  nr: index, // check if all are numbers
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: faker.commerce.price(),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-export const Default = () => {
+export const Default = ({ data }) => {
   return (
     <div
       style={{
@@ -2913,14 +3228,31 @@ export const Default = () => {
   )
 }
 
-export const LoadMore = () => {
-  const dataRef = React.useRef({
-    data: [...dataSmall],
+export const LoadMore = ({ data }) => {
+  const [dataFetch, setDataFetch] = React.useState({
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
   })
 
-  const update = useUpdate()
+  const dataRef = React.useRef({
+    data: [...data],
+  })
+
+  const { data: more } = useQuery('fakedata', {
+    ...dataFetch,
+  })
 
   const d = dataRef.current.data
+
+  const update = useUpdate()
 
   return (
     <div
@@ -2933,24 +3265,25 @@ export const LoadMore = () => {
         pagination={{
           loadMore: async (p) => {
             await wait(Math.random() * 1000)
-            dataRef.current.data.push(
-              ...new Array(p.pageSize * 5).fill(null).map((_, i) => ({
-                id: faker.string.uuid().slice(0, 8),
-                src: faker.image.avatar(),
-                status: faker.lorem.words(1),
-                title: faker.lorem.sentence(3),
-                number: i + dataRef.current.data.length,
-                name: faker.person.fullName(),
-                price: Number(faker.commerce.price()),
-                color: faker.color.rgb(),
-                createdAt: faker.date.soon().valueOf(),
-              })),
-            )
+
+            setDataFetch({
+              arraySize: Math.floor(Math.random() * 15) + 10,
+              id: '',
+              src: '',
+              status: '',
+              title: '',
+              number: '',
+              name: '',
+              price: '',
+              color: '',
+              createdAt: '',
+            })
+
+            await dataRef.current.data.push(...more)
             update()
           },
           onPageChange: async (p) => {
-            dataRef.current.data[p.start + 1].name =
-              '$$$$$ ' + faker.person.fullName()
+            dataRef.current.data[p.start + 1].name = '$$$$$ ' + 'snurp'
             update()
           },
           total: d.length,
@@ -2963,6 +3296,28 @@ export const LoadMore = () => {
 }
 
 export const Infinite = () => {
+  const { data: dataLots, loading } = useQuery('fakedata', {
+    arraySize: 1000,
+    // nr: index, // check if all are numbers
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < dataLots.length; i++) {
+    delete dataLots[i].arraySize
+    dataLots['nr'] = i
+  }
+
   return (
     <div
       style={{
@@ -2978,10 +3333,9 @@ const sortByPrice = (a, b) => {
   return a.price * 1 > b.price * 1 ? -1 : a.price * 1 === b.price * 1 ? 0 : 1
 }
 
-const dataSorted = [...data].sort(sortByPrice)
-
-export const CustomSort = () => {
+export const CustomSort = ({ dataSorted }) => {
   const update = useUpdate()
+
   return (
     <div
       style={{
@@ -3008,10 +3362,59 @@ export const CustomSort = () => {
 }
 
 export const EditableTable = () => {
-  return <Table values={dataSmall} editable sortable />
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Table
+      values={dataSmall}
+      editable
+      sortable
+      field={{
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'basedId' },
+          color: { type: 'string', format: 'rgbColor' },
+          price: { type: 'number', display: 'euro' },
+          createdAt: { type: 'timestamp' },
+        },
+      }}
+    />
+  )
 }
 
 export const SmallTable = () => {
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Table
       values={dataSmall}
@@ -3026,6 +3429,7 @@ export const SmallTable = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3033,6 +3437,9 @@ export const SmallTable = () => {
     story: f6083193986525,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Text/index.stories.tsx',
     file: `import { Text } from '../../index.js'
+=======
+`},{ id: "f16386070420783", story: f16386070420783, path: "/Users/jimdebeer/saulx/better-ui/src/components/Text/index.stories.tsx", file: `import { Text } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Text> = {
@@ -3093,6 +3500,7 @@ export const caption: StoryObj<typeof Text> = {
     variant: 'caption',
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3100,6 +3508,9 @@ export const caption: StoryObj<typeof Text> = {
     story: f5240949225116,
     path: '/Users/yvesbeer/dev/better-ui/src/components/TextAreaInput/index.stories.tsx',
     file: `import { TextAreaInput } from '../../index.js'
+=======
+`},{ id: "f7144734297614", story: f7144734297614, path: "/Users/jimdebeer/saulx/better-ui/src/components/TextAreaInput/index.stories.tsx", file: `import { TextAreaInput } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof TextAreaInput> = {
@@ -3132,6 +3543,7 @@ export const Error: StoryObj<typeof TextAreaInput> = {
     error: true,
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3139,6 +3551,9 @@ export const Error: StoryObj<typeof TextAreaInput> = {
     story: f8950821975659,
     path: '/Users/yvesbeer/dev/better-ui/src/components/TextInput/index.stories.tsx',
     file: `import { TextInput } from '../../index.js'
+=======
+`},{ id: "f5979046522585", story: f5979046522585, path: "/Users/jimdebeer/saulx/better-ui/src/components/TextInput/index.stories.tsx", file: `import { TextInput } from '../../index.js'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof TextInput> = {
@@ -3177,6 +3592,7 @@ export const Disabled: StoryObj<typeof TextInput> = {
     disabled: true,
   },
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3184,13 +3600,30 @@ export const Disabled: StoryObj<typeof TextInput> = {
     story: f7395640043052,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Thumbnail/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f2542458627838", story: f2542458627838, path: "/Users/jimdebeer/saulx/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Thumbnail> = {
   title: 'Atoms/Thumbnail',
   component: Thumbnail,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
@@ -3235,21 +3668,21 @@ export const Counter: StoryObj<typeof Thumbnail> = {
   },
 }
 
-const facesNames = new Array(100).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  firstName: faker.person.firstName(),
-  createdAt: faker.date.recent().valueOf(),
-  lastUpdated: faker.date.recent().valueOf(),
-  powerTime: faker.date.recent().valueOf(),
-  city: faker.location.city(),
-}))
-
 export const Gallery = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return <Thumbnail outline text={v.firstName} key={v.id} />
       })}
     </Stack>
@@ -3257,9 +3690,20 @@ export const Gallery = () => {
 }
 
 export const GalleryMuted = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return <Thumbnail color="auto-muted" text={v.firstName} key={v.id} />
       })}
     </Stack>
@@ -3267,9 +3711,20 @@ export const GalleryMuted = () => {
 }
 
 export const GalleryMutedOutline = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return (
           <Thumbnail outline color="auto-muted" text={v.firstName} key={v.id} />
         )
@@ -3279,9 +3734,20 @@ export const GalleryMutedOutline = () => {
 }
 
 export const GalleryMutedOutlineCircle = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return (
           <Thumbnail
             size="extra-extra-large"
@@ -3297,6 +3763,7 @@ export const GalleryMutedOutlineCircle = () => {
     </Stack>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3304,6 +3771,9 @@ export const GalleryMutedOutlineCircle = () => {
     story: f7794489085085,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Toast/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f10219561566831", story: f10219561566831, path: "/Users/jimdebeer/saulx/better-ui/src/components/Toast/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import {
   Button,
   Stack,
@@ -3377,6 +3847,7 @@ export const Default = () => {
     </ToastProvider>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3384,6 +3855,9 @@ export const Default = () => {
     story: f16087346434261,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Tooltip/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f12164388818727", story: f12164388818727, path: "/Users/jimdebeer/saulx/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Button, Tooltip } from '../../index.js'
 
 const meta = {
@@ -3398,6 +3872,7 @@ export const Default = () => {
     </Tooltip>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3405,6 +3880,9 @@ export const Default = () => {
     story: f4645473211601,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Video/index.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f14744076215203", story: f14744076215203, path: "/Users/jimdebeer/saulx/better-ui/src/components/Video/index.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Video } from '../../index.js'
 
 const meta = {
@@ -3433,6 +3911,7 @@ export const WithCustomThumbnail = () => {
 export const HLS = () => {
   return <Video src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3440,6 +3919,9 @@ export const HLS = () => {
     story: f17312796633704,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Form/stories/arrays.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f8139019256634", story: f8139019256634, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/arrays.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Form, Modal } from '../../../index.js'
 import { objectField } from './objectField.js'
 import { deepMerge } from '@saulx/utils'
@@ -3614,6 +4096,7 @@ export const Arrays = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3621,6 +4104,9 @@ export const Arrays = () => {
     story: f9053450046761,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Form/stories/default.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f11284618058075", story: f11284618058075, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/default.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Form, border, Modal } from '../../../index.js'
 import { wait } from '@saulx/utils'
 
@@ -3691,6 +4177,7 @@ export const Default = () => {
       variant="regular"
       onFileUpload={fileUpload}
       values={{
+        id: 'xe1231112saas23',
         src: 'https://i.imgur.com/t1bWmmC.jpeg',
         code: ts,
         json: JSON.stringify({ y: 1, x: 1, z: 1, someThing: 'great' }, null, 2),
@@ -3707,11 +4194,6 @@ export const Default = () => {
         number: cnt,
       }}
       fields={{
-        name: {
-          title: 'Name',
-          type: 'string',
-          description: 'A name of someone',
-        },
         dope: {
           title: 'Is it dope?',
           type: 'boolean',
@@ -3722,6 +4204,12 @@ export const Default = () => {
           type: 'number',
           minimum: 10,
           maximum: 10,
+        },
+        name: {
+          title: 'Name',
+          index: 0,
+          type: 'string',
+          description: 'A name of someone',
         },
         createdAt: {
           type: 'timestamp',
@@ -3737,6 +4225,12 @@ export const Default = () => {
           description: 'This is a logo',
           type: 'reference',
           allowedTypes: ['file'],
+        },
+        id: {
+          index: -1,
+          readOnly: true,
+          type: 'string',
+          format: 'basedId',
         },
         category: {
           title: 'Category',
@@ -3934,6 +4428,7 @@ export const Bare = () => {
     </div>
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -3941,6 +4436,9 @@ export const Bare = () => {
     story: f2784224696663,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Form/stories/object.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f12399833393765", story: f12399833393765, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/object.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Form, Modal } from '../../../index.js'
 import { wait } from '@saulx/utils'
 import { objectField } from './objectField.js'
@@ -4057,6 +4555,7 @@ export const ObjectReadOnly = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -4064,8 +4563,10 @@ export const ObjectReadOnly = () => {
     story: f17137229366244,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Form/stories/readonly.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f9013842098998", story: f9013842098998, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/readonly.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
 
 const meta = {
   title: 'Form/ReadOnly',
@@ -4087,10 +4588,10 @@ export const ReadOnly = () => {
   return (
     <Form
       values={{
-        id: faker.string.uuid().slice(0, 8),
-        email: faker.internet.email(),
-        name: faker.person.firstName(),
-        password: faker.string.alphanumeric(10),
+        id: 'b28237fa',
+        email: 'Ashlynn_Schamberger0@gmail.com',
+        name: 'Marcia',
+        password: 'U4GKHXd829',
       }}
       fields={{
         id: { type: 'string', readOnly: true },
@@ -4104,6 +4605,7 @@ export const ReadOnly = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -4111,6 +4613,9 @@ export const ReadOnly = () => {
     story: f7145042216623,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Form/stories/record.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f8217294240285", story: f8217294240285, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/record.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Form, Modal } from '../../../index.js'
 
 const meta = {
@@ -4231,6 +4736,7 @@ export const Record = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -4238,8 +4744,18 @@ export const Record = () => {
     story: f47303550426,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Form/stories/references.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f12909404527880", story: f12909404527880, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/references.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
   title: 'Form/References',
@@ -4248,67 +4764,76 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
     ),
   ],
 }
 
 export default meta
 
-const faces = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-}))
+const getRandomRef = async (choices) => {
+  let choice = new Object()
 
-const facesNames = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  firstName: faker.person.firstName(),
-  createdAt: faker.date.recent().valueOf(),
-  lastUpdated: faker.date.recent().valueOf(),
-  powerTime: faker.date.recent().valueOf(),
-  city: faker.location.city(),
-}))
+  for (const key in choices) {
+    if (key === 'id') {
+      choice[key] = choices['id']
+    } else if (key === 'arraySize') {
+    } else if (Math.random() < 0.5) {
+      choice[key] = choices[key]
+    }
+  }
 
-const facesLess = new Array(20).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  name: faker.person.firstName(),
-}))
+  await console.log('CHOICE 🍖', { ...choice })
 
-const getRandomRef = () => {
-  const id = faker.string.uuid().slice(0, 8)
-  const choices = [
-    {
-      id,
-      src: faker.image.avatar(),
-      name: faker.person.fullName(),
-    },
-    { id, title: faker.lorem.sentence(3) },
-    id,
-    {
-      id,
-      status: faker.lorem.words(1),
-      title: faker.lorem.sentence(3),
-      src: faker.image.avatar(),
-      number: faker.number.int(10),
-      name: faker.person.fullName(),
-    },
-    {
-      id,
-      src: faker.image.avatar(),
-      name: faker.person.fullName(),
-      status: faker.lorem.words(1),
-    },
-  ]
-  return choices[Math.floor(Math.random() * choices.length)]
+  return { ...choice }
 }
 
 export const References = () => {
   const { open } = Modal.useModal()
+
+  const { data: faces } = useQuery('fakedata', {
+    arraySize: 50,
+    src: '',
+    id: '',
+  })
+
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 50,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
+
+  const { data: facesLess } = useQuery('fakedata', {
+    arraySize: 20,
+    src: '',
+    id: '',
+    name: '',
+  })
+
+  const { data: choices } = useQuery('fakedata', {
+    arraySize: 1,
+    id: '',
+    title: '',
+    name: '',
+    src: '',
+    status: '',
+    number: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       values={{
@@ -4329,7 +4854,7 @@ export const References = () => {
       onClickReference={async ({ path }) => {
         open(({ close }) => {
           return (
-            <Modal onConfirm={() => close(getRandomRef())}>
+            <Modal onConfirm={() => close(getRandomRef(choices[0]))}>
               <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
             </Modal>
           )
@@ -4338,7 +4863,10 @@ export const References = () => {
       onSelectReference={async ({ path }) => {
         return open(({ close }) => {
           return (
-            <Modal variant="large" onConfirm={() => close(getRandomRef())}>
+            <Modal
+              variant="large"
+              onConfirm={() => close(getRandomRef(choices[0]))}
+            >
               <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
             </Modal>
           )
@@ -4349,7 +4877,7 @@ export const References = () => {
           const newItems: any[] = []
           const len = ~~(Math.random() * 100)
           for (let i = 0; i < len; i++) {
-            newItems.push(getRandomRef())
+            newItems.push(getRandomRef(choices[0]))
           }
           return (
             <Modal variant="large" onConfirm={() => close(newItems)}>
@@ -4420,6 +4948,7 @@ export const References = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -4427,8 +4956,18 @@ export const References = () => {
     story: f11229660430731,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Form/stories/referencesSchema.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f11010240342713", story: f11010240342713, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/referencesSchema.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
   title: 'Form/ReferencesSchema',
@@ -4437,37 +4976,44 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
     ),
   ],
 }
 
 export default meta
 
-const people = new Array(10).fill(null).map(() => ({
-  avatar: {
-    src: faker.image.avatar(),
-    name: faker.word.adverb(),
-    id: faker.string.uuid().slice(0, 8),
-  },
-  category: {
-    id: faker.string.uuid().slice(0, 8),
-    name: 'Category ' + faker.word.adverb(),
-    logo: {
-      src: faker.image.avatar(),
-      name: faker.word.adverb(),
-      id: faker.string.uuid().slice(0, 8),
-    },
-  },
-  name: faker.person.firstName(),
-  id: faker.string.uuid().slice(0, 8),
-  password: faker.string.alphanumeric(10),
-  email: faker.internet.email(),
-}))
-
 export const ReferencesFullSchema = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       values={{
@@ -4521,6 +5067,32 @@ export const ReferencesFullSchema = () => {
 }
 
 export const ReferencesFullSchemaEditable = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       editableReferences
@@ -4567,6 +5139,35 @@ export const ReferencesFullSchemaEditable = () => {
 }
 
 export const NoFlexibleWidth = () => {
+<<<<<<< HEAD
+=======
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
   return (
     <Form
       editableReferences
@@ -4598,6 +5199,7 @@ export const NoFlexibleWidth = () => {
     />
   )
 }
+<<<<<<< HEAD
 `,
   },
   {
@@ -4605,6 +5207,59 @@ export const NoFlexibleWidth = () => {
     story: f7012957941312,
     path: '/Users/yvesbeer/dev/better-ui/src/components/Form/stories/set.stories.tsx',
     file: `import * as React from 'react'
+=======
+`},{ id: "f14738857374909", story: f14738857374909, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/richText.stories.tsx", file: `import * as React from 'react'
+import { Form, Modal } from '../../../index.js'
+
+const meta = {
+  title: 'Form/RichText',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const RichTextEditor = () => {
+  return (
+    <Form
+      variant="small"
+      values={{
+        text: 'xyz',
+        object: {
+          text: 'flap flap flap',
+        },
+      }}
+      fields={{
+        text: {
+          type: 'text',
+          format: 'html',
+        },
+        object: {
+          type: 'object',
+          properties: {
+            text: {
+              type: 'text',
+              format: 'html',
+            },
+          },
+        },
+      }}
+      onChange={(values) => {
+        console.log(values)
+      }}
+    />
+  )
+}
+`},{ id: "f7234131307474", story: f7234131307474, path: "/Users/jimdebeer/saulx/better-ui/src/components/Form/stories/set.stories.tsx", file: `import * as React from 'react'
+>>>>>>> 2939652b69114d66e4b8b7af1894bddecf2f98f5
 import { Form, Modal } from '../../../index.js'
 
 const meta = {
