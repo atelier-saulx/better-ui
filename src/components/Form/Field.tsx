@@ -138,29 +138,26 @@ export const Field = ({
     )
   }
 
-  // TODO correct check
-  // if (type === 'string' && field.format === 'html') {
-  if (key === 'content') {
-    // on blur / focus
+  if ((type === 'string' || type === 'text') && field.format === 'html') {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
-        <styled.div
+        {/* <styled.div
           style={{
             width: 450,
           }}
-        >
-          <RichTextEditor
-            value={ctx.values[key]}
-            onChange={(html) => {
-              ctx.listeners.onChangeHandler(ctx, path, html)
-            }}
-          />
-        </styled.div>
+        > */}
+        <RichTextEditor
+          value={ctx.values[key]}
+          onChange={(html) => {
+            ctx.listeners.onChangeHandler(ctx, path, html)
+          }}
+        />
+        {/* </styled.div> */}
       </FormField>
     )
   }
 
-  if (type === 'string' && isCode(field.format)) {
+  if ((type === 'string' || type === 'text') && isCode(field.format)) {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div

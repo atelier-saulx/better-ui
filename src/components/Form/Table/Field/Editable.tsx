@@ -10,6 +10,7 @@ import {
   ColorInput,
   Code,
   CheckboxInput,
+  RichTextEditor,
 } from '../../../../index.js'
 import { isCode } from '../../utils.js'
 import { TableCtx, Path } from '../../types.js'
@@ -174,6 +175,18 @@ export function EditableField({
           onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
         />
       </Padder>
+    )
+  }
+
+  if (
+    (field.type === 'string' || field.type === 'text') &&
+    field.format === 'html'
+  ) {
+    return (
+      <RichTextEditor
+        value={value}
+        onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+      />
     )
   }
 
