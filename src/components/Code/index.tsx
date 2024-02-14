@@ -48,6 +48,7 @@ export type CodeProps = {
   onChange?: (value: string) => void
   variant?: 'regular' | 'small' // border
   checksum?: number
+  autoFocus?: boolean
 }
 
 export const Code = ({
@@ -62,6 +63,7 @@ export const Code = ({
   copy,
   language = 'js',
   checksum,
+  autoFocus,
 }: CodeProps) => {
   const [isFocus, setFocus] = useState(false)
   const [value, setValue] = useControllableState({
@@ -108,6 +110,7 @@ export const Code = ({
 
       <Editor
         //@ts-ignore
+        autoFocus={autoFocus}
         value={value}
         onValueChange={async (v) => {
           setValue(v)

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta = {
   title: 'Form/ReferencesSchema',
@@ -127,6 +127,39 @@ export const ReferencesFullSchemaEditable = () => {
             fields: {
               name: { type: 'string' },
               logo: { type: 'reference', allowedTypes: ['file'] },
+            },
+          },
+        },
+      }}
+      onChange={(values, changed, checksum, based) => {
+        console.info({ values, changed, checksum, based })
+      }}
+    />
+  )
+}
+
+export const NoFlexibleWidth = () => {
+  return (
+    <Form
+      editableReferences
+      values={{
+        people,
+      }}
+      fields={{
+        people: {
+          sortable: true,
+          title: 'People time',
+          type: 'references',
+          allowedTypes: ['person'],
+        },
+      }}
+      schema={{
+        types: {
+          person: {
+            fields: {
+              id: { type: 'string', format: 'basedId', readOnly: true },
+              price: { type: 'number' },
+              bla: { type: 'number' },
             },
           },
         },

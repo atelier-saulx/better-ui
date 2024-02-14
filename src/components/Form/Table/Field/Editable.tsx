@@ -32,7 +32,6 @@ const Padder = ({
         width: '100%',
         paddingLeft: 10,
         paddingRight: 10,
-        ...style,
       }}
     >
       {children}
@@ -166,7 +165,7 @@ export function EditableField({
     )
   }
 
-  if (field.type === 'number') {
+  if (field.type === 'number' || field.type === 'integer') {
     return (
       <Padder>
         <NumberInput

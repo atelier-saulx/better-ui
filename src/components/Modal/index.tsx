@@ -118,7 +118,7 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
             ...style,
           }}
         >
-          <ScrollArea
+          {/* <ScrollArea
             style={{
               height: '100%',
               maxHeight: 'calc(100vh - 60px)',
@@ -126,15 +126,15 @@ export const Overlay = React.forwardRef<HTMLDivElement, ModalOverlayProps>(
               borderRadius: 8,
               backgroundColor: color('background', 'screen'),
             }}
-          >
-            {typeof children === 'function'
-              ? children({
-                  close: () => {
-                    setOpen(false)
-                  },
-                })
-              : children}
-          </ScrollArea>
+          > */}
+          {typeof children === 'function'
+            ? children({
+                close: () => {
+                  setOpen(false)
+                },
+              })
+            : children}
+          {/* </ScrollArea> */}
         </ModalBase.Content>
       </ModalBase.Portal>
     )
@@ -218,9 +218,9 @@ export function Message({
   )
 }
 
-export type ModalBodyProps = { children: React.ReactNode }
+export type ModalBodyProps = { children: React.ReactNode; style?: Style }
 
-export function Body({ children }: ModalBodyProps) {
+export function Body({ children, style }: ModalBodyProps) {
   return (
     <div
       style={{
@@ -228,6 +228,7 @@ export function Body({ children }: ModalBodyProps) {
         flex: 1,
         overflowY: 'auto',
         borderTop: border(),
+        ...style,
       }}
     >
       {children}

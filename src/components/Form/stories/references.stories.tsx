@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta = {
   title: 'Form/References',

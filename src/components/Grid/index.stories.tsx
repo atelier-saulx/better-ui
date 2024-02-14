@@ -8,7 +8,7 @@ import {
   IconMoreHorizontal,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en'
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/Grid',

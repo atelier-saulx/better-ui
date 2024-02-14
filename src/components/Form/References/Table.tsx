@@ -5,7 +5,6 @@ import {
   Text,
   IconPlus,
   IconArrowDown,
-  color,
   IconArrowUp,
 } from '../../../index.js'
 import {
@@ -26,10 +25,7 @@ import {
 } from '@based/schema'
 import { ValueRef } from '../Table/Arrays/types.js'
 import { SizedStack, useColumns } from '../Table/SizedStack.js'
-import {
-  genObjectSchema,
-  genObjectSchemaFromSchema,
-} from './genObjectSchema.js'
+import { genObjectSchema } from './genObjectSchema.js'
 import { TableBody } from './TableBody.js'
 
 const useTags = (fieldSchema: BasedSchemaFieldObject): boolean => {
@@ -54,11 +50,16 @@ export const ReferencesTable = ({
   changeIndex,
   alwaysUseCols,
   sortByFields,
+  fieldSchema,
+  isBlock,
+  isLoading,
 }: {
+  isLoading?: boolean
   pagination?: TablePagination
   sortByFields?: TableSort
   field: BasedSchemaFieldReferences
   valueRef: ValueRef
+  fieldSchema?: BasedSchemaFieldObject
   onNew?: () => Promise<any>
   onRemove?: (index: number) => void
   onClickReference: (ref: Reference) => void
@@ -66,12 +67,15 @@ export const ReferencesTable = ({
   path: Path
   alwaysUseCols?: boolean
   changeIndex: (fromIndex: number, toIndex: number) => void
+  isBlock?: boolean
 }) => {
   const readOnly = field.readOnly || ctx.editableReferences ? false : true
 
-  const fieldSchema = ctx.schema
-    ? genObjectSchemaFromSchema(valueRef.value, field, ctx.schema)
-    : genObjectSchema(valueRef.value)
+  const [height, setHeight] = React.useState(0)
+
+  if (!fieldSchema) {
+    fieldSchema = genObjectSchema(valueRef.value, field, ctx.schema)
+  }
 
   const [colFields, setColumns] = useColumns()
 
@@ -165,6 +169,7 @@ export const ReferencesTable = ({
         {cols}
       </ColStack>
       <TableBody
+        isLoading={isLoading}
         pagination={pagination}
         onClickReference={onClickReference}
         field={field}
@@ -175,6 +180,7 @@ export const ReferencesTable = ({
         path={path}
         colFields={colFields}
         nField={nField}
+        isBlock={isBlock}
       />
       {/* if scrollable add this on top ? */}
       {onNew ? (

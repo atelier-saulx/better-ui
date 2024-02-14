@@ -26,8 +26,8 @@ export function AddImageModal({
             </Modal.Title>
             <Modal.Body>
               <FileInput
+                style={{ marginBottom: 12 }}
                 onChange={(file) => {
-                  console.log('lefut')
                   // TODO actually upload file
                   if (file) {
                     const todoUrl = URL.createObjectURL(file)
