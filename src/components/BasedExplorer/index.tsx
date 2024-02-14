@@ -53,7 +53,7 @@ export type BasedExplorerProps = {
     sort?: { key: string; dir: 'asc' | 'desc' }
   }) => any
   total?: number
-  totalQuery?: (p: { filter?: string }) => any
+  totalQuery?: ((p: { filter?: string }) => any) | false
   fields?: FormProps['fields']
   filter?: boolean
   addItem?: (p: {
@@ -234,13 +234,38 @@ export function BasedExplorer({
     sort,
   })
 
+  if (totalQuery === undefined) {
+    totalQuery = (p) => {
+      const q = query({ filter: p.filter, limit: 0, offset: 0, language })
+      if (q.data?.$list?.$find?.$filter && q.data?.$list?.$find.$traverse) {
+        console.log(q)
+
+        return {
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: q.data?.$list?.$find.$traverse,
+              $filter: q.data.$list.$find.$filter,
+            },
+          },
+        }
+      }
+      console.warn('connect construct totalQuery')
+      return null
+    }
+  }
+
+  const totalQueryPayload = totalQuery
+    ? totalQuery({ filter: ref.current.filter })
+    : null
+
   const {
     data: totalData,
     loading: totalLoading,
     checksum: totalChecksum,
   } = useQuery(
-    totalQuery ? queryEndpoint : null,
-    totalQuery ? totalQuery({ filter: ref.current.filter }) : null,
+    totalQuery && totalQueryPayload ? queryEndpoint : null,
+    totalQueryPayload,
   )
 
   const updateBlocks = React.useCallback(() => {

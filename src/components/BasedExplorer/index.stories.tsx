@@ -145,6 +145,7 @@ export const FieldsFromValues = () => {
         transformResults={(d) => {
           return { data: d }
         }}
+        totalQuery={false}
         query={({ limit, offset, sort, language }) => ({
           offset,
           arraySize: limit,
@@ -201,20 +202,6 @@ export const Page = () => {
           },
         })}
         sort={{ key: 'index', dir: 'asc' }}
-        totalQuery={({ filter }) => ({
-          total: {
-            $aggregate: {
-              $function: 'count',
-              $traverse: 'children',
-              $filter: filter
-                ? [
-                    { $operator: 'includes', $field: 'name', $value: filter },
-                    { $operator: '=', $field: 'type', $value: 'todo' },
-                  ]
-                : [{ $operator: '=', $field: 'type', $value: 'todo' }],
-            },
-          },
-        })}
       />
     </div>
   )
