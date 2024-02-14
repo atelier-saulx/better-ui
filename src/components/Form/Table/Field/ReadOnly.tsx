@@ -27,7 +27,7 @@ const Value = (p: ReadProps) => {
   }
 
   if (isId(p.field)) {
-    return <Badge color="informative-muted">{p.value}</Badge>
+    return <Badge color="primary">{p.value}</Badge>
   }
 
   if (isFile(p.field)) {

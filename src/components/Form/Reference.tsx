@@ -56,7 +56,7 @@ const Select = (p: {
   if (p.badge) {
     return (
       <Button variant="icon-only" onClick={p.onClick}>
-        <Badge color="informative-muted" prefix={icon}>
+        <Badge color="primary-muted" prefix={icon}>
           {body}
         </Badge>
       </Button>
@@ -78,6 +78,7 @@ const Id = (p: { id: string; onClick: () => void }) => {
   return (
     <Button onClick={p.onClick} variant="icon-only">
       <Badge
+        color="primary"
         prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
       >
         {p.id}

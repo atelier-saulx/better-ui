@@ -35,17 +35,6 @@ export function Badge({
 }: BadgeProps) {
   const [showCheck, setShowCheck] = React.useState(false)
 
-  // const color = React.useMemo(() => {
-  //   if (colorProp === 'auto' || colorProp === 'auto-muted') {
-  //     const colors =
-  //       colorProp === 'auto' ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS
-  //     const index =
-  //       Math.floor(Math.abs(Math.sin(hash(children))) * (colors.length - 1)) + 1
-  //     return colors[index]
-  //   }
-  //   return colorProp
-  // }, [colorProp, children])
-
   if (showCheck && !noCheckedIcon) {
     const icon = <IconCheckLarge size={size === 'regular' ? 16 : 12} />
     if (prefix && !suffix) {

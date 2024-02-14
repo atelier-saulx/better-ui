@@ -57,6 +57,8 @@ export type SemanticBackgroundColors =
   | 'error'
   | 'error-hover'
   | 'error-muted'
+  | 'primary'
+  | 'primary-muted'
 
 export type SemanticColors =
   | 'neutral'
@@ -69,6 +71,8 @@ export type SemanticColors =
   | 'warning-muted'
   | 'error'
   | 'error-muted'
+  | 'primary'
+  | 'primary-muted'
 
 export const color = <T extends keyof Color>(
   group: T,
@@ -201,37 +205,36 @@ export const BACKGROUND_COLORS = {
 }
 
 export const BORDER_COLORS = {
-  muted: ' rgba(16, 40, 72, 0.09)',
-  default: ' rgba(15, 16, 19, 0.08)',
+  muted: 'rgba(16, 40, 72, 0.09)',
+  default: 'rgba(15, 16, 19, 0.08)',
   hover: '#10305433',
-  focus: '#634eca',
+  focus: 'rgb(44,60,234)',
   error: '#c53434',
 }
 
 export const INTERACTIVE_COLORS = {
-  primary: '#634eca',
-  'primary-hover': '#4e38bc',
-  'primary-muted': `color-mix(
-      in srgb,
-      #634eca 10%,
-      transparent
-    )`,
+  primary: 'rgb(44,60,234)',
+  'primary-hover': 'rgba(44,60,23, 0.5)',
+  'primary-muted': `rgba(44,60,234, 0.2)`,
   secondary: '#04294421',
   'secondary-hover': '#10305433',
 }
 
 export const SEMANTIC_BACKGROUND_COLORS = {
-  neutral: ' #1830488f',
-  'neutral-muted': ' #10284817',
-  informative: ' #3062d4',
-  'informative-muted': ' #3062d429',
-  positive: ' #1d7c4d',
-  'positive-muted': ' #1d7c4d29',
+  neutral: '#1830488f',
+  'neutral-muted': '#10284817',
+  informative: '#3062d4',
+  'informative-muted': '#3062d429',
+  positive: 'rgba(44,60,234, 0.2)',
+  'positive-muted': 'rgba(44,60,234, 0.1)',
   warning: ' #f59638',
   'warning-muted': '#f5963829',
   error: '#c53434',
   'error-hover': '#952d2d',
   'error-muted': '#c5343429',
+
+  primary: 'rgba(44,60,234)',
+  'primary-muted': 'rgba(44,60,234, 0.2)',
 }
 
 export const SEMANTIC_COLORS = {
@@ -239,6 +242,8 @@ export const SEMANTIC_COLORS = {
   'neutral-muted': '#1b242c',
   informative: '#ffffff',
   'informative-muted': '#3062d4',
+  primary: '#ffffff',
+  'primary-muted': 'rgb(44,60,234)',
   positive: '#ffffff',
   'positive-muted': '#1d7c4d',
   warning: '#222222',
