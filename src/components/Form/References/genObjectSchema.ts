@@ -5,6 +5,7 @@ import {
   BasedSchemaPartial,
 } from '@based/schema'
 import { TableCtx } from '../types.js'
+import { isSmallField } from '../utils.js'
 
 export const genObjectSchemaFromSchema = (
   value: any[],
@@ -32,9 +33,19 @@ export const genObjectSchemaFromSchema = (
     for (const type of types) {
       if (typeof type === 'string') {
         const t = schema.types?.[type]?.fields
+
         if (t) {
-          // prob want to make this a bit nicer
-          Object.assign(objectSchema.properties, t)
+          // // prob want to make this a bit nicer
+          for (const key in t) {
+            const f = t[key]
+            // @ts-ignore
+            if (isSmallField(f)) {
+              // @ts-ignore
+              objectSchema.properties[key] = f
+            }
+          }
+
+          // Object.assign(objectSchema.properties, t)
         }
       } else {
         // later...

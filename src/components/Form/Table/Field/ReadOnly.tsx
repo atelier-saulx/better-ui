@@ -72,6 +72,10 @@ const Value = (p: ReadProps) => {
     return <Reference readOnly variant="small" ctx={p.ctx} path={p.path} />
   }
 
+  if (typeof p.value === 'object') {
+    return '-'
+  }
+
   return <Text singleLine>{display(p.value, p.field) ?? ''}</Text>
 }
 

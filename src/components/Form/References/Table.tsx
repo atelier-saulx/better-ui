@@ -157,7 +157,7 @@ export const ReferencesTable = ({
       field={fieldSchema}
       readOnly={readOnly}
       setColumns={setColumns}
-      alwaysUseCols={alwaysUseCols}
+      alwaysUseCols
       style={{
         // auto height
         height: pagination?.type === 'scroll' ? '100%' : 'auto',
