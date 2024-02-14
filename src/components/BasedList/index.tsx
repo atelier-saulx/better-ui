@@ -4,7 +4,7 @@ import { BasedSchema, convertOldToNew } from '@based/schema'
 import * as React from 'react'
 import { ScrollArea } from '../ScrollArea/index.js'
 import { border } from '../../utils/colors.js'
-import { generateFieldsFromQuery } from '../BasedExplorer/index.js'
+import { generateFieldsFromQuery } from '../BasedExplorer/generator.js'
 import { getIdentifierField, getIdentifierFieldValue } from '../Form/utils.js'
 
 export type BasedListProps = {

@@ -3,8 +3,6 @@ import {
   Table,
   useLanguage,
   useUpdate,
-  Spinner,
-  Container,
   border,
   FormProps,
   Stack,
@@ -12,15 +10,33 @@ import {
   borderRadius,
   color,
   PageHeader,
-  Badge,
   IconPlus,
-  TextInput,
   SearchInput,
 } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
-import { BasedSchema, BasedSchemaType, convertOldToNew } from '@based/schema'
-import { isSmallField } from '../Form/utils.js'
-import { vi } from 'date-fns/locale'
+import { BasedSchema, convertOldToNew } from '@based/schema'
+import {
+  generateFieldsFromQuery,
+  generateFromType,
+  getTypesFromFilter,
+} from './generator.js'
+import { TablePagination } from '../Form/types.js'
+
+export { generateFieldsFromQuery, generateFromType, getTypesFromFilter }
+
+export type QueryFn = ({
+  limit,
+  offset,
+  sort,
+  language,
+  filter,
+}: {
+  limit: number
+  offset: number
+  filter?: string
+  language: string
+  sort?: { key: string; dir: 'asc' | 'desc' }
+}) => any
 
 export type BasedExplorerHeaderComponent = (p: {
   total: number
@@ -39,19 +55,7 @@ export type BasedExplorerProps = {
   queryEndpoint?: string
   transformResults?: (data: any) => any
   sort?: { key: string; dir: 'asc' | 'desc' }
-  query: ({
-    limit,
-    offset,
-    sort,
-    language,
-    filter,
-  }: {
-    limit: number
-    offset: number
-    filter?: string
-    language: string
-    sort?: { key: string; dir: 'asc' | 'desc' }
-  }) => any
+  query: QueryFn
   total?: number
   totalQuery?: ((p: { filter?: string }) => any) | false
   fields?: FormProps['fields']
@@ -70,124 +74,6 @@ type ActiveSub = {
   loaded: boolean
   offset: number
   data: { data: any[] }
-}
-
-export const getTypesFromFilter = (query: any): string[] => {
-  const types = []
-  const walk = (obj: any) => {
-    for (const k in obj) {
-      if (k === '$field' && obj[k] === 'type') {
-        if (obj.$operator === '=') {
-          if (Array.isArray(obj.$value)) {
-            types.push(...obj.$value)
-          } else {
-            types.push(obj.$value)
-          }
-        }
-      }
-      if (typeof obj[k] === 'object') {
-        walk(obj[k])
-      }
-    }
-  }
-  if (typeof query === 'object') {
-    walk(query)
-  }
-  return types
-}
-
-// TODO make a schema helper pkg
-export const generateFromType = (type: BasedSchemaType): { query; fields } => {
-  const newQuery = {}
-  if (!type.fields) {
-    return { query: newQuery, fields: {} }
-  }
-
-  const fields: FormProps['fields'] = {}
-
-  // const idField = getIdentifierField({
-  //   type: 'object',
-  //   properties: type.fields,
-  // })
-
-  // console.log(idField)
-
-  for (const field in type.fields) {
-    const f = type.fields[field]
-    if (!isSmallField(f)) {
-      continue
-    }
-    if (field === 'type') {
-      continue
-    }
-    if (field === 'updatedAt') {
-      continue
-    }
-
-    fields[field] = { ...f }
-
-    // if (field === idField) {
-    //   fields[field].index = 1
-    // }
-
-    // if (field === 'id') {
-    //   fields[field].index = -1
-    // }
-
-    if (f.type === 'timestamp' && !f.display) {
-      // @ts-ignore
-      fields[field].display = 'human'
-    }
-
-    if (field === 'id') {
-      // @ts-ignore
-      fields[field].format = 'basedId'
-    }
-
-    if (f.type === 'reference') {
-      newQuery[field] = {
-        id: true,
-        name: true,
-        src: true,
-      }
-    } else {
-      newQuery[field] = true
-    }
-  }
-
-  return { query: newQuery, fields }
-}
-
-export const generateFieldsFromQuery = (
-  query: any,
-  schema?: BasedSchema,
-): FormProps['fields'] | undefined => {
-  if (!schema) {
-    return
-  }
-  let fields: FormProps['fields']
-  const types = getTypesFromFilter(query)
-  if (types.length) {
-    for (const t of types) {
-      const fieldType = schema.types[t]
-      if (fieldType) {
-        if (!fields) {
-          fields = {}
-        }
-        Object.assign(fields, generateFromType(fieldType).fields)
-      }
-    }
-
-    if (fields && types.length > 1) {
-      fields.type = {
-        type: 'string',
-        index: 0,
-        readOnly: true,
-        format: 'basedType',
-      } // format based type
-    }
-  }
-  return fields
 }
 
 export function BasedExplorer({
@@ -223,6 +109,7 @@ export function BasedExplorer({
     end: number
     filter?: string
     lastLoaded?: number
+    query?: QueryFn
     sort?: { key: string; dir: 'asc' | 'desc' }
   }>({
     block: { data: [] },
@@ -232,6 +119,7 @@ export function BasedExplorer({
     lastLoaded: 0,
     end: 0,
     sort,
+    query,
   })
 
   if (totalQuery === undefined) {
@@ -257,11 +145,7 @@ export function BasedExplorer({
     ? totalQuery({ filter: ref.current.filter })
     : null
 
-  const {
-    data: totalData,
-    loading: totalLoading,
-    checksum: totalChecksum,
-  } = useQuery(
+  const { data: totalData, loading: totalLoading } = useQuery(
     totalQuery && totalQueryPayload ? queryEndpoint : null,
     totalQueryPayload,
   )
@@ -271,9 +155,7 @@ export function BasedExplorer({
     const len = ref.current.end - ref.current.start
     const block: any[] = new Array(len)
     let blockFilled = 0
-
     let loaded = true
-
     ref.current.activeSubs.forEach((s, id) => {
       const r1 = ref.current.start
       const r2 = ref.current.end
@@ -286,7 +168,6 @@ export function BasedExplorer({
         ref.current.activeSubs.delete(id)
       }
     })
-
     for (let i = 0; i < len; i++) {
       let realI = i + ref.current.start
       ref.current.activeSubs.forEach((s) => {
@@ -302,12 +183,10 @@ export function BasedExplorer({
         }
       })
     }
-
     if (loaded) {
       if (blockFilled >= len) {
         ref.current.block = { data: block }
       }
-
       if (ref.current.loadTimer !== null) {
         ref.current.loadTimer = null
         clearTimeout(ref.current.loadTimer)
@@ -329,11 +208,10 @@ export function BasedExplorer({
         close: () => {},
       }
       ref.current.activeSubs.set(id, newSub)
-
       newSub.close = client
         .query(
           queryEndpoint,
-          query({
+          ref.current.query({
             limit: sub.limit,
             offset: sub.offset,
             sort: ref.current.sort,
@@ -361,6 +239,75 @@ export function BasedExplorer({
     : ref.current.lastLoaded
 
   const useHeader = info || header || addItem || filter
+
+  const pagination = React.useMemo<TablePagination>(
+    () => ({
+      type: 'scroll',
+      total: parsedTotal,
+      loadMore: totalQuery
+        ? undefined
+        : async (x) => {
+            ref.current.lastLoaded += x.pageSize
+          },
+      onPageChange: async (p) => {
+        if (p.end === 0 && !totalQuery) {
+          p.end = p.pageSize * 2
+        }
+        if (ref.current.lastLoaded < p.end) {
+          ref.current.lastLoaded = p.end
+        }
+        ref.current.start = p.start
+        ref.current.end = p.end
+        if (ref.current.loadTimer !== null) {
+          ref.current.loadTimer = null
+          clearTimeout(ref.current.loadTimer)
+        }
+        let timer = setTimeout(() => {
+          if (timer === ref.current.loadTimer) {
+            ref.current.isLoading = true
+            ref.current.loadTimer = null
+            update()
+          }
+        }, 100)
+        ref.current.loadTimer = timer
+        const size = 100
+        const limit = size
+        const offset = Math.floor(p.end / size) * size
+        const id = offset + '-' + limit
+        if (!ref.current.activeSubs.has(id)) {
+          const newSub: ActiveSub = {
+            limit,
+            loaded: false,
+            offset,
+            data: {
+              data: [],
+            },
+            close: () => {},
+          }
+          ref.current.activeSubs.set(id, newSub)
+          newSub.close = client
+            .query(
+              queryEndpoint,
+              ref.current.query({
+                limit: limit,
+                offset: offset,
+                sort: ref.current.sort,
+                language,
+                filter: ref.current.filter,
+              }),
+            )
+            .subscribe((d) => {
+              newSub.loaded = true
+              newSub.data = transformResults ? transformResults(d) : d
+              updateBlocks()
+            })
+        } else {
+          updateBlocks()
+        }
+      },
+    }),
+    [!totalQuery, parsedTotal, queryEndpoint],
+  )
 
   const viewer = (
     <Table
@@ -394,75 +341,10 @@ export function BasedExplorer({
           updateSubs()
         },
       }}
-      pagination={{
-        type: 'scroll',
-        total: parsedTotal,
-        loadMore: totalQuery
-          ? undefined
-          : async (x) => {
-              ref.current.lastLoaded += x.pageSize
-            },
-        onPageChange: async (p) => {
-          if (p.end === 0 && !totalQuery) {
-            p.end = p.pageSize * 2
-          }
-
-          if (ref.current.lastLoaded < p.end) {
-            ref.current.lastLoaded = p.end
-          }
-
-          ref.current.start = p.start
-          ref.current.end = p.end
-          if (ref.current.loadTimer !== null) {
-            ref.current.loadTimer = null
-            clearTimeout(ref.current.loadTimer)
-          }
-          let timer = setTimeout(() => {
-            if (timer === ref.current.loadTimer) {
-              ref.current.isLoading = true
-              ref.current.loadTimer = null
-              update()
-            }
-          }, 100)
-          ref.current.loadTimer = timer
-          const size = 100
-          const limit = size
-          const offset = Math.floor(p.end / size) * size
-          const id = offset + '-' + limit
-          const newSub: ActiveSub = {
-            limit,
-            loaded: false,
-            offset,
-            data: {
-              data: [],
-            },
-            close: () => {},
-          }
-          if (!ref.current.activeSubs.has(id)) {
-            ref.current.activeSubs.set(id, newSub)
-            newSub.close = client
-              .query(
-                queryEndpoint,
-                query({
-                  limit: limit,
-                  offset: offset,
-                  sort: ref.current.sort,
-                  language,
-                  filter: ref.current.filter,
-                }),
-              )
-              .subscribe((d) => {
-                newSub.loaded = true
-                newSub.data = transformResults ? transformResults(d) : d
-                updateBlocks()
-              })
-          } else {
-            updateBlocks()
-          }
-        },
-      }}
+      pagination={pagination}
     />
   )
+
   if (useHeader) {
     const headerProps = {
       total: parsedTotal,
@@ -470,7 +352,6 @@ export function BasedExplorer({
       end: ref.current.end,
       data: ref.current?.block.data,
     }
-
     return (
       <Stack direction="column" padding={32} style={{ height: '100%' }}>
         <PageHeader
@@ -513,6 +394,5 @@ export function BasedExplorer({
       </Stack>
     )
   }
-
   return viewer
 }
