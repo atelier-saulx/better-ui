@@ -27,23 +27,6 @@ const meta = {
 
 export default meta
 
-const getRandomRef = async (choices) => {
-  let choice = new Object()
-
-  for (const key in choices) {
-    if (key === 'id') {
-      choice[key] = choices['id']
-    } else if (key === 'arraySize') {
-    } else if (Math.random() < 0.5) {
-      choice[key] = choices[key]
-    }
-  }
-
-  await console.log('CHOICE 🍖', { ...choice })
-
-  return { ...choice }
-}
-
 export const References = () => {
   const { open } = Modal.useModal()
 
@@ -73,7 +56,7 @@ export const References = () => {
   })
 
   const { data: choices } = useQuery('fakedata', {
-    arraySize: 1,
+    arraySize: 200,
     id: '',
     title: '',
     name: '',
@@ -104,21 +87,25 @@ export const References = () => {
         ],
       }}
       onClickReference={async ({ path }) => {
-        open(({ close }) => {
+        return open(({ close }) => {
+          const newFaces: any[] = []
+          const len = ~~(Math.random() * 100)
+          for (let i = 0; i < len; i++) {
+            newFaces.push(faces[i])
+          }
+
           return (
-            <Modal onConfirm={() => close(getRandomRef(choices[0]))}>
+            <Modal onConfirm={() => close(newFaces)}>
               <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
             </Modal>
           )
         })
       }}
       onSelectReference={async ({ path }) => {
+        console.log('path', path)
         return open(({ close }) => {
           return (
-            <Modal
-              variant="large"
-              onConfirm={() => close(getRandomRef(choices[0]))}
-            >
+            <Modal variant="large" onConfirm={() => close(choices[0])}>
               <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
             </Modal>
           )
@@ -129,7 +116,7 @@ export const References = () => {
           const newItems: any[] = []
           const len = ~~(Math.random() * 100)
           for (let i = 0; i < len; i++) {
-            newItems.push(getRandomRef(choices[0]))
+            newItems.push(choices[i])
           }
           return (
             <Modal variant="large" onConfirm={() => close(newItems)}>
