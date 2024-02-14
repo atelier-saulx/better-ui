@@ -34,6 +34,8 @@ export function BasedForm({
 
   const ref = React.useRef<BasedFormRef>({})
 
+  console.log({ schema })
+
   if (fields) {
     if (typeof fields === 'function') {
       ref.current.fieldsFn = fields
