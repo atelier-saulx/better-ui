@@ -1,5 +1,11 @@
 import * as React from 'react'
-import { Table, useLanguage, useUpdate } from '../../index.js'
+import {
+  Table,
+  useLanguage,
+  useUpdate,
+  Spinner,
+  Container,
+} from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { convertOldToNew } from '@based/schema'
 
@@ -58,8 +64,9 @@ export function BasedExplorer({
     start: 0,
     end: 0,
   })
+
   const { data: totalData, loading: totalLoading } = useQuery(
-    queryEndpoint,
+    totalQuery ? queryEndpoint : null,
     totalQuery,
   )
 
@@ -75,7 +82,6 @@ export function BasedExplorer({
       const r1 = ref.current.start
       const r2 = ref.current.end
       const total = s.offset + s.limit
-
       if (r1 > total) {
         s.close()
         ref.current.activeSubs.delete(id)
@@ -87,7 +93,7 @@ export function BasedExplorer({
 
     for (let i = 0; i < len; i++) {
       let realI = i + ref.current.start
-      ref.current.activeSubs.forEach((s, id) => {
+      ref.current.activeSubs.forEach((s) => {
         if (s.offset <= realI && realI < s.limit + s.offset) {
           if (!s.loaded) {
             loaded = false
@@ -113,6 +119,14 @@ export function BasedExplorer({
       update()
     }
   }, [])
+
+  if (totalQuery && totalLoading) {
+    return (
+      <Container>
+        <Spinner size={32} color="secondary" />
+      </Container>
+    )
+  }
 
   return (
     <Table
@@ -158,7 +172,7 @@ export function BasedExplorer({
         type: 'scroll',
         total: totalData?.total ?? 0,
         onPageChange: async (p) => {
-          if (p.end === 0) {
+          if (p.end === 0 && !totalQuery) {
             p.end = p.pageSize * 2
           }
           ref.current.start = p.start
