@@ -25,6 +25,7 @@ export type TextInputProps = {
   description?: string
   disabled?: boolean
   style?: Style
+  required?: boolean
 }
 
 const Wrapper = ({
@@ -92,6 +93,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       description,
       disabled,
       style,
+      required,
     },
     ref,
   ) => {
@@ -126,6 +128,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           }}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
+          required={required}
           ref={ref}
           name={formName}
           placeholder={placeholder}
