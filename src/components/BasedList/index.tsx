@@ -9,29 +9,45 @@ import { getIdentifierField, getIdentifierFieldValue } from '../Form/utils.js'
 
 export type BasedListProps = {
   query: () => any
+  queryEndpoint?: string
 }
 
 // TODO
 // have an image, a title and a description
 // And for each item figure out the best attribute to put into the image, title and description
 
-export function BasedList({ query }: BasedListProps) {
+export function BasedList({ query, queryEndpoint = 'db' }: BasedListProps) {
   const { data: rawSchema, checksum } = useQuery('db:schema')
   const schema = React.useMemo(() => {
     if (!rawSchema) return
     return convertOldToNew(rawSchema) as BasedSchema
   }, [checksum])
-  const fields = React.useMemo(() => {
-    if (!schema) return {}
-    const generatedFields = generateFieldsFromQuery(query(), schema)
-    const identifierField = getIdentifierField({
-      type: 'object',
-      properties: generatedFields,
-    })
 
-    return { title: identifierField, description: null, image: null }
+  const fields = React.useMemo(() => {
+    if (!schema) return null
+    const generatedFields = generateFieldsFromQuery(query(), schema)
+
+    const fields = {
+      title: 'id',
+      description: null,
+      image: null,
+    }
+
+    for (const key in generatedFields) {
+      if (['name', 'title'].includes(key)) {
+        fields.title = key
+      }
+
+      if (['description'].includes(key)) {
+        fields.description = key
+      }
+    }
+
+    return fields
   }, [schema, query])
-  const { data } = useQuery('db', query())
+  const { data } = useQuery(queryEndpoint, query())
+
+  console.log(data)
 
   if (!data || !fields) return null
 
