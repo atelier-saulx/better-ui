@@ -78,7 +78,7 @@ const Id = (p: { id: string; onClick: () => void }) => {
   return (
     <Button onClick={p.onClick} variant="icon-only">
       <Badge
-        color="primary"
+        color="primary-muted"
         prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
       >
         {p.id}

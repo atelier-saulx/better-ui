@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import {
   Button,
   Text,
@@ -16,7 +16,6 @@ import {
 } from '../types.js'
 import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
-import humanizeString from 'humanize-string'
 import { References } from './index.js'
 import {
   BasedSchemaFieldArray,
@@ -53,8 +52,10 @@ export const ReferencesTable = ({
   sortByFields,
   fieldSchema,
   isBlock,
+  style,
   isLoading,
 }: {
+  style?: Style
   isLoading?: boolean
   pagination?: TablePagination
   sortByFields?: TableSort
@@ -164,6 +165,7 @@ export const ReferencesTable = ({
       style={{
         // auto height
         height: pagination?.type === 'scroll' ? '100%' : 'auto',
+        ...style,
       }}
     >
       <ColStack header noRemove={!onRemove}>

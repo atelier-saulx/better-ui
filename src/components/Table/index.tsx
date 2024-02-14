@@ -10,6 +10,7 @@ import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
 import { FormProps } from '../Form/index.js'
 import { useUpdate } from '../../index.js'
+import { Style } from 'inlines'
 
 export const Table = (p: {
   pagination?: TablePagination | true
@@ -17,6 +18,7 @@ export const Table = (p: {
   schema?: BasedSchemaPartial
   editable?: boolean
   field?: BasedSchemaFieldObject
+  style?: Style
   isLoading?: boolean
   values?: any[]
   sortable?: boolean // maybe rename to orderable (everywhere)
@@ -131,6 +133,7 @@ export const Table = (p: {
 
   return (
     <ReferencesTable
+      style={p.style}
       sortByFields={sortRef.current}
       field={field}
       fieldSchema={p.field}

@@ -2,7 +2,7 @@ import { hash } from '@saulx/hash'
 
 export type Color = {
   content: 'primary' | 'inverted' | 'secondary' | 'inverted-muted'
-  background: 'neutral' | 'muted' | 'dimmer' | 'screen' | 'inverted'
+  background: 'neutral' | 'muted' | 'dimmer' | 'screen' | 'inverted' | 'primary'
   interactive:
     | 'primary'
     | 'primary-hover'
@@ -201,7 +201,8 @@ export const BACKGROUND_COLORS = {
   dimmer: '#2e2e2e33',
   screen: '#ffffff',
   muted: 'rgba(31, 82, 158, 0.02)',
-  inverted: ' #171e24',
+  inverted: '#171e24',
+  primary: 'rgb(144,160,234, 0.1)',
 }
 
 export const BORDER_COLORS = {
