@@ -22,7 +22,7 @@ import { BasedSchema, BasedSchemaType, convertOldToNew } from '@based/schema'
 import { isSmallField } from '../Form/utils.js'
 import { vi } from 'date-fns/locale'
 
-export type BasedExplorerHeadertComponent = (p: {
+export type BasedExplorerHeaderComponent = (p: {
   total: number
   start: number
   end: number
@@ -33,8 +33,8 @@ const DefaultInfo = ({ total, start, end }) =>
   `Showing ${start} - ${end} out of a ${total} items`
 
 export type BasedExplorerProps = {
-  header?: React.ReactNode | BasedExplorerHeadertComponent
-  info?: React.ReactNode | BasedExplorerHeadertComponent | true
+  header?: React.ReactNode | BasedExplorerHeaderComponent
+  info?: React.ReactNode | BasedExplorerHeaderComponent | true
   onItemClick?: (item: any) => void
   queryEndpoint?: string
   transformResults?: (data: any) => any
@@ -53,7 +53,7 @@ export type BasedExplorerProps = {
     sort?: { key: string; dir: 'asc' | 'desc' }
   }) => any
   total?: number
-  totalQuery?: any
+  totalQuery?: ((p: { filter?: string }) => any) | false
   fields?: FormProps['fields']
   filter?: boolean
   addItem?: (p: {
@@ -234,9 +234,36 @@ export function BasedExplorer({
     sort,
   })
 
-  const { data: totalData, loading: totalLoading } = useQuery(
-    totalQuery ? queryEndpoint : null,
-    totalQuery,
+  if (totalQuery === undefined) {
+    totalQuery = (p) => {
+      const q = query({ filter: p.filter, limit: 0, offset: 0, language })
+      if (q.data?.$list?.$find?.$filter && q.data?.$list?.$find.$traverse) {
+        return {
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: q.data?.$list?.$find.$traverse,
+              $filter: q.data.$list.$find.$filter,
+            },
+          },
+        }
+      }
+      console.warn('connect construct totalQuery')
+      return null
+    }
+  }
+
+  const totalQueryPayload = totalQuery
+    ? totalQuery({ filter: ref.current.filter })
+    : null
+
+  const {
+    data: totalData,
+    loading: totalLoading,
+    checksum: totalChecksum,
+  } = useQuery(
+    totalQuery && totalQueryPayload ? queryEndpoint : null,
+    totalQueryPayload,
   )
 
   const updateBlocks = React.useCallback(() => {
@@ -289,13 +316,38 @@ export function BasedExplorer({
     }
   }, [])
 
-  if (totalQuery && totalLoading) {
-    return (
-      <Container>
-        <Spinner size={32} color="secondary" />
-      </Container>
-    )
-  }
+  const updateSubs = React.useCallback(() => {
+    for (const [id, sub] of ref.current.activeSubs) {
+      sub.close()
+      const newSub: ActiveSub = {
+        loaded: false,
+        limit: sub.limit,
+        offset: sub.offset,
+        data: {
+          data: [],
+        },
+        close: () => {},
+      }
+      ref.current.activeSubs.set(id, newSub)
+
+      newSub.close = client
+        .query(
+          queryEndpoint,
+          query({
+            limit: sub.limit,
+            offset: sub.offset,
+            sort: ref.current.sort,
+            language,
+            filter: ref.current.filter,
+          }),
+        )
+        .subscribe((d) => {
+          newSub.loaded = true
+          newSub.data = transformResults ? transformResults(d) : d
+          updateBlocks()
+        })
+    }
+  }, [])
 
   if (!fields && schema) {
     fields = generateFieldsFromQuery(
@@ -304,15 +356,23 @@ export function BasedExplorer({
     )
   }
 
-  const parsedTotal = totalQuery ? totalData.total ?? 0 : ref.current.lastLoaded
+  const parsedTotal = totalQuery
+    ? totalData?.total ?? 0
+    : ref.current.lastLoaded
+
+  const useHeader = info || header || addItem || filter
 
   const viewer = (
     <Table
-      style={{
-        border: border(),
-        borderRadius: borderRadius('tiny'),
-        background: color('background', 'screen'),
-      }}
+      style={
+        useHeader
+          ? {
+              border: border(),
+              borderRadius: borderRadius('tiny'),
+              background: color('background', 'screen'),
+            }
+          : undefined
+      }
       field={
         fields
           ? {
@@ -327,38 +387,11 @@ export function BasedExplorer({
       isLoading={ref.current.isLoading}
       onClick={onItemClick}
       sort={{
+        sorted: ref.current.sort,
         onSort(key, dir, sort) {
           sort.sorted = { key, dir }
           ref.current.sort = { key, dir }
-          for (const [id, sub] of ref.current.activeSubs) {
-            sub.close()
-            const newSub: ActiveSub = {
-              loaded: false,
-              limit: sub.limit,
-              offset: sub.offset,
-              data: {
-                data: [],
-              },
-              close: () => {},
-            }
-            ref.current.activeSubs.set(id, newSub)
-
-            newSub.close = client
-              .query(
-                queryEndpoint,
-                query({
-                  limit: sub.limit,
-                  offset: sub.offset,
-                  sort: ref.current.sort,
-                  language,
-                }),
-              )
-              .subscribe((d) => {
-                newSub.loaded = true
-                newSub.data = transformResults ? transformResults(d) : d
-                updateBlocks()
-              })
-          }
+          updateSubs()
         },
       }}
       pagination={{
@@ -369,7 +402,6 @@ export function BasedExplorer({
           : async (x) => {
               ref.current.lastLoaded += x.pageSize
             },
-
         onPageChange: async (p) => {
           if (p.end === 0 && !totalQuery) {
             p.end = p.pageSize * 2
@@ -408,7 +440,6 @@ export function BasedExplorer({
           }
           if (!ref.current.activeSubs.has(id)) {
             ref.current.activeSubs.set(id, newSub)
-
             newSub.close = client
               .query(
                 queryEndpoint,
@@ -417,6 +448,7 @@ export function BasedExplorer({
                   offset: offset,
                   sort: ref.current.sort,
                   language,
+                  filter: ref.current.filter,
                 }),
               )
               .subscribe((d) => {
@@ -431,7 +463,7 @@ export function BasedExplorer({
       }}
     />
   )
-  if (info || header || addItem || filter) {
+  if (useHeader) {
     const headerProps = {
       total: parsedTotal,
       start: ref.current.start,
@@ -440,16 +472,17 @@ export function BasedExplorer({
     }
 
     return (
-      <Stack direction="column" padding={64} style={{ height: '100%' }}>
+      <Stack direction="column" padding={32} style={{ height: '100%' }}>
         <PageHeader
           suffix={
             <Stack gap={32}>
               {filter ? (
                 <SearchInput
+                  loading={ref.current.filter && totalLoading}
                   value={ref.current.filter}
                   onChange={(v) => {
                     ref.current.filter = v
-                    update()
+                    updateSubs()
                   }}
                   placeholder="Filter..."
                   style={{ width: 300 }}
