@@ -14,6 +14,8 @@ export type FieldsFn = (
 
 export function BasedForm({
   id,
+  type,
+  variant,
   includedFields,
   excludeCommonFields = true,
   query,
@@ -52,6 +54,7 @@ export function BasedForm({
   useBasedFormProps(
     ref,
     id,
+    type,
     language,
     checksum,
     includedFields,
@@ -73,10 +76,9 @@ export function BasedForm({
     )
   }
 
-  console.log('POWER')
-
   return (
     <Form
+      variant={variant}
       schema={schema}
       values={transformResults ? transformResults(values) : values}
       fields={ref.current.currentFields}
