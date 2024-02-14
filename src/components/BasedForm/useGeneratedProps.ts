@@ -1,12 +1,20 @@
-import {
-  BasedSchema,
-  BasedSchemaFieldObject,
-  BasedSchemaType,
-} from '@based/schema'
+import { BasedSchema, BasedSchemaField, BasedSchemaType } from '@based/schema'
 import React from 'react'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 import { BasedFormProps, BasedFormRef } from './types.js'
 import { FormProps } from '../../index.js'
+
+export const isWalkable = ({ type }: BasedSchemaField): boolean => {
+  if (
+    type === 'array' ||
+    type === 'record' ||
+    type === 'references' ||
+    type === 'object'
+  ) {
+    return true
+  }
+  return false
+}
 
 const createQuery = (
   id: string,
@@ -22,23 +30,29 @@ const createQuery = (
   }
   function walkFields(fields: BasedSchemaType['fields'], query: any) {
     for (const field in fields) {
-      if (fields[field].type === 'reference') {
+      const f = fields[field]
+      const type = f.type
+      if (type === 'reference') {
         query[field] = { $all: true }
-      }
-      if (fields[field].type === 'references') {
+      } else if (type === 'references') {
         query[field] = { $all: true, $list: true }
-      }
-
-      // add records & arrays
-
-      if (fields[field].type === 'object') {
+      } else if (type === 'object') {
         query[field] = {
           $all: true,
         }
-        walkFields(
-          (fields[field] as BasedSchemaFieldObject).properties,
-          query[field],
-        )
+        walkFields(f.properties, query[field])
+      } else if (type === 'array' && isWalkable(f.values)) {
+        query[field] = {
+          $all: true,
+        }
+        // @ts-ignore
+        walkFields(f.values, query[field])
+      } else if (type === 'record' && isWalkable(f.values)) {
+        query[field] = {
+          $all: true,
+        }
+        // @ts-ignore
+        walkFields(f.values, query[field])
       }
     }
   }
