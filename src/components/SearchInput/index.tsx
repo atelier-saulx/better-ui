@@ -61,6 +61,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
 
     return (
       <styled.div style={{ position: 'relative', ...style }}>
+        {/* @ts-ignore */}
         <Icon
           size={18}
           style={{
