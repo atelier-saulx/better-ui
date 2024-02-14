@@ -79,10 +79,11 @@ export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
     const type = selectedField.type
     if (!noFieldSelect) {
       if (type) {
-        if (type === 'record' || type === 'array' || type === 'references') {
+        if (type === 'array' || type === 'references') {
+          selectedField = selectedField.items
+        } else if (type === 'record') {
           selectedField = selectedField.values
-        }
-        if (type === 'object') {
+        } else if (type === 'object') {
           selectedField = selectedField.properties[k]
         }
       } else {
