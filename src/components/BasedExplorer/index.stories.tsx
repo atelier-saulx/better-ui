@@ -31,7 +31,13 @@ export const Default = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        query={({ limit, offset, sort }) => ({
+        fields={{
+          id: { type: 'string', format: 'basedId' },
+          name: { type: 'string', display: 'capitalize' },
+          updatedAt: { type: 'timestamp', display: 'time-precise' },
+        }}
+        query={({ limit, offset, sort, language }) => ({
+          $language: language,
           data: {
             $all: true,
             $list: {
@@ -65,6 +71,80 @@ export const Default = () => {
             },
           },
         }}
+      />
+    </div>
+  )
+}
+
+export const FieldsFromQuery = () => {
+  return (
+    <div style={{ height: '50vh' }}>
+      <BasedExplorer
+        onItemClick={(item) => {
+          alert('clicked item ' + item.id)
+        }}
+        query={({ limit, offset, sort, language }) => ({
+          $language: language,
+          data: {
+            $all: true,
+            $list: {
+              $limit: limit,
+              $offset: offset,
+              ...(sort && {
+                $sort: {
+                  $field: sort.key,
+                  $order: sort.dir,
+                },
+              }),
+              $find: {
+                $traverse: 'children',
+                $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+              },
+            },
+          },
+        })}
+        totalQuery={{
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: 'children',
+              $filter: [
+                {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: 'todo',
+                },
+              ],
+            },
+          },
+        }}
+      />
+    </div>
+  )
+}
+
+export const FieldsFromValues = () => {
+  return (
+    <div style={{ height: '50vh' }}>
+      <BasedExplorer
+        onItemClick={(item) => {
+          alert('clicked item ' + item.id)
+        }}
+        queryEndpoint="fakedata"
+        transformResults={(d) => {
+          return { data: d }
+        }}
+        query={({ limit, offset, sort, language }) => ({
+          arraySize: limit,
+          src: '',
+          id: '',
+          description: '',
+          firstName: '',
+          createdAt: '',
+          lastUpdated: '',
+          powerTime: '',
+          city: '',
+        })}
       />
     </div>
   )

@@ -8,27 +8,24 @@ import {
   FormProps,
 } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
-import {
-  BasedSchemaFieldObject,
-  BasedSchemaType,
-  convertOldToNew,
-} from '@based/schema'
+import { BasedSchemaType, convertOldToNew } from '@based/schema'
 import { getIdentifierField, isSmallField } from '../Form/utils.js'
 
 export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
   queryEndpoint?: string
+  transformResults?: (data: any) => any
   query: ({
     limit,
     offset,
     sort,
+    language,
   }: {
     limit: number
     offset: number
+    language: string
     sort?: { key: string; dir: 'asc' | 'desc' }
-  }) => {
-    data: any
-  }
+  }) => any
   totalQuery?: any
   fields?: FormProps['fields']
 }
@@ -108,6 +105,7 @@ export function BasedExplorer({
   totalQuery,
   onItemClick,
   fields,
+  transformResults,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
@@ -223,19 +221,19 @@ export function BasedExplorer({
               },
               close: () => {},
             }
-            ref.current.activeSubs.set(id, newSub)
+
+            const qResult = query({
+              limit: sub.limit,
+              offset: sub.offset,
+              sort: ref.current.sort,
+              language,
+            })
+
             newSub.close = client
-              .query(queryEndpoint, {
-                $language: language,
-                ...query({
-                  limit: sub.limit,
-                  offset: sub.offset,
-                  sort: ref.current.sort,
-                }),
-              })
+              .query(queryEndpoint, qResult)
               .subscribe((d) => {
                 newSub.loaded = true
-                newSub.data = d
+                newSub.data = transformResults ? transformResults(d) : d
                 updateBlocks()
               })
           }
@@ -277,18 +275,19 @@ export function BasedExplorer({
           }
           if (!ref.current.activeSubs.has(id)) {
             ref.current.activeSubs.set(id, newSub)
+
+            const qResult = query({
+              limit: limit,
+              offset: offset,
+              sort: ref.current.sort,
+              language,
+            })
+
             newSub.close = client
-              .query(queryEndpoint, {
-                $language: language,
-                ...query({
-                  limit,
-                  offset,
-                  sort: ref.current.sort,
-                }),
-              })
+              .query(queryEndpoint, qResult)
               .subscribe((d) => {
                 newSub.loaded = true
-                newSub.data = d
+                newSub.data = transformResults ? transformResults(d) : d
                 updateBlocks()
               })
           } else {
