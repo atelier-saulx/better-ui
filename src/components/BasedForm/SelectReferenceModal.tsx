@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { BasedExplorer, Modal, Sidebar } from '../../index.js'
+import { BasedExplorer, generateFromType, Modal, Sidebar } from '../../index.js'
 import { useQuery } from '@based/react'
-import { convertOldToNew } from '@based/schema'
+import { BasedSchema, convertOldToNew } from '@based/schema'
 import { OnOpenChangeContext } from '../Modal/index.js'
 
 export type SelectReferenceModalProps = {
   onSelect: (reference: any) => void
+  types?: string[]
 }
 
 export function SelectReferenceModal({ onSelect }: SelectReferenceModalProps) {
@@ -14,8 +15,7 @@ export function SelectReferenceModal({ onSelect }: SelectReferenceModalProps) {
 
   const schema = React.useMemo(() => {
     if (!rawSchema) return
-
-    return convertOldToNew(rawSchema)
+    return convertOldToNew(rawSchema) as BasedSchema
   }, [rawSchema])
 
   const sidebarItems = React.useMemo(() => {
@@ -51,13 +51,16 @@ export function SelectReferenceModal({ onSelect }: SelectReferenceModalProps) {
           >
             {activeSidebarItem && (
               <BasedExplorer
+                fields={
+                  generateFromType(schema.types[activeSidebarItem]).fields
+                }
                 key={activeSidebarItem}
                 onItemClick={(item) => {
                   onSelect(item)
                 }}
                 query={({ limit, offset, sort }) => ({
                   data: {
-                    $all: true,
+                    ...generateFromType(schema.types[activeSidebarItem]).query,
                     $list: {
                       $limit: limit,
                       $offset: offset,

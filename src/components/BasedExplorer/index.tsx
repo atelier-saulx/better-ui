@@ -5,9 +5,15 @@ import {
   useUpdate,
   Spinner,
   Container,
+  FormProps,
 } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
-import { convertOldToNew } from '@based/schema'
+import {
+  BasedSchemaFieldObject,
+  BasedSchemaType,
+  convertOldToNew,
+} from '@based/schema'
+import { getIdentifierField, isSmallField } from '../Form/utils.js'
 
 export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
@@ -24,6 +30,7 @@ export type BasedExplorerProps = {
     data: any
   }
   totalQuery?: any
+  fields?: FormProps['fields']
 }
 
 type ActiveSub = {
@@ -32,6 +39,59 @@ type ActiveSub = {
   loaded: boolean
   offset: number
   data: { data: any[] }
+}
+
+// TODO make a schema helper pkg
+export const generateFromType = (type: BasedSchemaType): { query; fields } => {
+  const newQuery = {}
+  if (!type.fields) {
+    return { query: newQuery, fields: {} }
+  }
+
+  const fields: FormProps['fields'] = {}
+
+  // const idField = getIdentifierField({
+  //   type: 'object',
+  //   properties: type.fields,
+  // })
+
+  // console.log(idField)
+
+  for (const field in type.fields) {
+    const f = type.fields[field]
+    if (!isSmallField(f)) {
+      continue
+    }
+    if (field === 'type') {
+      continue
+    }
+    if (field === 'updatedAt') {
+      continue
+    }
+
+    fields[field] = { ...f }
+
+    // if (field === idField) {
+    //   fields[field].index = 1
+    // }
+
+    // if (field === 'id') {
+    //   fields[field].index = -1
+    // }
+
+    if (f.type === 'reference') {
+      newQuery[field] = {
+        id: true,
+        name: true,
+        src: true,
+      }
+    } else {
+      newQuery[field] = true
+    }
+  }
+
+  console.log(fields)
+  return { query: newQuery, fields }
 }
 
 // add query parser
@@ -43,6 +103,7 @@ export function BasedExplorer({
   queryEndpoint = 'db',
   totalQuery,
   onItemClick,
+  fields,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
@@ -130,6 +191,14 @@ export function BasedExplorer({
 
   return (
     <Table
+      field={
+        fields
+          ? {
+              type: 'object',
+              properties: fields,
+            }
+          : null
+      }
       schema={schema ? convertOldToNew(schema) : undefined}
       values={ref.current?.block.data}
       isBlock

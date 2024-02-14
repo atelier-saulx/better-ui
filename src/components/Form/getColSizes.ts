@@ -224,7 +224,7 @@ export const getColSizes = (
   // TODO PERF: do sorting faster in the for loop thats there allready
   // or make sure it gets called less often
   fields.sort((a, b) => {
-    return a.field.index > b.field.index
+    return a.field.index < b.field.index
       ? -1
       : a.field.index === b.field.index
         ? 0
