@@ -101,11 +101,6 @@ export function Badge({
           userSelect: 'none',
         }),
 
-        '& svg': {
-          border: '1px solid blue',
-          height: size === 'small' ? 10 : 10,
-          width: size === 'small' ? 10 : 10,
-        },
         ...style,
       }}
       onMouseLeave={() => {

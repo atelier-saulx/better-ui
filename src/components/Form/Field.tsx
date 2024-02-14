@@ -62,9 +62,10 @@ export const Field = ({
   if (field.type === 'string' && field.format === 'basedId' && field.readOnly) {
     return (
       <Badge
-        prefix={<IconId />}
+        copyValue={ctx.values[key]}
+        prefix={<IconId size={16} style={{ marginRight: 4 }} />}
         style={{ minWidth: 100 }}
-        color="informative-muted"
+        color="informative"
       >
         {ctx.values[key] ?? '-'}
       </Badge>

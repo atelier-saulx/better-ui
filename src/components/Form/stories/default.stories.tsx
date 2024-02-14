@@ -69,6 +69,7 @@ export const Default = () => {
       variant="regular"
       onFileUpload={fileUpload}
       values={{
+        id: 'xe1231112saas23',
         src: 'https://i.imgur.com/t1bWmmC.jpeg',
         code: ts,
         json: JSON.stringify({ y: 1, x: 1, z: 1, someThing: 'great' }, null, 2),
@@ -118,7 +119,7 @@ export const Default = () => {
           allowedTypes: ['file'],
         },
         id: {
-          index: 1,
+          index: -1,
           readOnly: true,
           type: 'string',
           format: 'basedId',
