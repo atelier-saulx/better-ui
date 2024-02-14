@@ -75,8 +75,8 @@ export function RichTextEditor({
   placeholder,
   autoFocus,
   onChange,
-  defaultValue,
   height = 500,
+  value,
 }: RichTextEditorProps) {
   const editorContainerRef = React.useRef<HTMLDivElement | null>()
 
@@ -243,7 +243,7 @@ export function RichTextEditor({
           <BehaviourPlugin />
           <HistoryPlugin />
           <AutoFocusPlugin autoFocus={autoFocus} />
-          <ValuePlugin defaultValue={defaultValue} onChange={onChange} />
+          <ValuePlugin value={value} onChange={onChange} />
         </ScrollArea>
       </styled.div>
     </LexicalComposer>

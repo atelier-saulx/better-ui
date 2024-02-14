@@ -24,7 +24,7 @@ export function BehaviourPlugin() {
   const [editor] = useLexicalComposerContext()
 
   React.useEffect(() => {
-    mergeRegister(
+    return mergeRegister(
       editor.registerCommand(
         FOCUS_COMMAND,
         () => {
