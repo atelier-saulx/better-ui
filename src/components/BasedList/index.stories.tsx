@@ -29,6 +29,7 @@ export const Default = () => {
     <div style={{ height: '50vh' }}>
       <BasedList
         query={() => ({
+          $language: 'en',
           data: {
             $all: true,
             $list: {
