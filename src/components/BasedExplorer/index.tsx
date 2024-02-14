@@ -15,6 +15,7 @@ export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
   queryEndpoint?: string
   transformResults?: (data: any) => any
+  sort?: { key: string; dir: 'asc' | 'desc' }
   query: ({
     limit,
     offset,
@@ -164,6 +165,7 @@ export function BasedExplorer({
   onItemClick,
   fields,
   transformResults,
+  sort,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
@@ -192,6 +194,7 @@ export function BasedExplorer({
     start: 0,
     lastLoaded: 0,
     end: 0,
+    sort,
   })
 
   const { data: totalData, loading: totalLoading } = useQuery(
