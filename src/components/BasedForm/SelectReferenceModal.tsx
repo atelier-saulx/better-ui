@@ -58,7 +58,8 @@ export function SelectReferenceModal({ onSelect }: SelectReferenceModalProps) {
                 onItemClick={(item) => {
                   onSelect(item)
                 }}
-                query={({ limit, offset, sort }) => ({
+                query={({ limit, offset, sort, language }) => ({
+                  $language: language,
                   data: {
                     ...generateFromType(schema.types[activeSidebarItem]).query,
                     $list: {
