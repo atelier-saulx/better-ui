@@ -27,6 +27,7 @@ import { ValueRef } from '../Table/Arrays/types.js'
 import { SizedStack, useColumns } from '../Table/SizedStack.js'
 import { genObjectSchema } from './genObjectSchema.js'
 import { TableBody } from './TableBody.js'
+import { getTitle } from '../utils.js'
 
 const useTags = (fieldSchema: BasedSchemaFieldObject): boolean => {
   const size = Object.keys(fieldSchema.properties).length
@@ -95,6 +96,8 @@ export const ReferencesTable = ({
   }
 
   for (const f of colFields) {
+    const title = getTitle(f.key, f.field)
+
     if (
       sortByFields &&
       (sortByFields.include
@@ -125,14 +128,14 @@ export const ReferencesTable = ({
               )
             }}
           >
-            <Text singleLine>{humanizeString(f.key)}</Text>
+            <Text singleLine>{title}</Text>
           </Button>
         </Cell>,
       )
     } else {
       cols.push(
         <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
-          <Text singleLine>{humanizeString(f.key)}</Text>
+          <Text singleLine>{title}</Text>
         </Cell>,
       )
     }

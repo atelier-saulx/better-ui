@@ -33,7 +33,7 @@ export const Default = () => {
         }}
         fields={{
           id: { type: 'string', format: 'basedId' },
-          name: { type: 'string', display: 'capitalize' },
+          name: { title: 'Power name', type: 'string', display: 'capitalize' },
           updatedAt: { type: 'timestamp', display: 'time-precise' },
         }}
         query={({ limit, offset, sort, language }) => ({

@@ -251,15 +251,7 @@ export const getTitle = (
     return field.title
   }
 
-  if (key === 'createdAt') {
-    return 'Created at'
-  }
-
-  if (key === 'updatedAt') {
-    return 'Updated at'
-  }
-
-  return key
+  return humanizeString(key + '')
 }
 
 export const isType = (field: BasedSchemaField): boolean => {

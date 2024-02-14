@@ -34,12 +34,12 @@ export function FormField({
               },
             }
           : variant !== 'regular'
-          ? undefined
-          : {
-              paddingLeft: 16,
-              paddingBottom: 8,
-              borderLeft: border('muted', 2),
-            }
+            ? undefined
+            : {
+                paddingLeft: 16,
+                paddingBottom: 8,
+                borderLeft: border('muted', 2),
+              }
       }
     >
       {variant !== 'bare' ? (
