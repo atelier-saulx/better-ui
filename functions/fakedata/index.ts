@@ -19,7 +19,7 @@ const fakedata: BasedQueryFunction = async (_based, payload = {}, update) => {
         } else if (key === 'firstName') {
           obj[key] = faker.person.firstName()
         } else if (key === 'name') {
-          obj[key] = faker.word.adverb()
+          obj[key] = faker.person.firstName()
         } else if (key === 'password') {
           obj[key] = faker.string.alphanumeric(10)
         } else if (key === 'email') {
@@ -41,7 +41,7 @@ const fakedata: BasedQueryFunction = async (_based, payload = {}, update) => {
         } else if (key === 'lastUpdated') {
           obj[key] = faker.date.soon().valueOf()
         } else if (key === 'description') {
-          obj[key] = faker.lorem.words({ min: 0, max: 10 })
+          obj[key] = faker.lorem.words(obj[key] || { min: 0, max: 10 })
         } else if (key === 'powerTime') {
           obj[key] = faker.date.recent().valueOf()
         } else if (key === 'city') {

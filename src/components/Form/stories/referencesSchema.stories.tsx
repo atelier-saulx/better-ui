@@ -258,14 +258,30 @@ export const IncorrectReferences = () => {
     <Form
       editableReferences
       values={{
-        people,
+        people: [
+          {
+            createdAt: 1707741394210,
+            id: '1000b2640e',
+            index: 676,
+            type: 'todo',
+            updatedAt: 1707741394210,
+          },
+          {
+            createdAt: 1707519600000,
+            id: '1001532335',
+            index: 1,
+            name: 'flap1231231249889',
+            type: 'todo',
+            updatedAt: 1707820578097,
+          },
+        ],
       }}
       fields={{
         people: {
           sortable: true,
           title: 'People time',
           type: 'references',
-          allowedTypes: ['person'],
+          // allowedTypes: ['smurp'],
         },
       }}
       schema={{
