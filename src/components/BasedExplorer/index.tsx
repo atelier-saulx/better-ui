@@ -251,7 +251,6 @@ export function BasedExplorer({
         loadMore: totalQuery
           ? undefined
           : async (x) => {
-              console.log(x)
               ref.current.lastLoaded += x.pageSize
             },
 
