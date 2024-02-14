@@ -197,6 +197,7 @@ export const genObjectSchema = (
   if ('id' in objectSchema.properties && !objectSchema.properties.id.format) {
     // @ts-ignore
     objectSchema.properties.id.format = 'basedId'
+    objectSchema.properties.id.readOnly = true
   }
 
   setDefaultDisplayTimeStamp(objectSchema, 'updatedAt')
