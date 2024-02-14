@@ -2,11 +2,11 @@ import { BasedSchema } from '@based/schema'
 import { FormProps } from '../../index.js'
 import { FieldsFn } from './index.js'
 
-export type BasedFormProps = {
-  id: string
+type SharedBasedFormProps = {
   includedFields?: string[]
   excludeCommonFields?: boolean
   fields?: FormProps['fields'] | FieldsFn
+  variant?: FormProps['variant']
   queryEndpoint?: string
   query?: (p: {
     id: string
@@ -19,6 +19,18 @@ export type BasedFormProps = {
   onFileUpload?: FormProps['onFileUpload']
   transformResults?: (any) => any
 }
+
+type OptionalBasedFormProps =
+  | {
+      id?: string
+      type: string
+    }
+  | {
+      id: string
+      type?: string
+    }
+
+export type BasedFormProps = SharedBasedFormProps & OptionalBasedFormProps
 
 export type BasedFormRef = {
   queryFn?: BasedFormProps['query']

@@ -62,13 +62,12 @@ const createQuery = (
 }
 
 const createFields = (
-  id: string,
+  type: string,
   schema: BasedSchema,
   includedFields: BasedFormProps['includedFields'],
   excludeCommonFields: BasedFormProps['excludeCommonFields'],
 ): FormProps['fields'] => {
   let fields: FormProps['fields']
-  const type = schema.prefixToTypeMapping[id.substring(0, 2)]
 
   if (schema.types[type]) {
     fields = schema.types[type].fields
@@ -107,6 +106,7 @@ const createFields = (
 export const useBasedFormProps = (
   ref: { current: BasedFormRef },
   id: string,
+  type: string,
   language: string,
   schemaChecksum: number,
   includedFields: BasedFormProps['includedFields'],
@@ -121,22 +121,26 @@ export const useBasedFormProps = (
       return
     }
 
+    type ??= schema.prefixToTypeMapping[id.substring(0, 2)]
+
+    let query
     let fields =
       ref.current.fields ??
-      createFields(id, schema, includedFields, excludeCommonFields)
+      createFields(type, schema, includedFields, excludeCommonFields)
 
     if (ref.current.fieldsFn) {
       fields = ref.current.fieldsFn(fields, schema)
     }
 
-    let query = createQuery(id, schema, language)
-
-    if (ref.current.queryFn) {
-      query = ref.current.queryFn({ id, query, language, fields, schema })
-    }
-
     ref.current.currentFields = fields
-    ref.current.currentQuery = query
+
+    if (id) {
+      query = createQuery(id, schema, language)
+      if (ref.current.queryFn) {
+        query = ref.current.queryFn({ id, query, language, fields, schema })
+      }
+      ref.current.currentQuery = query
+    }
 
     update(hashObjectIgnoreKeyOrder([query, fields]))
   }, [id, schemaChecksum, language, ref.current.queryFn, ref.current.fields])
