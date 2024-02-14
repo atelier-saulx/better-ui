@@ -85,6 +85,7 @@ const createFields = (
     for (const key in fields) {
       if (
         [
+          'id',
           'parents',
           'descendants',
           'aliases',
