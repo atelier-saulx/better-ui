@@ -8,7 +8,14 @@ import {
   IconMoreHorizontal,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/Grid',
@@ -16,22 +23,31 @@ const meta: Meta<typeof Grid> = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
 
-const items = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  title: faker.system.commonFileName(),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  image: faker.image.url(),
-  renderAs: faker.helpers.arrayElement(['folder', 'file', 'image']) as
-    | 'folder'
-    | 'file'
-    | 'image',
-}))
-
 export const Default = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -55,6 +71,19 @@ export const Default = () => {
 }
 
 export const Row = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -79,6 +108,19 @@ export const Row = () => {
 }
 
 export const SortableRow = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid

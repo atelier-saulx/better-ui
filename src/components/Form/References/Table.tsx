@@ -109,9 +109,9 @@ export const ReferencesTable = ({
         dir = sortByFields.sorted.dir
         prefix =
           sortByFields.sorted.dir === 'desc' ? (
-            <IconArrowDown />
-          ) : (
             <IconArrowUp />
+          ) : (
+            <IconArrowDown />
           )
       }
       cols.push(

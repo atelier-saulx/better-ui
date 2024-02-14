@@ -25,7 +25,6 @@ export const ScrollArea = React.forwardRef(
             height: '100%',
             maxHeight: '100%',
             overflow: 'auto',
-
             borderRadius: 'inherit',
             ...style,
           }}

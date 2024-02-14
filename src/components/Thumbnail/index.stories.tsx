@@ -1,11 +1,25 @@
 import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Thumbnail> = {
   title: 'Atoms/Thumbnail',
   component: Thumbnail,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
@@ -50,21 +64,21 @@ export const Counter: StoryObj<typeof Thumbnail> = {
   },
 }
 
-const facesNames = new Array(100).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  firstName: faker.person.firstName(),
-  createdAt: faker.date.recent().valueOf(),
-  lastUpdated: faker.date.recent().valueOf(),
-  powerTime: faker.date.recent().valueOf(),
-  city: faker.location.city(),
-}))
-
 export const Gallery = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return <Thumbnail outline text={v.firstName} key={v.id} />
       })}
     </Stack>
@@ -72,9 +86,20 @@ export const Gallery = () => {
 }
 
 export const GalleryMuted = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return <Thumbnail color="auto-muted" text={v.firstName} key={v.id} />
       })}
     </Stack>
@@ -82,9 +107,20 @@ export const GalleryMuted = () => {
 }
 
 export const GalleryMutedOutline = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return (
           <Thumbnail outline color="auto-muted" text={v.firstName} key={v.id} />
         )
@@ -94,9 +130,20 @@ export const GalleryMutedOutline = () => {
 }
 
 export const GalleryMutedOutlineCircle = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return (
           <Thumbnail
             size="extra-extra-large"

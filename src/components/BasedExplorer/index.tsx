@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, useUpdate } from '../../index.js'
+import { Table, useLanguage, useUpdate } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { convertOldToNew } from '@based/schema'
 
@@ -28,6 +28,10 @@ type ActiveSub = {
   data: { data: any[] }
 }
 
+// add query parser
+// allow field override
+// fix crash in example
+
 export function BasedExplorer({
   query,
   queryEndpoint = 'db',
@@ -36,6 +40,7 @@ export function BasedExplorer({
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
+  const [language] = useLanguage()
 
   const { data: schema } = useQuery('db:schema')
   const ref = React.useRef<{
@@ -57,8 +62,6 @@ export function BasedExplorer({
     queryEndpoint,
     totalQuery,
   )
-
-  console.log('totalquery', totalData?.total ?? 0, totalLoading)
 
   const updateBlocks = React.useCallback(() => {
     ref.current.isLoading = false
@@ -138,14 +141,14 @@ export function BasedExplorer({
             ref.current.activeSubs.set(id, newSub)
 
             newSub.close = client
-              .query(
-                queryEndpoint,
-                query({
+              .query(queryEndpoint, {
+                $language: language,
+                ...query({
                   limit: sub.limit,
                   offset: sub.offset,
                   sort: ref.current.sort,
                 }),
-              )
+              })
               .subscribe((d) => {
                 newSub.loaded = true
                 newSub.data = d
@@ -198,14 +201,14 @@ export function BasedExplorer({
             ref.current.activeSubs.set(id, newSub)
 
             newSub.close = client
-              .query(
-                queryEndpoint,
-                query({
+              .query(queryEndpoint, {
+                $language: language,
+                ...query({
                   limit,
                   offset,
                   sort: ref.current.sort,
                 }),
-              )
+              })
               .subscribe((d) => {
                 newSub.loaded = true
                 newSub.data = d

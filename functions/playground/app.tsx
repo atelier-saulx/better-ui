@@ -2,6 +2,7 @@ import { startPlayground } from '@based/storybook/playground'
 import * as f1130922799717 from "../../src/components/Badge/index.stories.js"
 import * as f12564555305565 from "../../src/components/BarGraph/index.stories.js"
 import * as f7416220464218 from "../../src/components/BasedExplorer/index.stories.js"
+import * as f3466414113223 from "../../src/components/BasedForm/index.stories.js"
 import * as f2084790011414 from "../../src/components/Button/index.stories.js"
 import * as f16905658949426 from "../../src/components/Calendar/index.stories.js"
 import * as f1681034936069 from "../../src/components/CheckboxInput/index.stories.js"
@@ -49,8 +50,9 @@ import * as f16286765462020 from "../../src/components/Form/stories/readonly.sto
 import * as f12122853271055 from "../../src/components/Form/stories/record.stories.js"
 import * as f16815800280314 from "../../src/components/Form/stories/references.stories.js"
 import * as f10025904474475 from "../../src/components/Form/stories/referencesSchema.stories.js"
+import * as f5930333060847 from "../../src/components/Form/stories/richText.stories.js"
 import * as f6183036884064 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f1130922799717,f12564555305565,f7416220464218,f2084790011414,f16905658949426,f1681034936069,f13619739889741,f17306232299723,f4948859476466,f9344752088327,f3057415892789,f6239386911682,f10288907520891,f1361056666384,f14989200246520,f8646848099263,f1926324559992,f6622038122973,f6271760022916,f14974680308474,f10413842030050,f409919741252,f13867817006251,f2391256762992,f10190487816981,f8544279227411,f10692938591024,f974043384684,f13329917722609,f13087660182010,f6536975305054,f10824936630228,f7822376808362,f2312747410077,f8523906341550,f16457632158462,f4403319537853,f4363912759740,f3910853229259,f8582702281036,f15599106587773,f14542094828981,f6004462968497,f2872478104456,f4444441197193,f12741420372279,f16286765462020,f12122853271055,f16815800280314,f10025904474475,f6183036884064]
+export const stories = [f1130922799717,f12564555305565,f7416220464218,f3466414113223,f2084790011414,f16905658949426,f1681034936069,f13619739889741,f17306232299723,f4948859476466,f9344752088327,f3057415892789,f6239386911682,f10288907520891,f1361056666384,f14989200246520,f8646848099263,f1926324559992,f6622038122973,f6271760022916,f14974680308474,f10413842030050,f409919741252,f13867817006251,f2391256762992,f10190487816981,f8544279227411,f10692938591024,f974043384684,f13329917722609,f13087660182010,f6536975305054,f10824936630228,f7822376808362,f2312747410077,f8523906341550,f16457632158462,f4403319537853,f4363912759740,f3910853229259,f8582702281036,f15599106587773,f14542094828981,f6004462968497,f2872478104456,f4444441197193,f12741420372279,f16286765462020,f12122853271055,f16815800280314,f10025904474475,f5930333060847,f6183036884064]
 export const parsedStories = [{ id: "f1130922799717", story: f1130922799717, path: "/Users/vassbence/projects/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -307,6 +309,41 @@ export const Default = () => {
     </div>
   )
 }
+`},{ id: "f3466414113223", story: f3466414113223, path: "/Users/vassbence/projects/better-ui/src/components/BasedForm/index.stories.tsx", file: `import * as React from 'react'
+import type { Meta } from '@storybook/react'
+import { BasedForm, Modal } from '../../index.js'
+import based from '@based/client'
+import { Provider } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
+
+const meta: Meta<typeof BasedForm> = {
+  title: 'Based/BasedForm',
+  component: BasedForm,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const Default = () => {
+  return (
+    <div>
+      <BasedForm id="10ff8f6f00" />
+    </div>
+  )
+}
 `},{ id: "f2084790011414", story: f2084790011414, path: "/Users/vassbence/projects/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { IconCopy, IconMoreVertical, Button } from '../../index.js'
@@ -404,18 +441,89 @@ export const ButtonSmall: StoryObj<typeof Button> = {
     },
   },
 }
-`},{ id: "f16905658949426", story: f16905658949426, path: "/Users/vassbence/projects/better-ui/src/components/Calendar/index.stories.tsx", file: `import { Calendar } from '../../index.js'
-import type { Meta, StoryObj } from '@storybook/react'
+`},{ id: "f16905658949426", story: f16905658949426, path: "/Users/vassbence/projects/better-ui/src/components/Calendar/index.stories.tsx", file: `import React from 'react'
+import { Calendar } from '../../index.js'
+import type { Meta } from '@storybook/react'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Calendar> = {
   title: 'Atoms/Calendar',
-  component: Calendar,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
 
-export const Default: StoryObj<typeof Calendar> = {
-  args: {},
+export const Default = () => {
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 20,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  console.log('fake data --> from function 🍝', fakedata)
+
+  return (
+    <Calendar
+      data={fakedata}
+      labelField="title"
+      timestampField="updatedAt"
+      view="month"
+    />
+  )
+}
+
+export const WeekView = () => {
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 20,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Calendar
+      data={fakedata}
+      labelField="title"
+      timestampField="updatedAt"
+      view="week"
+    />
+  )
 }
 `},{ id: "f1681034936069", story: f1681034936069, path: "/Users/vassbence/projects/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -992,7 +1100,14 @@ import {
   IconMoreHorizontal,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/Grid',
@@ -1000,22 +1115,31 @@ const meta: Meta<typeof Grid> = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
 
-const items = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  title: faker.system.commonFileName(),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  image: faker.image.url(),
-  renderAs: faker.helpers.arrayElement(['folder', 'file', 'image']) as
-    | 'folder'
-    | 'file'
-    | 'image',
-}))
-
 export const Default = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -1039,6 +1163,19 @@ export const Default = () => {
 }
 
 export const Row = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -1063,6 +1200,19 @@ export const Row = () => {
 }
 
 export const SortableRow = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    renderAs: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <div style={{ padding: 64 }}>
       <Grid
@@ -2023,25 +2173,59 @@ export const Default: StoryObj<typeof PieGraph> = {
     ],
   },
 }
-`},{ id: "f974043384684", story: f974043384684, path: "/Users/vassbence/projects/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
+`},{ id: "f974043384684", story: f974043384684, path: "/Users/vassbence/projects/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import React from 'react'
+import type { Meta } from '@storybook/react'
 import { RichTextEditor } from '../../index.js'
 
 const meta: Meta<typeof RichTextEditor> = {
   title: 'Inputs/RichTextEditor',
-  component: RichTextEditor,
+  decorators: [(Story) => <Story />],
 }
 
 export default meta
 
-export const Default: StoryObj<typeof RichTextEditor> = {
-  args: {
-    autoFocus: true,
-    placeholder: 'Enter some rich text...',
-    onChange: ({ json, html }) => {
-      console.log('onchange html --> ', html)
-      console.log('onchange json --> ', json)
-    },
-  },
+export const Default = () => {
+  return (
+    <RichTextEditor
+      autoFocus
+      placeholder="Enter some rich text"
+      onChange={(v) => console.log(v)}
+    />
+  )
+}
+
+export const SmallVariant = () => {
+  return (
+    <RichTextEditor
+      variant="small"
+      autoFocus
+      placeholder="Enter some rich text"
+      onChange={(v) => console.log(v)}
+    />
+  )
+}
+
+export const FixedHeightOfContainer = () => {
+  return (
+    <div style={{ height: 800 }}>
+      <RichTextEditor
+        autoFocus
+        placeholder="Enter some rich text"
+        onChange={(v) => console.log(v)}
+      />
+    </div>
+  )
+}
+
+export const SetHeightOnRichTextEditor = () => {
+  return (
+    <RichTextEditor
+      height={400}
+      autoFocus
+      placeholder="Enter some rich text"
+      onChange={(v) => console.log(v)}
+    />
+  )
 }
 `},{ id: "f13329917722609", story: f13329917722609, path: "/Users/vassbence/projects/better-ui/src/components/Schema/index.stories.tsx", file: `import * as React from 'react'
 import { Schema, Modal, Page, border, borderRadius } from '../../index.js'
@@ -2537,9 +2721,9 @@ export const GridFixedHeight: StoryObj<typeof Stack> = {
 }
 `},{ id: "f16457632158462", story: f16457632158462, path: "/Users/vassbence/projects/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
+import { Provider, useQuery } from '@based/react'
 
 const client = based({
   org: 'saulx',
@@ -2547,51 +2731,50 @@ const client = based({
   env: 'production',
 })
 
+const DataStuff = ({ Story }) => {
+  const { data, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    delete data[i].arraySize
+    data[i].price = Number(data[i].price)
+  }
+
+  const dataSorted = [...data].sort(sortByPrice)
+
+  return <Story data={data ?? []} dataSorted={dataSorted} />
+}
+
 const meta = {
   title: 'Components/Table',
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <DataStuff Story={Story} />
+      </Provider>
+    ),
+  ],
 }
 export default meta
 
-const data = new Array(100).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: faker.commerce.price(),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-const dataSmall = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: Number(faker.commerce.price()),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-const dataLots = new Array(1000).fill(null).map((v, index) => ({
-  nr: index, // check if all are numbers
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: faker.commerce.price(),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-export const Default = () => {
+export const Default = ({ data }) => {
   return (
     <div
       style={{
@@ -2603,14 +2786,31 @@ export const Default = () => {
   )
 }
 
-export const LoadMore = () => {
-  const dataRef = React.useRef({
-    data: [...dataSmall],
+export const LoadMore = ({ data }) => {
+  const [dataFetch, setDataFetch] = React.useState({
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
   })
 
-  const update = useUpdate()
+  const dataRef = React.useRef({
+    data: [...data],
+  })
+
+  const { data: more } = useQuery('fakedata', {
+    ...dataFetch,
+  })
 
   const d = dataRef.current.data
+
+  const update = useUpdate()
 
   return (
     <div
@@ -2623,24 +2823,25 @@ export const LoadMore = () => {
         pagination={{
           loadMore: async (p) => {
             await wait(Math.random() * 1000)
-            dataRef.current.data.push(
-              ...new Array(p.pageSize * 5).fill(null).map((_, i) => ({
-                id: faker.string.uuid().slice(0, 8),
-                src: faker.image.avatar(),
-                status: faker.lorem.words(1),
-                title: faker.lorem.sentence(3),
-                number: i + dataRef.current.data.length,
-                name: faker.person.fullName(),
-                price: Number(faker.commerce.price()),
-                color: faker.color.rgb(),
-                createdAt: faker.date.soon().valueOf(),
-              })),
-            )
+
+            setDataFetch({
+              arraySize: Math.floor(Math.random() * 15) + 10,
+              id: '',
+              src: '',
+              status: '',
+              title: '',
+              number: '',
+              name: '',
+              price: '',
+              color: '',
+              createdAt: '',
+            })
+
+            await dataRef.current.data.push(...more)
             update()
           },
           onPageChange: async (p) => {
-            dataRef.current.data[p.start + 1].name =
-              '$$$$$ ' + faker.person.fullName()
+            dataRef.current.data[p.start + 1].name = '$$$$$ ' + 'snurp'
             update()
           },
           total: d.length,
@@ -2653,6 +2854,28 @@ export const LoadMore = () => {
 }
 
 export const Infinite = () => {
+  const { data: dataLots, loading } = useQuery('fakedata', {
+    arraySize: 1000,
+    // nr: index, // check if all are numbers
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < dataLots.length; i++) {
+    delete dataLots[i].arraySize
+    dataLots['nr'] = i
+  }
+
   return (
     <div
       style={{
@@ -2668,10 +2891,9 @@ const sortByPrice = (a, b) => {
   return a.price * 1 > b.price * 1 ? -1 : a.price * 1 === b.price * 1 ? 0 : 1
 }
 
-const dataSorted = [...data].sort(sortByPrice)
-
-export const CustomSort = () => {
+export const CustomSort = ({ dataSorted }) => {
   const update = useUpdate()
+
   return (
     <div
       style={{
@@ -2698,10 +2920,59 @@ export const CustomSort = () => {
 }
 
 export const EditableTable = () => {
-  return <Table values={dataSmall} editable sortable />
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Table
+      values={dataSmall}
+      editable
+      sortable
+      field={{
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'basedId' },
+          color: { type: 'string', format: 'rgbColor' },
+          price: { type: 'number', display: 'euro' },
+          createdAt: { type: 'timestamp' },
+        },
+      }}
+    />
+  )
 }
 
 export const SmallTable = () => {
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Table
       values={dataSmall}
@@ -2852,11 +3123,25 @@ export const Disabled: StoryObj<typeof TextInput> = {
 `},{ id: "f8582702281036", story: f8582702281036, path: "/Users/vassbence/projects/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Thumbnail> = {
   title: 'Atoms/Thumbnail',
   component: Thumbnail,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
@@ -2901,21 +3186,21 @@ export const Counter: StoryObj<typeof Thumbnail> = {
   },
 }
 
-const facesNames = new Array(100).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  firstName: faker.person.firstName(),
-  createdAt: faker.date.recent().valueOf(),
-  lastUpdated: faker.date.recent().valueOf(),
-  powerTime: faker.date.recent().valueOf(),
-  city: faker.location.city(),
-}))
-
 export const Gallery = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return <Thumbnail outline text={v.firstName} key={v.id} />
       })}
     </Stack>
@@ -2923,9 +3208,20 @@ export const Gallery = () => {
 }
 
 export const GalleryMuted = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return <Thumbnail color="auto-muted" text={v.firstName} key={v.id} />
       })}
     </Stack>
@@ -2933,9 +3229,20 @@ export const GalleryMuted = () => {
 }
 
 export const GalleryMutedOutline = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return (
           <Thumbnail outline color="auto-muted" text={v.firstName} key={v.id} />
         )
@@ -2945,9 +3252,20 @@ export const GalleryMutedOutline = () => {
 }
 
 export const GalleryMutedOutlineCircle = () => {
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
   return (
     <Stack grid>
-      {facesNames.map((v) => {
+      {facesNames?.map((v) => {
         return (
           <Thumbnail
             size="extra-extra-large"
@@ -3327,6 +3645,7 @@ export const Default = () => {
       variant="regular"
       onFileUpload={fileUpload}
       values={{
+        id: 'xe1231112saas23',
         src: 'https://i.imgur.com/t1bWmmC.jpeg',
         code: ts,
         json: JSON.stringify({ y: 1, x: 1, z: 1, someThing: 'great' }, null, 2),
@@ -3343,11 +3662,6 @@ export const Default = () => {
         number: cnt,
       }}
       fields={{
-        name: {
-          title: 'Name',
-          type: 'string',
-          description: 'A name of someone',
-        },
         dope: {
           title: 'Is it dope?',
           type: 'boolean',
@@ -3358,6 +3672,12 @@ export const Default = () => {
           type: 'number',
           minimum: 10,
           maximum: 10,
+        },
+        name: {
+          title: 'Name',
+          index: 0,
+          type: 'string',
+          description: 'A name of someone',
         },
         createdAt: {
           type: 'timestamp',
@@ -3373,6 +3693,12 @@ export const Default = () => {
           description: 'This is a logo',
           type: 'reference',
           allowedTypes: ['file'],
+        },
+        id: {
+          index: -1,
+          readOnly: true,
+          type: 'string',
+          format: 'basedId',
         },
         category: {
           title: 'Category',
@@ -3689,7 +4015,6 @@ export const ObjectReadOnly = () => {
 }
 `},{ id: "f16286765462020", story: f16286765462020, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/readonly.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
 
 const meta = {
   title: 'Form/ReadOnly',
@@ -3711,10 +4036,10 @@ export const ReadOnly = () => {
   return (
     <Form
       values={{
-        id: faker.string.uuid().slice(0, 8),
-        email: faker.internet.email(),
-        name: faker.person.firstName(),
-        password: faker.string.alphanumeric(10),
+        id: 'b28237fa',
+        email: 'Ashlynn_Schamberger0@gmail.com',
+        name: 'Marcia',
+        password: 'U4GKHXd829',
       }}
       fields={{
         id: { type: 'string', readOnly: true },
@@ -3851,7 +4176,14 @@ export const Record = () => {
 }
 `},{ id: "f16815800280314", story: f16815800280314, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/references.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
   title: 'Form/References',
@@ -3860,67 +4192,76 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
     ),
   ],
 }
 
 export default meta
 
-const faces = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-}))
+const getRandomRef = async (choices) => {
+  let choice = new Object()
 
-const facesNames = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  firstName: faker.person.firstName(),
-  createdAt: faker.date.recent().valueOf(),
-  lastUpdated: faker.date.recent().valueOf(),
-  powerTime: faker.date.recent().valueOf(),
-  city: faker.location.city(),
-}))
+  for (const key in choices) {
+    if (key === 'id') {
+      choice[key] = choices['id']
+    } else if (key === 'arraySize') {
+    } else if (Math.random() < 0.5) {
+      choice[key] = choices[key]
+    }
+  }
 
-const facesLess = new Array(20).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  name: faker.person.firstName(),
-}))
+  await console.log('CHOICE 🍖', { ...choice })
 
-const getRandomRef = () => {
-  const id = faker.string.uuid().slice(0, 8)
-  const choices = [
-    {
-      id,
-      src: faker.image.avatar(),
-      name: faker.person.fullName(),
-    },
-    { id, title: faker.lorem.sentence(3) },
-    id,
-    {
-      id,
-      status: faker.lorem.words(1),
-      title: faker.lorem.sentence(3),
-      src: faker.image.avatar(),
-      number: faker.number.int(10),
-      name: faker.person.fullName(),
-    },
-    {
-      id,
-      src: faker.image.avatar(),
-      name: faker.person.fullName(),
-      status: faker.lorem.words(1),
-    },
-  ]
-  return choices[Math.floor(Math.random() * choices.length)]
+  return { ...choice }
 }
 
 export const References = () => {
   const { open } = Modal.useModal()
+
+  const { data: faces } = useQuery('fakedata', {
+    arraySize: 50,
+    src: '',
+    id: '',
+  })
+
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 50,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
+
+  const { data: facesLess } = useQuery('fakedata', {
+    arraySize: 20,
+    src: '',
+    id: '',
+    name: '',
+  })
+
+  const { data: choices } = useQuery('fakedata', {
+    arraySize: 1,
+    id: '',
+    title: '',
+    name: '',
+    src: '',
+    status: '',
+    number: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       values={{
@@ -3941,7 +4282,7 @@ export const References = () => {
       onClickReference={async ({ path }) => {
         open(({ close }) => {
           return (
-            <Modal onConfirm={() => close(getRandomRef())}>
+            <Modal onConfirm={() => close(getRandomRef(choices[0]))}>
               <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
             </Modal>
           )
@@ -3950,7 +4291,10 @@ export const References = () => {
       onSelectReference={async ({ path }) => {
         return open(({ close }) => {
           return (
-            <Modal variant="large" onConfirm={() => close(getRandomRef())}>
+            <Modal
+              variant="large"
+              onConfirm={() => close(getRandomRef(choices[0]))}
+            >
               <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
             </Modal>
           )
@@ -3961,7 +4305,7 @@ export const References = () => {
           const newItems: any[] = []
           const len = ~~(Math.random() * 100)
           for (let i = 0; i < len; i++) {
-            newItems.push(getRandomRef())
+            newItems.push(getRandomRef(choices[0]))
           }
           return (
             <Modal variant="large" onConfirm={() => close(newItems)}>
@@ -4034,7 +4378,14 @@ export const References = () => {
 }
 `},{ id: "f10025904474475", story: f10025904474475, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/referencesSchema.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
   title: 'Form/ReferencesSchema',
@@ -4043,37 +4394,44 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
     ),
   ],
 }
 
 export default meta
 
-const people = new Array(10).fill(null).map(() => ({
-  avatar: {
-    src: faker.image.avatar(),
-    name: faker.word.adverb(),
-    id: faker.string.uuid().slice(0, 8),
-  },
-  category: {
-    id: faker.string.uuid().slice(0, 8),
-    name: 'Category ' + faker.word.adverb(),
-    logo: {
-      src: faker.image.avatar(),
-      name: faker.word.adverb(),
-      id: faker.string.uuid().slice(0, 8),
-    },
-  },
-  name: faker.person.firstName(),
-  id: faker.string.uuid().slice(0, 8),
-  password: faker.string.alphanumeric(10),
-  email: faker.internet.email(),
-}))
-
 export const ReferencesFullSchema = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       values={{
@@ -4127,6 +4485,32 @@ export const ReferencesFullSchema = () => {
 }
 
 export const ReferencesFullSchemaEditable = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       editableReferences
@@ -4167,6 +4551,116 @@ export const ReferencesFullSchemaEditable = () => {
       }}
       onChange={(values, changed, checksum, based) => {
         console.info({ values, changed, checksum, based })
+      }}
+    />
+  )
+}
+
+export const NoFlexibleWidth = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    category: {
+      id: '',
+      name: '',
+      logo: {
+        src: '',
+        name: '',
+        id: '',
+      },
+    },
+    name: '',
+    id: '',
+    password: '',
+    email: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Form
+      editableReferences
+      values={{
+        people,
+      }}
+      fields={{
+        people: {
+          sortable: true,
+          title: 'People time',
+          type: 'references',
+          allowedTypes: ['person'],
+        },
+      }}
+      schema={{
+        types: {
+          person: {
+            fields: {
+              id: { type: 'string', format: 'basedId', readOnly: true },
+              price: { type: 'number' },
+              bla: { type: 'number' },
+            },
+          },
+        },
+      }}
+      onChange={(values, changed, checksum, based) => {
+        console.info({ values, changed, checksum, based })
+      }}
+    />
+  )
+}
+`},{ id: "f5930333060847", story: f5930333060847, path: "/Users/vassbence/projects/better-ui/src/components/Form/stories/richText.stories.tsx", file: `import * as React from 'react'
+import { Form, Modal } from '../../../index.js'
+
+const meta = {
+  title: 'Form/RichText',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <Modal.Provider>
+        <Story />
+      </Modal.Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const RichTextEditor = () => {
+  const [state, setState] = React.useState<any>({
+    text: '',
+    object: {
+      text: '',
+    },
+  })
+  return (
+    <Form
+      variant="small"
+      values={state}
+      fields={{
+        text: {
+          type: 'text',
+          format: 'html',
+        },
+        object: {
+          type: 'object',
+          properties: {
+            text: {
+              type: 'text',
+              format: 'html',
+            },
+          },
+        },
+      }}
+      onChange={(values) => {
+        setState(values)
       }}
     />
   )

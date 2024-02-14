@@ -53,6 +53,7 @@ export * from './components/LanguageInput/index.js'
 export * from './components/Spinner/index.js'
 export * from './components/RichTextEditor/index.js'
 export * from './components/BasedExplorer/index.js'
+export * from './components/BasedForm/index.js'
 
 export { Modal } from './components/Modal/index.js'
 
@@ -77,5 +78,6 @@ export * from './hooks/useTheme/index.js'
 export * from './hooks/useUploadFile/index.js'
 export * from './hooks/useUpdate/index.js'
 export * from './hooks/useSize/index.js'
+export * from './hooks/useLanguage/index.js'
 
 export * from './components/Code/prettier.js'

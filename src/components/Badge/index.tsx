@@ -100,6 +100,7 @@ export function Badge({
           cursor: 'copy',
           userSelect: 'none',
         }),
+
         ...style,
       }}
       onMouseLeave={() => {

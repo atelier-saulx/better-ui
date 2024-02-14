@@ -11,6 +11,9 @@ import {
   SelectInput,
   ColorInput,
   CheckboxInput,
+  RichTextEditor,
+  Badge,
+  IconId,
 } from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
@@ -53,6 +56,19 @@ export const Field = ({
           />
         </styled.div>
       </FormField>
+    )
+  }
+
+  if (field.type === 'string' && field.format === 'basedId' && field.readOnly) {
+    return (
+      <Badge
+        copyValue={ctx.values[key]}
+        prefix={<IconId size={16} style={{ marginRight: 4 }} />}
+        style={{ minWidth: 100 }}
+        color="informative"
+      >
+        {ctx.values[key] ?? '-'}
+      </Badge>
     )
   }
 
@@ -122,7 +138,26 @@ export const Field = ({
     )
   }
 
-  if (type === 'string' && isCode(field.format)) {
+  if ((type === 'string' || type === 'text') && field.format === 'html') {
+    return (
+      <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
+        {/* <styled.div
+          style={{
+            width: 450,
+          }}
+        > */}
+        <RichTextEditor
+          value={ctx.values[key]}
+          onChange={(html) => {
+            ctx.listeners.onChangeHandler(ctx, path, html)
+          }}
+        />
+        {/* </styled.div> */}
+      </FormField>
+    )
+  }
+
+  if ((type === 'string' || type === 'text') && isCode(field.format)) {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
