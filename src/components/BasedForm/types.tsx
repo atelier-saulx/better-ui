@@ -22,6 +22,7 @@ export type BasedFormRef = {
   queryFn?: BasedFormProps['query']
   fieldsFn?: FieldsFn
   fields?: FormProps['fields']
+  currentFields?: FormProps['fields']
   currentQuery?: any
   schema?: BasedSchema
 }

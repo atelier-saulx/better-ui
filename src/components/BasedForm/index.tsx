@@ -32,8 +32,12 @@ export function BasedForm({
 
   const ref = React.useRef<BasedFormRef>({})
 
-  if (typeof fields === 'function') {
-    ref.current.fieldsFn = fields
+  if (fields) {
+    if (typeof fields === 'function') {
+      ref.current.fieldsFn = fields
+    } else {
+      ref.current.fields = fields
+    }
   }
 
   if (query) {
@@ -51,14 +55,14 @@ export function BasedForm({
     excludeCommonFields,
   )
 
-  const hasFields = ref.current.fields
+  const isReady = ref.current.currentFields && checksum
 
   const { data: values } = useQuery(
-    hasFields ? queryEndpoint : null,
+    isReady ? queryEndpoint : null,
     ref.current.currentQuery,
   )
 
-  if (!hasFields) {
+  if (!isReady) {
     return (
       <Container>
         <Spinner size={32} color="secondary" />
@@ -70,7 +74,7 @@ export function BasedForm({
     <Form
       schema={schema}
       values={values}
-      fields={ref.current.fields}
+      fields={ref.current.currentFields}
       onChange={async (_values, _changed, _checksum, based) => {
         await client.call('db:set', {
           $id: id,
