@@ -213,7 +213,7 @@ export function BasedExplorer({
         onSort(key, dir, sort) {
           sort.sorted = { key, dir }
           ref.current.sort = { key, dir }
-          for (const [, sub] of ref.current.activeSubs) {
+          for (const [id, sub] of ref.current.activeSubs) {
             sub.close()
             const newSub: ActiveSub = {
               loaded: false,
@@ -224,16 +224,18 @@ export function BasedExplorer({
               },
               close: () => {},
             }
-
-            const qResult = query({
-              limit: sub.limit,
-              offset: sub.offset,
-              sort: ref.current.sort,
-              language,
-            })
+            ref.current.activeSubs.set(id, newSub)
 
             newSub.close = client
-              .query(queryEndpoint, qResult)
+              .query(
+                queryEndpoint,
+                query({
+                  limit: sub.limit,
+                  offset: sub.offset,
+                  sort: ref.current.sort,
+                  language,
+                }),
+              )
               .subscribe((d) => {
                 newSub.loaded = true
                 newSub.data = transformResults ? transformResults(d) : d
@@ -244,9 +246,9 @@ export function BasedExplorer({
       }}
       pagination={{
         type: 'scroll',
-        total: totalData?.total ?? ref.current.lastLoaded,
+        total: totalQuery ? totalData.total ?? 0 : ref.current.lastLoaded,
 
-        loadMore: totalData
+        loadMore: totalQuery
           ? undefined
           : async (x) => {
               console.log(x)
@@ -292,15 +294,16 @@ export function BasedExplorer({
           if (!ref.current.activeSubs.has(id)) {
             ref.current.activeSubs.set(id, newSub)
 
-            const qResult = query({
-              limit: limit,
-              offset: offset,
-              sort: ref.current.sort,
-              language,
-            })
-
             newSub.close = client
-              .query(queryEndpoint, qResult)
+              .query(
+                queryEndpoint,
+                query({
+                  limit: limit,
+                  offset: offset,
+                  sort: ref.current.sort,
+                  language,
+                }),
+              )
               .subscribe((d) => {
                 newSub.loaded = true
                 newSub.data = transformResults ? transformResults(d) : d
