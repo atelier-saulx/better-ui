@@ -67,7 +67,7 @@ import { AddEmbedModal } from '../components/AddEmbedModal.js'
 
 const TOOLTIP_DELAY_MS = 1200
 
-export function ToolbarPlugin() {
+export function ToolbarPlugin({ variant }) {
   const [editor] = useLexicalComposerContext()
   const [type, setType] = useState<
     'title' | 'heading' | 'subheading' | 'body' | 'bullet' | 'blockquote'
@@ -105,6 +105,7 @@ export function ToolbarPlugin() {
         const selection = $getSelection()
 
         console.log(selection, '🍿')
+        console.log(variant, 'Variant ??')
 
         if (!$isRangeSelection(selection)) return
 
@@ -197,8 +198,11 @@ export function ToolbarPlugin() {
       style={{
         display: 'flex',
         alignItems: 'center',
-        height: 48,
-        backgroundColor: color('background', 'muted'),
+        height: variant === 'small' ? 32 : 48,
+        backgroundColor:
+          variant === 'small'
+            ? color('background', 'screen')
+            : color('background', 'muted'),
         // '& > * + *': {
         //   marginLeft: '5px',
         // },
@@ -207,8 +211,12 @@ export function ToolbarPlugin() {
         paddingRight: '10px',
         borderTopRightRadius: '8px',
         borderTopLeftRadius: '8px',
-        border: border(),
+        border: variant === 'small' ? '0px solid' : border(),
         borderBottom: '0px solid transparent',
+        '& * > svg': {
+          width: variant === 'small' ? '14px' : 'inherit',
+          height: variant === 'small' ? '14px' : 'inherit',
+        },
       }}
     >
       <Dropdown.Root>
@@ -225,7 +233,7 @@ export function ToolbarPlugin() {
                     style={{
                       position: 'absolute',
                       right: 0,
-                      top: 10,
+                      top: variant === 'small' ? 5 : 10,
                       width: 10,
                       height: 10,
                     }}
