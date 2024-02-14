@@ -6,13 +6,13 @@ import {
   border,
   boxShadow,
   useControllableState,
-  Text,
-  Stack,
+  Spinner,
   IconSearch,
 } from '../../index.js'
 
 export type SearchInputProps = {
   placeholder?: string
+  loading?: boolean
   value?: string
   defaultValue?: string
   onChange?: (value: string) => void
@@ -26,53 +26,6 @@ export type SearchInputProps = {
   disabled?: boolean
   style?: Style
   required?: boolean
-}
-
-const Wrapper = ({
-  label,
-  children,
-  disabled,
-  style,
-}: {
-  label?: string
-  children: React.ReactNode
-  disabled?: boolean
-  style?: Style
-}) => {
-  if (label) {
-    return (
-      <styled.label
-        style={
-          label
-            ? {
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-                opacity: disabled ? 0.6 : 1,
-                cursor: disabled ? 'not-allowed' : 'default',
-              }
-            : undefined
-        }
-        onClick={(e) => (disabled ? e.preventDefault() : undefined)}
-      >
-        {children}
-      </styled.label>
-    )
-  }
-
-  return (
-    <styled.div
-      style={{
-        width: '100%',
-        opacity: disabled ? 0.6 : 1,
-        cursor: disabled ? 'not-allowed' : 'default',
-        ...style,
-      }}
-      onClick={(e) => (disabled ? e.preventDefault() : undefined)}
-    >
-      {children}
-    </styled.div>
-  )
 }
 
 export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
@@ -89,20 +42,26 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
       error,
       onKeyDown,
       disabled,
+      loading,
       style,
       required,
     },
     ref,
   ) => {
-    const [state = '', setState] = useControllableState({
-      value,
-      onChange,
-      checksum,
-    })
+    const [state = '', setState] = useControllableState(
+      {
+        value,
+        onChange,
+        checksum,
+      },
+      500,
+    )
+
+    let Icon = loading ? Spinner : IconSearch
 
     return (
       <styled.div style={{ position: 'relative', ...style }}>
-        <IconSearch
+        <Icon
           size={18}
           style={{
             position: 'absolute',

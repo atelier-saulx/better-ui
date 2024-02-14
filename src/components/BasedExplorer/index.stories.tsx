@@ -56,7 +56,7 @@ export const Default = () => {
             },
           },
         })}
-        totalQuery={{
+        totalQuery={() => ({
           total: {
             $aggregate: {
               $function: 'count',
@@ -70,7 +70,7 @@ export const Default = () => {
               ],
             },
           },
-        }}
+        })}
       />
     </div>
   )
@@ -114,7 +114,7 @@ export const FieldsFromQuery = () => {
             },
           },
         })}
-        totalQuery={{
+        totalQuery={() => ({
           total: {
             $aggregate: {
               $function: 'count',
@@ -128,7 +128,7 @@ export const FieldsFromQuery = () => {
               ],
             },
           },
-        }}
+        })}
       />
     </div>
   )
@@ -200,21 +200,20 @@ export const Page = () => {
             },
           },
         })}
-        totalQuery={{
+        totalQuery={({ filter }) => ({
           total: {
             $aggregate: {
               $function: 'count',
               $traverse: 'children',
-              $filter: [
-                {
-                  $field: 'type',
-                  $operator: '=',
-                  $value: 'todo',
-                },
-              ],
+              $filter: filter
+                ? [
+                    { $operator: 'includes', $field: 'name', $value: filter },
+                    { $operator: '=', $field: 'type', $value: 'todo' },
+                  ]
+                : [{ $operator: '=', $field: 'type', $value: 'todo' }],
             },
           },
-        }}
+        })}
       />
     </div>
   )

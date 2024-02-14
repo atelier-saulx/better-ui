@@ -88,6 +88,10 @@ const TableBodyPaged = (p: TableBodyProps) => {
     }
   }
 
+  React.useEffect(() => {
+    updateBlock(ref.current.currentIndex)
+  }, [ref.current.pagination.total])
+
   const sizeRef = useSize(({ height, width }) => {
     const n = Math.ceil(height / 48)
     if (n !== ref.current.pageCount) {

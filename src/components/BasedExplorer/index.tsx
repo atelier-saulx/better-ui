@@ -53,7 +53,7 @@ export type BasedExplorerProps = {
     sort?: { key: string; dir: 'asc' | 'desc' }
   }) => any
   total?: number
-  totalQuery?: any
+  totalQuery?: (p: { filter?: string }) => any
   fields?: FormProps['fields']
   filter?: boolean
   addItem?: (p: {
@@ -234,9 +234,13 @@ export function BasedExplorer({
     sort,
   })
 
-  const { data: totalData, loading: totalLoading } = useQuery(
+  const {
+    data: totalData,
+    loading: totalLoading,
+    checksum: totalChecksum,
+  } = useQuery(
     totalQuery ? queryEndpoint : null,
-    totalQuery,
+    totalQuery({ filter: ref.current.filter }),
   )
 
   const updateBlocks = React.useCallback(() => {
@@ -289,13 +293,46 @@ export function BasedExplorer({
     }
   }, [])
 
-  if (totalQuery && totalLoading) {
-    return (
-      <Container>
-        <Spinner size={32} color="secondary" />
-      </Container>
-    )
-  }
+  const updateSubs = React.useCallback(() => {
+    for (const [id, sub] of ref.current.activeSubs) {
+      sub.close()
+      const newSub: ActiveSub = {
+        loaded: false,
+        limit: sub.limit,
+        offset: sub.offset,
+        data: {
+          data: [],
+        },
+        close: () => {},
+      }
+      ref.current.activeSubs.set(id, newSub)
+
+      newSub.close = client
+        .query(
+          queryEndpoint,
+          query({
+            limit: sub.limit,
+            offset: sub.offset,
+            sort: ref.current.sort,
+            language,
+            filter: ref.current.filter,
+          }),
+        )
+        .subscribe((d) => {
+          newSub.loaded = true
+          newSub.data = transformResults ? transformResults(d) : d
+          updateBlocks()
+        })
+    }
+  }, [])
+
+  // if (totalQuery && totalLoading) {
+  //   return (
+  //     <Container>
+  //       <Spinner size={32} color="secondary" />
+  //     </Container>
+  //   )
+  // }
 
   if (!fields && schema) {
     fields = generateFieldsFromQuery(
@@ -304,7 +341,9 @@ export function BasedExplorer({
     )
   }
 
-  const parsedTotal = totalQuery ? totalData.total ?? 0 : ref.current.lastLoaded
+  const parsedTotal = totalQuery
+    ? totalData?.total ?? 0
+    : ref.current.lastLoaded
 
   const viewer = (
     <Table
@@ -330,35 +369,7 @@ export function BasedExplorer({
         onSort(key, dir, sort) {
           sort.sorted = { key, dir }
           ref.current.sort = { key, dir }
-          for (const [id, sub] of ref.current.activeSubs) {
-            sub.close()
-            const newSub: ActiveSub = {
-              loaded: false,
-              limit: sub.limit,
-              offset: sub.offset,
-              data: {
-                data: [],
-              },
-              close: () => {},
-            }
-            ref.current.activeSubs.set(id, newSub)
-
-            newSub.close = client
-              .query(
-                queryEndpoint,
-                query({
-                  limit: sub.limit,
-                  offset: sub.offset,
-                  sort: ref.current.sort,
-                  language,
-                }),
-              )
-              .subscribe((d) => {
-                newSub.loaded = true
-                newSub.data = transformResults ? transformResults(d) : d
-                updateBlocks()
-              })
-          }
+          updateSubs()
         },
       }}
       pagination={{
@@ -408,7 +419,6 @@ export function BasedExplorer({
           }
           if (!ref.current.activeSubs.has(id)) {
             ref.current.activeSubs.set(id, newSub)
-
             newSub.close = client
               .query(
                 queryEndpoint,
@@ -417,6 +427,7 @@ export function BasedExplorer({
                   offset: offset,
                   sort: ref.current.sort,
                   language,
+                  filter: ref.current.filter,
                 }),
               )
               .subscribe((d) => {
@@ -446,10 +457,11 @@ export function BasedExplorer({
             <Stack gap={32}>
               {filter ? (
                 <SearchInput
+                  loading={totalLoading}
                   value={ref.current.filter}
                   onChange={(v) => {
                     ref.current.filter = v
-                    update()
+                    updateSubs()
                   }}
                   placeholder="Filter..."
                   style={{ width: 300 }}
