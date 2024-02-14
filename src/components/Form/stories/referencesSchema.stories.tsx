@@ -195,6 +195,7 @@ export const NoFlexibleWidth = () => {
         id: '',
       },
     },
+    type: 'person',
     name: '',
     id: '',
     password: '',
@@ -226,6 +227,61 @@ export const NoFlexibleWidth = () => {
               id: { type: 'string', format: 'basedId', readOnly: true },
               price: { type: 'number' },
               bla: { type: 'number' },
+            },
+          },
+        },
+      }}
+      onChange={(values, changed, checksum, based) => {
+        console.info({ values, changed, checksum, based })
+      }}
+    />
+  )
+}
+
+export const IncorrectReferences = () => {
+  const { data: people, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    avatar: {
+      src: '',
+      name: '',
+      id: '',
+    },
+    name: '',
+    id: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Form
+      editableReferences
+      values={{
+        people,
+      }}
+      fields={{
+        people: {
+          sortable: true,
+          title: 'People time',
+          type: 'references',
+          allowedTypes: ['person'],
+        },
+      }}
+      schema={{
+        types: {
+          file: {
+            fields: {
+              mimeType: { type: 'string' },
+              name: { type: 'string' },
+              src: { type: 'string', contentMediaType: '*/*' },
+            },
+          },
+          person: {
+            fields: {
+              id: { type: 'string', format: 'basedId', readOnly: true },
+              name: { type: 'string' },
+              avatar: { type: 'reference', allowedTypes: ['file'] },
             },
           },
         },
