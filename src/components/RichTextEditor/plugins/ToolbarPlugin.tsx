@@ -67,7 +67,7 @@ import { AddEmbedModal } from '../components/AddEmbedModal.js'
 
 const TOOLTIP_DELAY_MS = 1200
 
-export function ToolbarPlugin() {
+export function ToolbarPlugin({ variant }) {
   const [editor] = useLexicalComposerContext()
   const [type, setType] = useState<
     'title' | 'heading' | 'subheading' | 'body' | 'bullet' | 'blockquote'
@@ -104,8 +104,6 @@ export function ToolbarPlugin() {
       editorState.read(() => {
         const selection = $getSelection()
 
-        console.log(selection, '🍿')
-
         if (!$isRangeSelection(selection)) return
 
         setIsBold(selection.hasFormat('bold'))
@@ -124,9 +122,6 @@ export function ToolbarPlugin() {
         const parent = node.getParent()
         setIsLink($isLinkNode(parent) || $isLinkNode(node))
 
-        console.log('node??', node)
-        console.log('parent', parent)
-
         const anchorNode = selection.anchor.getNode()
         const element =
           anchorNode.getKey() === 'root'
@@ -135,8 +130,6 @@ export function ToolbarPlugin() {
                 const parent = e.getParent()
                 return parent !== null && $isRootOrShadowRoot(parent)
               })
-
-        console.log('element', element)
 
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(
@@ -197,8 +190,11 @@ export function ToolbarPlugin() {
       style={{
         display: 'flex',
         alignItems: 'center',
-        height: 48,
-        backgroundColor: color('background', 'muted'),
+        height: variant === 'small' ? 32 : 48,
+        backgroundColor:
+          variant === 'small'
+            ? color('background', 'screen')
+            : color('background', 'muted'),
         // '& > * + *': {
         //   marginLeft: '5px',
         // },
@@ -207,8 +203,12 @@ export function ToolbarPlugin() {
         paddingRight: '10px',
         borderTopRightRadius: '8px',
         borderTopLeftRadius: '8px',
-        border: border(),
+        border: variant === 'small' ? '0px solid' : border(),
         borderBottom: '0px solid transparent',
+        '& * > svg': {
+          width: variant === 'small' ? '14px' : 'inherit',
+          height: variant === 'small' ? '14px' : 'inherit',
+        },
       }}
     >
       <Dropdown.Root>
@@ -225,7 +225,7 @@ export function ToolbarPlugin() {
                     style={{
                       position: 'absolute',
                       right: 0,
-                      top: 10,
+                      top: variant === 'small' ? 5 : 10,
                       width: 10,
                       height: 10,
                     }}
@@ -381,8 +381,6 @@ export function ToolbarPlugin() {
       <Tooltip content="Add Link" delay={TOOLTIP_DELAY_MS}>
         <LinkModal
           onSave={(value, targetBlank) => {
-            console.log(value, targetBlank)
-
             editor.update(() => {
               editor.dispatchCommand(TOGGLE_LINK_COMMAND, {
                 url: value,
@@ -420,7 +418,6 @@ export function ToolbarPlugin() {
       <Tooltip content="Add Image" delay={TOOLTIP_DELAY_MS}>
         <AddImageModal
           onSave={({ file, caption }) => {
-            // console.log('onsave lefut', file, caption)
             editor.update(() => {
               editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
                 src: file.src,
