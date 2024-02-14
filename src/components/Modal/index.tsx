@@ -29,7 +29,7 @@ export const useModalContext = () => {
   return React.useContext(ModalContext)
 }
 
-const OnOpenChangeContext = createContext(null)
+export const OnOpenChangeContext = createContext(null)
 
 export type ModalRootProps = {
   children: React.ReactNode
@@ -308,6 +308,7 @@ export const useModal = (): UseModalRes => {
   if (!ref.current) {
     let update
     const open: UseModalRes['open'] = (el: any) => {
+      console.log('open triggered')
       return new Promise((resolve) => {
         const close = (val) => {
           const filter = (m: typeof modal) => m !== modal
