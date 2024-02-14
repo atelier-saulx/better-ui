@@ -2,7 +2,6 @@ import * as React from 'react'
 import {
   TextInput,
   Button,
-  Stack,
   border,
   borderRadius,
   Text,
@@ -10,12 +9,25 @@ import {
   boxShadow,
 } from '../../index.js'
 
-export type LoginPageProps = {
+type LoginWithEmail = {
   logo: React.ReactNode
+  variant?: 'email'
   onLogin?: ({ email, code }: { email: string; code: string }) => void
 }
 
-export function LoginPage({ logo, onLogin }: LoginPageProps) {
+type LoginWithToken = {
+  logo: React.ReactNode
+  variant: 'token'
+  onLogin?: ({ token }: { token: string }) => void
+}
+
+export type LoginPageProps = LoginWithEmail | LoginWithToken
+
+export function LoginPage({
+  logo,
+  onLogin,
+  variant = 'email',
+}: LoginPageProps) {
   const code = React.useMemo(() => (~~(Math.random() * 1e6)).toString(16), [])
   const [submitted, setSubmitted] = React.useState(false)
 
@@ -37,7 +49,14 @@ export function LoginPage({ logo, onLogin }: LoginPageProps) {
           if (submitted) return
 
           setSubmitted(true)
-          onLogin({ email: e.target.email.value, code })
+
+          if (variant === 'email') {
+            // @ts-ignore
+            onLogin({ email: e.target.input.value, code })
+          } else if (variant === 'token') {
+            // @ts-ignore
+            onLogin({ token: e.target.input.value })
+          }
         }}
         style={{
           display: 'flex',
@@ -58,10 +77,10 @@ export function LoginPage({ logo, onLogin }: LoginPageProps) {
         <TextInput
           required
           disabled={submitted}
-          formName="email"
-          placeholder="Email"
+          formName="input"
+          placeholder={variant[0].toUpperCase() + variant.substring(1)}
         />
-        {submitted ? (
+        {submitted && variant === 'email' ? (
           <div>
             <div
               style={{

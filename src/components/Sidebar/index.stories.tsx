@@ -63,6 +63,33 @@ export const Default = () => {
   )
 }
 
+export const Footer = () => {
+  const [v, setV] = React.useState('overview')
+
+  return (
+    <Sidebar
+      value={v}
+      onValueChange={setV}
+      data={[
+        {
+          label: 'Overview',
+          value: 'overview',
+          prefix: <IconViewBoxes />,
+          suffix: <Badge color="informative-muted">12</Badge>,
+        },
+        {
+          label: 'Content',
+          value: 'content',
+          prefix: <IconEdit />,
+          suffix: <IconAlert />,
+        },
+        { label: 'Users', value: 'users', prefix: <IconUsers /> },
+      ]}
+      footer={<div>IMMA COOL FOOTER</div>}
+    />
+  )
+}
+
 export const Small = () => {
   const [v, setV] = React.useState('overview')
   return (
@@ -198,9 +225,7 @@ export const GroupsCollapsed = () => {
       open={false}
       value={v}
       onValueChange={setV}
-      HeaderComponent={({ open }) =>
-        open ? <BasedLogoWithText /> : <IconBased />
-      }
+      header={({ open }) => (open ? <BasedLogoWithText /> : <IconBased />)}
       data={{
         Group1: Array.from({ length: 16 }).map((_, i) => ({
           label: 'Item ' + i,
