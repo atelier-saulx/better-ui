@@ -83,7 +83,23 @@ export function ToolbarPlugin() {
   const [fontSelection, setFontSelection] = useState()
 
   useEffect(() => {
-    return editor.registerUpdateListener(({ editorState }) => {
+    editor.registerCommand(
+      CAN_UNDO_COMMAND,
+      (payload) => {
+        setCanUndo(payload)
+        return false
+      },
+      1,
+    ),
+      editor.registerCommand(
+        CAN_REDO_COMMAND,
+        (payload) => {
+          setCanRedo(payload)
+          return false
+        },
+        1,
+      )
+    editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         const selection = $getSelection()
 
@@ -155,22 +171,6 @@ export function ToolbarPlugin() {
         }
       })
     })
-    editor.registerCommand(
-      CAN_UNDO_COMMAND,
-      (payload) => {
-        setCanUndo(payload)
-        return false
-      },
-      1,
-    ),
-      editor.registerCommand(
-        CAN_REDO_COMMAND,
-        (payload) => {
-          setCanRedo(payload)
-          return false
-        },
-        1,
-      )
   }, [editor])
 
   const applyStyleText = useCallback(
