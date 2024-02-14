@@ -10,13 +10,7 @@ const meta: Meta<typeof RichTextEditor> = {
 export default meta
 
 export const Default = () => {
-  return (
-    <RichTextEditor
-      autoFocus
-      placeholder="Enter some rich text"
-      onChange={(v) => console.log(v)}
-    />
-  )
+  return <RichTextEditor autoFocus placeholder="Enter some rich text" />
 }
 
 export const SmallVariant = () => {
@@ -25,7 +19,6 @@ export const SmallVariant = () => {
       variant="small"
       autoFocus
       placeholder="Enter some rich text"
-      onChange={(v) => console.log(v)}
     />
   )
 }
@@ -33,22 +26,13 @@ export const SmallVariant = () => {
 export const FixedHeightOfContainer = () => {
   return (
     <div style={{ height: 800 }}>
-      <RichTextEditor
-        autoFocus
-        placeholder="Enter some rich text"
-        onChange={(v) => console.log(v)}
-      />
+      <RichTextEditor autoFocus placeholder="Enter some rich text" />
     </div>
   )
 }
 
 export const SetHeightOnRichTextEditor = () => {
   return (
-    <RichTextEditor
-      height={400}
-      autoFocus
-      placeholder="Enter some rich text"
-      onChange={(v) => console.log(v)}
-    />
+    <RichTextEditor height={400} autoFocus placeholder="Enter some rich text" />
   )
 }

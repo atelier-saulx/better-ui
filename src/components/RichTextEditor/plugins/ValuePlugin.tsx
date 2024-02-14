@@ -24,8 +24,6 @@ export function ValuePlugin({ value, onChange }: ValuePluginProps) {
       return
     }
 
-    console.log('value change')
-
     editor.update(() => {
       const parser = new DOMParser()
       const dom = parser.parseFromString(value, 'text/html')
