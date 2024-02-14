@@ -9,7 +9,10 @@ export type SelectReferenceModalProps = {
   types?: string[]
 }
 
-export function SelectReferenceModal({ onSelect }: SelectReferenceModalProps) {
+export function SelectReferenceModal({
+  onSelect,
+  types,
+}: SelectReferenceModalProps) {
   const [activeSidebarItem, setActiveSidebarItem] = React.useState(null)
   const { data: rawSchema } = useQuery('db:schema')
 
@@ -21,11 +24,27 @@ export function SelectReferenceModal({ onSelect }: SelectReferenceModalProps) {
   const sidebarItems = React.useMemo(() => {
     if (!schema) return []
 
+    if (types) {
+      const items = []
+
+      for (const type of types) {
+        items.push({ value: type, label: schema.types[type].title ?? type })
+      }
+
+      return items
+    }
+
     return Object.keys(schema.types).map((key) => ({
       value: key,
       label: schema.types[key].title ?? key,
     }))
-  }, [schema])
+  }, [schema, types])
+
+  React.useEffect(() => {
+    if (types && types.length === 1) {
+      setActiveSidebarItem(types[0])
+    }
+  }, [types, schema])
 
   if (!schema) return
 
@@ -35,13 +54,17 @@ export function SelectReferenceModal({ onSelect }: SelectReferenceModalProps) {
       onOpenChange={React.useContext(OnOpenChangeContext)}
     >
       <Modal.Overlay style={{ width: '85%', height: '85%' }}>
-        <Modal.Title>Select reference</Modal.Title>
+        <Modal.Title>
+          Select {types && types.length === 1 ? types[0] : 'reference'}
+        </Modal.Title>
         <Modal.Body style={{ padding: 0, display: 'flex' }}>
-          <Sidebar
-            data={sidebarItems}
-            value={activeSidebarItem}
-            onValueChange={setActiveSidebarItem}
-          />
+          {sidebarItems.length > 1 && (
+            <Sidebar
+              data={sidebarItems}
+              value={activeSidebarItem}
+              onValueChange={setActiveSidebarItem}
+            />
+          )}
           <div
             style={{
               width: '100%',
