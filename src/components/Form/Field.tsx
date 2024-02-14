@@ -12,6 +12,8 @@ import {
   ColorInput,
   CheckboxInput,
   RichTextEditor,
+  Badge,
+  IconId,
 } from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
@@ -54,6 +56,18 @@ export const Field = ({
           />
         </styled.div>
       </FormField>
+    )
+  }
+
+  if (field.type === 'string' && field.format === 'basedId' && field.readOnly) {
+    return (
+      <Badge
+        prefix={<IconId />}
+        style={{ minWidth: 100 }}
+        color="informative-muted"
+      >
+        {ctx.values[key] ?? '-'}
+      </Badge>
     )
   }
 

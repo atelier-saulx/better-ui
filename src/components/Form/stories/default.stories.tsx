@@ -85,11 +85,6 @@ export const Default = () => {
         number: cnt,
       }}
       fields={{
-        name: {
-          title: 'Name',
-          type: 'string',
-          description: 'A name of someone',
-        },
         dope: {
           title: 'Is it dope?',
           type: 'boolean',
@@ -100,6 +95,12 @@ export const Default = () => {
           type: 'number',
           minimum: 10,
           maximum: 10,
+        },
+        name: {
+          title: 'Name',
+          index: 0,
+          type: 'string',
+          description: 'A name of someone',
         },
         createdAt: {
           type: 'timestamp',
@@ -115,6 +116,12 @@ export const Default = () => {
           description: 'This is a logo',
           type: 'reference',
           allowedTypes: ['file'],
+        },
+        id: {
+          index: 1,
+          readOnly: true,
+          type: 'string',
+          format: 'basedId',
         },
         category: {
           title: 'Category',
