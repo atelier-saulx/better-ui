@@ -3,6 +3,7 @@ import * as f1130922799717 from "../../src/components/Badge/index.stories.js"
 import * as f12564555305565 from "../../src/components/BarGraph/index.stories.js"
 import * as f7416220464218 from "../../src/components/BasedExplorer/index.stories.js"
 import * as f3466414113223 from "../../src/components/BasedForm/index.stories.js"
+import * as f14989926164595 from "../../src/components/BasedList/index.stories.js"
 import * as f2084790011414 from "../../src/components/Button/index.stories.js"
 import * as f16905658949426 from "../../src/components/Calendar/index.stories.js"
 import * as f1681034936069 from "../../src/components/CheckboxInput/index.stories.js"
@@ -53,7 +54,7 @@ import * as f16815800280314 from "../../src/components/Form/stories/references.s
 import * as f10025904474475 from "../../src/components/Form/stories/referencesSchema.stories.js"
 import * as f5930333060847 from "../../src/components/Form/stories/richText.stories.js"
 import * as f6183036884064 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f1130922799717,f12564555305565,f7416220464218,f3466414113223,f2084790011414,f16905658949426,f1681034936069,f13619739889741,f17306232299723,f4948859476466,f9344752088327,f3057415892789,f6239386911682,f10288907520891,f1361056666384,f14989200246520,f8646848099263,f1926324559992,f6622038122973,f6271760022916,f14974680308474,f10413842030050,f14687156354576,f409919741252,f13867817006251,f2391256762992,f10190487816981,f8544279227411,f10692938591024,f974043384684,f13329917722609,f13087660182010,f6536975305054,f10824936630228,f7822376808362,f2312747410077,f8523906341550,f16457632158462,f4403319537853,f4363912759740,f3910853229259,f8582702281036,f15599106587773,f14542094828981,f6004462968497,f2872478104456,f4444441197193,f12741420372279,f16286765462020,f12122853271055,f16815800280314,f10025904474475,f5930333060847,f6183036884064]
+export const stories = [f1130922799717,f12564555305565,f7416220464218,f3466414113223,f14989926164595,f2084790011414,f16905658949426,f1681034936069,f13619739889741,f17306232299723,f4948859476466,f9344752088327,f3057415892789,f6239386911682,f10288907520891,f1361056666384,f14989200246520,f8646848099263,f1926324559992,f6622038122973,f6271760022916,f14974680308474,f10413842030050,f14687156354576,f409919741252,f13867817006251,f2391256762992,f10190487816981,f8544279227411,f10692938591024,f974043384684,f13329917722609,f13087660182010,f6536975305054,f10824936630228,f7822376808362,f2312747410077,f8523906341550,f16457632158462,f4403319537853,f4363912759740,f3910853229259,f8582702281036,f15599106587773,f14542094828981,f6004462968497,f2872478104456,f4444441197193,f12741420372279,f16286765462020,f12122853271055,f16815800280314,f10025904474475,f5930333060847,f6183036884064]
 export const parsedStories = [{ id: "f1130922799717", story: f1130922799717, path: "/Users/vassbence/projects/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -434,6 +435,51 @@ export const Default = () => {
   return (
     <div>
       <BasedForm id="10ff8f6f00" />
+    </div>
+  )
+}
+`},{ id: "f14989926164595", story: f14989926164595, path: "/Users/vassbence/projects/better-ui/src/components/BasedList/index.stories.tsx", file: `import * as React from 'react'
+import type { Meta } from '@storybook/react'
+import { BasedExplorer, BasedList } from '../../index.js'
+import based from '@based/client'
+import { Provider } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
+
+const meta: Meta<typeof BasedExplorer> = {
+  title: 'Based/BasedList',
+  component: BasedList,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const Default = () => {
+  return (
+    <div style={{ height: '50vh' }}>
+      <BasedList
+        query={() => ({
+          data: {
+            $all: true,
+            $list: {
+              $find: {
+                $traverse: 'children',
+                $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+              },
+            },
+          },
+        })}
+      />
     </div>
   )
 }
