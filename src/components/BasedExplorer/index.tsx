@@ -239,7 +239,7 @@ export function BasedExplorer({
     checksum: totalChecksum,
   } = useQuery(
     totalQuery ? queryEndpoint : null,
-    totalQuery({ filter: ref.current.filter }),
+    totalQuery ? totalQuery({ filter: ref.current.filter }) : null,
   )
 
   const updateBlocks = React.useCallback(() => {

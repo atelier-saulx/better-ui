@@ -107,7 +107,7 @@ export function SelectReferenceModal({
                     },
                   },
                 })}
-                totalQuery={{
+                totalQuery={() => ({
                   total: {
                     $aggregate: {
                       $function: 'count',
@@ -121,7 +121,7 @@ export function SelectReferenceModal({
                       ],
                     },
                   },
-                }}
+                })}
               />
             )}
           </div>
