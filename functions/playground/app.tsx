@@ -1,124 +1,62 @@
 import { startPlayground } from '@based/storybook/playground'
-import * as f14070139713340 from '../../src/components/Badge/index.stories.js'
-import * as f14880773390916 from '../../src/components/BarGraph/index.stories.js'
-import * as f11915836409443 from '../../src/components/BasedExplorer/index.stories.js'
-import * as f12670064971934 from '../../src/components/BasedForm/index.stories.js'
-import * as f7260792992874 from '../../src/components/BasedList/index.stories.js'
-import * as f12628931809327 from '../../src/components/Button/index.stories.js'
-import * as f8406409748107 from '../../src/components/Calendar/index.stories.js'
-import * as f11260263686044 from '../../src/components/CheckboxInput/index.stories.js'
-import * as f16818617526868 from '../../src/components/Code/index.stories.js'
-import * as f1096924634642 from '../../src/components/ColorInput/index.stories.js'
-import * as f12302502856139 from '../../src/components/Confirm/index.stories.js'
-import * as f15130939334238 from '../../src/components/Container/index.stories.js'
-import * as f6700031848812 from '../../src/components/CurrentDay/index.stories.js'
-import * as f13958960704763 from '../../src/components/DateInput/index.stories.js'
-import * as f7292496517730 from '../../src/components/Dropdown/index.stories.js'
-import * as f1814163464169 from '../../src/components/FileInput/index.stories.js'
-import * as f11176442899201 from '../../src/components/Grid/index.stories.js'
-import * as f12934910350246 from '../../src/components/Header/index.stories.js'
-import * as f2511310247041 from '../../src/components/Icons/index.stories.js'
-import * as f2613302174148 from '../../src/components/KeyboardShortcut/index.stories.js'
-import * as f4306992593149 from '../../src/components/LanguageInput/index.stories.js'
-import * as f17501316762051 from '../../src/components/Layout/index.stories.js'
-import * as f8984161760219 from '../../src/components/LineGraph/index.stories.js'
-import * as f2533268220649 from '../../src/components/LoginPage/index.stories.js'
-import * as f7923311403837 from '../../src/components/Media/index.stories.js'
-import * as f9961728182834 from '../../src/components/Modal/index.stories.js'
-import * as f12636590955401 from '../../src/components/Note/index.stories.js'
-import * as f12513124532620 from '../../src/components/NumberInput/index.stories.js'
-import * as f14859983795914 from '../../src/components/Page/index.stories.js'
-import * as f6211783009481 from '../../src/components/PieGraph/index.stories.js'
-import * as f6441825492501 from '../../src/components/RichTextEditor/index.stories.js'
-import * as f15414583236136 from '../../src/components/Schema/index.stories.js'
-import * as f6287607847107 from '../../src/components/ScrollArea/index.stories.js'
-import * as f10487837239937 from '../../src/components/SearchInput/index.stories.js'
-import * as f8265807269863 from '../../src/components/SelectInput/index.stories.js'
-import * as f666797323181 from '../../src/components/SetInput/index.stories.js'
-import * as f834522360851 from '../../src/components/Sidebar/index.stories.js'
-import * as f12164449750020 from '../../src/components/Spinner/index.stories.js'
-import * as f152985848727 from '../../src/components/Stack/index.stories.js'
-import * as f425000080967 from '../../src/components/Table/index.stories.js'
-import * as f16517989627364 from '../../src/components/Text/index.stories.js'
-import * as f7884340472517 from '../../src/components/TextAreaInput/index.stories.js'
-import * as f11570958612498 from '../../src/components/TextInput/index.stories.js'
-import * as f16649780746805 from '../../src/components/Thumbnail/index.stories.js'
-import * as f10213567642148 from '../../src/components/Toast/index.stories.js'
-import * as f15885702182892 from '../../src/components/Tooltip/index.stories.js'
-import * as f4475265981544 from '../../src/components/Video/index.stories.js'
-import * as f13766822544753 from '../../src/components/Form/stories/arrays.stories.js'
-import * as f5391758522768 from '../../src/components/Form/stories/default.stories.js'
-import * as f8649328254510 from '../../src/components/Form/stories/object.stories.js'
-import * as f9741549559165 from '../../src/components/Form/stories/readonly.stories.js'
-import * as f1652407997014 from '../../src/components/Form/stories/record.stories.js'
-import * as f16111146292163 from '../../src/components/Form/stories/references.stories.js'
-import * as f8518256165490 from '../../src/components/Form/stories/referencesSchema.stories.js'
-import * as f8048733772918 from '../../src/components/Form/stories/richText.stories.js'
-import * as f13746592239513 from '../../src/components/Form/stories/set.stories.js'
-export const stories = [
-  f14070139713340,
-  f14880773390916,
-  f11915836409443,
-  f12670064971934,
-  f7260792992874,
-  f12628931809327,
-  f8406409748107,
-  f11260263686044,
-  f16818617526868,
-  f1096924634642,
-  f12302502856139,
-  f15130939334238,
-  f6700031848812,
-  f13958960704763,
-  f7292496517730,
-  f1814163464169,
-  f11176442899201,
-  f12934910350246,
-  f2511310247041,
-  f2613302174148,
-  f4306992593149,
-  f17501316762051,
-  f8984161760219,
-  f2533268220649,
-  f7923311403837,
-  f9961728182834,
-  f12636590955401,
-  f12513124532620,
-  f14859983795914,
-  f6211783009481,
-  f6441825492501,
-  f15414583236136,
-  f6287607847107,
-  f10487837239937,
-  f8265807269863,
-  f666797323181,
-  f834522360851,
-  f12164449750020,
-  f152985848727,
-  f425000080967,
-  f16517989627364,
-  f7884340472517,
-  f11570958612498,
-  f16649780746805,
-  f10213567642148,
-  f15885702182892,
-  f4475265981544,
-  f13766822544753,
-  f5391758522768,
-  f8649328254510,
-  f9741549559165,
-  f1652407997014,
-  f16111146292163,
-  f8518256165490,
-  f8048733772918,
-  f13746592239513,
-]
-export const parsedStories = [
-  {
-    id: 'f14070139713340',
-    story: f14070139713340,
-    path: '/Users/youzi/dev/better-ui/src/components/Badge/index.stories.tsx',
-    file: `import * as React from 'react'
+import * as f14070139713340 from "../../src/components/Badge/index.stories.js"
+import * as f14880773390916 from "../../src/components/BarGraph/index.stories.js"
+import * as f11915836409443 from "../../src/components/BasedExplorer/index.stories.js"
+import * as f12670064971934 from "../../src/components/BasedForm/index.stories.js"
+import * as f7260792992874 from "../../src/components/BasedList/index.stories.js"
+import * as f12628931809327 from "../../src/components/Button/index.stories.js"
+import * as f8406409748107 from "../../src/components/Calendar/index.stories.js"
+import * as f11260263686044 from "../../src/components/CheckboxInput/index.stories.js"
+import * as f16818617526868 from "../../src/components/Code/index.stories.js"
+import * as f1096924634642 from "../../src/components/ColorInput/index.stories.js"
+import * as f12302502856139 from "../../src/components/Confirm/index.stories.js"
+import * as f15130939334238 from "../../src/components/Container/index.stories.js"
+import * as f6700031848812 from "../../src/components/CurrentDay/index.stories.js"
+import * as f13958960704763 from "../../src/components/DateInput/index.stories.js"
+import * as f7292496517730 from "../../src/components/Dropdown/index.stories.js"
+import * as f1814163464169 from "../../src/components/FileInput/index.stories.js"
+import * as f11176442899201 from "../../src/components/Grid/index.stories.js"
+import * as f12934910350246 from "../../src/components/Header/index.stories.js"
+import * as f2511310247041 from "../../src/components/Icons/index.stories.js"
+import * as f2613302174148 from "../../src/components/KeyboardShortcut/index.stories.js"
+import * as f4306992593149 from "../../src/components/LanguageInput/index.stories.js"
+import * as f17501316762051 from "../../src/components/Layout/index.stories.js"
+import * as f8984161760219 from "../../src/components/LineGraph/index.stories.js"
+import * as f2533268220649 from "../../src/components/LoginPage/index.stories.js"
+import * as f7923311403837 from "../../src/components/Media/index.stories.js"
+import * as f9961728182834 from "../../src/components/Modal/index.stories.js"
+import * as f12636590955401 from "../../src/components/Note/index.stories.js"
+import * as f12513124532620 from "../../src/components/NumberInput/index.stories.js"
+import * as f14859983795914 from "../../src/components/Page/index.stories.js"
+import * as f6211783009481 from "../../src/components/PieGraph/index.stories.js"
+import * as f6441825492501 from "../../src/components/RichTextEditor/index.stories.js"
+import * as f15414583236136 from "../../src/components/Schema/index.stories.js"
+import * as f6287607847107 from "../../src/components/ScrollArea/index.stories.js"
+import * as f10487837239937 from "../../src/components/SearchInput/index.stories.js"
+import * as f8265807269863 from "../../src/components/SelectInput/index.stories.js"
+import * as f666797323181 from "../../src/components/SetInput/index.stories.js"
+import * as f834522360851 from "../../src/components/Sidebar/index.stories.js"
+import * as f12164449750020 from "../../src/components/Spinner/index.stories.js"
+import * as f152985848727 from "../../src/components/Stack/index.stories.js"
+import * as f425000080967 from "../../src/components/Table/index.stories.js"
+import * as f16517989627364 from "../../src/components/Text/index.stories.js"
+import * as f7884340472517 from "../../src/components/TextAreaInput/index.stories.js"
+import * as f11570958612498 from "../../src/components/TextInput/index.stories.js"
+import * as f16649780746805 from "../../src/components/Thumbnail/index.stories.js"
+import * as f10213567642148 from "../../src/components/Toast/index.stories.js"
+import * as f15885702182892 from "../../src/components/Tooltip/index.stories.js"
+import * as f4475265981544 from "../../src/components/Video/index.stories.js"
+import * as f13766822544753 from "../../src/components/Form/stories/arrays.stories.js"
+import * as f5391758522768 from "../../src/components/Form/stories/default.stories.js"
+import * as f8649328254510 from "../../src/components/Form/stories/object.stories.js"
+import * as f9741549559165 from "../../src/components/Form/stories/readonly.stories.js"
+import * as f1652407997014 from "../../src/components/Form/stories/record.stories.js"
+import * as f16111146292163 from "../../src/components/Form/stories/references.stories.js"
+import * as f8518256165490 from "../../src/components/Form/stories/referencesSchema.stories.js"
+import * as f8048733772918 from "../../src/components/Form/stories/richText.stories.js"
+import * as f13746592239513 from "../../src/components/Form/stories/set.stories.js"
+export const stories = [f14070139713340,f14880773390916,f11915836409443,f12670064971934,f7260792992874,f12628931809327,f8406409748107,f11260263686044,f16818617526868,f1096924634642,f12302502856139,f15130939334238,f6700031848812,f13958960704763,f7292496517730,f1814163464169,f11176442899201,f12934910350246,f2511310247041,f2613302174148,f4306992593149,f17501316762051,f8984161760219,f2533268220649,f7923311403837,f9961728182834,f12636590955401,f12513124532620,f14859983795914,f6211783009481,f6441825492501,f15414583236136,f6287607847107,f10487837239937,f8265807269863,f666797323181,f834522360851,f12164449750020,f152985848727,f425000080967,f16517989627364,f7884340472517,f11570958612498,f16649780746805,f10213567642148,f15885702182892,f4475265981544,f13766822544753,f5391758522768,f8649328254510,f9741549559165,f1652407997014,f16111146292163,f8518256165490,f8048733772918,f13746592239513]
+export const parsedStories = [{ id: "f14070139713340", story: f14070139713340, path: "/Users/youzi/dev/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -166,13 +104,7 @@ export const Copyable: StoryObj<typeof Badge> = {
     color: { control: 'select' },
   },
 }
-`,
-  },
-  {
-    id: 'f14880773390916',
-    story: f14880773390916,
-    path: '/Users/youzi/dev/better-ui/src/components/BarGraph/index.stories.tsx',
-    file: `import React from 'react'
+`},{ id: "f14880773390916", story: f14880773390916, path: "/Users/youzi/dev/better-ui/src/components/BarGraph/index.stories.tsx", file: `import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { BarGraph } from '../../index.js'
 import { color } from '../../index.js'
@@ -309,13 +241,7 @@ export const StackedHorizontal: StoryObj<typeof BarGraph> = {
     ],
   },
 }
-`,
-  },
-  {
-    id: 'f11915836409443',
-    story: f11915836409443,
-    path: '/Users/youzi/dev/better-ui/src/components/BasedExplorer/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f11915836409443", story: f11915836409443, path: "/Users/youzi/dev/better-ui/src/components/BasedExplorer/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import { BasedExplorer } from '../../index.js'
 import based from '@based/client'
@@ -373,7 +299,7 @@ export const Default = () => {
             },
           },
         })}
-        totalQuery={{
+        totalQuery={() => ({
           total: {
             $aggregate: {
               $function: 'count',
@@ -387,7 +313,7 @@ export const Default = () => {
               ],
             },
           },
-        }}
+        })}
       />
     </div>
   )
@@ -431,7 +357,7 @@ export const FieldsFromQuery = () => {
             },
           },
         })}
-        totalQuery={{
+        totalQuery={() => ({
           total: {
             $aggregate: {
               $function: 'count',
@@ -445,7 +371,7 @@ export const FieldsFromQuery = () => {
               ],
             },
           },
-        }}
+        })}
       />
     </div>
   )
@@ -478,13 +404,64 @@ export const FieldsFromValues = () => {
     </div>
   )
 }
-`,
-  },
-  {
-    id: 'f12670064971934',
-    story: f12670064971934,
-    path: '/Users/youzi/dev/better-ui/src/components/BasedForm/index.stories.tsx',
-    file: `import * as React from 'react'
+
+export const Page = () => {
+  return (
+    <div style={{ height: '50vh' }}>
+      <BasedExplorer
+        onItemClick={(item) => {
+          alert('clicked item ' + item.id)
+        }}
+        header="Page explorer"
+        info
+        filter
+        addItem={async () => {
+          alert('Add item')
+        }}
+        query={({ limit, offset, sort, language, filter }) => ({
+          $language: language,
+          data: {
+            $all: true,
+            $list: {
+              $limit: limit,
+              $offset: offset,
+              ...(sort && {
+                $sort: {
+                  $field: sort.key,
+                  $order: sort.dir,
+                },
+              }),
+              $find: {
+                $traverse: 'children',
+                $filter: filter
+                  ? [
+                      { $operator: 'includes', $field: 'name', $value: filter },
+                      { $operator: '=', $field: 'type', $value: 'todo' },
+                    ]
+                  : [{ $operator: '=', $field: 'type', $value: 'todo' }],
+              },
+            },
+          },
+        })}
+        totalQuery={({ filter }) => ({
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: 'children',
+              $filter: filter
+                ? [
+                    { $operator: 'includes', $field: 'name', $value: filter },
+                    { $operator: '=', $field: 'type', $value: 'todo' },
+                  ]
+                : [{ $operator: '=', $field: 'type', $value: 'todo' }],
+            },
+          },
+        })}
+      />
+    </div>
+  )
+}
+`},{ id: "f12670064971934", story: f12670064971934, path: "/Users/youzi/dev/better-ui/src/components/BasedForm/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import { BasedForm, Modal } from '../../index.js'
 import based from '@based/client'
@@ -519,13 +496,7 @@ export const Default = () => {
     </div>
   )
 }
-`,
-  },
-  {
-    id: 'f7260792992874',
-    story: f7260792992874,
-    path: '/Users/youzi/dev/better-ui/src/components/BasedList/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f7260792992874", story: f7260792992874, path: "/Users/youzi/dev/better-ui/src/components/BasedList/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import { BasedExplorer, BasedList } from '../../index.js'
 import based from '@based/client'
@@ -571,13 +542,7 @@ export const Default = () => {
     </div>
   )
 }
-`,
-  },
-  {
-    id: 'f12628931809327',
-    story: f12628931809327,
-    path: '/Users/youzi/dev/better-ui/src/components/Button/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f12628931809327", story: f12628931809327, path: "/Users/youzi/dev/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { IconCopy, IconMoreVertical, Button } from '../../index.js'
 
@@ -674,13 +639,7 @@ export const ButtonSmall: StoryObj<typeof Button> = {
     },
   },
 }
-`,
-  },
-  {
-    id: 'f8406409748107',
-    story: f8406409748107,
-    path: '/Users/youzi/dev/better-ui/src/components/Calendar/index.stories.tsx',
-    file: `import React from 'react'
+`},{ id: "f8406409748107", story: f8406409748107, path: "/Users/youzi/dev/better-ui/src/components/Calendar/index.stories.tsx", file: `import React from 'react'
 import { Calendar } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
@@ -764,13 +723,7 @@ export const WeekView = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f11260263686044',
-    story: f11260263686044,
-    path: '/Users/youzi/dev/better-ui/src/components/CheckboxInput/index.stories.tsx',
-    file: `import { CheckboxInput } from '../../index.js'
+`},{ id: "f11260263686044", story: f11260263686044, path: "/Users/youzi/dev/better-ui/src/components/CheckboxInput/index.stories.tsx", file: `import { CheckboxInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof CheckboxInput> = {
@@ -797,13 +750,7 @@ export const Toggle: StoryObj<typeof CheckboxInput> = {
     disabled: false,
   },
 }
-`,
-  },
-  {
-    id: 'f16818617526868',
-    story: f16818617526868,
-    path: '/Users/youzi/dev/better-ui/src/components/Code/index.stories.tsx',
-    file: `import { Code } from '../../index.js'
+`},{ id: "f16818617526868", story: f16818617526868, path: "/Users/youzi/dev/better-ui/src/components/Code/index.stories.tsx", file: `import { Code } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Code> = {
@@ -884,13 +831,7 @@ export const Small: StoryObj<typeof Code> = {
     color: { control: 'select' },
   },
 }
-`,
-  },
-  {
-    id: 'f1096924634642',
-    story: f1096924634642,
-    path: '/Users/youzi/dev/better-ui/src/components/ColorInput/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f1096924634642", story: f1096924634642, path: "/Users/youzi/dev/better-ui/src/components/ColorInput/index.stories.tsx", file: `import * as React from 'react'
 import { ColorInput } from '../../index.js'
 
 const meta = {
@@ -925,13 +866,7 @@ export const Disabled = () => {
 export const Undefined = () => {
   return <ColorInput value={undefined} />
 }
-`,
-  },
-  {
-    id: 'f12302502856139',
-    story: f12302502856139,
-    path: '/Users/youzi/dev/better-ui/src/components/Confirm/index.stories.tsx',
-    file: `import { Confirm } from '../../index.js'
+`},{ id: "f12302502856139", story: f12302502856139, path: "/Users/youzi/dev/better-ui/src/components/Confirm/index.stories.tsx", file: `import { Confirm } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Confirm> = {
@@ -950,13 +885,7 @@ export const Icons: StoryObj<typeof Confirm> = {
     variant: 'small',
   },
 }
-`,
-  },
-  {
-    id: 'f15130939334238',
-    story: f15130939334238,
-    path: '/Users/youzi/dev/better-ui/src/components/Container/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f15130939334238", story: f15130939334238, path: "/Users/youzi/dev/better-ui/src/components/Container/index.stories.tsx", file: `import * as React from 'react'
 import {
   Container,
   Thumbnail,
@@ -1121,13 +1050,7 @@ export const Expandable: StoryObj<typeof Container> = {
     children: <Button>This is a button</Button>,
   },
 }
-`,
-  },
-  {
-    id: 'f6700031848812',
-    story: f6700031848812,
-    path: '/Users/youzi/dev/better-ui/src/components/CurrentDay/index.stories.tsx',
-    file: `import { CurrentDay } from '../../index.js'
+`},{ id: "f6700031848812", story: f6700031848812, path: "/Users/youzi/dev/better-ui/src/components/CurrentDay/index.stories.tsx", file: `import { CurrentDay } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof CurrentDay> = {
@@ -1140,13 +1063,7 @@ export default meta
 export const Default: StoryObj<typeof CurrentDay> = {
   args: { value: new Date().getTime() },
 }
-`,
-  },
-  {
-    id: 'f13958960704763',
-    story: f13958960704763,
-    path: '/Users/youzi/dev/better-ui/src/components/DateInput/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f13958960704763", story: f13958960704763, path: "/Users/youzi/dev/better-ui/src/components/DateInput/index.stories.tsx", file: `import * as React from 'react'
 import { DateInput } from '../../index.js'
 
 const meta = {
@@ -1225,13 +1142,7 @@ export const Small = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f7292496517730',
-    story: f7292496517730,
-    path: '/Users/youzi/dev/better-ui/src/components/Dropdown/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f7292496517730", story: f7292496517730, path: "/Users/youzi/dev/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
 import {
   Button,
   DropdownHookProvider,
@@ -1311,13 +1222,7 @@ export const Hook = () => {
     </Button>
   )
 }
-`,
-  },
-  {
-    id: 'f1814163464169',
-    story: f1814163464169,
-    path: '/Users/youzi/dev/better-ui/src/components/FileInput/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f1814163464169", story: f1814163464169, path: "/Users/youzi/dev/better-ui/src/components/FileInput/index.stories.tsx", file: `import * as React from 'react'
 import { useUploadFile, FileInput } from '../../index.js'
 import { Provider } from '@based/react'
 import based from '@based/client'
@@ -1383,13 +1288,7 @@ export const RealUpload = () => {
     </Provider>
   )
 }
-`,
-  },
-  {
-    id: 'f11176442899201',
-    story: f11176442899201,
-    path: '/Users/youzi/dev/better-ui/src/components/Grid/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f11176442899201", story: f11176442899201, path: "/Users/youzi/dev/better-ui/src/components/Grid/index.stories.tsx", file: `import * as React from 'react'
 import {
   Grid,
   Dropdown,
@@ -1538,13 +1437,7 @@ export const SortableRow = () => {
     </div>
   )
 }
-`,
-  },
-  {
-    id: 'f12934910350246',
-    story: f12934910350246,
-    path: '/Users/youzi/dev/better-ui/src/components/Header/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f12934910350246", story: f12934910350246, path: "/Users/youzi/dev/better-ui/src/components/Header/index.stories.tsx", file: `import * as React from 'react'
 import {
   Header,
   Dropdown,
@@ -1623,13 +1516,7 @@ export const BackButton = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f2511310247041',
-    story: f2511310247041,
-    path: '/Users/youzi/dev/better-ui/src/components/Icons/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f2511310247041", story: f2511310247041, path: "/Users/youzi/dev/better-ui/src/components/Icons/index.stories.tsx", file: `import * as React from 'react'
 // also fix this
 import * as Icons from './index.js'
 import { styled } from 'inlines'
@@ -1683,13 +1570,7 @@ export const Default = () => {
     </div>
   )
 }
-`,
-  },
-  {
-    id: 'f2613302174148',
-    story: f2613302174148,
-    path: '/Users/youzi/dev/better-ui/src/components/KeyboardShortcut/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f2613302174148", story: f2613302174148, path: "/Users/youzi/dev/better-ui/src/components/KeyboardShortcut/index.stories.tsx", file: `import * as React from 'react'
 import { KeyboardShortcut } from '../../index.js'
 import type { Meta } from '@storybook/react'
 
@@ -1715,13 +1596,7 @@ export const Modifier = () => {
 export const DoubleModifier = () => {
   return <KeyboardShortcut shortcut="Cmd+Alt+A" />
 }
-`,
-  },
-  {
-    id: 'f4306992593149',
-    story: f4306992593149,
-    path: '/Users/youzi/dev/better-ui/src/components/LanguageInput/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f4306992593149", story: f4306992593149, path: "/Users/youzi/dev/better-ui/src/components/LanguageInput/index.stories.tsx", file: `import * as React from 'react'
 import { LanguageInput } from '../../index.js'
 import type { Meta } from '@storybook/react'
 
@@ -1742,13 +1617,7 @@ export const Default = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f17501316762051',
-    story: f17501316762051,
-    path: '/Users/youzi/dev/better-ui/src/components/Layout/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f17501316762051", story: f17501316762051, path: "/Users/youzi/dev/better-ui/src/components/Layout/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import {
   Layout,
@@ -1849,13 +1718,7 @@ export const Default = () => {
     </Layout>
   )
 }
-`,
-  },
-  {
-    id: 'f8984161760219',
-    story: f8984161760219,
-    path: '/Users/youzi/dev/better-ui/src/components/LineGraph/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f8984161760219", story: f8984161760219, path: "/Users/youzi/dev/better-ui/src/components/LineGraph/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import { LineGraph } from '../../index.js'
 
@@ -1960,13 +1823,7 @@ export const Multi = () => {
     </div>
   )
 }
-`,
-  },
-  {
-    id: 'f2533268220649',
-    story: f2533268220649,
-    path: '/Users/youzi/dev/better-ui/src/components/LoginPage/index.stories.tsx',
-    file: `import { LoginPage } from '../../index.js'
+`},{ id: "f2533268220649", story: f2533268220649, path: "/Users/youzi/dev/better-ui/src/components/LoginPage/index.stories.tsx", file: `import { LoginPage } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { BasedLogoWithText } from '../Icons/extras.js'
 import * as React from 'react'
@@ -1986,13 +1843,7 @@ export const Default: StoryObj<typeof LoginPage> = {
     logo: <BasedLogoWithText />,
   },
 }
-`,
-  },
-  {
-    id: 'f7923311403837',
-    story: f7923311403837,
-    path: '/Users/youzi/dev/better-ui/src/components/Media/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f7923311403837", story: f7923311403837, path: "/Users/youzi/dev/better-ui/src/components/Media/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import { color, Media, Stack } from '../../index.js'
 
@@ -2098,13 +1949,7 @@ export const Large = () => {
     </Stack>
   )
 }
-`,
-  },
-  {
-    id: 'f9961728182834',
-    story: f9961728182834,
-    path: '/Users/youzi/dev/better-ui/src/components/Modal/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f9961728182834", story: f9961728182834, path: "/Users/youzi/dev/better-ui/src/components/Modal/index.stories.tsx", file: `import * as React from 'react'
 import { Modal, Button, TextInput, SelectInput } from '../../index.js'
 import { styled } from 'inlines'
 
@@ -2393,13 +2238,7 @@ export const ModalConfirm = () => {
     </div>
   )
 }
-`,
-  },
-  {
-    id: 'f12636590955401',
-    story: f12636590955401,
-    path: '/Users/youzi/dev/better-ui/src/components/Note/index.stories.tsx',
-    file: `import { Note } from '../../index.js'
+`},{ id: "f12636590955401", story: f12636590955401, path: "/Users/youzi/dev/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Note> = {
@@ -2443,13 +2282,7 @@ export const Neutral: StoryObj<typeof Note> = {
     variant: 'neutral',
   },
 }
-`,
-  },
-  {
-    id: 'f12513124532620',
-    story: f12513124532620,
-    path: '/Users/youzi/dev/better-ui/src/components/NumberInput/index.stories.tsx',
-    file: `import { NumberInput } from '../../index.js'
+`},{ id: "f12513124532620", story: f12513124532620, path: "/Users/youzi/dev/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof NumberInput> = {
@@ -2485,13 +2318,7 @@ export const Error: StoryObj<typeof NumberInput> = {
     error: true,
   },
 }
-`,
-  },
-  {
-    id: 'f14859983795914',
-    story: f14859983795914,
-    path: '/Users/youzi/dev/better-ui/src/components/Page/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f14859983795914", story: f14859983795914, path: "/Users/youzi/dev/better-ui/src/components/Page/index.stories.tsx", file: `import * as React from 'react'
 import { Page, Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { styled } from 'inlines'
@@ -2527,13 +2354,7 @@ export const Default: StoryObj<typeof Page> = {
     style: { maxHeight: 324 },
   },
 }
-`,
-  },
-  {
-    id: 'f6211783009481',
-    story: f6211783009481,
-    path: '/Users/youzi/dev/better-ui/src/components/PieGraph/index.stories.tsx',
-    file: `import type { Meta, StoryObj } from '@storybook/react'
+`},{ id: "f6211783009481", story: f6211783009481, path: "/Users/youzi/dev/better-ui/src/components/PieGraph/index.stories.tsx", file: `import type { Meta, StoryObj } from '@storybook/react'
 import { PieGraph } from '../../index.js'
 
 const meta: Meta<typeof PieGraph> = {
@@ -2570,13 +2391,7 @@ export const Default: StoryObj<typeof PieGraph> = {
     ],
   },
 }
-`,
-  },
-  {
-    id: 'f6441825492501',
-    story: f6441825492501,
-    path: '/Users/youzi/dev/better-ui/src/components/RichTextEditor/index.stories.tsx',
-    file: `import React from 'react'
+`},{ id: "f6441825492501", story: f6441825492501, path: "/Users/youzi/dev/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import React from 'react'
 import type { Meta } from '@storybook/react'
 import { RichTextEditor } from '../../index.js'
 
@@ -2614,13 +2429,7 @@ export const SetHeightOnRichTextEditor = () => {
     <RichTextEditor height={400} autoFocus placeholder="Enter some rich text" />
   )
 }
-`,
-  },
-  {
-    id: 'f15414583236136',
-    story: f15414583236136,
-    path: '/Users/youzi/dev/better-ui/src/components/Schema/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f15414583236136", story: f15414583236136, path: "/Users/youzi/dev/better-ui/src/components/Schema/index.stories.tsx", file: `import * as React from 'react'
 import { Schema, Modal, Page, border, borderRadius } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
@@ -2668,13 +2477,7 @@ export const Default = () => {
 
   return <Schema schemaInput={data} />
 }
-`,
-  },
-  {
-    id: 'f6287607847107',
-    story: f6287607847107,
-    path: '/Users/youzi/dev/better-ui/src/components/ScrollArea/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f6287607847107", story: f6287607847107, path: "/Users/youzi/dev/better-ui/src/components/ScrollArea/index.stories.tsx", file: `import * as React from 'react'
 import { ScrollArea } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import { styled } from 'inlines'
@@ -2717,13 +2520,7 @@ export const Default: StoryObj<typeof ScrollArea> = {
     style: { maxHeight: 324 },
   },
 }
-`,
-  },
-  {
-    id: 'f10487837239937',
-    story: f10487837239937,
-    path: '/Users/youzi/dev/better-ui/src/components/SearchInput/index.stories.tsx',
-    file: `import { SearchInput, Stack, Button } from '../../index.js'
+`},{ id: "f10487837239937", story: f10487837239937, path: "/Users/youzi/dev/better-ui/src/components/SearchInput/index.stories.tsx", file: `import { SearchInput, Stack, Button } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
@@ -2748,13 +2545,7 @@ export const WithButton = () => {
     </Stack>
   )
 }
-`,
-  },
-  {
-    id: 'f8265807269863',
-    story: f8265807269863,
-    path: '/Users/youzi/dev/better-ui/src/components/SelectInput/index.stories.tsx',
-    file: `import { SelectInput } from '../../index.js'
+`},{ id: "f8265807269863", story: f8265807269863, path: "/Users/youzi/dev/better-ui/src/components/SelectInput/index.stories.tsx", file: `import { SelectInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof SelectInput> = {
@@ -2823,13 +2614,7 @@ export const Error: StoryObj<typeof SelectInput> = {
     error: true,
   },
 }
-`,
-  },
-  {
-    id: 'f666797323181',
-    story: f666797323181,
-    path: '/Users/youzi/dev/better-ui/src/components/SetInput/index.stories.tsx',
-    file: `import { SetInput } from '../../index.js'
+`},{ id: "f666797323181", story: f666797323181, path: "/Users/youzi/dev/better-ui/src/components/SetInput/index.stories.tsx", file: `import { SetInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof SetInput> = {
@@ -2866,13 +2651,7 @@ export const Options: StoryObj<typeof SetInput> = {
     onChange: (v) => console.log('onchange log: ', v),
   },
 }
-`,
-  },
-  {
-    id: 'f834522360851',
-    story: f834522360851,
-    path: '/Users/youzi/dev/better-ui/src/components/Sidebar/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f834522360851", story: f834522360851, path: "/Users/youzi/dev/better-ui/src/components/Sidebar/index.stories.tsx", file: `import * as React from 'react'
 import {
   Sidebar,
   IconViewBoxes,
@@ -3114,13 +2893,7 @@ export const GroupsCollapsed = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f12164449750020',
-    story: f12164449750020,
-    path: '/Users/youzi/dev/better-ui/src/components/Spinner/index.stories.tsx',
-    file: `import { Spinner } from '../../index.js'
+`},{ id: "f12164449750020", story: f12164449750020, path: "/Users/youzi/dev/better-ui/src/components/Spinner/index.stories.tsx", file: `import { Spinner } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Spinner> = {
@@ -3135,13 +2908,7 @@ export const Default: StoryObj<typeof Spinner> = {
     size: 48,
   },
 }
-`,
-  },
-  {
-    id: 'f152985848727',
-    story: f152985848727,
-    path: '/Users/youzi/dev/better-ui/src/components/Stack/index.stories.tsx',
-    file: `import React, { ReactNode } from 'react'
+`},{ id: "f152985848727", story: f152985848727, path: "/Users/youzi/dev/better-ui/src/components/Stack/index.stories.tsx", file: `import React, { ReactNode } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Stack, border, borderRadius } from '../../index.js'
 
@@ -3204,13 +2971,7 @@ export const GridFixedHeight: StoryObj<typeof Stack> = {
     children: manyChildren,
   },
 }
-`,
-  },
-  {
-    id: 'f425000080967',
-    story: f425000080967,
-    path: '/Users/youzi/dev/better-ui/src/components/Table/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f425000080967", story: f425000080967, path: "/Users/youzi/dev/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
@@ -3478,13 +3239,7 @@ export const SmallTable = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f16517989627364',
-    story: f16517989627364,
-    path: '/Users/youzi/dev/better-ui/src/components/Text/index.stories.tsx',
-    file: `import { Text } from '../../index.js'
+`},{ id: "f16517989627364", story: f16517989627364, path: "/Users/youzi/dev/better-ui/src/components/Text/index.stories.tsx", file: `import { Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Text> = {
@@ -3545,13 +3300,7 @@ export const caption: StoryObj<typeof Text> = {
     variant: 'caption',
   },
 }
-`,
-  },
-  {
-    id: 'f7884340472517',
-    story: f7884340472517,
-    path: '/Users/youzi/dev/better-ui/src/components/TextAreaInput/index.stories.tsx',
-    file: `import { TextAreaInput } from '../../index.js'
+`},{ id: "f7884340472517", story: f7884340472517, path: "/Users/youzi/dev/better-ui/src/components/TextAreaInput/index.stories.tsx", file: `import { TextAreaInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof TextAreaInput> = {
@@ -3584,13 +3333,7 @@ export const Error: StoryObj<typeof TextAreaInput> = {
     error: true,
   },
 }
-`,
-  },
-  {
-    id: 'f11570958612498',
-    story: f11570958612498,
-    path: '/Users/youzi/dev/better-ui/src/components/TextInput/index.stories.tsx',
-    file: `import { TextInput } from '../../index.js'
+`},{ id: "f11570958612498", story: f11570958612498, path: "/Users/youzi/dev/better-ui/src/components/TextInput/index.stories.tsx", file: `import { TextInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof TextInput> = {
@@ -3629,13 +3372,7 @@ export const Disabled: StoryObj<typeof TextInput> = {
     disabled: true,
   },
 }
-`,
-  },
-  {
-    id: 'f16649780746805',
-    story: f16649780746805,
-    path: '/Users/youzi/dev/better-ui/src/components/Thumbnail/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f16649780746805", story: f16649780746805, path: "/Users/youzi/dev/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 import based from '@based/client'
@@ -3796,13 +3533,7 @@ export const GalleryMutedOutlineCircle = () => {
     </Stack>
   )
 }
-`,
-  },
-  {
-    id: 'f10213567642148',
-    story: f10213567642148,
-    path: '/Users/youzi/dev/better-ui/src/components/Toast/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f10213567642148", story: f10213567642148, path: "/Users/youzi/dev/better-ui/src/components/Toast/index.stories.tsx", file: `import * as React from 'react'
 import {
   Button,
   Stack,
@@ -3876,13 +3607,7 @@ export const Default = () => {
     </ToastProvider>
   )
 }
-`,
-  },
-  {
-    id: 'f15885702182892',
-    story: f15885702182892,
-    path: '/Users/youzi/dev/better-ui/src/components/Tooltip/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f15885702182892", story: f15885702182892, path: "/Users/youzi/dev/better-ui/src/components/Tooltip/index.stories.tsx", file: `import * as React from 'react'
 import { Button, Tooltip } from '../../index.js'
 
 const meta = {
@@ -3897,13 +3622,7 @@ export const Default = () => {
     </Tooltip>
   )
 }
-`,
-  },
-  {
-    id: 'f4475265981544',
-    story: f4475265981544,
-    path: '/Users/youzi/dev/better-ui/src/components/Video/index.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f4475265981544", story: f4475265981544, path: "/Users/youzi/dev/better-ui/src/components/Video/index.stories.tsx", file: `import * as React from 'react'
 import { Video } from '../../index.js'
 
 const meta = {
@@ -3932,13 +3651,7 @@ export const WithCustomThumbnail = () => {
 export const HLS = () => {
   return <Video src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
 }
-`,
-  },
-  {
-    id: 'f13766822544753',
-    story: f13766822544753,
-    path: '/Users/youzi/dev/better-ui/src/components/Form/stories/arrays.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f13766822544753", story: f13766822544753, path: "/Users/youzi/dev/better-ui/src/components/Form/stories/arrays.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 import { objectField } from './objectField.js'
 import { deepMerge } from '@saulx/utils'
@@ -4113,13 +3826,7 @@ export const Arrays = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f5391758522768',
-    story: f5391758522768,
-    path: '/Users/youzi/dev/better-ui/src/components/Form/stories/default.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f5391758522768", story: f5391758522768, path: "/Users/youzi/dev/better-ui/src/components/Form/stories/default.stories.tsx", file: `import * as React from 'react'
 import { Form, border, Modal } from '../../../index.js'
 import { wait } from '@saulx/utils'
 
@@ -4441,13 +4148,7 @@ export const Bare = () => {
     </div>
   )
 }
-`,
-  },
-  {
-    id: 'f8649328254510',
-    story: f8649328254510,
-    path: '/Users/youzi/dev/better-ui/src/components/Form/stories/object.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f8649328254510", story: f8649328254510, path: "/Users/youzi/dev/better-ui/src/components/Form/stories/object.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 import { wait } from '@saulx/utils'
 import { objectField } from './objectField.js'
@@ -4564,13 +4265,7 @@ export const ObjectReadOnly = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f9741549559165',
-    story: f9741549559165,
-    path: '/Users/youzi/dev/better-ui/src/components/Form/stories/readonly.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f9741549559165", story: f9741549559165, path: "/Users/youzi/dev/better-ui/src/components/Form/stories/readonly.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 
 const meta = {
@@ -4610,13 +4305,7 @@ export const ReadOnly = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f1652407997014',
-    story: f1652407997014,
-    path: '/Users/youzi/dev/better-ui/src/components/Form/stories/record.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f1652407997014", story: f1652407997014, path: "/Users/youzi/dev/better-ui/src/components/Form/stories/record.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 
 const meta = {
@@ -4737,13 +4426,7 @@ export const Record = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f16111146292163',
-    story: f16111146292163,
-    path: '/Users/youzi/dev/better-ui/src/components/Form/stories/references.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f16111146292163", story: f16111146292163, path: "/Users/youzi/dev/better-ui/src/components/Form/stories/references.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
@@ -4931,13 +4614,7 @@ export const References = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f8518256165490',
-    story: f8518256165490,
-    path: '/Users/youzi/dev/better-ui/src/components/Form/stories/referencesSchema.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f8518256165490", story: f8518256165490, path: "/Users/youzi/dev/better-ui/src/components/Form/stories/referencesSchema.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
@@ -5270,13 +4947,7 @@ export const IncorrectReferences = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f8048733772918',
-    story: f8048733772918,
-    path: '/Users/youzi/dev/better-ui/src/components/Form/stories/richText.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f8048733772918", story: f8048733772918, path: "/Users/youzi/dev/better-ui/src/components/Form/stories/richText.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 
 const meta = {
@@ -5325,13 +4996,7 @@ export const RichTextEditor = () => {
     />
   )
 }
-`,
-  },
-  {
-    id: 'f13746592239513',
-    story: f13746592239513,
-    path: '/Users/youzi/dev/better-ui/src/components/Form/stories/set.stories.tsx',
-    file: `import * as React from 'react'
+`},{ id: "f13746592239513", story: f13746592239513, path: "/Users/youzi/dev/better-ui/src/components/Form/stories/set.stories.tsx", file: `import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 
 const meta = {
@@ -5410,7 +5075,5 @@ export const Set = () => {
     />
   )
 }
-`,
-  },
-]
-startPlayground(parsedStories)
+`}]
+startPlayground(parsedStories);
