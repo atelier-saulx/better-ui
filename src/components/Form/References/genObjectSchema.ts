@@ -30,7 +30,11 @@ export const genObjectSchemaFromSchema = (
   }
 
   if (types) {
-    for (const type of types) {
+    for (let type of types) {
+      if (typeof type === 'object') {
+        type = type.type
+      }
+
       if (typeof type === 'string') {
         const t = schema.types?.[type]?.fields
 
