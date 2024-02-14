@@ -200,6 +200,7 @@ export const Page = () => {
             },
           },
         })}
+        sort={{ key: 'index', dir: 'asc' }}
         totalQuery={({ filter }) => ({
           total: {
             $aggregate: {

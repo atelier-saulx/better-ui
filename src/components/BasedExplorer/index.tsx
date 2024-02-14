@@ -366,6 +366,7 @@ export function BasedExplorer({
       isLoading={ref.current.isLoading}
       onClick={onItemClick}
       sort={{
+        sorted: ref.current.sort,
         onSort(key, dir, sort) {
           sort.sorted = { key, dir }
           ref.current.sort = { key, dir }
@@ -380,7 +381,6 @@ export function BasedExplorer({
           : async (x) => {
               ref.current.lastLoaded += x.pageSize
             },
-
         onPageChange: async (p) => {
           if (p.end === 0 && !totalQuery) {
             p.end = p.pageSize * 2
