@@ -164,7 +164,7 @@ export const getIdentifierField = (
 export const getIdentifierFieldValue = (
   value: any,
   skipFields?: string[],
-): string | void => {
+): string | undefined => {
   if (typeof value === 'object') {
     for (const str of IDENTIFIER_FIELDS) {
       if (str in value && !skipFields?.includes(str)) {

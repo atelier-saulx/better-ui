@@ -79,6 +79,11 @@ export const generateFromType = (type: BasedSchemaType): { query; fields } => {
     //   fields[field].index = -1
     // }
 
+    if (f.type === 'timestamp' && !f.display) {
+      // @ts-ignore
+      fields[field].display = 'human'
+    }
+
     if (f.type === 'reference') {
       newQuery[field] = {
         id: true,
@@ -90,7 +95,6 @@ export const generateFromType = (type: BasedSchemaType): { query; fields } => {
     }
   }
 
-  console.log(fields)
   return { query: newQuery, fields }
 }
 

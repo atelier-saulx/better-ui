@@ -17,7 +17,7 @@ import {
   IconClose,
 } from '../../index.js'
 import { Path, Reference, TableCtx } from './types.js'
-import { readPath } from './utils.js'
+import { getIdentifierFieldValue, readPath } from './utils.js'
 import { styled } from 'inlines'
 
 const Select = (p: {
@@ -99,7 +99,7 @@ const Info = (p: { value: Reference; onClick: () => void }) => {
           }}
           variant="body-bold"
         >
-          {p.value.name ?? p.value.title}
+          {getIdentifierFieldValue(p.value) ?? ''}
         </Text>
       </>
     )
