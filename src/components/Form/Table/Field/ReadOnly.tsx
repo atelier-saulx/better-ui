@@ -2,7 +2,7 @@ import React from 'react'
 import { TableCtx, Path } from '../../types.js'
 import { BasedSchemaField, display } from '@based/schema'
 import { styled } from 'inlines'
-import { isId, isFile, getContentMediaType } from '../../utils.js'
+import { isId, isFile, isType, getContentMediaType } from '../../utils.js'
 import {
   Text,
   Badge,
@@ -22,6 +22,10 @@ type ReadProps = {
 }
 
 const Value = (p: ReadProps) => {
+  if (isType(p.field)) {
+    return <Badge color="auto-muted">{p.value}</Badge>
+  }
+
   if (isId(p.field)) {
     return <Badge color="informative-muted">{p.value}</Badge>
   }

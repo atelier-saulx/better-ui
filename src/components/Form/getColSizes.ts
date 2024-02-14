@@ -45,6 +45,11 @@ const FIELD_SIZES: {
         insertAtStart: true,
       },
       {
+        match: (field: BasedSchemaFieldString) => field.format === 'basedType',
+        width: 200, // will become a reference select modal probably...
+        insertAtStart: true,
+      },
+      {
         match: (field: BasedSchemaFieldString) => field.format === 'rgbColor',
         width: 200,
       },
@@ -72,7 +77,7 @@ const FIELD_SIZES: {
     string: [
       {
         match: (field: BasedSchemaFieldString, key) => key === 'type',
-        width: 140,
+        width: 100,
       },
       {
         match: (field: BasedSchemaFieldString) => field.format === 'rgbColor',
@@ -81,6 +86,11 @@ const FIELD_SIZES: {
       {
         match: (field: BasedSchemaFieldString) => field.format === 'basedId',
         width: 130,
+        insertAtStart: true,
+      },
+      {
+        match: (field: BasedSchemaFieldString) => field.format === 'basedType',
+        width: 130, // will become a reference select modal probably...
         insertAtStart: true,
       },
       {

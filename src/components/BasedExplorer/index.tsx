@@ -146,7 +146,12 @@ export const generateFieldsFromQuery = (
     }
 
     if (fields && types.length > 1) {
-      fields.type = { type: 'string', index: -1, readOnly: true } // format based type
+      fields.type = {
+        type: 'string',
+        index: -1,
+        readOnly: true,
+        format: 'basedType',
+      } // format based type
     }
   }
   return fields

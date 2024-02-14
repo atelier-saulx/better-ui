@@ -262,6 +262,10 @@ export const getTitle = (
   return key
 }
 
+export const isType = (field: BasedSchemaField): boolean => {
+  return field.type === 'string' && field.format === 'basedType'
+}
+
 export const isId = (field: BasedSchemaField): boolean => {
   return field.type === 'string' && field.format === 'basedId'
 }

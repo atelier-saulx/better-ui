@@ -106,7 +106,7 @@ export const FieldsFromQuery = () => {
                     $or: {
                       $operator: '=',
                       $field: 'type',
-                      $value: 'user',
+                      $value: 'file',
                     },
                   },
                 ],
@@ -123,7 +123,7 @@ export const FieldsFromQuery = () => {
                 {
                   $field: 'type',
                   $operator: '=',
-                  $value: ['todo', 'user'],
+                  $value: ['todo', 'file'],
                 },
               ],
             },
