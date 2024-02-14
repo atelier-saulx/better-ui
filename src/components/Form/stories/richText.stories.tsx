@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
 
 const meta = {
-  title: 'Form/Object',
+  title: 'Form/RichText',
   parameters: {
     layout: 'fullscreen',
   },
