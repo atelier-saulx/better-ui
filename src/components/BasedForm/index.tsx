@@ -21,6 +21,7 @@ export function BasedForm({
   queryEndpoint = 'db',
   fields,
   transformResults,
+  onFileUpload,
 }: BasedFormProps) {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -33,8 +34,6 @@ export function BasedForm({
   }, [checksum])
 
   const ref = React.useRef<BasedFormRef>({})
-
-  console.log({ schema })
 
   if (fields) {
     if (typeof fields === 'function') {
@@ -74,6 +73,8 @@ export function BasedForm({
     )
   }
 
+  console.log('POWER')
+
   return (
     <Form
       schema={schema}
@@ -89,6 +90,7 @@ export function BasedForm({
           })
         })
       }
+      onFileUpload={onFileUpload}
       onSelectReference={async ({ field }) => {
         const selectedReference = await open(({ close }) => (
           <SelectReferenceModal

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useQuery } from '@based/react'
 import { BasedSchema, convertOldToNew } from '@based/schema'
 import * as React from 'react'

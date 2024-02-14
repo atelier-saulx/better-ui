@@ -173,7 +173,6 @@ export const Image = (p: {
       hasFile = true
     }
   }
-
   if (hasFile) {
     const width = p.isLarge ? 248 : 32
     return (

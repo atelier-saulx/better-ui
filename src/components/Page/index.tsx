@@ -21,9 +21,10 @@ export const Page = ({ children, padding = 32, style }: PageProps) => {
       style={{
         padding,
         flexGrow: 1,
+        ...style,
       }}
     >
-      <styled.div style={style}>{children}</styled.div>
+      {children}
     </ScrollArea>
   )
 }
