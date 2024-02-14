@@ -6,6 +6,13 @@ import {
   IconPlus,
   IconArrowDown,
   IconArrowUp,
+  IconSortAsc,
+  IconSortDesc,
+  IconChevronDown,
+  IconSmallChevronTop,
+  IconChevronDownSmall,
+  IconArrowheadDown,
+  IconArrowheadUp,
 } from '../../../index.js'
 import {
   Path,
@@ -111,9 +118,9 @@ export const ReferencesTable = ({
         dir = sortByFields.sorted.dir
         prefix =
           sortByFields.sorted.dir === 'desc' ? (
-            <IconArrowUp />
+            <IconArrowheadDown />
           ) : (
-            <IconArrowDown />
+            <IconArrowheadUp />
           )
       }
       cols.push(

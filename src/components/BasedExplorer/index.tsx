@@ -52,7 +52,7 @@ export type BasedExplorerProps = {
     sort?: { key: string; dir: 'asc' | 'desc' }
   }) => any
   total?: number
-  totalQuery?: (p: { filter?: string }) => any
+  totalQuery?: ((p: { filter?: string }) => any) | false
   fields?: FormProps['fields']
   filter?: boolean
   addItem?: (p: {
@@ -233,13 +233,36 @@ export function BasedExplorer({
     sort,
   })
 
+  if (totalQuery === undefined) {
+    totalQuery = (p) => {
+      const q = query({ filter: p.filter, limit: 0, offset: 0, language })
+      if (q.data?.$list?.$find?.$filter && q.data?.$list?.$find.$traverse) {
+        return {
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: q.data?.$list?.$find.$traverse,
+              $filter: q.data.$list.$find.$filter,
+            },
+          },
+        }
+      }
+      console.warn('connect construct totalQuery')
+      return null
+    }
+  }
+
+  const totalQueryPayload = totalQuery
+    ? totalQuery({ filter: ref.current.filter })
+    : null
+
   const {
     data: totalData,
     loading: totalLoading,
     checksum: totalChecksum,
   } = useQuery(
-    totalQuery ? queryEndpoint : null,
-    totalQuery ? totalQuery({ filter: ref.current.filter }) : null,
+    totalQuery && totalQueryPayload ? queryEndpoint : null,
+    totalQueryPayload,
   )
 
   const updateBlocks = React.useCallback(() => {
@@ -325,14 +348,6 @@ export function BasedExplorer({
     }
   }, [])
 
-  // if (totalQuery && totalLoading) {
-  //   return (
-  //     <Container>
-  //       <Spinner size={32} color="secondary" />
-  //     </Container>
-  //   )
-  // }
-
   if (!fields && schema) {
     fields = generateFieldsFromQuery(
       query({ limit: 0, offset: 0, language }),
@@ -344,13 +359,19 @@ export function BasedExplorer({
     ? totalData?.total ?? 0
     : ref.current.lastLoaded
 
+  const useHeader = info || header || addItem || filter
+
   const viewer = (
     <Table
-      style={{
-        border: border(),
-        borderRadius: borderRadius('tiny'),
-        background: color('background', 'screen'),
-      }}
+      style={
+        useHeader
+          ? {
+              border: border(),
+              borderRadius: borderRadius('tiny'),
+              background: color('background', 'screen'),
+            }
+          : undefined
+      }
       field={
         fields
           ? {
@@ -365,6 +386,7 @@ export function BasedExplorer({
       isLoading={ref.current.isLoading}
       onClick={onItemClick}
       sort={{
+        sorted: ref.current.sort,
         onSort(key, dir, sort) {
           sort.sorted = { key, dir }
           ref.current.sort = { key, dir }
@@ -379,7 +401,6 @@ export function BasedExplorer({
           : async (x) => {
               ref.current.lastLoaded += x.pageSize
             },
-
         onPageChange: async (p) => {
           if (p.end === 0 && !totalQuery) {
             p.end = p.pageSize * 2
@@ -441,7 +462,7 @@ export function BasedExplorer({
       }}
     />
   )
-  if (info || header || addItem || filter) {
+  if (useHeader) {
     const headerProps = {
       total: parsedTotal,
       start: ref.current.start,
@@ -450,7 +471,7 @@ export function BasedExplorer({
     }
 
     return (
-      <Stack direction="column" padding={64} style={{ height: '100%' }}>
+      <Stack direction="column" padding={32} style={{ height: '100%' }}>
         <PageHeader
           suffix={
             <Stack gap={32}>
