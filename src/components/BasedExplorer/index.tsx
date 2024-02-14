@@ -8,8 +8,12 @@ import {
   border,
   FormProps,
   Stack,
+  Button,
   borderRadius,
   color,
+  PageHeader,
+  Badge,
+  IconPlus,
 } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { BasedSchema, BasedSchemaType, convertOldToNew } from '@based/schema'
@@ -405,11 +409,21 @@ export function BasedExplorer(p: BasedExplorerProps) {
   if (p.variant === 'boxed') {
     return (
       <Stack
+        direction="column"
         padding={64}
         style={{
           background: color('background', 'primary'),
         }}
       >
+        <PageHeader
+          suffix={
+            <>
+              <Button prefix={<IconPlus />}>Add Item</Button>
+            </>
+          }
+          title="Header"
+          description="Powerful stuff"
+        ></PageHeader>
         <BasedExplorerInner variant={p.variant} {...p} />
       </Stack>
     )

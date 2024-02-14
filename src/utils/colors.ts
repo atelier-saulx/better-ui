@@ -202,7 +202,7 @@ export const BACKGROUND_COLORS = {
   screen: '#ffffff',
   muted: 'rgba(31, 82, 158, 0.02)',
   inverted: '#171e24',
-  primary: 'rgb(144,160,234, 0.1)',
+  primary: '#fafafa',
 }
 
 export const BORDER_COLORS = {
@@ -215,8 +215,8 @@ export const BORDER_COLORS = {
 
 export const INTERACTIVE_COLORS = {
   primary: 'rgb(44,60,234)',
-  'primary-hover': 'rgba(44,60,23, 0.5)',
-  'primary-muted': `rgba(44,60,234, 0.2)`,
+  'primary-hover': 'rgba(44,60,234,0.5)',
+  'primary-muted': `rgba(44,60,234,0.2)`,
   secondary: '#04294421',
   'secondary-hover': '#10305433',
 }
