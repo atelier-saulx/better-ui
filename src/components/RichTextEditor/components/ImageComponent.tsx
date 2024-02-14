@@ -19,6 +19,7 @@ import { $isImageNode } from '../nodes/ImageNode.js'
 import { IconDelete, IconEdit } from '../../Icons/index.js'
 import { Button, color } from '../../../index.js'
 import { AddImageModal } from './AddImageModal.js'
+import { Text } from '../../../index.js'
 
 export function ImageComponent({
   src,
@@ -120,7 +121,9 @@ export function ImageComponent({
           height: 'auto',
         }}
       />
-      <styled.div>{caption}</styled.div>
+      <Text color="secondary" style={{ marginTop: 6 }}>
+        {caption}
+      </Text>
       <styled.div
         className="overlay"
         style={{

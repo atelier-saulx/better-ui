@@ -10,6 +10,7 @@ export default meta
 
 export const Default: StoryObj<typeof RichTextEditor> = {
   args: {
+    height: 540,
     autoFocus: true,
     placeholder: 'Enter some rich text...',
     onChange: ({ json, html }) => {

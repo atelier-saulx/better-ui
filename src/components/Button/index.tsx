@@ -10,6 +10,7 @@ import {
   useKeyboardShortcut,
   Stack,
   Text,
+  Tooltip,
 } from '../../index.js'
 
 export type ButtonProps = {
