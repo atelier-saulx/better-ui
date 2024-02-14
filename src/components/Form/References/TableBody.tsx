@@ -103,8 +103,9 @@ const TableBodyPaged = (p: TableBodyProps) => {
     const block = Math.floor(y / (ref.current.pageCount * 48))
     if (ref.current.pagination.loadMore) {
       const total = ref.current.pagination.total
+
       if (
-        e.currentTarget.scrollHeight - y - e.currentTarget.clientHeight === 0 &&
+        e.currentTarget.scrollHeight - y - e.currentTarget.clientHeight <= 0 &&
         !ref.current.loading &&
         ref.current.loaded < total
       ) {

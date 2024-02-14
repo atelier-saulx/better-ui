@@ -135,6 +135,7 @@ export const FieldsFromValues = () => {
           return { data: d }
         }}
         query={({ limit, offset, sort, language }) => ({
+          offset,
           arraySize: limit,
           src: '',
           id: '',

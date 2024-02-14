@@ -26,6 +26,7 @@ export type BasedExplorerProps = {
     language: string
     sort?: { key: string; dir: 'asc' | 'desc' }
   }) => any
+  total?: number
   totalQuery?: any
   fields?: FormProps['fields']
 }
@@ -119,12 +120,14 @@ export function BasedExplorer({
     loadTimer?: ReturnType<typeof setTimeout>
     start: number
     end: number
+    lastLoaded?: number
     sort?: { key: string; dir: 'asc' | 'desc' }
   }>({
     block: { data: [] },
     activeSubs: new Map(),
     isLoading: true,
     start: 0,
+    lastLoaded: 0,
     end: 0,
   })
 
@@ -210,7 +213,7 @@ export function BasedExplorer({
         onSort(key, dir, sort) {
           sort.sorted = { key, dir }
           ref.current.sort = { key, dir }
-          for (const [id, sub] of ref.current.activeSubs) {
+          for (const [, sub] of ref.current.activeSubs) {
             sub.close()
             const newSub: ActiveSub = {
               loaded: false,
@@ -241,11 +244,24 @@ export function BasedExplorer({
       }}
       pagination={{
         type: 'scroll',
-        total: totalData?.total ?? 0,
+        total: totalData?.total ?? ref.current.lastLoaded,
+
+        loadMore: totalData
+          ? undefined
+          : async (x) => {
+              console.log(x)
+              ref.current.lastLoaded += x.pageSize
+            },
+
         onPageChange: async (p) => {
           if (p.end === 0 && !totalQuery) {
             p.end = p.pageSize * 2
           }
+
+          if (ref.current.lastLoaded < p.end) {
+            ref.current.lastLoaded = p.end
+          }
+
           ref.current.start = p.start
           ref.current.end = p.end
           if (ref.current.loadTimer !== null) {
