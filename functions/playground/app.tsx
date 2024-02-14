@@ -32,6 +32,7 @@ import * as f6211783009481 from '../../src/components/PieGraph/index.stories.js'
 import * as f6441825492501 from '../../src/components/RichTextEditor/index.stories.js'
 import * as f15414583236136 from '../../src/components/Schema/index.stories.js'
 import * as f6287607847107 from '../../src/components/ScrollArea/index.stories.js'
+import * as f10487837239937 from '../../src/components/SearchInput/index.stories.js'
 import * as f8265807269863 from '../../src/components/SelectInput/index.stories.js'
 import * as f666797323181 from '../../src/components/SetInput/index.stories.js'
 import * as f834522360851 from '../../src/components/Sidebar/index.stories.js'
@@ -88,6 +89,7 @@ export const stories = [
   f6441825492501,
   f15414583236136,
   f6287607847107,
+  f10487837239937,
   f8265807269863,
   f666797323181,
   f834522360851,
@@ -554,6 +556,7 @@ export const Default = () => {
     <div style={{ height: '50vh' }}>
       <BasedList
         query={() => ({
+          $language: 'en',
           data: {
             $all: true,
             $list: {
@@ -2717,6 +2720,37 @@ export const Default: StoryObj<typeof ScrollArea> = {
 `,
   },
   {
+    id: 'f10487837239937',
+    story: f10487837239937,
+    path: '/Users/youzi/dev/better-ui/src/components/SearchInput/index.stories.tsx',
+    file: `import { SearchInput, Stack, Button } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+import React from 'react'
+
+const meta: Meta<typeof SearchInput> = {
+  title: 'Inputs/SearchInput',
+  component: SearchInput,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof SearchInput> = {
+  args: {
+    placeholder: 'Placeholder text',
+  },
+}
+
+export const WithButton = () => {
+  return (
+    <Stack justify="start" gap={16}>
+      <SearchInput />
+      <Button>Bla</Button>
+    </Stack>
+  )
+}
+`,
+  },
+  {
     id: 'f8265807269863',
     story: f8265807269863,
     path: '/Users/youzi/dev/better-ui/src/components/SelectInput/index.stories.tsx',
@@ -2903,6 +2937,33 @@ export const Default = () => {
   )
 }
 
+export const Footer = () => {
+  const [v, setV] = React.useState('overview')
+
+  return (
+    <Sidebar
+      value={v}
+      onValueChange={setV}
+      data={[
+        {
+          label: 'Overview',
+          value: 'overview',
+          prefix: <IconViewBoxes />,
+          suffix: <Badge color="informative-muted">12</Badge>,
+        },
+        {
+          label: 'Content',
+          value: 'content',
+          prefix: <IconEdit />,
+          suffix: <IconAlert />,
+        },
+        { label: 'Users', value: 'users', prefix: <IconUsers /> },
+      ]}
+      footer={<div>IMMA COOL FOOTER</div>}
+    />
+  )
+}
+
 export const Small = () => {
   const [v, setV] = React.useState('overview')
   return (
@@ -3038,9 +3099,7 @@ export const GroupsCollapsed = () => {
       open={false}
       value={v}
       onValueChange={setV}
-      header={({ open }) =>
-        open ? <BasedLogoWithText /> : <IconBased />
-      }
+      header={({ open }) => (open ? <BasedLogoWithText /> : <IconBased />)}
       data={{
         Group1: Array.from({ length: 16 }).map((_, i) => ({
           label: 'Item ' + i,

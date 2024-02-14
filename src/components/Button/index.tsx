@@ -17,6 +17,7 @@ export type ButtonProps = {
   children?: React.ReactNode
   variant?:
     | 'primary'
+    | 'primary-muted'
     | 'primary-transparent'
     | 'primary-link'
     | 'neutral'
@@ -124,6 +125,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(size === 'small' && {
             padding: shape === 'rectangle' ? '3px 12px' : '5px',
+          }),
+          ...(variant === 'primary-muted' && {
+            color: color('interactive', 'primary'),
+            background: color('interactive', 'primary-muted'),
+            border: `1px solid transparent`,
+            '&:hover': {
+              background: color('interactive', 'primary-muted'),
+              border: `1px solid ${color('interactive', 'primary-hover')}`,
+            },
           }),
           ...(variant === 'primary' && {
             color: color('content', 'inverted'),
