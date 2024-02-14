@@ -1,6 +1,11 @@
 import React from 'react'
 import { Style } from 'inlines'
-import { Stack, Text, useControllableState } from '../../index.js'
+import {
+  DropdownHookProvider,
+  Stack,
+  Text,
+  useControllableState,
+} from '../../index.js'
 import { Tag } from './Tag.js'
 import { AddNew } from './AddNew.js'
 
@@ -84,12 +89,14 @@ export const SetInput = React.forwardRef<HTMLInputElement, SetInputProps>(
             })}
         </Stack>
         <Stack style={{ height: 52, width: 'auto' }}>
-          <AddNew
-            state={state}
-            setState={setState}
-            fieldItemType={fieldItemType}
-            options={options}
-          />
+          <DropdownHookProvider>
+            <AddNew
+              state={state}
+              setState={setState}
+              fieldItemType={fieldItemType}
+              options={options}
+            />
+          </DropdownHookProvider>
         </Stack>
       </Stack>
     )

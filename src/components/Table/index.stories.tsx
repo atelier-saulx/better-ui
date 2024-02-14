@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Table, useUpdate } from '../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
+import { Provider, useQuery } from '@based/react'
 
 const client = based({
   org: 'saulx',
@@ -10,51 +10,50 @@ const client = based({
   env: 'production',
 })
 
+const DataStuff = ({ Story }) => {
+  const { data, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    delete data[i].arraySize
+    data[i].price = Number(data[i].price)
+  }
+
+  const dataSorted = [...data].sort(sortByPrice)
+
+  return <Story data={data ?? []} dataSorted={dataSorted} />
+}
+
 const meta = {
   title: 'Components/Table',
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <DataStuff Story={Story} />
+      </Provider>
+    ),
+  ],
 }
 export default meta
 
-const data = new Array(100).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: faker.commerce.price(),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-const dataSmall = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: Number(faker.commerce.price()),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-const dataLots = new Array(1000).fill(null).map((v, index) => ({
-  nr: index, // check if all are numbers
-  src: faker.image.avatar(),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-  price: faker.commerce.price(),
-  color: faker.color.rgb(),
-  createdAt: faker.date.soon().valueOf(),
-}))
-
-export const Default = () => {
+export const Default = ({ data }) => {
   return (
     <div
       style={{
@@ -66,14 +65,31 @@ export const Default = () => {
   )
 }
 
-export const LoadMore = () => {
-  const dataRef = React.useRef({
-    data: [...dataSmall],
+export const LoadMore = ({ data }) => {
+  const [dataFetch, setDataFetch] = React.useState({
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
   })
 
-  const update = useUpdate()
+  const dataRef = React.useRef({
+    data: [...data],
+  })
+
+  const { data: more } = useQuery('fakedata', {
+    ...dataFetch,
+  })
 
   const d = dataRef.current.data
+
+  const update = useUpdate()
 
   return (
     <div
@@ -86,24 +102,25 @@ export const LoadMore = () => {
         pagination={{
           loadMore: async (p) => {
             await wait(Math.random() * 1000)
-            dataRef.current.data.push(
-              ...new Array(p.pageSize * 5).fill(null).map((_, i) => ({
-                id: faker.string.uuid().slice(0, 8),
-                src: faker.image.avatar(),
-                status: faker.lorem.words(1),
-                title: faker.lorem.sentence(3),
-                number: i + dataRef.current.data.length,
-                name: faker.person.fullName(),
-                price: Number(faker.commerce.price()),
-                color: faker.color.rgb(),
-                createdAt: faker.date.soon().valueOf(),
-              })),
-            )
+
+            setDataFetch({
+              arraySize: Math.floor(Math.random() * 15) + 10,
+              id: '',
+              src: '',
+              status: '',
+              title: '',
+              number: '',
+              name: '',
+              price: '',
+              color: '',
+              createdAt: '',
+            })
+
+            await dataRef.current.data.push(...more)
             update()
           },
           onPageChange: async (p) => {
-            dataRef.current.data[p.start + 1].name =
-              '$$$$$ ' + faker.person.fullName()
+            dataRef.current.data[p.start + 1].name = '$$$$$ ' + 'snurp'
             update()
           },
           total: d.length,
@@ -116,6 +133,28 @@ export const LoadMore = () => {
 }
 
 export const Infinite = () => {
+  const { data: dataLots, loading } = useQuery('fakedata', {
+    arraySize: 1000,
+    // nr: index, // check if all are numbers
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < dataLots.length; i++) {
+    delete dataLots[i].arraySize
+    dataLots['nr'] = i
+  }
+
   return (
     <div
       style={{
@@ -131,10 +170,9 @@ const sortByPrice = (a, b) => {
   return a.price * 1 > b.price * 1 ? -1 : a.price * 1 === b.price * 1 ? 0 : 1
 }
 
-const dataSorted = [...data].sort(sortByPrice)
-
-export const CustomSort = () => {
+export const CustomSort = ({ dataSorted }) => {
   const update = useUpdate()
+
   return (
     <div
       style={{
@@ -161,10 +199,59 @@ export const CustomSort = () => {
 }
 
 export const EditableTable = () => {
-  return <Table values={dataSmall} editable sortable />
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Table
+      values={dataSmall}
+      editable
+      sortable
+      field={{
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'basedId' },
+          color: { type: 'string', format: 'rgbColor' },
+          price: { type: 'number', display: 'euro' },
+          createdAt: { type: 'timestamp' },
+        },
+      }}
+    />
+  )
 }
 
 export const SmallTable = () => {
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Table
       values={dataSmall}

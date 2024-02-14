@@ -1,6 +1,13 @@
 import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker/locale/en'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta = {
   title: 'Form/References',
@@ -9,67 +16,76 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <Modal.Provider>
-        <Story />
-      </Modal.Provider>
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
     ),
   ],
 }
 
 export default meta
 
-const faces = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-}))
+const getRandomRef = async (choices) => {
+  let choice = new Object()
 
-const facesNames = new Array(50).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  firstName: faker.person.firstName(),
-  createdAt: faker.date.recent().valueOf(),
-  lastUpdated: faker.date.recent().valueOf(),
-  powerTime: faker.date.recent().valueOf(),
-  city: faker.location.city(),
-}))
+  for (const key in choices) {
+    if (key === 'id') {
+      choice[key] = choices['id']
+    } else if (key === 'arraySize') {
+    } else if (Math.random() < 0.5) {
+      choice[key] = choices[key]
+    }
+  }
 
-const facesLess = new Array(20).fill(null).map(() => ({
-  src: faker.image.avatar(),
-  id: faker.string.uuid().slice(0, 8),
-  name: faker.person.firstName(),
-}))
+  await console.log('CHOICE 🍖', { ...choice })
 
-const getRandomRef = () => {
-  const id = faker.string.uuid().slice(0, 8)
-  const choices = [
-    {
-      id,
-      src: faker.image.avatar(),
-      name: faker.person.fullName(),
-    },
-    { id, title: faker.lorem.sentence(3) },
-    id,
-    {
-      id,
-      status: faker.lorem.words(1),
-      title: faker.lorem.sentence(3),
-      src: faker.image.avatar(),
-      number: faker.number.int(10),
-      name: faker.person.fullName(),
-    },
-    {
-      id,
-      src: faker.image.avatar(),
-      name: faker.person.fullName(),
-      status: faker.lorem.words(1),
-    },
-  ]
-  return choices[Math.floor(Math.random() * choices.length)]
+  return { ...choice }
 }
 
 export const References = () => {
   const { open } = Modal.useModal()
+
+  const { data: faces } = useQuery('fakedata', {
+    arraySize: 50,
+    src: '',
+    id: '',
+  })
+
+  const { data: facesNames, loading } = useQuery('fakedata', {
+    arraySize: 50,
+    src: '',
+    id: '',
+    description: '',
+    firstName: '',
+    createdAt: '',
+    lastUpdated: '',
+    powerTime: '',
+    city: '',
+  })
+
+  const { data: facesLess } = useQuery('fakedata', {
+    arraySize: 20,
+    src: '',
+    id: '',
+    name: '',
+  })
+
+  const { data: choices } = useQuery('fakedata', {
+    arraySize: 1,
+    id: '',
+    title: '',
+    name: '',
+    src: '',
+    status: '',
+    number: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
     <Form
       values={{
@@ -90,7 +106,7 @@ export const References = () => {
       onClickReference={async ({ path }) => {
         open(({ close }) => {
           return (
-            <Modal onConfirm={() => close(getRandomRef())}>
+            <Modal onConfirm={() => close(getRandomRef(choices[0]))}>
               <Modal.Title>Go to "{path.join('/')}"</Modal.Title>
             </Modal>
           )
@@ -99,7 +115,10 @@ export const References = () => {
       onSelectReference={async ({ path }) => {
         return open(({ close }) => {
           return (
-            <Modal variant="large" onConfirm={() => close(getRandomRef())}>
+            <Modal
+              variant="large"
+              onConfirm={() => close(getRandomRef(choices[0]))}
+            >
               <Modal.Title>REFERENCE! {path.join('/')}</Modal.Title>
             </Modal>
           )
@@ -110,7 +129,7 @@ export const References = () => {
           const newItems: any[] = []
           const len = ~~(Math.random() * 100)
           for (let i = 0; i < len; i++) {
-            newItems.push(getRandomRef())
+            newItems.push(getRandomRef(choices[0]))
           }
           return (
             <Modal variant="large" onConfirm={() => close(newItems)}>
