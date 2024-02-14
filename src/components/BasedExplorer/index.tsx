@@ -456,7 +456,7 @@ export function BasedExplorer({
             <Stack gap={32}>
               {filter ? (
                 <SearchInput
-                  loading={totalLoading}
+                  loading={ref.current.filter && totalLoading}
                   value={ref.current.filter}
                   onChange={(v) => {
                     ref.current.filter = v
