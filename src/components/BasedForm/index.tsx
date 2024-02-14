@@ -70,8 +70,6 @@ export function BasedForm({
     )
   }
 
-  console.log({ fields: ref.current.currentFields, schema, values })
-
   return (
     <Form
       schema={schema}
@@ -92,7 +90,10 @@ export function BasedForm({
             }}
           />
         ))
-        return selectedReference.id
+
+        if (selectedReference) {
+          return selectedReference.id
+        }
       }}
       onSelectReferences={async () => {
         const selectedReference = await open(({ close }) => (
@@ -102,7 +103,10 @@ export function BasedForm({
             }}
           />
         ))
-        return [selectedReference.id]
+
+        if (selectedReference) {
+          return [selectedReference.id]
+        }
       }}
     />
   )

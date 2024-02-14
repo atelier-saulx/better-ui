@@ -2,6 +2,7 @@ import * as React from 'react'
 import { BasedExplorer, Modal, Sidebar } from '../../index.js'
 import { useQuery } from '@based/react'
 import { convertOldToNew } from '@based/schema'
+import { OnOpenChangeContext } from '../Modal/index.js'
 
 export type SelectReferenceModalProps = {
   onSelect: (reference: any) => void
@@ -29,7 +30,10 @@ export function SelectReferenceModal({ onSelect }: SelectReferenceModalProps) {
   if (!schema) return
 
   return (
-    <Modal.Root open={true}>
+    <Modal.Root
+      open={true}
+      onOpenChange={React.useContext(OnOpenChangeContext)}
+    >
       <Modal.Overlay style={{ width: '85%', height: '85%' }}>
         <Modal.Title>Select reference</Modal.Title>
         <Modal.Body style={{ padding: 0, display: 'flex' }}>
