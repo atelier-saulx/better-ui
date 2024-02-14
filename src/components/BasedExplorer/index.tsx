@@ -472,7 +472,7 @@ export function BasedExplorer({
     }
 
     return (
-      <Stack direction="column" padding={64} style={{ height: '100%' }}>
+      <Stack direction="column" padding={32} style={{ height: '100%' }}>
         <PageHeader
           suffix={
             <Stack gap={32}>

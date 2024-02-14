@@ -170,7 +170,7 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        header="Page explorer"
+        header="Based Explorer"
         info
         filter
         addItem={async () => {
