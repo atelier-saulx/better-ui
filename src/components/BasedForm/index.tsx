@@ -27,7 +27,7 @@ export function BasedForm({
 
   const schema = React.useMemo(() => {
     if (!rawSchema) return
-    return convertOldToNew(rawSchema)
+    return convertOldToNew(rawSchema) as BasedSchema
   }, [checksum])
 
   const ref = React.useRef<BasedFormRef>({})

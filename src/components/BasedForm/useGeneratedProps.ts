@@ -41,7 +41,7 @@ const createQuery = (
           $all: true,
         }
         walkFields(f.properties, query[field])
-      } else if (type === 'array' && isWalkable(f.values)) {
+      } else if (type === 'array' && isWalkable(f.items)) {
         query[field] = {
           $all: true,
         }

@@ -142,7 +142,7 @@ export const ReferencesTable = ({
 
   const nField: BasedSchemaFieldArray = {
     type: 'array',
-    values: fieldSchema,
+    items: fieldSchema,
     readOnly,
   }
 

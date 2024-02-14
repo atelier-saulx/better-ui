@@ -20,10 +20,17 @@ export default meta
 export const RichTextEditor = () => {
   const [state, setState] = React.useState<any>({
     text: '',
-    object: {
-      text: '',
-    },
   })
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setState((state) => ({ ...state, text: state.text + '<p>a</p>' }))
+    }, 500)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
   return (
     <Form
       variant="small"
@@ -32,15 +39,6 @@ export const RichTextEditor = () => {
         text: {
           type: 'text',
           format: 'html',
-        },
-        object: {
-          type: 'object',
-          properties: {
-            text: {
-              type: 'text',
-              format: 'html',
-            },
-          },
         },
       }}
       onChange={(values) => {
