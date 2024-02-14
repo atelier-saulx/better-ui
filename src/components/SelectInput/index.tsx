@@ -212,7 +212,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             style={{
               background: color('background', 'screen'),
               overflow: 'hidden',
-              width: 'var(--radix-select-trigger-width)',
+              // width: 'var(--radix-select-trigger-width)',
               maxHeight: 'var(--radix-select-content-available-height)',
               borderRadius: borderRadius('small'),
               border: border(),

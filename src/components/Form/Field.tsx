@@ -11,6 +11,7 @@ import {
   SelectInput,
   ColorInput,
   CheckboxInput,
+  RichTextEditor,
 } from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
@@ -115,6 +116,28 @@ export const Field = ({
             value={ctx.values[key]}
             onChange={(value) => {
               ctx.listeners.onChangeHandler(ctx, path, value)
+            }}
+          />
+        </styled.div>
+      </FormField>
+    )
+  }
+
+  // TODO correct check
+  // if (type === 'string' && field.format === 'html') {
+  if (key === 'content') {
+    // on blur / focus
+    return (
+      <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
+        <styled.div
+          style={{
+            width: 450,
+          }}
+        >
+          <RichTextEditor
+            value={ctx.values[key]}
+            onChange={(html) => {
+              ctx.listeners.onChangeHandler(ctx, path, html)
             }}
           />
         </styled.div>

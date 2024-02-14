@@ -164,6 +164,8 @@ export const getColSizes = (
 
   //  handle index
 
+  let hasFlexible = false
+
   for (const key in fieldSchema.properties) {
     const field = fieldSchema.properties[key]
     const sizedType = SIZES[field.type] ?? SIZES.default
@@ -187,6 +189,7 @@ export const getColSizes = (
     }
 
     if (flexible) {
+      hasFlexible = true
       total -= width
       totalFlexFields++
       spread += width
@@ -205,9 +208,16 @@ export const getColSizes = (
     }
   }
 
-  for (const f of fields) {
-    if (!f.width) {
+  if (!hasFlexible) {
+    totalFlexFields = fields.length
+    for (const f of fields) {
       f.width = Math.floor((total + spread) / totalFlexFields)
+    }
+  } else {
+    for (const f of fields) {
+      if (!f.width) {
+        f.width = Math.floor((total + spread) / totalFlexFields)
+      }
     }
   }
 

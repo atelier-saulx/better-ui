@@ -2,6 +2,7 @@ import { startPlayground } from '@based/storybook/playground'
 import * as f13852923402373 from "../../src/components/Badge/index.stories.js"
 import * as f15285278589437 from "../../src/components/BarGraph/index.stories.js"
 import * as f11824060859706 from "../../src/components/BasedExplorer/index.stories.js"
+import * as f17092004167783 from "../../src/components/BasedForm/index.stories.js"
 import * as f3593820932342 from "../../src/components/Button/index.stories.js"
 import * as f4500130912786 from "../../src/components/Calendar/index.stories.js"
 import * as f4580959827109 from "../../src/components/CheckboxInput/index.stories.js"
@@ -50,7 +51,7 @@ import * as f7145042216623 from "../../src/components/Form/stories/record.storie
 import * as f47303550426 from "../../src/components/Form/stories/references.stories.js"
 import * as f11229660430731 from "../../src/components/Form/stories/referencesSchema.stories.js"
 import * as f7012957941312 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f13852923402373,f15285278589437,f11824060859706,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f13659776204836,f16096448594379,f5024396229712,f523702835381,f16494901165491,f13113167991056,f5376768019532,f3246165100817,f11708898986714,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f3747781814494,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f7012957941312]
+export const stories = [f13852923402373,f15285278589437,f11824060859706,f17092004167783,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f13659776204836,f16096448594379,f5024396229712,f523702835381,f16494901165491,f13113167991056,f5376768019532,f3246165100817,f11708898986714,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f3747781814494,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f7012957941312]
 export const parsedStories = [{ id: "f13852923402373", story: f13852923402373, path: "/Users/yvesbeer/dev/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -307,6 +308,41 @@ export const Default = () => {
     </div>
   )
 }
+`},{ id: "f17092004167783", story: f17092004167783, path: "/Users/yvesbeer/dev/better-ui/src/components/BasedForm/index.stories.tsx", file: `import * as React from 'react'
+import type { Meta } from '@storybook/react'
+import { BasedForm, Modal } from '../../index.js'
+import based from '@based/client'
+import { Provider } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
+
+const meta: Meta<typeof BasedForm> = {
+  title: 'Based/BasedForm',
+  component: BasedForm,
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Modal.Provider>
+          <Story />
+        </Modal.Provider>
+      </Provider>
+    ),
+  ],
+}
+
+export default meta
+
+export const Default = () => {
+  return (
+    <div>
+      <BasedForm id="10ff8f6f00" />
+    </div>
+  )
+}
 `},{ id: "f3593820932342", story: f3593820932342, path: "/Users/yvesbeer/dev/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { IconCopy, IconMoreVertical, Button } from '../../index.js'
@@ -453,9 +489,38 @@ export const Default = () => {
   return (
     <Calendar
       data={fakedata}
-      labelField="name"
-      //timestampField="updatedAt"
+      labelField="title"
+      timestampField="updatedAt"
       view="month"
+    />
+  )
+}
+
+export const WeekView = () => {
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 20,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Calendar
+      data={fakedata}
+      labelField="title"
+      timestampField="updatedAt"
+      view="week"
     />
   )
 }
@@ -2119,11 +2184,11 @@ export default meta
 
 export const Default: StoryObj<typeof RichTextEditor> = {
   args: {
+    height: 540,
     autoFocus: true,
     placeholder: 'Enter some rich text...',
-    onChange: ({ json, html }) => {
+    onChange: (html) => {
       console.log('onchange html --> ', html)
-      console.log('onchange json --> ', json)
     },
   },
 }

@@ -6,14 +6,15 @@ export type TooltipProps = {
   children: React.ReactNode
   content: string
   side?: TooltipBase.TooltipContentProps['side']
+  delay?: number
 }
 
-export function Tooltip({ children, content, side }: TooltipProps) {
+export function Tooltip({ delay = 0, children, content, side }: TooltipProps) {
   return (
-    <TooltipBase.Provider delayDuration={0} skipDelayDuration={0}>
+    <TooltipBase.Provider delayDuration={delay} skipDelayDuration={0}>
       <TooltipBase.Root>
         <TooltipBase.Trigger asChild>
-          <div>{children}</div>
+          <div style={{ display: 'inline-flex' }}>{children}</div>
         </TooltipBase.Trigger>
         <TooltipBase.Portal>
           <TooltipBase.Content
