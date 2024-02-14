@@ -17,6 +17,7 @@ export function BasedForm({
   includedFields,
   excludeCommonFields = true,
   query,
+  onChange,
   queryEndpoint = 'db',
   fields,
 }: BasedFormProps) {
@@ -75,13 +76,16 @@ export function BasedForm({
       schema={schema}
       values={values}
       fields={ref.current.currentFields}
-      onChange={async (_values, _changed, _checksum, based) => {
-        await client.call('db:set', {
-          $id: id,
-          $language: language,
-          ...based,
+      onChange={
+        onChange ??
+        (async (_values, _changed, _checksum, based) => {
+          await client.call('db:set', {
+            $id: id,
+            $language: language,
+            ...based,
+          })
         })
-      }}
+      }
       onSelectReference={async ({ field }) => {
         const selectedReference = await open(({ close }) => (
           <SelectReferenceModal
