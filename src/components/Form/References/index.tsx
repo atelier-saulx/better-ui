@@ -72,7 +72,6 @@ export function References({
     return (
       <ReferencesTable
         field={field}
-        alwaysUseCols
         onClickReference={clickRef}
         ctx={ctx}
         path={path}
