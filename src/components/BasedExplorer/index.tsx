@@ -345,13 +345,19 @@ export function BasedExplorer({
     ? totalData?.total ?? 0
     : ref.current.lastLoaded
 
+  const useHeader = info || header || addItem || filter
+
   const viewer = (
     <Table
-      style={{
-        border: border(),
-        borderRadius: borderRadius('tiny'),
-        background: color('background', 'screen'),
-      }}
+      style={
+        useHeader
+          ? {
+              border: border(),
+              borderRadius: borderRadius('tiny'),
+              background: color('background', 'screen'),
+            }
+          : undefined
+      }
       field={
         fields
           ? {
@@ -442,7 +448,7 @@ export function BasedExplorer({
       }}
     />
   )
-  if (info || header || addItem || filter) {
+  if (useHeader) {
     const headerProps = {
       total: parsedTotal,
       start: ref.current.start,
