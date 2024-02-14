@@ -199,11 +199,15 @@ export const isSmallField = (field: BasedSchemaField): boolean => {
     return false
   }
 
-  if (type === 'string' && field.multiline) {
+  if ((type === 'string' || type === 'text') && field.format === 'html') {
     return false
   }
 
-  if (type === 'string' && isCode(field.format)) {
+  if ((type === 'string' || type === 'text') && field.multiline) {
+    return false
+  }
+
+  if ((type === 'string' || type === 'text') && isCode(field.format)) {
     return false
   }
 
