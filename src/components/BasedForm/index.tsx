@@ -1,46 +1,23 @@
 import { useClient, useQuery } from '@based/react'
-import {
-  BasedSchema,
-  BasedSchemaFieldObject,
-  BasedSchemaType,
-  convertOldToNew,
-} from '@based/schema'
+import { BasedSchema, convertOldToNew } from '@based/schema'
 import * as React from 'react'
-import {
-  Container,
-  Form,
-  FormProps,
-  Modal,
-  Spinner,
-  useUpdate,
-} from '../../index.js'
+import { Container, Form, FormProps, Modal, Spinner } from '../../index.js'
 import { useLanguage } from '../../hooks/useLanguage/index.js'
 import { SelectReferenceModal } from './SelectReferenceModal.js'
+import { useBasedFormProps } from './useGeneratedProps.js'
+import { BasedFormProps, BasedFormRef } from './types.js'
 
-export type BasedFormProps = {
-  id: string
-  includedFields?: string[]
-  excludeCommonFields?: boolean
-  fields?:
-    | FormProps['fields']
-    | ((
-        fields: FormProps['fields'],
-        schema: BasedSchema,
-      ) => FormProps['fields'])
-  query?: (
-    id: string,
-    query: any,
-    fields: FormProps['fields'],
-    schema: BasedSchema,
-  ) => any
-  onChange?: FormProps['onChange']
-}
+export type FieldsFn = (
+  fields: FormProps['fields'],
+  schema: BasedSchema,
+) => FormProps['fields']
 
 export function BasedForm({
   id,
   includedFields,
   excludeCommonFields = true,
   query,
+  queryEndpoint = 'db',
   fields,
 }: BasedFormProps) {
   const client = useClient()
@@ -53,16 +30,39 @@ export function BasedForm({
     return convertOldToNew(rawSchema)
   }, [checksum])
 
-  const ref = React.useRef<{
-    values?: FormProps['values']
-    fields?: FormProps['fields']
-  }>({})
+  const ref = React.useRef<BasedFormRef>({})
 
-  // if id changes change it all
+  if (fields) {
+    if (typeof fields === 'function') {
+      ref.current.fieldsFn = fields
+    } else {
+      ref.current.fields = fields
+    }
+  }
 
-  const update = useUpdate()
+  if (query) {
+    ref.current.queryFn = query
+  }
 
-  if (!ref.current.fields) {
+  ref.current.schema = schema
+
+  useBasedFormProps(
+    ref,
+    id,
+    language,
+    checksum,
+    includedFields,
+    excludeCommonFields,
+  )
+
+  const isReady = ref.current.currentFields && checksum
+
+  const { data: values } = useQuery(
+    isReady ? queryEndpoint : null,
+    ref.current.currentQuery,
+  )
+
+  if (!isReady) {
     return (
       <Container>
         <Spinner size={32} color="secondary" />
@@ -73,8 +73,8 @@ export function BasedForm({
   return (
     <Form
       schema={schema}
-      values={ref.current.values}
-      fields={ref.current.fields}
+      values={values}
+      fields={ref.current.currentFields}
       onChange={async (_values, _changed, _checksum, based) => {
         await client.call('db:set', {
           $id: id,
