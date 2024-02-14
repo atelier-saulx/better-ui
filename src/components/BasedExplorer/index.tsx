@@ -22,7 +22,7 @@ import { BasedSchema, BasedSchemaType, convertOldToNew } from '@based/schema'
 import { isSmallField } from '../Form/utils.js'
 import { vi } from 'date-fns/locale'
 
-export type BasedExplorerHeadertComponent = (p: {
+export type BasedExplorerHeaderComponent = (p: {
   total: number
   start: number
   end: number
@@ -33,8 +33,8 @@ const DefaultInfo = ({ total, start, end }) =>
   `Showing ${start} - ${end} out of a ${total} items`
 
 export type BasedExplorerProps = {
-  header?: React.ReactNode | BasedExplorerHeadertComponent
-  info?: React.ReactNode | BasedExplorerHeadertComponent | true
+  header?: React.ReactNode | BasedExplorerHeaderComponent
+  info?: React.ReactNode | BasedExplorerHeaderComponent | true
   onItemClick?: (item: any) => void
   queryEndpoint?: string
   transformResults?: (data: any) => any
