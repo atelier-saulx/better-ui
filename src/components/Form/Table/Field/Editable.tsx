@@ -184,6 +184,7 @@ export function EditableField({
   ) {
     return (
       <RichTextEditor
+        variant="small"
         value={value}
         onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
       />
