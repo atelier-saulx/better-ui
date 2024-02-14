@@ -91,6 +91,8 @@ const createFields = (
           'ancestors',
           'children',
           'type',
+          'updatedAt',
+          'createdAt',
         ].includes(key)
       ) {
         delete fields[key]
