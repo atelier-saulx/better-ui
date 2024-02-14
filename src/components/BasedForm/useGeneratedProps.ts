@@ -96,8 +96,6 @@ export const useBasedFormProps = (
 ) => {
   const [, update] = React.useState(0)
 
-  // may need to add extra deps e.g. query fn to string...
-
   React.useEffect(() => {
     const schema = ref.current.schema
 
@@ -123,5 +121,5 @@ export const useBasedFormProps = (
     ref.current.currentQuery = query
 
     update(hashObjectIgnoreKeyOrder([query, fields]))
-  }, [id, schemaChecksum, language])
+  }, [id, schemaChecksum, language, ref.current.queryFn, ref.current.fields])
 }
