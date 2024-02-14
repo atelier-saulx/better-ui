@@ -48,7 +48,7 @@ export const ReferencesTable = ({
   field,
   onClickReference,
   changeIndex,
-  alwaysUseCols,
+  alwaysUseCols = true,
   sortByFields,
   fieldSchema,
   isBlock,

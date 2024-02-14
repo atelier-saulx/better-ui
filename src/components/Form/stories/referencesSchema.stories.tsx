@@ -254,54 +254,77 @@ export const IncorrectReferences = () => {
     return null
   }
 
+  const example = {
+    fields: {
+      attachments: {
+        title: 'Multiple attachments',
+        type: 'references',
+      },
+    },
+    schema: {
+      types: {
+        todo: {
+          pluralName: '',
+          description: '',
+          title: 'todo',
+          fields: {
+            // index: {
+            //   title: 'index',
+            //   type: 'number',
+            // },
+            id: {
+              format: 'basedId',
+              type: 'string',
+            },
+            attachments: {
+              title: 'Multiple attachments',
+              type: 'references',
+            },
+            // createdAt: {
+            //   type: 'timestamp',
+            //   display: 'human',
+            // },
+            name: {
+              title: 'name',
+              type: 'string',
+            },
+            updatedAt: {
+              type: 'timestamp',
+              // display: 'human',
+            },
+          },
+        },
+      },
+    },
+    values: {
+      attachments: [
+        {
+          createdAt: 1707741394210,
+          id: '1000b2640e',
+          index: 676,
+          type: 'todo',
+          updatedAt: 1707741394210,
+        },
+        {
+          createdAt: 1707519600000,
+          id: '1001532335',
+          index: 1,
+          name: 'flap1231231249889',
+          type: 'todo',
+          updatedAt: 1707820578097,
+        },
+      ],
+    },
+  }
+
   return (
     <Form
       editableReferences
-      values={{
-        people: [
-          {
-            createdAt: 1707741394210,
-            id: '1000b2640e',
-            index: 676,
-            type: 'todo',
-            updatedAt: 1707741394210,
-          },
-          {
-            createdAt: 1707519600000,
-            id: '1001532335',
-            index: 1,
-            name: 'flap1231231249889',
-            type: 'todo',
-            updatedAt: 1707820578097,
-          },
-        ],
-      }}
-      fields={{
-        people: {
-          sortable: true,
-          title: 'People time',
-          type: 'references',
-          // allowedTypes: ['smurp'],
-        },
-      }}
-      schema={{
-        types: {
-          file: {
-            fields: {
-              mimeType: { type: 'string' },
-              name: { type: 'string' },
-              src: { type: 'string', contentMediaType: '*/*' },
-            },
-          },
-          person: {
-            fields: {
-              id: { type: 'string', format: 'basedId', readOnly: true },
-              name: { type: 'string' },
-              avatar: { type: 'reference', allowedTypes: ['file'] },
-            },
-          },
-        },
-      }}
+      values={example.values}
+      // @ts-ignore
+      fields={example.fields}
+      // @ts-ignore
+      schema={example.schema}
       onChange={(values, changed, checksum, based) => {
         console.info({ values, changed, checksum, based })
       }}
