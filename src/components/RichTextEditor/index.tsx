@@ -136,6 +136,7 @@ export function RichTextEditor({
               marginBottom: '14px',
               fontSize: '15px',
               color: color('content', 'primary'),
+              fontWeight: 400,
             },
             '& .rte-bold': {
               fontWeight: 'bold',
