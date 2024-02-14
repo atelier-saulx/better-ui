@@ -67,7 +67,7 @@ export function PageHeader(p: {
           {p.title}
         </Text>
         {p.description ? (
-          <Text variant="body" color="secondary">
+          <Text style={{ marginTop: 8 }} variant="body" color="secondary">
             {p.description}
           </Text>
         ) : null}

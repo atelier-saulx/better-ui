@@ -14,6 +14,7 @@ import {
   PageHeader,
   Badge,
   IconPlus,
+  TextInput,
 } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { BasedSchema, BasedSchemaType, convertOldToNew } from '@based/schema'
@@ -408,18 +409,21 @@ function BasedExplorerInner({
 export function BasedExplorer(p: BasedExplorerProps) {
   if (p.variant === 'boxed') {
     return (
-      <Stack
-        direction="column"
-        padding={64}
-        style={{
-          background: color('background', 'primary'),
-        }}
-      >
+      <Stack direction="column" padding={64}>
         <PageHeader
           suffix={
-            <>
+            <Stack gap={32}>
+              <TextInput
+                variant="small"
+                placeholder="Filter items by name..."
+                style={{
+                  width: 400,
+                  borderRadius: borderRadius('tiny'),
+                  background: color('background', 'neutral'),
+                }}
+              />
               <Button prefix={<IconPlus />}>Add Item</Button>
-            </>
+            </Stack>
           }
           title="Header"
           description="Powerful stuff"
