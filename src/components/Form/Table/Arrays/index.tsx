@@ -21,7 +21,7 @@ function Rows(p: RowProps & { isCols: boolean; colFields: ColSizes }) {
   if (p.isCols) {
     return <ObjectCollsRows draggable {...p} />
   }
-  if (isSmallField(p.field.values)) {
+  if (isSmallField(p.field.items)) {
     return <PrimitiveRows {...p} />
   }
   return <NestedObjectRows {...p} />
@@ -37,7 +37,7 @@ export function Arrays({ ctx, path }: TableProps) {
   const addNew = React.useCallback(() => {
     ctx.listeners.onChangeHandler(ctx, path, [
       ...valueRef.current.value,
-      createNewEmptyValue(field.values),
+      createNewEmptyValue(field.items),
     ])
   }, [])
 
@@ -62,9 +62,9 @@ export function Arrays({ ctx, path }: TableProps) {
   const [colFields, setCols] = useColumns()
   const isCols = colFields.length > 0
 
-  if (isCols && field.values.type === 'object') {
+  if (isCols && field.items.type === 'object') {
     cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
-    const fieldValue = field.values
+    const fieldValue = field.items
     for (const col of colFields) {
       cols.push(
         <Cell
@@ -84,7 +84,7 @@ export function Arrays({ ctx, path }: TableProps) {
     <SizedStack
       displayAllFields
       setColumns={setCols}
-      field={field.values}
+      field={field.items}
       readOnly={readOnly}
     >
       {isCols ? (

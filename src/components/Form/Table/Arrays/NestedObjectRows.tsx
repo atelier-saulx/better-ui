@@ -22,7 +22,7 @@ export function NestedObjectRows(p: RowProps) {
   for (let i = 0; i < p.value.value.length; i++) {
     const isOpen = openIndexes.current.has(i)
     const item = p.value.value?.[i]
-    const title: ReactNode = readInfoField(item, p.field.values)
+    const title: ReactNode = readInfoField(item, p.field.items)
 
     rows.push(
       <DragableRow
@@ -81,7 +81,7 @@ export function NestedObjectRows(p: RowProps) {
                 {title}
               </Stack>
               <Stack fitContent justify="end" gap={8}>
-                {isIterable(p.field.values) ? (
+                {isIterable(p.field.items) ? (
                   <Badge color="neutral-muted">
                     {item?.length} Item
                     {item?.length === 1 ? '' : 's'}

@@ -111,11 +111,11 @@ export const Arrays = () => {
           title: 'Empty array',
           description: 'some things',
           type: 'array',
-          values: objectField.ratings,
+          items: objectField.ratings,
         },
         simpleArray: {
           type: 'array',
-          values: {
+          items: {
             type: 'string',
           },
         },
@@ -123,7 +123,7 @@ export const Arrays = () => {
           title: 'Things',
           description: 'some things',
           type: 'array',
-          values: {
+          items: {
             ...deepMerge(objectField.ratings, {
               properties: { isDope: { type: 'boolean' } },
             }),
@@ -132,7 +132,7 @@ export const Arrays = () => {
         sequences: {
           title: 'Seqeunces',
           type: 'array',
-          values: {
+          items: {
             type: 'object',
             properties: {
               name: { type: 'string' },
@@ -144,27 +144,27 @@ export const Arrays = () => {
           title: 'Nested things',
           description: 'some things, nested',
           type: 'array',
-          values: {
+          items: {
             description: 'some things',
             type: 'array',
-            values: objectField.ratings,
+            items: objectField.ratings,
           },
         },
         nestedArrayBig: {
           title: 'Nested things large',
           description: 'some things, nested',
           type: 'array',
-          values: {
+          items: {
             description: 'some things',
             type: 'array',
-            values: objectField.object,
+            items: objectField.object,
           },
         },
         arrayAutoTitle: {
           title: 'Auto title',
           description: 'some things',
           type: 'array',
-          values: objectField.object,
+          items: objectField.object,
         },
       }}
       onChange={(values, changes, checksum, based) => {
