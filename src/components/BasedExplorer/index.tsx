@@ -20,7 +20,6 @@ import {
 import { useClient, useQuery } from '@based/react'
 import { BasedSchema, BasedSchemaType, convertOldToNew } from '@based/schema'
 import { isSmallField } from '../Form/utils.js'
-import { vi } from 'date-fns/locale'
 
 export type BasedExplorerHeadertComponent = (p: {
   total: number
