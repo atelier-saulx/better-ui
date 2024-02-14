@@ -127,7 +127,6 @@ export function BasedExplorer({
           ref.current.sort = { key, dir }
           for (const [id, sub] of ref.current.activeSubs) {
             sub.close()
-
             const newSub: ActiveSub = {
               loaded: false,
               limit: sub.limit,
@@ -137,9 +136,7 @@ export function BasedExplorer({
               },
               close: () => {},
             }
-
             ref.current.activeSubs.set(id, newSub)
-
             newSub.close = client
               .query(queryEndpoint, {
                 $language: language,
@@ -164,15 +161,12 @@ export function BasedExplorer({
           if (p.end === 0) {
             p.end = p.pageSize * 2
           }
-
           ref.current.start = p.start
           ref.current.end = p.end
-
           if (ref.current.loadTimer !== null) {
             ref.current.loadTimer = null
             clearTimeout(ref.current.loadTimer)
           }
-
           let timer = setTimeout(() => {
             if (timer === ref.current.loadTimer) {
               ref.current.isLoading = true
@@ -181,12 +175,10 @@ export function BasedExplorer({
             }
           }, 100)
           ref.current.loadTimer = timer
-
           const size = 100
           const limit = size
           const offset = Math.floor(p.end / size) * size
           const id = offset + '-' + limit
-
           const newSub: ActiveSub = {
             limit,
             loaded: false,
@@ -196,10 +188,8 @@ export function BasedExplorer({
             },
             close: () => {},
           }
-
           if (!ref.current.activeSubs.has(id)) {
             ref.current.activeSubs.set(id, newSub)
-
             newSub.close = client
               .query(queryEndpoint, {
                 $language: language,
