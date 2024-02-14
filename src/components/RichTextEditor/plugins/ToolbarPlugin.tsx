@@ -83,23 +83,24 @@ export function ToolbarPlugin() {
   const [fontSelection, setFontSelection] = useState()
 
   useEffect(() => {
-    editor.registerCommand(
-      CAN_UNDO_COMMAND,
-      (payload) => {
-        setCanUndo(payload)
-        return false
-      },
-      1,
-    ),
+    editor.registerUpdateListener(({ editorState }) => {
       editor.registerCommand(
-        CAN_REDO_COMMAND,
+        CAN_UNDO_COMMAND,
         (payload) => {
-          setCanRedo(payload)
+          setCanUndo(payload)
           return false
         },
         1,
-      )
-    editor.registerUpdateListener(({ editorState }) => {
+      ),
+        editor.registerCommand(
+          CAN_REDO_COMMAND,
+          (payload) => {
+            setCanRedo(payload)
+            return false
+          },
+          1,
+        )
+
       editorState.read(() => {
         const selection = $getSelection()
 

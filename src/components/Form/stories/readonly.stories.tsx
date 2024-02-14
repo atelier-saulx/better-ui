@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Form, Modal } from '../../../index.js'
-import { faker } from '@faker-js/faker'
 
 const meta = {
   title: 'Form/ReadOnly',
@@ -22,10 +21,10 @@ export const ReadOnly = () => {
   return (
     <Form
       values={{
-        id: faker.string.uuid().slice(0, 8),
-        email: faker.internet.email(),
-        name: faker.person.firstName(),
-        password: faker.string.alphanumeric(10),
+        id: 'b28237fa',
+        email: 'Ashlynn_Schamberger0@gmail.com',
+        name: 'Marcia',
+        password: 'U4GKHXd829',
       }}
       fields={{
         id: { type: 'string', readOnly: true },

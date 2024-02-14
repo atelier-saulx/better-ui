@@ -1,125 +1,114 @@
 import * as React from 'react'
-
 import {
-  addMonths,
   startOfWeek,
   startOfMonth,
   endOfMonth,
   addDays,
   compareAsc,
   endOfWeek,
-  format,
   isSameMonth,
+  isSameDay,
 } from 'date-fns'
-import {
-  Button,
-  IconChevronDown,
-  IconChevronTop,
-  border,
-  borderRadius,
-  textVariants,
-} from '../../index.js'
+import { border, borderRadius } from '../../index.js'
+import { styled } from 'inlines'
+import { Header } from './Header.js'
+import { SubHeader } from './SubHeader.js'
+import { Cell } from './Cell.js'
 
-export type CalendarProps = {}
+export type CalendarProps = {
+  data?: {}[]
+  timestampField?: string
+  labelField?: string
+  view?: 'month' | 'week' | 'day'
+}
 
-export function Calendar(_: CalendarProps) {
+export const Calendar = ({
+  data,
+  timestampField = 'createdAt',
+  labelField = 'title',
+  view: viewProp = 'month',
+}: CalendarProps) => {
   const [displayMonth, setDisplayMonth] = React.useState(new Date())
+  const [view, setView] = React.useState(viewProp)
 
   const getDays = React.useCallback(() => {
     const days = []
-    let curr = startOfWeek(startOfMonth(displayMonth), { weekStartsOn: 1 })
-    const end = endOfWeek(endOfMonth(displayMonth), { weekStartsOn: 1 })
 
-    while (compareAsc(curr, end) < 1) {
-      days.push(curr)
-      curr = addDays(curr, 1)
+    if (view === 'month') {
+      let curr = startOfWeek(startOfMonth(displayMonth), { weekStartsOn: 1 })
+      const end = endOfWeek(endOfMonth(displayMonth), { weekStartsOn: 1 })
+
+      while (compareAsc(curr, end) < 1) {
+        days.push(curr)
+        curr = addDays(curr, 1)
+      }
+    } else if (view === 'week') {
+      let curr = startOfWeek(startOfWeek(displayMonth), { weekStartsOn: 0 })
+      const end = endOfWeek(endOfWeek(displayMonth), { weekStartsOn: 0 })
+
+      while (compareAsc(curr, end) < 1) {
+        days.push(curr)
+        curr = addDays(curr, 1)
+      }
     }
 
     return days
   }, [displayMonth])
 
+  console.log(displayMonth, 'display month')
+
+  // filter the monthly data
+  let monthData = data?.filter((item) =>
+    isSameMonth(displayMonth, item[timestampField]),
+  )
+
   return (
-    <div
+    <styled.div
       style={{
         border: border(),
         borderRadius: borderRadius('medium'),
         padding: 24,
+        width: '100%',
       }}
     >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingBottom: 24,
-          ...textVariants['body-strong'],
-          fontSize: 16,
-        }}
-      >
-        <div>{format(displayMonth, 'MMMM yyyy')}</div>
-        <div>
-          <Button
-            size="small"
-            variant="neutral-transparent"
-            shape="square"
-            onClick={() => {
-              setDisplayMonth(addMonths(displayMonth, -1))
-            }}
-          >
-            <IconChevronDown />
-          </Button>
-          <Button
-            size="small"
-            variant="neutral-transparent"
-            shape="square"
-            onClick={() => {
-              setDisplayMonth(addMonths(displayMonth, 1))
-            }}
-          >
-            <IconChevronTop />
-          </Button>
-        </div>
-      </div>
-      <div
+      <Header
+        displayMonth={displayMonth}
+        setDisplayMonth={setDisplayMonth}
+        view={view}
+        setView={setView}
+      />
+
+      <styled.div
         style={{
           display: 'grid',
+          width: '100%',
           gridTemplateColumns: 'repeat(7, 1fr)',
-          gap: '24px',
+          gap: '0px',
+          border: border(),
+          borderRight: 'none',
+          borderRadius: 8,
         }}
       >
-        {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
-          <div
-            key={index}
-            style={{
-              height: 24,
-              width: 24,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              ...textVariants['body-bold'],
-              fontSize: 16,
-            }}
-          >
-            {day}
-          </div>
-        ))}
-        {getDays().map((day) => (
-          <div
-            key={day.toISOString()}
-            style={{
-              height: 24,
-              width: 24,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              ...textVariants.body,
-              fontSize: 16,
-            }}
-          >
-            {isSameMonth(day, displayMonth) && format(day, 'd')}
-          </div>
-        ))}
-      </div>
-    </div>
+        <SubHeader view={view} dayDates={getDays().map((day) => day)} />
+
+        {getDays().map((day, idx) => {
+          const dayDates = monthData.filter((item) =>
+            isSameDay(day, item[timestampField]),
+          )
+
+          return (
+            <Cell
+              view={view}
+              key={idx}
+              day={day}
+              idx={idx}
+              displayMonth={displayMonth}
+              dayDates={dayDates}
+              labelField={labelField}
+            />
+          )
+        })}
+      </styled.div>
+    </styled.div>
   )
 }
