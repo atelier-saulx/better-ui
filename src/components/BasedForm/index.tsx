@@ -1,11 +1,19 @@
 import { useClient, useQuery } from '@based/react'
 import {
+  BasedSchema,
   BasedSchemaFieldObject,
   BasedSchemaType,
   convertOldToNew,
 } from '@based/schema'
 import * as React from 'react'
-import { Form, Modal } from '../../index.js'
+import {
+  Container,
+  Form,
+  FormProps,
+  Modal,
+  Spinner,
+  useUpdate,
+} from '../../index.js'
 import { useLanguage } from '../../hooks/useLanguage/index.js'
 import { SelectReferenceModal } from './SelectReferenceModal.js'
 
@@ -13,109 +21,60 @@ export type BasedFormProps = {
   id: string
   includedFields?: string[]
   excludeCommonFields?: boolean
+  fields?:
+    | FormProps['fields']
+    | ((
+        fields: FormProps['fields'],
+        schema: BasedSchema,
+      ) => FormProps['fields'])
+  query?: (
+    id: string,
+    query: any,
+    fields: FormProps['fields'],
+    schema: BasedSchema,
+  ) => any
+  onChange?: FormProps['onChange']
 }
 
 export function BasedForm({
   id,
   includedFields,
   excludeCommonFields = true,
+  query,
+  fields,
 }: BasedFormProps) {
   const client = useClient()
   const { open } = Modal.useModal()
   const [language] = useLanguage()
-  const { data: rawSchema } = useQuery('db:schema')
+  const { data: rawSchema, checksum } = useQuery('db:schema')
+
   const schema = React.useMemo(() => {
     if (!rawSchema) return
     return convertOldToNew(rawSchema)
-  }, [rawSchema])
+  }, [checksum])
 
-  console.log('?????????', rawSchema, schema)
+  const ref = React.useRef<{
+    values?: FormProps['values']
+    fields?: FormProps['fields']
+  }>({})
 
-  const [query, setQuery] = React.useState<any>()
-  const { data: item, loading, checksum } = useQuery('db', query)
+  // if id changes change it all
 
-  React.useEffect(() => {
-    async function constructQuery() {
-      const type = schema.prefixToTypeMapping[id.substring(0, 2)]
-      const fields = schema.types[type].fields
+  const update = useUpdate()
 
-      const query = {
-        $id: id,
-        $language: language,
-        $all: true,
-      }
-
-      function walkFields(fields: BasedSchemaType['fields'], query: any) {
-        for (const field in fields) {
-          if (fields[field].type === 'reference') {
-            query[field] = { $all: true }
-          }
-          if (fields[field].type === 'references') {
-            query[field] = { $all: true, $list: true }
-          }
-          if (fields[field].type === 'object') {
-            query[field] = {
-              $all: true,
-            }
-            walkFields(
-              (fields[field] as BasedSchemaFieldObject).properties,
-              query[field],
-            )
-          }
-        }
-      }
-
-      walkFields(fields, query)
-      setQuery(query)
-    }
-
-    if (!schema) return
-    constructQuery()
-  }, [id, schema, language])
-
-  const fields = React.useMemo(() => {
-    if (!item) return
-
-    let fields: BasedSchemaType['fields']
-
-    if (schema.types[item.type]) {
-      fields = schema.types[item.type].fields
-    }
-
-    if (includedFields) {
-      return includedFields.reduce((newFields, field) => {
-        newFields[field] = fields[field]
-        return newFields
-      }, {})
-    }
-
-    if (excludeCommonFields) {
-      for (const key in fields) {
-        if (
-          [
-            'parents',
-            'descendants',
-            'aliases',
-            'ancestors',
-            'children',
-            'type',
-          ].includes(key)
-        ) {
-          delete fields[key]
-        }
-      }
-    }
-
-    return fields
-  }, [item, schema, includedFields])
-
-  if (!fields || !schema) return
+  if (!ref.current.fields) {
+    return (
+      <Container>
+        <Spinner size={32} color="secondary" />
+      </Container>
+    )
+  }
 
   return (
     <Form
       schema={schema}
-      values={item}
-      fields={fields}
+      values={ref.current.values}
+      fields={ref.current.fields}
       onChange={async (_values, _changed, _checksum, based) => {
         await client.call('db:set', {
           $id: id,
@@ -131,7 +90,6 @@ export function BasedForm({
             }}
           />
         ))
-
         return selectedReference.id
       }}
       onSelectReferences={async () => {
@@ -142,7 +100,6 @@ export function BasedForm({
             }}
           />
         ))
-
         return [selectedReference.id]
       }}
     />

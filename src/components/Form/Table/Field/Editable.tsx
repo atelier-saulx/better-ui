@@ -183,17 +183,10 @@ export function EditableField({
     field.format === 'html'
   ) {
     return (
-      <Padder
-        style={{
-          paddingTop: 10,
-          paddingBottom: 10,
-        }}
-      >
-        <RichTextEditor
-          value={value}
-          onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
-        />
-      </Padder>
+      <RichTextEditor
+        value={value}
+        onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
+      />
     )
   }
 
