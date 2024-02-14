@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { BasedSchemaFieldReferences } from '@based/schema'
-import { Stack, Button, IconPlus, useUpdate } from '../../../index.js'
+import { Stack, Button, IconPlus } from '../../../index.js'
 import { Path, TableCtx, Reference } from '../types.js'
 import { readPath } from '../utils.js'
 import { ReferencesTable } from './Table.js'
@@ -17,7 +17,6 @@ export function References({
   variant?: 'large' | 'small'
 }) {
   const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
-  const update = useUpdate()
 
   const valueRef = React.useRef<ValueRef>({
     orderId: 0,
