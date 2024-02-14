@@ -161,3 +161,61 @@ export const FieldsFromValues = () => {
     </div>
   )
 }
+
+export const Page = () => {
+  return (
+    <div style={{ height: '50vh' }}>
+      <BasedExplorer
+        onItemClick={(item) => {
+          alert('clicked item ' + item.id)
+        }}
+        header="Page explorer"
+        info
+        filter
+        addItem={async () => {
+          alert('Add item')
+        }}
+        query={({ limit, offset, sort, language, filter }) => ({
+          $language: language,
+          data: {
+            $all: true,
+            $list: {
+              $limit: limit,
+              $offset: offset,
+              ...(sort && {
+                $sort: {
+                  $field: sort.key,
+                  $order: sort.dir,
+                },
+              }),
+              $find: {
+                $traverse: 'children',
+                $filter: filter
+                  ? [
+                      { $operator: 'includes', $field: 'name', $value: filter },
+                      { $operator: '=', $field: 'type', $value: 'todo' },
+                    ]
+                  : [{ $operator: '=', $field: 'type', $value: 'todo' }],
+              },
+            },
+          },
+        })}
+        totalQuery={{
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: 'children',
+              $filter: [
+                {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: 'todo',
+                },
+              ],
+            },
+          },
+        }}
+      />
+    </div>
+  )
+}

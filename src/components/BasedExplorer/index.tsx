@@ -15,14 +15,27 @@ import {
   Badge,
   IconPlus,
   TextInput,
+  SearchInput,
 } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { BasedSchema, BasedSchemaType, convertOldToNew } from '@based/schema'
 import { isSmallField } from '../Form/utils.js'
+import { vi } from 'date-fns/locale'
+
+export type BasedExplorerHeadertComponent = (p: {
+  total: number
+  start: number
+  end: number
+  data: any[]
+}) => React.ReactNode
+
+const DefaultInfo = ({ total, start, end }) =>
+  `Showing ${start} - ${end} out of a ${total} items`
 
 export type BasedExplorerProps = {
+  header?: React.ReactNode | BasedExplorerHeadertComponent
+  info?: React.ReactNode | BasedExplorerHeadertComponent | true
   onItemClick?: (item: any) => void
-  variant?: 'boxed' | 'regular'
   queryEndpoint?: string
   transformResults?: (data: any) => any
   sort?: { key: string; dir: 'asc' | 'desc' }
@@ -31,15 +44,24 @@ export type BasedExplorerProps = {
     offset,
     sort,
     language,
+    filter,
   }: {
     limit: number
     offset: number
+    filter?: string
     language: string
     sort?: { key: string; dir: 'asc' | 'desc' }
   }) => any
   total?: number
   totalQuery?: any
   fields?: FormProps['fields']
+  filter?: boolean
+  addItem?: (p: {
+    total: number
+    start: number
+    end: number
+    data: any[]
+  }) => Promise<void>
 }
 
 type ActiveSub = {
@@ -159,7 +181,7 @@ export const generateFieldsFromQuery = (
     if (fields && types.length > 1) {
       fields.type = {
         type: 'string',
-        index: -1,
+        index: 0,
         readOnly: true,
         format: 'basedType',
       } // format based type
@@ -168,14 +190,17 @@ export const generateFieldsFromQuery = (
   return fields
 }
 
-function BasedExplorerInner({
+export function BasedExplorer({
   query,
   queryEndpoint = 'db',
   totalQuery,
   onItemClick,
-  variant,
+  filter,
   fields,
   transformResults,
+  header,
+  info,
+  addItem,
   sort,
 }: BasedExplorerProps) {
   const client = useClient()
@@ -196,6 +221,7 @@ function BasedExplorerInner({
     loadTimer?: ReturnType<typeof setTimeout>
     start: number
     end: number
+    filter?: string
     lastLoaded?: number
     sort?: { key: string; dir: 'asc' | 'desc' }
   }>({
@@ -278,7 +304,9 @@ function BasedExplorerInner({
     )
   }
 
-  return (
+  const parsedTotal = totalQuery ? totalData.total ?? 0 : ref.current.lastLoaded
+
+  const viewer = (
     <Table
       style={{
         border: border(),
@@ -335,8 +363,7 @@ function BasedExplorerInner({
       }}
       pagination={{
         type: 'scroll',
-        total: totalQuery ? totalData.total ?? 0 : ref.current.lastLoaded,
-
+        total: parsedTotal,
         loadMore: totalQuery
           ? undefined
           : async (x) => {
@@ -404,34 +431,55 @@ function BasedExplorerInner({
       }}
     />
   )
-}
+  if (info || header || addItem || filter) {
+    const headerProps = {
+      total: parsedTotal,
+      start: ref.current.start,
+      end: ref.current.end,
+      data: ref.current?.block.data,
+    }
 
-export function BasedExplorer(p: BasedExplorerProps) {
-  if (p.variant === 'boxed') {
     return (
-      <Stack direction="column" padding={64}>
+      <Stack direction="column" padding={64} style={{ height: '100%' }}>
         <PageHeader
           suffix={
             <Stack gap={32}>
-              <TextInput
-                variant="small"
-                placeholder="Filter items by name..."
-                style={{
-                  width: 400,
-                  borderRadius: borderRadius('tiny'),
-                  background: color('background', 'neutral'),
-                }}
-              />
-              <Button prefix={<IconPlus />}>Add Item</Button>
+              {filter ? (
+                <SearchInput
+                  value={ref.current.filter}
+                  onChange={(v) => {
+                    ref.current.filter = v
+                    update()
+                  }}
+                  placeholder="Filter..."
+                  style={{ width: 300 }}
+                />
+              ) : null}
+              {addItem ? (
+                <Button
+                  onClick={() => {
+                    return addItem(headerProps)
+                  }}
+                  prefix={<IconPlus />}
+                >
+                  Add Item
+                </Button>
+              ) : null}
             </Stack>
           }
-          title="Header"
-          description="Powerful stuff"
-        ></PageHeader>
-        <BasedExplorerInner variant={p.variant} {...p} />
+          title={typeof header === 'function' ? header(headerProps) : header}
+          description={
+            info === true
+              ? DefaultInfo(headerProps)
+              : typeof info === 'function'
+                ? info(headerProps)
+                : info
+          }
+        />
+        {viewer}
       </Stack>
     )
   }
 
-  return <BasedExplorerInner {...p} />
+  return viewer
 }
