@@ -17,10 +17,14 @@ export type ValuePluginProps = {
 
 export function ValuePlugin({ value, onChange }: ValuePluginProps) {
   const [editor] = useLexicalComposerContext()
-  const [focused, setFocused] = React.useState(false)
+  const focusedRef = React.useRef(false)
 
   React.useEffect(() => {
-    if (focused) return
+    if (focusedRef.current) {
+      return
+    }
+
+    console.log('value change')
 
     editor.update(() => {
       const parser = new DOMParser()
@@ -28,7 +32,9 @@ export function ValuePlugin({ value, onChange }: ValuePluginProps) {
       const nodes = $generateNodesFromDOM(editor, dom)
       const root = $getRoot()
       root.clear()
-      root.append(...nodes)
+      if (value) {
+        root.append(...nodes)
+      }
       $setSelection(null)
     })
   }, [value, editor])
@@ -38,7 +44,7 @@ export function ValuePlugin({ value, onChange }: ValuePluginProps) {
       editor.registerCommand(
         BLUR_COMMAND,
         () => {
-          setFocused(false)
+          focusedRef.current = false
           return false
         },
         COMMAND_PRIORITY_LOW,
@@ -46,7 +52,7 @@ export function ValuePlugin({ value, onChange }: ValuePluginProps) {
       editor.registerCommand(
         FOCUS_COMMAND,
         () => {
-          setFocused(true)
+          focusedRef.current = true
           return false
         },
         COMMAND_PRIORITY_LOW,
@@ -62,7 +68,8 @@ export function ValuePlugin({ value, onChange }: ValuePluginProps) {
           if (
             (dirtyElements.size === 0 && dirtyLeaves.size === 0) ||
             tags.has('history-merge') ||
-            prevEditorState.isEmpty()
+            prevEditorState.isEmpty() ||
+            !focusedRef.current
           ) {
             return
           }
