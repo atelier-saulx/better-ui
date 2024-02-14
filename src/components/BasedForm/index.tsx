@@ -70,6 +70,8 @@ export function BasedForm({
     )
   }
 
+  console.log({ fields: ref.current.currentFields, schema, values })
+
   return (
     <Form
       schema={schema}

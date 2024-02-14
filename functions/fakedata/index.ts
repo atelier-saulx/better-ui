@@ -1,13 +1,17 @@
 import { BasedQueryFunction } from '@based/functions'
 import { faker } from '@faker-js/faker'
 
-const fakedata: BasedQueryFunction = async (_based, _payload, update) => {
+const fakedata: BasedQueryFunction = async (_based, payload = {}, update) => {
   // Update function updates the
   // client state.
 
-  const iterate = (obj) => {
-    Object.keys(obj).forEach((key) => {
-      if (key !== 'arraySize') {
+  const iterate = (cObj) => {
+    const obj = {}
+
+    Object.keys(cObj).forEach((key) => {
+      if (typeof cObj[key] === 'object') {
+        obj[key] = iterate(cObj[key])
+      } else if (key !== 'arraySize') {
         if (key === 'src') {
           obj[key] = faker.image.avatar()
         } else if (key === 'id') {
@@ -15,7 +19,7 @@ const fakedata: BasedQueryFunction = async (_based, _payload, update) => {
         } else if (key === 'firstName') {
           obj[key] = faker.person.firstName()
         } else if (key === 'name') {
-          obj[key] = faker.word.adverb()
+          obj[key] = faker.person.firstName()
         } else if (key === 'password') {
           obj[key] = faker.string.alphanumeric(10)
         } else if (key === 'email') {
@@ -37,7 +41,7 @@ const fakedata: BasedQueryFunction = async (_based, _payload, update) => {
         } else if (key === 'lastUpdated') {
           obj[key] = faker.date.soon().valueOf()
         } else if (key === 'description') {
-          obj[key] = faker.lorem.words({ min: 0, max: 10 })
+          obj[key] = faker.lorem.words(obj[key] || { min: 0, max: 10 })
         } else if (key === 'powerTime') {
           obj[key] = faker.date.recent().valueOf()
         } else if (key === 'city') {
@@ -48,25 +52,18 @@ const fakedata: BasedQueryFunction = async (_based, _payload, update) => {
           obj[key] = faker.image.url()
         } else if (key === 'renderAs') {
           obj[key] = faker.helpers.arrayElement(['folder', 'file', 'image'])
+        } else {
+          obj[key] = faker.lorem.words(1)
         }
-      }
-
-      console.log(`key: ${key}, value: ${obj[key]}`)
-
-      if (typeof obj[key] === 'object' && obj[key] !== null) {
-        iterate(obj[key])
       }
     })
 
     return { ...obj }
   }
 
-  const array = new Array(_payload.arraySize || 10)
+  const array = new Array(payload.arraySize || 10)
     .fill(null)
-    .map(() => iterate(_payload))
-  //   await iterate(_payload)
-
-  // await iterate(_payload)
+    .map(() => iterate(payload))
 
   update(array)
 
