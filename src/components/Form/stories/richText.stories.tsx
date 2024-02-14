@@ -18,15 +18,16 @@ const meta = {
 export default meta
 
 export const RichTextEditor = () => {
+  const [state, setState] = React.useState<any>({
+    text: '',
+    object: {
+      text: '',
+    },
+  })
   return (
     <Form
       variant="small"
-      values={{
-        text: 'xyz',
-        object: {
-          text: 'flap flap flap',
-        },
-      }}
+      values={state}
       fields={{
         text: {
           type: 'text',
@@ -43,7 +44,7 @@ export const RichTextEditor = () => {
         },
       }}
       onChange={(values) => {
-        console.log(values)
+        setState(values)
       }}
     />
   )

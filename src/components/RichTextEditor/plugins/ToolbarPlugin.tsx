@@ -104,9 +104,6 @@ export function ToolbarPlugin({ variant }) {
       editorState.read(() => {
         const selection = $getSelection()
 
-        console.log(selection, '🍿')
-        console.log(variant, 'Variant ??')
-
         if (!$isRangeSelection(selection)) return
 
         setIsBold(selection.hasFormat('bold'))
@@ -125,9 +122,6 @@ export function ToolbarPlugin({ variant }) {
         const parent = node.getParent()
         setIsLink($isLinkNode(parent) || $isLinkNode(node))
 
-        console.log('node??', node)
-        console.log('parent', parent)
-
         const anchorNode = selection.anchor.getNode()
         const element =
           anchorNode.getKey() === 'root'
@@ -136,8 +130,6 @@ export function ToolbarPlugin({ variant }) {
                 const parent = e.getParent()
                 return parent !== null && $isRootOrShadowRoot(parent)
               })
-
-        console.log('element', element)
 
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(
@@ -389,8 +381,6 @@ export function ToolbarPlugin({ variant }) {
       <Tooltip content="Add Link" delay={TOOLTIP_DELAY_MS}>
         <LinkModal
           onSave={(value, targetBlank) => {
-            console.log(value, targetBlank)
-
             editor.update(() => {
               editor.dispatchCommand(TOGGLE_LINK_COMMAND, {
                 url: value,
@@ -428,7 +418,6 @@ export function ToolbarPlugin({ variant }) {
       <Tooltip content="Add Image" delay={TOOLTIP_DELAY_MS}>
         <AddImageModal
           onSave={({ file, caption }) => {
-            // console.log('onsave lefut', file, caption)
             editor.update(() => {
               editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
                 src: file.src,

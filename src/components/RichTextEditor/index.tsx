@@ -34,6 +34,7 @@ export type RichTextEditorProps = {
 
 const CONFIG = {
   editable: true,
+  editorState: null,
   namespace: '__based_rte',
   nodes: [
     HeadingNode,

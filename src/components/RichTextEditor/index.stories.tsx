@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 import { RichTextEditor } from '../../index.js'
 
 const meta: Meta<typeof RichTextEditor> = {

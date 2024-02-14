@@ -3,11 +3,12 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
 import {
   $getRoot,
-  $insertNodes,
   $setSelection,
   BLUR_COMMAND,
   COMMAND_PRIORITY_LOW,
+  FOCUS_COMMAND,
 } from 'lexical'
+import { mergeRegister } from '@lexical/utils'
 
 export type ValuePluginProps = {
   value?: string
@@ -16,31 +17,61 @@ export type ValuePluginProps = {
 
 export function ValuePlugin({ value, onChange }: ValuePluginProps) {
   const [editor] = useLexicalComposerContext()
+  const [focused, setFocused] = React.useState(false)
 
   React.useEffect(() => {
-    if (value && editor) {
-      editor.update(() => {
-        const parser = new DOMParser()
-        const dom = parser.parseFromString(value, 'text/html')
-        const nodes = $generateNodesFromDOM(editor, dom)
+    if (focused) return
 
-        const root = $getRoot()
-        root.clear()
-        root.append(...nodes)
-        $setSelection(null)
-      })
-    }
+    editor.update(() => {
+      const parser = new DOMParser()
+      const dom = parser.parseFromString(value, 'text/html')
+      const nodes = $generateNodesFromDOM(editor, dom)
+      const root = $getRoot()
+      root.clear()
+      root.append(...nodes)
+      $setSelection(null)
+    })
   }, [value, editor])
 
   React.useEffect(() => {
-    return editor.registerCommand(
-      BLUR_COMMAND,
-      () => {
-        console.log('editor blurred')
-        onChange?.($generateHtmlFromNodes(editor, null))
-        return false
-      },
-      COMMAND_PRIORITY_LOW,
+    return mergeRegister(
+      editor.registerCommand(
+        BLUR_COMMAND,
+        () => {
+          setFocused(false)
+          return false
+        },
+        COMMAND_PRIORITY_LOW,
+      ),
+      editor.registerCommand(
+        FOCUS_COMMAND,
+        () => {
+          setFocused(true)
+          return false
+        },
+        COMMAND_PRIORITY_LOW,
+      ),
+      editor.registerUpdateListener(
+        ({
+          editorState,
+          dirtyElements,
+          dirtyLeaves,
+          prevEditorState,
+          tags,
+        }) => {
+          if (
+            (dirtyElements.size === 0 && dirtyLeaves.size === 0) ||
+            tags.has('history-merge') ||
+            prevEditorState.isEmpty()
+          ) {
+            return
+          }
+
+          editorState.read(() => {
+            onChange?.($generateHtmlFromNodes(editor, null))
+          })
+        },
+      ),
     )
   }, [])
 
