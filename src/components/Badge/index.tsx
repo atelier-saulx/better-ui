@@ -9,6 +9,7 @@ import {
   borderRadius,
   color as getColor,
   hashSemanticColor,
+  hashNonSemanticColor,
 } from '../../index.js'
 
 export type BadgeProps = {
@@ -80,13 +81,13 @@ export function Badge({
           color === 'auto'
             ? hashSemanticColor((children as string) || 'xx', true)
             : color === 'auto-muted'
-              ? hashSemanticColor((children as string) || 'xx', false)
+              ? hashNonSemanticColor((children as string) || 'xx', false)
               : getColor('semantic-color', color),
         background:
           color === 'auto'
             ? hashSemanticColor((children as string) || '', false)
             : color === 'auto-muted'
-              ? hashSemanticColor((children as string) || '', true)
+              ? hashNonSemanticColor((children as string) || '', true)
               : getColor('semantic-background', color),
         ...(size === 'regular' && {
           fontSize: '14px',

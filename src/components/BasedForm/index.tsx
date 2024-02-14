@@ -17,8 +17,10 @@ export function BasedForm({
   includedFields,
   excludeCommonFields = true,
   query,
+  onChange,
   queryEndpoint = 'db',
   fields,
+  transformResults,
 }: BasedFormProps) {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -31,6 +33,8 @@ export function BasedForm({
   }, [checksum])
 
   const ref = React.useRef<BasedFormRef>({})
+
+  console.log({ schema })
 
   if (fields) {
     if (typeof fields === 'function') {
@@ -73,15 +77,18 @@ export function BasedForm({
   return (
     <Form
       schema={schema}
-      values={values}
+      values={transformResults ? transformResults(values) : values}
       fields={ref.current.currentFields}
-      onChange={async (_values, _changed, _checksum, based) => {
-        await client.call('db:set', {
-          $id: id,
-          $language: language,
-          ...based,
+      onChange={
+        onChange ??
+        (async (_values, _changed, _checksum, based) => {
+          await client.call('db:set', {
+            $id: id,
+            $language: language,
+            ...based,
+          })
         })
-      }}
+      }
       onSelectReference={async ({ field }) => {
         const selectedReference = await open(({ close }) => (
           <SelectReferenceModal

@@ -33,6 +33,7 @@ const createQuery = (
       const f = fields[field]
       const type = f.type
       if (type === 'reference') {
+        // get proper stuff from schema
         query[field] = { $all: true }
       } else if (type === 'references') {
         query[field] = { $all: true, $list: true }
@@ -90,6 +91,8 @@ const createFields = (
           'ancestors',
           'children',
           'type',
+          'updatedAt',
+          'createdAt',
         ].includes(key)
       ) {
         delete fields[key]

@@ -33,7 +33,7 @@ export const Default = () => {
         }}
         fields={{
           id: { type: 'string', format: 'basedId' },
-          name: { type: 'string', display: 'capitalize' },
+          name: { title: 'Power name', type: 'string', display: 'capitalize' },
           updatedAt: { type: 'timestamp', display: 'time-precise' },
         }}
         query={({ limit, offset, sort, language }) => ({
@@ -98,7 +98,18 @@ export const FieldsFromQuery = () => {
               }),
               $find: {
                 $traverse: 'children',
-                $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+                $filter: [
+                  {
+                    $operator: '=',
+                    $field: 'type',
+                    $value: 'todo',
+                    $or: {
+                      $operator: '=',
+                      $field: 'type',
+                      $value: 'file',
+                    },
+                  },
+                ],
               },
             },
           },
@@ -112,7 +123,7 @@ export const FieldsFromQuery = () => {
                 {
                   $field: 'type',
                   $operator: '=',
-                  $value: 'todo',
+                  $value: ['todo', 'file'],
                 },
               ],
             },

@@ -45,6 +45,11 @@ const FIELD_SIZES: {
         insertAtStart: true,
       },
       {
+        match: (field: BasedSchemaFieldString) => field.format === 'basedType',
+        width: 200, // will become a reference select modal probably...
+        insertAtStart: true,
+      },
+      {
         match: (field: BasedSchemaFieldString) => field.format === 'rgbColor',
         width: 200,
       },
@@ -72,7 +77,7 @@ const FIELD_SIZES: {
     string: [
       {
         match: (field: BasedSchemaFieldString, key) => key === 'type',
-        width: 140,
+        width: 100,
       },
       {
         match: (field: BasedSchemaFieldString) => field.format === 'rgbColor',
@@ -81,6 +86,11 @@ const FIELD_SIZES: {
       {
         match: (field: BasedSchemaFieldString) => field.format === 'basedId',
         width: 130,
+        insertAtStart: true,
+      },
+      {
+        match: (field: BasedSchemaFieldString) => field.format === 'basedType',
+        width: 130, // will become a reference select modal probably...
         insertAtStart: true,
       },
       {
@@ -162,12 +172,26 @@ export const getColSizes = (
 
   const fields: ColSizes = []
 
-  //  handle index
-
   let hasFlexible = false
+
+  // perfomance handle this better!
+  const tempFields: { key: string; field: BasedSchemaField }[] = []
 
   for (const key in fieldSchema.properties) {
     const field = fieldSchema.properties[key]
+    tempFields.push({
+      field,
+      key,
+    })
+  }
+
+  tempFields.sort((a, b) => {
+    const aIndex = a.field.index ?? 1e6
+    const bIndex = b.field.index ?? 1e6
+    return aIndex < bIndex ? -1 : aIndex === bIndex ? 0 : 1
+  })
+
+  for (const { key, field } of tempFields) {
     const sizedType = SIZES[field.type] ?? SIZES.default
     let match: SizeMatcher
 
@@ -223,13 +247,6 @@ export const getColSizes = (
 
   // TODO PERF: do sorting faster in the for loop thats there allready
   // or make sure it gets called less often
-  fields.sort((a, b) => {
-    return a.field.index < b.field.index
-      ? -1
-      : a.field.index === b.field.index
-        ? 0
-        : 1
-  })
 
   return fields
 }

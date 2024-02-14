@@ -8,13 +8,14 @@ import {
   FormProps,
 } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
-import { BasedSchemaType, convertOldToNew } from '@based/schema'
-import { getIdentifierField, isSmallField } from '../Form/utils.js'
+import { BasedSchema, BasedSchemaType, convertOldToNew } from '@based/schema'
+import { isSmallField } from '../Form/utils.js'
 
 export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
   queryEndpoint?: string
   transformResults?: (data: any) => any
+  sort?: { key: string; dir: 'asc' | 'desc' }
   query: ({
     limit,
     offset,
@@ -37,6 +38,30 @@ type ActiveSub = {
   loaded: boolean
   offset: number
   data: { data: any[] }
+}
+
+export const getTypesFromFilter = (query: any): string[] => {
+  const types = []
+  const walk = (obj: any) => {
+    for (const k in obj) {
+      if (k === '$field' && obj[k] === 'type') {
+        if (obj.$operator === '=') {
+          if (Array.isArray(obj.$value)) {
+            types.push(...obj.$value)
+          } else {
+            types.push(obj.$value)
+          }
+        }
+      }
+      if (typeof obj[k] === 'object') {
+        walk(obj[k])
+      }
+    }
+  }
+  if (typeof query === 'object') {
+    walk(query)
+  }
+  return types
 }
 
 // TODO make a schema helper pkg
@@ -82,6 +107,11 @@ export const generateFromType = (type: BasedSchemaType): { query; fields } => {
       fields[field].display = 'human'
     }
 
+    if (field === 'id') {
+      // @ts-ignore
+      fields[field].format = 'basedId'
+    }
+
     if (f.type === 'reference') {
       newQuery[field] = {
         id: true,
@@ -96,9 +126,37 @@ export const generateFromType = (type: BasedSchemaType): { query; fields } => {
   return { query: newQuery, fields }
 }
 
-// add query parser
-// allow field override
-// fix crash in example
+export const generateFieldsFromQuery = (
+  query: any,
+  schema?: BasedSchema,
+): FormProps['fields'] | undefined => {
+  if (!schema) {
+    return
+  }
+  let fields: FormProps['fields']
+  const types = getTypesFromFilter(query)
+  if (types.length) {
+    for (const t of types) {
+      const fieldType = schema.types[t]
+      if (fieldType) {
+        if (!fields) {
+          fields = {}
+        }
+        Object.assign(fields, generateFromType(fieldType).fields)
+      }
+    }
+
+    if (fields && types.length > 1) {
+      fields.type = {
+        type: 'string',
+        index: -1,
+        readOnly: true,
+        format: 'basedType',
+      } // format based type
+    }
+  }
+  return fields
+}
 
 export function BasedExplorer({
   query,
@@ -107,12 +165,19 @@ export function BasedExplorer({
   onItemClick,
   fields,
   transformResults,
+  sort,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
   const [language] = useLanguage()
 
-  const { data: schema } = useQuery('db:schema')
+  const { data: rawSchema, checksum } = useQuery('db:schema')
+
+  const schema = React.useMemo(() => {
+    if (!rawSchema) return
+    return convertOldToNew(rawSchema) as BasedSchema
+  }, [checksum])
+
   const ref = React.useRef<{
     activeSubs: Map<string, ActiveSub>
     block: { data: any[] }
@@ -129,6 +194,7 @@ export function BasedExplorer({
     start: 0,
     lastLoaded: 0,
     end: 0,
+    sort,
   })
 
   const { data: totalData, loading: totalLoading } = useQuery(
@@ -194,6 +260,13 @@ export function BasedExplorer({
     )
   }
 
+  if (!fields && schema) {
+    fields = generateFieldsFromQuery(
+      query({ limit: 0, offset: 0, language }),
+      schema,
+    )
+  }
+
   return (
     <Table
       field={
@@ -202,9 +275,9 @@ export function BasedExplorer({
               type: 'object',
               properties: fields,
             }
-          : null
+          : undefined
       }
-      schema={schema ? convertOldToNew(schema) : undefined}
+      schema={schema ?? undefined}
       values={ref.current?.block.data}
       isBlock
       isLoading={ref.current.isLoading}
