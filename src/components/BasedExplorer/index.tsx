@@ -5,7 +5,15 @@ import {
   useUpdate,
   Spinner,
   Container,
+  border,
   FormProps,
+  Stack,
+  Button,
+  borderRadius,
+  color,
+  PageHeader,
+  Badge,
+  IconPlus,
 } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { BasedSchema, BasedSchemaType, convertOldToNew } from '@based/schema'
@@ -13,6 +21,7 @@ import { isSmallField } from '../Form/utils.js'
 
 export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
+  variant?: 'boxed' | 'regular'
   queryEndpoint?: string
   transformResults?: (data: any) => any
   sort?: { key: string; dir: 'asc' | 'desc' }
@@ -158,11 +167,12 @@ export const generateFieldsFromQuery = (
   return fields
 }
 
-export function BasedExplorer({
+function BasedExplorerInner({
   query,
   queryEndpoint = 'db',
   totalQuery,
   onItemClick,
+  variant,
   fields,
   transformResults,
   sort,
@@ -269,6 +279,11 @@ export function BasedExplorer({
 
   return (
     <Table
+      style={{
+        border: border(),
+        borderRadius: borderRadius('tiny'),
+        background: color('background', 'screen'),
+      }}
       field={
         fields
           ? {
@@ -388,4 +403,31 @@ export function BasedExplorer({
       }}
     />
   )
+}
+
+export function BasedExplorer(p: BasedExplorerProps) {
+  if (p.variant === 'boxed') {
+    return (
+      <Stack
+        direction="column"
+        padding={64}
+        style={{
+          background: color('background', 'primary'),
+        }}
+      >
+        <PageHeader
+          suffix={
+            <>
+              <Button prefix={<IconPlus />}>Add Item</Button>
+            </>
+          }
+          title="Header"
+          description="Powerful stuff"
+        ></PageHeader>
+        <BasedExplorerInner variant={p.variant} {...p} />
+      </Stack>
+    )
+  }
+
+  return <BasedExplorerInner {...p} />
 }

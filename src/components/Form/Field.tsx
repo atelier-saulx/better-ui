@@ -65,7 +65,7 @@ export const Field = ({
         copyValue={ctx.values[key]}
         prefix={<IconId size={16} style={{ marginRight: 4 }} />}
         style={{ minWidth: 100 }}
-        color="informative"
+        color="primary-muted"
       >
         {ctx.values[key] ?? '-'}
       </Badge>
