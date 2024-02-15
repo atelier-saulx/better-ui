@@ -10,15 +10,17 @@ const meta: Meta<typeof Virtualized> = {
 
 export default meta
 
+const values: string[] = []
+for (let i = 0; i < 1e3; i++) {
+  values.push('Value #' + i)
+}
+
 export const Default = () => {
-  const values: string[] = []
-  for (let i = 0; i < 1e3; i++) {
-    values.push('Value #' + i)
-  }
   return (
     <styled.div
       style={{
         height: '50vh',
+        border: border(),
       }}
     >
       <Virtualized
@@ -37,6 +39,7 @@ export const Default = () => {
                   <Stack
                     key={i}
                     style={{
+                      padding: 20,
                       borderBottom: border(),
                       height: 100,
                     }}
@@ -54,14 +57,11 @@ export const Default = () => {
 }
 
 export const HeightBasedOnSize = () => {
-  const values: string[] = []
-  for (let i = 0; i < 1e3; i++) {
-    values.push('Value #' + i)
-  }
   return (
     <styled.div
       style={{
         height: '50vh',
+        border: border(),
       }}
     >
       <Virtualized
@@ -70,8 +70,8 @@ export const HeightBasedOnSize = () => {
           type: 'scroll',
           total: 1e3,
         }}
-        itemHeight={({ width, height }) => {
-          return height / 2
+        itemHeight={({ height }) => {
+          return height / 4
         }}
       >
         {({ values, itemHeight }) => {
@@ -82,6 +82,7 @@ export const HeightBasedOnSize = () => {
                   <Stack
                     key={i}
                     style={{
+                      padding: 20,
                       borderBottom: border(),
                       height: itemHeight,
                     }}
