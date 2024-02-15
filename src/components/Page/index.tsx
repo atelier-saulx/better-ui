@@ -35,7 +35,7 @@ export function ContentPage(p: { children?: React.ReactNode; style?: Style }) {
       <Stack
         direction="column"
         padding={64}
-        style={{ maxWidth: 1000, borderRight: border(), ...p.style }}
+        style={{ maxWidth: 1200, borderRight: border(), ...p.style }}
       >
         {p.children}
       </Stack>

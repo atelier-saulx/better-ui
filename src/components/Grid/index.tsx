@@ -133,6 +133,8 @@ export function Grid(p: GridProps) {
                       borderRadius: borderRadius('large'),
                       cursor: 'pointer',
                       padding: 24,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                       border: '1px solid transparent',
                       '&:hover': {
                         background: color('background', 'neutral'),
@@ -169,6 +171,11 @@ export function Grid(p: GridProps) {
                           height: 'calc(100% - 64px)',
                           width: '100%',
                           padding: 32,
+                          overflow: 'hidden',
+                          '& p': {
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          },
                         }}
                       >
                         <Text variant="body-light">{v.result.name}</Text>
@@ -176,7 +183,15 @@ export function Grid(p: GridProps) {
                       </Stack>
                     ) : null}
                     <Stack>
-                      <styled.div>
+                      <styled.div
+                        style={{
+                          overflow: 'hidden',
+                          '& p': {
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          },
+                        }}
+                      >
                         <Text variant="body-bold">
                           {v.title ?? v.name ?? v.id}
                         </Text>

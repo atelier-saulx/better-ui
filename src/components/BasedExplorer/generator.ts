@@ -29,7 +29,7 @@ export const getTypesFromFilter = (query: any): string[] => {
 
 export const generateFromType = (type: BasedSchemaType): { query; fields } => {
   const newQuery = {}
-  if (!type.fields) {
+  if (!type?.fields) {
     return { query: newQuery, fields: {} }
   }
 

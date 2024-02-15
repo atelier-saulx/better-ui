@@ -1,17 +1,31 @@
 import * as React from 'react'
-import { BasedExplorer, generateFromType, Modal, Sidebar } from '../../index.js'
+import {
+  BasedExplorer,
+  BasedExplorerProps,
+  generateFromType,
+  Modal,
+  Sidebar,
+} from '../../index.js'
 import { useQuery } from '@based/react'
 import { BasedSchema, convertOldToNew } from '@based/schema'
 import { OnOpenChangeContext } from '../Modal/index.js'
 
 export type SelectReferenceModalProps = {
   onSelect: (reference: any) => void
-  types?: string[]
+  types: string[]
+  selectReferenceExplorerProps?:
+    | (BasedExplorerProps & { itemQuery: any })
+    | ((p: {
+        fields: any
+        query: any
+        types: string[]
+      }) => BasedExplorerProps & { itemQuery: any })
 }
 
 export function SelectReferenceModal({
   onSelect,
   types,
+  selectReferenceExplorerProps,
 }: SelectReferenceModalProps) {
   const [activeSidebarItem, setActiveSidebarItem] = React.useState(null)
   const { data: rawSchema } = useQuery('db:schema')
@@ -48,15 +62,23 @@ export function SelectReferenceModal({
 
   if (!schema) return
 
+  let { fields, query } = generateFromType(schema.types[activeSidebarItem])
+  const props =
+    typeof selectReferenceExplorerProps === 'function'
+      ? selectReferenceExplorerProps({ fields, query, types })
+      : selectReferenceExplorerProps
+
+  if (props?.itemQuery) {
+    query = props.itemQuery
+  }
+
   return (
     <Modal.Root
       open={true}
       onOpenChange={React.useContext(OnOpenChangeContext)}
     >
       <Modal.Overlay style={{ width: '85%', height: '85%' }}>
-        <Modal.Title>
-          Select {types && types.length === 1 ? types[0] : 'reference'}
-        </Modal.Title>
+        <Modal.Title>Select {types[0] || 'reference'}</Modal.Title>
         <Modal.Body style={{ padding: 0, display: 'flex' }}>
           {sidebarItems.length > 1 && (
             <Sidebar
@@ -74,9 +96,7 @@ export function SelectReferenceModal({
           >
             {activeSidebarItem && (
               <BasedExplorer
-                fields={
-                  generateFromType(schema.types[activeSidebarItem]).fields
-                }
+                fields={fields}
                 key={activeSidebarItem}
                 onItemClick={(item) => {
                   onSelect(item)
@@ -84,7 +104,7 @@ export function SelectReferenceModal({
                 query={({ limit, offset, sort, language }) => ({
                   $language: language,
                   data: {
-                    ...generateFromType(schema.types[activeSidebarItem]).query,
+                    ...query,
                     $list: {
                       $limit: limit,
                       $offset: offset,
@@ -107,21 +127,7 @@ export function SelectReferenceModal({
                     },
                   },
                 })}
-                totalQuery={() => ({
-                  total: {
-                    $aggregate: {
-                      $function: 'count',
-                      $traverse: 'descendants',
-                      $filter: [
-                        {
-                          $field: 'type',
-                          $operator: '=',
-                          $value: activeSidebarItem,
-                        },
-                      ],
-                    },
-                  },
-                })}
+                {...props}
               />
             )}
           </div>

@@ -1,5 +1,5 @@
 import { BasedSchema } from '@based/schema'
-import { FormProps } from '../../index.js'
+import { BasedExplorerProps, FormProps } from '../../index.js'
 import { FieldsFn } from './index.js'
 
 type OnChangeParams = Parameters<FormProps['onChange']>
@@ -36,6 +36,13 @@ type SharedBasedFormProps = {
   }) => Promise<void>
   deleteItem?: (p: Record<string, any>) => Promise<void>
   onClickReference?: FormProps['onClickReference']
+  selectReferenceExplorerProps?:
+    | (BasedExplorerProps & { itemQuery: any })
+    | ((p: {
+        fields: any
+        query: any
+        types: string[]
+      }) => BasedExplorerProps & { itemQuery: any })
 }
 
 type OptionalBasedFormProps =

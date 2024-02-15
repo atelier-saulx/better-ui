@@ -38,6 +38,7 @@ export function BasedForm({
   addItem,
   deleteItem,
   onClickReference,
+  selectReferenceExplorerProps,
 }: BasedFormProps): React.JSX.Element {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -123,9 +124,12 @@ export function BasedForm({
     onSelectReference: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
-          types={field.allowedTypes?.map((e) =>
-            typeof e === 'string' ? e : e.type,
-          )}
+          selectReferenceExplorerProps={selectReferenceExplorerProps}
+          types={
+            field.allowedTypes?.map((e) =>
+              typeof e === 'string' ? e : e.type,
+            ) || []
+          }
           onSelect={(reference) => {
             close(reference)
           }}
@@ -138,9 +142,12 @@ export function BasedForm({
     onSelectReferences: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
-          types={field.allowedTypes?.map((e) =>
-            typeof e === 'string' ? e : e.type,
-          )}
+          selectReferenceExplorerProps={selectReferenceExplorerProps}
+          types={
+            field.allowedTypes?.map((e) =>
+              typeof e === 'string' ? e : e.type,
+            ) || []
+          }
           onSelect={(reference) => {
             close(reference)
           }}
