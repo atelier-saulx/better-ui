@@ -13,14 +13,9 @@ import {
   IconChevronDownSmall,
   IconArrowheadDown,
   IconArrowheadUp,
+  Pagination,
 } from '../../../index.js'
-import {
-  Path,
-  TableCtx,
-  Reference,
-  TableSort,
-  TablePagination,
-} from '../types.js'
+import { Path, TableCtx, Reference, TableSort } from '../types.js'
 import { Cell } from '../Table/Cell.js'
 import { ColStack } from '../Table/ColStack.js'
 import { References } from './index.js'
@@ -64,7 +59,7 @@ export const ReferencesTable = ({
 }: {
   style?: Style
   isLoading?: boolean
-  pagination?: TablePagination
+  pagination?: Pagination
   sortByFields?: TableSort
   field: BasedSchemaFieldReferences
   valueRef: ValueRef

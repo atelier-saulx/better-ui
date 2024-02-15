@@ -10,6 +10,7 @@ import {
   borderRadius,
   color,
   PageHeader,
+  Pagination,
   IconPlus,
   SearchInput,
 } from '../../index.js'
@@ -20,7 +21,6 @@ import {
   generateFromType,
   getTypesFromFilter,
 } from './generator.js'
-import { TablePagination } from '../Form/types.js'
 
 export { generateFieldsFromQuery, generateFromType, getTypesFromFilter }
 
@@ -254,7 +254,7 @@ export function BasedExplorer({
 
   const useHeader = info || header || addItem || filter
 
-  const pagination = React.useMemo<TablePagination>(
+  const pagination = React.useMemo<Pagination>(
     () => ({
       type: 'scroll',
       total: parsedTotal,

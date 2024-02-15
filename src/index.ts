@@ -41,7 +41,7 @@ export * from './components/PieGraph/index.js'
 export * from './components/BarGraph/index.js'
 export * from './components/LineGraph/index.js'
 export * from './components/SearchInput/index.js'
-
+export * from './components/Virtualized/index.js'
 export * from './components/Container/index.js'
 export * from './components/Form/index.js'
 export * from './components/Grid/index.js'

@@ -76,28 +76,32 @@ export type FormProps = {
 
 const makeGroups = (
   arr: [string, BasedSchemaField][],
-): [string, BasedSchemaField][][] => {
+): [string, BasedSchemaField, boolean][][] => {
   const groups: any[] = []
 
   let lastGroup
-  for (const [key, field] of arr) {
+  for (let i = 0; i < arr.length; i++) {
+    const [key, field] = arr[i]
     if (
       field.type === 'object' ||
       field.type === 'array' ||
       field.type === 'set' ||
       field.type === 'references' ||
-      field.type === 'record'
+      field.type === 'record' ||
+      ((field.type === 'text' || field.type === 'string') &&
+        field.format === 'html')
     ) {
       if (lastGroup) {
         groups.push(lastGroup)
         lastGroup = null
       }
-      groups.push([[key, field]])
+
+      groups.push([[key, field, i === arr.length - 1]])
     } else {
       if (!lastGroup) {
         lastGroup = []
       }
-      lastGroup.push([key, field])
+      lastGroup.push([key, field, i === arr.length - 1])
     }
   }
 
@@ -219,44 +223,52 @@ export const Form = (p: FormProps) => {
         hasChanges={valueRef.current.hasChanges}
         variant={p.variant}
       />
-      {makeGroups(
-        Object.entries(p.fields).sort(([, a], [, b]) => {
-          const aIndex = a.index ?? 1e6
-          const bIndex = b.index ?? 1e6
-          return aIndex === bIndex ? 0 : aIndex > bIndex ? 1 : -1
-        }),
-      ).map((group, i) => {
-        return (
-          <styled.div
-            key={i}
-            style={{
-              width: '100%',
-              columns: group.length === 1 ? 'none' : '2 500px',
-              columnGap: '32px',
-              marginTop: i === 0 ? 0 : 32,
-              marginBottom: group.length === 1 ? 32 : 0,
-            }}
-          >
-            {group.map(([key, field], i) => (
-              <styled.div
-                key={i}
-                style={{
-                  marginBottom: 32,
-                  pageBreakInside: 'avoid',
-                }}
-              >
-                <Field
-                  ctx={ctxRef.current}
-                  key={key}
-                  field={field}
-                  propKey={key}
-                  autoFocus={p.autoFocus && i === 0}
-                />
-              </styled.div>
-            ))}
-          </styled.div>
-        )
-      })}
+      <styled.div
+        style={{
+          width: '100%',
+          marginTop:
+            p.variant === 'bare' || p.variant === 'no-confirm' ? 0 : 32,
+        }}
+      >
+        {makeGroups(
+          Object.entries(p.fields).sort(([, a], [, b]) => {
+            const aIndex = a.index ?? 1e6
+            const bIndex = b.index ?? 1e6
+            return aIndex === bIndex ? 0 : aIndex > bIndex ? 1 : -1
+          }),
+        ).map((group, i) => {
+          return (
+            <styled.div
+              key={i}
+              style={{
+                width: '100%',
+                columns: group.length === 1 ? 'none' : '2 500px',
+                columnGap: '32px',
+                marginTop: i === 0 ? 0 : 32,
+                marginBottom: group.length === 1 && !group[0][2] ? 32 : 0,
+              }}
+            >
+              {group.map(([key, field, isLast], i) => (
+                <styled.div
+                  key={i}
+                  style={{
+                    marginBottom: isLast ? 0 : 32,
+                    pageBreakInside: 'avoid',
+                  }}
+                >
+                  <Field
+                    ctx={ctxRef.current}
+                    key={key}
+                    field={field}
+                    propKey={key}
+                    autoFocus={p.autoFocus && i === 0}
+                  />
+                </styled.div>
+              ))}
+            </styled.div>
+          )
+        })}
+      </styled.div>
     </>
   )
 }

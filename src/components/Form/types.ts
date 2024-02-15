@@ -91,21 +91,3 @@ export type TableSort = {
   sorted?: { key: string; dir: 'asc' | 'desc' }
   onSort: (key: string, dir: 'asc' | 'desc', sort: TableSort) => void
 }
-
-export type TablePagination = {
-  type: 'scroll' | 'button'
-  total?: number
-  onScroll?: (y: number, page: number, pageSize: number) => void
-  onPageChange?: (p: {
-    index: number
-    pageSize: number
-    start: number
-    end: number
-  }) => Promise<void>
-  loadMore?: (p: {
-    index: number
-    pageSize: number
-    start: number
-    end: number
-  }) => Promise<void>
-}
