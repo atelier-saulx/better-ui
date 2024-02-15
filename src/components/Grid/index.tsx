@@ -14,6 +14,7 @@ import {
 } from '../../index.js'
 import { BasedSchema, display } from '@based/schema'
 import humanizeString from 'humanize-string'
+import { getImg } from '../Form/Reference.js'
 
 export type GridProps = {
   pagination: Pagination
@@ -67,6 +68,12 @@ const getData = (
           f.display ? f : { type: 'number', display: 'short' },
         ),
       }
+    } else if (f.type === 'reference') {
+      const img = getImg(v[fi], schema, f)
+      if (img) {
+        newObj.src = img
+        newObj.mimeType = v.mimeType
+      }
     }
   }
 
@@ -111,8 +118,6 @@ export function Grid(p: GridProps) {
               {values.map((raw, i) => {
                 const v = getData(raw, p.fields, p.schema)
 
-                // body
-
                 const hasSrc = 'src' in v
                 const hasResult = v.result
 
@@ -130,78 +135,94 @@ export function Grid(p: GridProps) {
                     style={{
                       width: itemWidth,
                       height: itemHeight,
-                      borderRadius: borderRadius('large'),
                       cursor: 'pointer',
-                      padding: 24,
+                      padding: 8,
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
-                      border: '1px solid transparent',
-                      '&:hover': {
-                        background: color('background', 'neutral'),
-                      },
                     }}
                   >
-                    {hasSrc ? (
-                      <styled.div
-                        style={{
-                          background: color('background', 'primary'),
-                          borderRadius: borderRadius('medium'),
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          flexShrink: 0,
-                          height: 'calc(100% - 64px)',
-                          width: '100%',
-                          padding: 32,
-                        }}
-                      >
-                        <Media type={v.mimeType} variant="cover" src={v.src} />
-                      </styled.div>
-                    ) : hasResult ? (
-                      <Stack
-                        direction="column"
-                        align="center"
-                        style={{
-                          background: color('background', 'primary'),
-                          borderRadius: borderRadius('medium'),
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          flexShrink: 0,
-                          height: 'calc(100% - 64px)',
-                          width: '100%',
-                          padding: 32,
-                          overflow: 'hidden',
-                          '& p': {
+                    <Stack
+                      direction="column"
+                      justify="start"
+                      align="start"
+                      gap={16}
+                      style={{
+                        padding: 16,
+                        width: '100%',
+                        height: '100%',
+                        border: '1px solid transparent',
+                        borderRadius: borderRadius('large'),
+                        '&:hover': {
+                          background: color('background', 'neutral'),
+                        },
+                      }}
+                    >
+                      {hasSrc ? (
+                        <styled.div
+                          style={{
+                            background: color('background', 'primary'),
+                            borderRadius: borderRadius('medium'),
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexShrink: 0,
+                            height: 'calc(100% - 64px)',
+                            width: '100%',
+                            padding: 32,
+                          }}
+                        >
+                          <Media
+                            type={v.mimeType}
+                            variant="cover"
+                            src={v.src}
+                          />
+                        </styled.div>
+                      ) : hasResult ? (
+                        <Stack
+                          direction="column"
+                          align="center"
+                          style={{
+                            background: color('background', 'primary'),
+                            borderRadius: borderRadius('medium'),
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexShrink: 0,
+                            height: 'calc(100% - 64px)',
+                            width: '100%',
+                            padding: 32,
                             overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                          },
-                        }}
-                      >
-                        <Text variant="body-light">{v.result.name}</Text>
-                        <Text variant="title">{v.result.value}</Text>
-                      </Stack>
-                    ) : null}
-                    <Stack>
-                      <styled.div
-                        style={{
-                          overflow: 'hidden',
-                          '& p': {
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                          },
-                        }}
-                      >
-                        <Text variant="body-bold">
-                          {v.title ?? v.name ?? v.id}
-                        </Text>
-                        {v.description ? (
-                          <Text variant="body-light">{v.description}</Text>
-                        ) : null}
-                      </styled.div>
-                      {v.date ? (
-                        <Text variant="body-light">{v.date}</Text>
+                            '& p': {
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            },
+                          }}
+                        >
+                          <Text variant="body-light">{v.result.name}</Text>
+                          <Text variant="title">{v.result.value}</Text>
+                        </Stack>
                       ) : null}
+                      <Stack>
+                        <styled.div
+                          style={{
+                            overflow: 'hidden',
+                            '& p': {
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            },
+                          }}
+                        >
+                          <Text variant="body-bold">
+                            {v.title ?? v.name ?? v.id}
+                          </Text>
+                          {v.description ? (
+                            <Text variant="body-light">{v.description}</Text>
+                          ) : null}
+                        </styled.div>
+                        {v.date ? (
+                          <Text variant="body-light">{v.date}</Text>
+                        ) : null}
+                      </Stack>
                     </Stack>
                   </Stack>
                 )

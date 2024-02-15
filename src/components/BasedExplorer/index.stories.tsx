@@ -165,7 +165,7 @@ export const FieldsFromValues = () => {
 
 export const Page = () => {
   return (
-    <div style={{ height: '50vh' }}>
+    <div style={{ height: 'calc(100vh - 200px)' }}>
       <BasedExplorer
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
@@ -181,6 +181,11 @@ export const Page = () => {
           $language: language,
           data: {
             $all: true,
+            image: {
+              src: true,
+              mimeType: true,
+              id: true,
+            },
             $list: {
               $limit: limit,
               $offset: offset,
@@ -195,9 +200,9 @@ export const Page = () => {
                 $filter: filter
                   ? [
                       { $operator: 'includes', $field: 'name', $value: filter },
-                      { $operator: '=', $field: 'type', $value: 'todo' },
+                      { $operator: '=', $field: 'type', $value: 'article' },
                     ]
-                  : [{ $operator: '=', $field: 'type', $value: 'todo' }],
+                  : [{ $operator: '=', $field: 'type', $value: 'article' }],
               },
             },
           },

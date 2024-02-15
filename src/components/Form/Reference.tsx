@@ -1,7 +1,10 @@
 import * as React from 'react'
 import {
+  AllowedTypes,
+  BasedSchema,
   BasedSchemaContentMediaType,
   BasedSchemaFieldReference,
+  BasedSchemaPartial,
 } from '@based/schema'
 import {
   Stack,
@@ -110,17 +113,33 @@ const Info = (p: { value: Reference; onClick: () => void }) => {
 
 export const getImg = (
   value: any,
-  ctx: TableCtx,
+  schema: BasedSchemaPartial,
   field: BasedSchemaFieldReference,
+  types?: AllowedTypes,
 ) => {
-  if (field.allowedTypes) {
-    for (const type of field.allowedTypes) {
+  if (!types && field.allowedTypes) {
+    types = field.allowedTypes
+  }
+  if (value && typeof value === 'object' && (value.id || value.type)) {
+    const type =
+      value.type ?? schema.prefixToTypeMapping?.[value.id.slice(0, 2)]
+    if (type) {
+      types = [type]
+    }
+  }
+
+  if (types) {
+    for (const type of types) {
       if (typeof type === 'string') {
-        const t = ctx.schema?.types?.[type]
+        const t = schema?.types?.[type]
         if (t) {
           for (const key in t.fields) {
             const f = t.fields[key]
-            if (f.type === 'reference') {
+            if (f.type === 'string' && f.contentMediaType) {
+              if (value[key]) {
+                return value[key]
+              }
+            } else if (f.type === 'reference') {
               if (value[key]) {
                 // @ts-ignore
                 const src = getImg(value[key], ctx, f)
@@ -128,11 +147,10 @@ export const getImg = (
                   return src
                 }
               }
-            } else if (f.type === 'string' && f.contentMediaType) {
-              if (value[key]) {
-                return value[key]
-              }
             }
+          }
+          if ('src' in value) {
+            return value.src
           }
         }
       }
@@ -168,7 +186,7 @@ export const Image = (p: {
     p.ctx.schema &&
     p.field.allowedTypes
   ) {
-    src = getImg(p.value, p.ctx, p.field)
+    src = getImg(p.value, p.ctx.schema, p.field)
     if (src) {
       hasFile = true
     }
