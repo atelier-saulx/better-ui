@@ -409,21 +409,39 @@ export const FieldsFromValues = () => {
 
 export const Page = () => {
   return (
-    <div style={{ height: '50vh' }}>
+    <div style={{ height: 'calc(100vh - 200px)' }}>
       <BasedExplorer
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
+        variant={['grid', 'table']}
         header="Based Explorer"
         info
         filter
+        select={[
+          { value: 'article', label: 'Article' },
+          { value: 'todo', label: 'Todo' },
+          { value: 'file', label: 'File' },
+        ]}
         addItem={async () => {
           alert('Add item')
         }}
-        query={({ limit, offset, sort, language, filter }) => ({
+        query={({
+          limit,
+          offset,
+          sort,
+          language,
+          filter,
+          selected = 'article',
+        }) => ({
           $language: language,
           data: {
             $all: true,
+            image: {
+              src: true,
+              mimeType: true,
+              id: true,
+            },
             $list: {
               $limit: limit,
               $offset: offset,
@@ -438,9 +456,9 @@ export const Page = () => {
                 $filter: filter
                   ? [
                       { $operator: 'includes', $field: 'name', $value: filter },
-                      { $operator: '=', $field: 'type', $value: 'todo' },
+                      { $operator: '=', $field: 'type', $value: selected },
                     ]
-                  : [{ $operator: '=', $field: 'type', $value: 'todo' }],
+                  : [{ $operator: '=', $field: 'type', $value: selected }],
               },
             },
           },
@@ -1358,115 +1376,25 @@ const meta: Meta<typeof Grid> = {
 
 export default meta
 
-export const Default = () => {
+export const Virtualized = () => {
   const { data: items, loading } = useQuery('fakedata', {
-    arraySize: 10,
+    arraySize: 1000,
     id: '',
     title: '',
-    description: '',
-    image: '',
-    renderAs: '',
+    createdAt: '',
+    src: '',
+    color: '',
   })
 
-  if (loading) {
-    return null
-  }
-
   return (
-    <div style={{ padding: 64 }}>
+    <div style={{ padding: 64, height: 'calc(100vh - 150px)' }}>
       <Grid
-        items={items}
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
-      />
-    </div>
-  )
-}
-
-export const Row = () => {
-  const { data: items, loading } = useQuery('fakedata', {
-    arraySize: 10,
-    id: '',
-    title: '',
-    description: '',
-    image: '',
-    renderAs: '',
-  })
-
-  if (loading) {
-    return null
-  }
-
-  return (
-    <div style={{ padding: 64 }}>
-      <Grid
-        items={items}
-        variant="row"
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
-      />
-    </div>
-  )
-}
-
-export const SortableRow = () => {
-  const { data: items, loading } = useQuery('fakedata', {
-    arraySize: 10,
-    id: '',
-    title: '',
-    description: '',
-    image: '',
-    renderAs: '',
-  })
-
-  if (loading) {
-    return null
-  }
-
-  return (
-    <div style={{ padding: 64 }}>
-      <Grid
-        items={items}
-        sortable
-        onChange={(items) => {
-          console.info(items)
+        size={400}
+        values={items}
+        pagination={{
+          type: 'scroll',
+          total: items?.length ?? 0,
         }}
-        variant="row"
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
       />
     </div>
   )
@@ -3731,16 +3659,17 @@ const meta: Meta<typeof Virtualized> = {
 
 export default meta
 
-export const Default = () => {
-  const values: string[] = []
-  for (let i = 0; i < 1e3; i++) {
-    values.push('Value #' + i)
-  }
+const values: string[] = []
+for (let i = 0; i < 1e3; i++) {
+  values.push('Value #' + i)
+}
 
+export const Default = () => {
   return (
     <styled.div
       style={{
         height: '50vh',
+        border: border(),
       }}
     >
       <Virtualized
@@ -3749,7 +3678,7 @@ export const Default = () => {
           type: 'scroll',
           total: 1e3,
         }}
-        itemHeight={100}
+        itemSize={100}
       >
         {({ values }) => {
           return (
@@ -3759,8 +3688,52 @@ export const Default = () => {
                   <Stack
                     key={i}
                     style={{
+                      padding: 20,
                       borderBottom: border(),
                       height: 100,
+                    }}
+                  >
+                    <Text variant="title">{v}</Text>
+                  </Stack>
+                )
+              })}
+            </div>
+          )
+        }}
+      </Virtualized>
+    </styled.div>
+  )
+}
+
+export const HeightBasedOnSize = () => {
+  return (
+    <styled.div
+      style={{
+        height: '50vh',
+        border: border(),
+      }}
+    >
+      <Virtualized
+        values={values}
+        pagination={{
+          type: 'scroll',
+          total: 1e3,
+        }}
+        itemSize={({ height }) => {
+          return height / 4
+        }}
+      >
+        {({ values, itemHeight }) => {
+          return (
+            <div>
+              {values.map((v, i) => {
+                return (
+                  <Stack
+                    key={i}
+                    style={{
+                      padding: 20,
+                      borderBottom: border(),
+                      height: itemHeight,
                     }}
                   >
                     <Text variant="title">{v}</Text>
