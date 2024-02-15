@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, useUpdate } from '../../index.js'
+import { Button, Stack, Table, useUpdate } from '../../index.js'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
 import { Provider, useQuery } from '@based/react'
@@ -219,6 +219,7 @@ export const EditableTable = () => {
   return (
     <Table
       values={dataSmall}
+      // @ts-ignore
       editable
       sortable
       field={{
@@ -231,6 +232,39 @@ export const EditableTable = () => {
         },
       }}
     />
+  )
+}
+
+export const EditableRefTable = () => {
+  const editableRef = React.useRef({
+    onChange(changed) {
+      console.log('CHANGED:', changed)
+    },
+  })
+
+  return (
+    <>
+      <Stack>
+        <Button
+          onClick={() => {
+            // @ts-ignore
+            editableRef.current.clear()
+          }}
+        >
+          Apply
+        </Button>
+        <Button
+          onClick={() => {
+            // @ts-ignore
+            editableRef.current.clear()
+          }}
+        >
+          Discard
+        </Button>
+      </Stack>
+      {/* @ts-ignore */}
+      <Table editableRef={editableRef.current} />
+    </>
   )
 }
 

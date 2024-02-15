@@ -12,24 +12,36 @@ import { FormProps } from '../Form/index.js'
 import { useUpdate } from '../../index.js'
 import { Style } from 'inlines'
 
+type Changes = {
+  updated: any[] // rows that changed
+  removed: any[]
+  added: any[]
+}
+
 export const Table = (p: {
   pagination?: TablePagination | true
   sort?: TableSort | true
   schema?: BasedSchemaPartial
-  editable?: boolean
   field?: BasedSchemaFieldObject
   style?: Style
   isLoading?: boolean
   values?: any[]
   sortable?: boolean // maybe rename to orderable (everywhere)
-  onChange?: FormProps['onChange'] // remove this
   onClick?: (data: any, index: number | string) => void
   isBlock?: boolean
-  // editableRef:
+  editableRef: {
+    onChange: (changes: Changes) => void
+    clear: () => void
+    changes: Changes
+  }
 }) => {
   // discard, apply, onChange
   // onChange
-  // added: [], changed: [], removed: []
+  // { added: [], changed: [], removed: [] }
+
+  if (p.editableRef) {
+    p.editableRef.clear ??= () => {}
+  }
 
   const update = useUpdate()
   const path = ['field']
@@ -37,6 +49,7 @@ export const Table = (p: {
     fields: {
       field: { type: 'references', sortable: p.sortable },
     },
+    // @ts-ignore
     editableReferences: p.editable,
     schema: p.schema,
     variant: 'small',
@@ -51,6 +64,7 @@ export const Table = (p: {
       onChangeHandler: (ctx, path, newValue, forceUpdate) => {
         console.log('change', path, newValue)
         // new version etc
+
         return false
       },
       onFileUpload: async (props, updateHandler) => {},
@@ -148,6 +162,7 @@ export const Table = (p: {
       isLoading={p.isLoading}
       alwaysUseCols
       isBlock={p.isBlock}
+      // @ts-ignore
       onRemove={p.editable ? removeItem : undefined}
       pagination={
         p.pagination === true
