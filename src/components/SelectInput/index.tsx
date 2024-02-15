@@ -146,10 +146,13 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                         ? '1px solid transparent'
                         : border('hover'),
                   },
-                  '&:focus': {
-                    border: `1px solid ${color('interactive', 'primary')}`,
-                    boxShadow: `0 0 0 2px color-mix(in srgb, ${color('interactive', 'primary')}  20%, transparent) !important`,
-                  },
+                  '&:focus':
+                    variant === 'small'
+                      ? {}
+                      : {
+                          border: `1px solid ${color('interactive', 'primary')}`,
+                          boxShadow: `0 0 0 2px color-mix(in srgb, ${color('interactive', 'primary')}  20%, transparent) !important`,
+                        },
                   ...(error && {
                     border: border('error'),
                     '&:hover': {
