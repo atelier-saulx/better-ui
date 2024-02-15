@@ -46,7 +46,10 @@ const getData = (
       newObj.id = v[fi]
     } else if (f.type === 'string' && f.contentMediaType) {
       newObj.src = v[fi]
-      newObj.mimeType = f.contentMediaType
+      newObj.mimeType = v.mimeType ?? f.contentMediaType
+      if (newObj.mimeType === '*/*') {
+        delete newObj.mimeType
+      }
     } else if (f.type === 'string') {
       if (fi === 'description') {
         newObj.description = v[fi]
