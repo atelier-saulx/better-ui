@@ -10,7 +10,7 @@ const client = based({
   env: 'production',
 })
 
-const meta: Meta<typeof BasedExplorer> = {
+const meta: Meta<typeof BasedList> = {
   title: 'Based/BasedList',
   component: BasedList,
   decorators: [
@@ -40,7 +40,44 @@ export const Default = () => {
             },
           },
         })}
+        // totalQuery={() => ({
+        //   total: {
+        //     $aggregate: {
+        //       $function: 'count',
+        //       $traverse: 'children',
+        //       $filter: [
+        //         {
+        //           $field: 'type',
+        //           $operator: '=',
+        //           $value: ['todo', 'file'],
+        //         },
+        //       ],
+        //     },
+        //   },
+        // })}
       />
     </div>
   )
 }
+
+// export const Custom = () => {
+//   return (
+//     <div style={{ height: '50vh' }}>
+//       <BasedList
+//         fields={{ title: 'id' }}
+//         query={() => ({
+//           $language: 'en',
+//           data: {
+//             $all: true,
+//             $list: {
+//               $find: {
+//                 $traverse: 'children',
+//                 $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
+//               },
+//             },
+//           },
+//         })}
+//       />
+//     </div>
+//   )
+// }

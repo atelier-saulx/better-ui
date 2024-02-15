@@ -18,6 +18,12 @@ type SharedBasedFormProps = {
   onChange?: FormProps['onChange']
   onFileUpload?: FormProps['onFileUpload']
   transformResults?: (any) => any
+  header?:
+    | boolean
+    | React.ReactNode
+    | ((values: FormProps['values']) => React.ReactNode)
+  addItem?: (p: Record<string, any>) => Promise<void>
+  deleteItem?: (p: Record<string, any>) => Promise<void>
 }
 
 type OptionalBasedFormProps =

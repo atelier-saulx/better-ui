@@ -33,3 +33,11 @@ export const Default = () => {
     </div>
   )
 }
+
+export const BasedFormPage = () => {
+  return (
+    <div>
+      <BasedForm id="10ff8f6f00" header />
+    </div>
+  )
+}
