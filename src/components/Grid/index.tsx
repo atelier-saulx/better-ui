@@ -17,16 +17,13 @@ import humanizeString from 'humanize-string'
 export type GridProps = {
   pagination: Pagination
   values?: any[]
+  onClick?: (row: any) => void
   size?: number
   isBlock?: boolean
   isLoading?: boolean
   style?: Style
   schema?: BasedSchema
   fields?: FormProps['fields']
-}
-
-const GridItem = () => {
-  return 'bla'
 }
 
 const getData = (
@@ -124,11 +121,15 @@ export function Grid(p: GridProps) {
                     justify="start"
                     align="start"
                     gap={16}
+                    onClick={() => {
+                      if (p.onClick) {
+                        p.onClick(raw)
+                      }
+                    }}
                     style={{
                       width: itemWidth,
                       height: itemHeight,
                       padding: 24,
-                      // border: '1px solid red',
                     }}
                   >
                     {hasSrc ? (
