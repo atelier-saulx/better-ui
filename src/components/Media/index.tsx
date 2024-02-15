@@ -182,7 +182,7 @@ export function Media({
   const containerElem = React.useRef<HTMLDivElement | null>(null)
   const [size, setSize] = React.useState<'small' | 'regular' | 'large'>(null)
 
-  if (!type && src) {
+  if ((!type || type === '*/*') && src) {
     type = getMimeType(src)
   }
 
