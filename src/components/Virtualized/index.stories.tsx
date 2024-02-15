@@ -29,7 +29,7 @@ export const Default = () => {
           type: 'scroll',
           total: 1e3,
         }}
-        itemHeight={100}
+        itemSize={100}
       >
         {({ values }) => {
           return (
@@ -70,7 +70,7 @@ export const HeightBasedOnSize = () => {
           type: 'scroll',
           total: 1e3,
         }}
-        itemHeight={({ height }) => {
+        itemSize={({ height }) => {
           return height / 4
         }}
       >
