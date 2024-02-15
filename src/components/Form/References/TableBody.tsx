@@ -34,7 +34,7 @@ export const TableVirtualized = (p: TableBodyProps) => {
       pagination={p.pagination}
       isLoading={p.isLoading}
       isBlock={p.isBlock}
-      itemHeight={48}
+      itemSize={48}
       onSelectValues={(v) => {
         // This is nessecary for nested fields to select the correct values..
         // legacy thing form the form before we started with complex stuff like virtual...

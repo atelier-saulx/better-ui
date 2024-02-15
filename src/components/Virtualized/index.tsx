@@ -25,16 +25,25 @@ export type VirtualizedRenderer = (p: {
   isLoading?: boolean
   loading: boolean
   itemHeight: number
+  itemWidth: number
+  start: number
+  index: number
+  end: number
+  pageCount: number
+  total: number
 }) => {}
 
-export type ItemHeight =
+export type ItemSize =
   | number
-  | ((size: { width: number; height: number }) => number)
+  | ((size: {
+      width: number
+      height: number
+    }) => { width?: number; height: number; rows?: number } | number)
 
 export type VirtualizedProps = {
   pagination: Pagination
   values: any[]
-  itemHeight: ItemHeight
+  itemSize: ItemSize
   isBlock?: boolean
   isLoading?: boolean
   children: VirtualizedRenderer
@@ -53,23 +62,27 @@ export function Virtualized(p: VirtualizedProps) {
     loading: boolean
     loaded: number
     values: any[]
-    itemHeightProp: ItemHeight
+    itemHeightProp: ItemSize
     itemHeight: number
+    itemWidth: number
+    rows: number
   }>({
     start: 0,
     end: 0,
     pageCount: 0,
     currentIndex: 0,
+    rows: 1,
     loading: false,
     loaded: -1,
     values: [],
     itemHeight: 0,
-    itemHeightProp: p.itemHeight,
+    itemWidth: 0,
+    itemHeightProp: p.itemSize,
   })
 
-  if (typeof p.itemHeight === 'number') {
+  if (typeof p.itemSize === 'number') {
     // @ts-ignore .....
-    ref.current.itemHeight = p.itemHeight
+    ref.current.itemHeight = p.itemSize
   }
 
   ref.current.pagination = p.pagination
@@ -78,9 +91,12 @@ export function Virtualized(p: VirtualizedProps) {
 
   const updateBlock = React.useCallback((index: number) => {
     ref.current.currentIndex = index
-    ref.current.start = Math.max(index * ref.current.pageCount, 0)
+    ref.current.start = Math.max(
+      index * ref.current.pageCount * ref.current.rows,
+      0,
+    )
     ref.current.end = Math.min(
-      (index + 2) * ref.current.pageCount,
+      (index + 2) * ref.current.pageCount * ref.current.rows,
       ref.current.pagination.total,
     )
     ref.current.pagination.onPageChange?.({
@@ -98,10 +114,19 @@ export function Virtualized(p: VirtualizedProps) {
 
   const sizeRef = useSize((size) => {
     if (typeof ref.current.itemHeightProp === 'function') {
-      ref.current.itemHeight = ref.current.itemHeightProp(size)
+      const calc = ref.current.itemHeightProp(size)
+      if (typeof calc === 'number') {
+        ref.current.itemHeight = calc
+      } else {
+        ref.current.itemHeight = calc.height
+        ref.current.itemWidth = calc.width
+        ref.current.rows = calc.rows ?? 1
+      }
     }
-    const { height, width } = size
+    const { height } = size
+
     const n = Math.ceil(height / ref.current.itemHeight)
+
     if (n !== ref.current.pageCount) {
       ref.current.pageCount = n
       ref.current.pageSize = n * ref.current.itemHeight
@@ -193,6 +218,12 @@ export function Virtualized(p: VirtualizedProps) {
                 loading: ref.current.loading,
                 values: ref.current.values,
                 itemHeight: ref.current.itemHeight,
+                itemWidth: ref.current.itemWidth,
+                total: ref.current.pagination.total,
+                start: ref.current.start,
+                end: ref.current.end,
+                pageCount: ref.current.pageCount,
+                index: ref.current.currentIndex,
               })
             : null}
         </styled.div>

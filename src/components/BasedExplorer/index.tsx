@@ -13,6 +13,7 @@ import {
   Pagination,
   IconPlus,
   SearchInput,
+  Grid,
 } from '../../index.js'
 import { useClient, useQuery } from '@based/react'
 import { BasedSchema, convertOldToNew } from '@based/schema'
@@ -53,6 +54,7 @@ export type BasedExplorerProps = {
   info?: React.ReactNode | BasedExplorerHeaderComponent | true
   onItemClick?: (item: any) => void
   queryEndpoint?: string
+  variant?: 'grid' | 'table'
   transformResults?: (data: any) => any
   sort?: { key: string; dir: 'asc' | 'desc' }
   query: QueryFn
@@ -86,6 +88,7 @@ export function BasedExplorer({
   transformResults,
   header,
   info,
+  variant,
   addItem,
   sort,
 }: BasedExplorerProps) {
@@ -309,41 +312,58 @@ export function BasedExplorer({
     [!totalQuery, parsedTotal, queryEndpoint],
   )
 
-  const viewer = (
-    <Table
-      style={
-        useHeader
-          ? {
-              border: border(),
-              borderRadius: borderRadius('tiny'),
-              background: color('background', 'screen'),
-            }
-          : undefined
-      }
-      field={
-        fields
-          ? {
-              type: 'object',
-              properties: fields,
-            }
-          : undefined
-      }
-      schema={schema ?? undefined}
-      values={ref.current?.block.data}
-      isBlock
-      isLoading={ref.current.isLoading}
-      onClick={onItemClick}
-      sort={{
-        sorted: ref.current.sort,
-        onSort(key, dir, sort) {
-          sort.sorted = { key, dir }
-          ref.current.sort = { key, dir }
-          updateSubs()
-        },
-      }}
-      pagination={pagination}
-    />
-  )
+  const viewer =
+    variant === 'grid' ? (
+      <Grid
+        style={
+          useHeader
+            ? {
+                border: border(),
+                borderRadius: borderRadius('tiny'),
+                background: color('background', 'screen'),
+              }
+            : undefined
+        }
+        values={ref.current?.block.data}
+        isBlock
+        isLoading={ref.current.isLoading}
+        pagination={pagination}
+      />
+    ) : (
+      <Table
+        style={
+          useHeader
+            ? {
+                border: border(),
+                borderRadius: borderRadius('tiny'),
+                background: color('background', 'screen'),
+              }
+            : undefined
+        }
+        field={
+          fields
+            ? {
+                type: 'object',
+                properties: fields,
+              }
+            : undefined
+        }
+        schema={schema ?? undefined}
+        values={ref.current?.block.data}
+        isBlock
+        isLoading={ref.current.isLoading}
+        onClick={onItemClick}
+        sort={{
+          sorted: ref.current.sort,
+          onSort(key, dir, sort) {
+            sort.sorted = { key, dir }
+            ref.current.sort = { key, dir }
+            updateSubs()
+          },
+        }}
+        pagination={pagination}
+      />
+    )
 
   if (useHeader) {
     const headerProps = {

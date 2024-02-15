@@ -34,115 +34,25 @@ const meta: Meta<typeof Grid> = {
 
 export default meta
 
-export const Default = () => {
+export const Virtualized = () => {
   const { data: items, loading } = useQuery('fakedata', {
-    arraySize: 10,
+    arraySize: 1000,
     id: '',
     title: '',
-    description: '',
-    image: '',
-    renderAs: '',
+    createdAt: '',
+    src: '',
+    color: '',
   })
 
-  if (loading) {
-    return null
-  }
-
   return (
-    <div style={{ padding: 64 }}>
+    <div style={{ padding: 64, height: 'calc(100vh - 150px)' }}>
       <Grid
-        items={items}
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
-      />
-    </div>
-  )
-}
-
-export const Row = () => {
-  const { data: items, loading } = useQuery('fakedata', {
-    arraySize: 10,
-    id: '',
-    title: '',
-    description: '',
-    image: '',
-    renderAs: '',
-  })
-
-  if (loading) {
-    return null
-  }
-
-  return (
-    <div style={{ padding: 64 }}>
-      <Grid
-        items={items}
-        variant="row"
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
-      />
-    </div>
-  )
-}
-
-export const SortableRow = () => {
-  const { data: items, loading } = useQuery('fakedata', {
-    arraySize: 10,
-    id: '',
-    title: '',
-    description: '',
-    image: '',
-    renderAs: '',
-  })
-
-  if (loading) {
-    return null
-  }
-
-  return (
-    <div style={{ padding: 64 }}>
-      <Grid
-        items={items}
-        sortable
-        onChange={(items) => {
-          console.info(items)
+        size={400}
+        values={items}
+        pagination={{
+          type: 'scroll',
+          total: items?.length ?? 0,
         }}
-        variant="row"
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
       />
     </div>
   )
