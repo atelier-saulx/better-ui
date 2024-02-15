@@ -37,12 +37,12 @@ export function BasedForm({
   header,
   addItem,
   deleteItem,
-}: BasedFormProps) {
+  onClickReference,
+}: BasedFormProps): React.JSX.Element {
   const client = useClient()
   const { open } = Modal.useModal()
   const [language] = useLanguage()
   const { data: rawSchema, checksum } = useQuery('db:schema')
-
   const schema = React.useMemo(() => {
     if (!rawSchema) return
     return convertOldToNew(rawSchema) as BasedSchema
@@ -95,23 +95,31 @@ export function BasedForm({
     variant ??= 'no-confirm'
   }
 
-  const props = {
+  let onFormChange
+  if (onChange) {
+    onFormChange = (values, changed, checksum, based) =>
+      onChange({ values, changed, checksum, based, language })
+  } else {
+    onFormChange = id
+      ? async (_values, _changed, _checksum, based) => {
+          await client.call('db:set', {
+            $id: id,
+            $language: language,
+            ...based,
+          })
+        }
+      : (values) => setState({ ...values })
+  }
+
+  const props: FormProps & { key: any } = {
     key: id,
     variant,
     schema,
     values: (transformResults ? transformResults(values) : values) || state,
     fields: ref.current.currentFields,
-    onChange:
-      onChange ?? id
-        ? async (_values, _changed, _checksum, based) => {
-            await client.call('db:set', {
-              $id: id,
-              $language: language,
-              ...based,
-            })
-          }
-        : (values) => setState({ ...values }),
+    onChange: onFormChange,
     onFileUpload,
+    onClickReference,
     onSelectReference: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
@@ -164,7 +172,9 @@ export function BasedForm({
                 : addItem && (
                     <Button
                       disabled={!state}
-                      onClick={() => addItem({ type, ...state })}
+                      onClick={() =>
+                        addItem({ values: { type, ...state }, language })
+                      }
                     >
                       Save
                     </Button>

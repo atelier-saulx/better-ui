@@ -58,7 +58,9 @@ export type BasedExplorerProps = {
   query: QueryFn
   total?: number
   totalQuery?: ((p: { filter?: string }) => any) | false
-  fields?: FormProps['fields']
+  fields?:
+    | FormProps['fields']
+    | ((fields: FormProps['fields']) => FormProps['fields'])
   filter?: boolean
   addItem?: (p: {
     total: number
@@ -82,7 +84,7 @@ export function BasedExplorer({
   totalQuery,
   onItemClick,
   filter,
-  fields,
+  fields: fieldsProp,
   transformResults,
   header,
   info,
@@ -92,7 +94,6 @@ export function BasedExplorer({
   const client = useClient()
   const update = useUpdate()
   const [language] = useLanguage()
-
   const { data: rawSchema, checksum } = useQuery('db:schema')
 
   const schema = React.useMemo(() => {
@@ -227,7 +228,20 @@ export function BasedExplorer({
     }
   }, [])
 
-  if (!fields && schema) {
+  let fields
+  if (typeof fieldsProp === 'object') {
+    fields = fieldsProp
+  } else if (schema) {
+    fields = generateFieldsFromQuery(
+      query({ limit: 0, offset: 0, language }),
+      schema,
+    )
+    if (typeof fieldsProp === 'function') {
+      fields = fieldsProp(fields)
+    }
+  }
+
+  if (!fieldsProp && schema) {
     fields = generateFieldsFromQuery(
       query({ limit: 0, offset: 0, language }),
       schema,

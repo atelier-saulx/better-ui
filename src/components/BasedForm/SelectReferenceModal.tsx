@@ -95,7 +95,7 @@ export function SelectReferenceModal({
                         },
                       }),
                       $find: {
-                        $traverse: 'children',
+                        $traverse: 'descendants',
                         $filter: [
                           {
                             $operator: '=',
@@ -111,7 +111,7 @@ export function SelectReferenceModal({
                   total: {
                     $aggregate: {
                       $function: 'count',
-                      $traverse: 'children',
+                      $traverse: 'descendants',
                       $filter: [
                         {
                           $field: 'type',

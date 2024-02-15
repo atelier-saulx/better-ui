@@ -2,6 +2,8 @@ import { BasedSchema } from '@based/schema'
 import { FormProps } from '../../index.js'
 import { FieldsFn } from './index.js'
 
+type OnChangeParams = Parameters<FormProps['onChange']>
+
 type SharedBasedFormProps = {
   includedFields?: string[]
   excludeCommonFields?: boolean
@@ -15,15 +17,25 @@ type SharedBasedFormProps = {
     fields: FormProps['fields']
     schema: BasedSchema
   }) => any
-  onChange?: FormProps['onChange']
+  onChange?: (params: {
+    values: OnChangeParams[0]
+    changed: OnChangeParams[1]
+    checksum: OnChangeParams[2]
+    based: OnChangeParams[3]
+    language: string
+  }) => void
   onFileUpload?: FormProps['onFileUpload']
   transformResults?: (any) => any
   header?:
     | boolean
     | React.ReactNode
     | ((values: FormProps['values']) => React.ReactNode)
-  addItem?: (p: Record<string, any>) => Promise<void>
+  addItem?: (p: {
+    values: Record<string, any>
+    language: string
+  }) => Promise<void>
   deleteItem?: (p: Record<string, any>) => Promise<void>
+  onClickReference?: FormProps['onClickReference']
 }
 
 type OptionalBasedFormProps =

@@ -29,7 +29,7 @@ export const Table = (p: {
   sortable?: boolean // maybe rename to orderable (everywhere)
   onClick?: (data: any, index: number | string) => void
   isBlock?: boolean
-  editableRef: {
+  editableRef?: {
     onChange: (changes: Changes) => void
     clear: () => void
     changes: Changes
