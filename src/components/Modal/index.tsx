@@ -493,6 +493,7 @@ export const Modal = Object.assign(
                     )}
                     <Button
                       keyboardShortcut="Enter"
+                      displayKeyboardShortcut
                       onClick={
                         onConfirm
                           ? () => {

@@ -101,7 +101,8 @@ export function BasedExplorer({
 
   const schema = React.useMemo(() => {
     if (!rawSchema) return
-    return convertOldToNew(rawSchema) as BasedSchema
+    const newSchema = convertOldToNew(rawSchema) as BasedSchema
+    return newSchema
   }, [checksum])
 
   const ref = React.useRef<{
