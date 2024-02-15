@@ -226,7 +226,8 @@ export const Form = (p: FormProps) => {
       <styled.div
         style={{
           width: '100%',
-          marginTop: p.variant === 'bare' ? 0 : 32,
+          marginTop:
+            p.variant === 'bare' || p.variant === 'no-confirm' ? 0 : 32,
         }}
       >
         {makeGroups(
