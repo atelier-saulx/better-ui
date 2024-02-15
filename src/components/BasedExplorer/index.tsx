@@ -315,6 +315,7 @@ export function BasedExplorer({
   const viewer =
     variant === 'grid' ? (
       <Grid
+        schema={schema ?? undefined}
         style={
           useHeader
             ? {
@@ -326,6 +327,7 @@ export function BasedExplorer({
         }
         values={ref.current?.block.data}
         isBlock
+        fields={fields}
         isLoading={ref.current.isLoading}
         pagination={pagination}
       />
