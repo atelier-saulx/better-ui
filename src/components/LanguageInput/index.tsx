@@ -84,25 +84,4 @@ export function LanguageInput({
       </Dropdown.Items>
     </Dropdown.Root>
   )
-
-  return (
-    <SelectInput
-      variant={variant}
-      placeholder="Select language"
-      value={value}
-      options={options.map((lang) => {
-        const l = new Intl.DisplayNames([language || lang || 'en'], {
-          type: 'language',
-        }).of(lang)
-        return {
-          value: lang,
-          label:
-            variant === 'regular' ? l[0].toUpperCase() + l.substring(1) : '',
-          prefix: getFlagEmoji(lang === 'en' ? 'gb' : lang),
-        }
-      })}
-      onChange={onChange}
-      {...props}
-    />
-  )
 }
