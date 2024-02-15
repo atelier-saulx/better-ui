@@ -233,7 +233,7 @@ export const Form = (p: FormProps) => {
               width: '100%',
               columns: group.length === 1 ? 'none' : '2 500px',
               columnGap: '32px',
-              marginTop: 32,
+              marginTop: i === 0 ? 0 : 32,
               marginBottom: group.length === 1 ? 32 : 0,
             }}
           >
