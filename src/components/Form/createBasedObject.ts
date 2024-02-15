@@ -2,6 +2,8 @@ import { deepCopy, deepMergeArrays, deepEqual } from '@saulx/utils'
 import { TableCtx, Path } from './types.js'
 import { isIterable, readPath } from './utils.js'
 
+const parseRef = (id) => (typeof id === 'string' ? id : id?.id)
+
 export const createBasedObject = (
   ctx: TableCtx,
   prevValues: { [key: string]: any },
@@ -62,13 +64,15 @@ export const createBasedObject = (
         return { $delete: true }
       } else if (field.type === 'references' || field.type === 'set') {
         // tmp
-        return v
+        return v.map(parseRef)
       } else if (typeof v === 'object') {
         const nS: any = {}
         for (const key in v) {
           s[key] = walk(v[key], nS, [...path, key])
         }
       }
+    } else if (field.type === 'reference') {
+      return parseRef(v)
     } else {
       return v
     }
