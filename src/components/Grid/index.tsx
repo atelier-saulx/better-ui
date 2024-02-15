@@ -89,6 +89,8 @@ const getData = (
     newObj.mimeType = v.mimeType
   }
 
+  // for image need to do sizing from cf
+
   return newObj
 }
 
