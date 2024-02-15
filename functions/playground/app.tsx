@@ -3720,7 +3720,7 @@ export const HLS = () => {
   return <Video src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
 }
 `},{ id: "f13201423313889", story: f13201423313889, path: "/Users/jimdebeer/saulx/better-ui/src/components/Virtualized/index.stories.tsx", file: `import * as React from 'react'
-import { Stack, Virtualized, Text } from '../../index.js'
+import { Stack, Virtualized, Text, border } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import { styled } from 'inlines'
 
@@ -3738,12 +3738,16 @@ export const Default = () => {
   }
 
   return (
-    <styled.div>
+    <styled.div
+      style={{
+        height: '50vh',
+      }}
+    >
       <Virtualized
         values={values}
         pagination={{
           type: 'scroll',
-          total: 500,
+          total: 1e3,
         }}
         itemHeight={100}
       >
@@ -3755,6 +3759,7 @@ export const Default = () => {
                   <Stack
                     key={i}
                     style={{
+                      borderBottom: border(),
                       height: 100,
                     }}
                   >

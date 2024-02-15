@@ -48,6 +48,7 @@ export function Virtualized(p: VirtualizedProps) {
     loading: boolean
     loaded: number
     values: any[]
+    itemHeight: number
   }>({
     start: 0,
     end: 0,
@@ -56,6 +57,7 @@ export function Virtualized(p: VirtualizedProps) {
     loading: false,
     loaded: -1,
     values: [],
+    itemHeight: p.itemHeight ?? 0,
   })
 
   ref.current.pagination = p.pagination
@@ -93,20 +95,19 @@ export function Virtualized(p: VirtualizedProps) {
 
   const sizeRef = useSize(({ height, width }) => {
     // can call itemHeight here!
-    const n = Math.ceil(height / 48)
+    const n = Math.ceil(height / ref.current.itemHeight)
     if (n !== ref.current.pageCount) {
       ref.current.pageCount = n
-      ref.current.pageSize = n * 48
+      ref.current.pageSize = n * ref.current.itemHeight
       updateBlock(0)
     }
   })
 
-  // can be a function will use height / width
-  const itemHeight = p.itemHeight
-
   const onScroll = React.useCallback((e) => {
     const y = e.currentTarget.scrollTop
-    const block = Math.floor(y / (ref.current.pageCount * itemHeight))
+    const block = Math.floor(
+      y / (ref.current.pageCount * ref.current.itemHeight),
+    )
     if (ref.current.pagination.loadMore) {
       const total = ref.current.pagination.total
 
@@ -162,8 +163,8 @@ export function Virtualized(p: VirtualizedProps) {
           left: 0,
           right: 0,
           height:
-            ref.current.pagination.total * itemHeight +
-            (ref.current.pagination.loadMore ? itemHeight : 0), // add bottom with load mroe
+            ref.current.pagination.total * ref.current.itemHeight +
+            (ref.current.pagination.loadMore ? ref.current.itemHeight : 0), // add bottom with load mroe
         }}
       >
         <styled.div
@@ -171,7 +172,7 @@ export function Virtualized(p: VirtualizedProps) {
             transform: `translate(0,${ref.current.currentIndex * ref.current.pageSize}px)`,
           }}
         >
-          {itemHeight
+          {ref.current.itemHeight
             ? p.children({
                 isLoading: p.isLoading,
                 loading: ref.current.loading,
