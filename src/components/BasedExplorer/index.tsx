@@ -16,6 +16,8 @@ import {
   SearchInput,
   Grid,
   SelectInputProps,
+  IconViewTable,
+  IconViewLayoutGrid,
 } from '../../index.js'
 import { styled } from 'inlines'
 import { useClient, useQuery } from '@based/react'
@@ -60,7 +62,7 @@ export type BasedExplorerProps = {
   info?: React.ReactNode | BasedExplorerHeaderComponent | true
   onItemClick?: (item: any) => void
   queryEndpoint?: string
-  variant?: 'grid' | 'table'
+  variant?: 'grid' | 'table' | ('grid' | 'table')[]
   select?: SelectInputProps['options']
   transformResults?: (data: any) => any
   sort?: { key: string; dir: 'asc' | 'desc' }
@@ -71,7 +73,6 @@ export type BasedExplorerProps = {
     | FormProps['fields']
     | ((fields: FormProps['fields']) => FormProps['fields'])
   filter?: boolean
-  variantTypes?: ('grid' | 'table')[]
   addItem?: (p: {
     total: number
     start: number
@@ -88,6 +89,14 @@ type ActiveSub = {
   data: { data: any[] }
 }
 
+type MutlipleVariants = ('grid' | 'table')[]
+
+const isMultipleVariants = (
+  variant: BasedExplorerProps['variant'],
+): variant is MutlipleVariants => {
+  return Array.isArray(variant)
+}
+
 export function BasedExplorer({
   query,
   queryEndpoint = 'db',
@@ -99,8 +108,7 @@ export function BasedExplorer({
   transformResults,
   header,
   info,
-  variant,
-  variantTypes,
+  variant = 'table',
   addItem,
   sort,
 }: BasedExplorerProps) {
@@ -108,6 +116,12 @@ export function BasedExplorer({
   const update = useUpdate()
   const [language] = useLanguage()
   const { data: rawSchema, checksum } = useQuery('db:schema')
+
+  const isMultiVariant = isMultipleVariants(variant)
+
+  const [selectedVariant, setVariant] = React.useState(
+    isMultipleVariants ? variant[0] : variant,
+  )
 
   const schema = React.useMemo(() => {
     if (!rawSchema) return
@@ -352,7 +366,7 @@ export function BasedExplorer({
   )
 
   const viewer =
-    variant === 'grid' ? (
+    selectedVariant === 'grid' ? (
       <Grid
         onClick={onItemClick}
         schema={schema ?? undefined}
@@ -443,24 +457,60 @@ export function BasedExplorer({
                   </Button>
                 ) : null}
               </Stack>
-              {select ? (
+              {select || isMultipleVariants ? (
                 <Stack
                   justify="end"
                   style={{
-                    marginTop: 12,
+                    marginTop: 8,
                   }}
+                  gap={2}
                 >
-                  <styled.div>
-                    <SelectInput
-                      variant="small"
-                      value={ref.current.selected}
-                      options={select}
-                      onChange={(value) => {
-                        ref.current.selected = value
-                        updateSubs()
-                      }}
-                    />
-                  </styled.div>
+                  {select ? (
+                    <styled.div>
+                      <SelectInput
+                        variant="small"
+                        value={ref.current.selected}
+                        options={select}
+                        onChange={(value) => {
+                          ref.current.selected = value
+                          updateSubs()
+                        }}
+                      />
+                    </styled.div>
+                  ) : null}
+                  {isMultiVariant ? (
+                    <styled.div>
+                      <Stack gap={12}>
+                        {variant.map((v) => {
+                          const Icon =
+                            v === 'table'
+                              ? IconViewTable
+                              : v === 'grid'
+                                ? IconViewLayoutGrid
+                                : IconPlus
+
+                          return (
+                            <Button
+                              onClick={() => {
+                                setVariant(v)
+                              }}
+                              prefix={
+                                <Icon
+                                  style={{
+                                    color:
+                                      v === selectedVariant
+                                        ? color('interactive', 'primary')
+                                        : color('content', 'secondary'),
+                                  }}
+                                />
+                              }
+                              variant="icon-only"
+                            />
+                          )
+                        })}
+                      </Stack>
+                    </styled.div>
+                  ) : null}
                 </Stack>
               ) : null}
             </styled.div>

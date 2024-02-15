@@ -170,7 +170,7 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        variant="grid"
+        variant={['grid', 'table']}
         header="Based Explorer"
         info
         filter

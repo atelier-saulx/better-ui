@@ -248,6 +248,14 @@ export const getTitle = (
     return field.title
   }
 
+  if (key === 'createdAt') {
+    return 'Created At'
+  }
+
+  if (key === 'updatedAt') {
+    return 'Last Updated'
+  }
+
   return humanizeString(key + '')
 }
 
