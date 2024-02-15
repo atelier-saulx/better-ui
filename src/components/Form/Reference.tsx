@@ -108,7 +108,7 @@ const Info = (p: { value: Reference; onClick: () => void }) => {
   return <Id id={p.value} onClick={p.onClick} />
 }
 
-const getImg = (
+export const getImg = (
   value: any,
   ctx: TableCtx,
   field: BasedSchemaFieldReference,
