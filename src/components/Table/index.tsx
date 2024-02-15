@@ -4,12 +4,11 @@ import {
   BasedSchemaFieldReferences,
   BasedSchemaPartial,
 } from '@based/schema'
-import { TableCtx, TablePagination, TableSort } from '../Form/types.js'
+import { TableCtx, TableSort } from '../Form/types.js'
 import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
-import { FormProps } from '../Form/index.js'
-import { useUpdate } from '../../index.js'
+import { useUpdate, Pagination } from '../../index.js'
 import { Style } from 'inlines'
 
 type Changes = {
@@ -19,7 +18,7 @@ type Changes = {
 }
 
 export const Table = (p: {
-  pagination?: TablePagination | true
+  pagination?: Pagination | true
   sort?: TableSort | true
   schema?: BasedSchemaPartial
   field?: BasedSchemaFieldObject
