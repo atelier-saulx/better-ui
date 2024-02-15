@@ -76,11 +76,12 @@ export type FormProps = {
 
 const makeGroups = (
   arr: [string, BasedSchemaField][],
-): [string, BasedSchemaField][][] => {
+): [string, BasedSchemaField, boolean][][] => {
   const groups: any[] = []
 
   let lastGroup
-  for (const [key, field] of arr) {
+  for (let i = 0; i < arr.length; i++) {
+    const [key, field] = arr[i]
     if (
       field.type === 'object' ||
       field.type === 'array' ||
@@ -92,12 +93,13 @@ const makeGroups = (
         groups.push(lastGroup)
         lastGroup = null
       }
-      groups.push([[key, field]])
+
+      groups.push([[key, field, i === arr.length - 1]])
     } else {
       if (!lastGroup) {
         lastGroup = []
       }
-      lastGroup.push([key, field])
+      lastGroup.push([key, field, i === arr.length - 1])
     }
   }
 
@@ -234,14 +236,14 @@ export const Form = (p: FormProps) => {
               columns: group.length === 1 ? 'none' : '2 500px',
               columnGap: '32px',
               marginTop: i === 0 ? 0 : 32,
-              marginBottom: group.length === 1 ? 32 : 0,
+              marginBottom: group.length === 1 && !group[0][2] ? 32 : 0,
             }}
           >
-            {group.map(([key, field], i) => (
+            {group.map(([key, field, isLast], i) => (
               <styled.div
                 key={i}
                 style={{
-                  marginBottom: 32,
+                  marginBottom: isLast ? 0 : 32,
                   pageBreakInside: 'avoid',
                 }}
               >
