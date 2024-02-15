@@ -17,12 +17,16 @@ export const Default = () => {
   }
 
   return (
-    <styled.div>
+    <styled.div
+      style={{
+        height: '50vh',
+      }}
+    >
       <Virtualized
         values={values}
         pagination={{
           type: 'scroll',
-          total: 500,
+          total: 1e3,
         }}
         itemHeight={100}
       >
