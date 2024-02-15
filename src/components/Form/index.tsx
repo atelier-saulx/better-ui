@@ -6,6 +6,7 @@ import { deepCopy, deepMergeArrays } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 import { Field } from './Field.js'
 import { FormConfirm } from './FormConfirm.js'
+import { styled } from 'inlines'
 import { useListeners } from './useListeners.js'
 import { createBasedObject } from './createBasedObject.js'
 
@@ -177,21 +178,31 @@ export const Form = (p: FormProps) => {
 
   return (
     <>
-      <Stack
-        gap={32}
+      <styled.div
+        // gap={32}
+        // grid
         // direction="column"
-        align="start"
+        // align="start"
         style={{
-          position: 'relative',
+          width: '100%',
+          columns: 'auto 500px',
+          columnGap: '32px',
+
+          // columnCount: 2,
+          // columnGap: '10px',
+
+          // gridGap: '10px',
+          // gridTemplateRows: '1fr auto',
+          // breakInside: 'avoid',
         }}
       >
-        <FormConfirm
+        {/* <FormConfirm
           confirmLabel={p.confirmLabel}
           onConfirm={onConfirm}
           onCancel={onCancel}
           hasChanges={valueRef.current.hasChanges}
           variant={p.variant}
-        />
+        /> */}
         {Object.entries(p.fields)
           .sort(([, a], [, b]) => {
             const aIndex = a.index ?? 1e6
@@ -200,16 +211,22 @@ export const Form = (p: FormProps) => {
           })
           .map(([key, field], i) => {
             return (
-              <Field
-                ctx={ctxRef.current}
-                key={key}
-                field={field}
-                propKey={key}
-                autoFocus={p.autoFocus && i === 0}
-              />
+              <styled.div
+                style={{
+                  pageBreakInside: 'avoid',
+                }}
+              >
+                <Field
+                  ctx={ctxRef.current}
+                  key={key}
+                  field={field}
+                  propKey={key}
+                  autoFocus={p.autoFocus && i === 0}
+                />
+              </styled.div>
             )
           })}
-      </Stack>
+      </styled.div>
     </>
   )
 }

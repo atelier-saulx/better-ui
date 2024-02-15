@@ -20,12 +20,15 @@ export function FormField({
   const name = getTitle(fieldKey, field)
   return (
     <Stack
+      fitContent
       gap={12}
       direction="column"
       align="start"
       style={
         variant === 'bare'
           ? {
+              marginBottom: 32,
+
               '& > *': {
                 border: 'none !important',
                 '& > * > :last-child > *': {
@@ -34,11 +37,13 @@ export function FormField({
               },
             }
           : variant !== 'regular'
-            ? undefined
+            ? { marginBottom: 32 }
             : {
-                paddingLeft: 16,
-                paddingBottom: 8,
-                borderLeft: border('muted', 2),
+                marginBottom: 32,
+                // paddingLeft: 16,
+                // paddingBottom: 8,
+                // gridTemplateColumns: '1fr 1fr',
+                // borderLeft: border('muted', 2),
               }
       }
     >

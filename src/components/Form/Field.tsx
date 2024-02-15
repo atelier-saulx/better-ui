@@ -42,7 +42,7 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <SelectInput
@@ -61,14 +61,20 @@ export const Field = ({
 
   if (field.type === 'string' && field.format === 'basedId' && field.readOnly) {
     return (
-      <Badge
-        copyValue={ctx.values[key]}
-        prefix={<IconId size={16} style={{ marginRight: 4 }} />}
-        style={{ minWidth: 100 }}
-        color="primary-muted"
+      <styled.div
+        style={{
+          marginBottom: 32,
+        }}
       >
-        {ctx.values[key] ?? '-'}
-      </Badge>
+        <Badge
+          copyValue={ctx.values[key]}
+          prefix={<IconId size={16} style={{ marginRight: 4 }} />}
+          style={{ minWidth: 100 }}
+          color="primary-muted"
+        >
+          {ctx.values[key] ?? '-'}
+        </Badge>
+      </styled.div>
     )
   }
 
@@ -77,7 +83,7 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <CheckboxInput
@@ -99,7 +105,8 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
+            // maxWidth: 450,
           }}
         >
           <Reference readOnly={field.readOnly} path={path} ctx={ctx} />
@@ -121,8 +128,8 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            minWidth: 450,
-            maxWidth: 750,
+            width: '100%',
+            // maxWidth: 450,
           }}
         >
           <Code
@@ -141,18 +148,12 @@ export const Field = ({
   if ((type === 'string' || type === 'text') && field.format === 'html') {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
-        {/* <styled.div
-          style={{
-            width: 450,
-          }}
-        > */}
         <RichTextEditor
           value={ctx.values[key]}
           onChange={(html) => {
             ctx.listeners.onChangeHandler(ctx, path, html)
           }}
         />
-        {/* </styled.div> */}
       </FormField>
     )
   }
@@ -162,8 +163,8 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            minWidth: 450,
-            maxWidth: 750,
+            // minWidth: 450,
+            width: '100%',
           }}
         >
           <Code
@@ -191,7 +192,7 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <ColorInput
@@ -211,7 +212,7 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <FileInput
@@ -241,7 +242,7 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <TextAreaInput
@@ -262,7 +263,7 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <TextInput
@@ -283,7 +284,7 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <NumberInput
@@ -302,7 +303,7 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <DateInput
