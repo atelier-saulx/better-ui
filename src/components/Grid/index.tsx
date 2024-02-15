@@ -111,7 +111,7 @@ export function Grid(p: GridProps) {
           const nr = width / size
           const remainder = nr % 1
           const rows = nr - remainder
-          const itemWidth = size + (remainder / rows) * size
+          const itemWidth = size + Math.floor((remainder / rows) * size)
           return { height: itemWidth, width: itemWidth, rows }
         }}
         pagination={p.pagination}
