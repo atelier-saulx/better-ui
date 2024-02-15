@@ -203,7 +203,8 @@ export function Virtualized(p: VirtualizedProps) {
           left: 0,
           right: 0,
           height:
-            ref.current.pagination.total * ref.current.itemHeight +
+            (ref.current.pagination.total * ref.current.itemHeight) /
+              ref.current.rows +
             (ref.current.pagination.loadMore ? ref.current.itemHeight : 0), // add bottom with load mroe
         }}
       >
