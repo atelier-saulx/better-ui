@@ -106,7 +106,7 @@ export function Virtualized(p: VirtualizedProps) {
 
   const onScroll = React.useCallback((e) => {
     const y = e.currentTarget.scrollTop
-    const block = Math.floor(y / (ref.current.pageCount * 48))
+    const block = Math.floor(y / (ref.current.pageCount * itemHeight))
     if (ref.current.pagination.loadMore) {
       const total = ref.current.pagination.total
 

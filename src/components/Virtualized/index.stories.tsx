@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Stack, Virtualized, Text } from '../../index.js'
+import { Stack, Virtualized, Text, border } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import { styled } from 'inlines'
 
@@ -38,6 +38,7 @@ export const Default = () => {
                   <Stack
                     key={i}
                     style={{
+                      borderBottom: border(),
                       height: 100,
                     }}
                   >
