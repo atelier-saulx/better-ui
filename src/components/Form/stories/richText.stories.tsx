@@ -40,6 +40,10 @@ export const RichTextEditor = () => {
           type: 'text',
           format: 'html',
         },
+        moreText: {
+          type: 'text',
+          format: 'html',
+        },
       }}
       onChange={(values) => {
         setState(values)

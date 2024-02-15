@@ -87,7 +87,9 @@ const makeGroups = (
       field.type === 'array' ||
       field.type === 'set' ||
       field.type === 'references' ||
-      field.type === 'record'
+      field.type === 'record' ||
+      ((field.type === 'text' || field.type === 'string') &&
+        field.format === 'html')
     ) {
       if (lastGroup) {
         groups.push(lastGroup)
