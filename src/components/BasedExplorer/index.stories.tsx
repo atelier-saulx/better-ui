@@ -174,10 +174,21 @@ export const Page = () => {
         header="Based Explorer"
         info
         filter
+        select={[
+          { value: 'article', label: 'Article' },
+          { value: 'todo', label: 'Todo' },
+        ]}
         addItem={async () => {
           alert('Add item')
         }}
-        query={({ limit, offset, sort, language, filter }) => ({
+        query={({
+          limit,
+          offset,
+          sort,
+          language,
+          filter,
+          selected = 'article',
+        }) => ({
           $language: language,
           data: {
             $all: true,
@@ -200,9 +211,9 @@ export const Page = () => {
                 $filter: filter
                   ? [
                       { $operator: 'includes', $field: 'name', $value: filter },
-                      { $operator: '=', $field: 'type', $value: 'article' },
+                      { $operator: '=', $field: 'type', $value: selected },
                     ]
-                  : [{ $operator: '=', $field: 'type', $value: 'article' }],
+                  : [{ $operator: '=', $field: 'type', $value: selected }],
               },
             },
           },

@@ -9,8 +9,6 @@ import {
   Stack,
   FormProps,
   color,
-  Badge,
-  border,
 } from '../../index.js'
 import { BasedSchema, display } from '@based/schema'
 import humanizeString from 'humanize-string'
@@ -191,6 +189,7 @@ export function Grid(p: GridProps) {
                             height: 'calc(100% - 64px)',
                             width: '100%',
                             padding: 32,
+                            color: color('interactive', 'primary'),
                             overflow: 'hidden',
                             '& p': {
                               overflow: 'hidden',
@@ -198,7 +197,9 @@ export function Grid(p: GridProps) {
                             },
                           }}
                         >
-                          <Text variant="body-light">{v.result.name}</Text>
+                          <Text color="inherit" variant="body-light">
+                            {v.result.name}
+                          </Text>
                           <Text variant="title">{v.result.value}</Text>
                         </Stack>
                       ) : null}

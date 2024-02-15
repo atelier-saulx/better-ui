@@ -12,9 +12,12 @@ import {
   PageHeader,
   Pagination,
   IconPlus,
+  SelectInput,
   SearchInput,
   Grid,
+  SelectInputProps,
 } from '../../index.js'
+import { styled } from 'inlines'
 import { useClient, useQuery } from '@based/react'
 import { BasedSchema, convertOldToNew } from '@based/schema'
 import {
@@ -22,6 +25,7 @@ import {
   generateFromType,
   getTypesFromFilter,
 } from './generator.js'
+import { SelectIconProps } from '@radix-ui/react-select'
 
 export { generateFieldsFromQuery, generateFromType, getTypesFromFilter }
 
@@ -31,7 +35,9 @@ export type QueryFn = ({
   sort,
   language,
   filter,
+  selected,
 }: {
+  selected?: any
   limit: number
   offset: number
   filter?: string
@@ -55,6 +61,7 @@ export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
   queryEndpoint?: string
   variant?: 'grid' | 'table'
+  select?: SelectInputProps['options']
   transformResults?: (data: any) => any
   sort?: { key: string; dir: 'asc' | 'desc' }
   query: QueryFn
@@ -84,6 +91,7 @@ export function BasedExplorer({
   query,
   queryEndpoint = 'db',
   totalQuery,
+  select,
   onItemClick,
   filter,
   fields: fieldsProp,
@@ -116,6 +124,7 @@ export function BasedExplorer({
     lastLoaded?: number
     query?: QueryFn
     sort?: { key: string; dir: 'asc' | 'desc' }
+    selected?: any
   }>({
     block: { data: [] },
     activeSubs: new Map(),
@@ -125,11 +134,22 @@ export function BasedExplorer({
     end: 0,
     sort,
     query,
+    selected: select
+      ? typeof select[0] === 'string'
+        ? select[0]
+        : select[0].value
+      : null,
   })
 
   if (totalQuery === undefined) {
     totalQuery = (p) => {
-      const q = query({ filter: p.filter, limit: 0, offset: 0, language })
+      const q = query({
+        filter: p.filter,
+        limit: 0,
+        offset: 0,
+        language,
+        selected: ref.current.selected,
+      })
       if (q.data?.$list?.$find?.$filter && q.data?.$list?.$find.$traverse) {
         return {
           total: {
@@ -222,6 +242,7 @@ export function BasedExplorer({
             sort: ref.current.sort,
             language,
             filter: ref.current.filter,
+            selected: ref.current.selected,
           }),
         )
         .subscribe((d) => {
@@ -237,7 +258,7 @@ export function BasedExplorer({
     fields = fieldsProp
   } else if (schema) {
     fields = generateFieldsFromQuery(
-      query({ limit: 0, offset: 0, language }),
+      query({ limit: 0, offset: 0, language, selected: ref.current.selected }),
       schema,
     )
     if (typeof fieldsProp === 'function') {
@@ -247,7 +268,7 @@ export function BasedExplorer({
 
   if (!fieldsProp && schema) {
     fields = generateFieldsFromQuery(
-      query({ limit: 0, offset: 0, language }),
+      query({ limit: 0, offset: 0, language, selected: ref.current.selected }),
       schema,
     )
   }
@@ -312,6 +333,7 @@ export function BasedExplorer({
                 sort: ref.current.sort,
                 language,
                 filter: ref.current.filter,
+                selected: ref.current.selected,
               }),
             )
             .subscribe((d) => {
@@ -394,30 +416,52 @@ export function BasedExplorer({
       <Stack direction="column" padding={32} style={{ height: '100%' }}>
         <PageHeader
           suffix={
-            <Stack gap={32}>
-              {filter ? (
-                <SearchInput
-                  loading={ref.current.filter && totalLoading}
-                  value={ref.current.filter}
-                  onChange={(v) => {
-                    ref.current.filter = v
-                    updateSubs()
+            <styled.div>
+              <Stack gap={32}>
+                {filter ? (
+                  <SearchInput
+                    loading={ref.current.filter && totalLoading}
+                    value={ref.current.filter}
+                    onChange={(v) => {
+                      ref.current.filter = v
+                      updateSubs()
+                    }}
+                    placeholder="Filter..."
+                    style={{ width: 300 }}
+                  />
+                ) : null}
+                {addItem ? (
+                  <Button
+                    onClick={() => {
+                      return addItem(headerProps)
+                    }}
+                    prefix={<IconPlus />}
+                  >
+                    Add Item
+                  </Button>
+                ) : null}
+              </Stack>
+              {select ? (
+                <Stack
+                  justify="end"
+                  style={{
+                    marginTop: 12,
                   }}
-                  placeholder="Filter..."
-                  style={{ width: 300 }}
-                />
-              ) : null}
-              {addItem ? (
-                <Button
-                  onClick={() => {
-                    return addItem(headerProps)
-                  }}
-                  prefix={<IconPlus />}
                 >
-                  Add Item
-                </Button>
+                  <styled.div>
+                    <SelectInput
+                      variant="small"
+                      value={ref.current.selected}
+                      options={select}
+                      onChange={(value) => {
+                        ref.current.selected = value
+                        updateSubs()
+                      }}
+                    />
+                  </styled.div>
+                </Stack>
               ) : null}
-            </Stack>
+            </styled.div>
           }
           title={typeof header === 'function' ? header(headerProps) : header}
           description={
