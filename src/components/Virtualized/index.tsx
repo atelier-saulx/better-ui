@@ -24,12 +24,17 @@ export type VirtualizedRenderer = (p: {
   values: any[]
   isLoading?: boolean
   loading: boolean
+  itemHeight: number
 }) => {}
+
+export type ItemHeight =
+  | number
+  | ((size: { width: number; height: number }) => number)
 
 export type VirtualizedProps = {
   pagination: Pagination
   values: any[]
-  itemHeight?: number // can be a function
+  itemHeight: ItemHeight
   isBlock?: boolean
   isLoading?: boolean
   children: VirtualizedRenderer
@@ -48,6 +53,7 @@ export function Virtualized(p: VirtualizedProps) {
     loading: boolean
     loaded: number
     values: any[]
+    itemHeightProp: ItemHeight
     itemHeight: number
   }>({
     start: 0,
@@ -57,8 +63,14 @@ export function Virtualized(p: VirtualizedProps) {
     loading: false,
     loaded: -1,
     values: [],
-    itemHeight: p.itemHeight ?? 0,
+    itemHeight: 0,
+    itemHeightProp: p.itemHeight,
   })
+
+  if (typeof p.itemHeight === 'number') {
+    // @ts-ignore .....
+    ref.current.itemHeight = p.itemHeight
+  }
 
   ref.current.pagination = p.pagination
 
@@ -80,21 +92,15 @@ export function Virtualized(p: VirtualizedProps) {
     update()
   }, [])
 
-  if (ref.current.pageSize) {
-    ref.current.values = p.isBlock
-      ? p.values
-      : p.values.slice(ref.current.start, ref.current.end)
-    if (p.onSelectValues) {
-      ref.current.values = p.onSelectValues(ref.current.values)
-    }
-  }
-
   React.useEffect(() => {
     updateBlock(ref.current.currentIndex)
   }, [ref.current.pagination.total])
 
-  const sizeRef = useSize(({ height, width }) => {
-    // can call itemHeight here!
+  const sizeRef = useSize((size) => {
+    if (typeof ref.current.itemHeightProp === 'function') {
+      ref.current.itemHeight = ref.current.itemHeightProp(size)
+    }
+    const { height, width } = size
     const n = Math.ceil(height / ref.current.itemHeight)
     if (n !== ref.current.pageCount) {
       ref.current.pageCount = n
@@ -110,7 +116,6 @@ export function Virtualized(p: VirtualizedProps) {
     )
     if (ref.current.pagination.loadMore) {
       const total = ref.current.pagination.total
-
       if (
         e.currentTarget.scrollHeight - y - e.currentTarget.clientHeight <= 0 &&
         !ref.current.loading &&
@@ -143,6 +148,16 @@ export function Virtualized(p: VirtualizedProps) {
       updateBlock(block)
     }
   }, [])
+
+  // slice array
+  if (ref.current.pageSize) {
+    ref.current.values = p.isBlock
+      ? p.values
+      : p.values.slice(ref.current.start, ref.current.end)
+    if (p.onSelectValues) {
+      ref.current.values = p.onSelectValues(ref.current.values)
+    }
+  }
 
   return (
     <ScrollArea
@@ -177,6 +192,7 @@ export function Virtualized(p: VirtualizedProps) {
                 isLoading: p.isLoading,
                 loading: ref.current.loading,
                 values: ref.current.values,
+                itemHeight: ref.current.itemHeight,
               })
             : null}
         </styled.div>

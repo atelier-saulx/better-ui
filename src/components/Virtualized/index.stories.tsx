@@ -15,7 +15,6 @@ export const Default = () => {
   for (let i = 0; i < 1e3; i++) {
     values.push('Value #' + i)
   }
-
   return (
     <styled.div
       style={{
@@ -40,6 +39,51 @@ export const Default = () => {
                     style={{
                       borderBottom: border(),
                       height: 100,
+                    }}
+                  >
+                    <Text variant="title">{v}</Text>
+                  </Stack>
+                )
+              })}
+            </div>
+          )
+        }}
+      </Virtualized>
+    </styled.div>
+  )
+}
+
+export const HeightBasedOnSize = () => {
+  const values: string[] = []
+  for (let i = 0; i < 1e3; i++) {
+    values.push('Value #' + i)
+  }
+  return (
+    <styled.div
+      style={{
+        height: '50vh',
+      }}
+    >
+      <Virtualized
+        values={values}
+        pagination={{
+          type: 'scroll',
+          total: 1e3,
+        }}
+        itemHeight={({ width, height }) => {
+          return height / 2
+        }}
+      >
+        {({ values, itemHeight }) => {
+          return (
+            <div>
+              {values.map((v, i) => {
+                return (
+                  <Stack
+                    key={i}
+                    style={{
+                      borderBottom: border(),
+                      height: itemHeight,
                     }}
                   >
                     <Text variant="title">{v}</Text>
