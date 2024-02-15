@@ -131,9 +131,8 @@ export function BasedForm({
           }}
         />
       ))
-
       if (selectedReference) {
-        return selectedReference.id
+        return selectedReference
       }
     },
     onSelectReferences: async ({ field }) => {
@@ -147,9 +146,8 @@ export function BasedForm({
           }}
         />
       ))
-
       if (selectedReference) {
-        return [selectedReference.id]
+        return [selectedReference]
       }
     },
   }

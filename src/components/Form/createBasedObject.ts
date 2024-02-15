@@ -62,7 +62,7 @@ export const createBasedObject = (
         return { $delete: true }
       } else if (field.type === 'references' || field.type === 'set') {
         // tmp
-        return v
+        return v.map((id) => (typeof id === 'string' ? id : id?.id))
       } else if (typeof v === 'object') {
         const nS: any = {}
         for (const key in v) {
