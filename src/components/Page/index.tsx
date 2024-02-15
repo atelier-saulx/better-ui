@@ -51,11 +51,16 @@ export function PageHeader(p: {
 }) {
   return (
     <Stack
+      align="start"
       style={{
         marginBottom: 32,
       }}
     >
-      <styled.div>
+      <styled.div
+        style={{
+          marginTop: -8,
+        }}
+      >
         {p.title ? (
           <Text
             style={{

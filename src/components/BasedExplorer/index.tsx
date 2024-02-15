@@ -71,6 +71,7 @@ export type BasedExplorerProps = {
     | FormProps['fields']
     | ((fields: FormProps['fields']) => FormProps['fields'])
   filter?: boolean
+  variantTypes?: ('grid' | 'table')[]
   addItem?: (p: {
     total: number
     start: number
@@ -99,6 +100,7 @@ export function BasedExplorer({
   header,
   info,
   variant,
+  variantTypes,
   addItem,
   sort,
 }: BasedExplorerProps) {

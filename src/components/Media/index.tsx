@@ -124,10 +124,16 @@ const MediaInner = ({
               minWidth: 10,
               minHeight: 10,
               opacity: 0.8,
-              color: color('semantic-color', 'informative-muted'),
+              color: color('semantic-color', 'primary-muted'),
             }}
           />
         )
+
+  if (fileText === 'javascript') {
+    fileText = 'js'
+  } else if (fileText === 'typescript') {
+    fileText = 'ts'
+  }
 
   if (typeof fileText === 'string' && fileText.length > 4) {
     fileText = fileText.slice(-4)

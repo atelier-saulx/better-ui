@@ -13,6 +13,7 @@ import {
 import { BasedSchema, display } from '@based/schema'
 import humanizeString from 'humanize-string'
 import { getImg } from '../Form/Reference.js'
+import { readInfoField } from '../Form/utils.js'
 
 export type GridProps = {
   pagination: Pagination
@@ -35,10 +36,13 @@ const getData = (
     return v
   }
 
-  const newObj: any = {}
+  const newObj: any = {
+    title: readInfoField(v, { type: 'object', properties: fields }),
+  }
 
   for (const fi in fields) {
     const f = fields[fi]
+
     if (f.type === 'string' && f.format === 'basedId') {
       newObj.id = v[fi]
     } else if (f.type === 'string' && f.contentMediaType) {
@@ -50,8 +54,6 @@ const getData = (
     } else if (f.type === 'string') {
       if (fi === 'description') {
         newObj.description = v[fi]
-      } else {
-        newObj.title = v[fi]
       }
     } else if (f.type === 'timestamp') {
       newObj.date = display(
@@ -80,6 +82,11 @@ const getData = (
       newObj.description = newObj.date
       delete newObj.date
     }
+  }
+
+  if (v.src && !newObj.src) {
+    newObj.src = v.src
+    newObj.mimeType = v.mimeType
   }
 
   return newObj
@@ -200,7 +207,9 @@ export function Grid(p: GridProps) {
                           <Text color="inherit" variant="body-light">
                             {v.result.name}
                           </Text>
-                          <Text variant="title">{v.result.value}</Text>
+                          <Text singleLine variant="title-page">
+                            {v.result.value}
+                          </Text>
                         </Stack>
                       ) : null}
                       <Stack>

@@ -177,6 +177,7 @@ export const Page = () => {
         select={[
           { value: 'article', label: 'Article' },
           { value: 'todo', label: 'Todo' },
+          { value: 'file', label: 'File' },
         ]}
         addItem={async () => {
           alert('Add item')
