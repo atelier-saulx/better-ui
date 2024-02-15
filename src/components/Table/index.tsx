@@ -22,14 +22,17 @@ export const Table = (p: {
   isLoading?: boolean
   values?: any[]
   sortable?: boolean // maybe rename to orderable (everywhere)
-  onChange?: FormProps['onChange']
+  onChange?: FormProps['onChange'] // remove this
   onClick?: (data: any, index: number | string) => void
   isBlock?: boolean
+  // editableRef:
 }) => {
+  // discard, apply, onChange
+  // onChange
+  // added: [], changed: [], removed: []
+
   const update = useUpdate()
-
   const path = ['field']
-
   const ctx: TableCtx = {
     fields: {
       field: { type: 'references', sortable: p.sortable },
