@@ -10,6 +10,7 @@ import {
   FormProps,
   color,
   Badge,
+  border,
 } from '../../index.js'
 import { BasedSchema, display } from '@based/schema'
 import humanizeString from 'humanize-string'
@@ -129,7 +130,13 @@ export function Grid(p: GridProps) {
                     style={{
                       width: itemWidth,
                       height: itemHeight,
+                      borderRadius: borderRadius('large'),
+                      cursor: 'pointer',
                       padding: 24,
+                      border: '1px solid transparent',
+                      '&:hover': {
+                        background: color('background', 'neutral'),
+                      },
                     }}
                   >
                     {hasSrc ? (
