@@ -179,7 +179,7 @@ export const Form = (p: FormProps) => {
     <>
       <Stack
         gap={32}
-        direction="column"
+        // direction="column"
         align="start"
         style={{
           position: 'relative',
