@@ -329,6 +329,7 @@ export function BasedExplorer({
   const viewer =
     variant === 'grid' ? (
       <Grid
+        onClick={onItemClick}
         schema={schema ?? undefined}
         style={
           useHeader
