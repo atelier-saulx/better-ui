@@ -27,8 +27,6 @@ export function FormField({
       style={
         variant === 'bare'
           ? {
-              marginBottom: 32,
-
               '& > *': {
                 border: 'none !important',
                 '& > * > :last-child > *': {
@@ -37,9 +35,8 @@ export function FormField({
               },
             }
           : variant !== 'regular'
-            ? { marginBottom: 32 }
+            ? null
             : {
-                marginBottom: 32,
                 // paddingLeft: 16,
                 // paddingBottom: 8,
                 // gridTemplateColumns: '1fr 1fr',

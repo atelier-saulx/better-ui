@@ -90,6 +90,7 @@ const makeGroups = (
     ) {
       if (lastGroup) {
         groups.push(lastGroup)
+        lastGroup = null
       }
       groups.push([[key, field]])
     } else {
@@ -98,6 +99,10 @@ const makeGroups = (
       }
       lastGroup.push([key, field])
     }
+  }
+
+  if (lastGroup) {
+    groups.push(lastGroup)
   }
 
   return groups
@@ -226,14 +231,17 @@ export const Form = (p: FormProps) => {
             key={i}
             style={{
               width: '100%',
-              columns: group.length === 1 ? 'none' : 'auto 500px',
+              columns: group.length === 1 ? 'none' : '2 500px',
               columnGap: '32px',
+              marginTop: 32,
+              marginBottom: group.length === 1 ? 32 : 0,
             }}
           >
             {group.map(([key, field], i) => (
               <styled.div
                 key={i}
                 style={{
+                  marginBottom: 32,
                   pageBreakInside: 'avoid',
                 }}
               >

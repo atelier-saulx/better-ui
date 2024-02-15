@@ -116,6 +116,7 @@ export const Default = () => {
           title: 'Logo empty',
           description: 'This is a logo',
           type: 'reference',
+          index: 1,
           allowedTypes: ['file'],
         },
         id: {
@@ -124,8 +125,10 @@ export const Default = () => {
           type: 'string',
           format: 'basedId',
         },
+
         object: {
           type: 'object',
+          index: 1e6 + 1,
           properties: {
             phone: { type: 'string', format: 'mobilePhone' },
             email: { type: 'string', format: 'email' },
