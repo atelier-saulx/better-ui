@@ -27,7 +27,7 @@ export default meta
 export const Default = () => {
   return (
     <div style={{ height: '50vh' }}>
-      <BasedList
+      {/* <BasedList
         query={() => ({
           $language: 'en',
           data: {
@@ -55,7 +55,7 @@ export const Default = () => {
         //     },
         //   },
         // })}
-      />
+      /> */}
     </div>
   )
 }
