@@ -124,6 +124,14 @@ export const Default = () => {
           type: 'string',
           format: 'basedId',
         },
+        object: {
+          type: 'object',
+          properties: {
+            phone: { type: 'string', format: 'mobilePhone' },
+            email: { type: 'string', format: 'email' },
+            description: { type: 'text', multiline: true },
+          },
+        },
         category: {
           title: 'Category',
           description: 'This is a category',

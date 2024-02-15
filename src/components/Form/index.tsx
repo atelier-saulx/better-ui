@@ -74,6 +74,35 @@ export type FormProps = {
   }
 }
 
+const makeGroups = (
+  arr: [string, BasedSchemaField][],
+): [string, BasedSchemaField][][] => {
+  const groups: any[] = []
+
+  let lastGroup
+  for (const [key, field] of arr) {
+    if (
+      field.type === 'object' ||
+      field.type === 'array' ||
+      field.type === 'set' ||
+      field.type === 'references' ||
+      field.type === 'record'
+    ) {
+      if (lastGroup) {
+        groups.push(lastGroup)
+      }
+      groups.push([[key, field]])
+    } else {
+      if (!lastGroup) {
+        lastGroup = []
+      }
+      lastGroup.push([key, field])
+    }
+  }
+
+  return groups
+}
+
 export const Form = (p: FormProps) => {
   const valueRef = useRef<ValueRef>({
     values: p.values ?? {},
@@ -178,40 +207,32 @@ export const Form = (p: FormProps) => {
 
   return (
     <>
-      <styled.div
-        // gap={32}
-        // grid
-        // direction="column"
-        // align="start"
-        style={{
-          width: '100%',
-          columns: 'auto 500px',
-          columnGap: '32px',
-
-          // columnCount: 2,
-          // columnGap: '10px',
-
-          // gridGap: '10px',
-          // gridTemplateRows: '1fr auto',
-          // breakInside: 'avoid',
-        }}
-      >
-        {/* <FormConfirm
-          confirmLabel={p.confirmLabel}
-          onConfirm={onConfirm}
-          onCancel={onCancel}
-          hasChanges={valueRef.current.hasChanges}
-          variant={p.variant}
-        /> */}
-        {Object.entries(p.fields)
-          .sort(([, a], [, b]) => {
-            const aIndex = a.index ?? 1e6
-            const bIndex = b.index ?? 1e6
-            return aIndex === bIndex ? 0 : aIndex > bIndex ? 1 : -1
-          })
-          .map(([key, field], i) => {
-            return (
+      <FormConfirm
+        confirmLabel={p.confirmLabel}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        hasChanges={valueRef.current.hasChanges}
+        variant={p.variant}
+      />
+      {makeGroups(
+        Object.entries(p.fields).sort(([, a], [, b]) => {
+          const aIndex = a.index ?? 1e6
+          const bIndex = b.index ?? 1e6
+          return aIndex === bIndex ? 0 : aIndex > bIndex ? 1 : -1
+        }),
+      ).map((group, i) => {
+        return (
+          <styled.div
+            key={i}
+            style={{
+              width: '100%',
+              columns: group.length === 1 ? 'none' : 'auto 500px',
+              columnGap: '32px',
+            }}
+          >
+            {group.map(([key, field], i) => (
               <styled.div
+                key={i}
                 style={{
                   pageBreakInside: 'avoid',
                 }}
@@ -224,9 +245,10 @@ export const Form = (p: FormProps) => {
                   autoFocus={p.autoFocus && i === 0}
                 />
               </styled.div>
-            )
-          })}
-      </styled.div>
+            ))}
+          </styled.div>
+        )
+      })}
     </>
   )
 }
