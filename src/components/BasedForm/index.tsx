@@ -169,6 +169,7 @@ export function BasedForm({
     return (
       <>
         <PageHeader
+          style={{ marginBottom: 48 }}
           title={
             typeof header === 'function'
               ? header(props.values || {})
