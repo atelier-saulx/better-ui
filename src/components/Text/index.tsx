@@ -96,7 +96,7 @@ export type TextProps = {
   style?: Style
   color?: 'primary' | 'secondary' | 'inverted' | 'inverted-muted' | 'inherit'
   variant?: keyof typeof textVariants
-  singleLine?: boolean
+  singleLine?: boolean | number
 }
 
 const selectColor = (
@@ -162,6 +162,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
               textOverflow: 'ellipsis',
               overflow: 'hidden',
               whiteSpace: 'nowrap',
+              lineClamp: singleLine === true ? 1 : singleLine,
             }
           : {}),
         ...style,

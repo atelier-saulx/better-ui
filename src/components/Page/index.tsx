@@ -60,6 +60,7 @@ export function PageHeader(p: {
         marginBottom: -4,
         ...p.style,
       }}
+      gap={4}
     >
       <styled.div>
         {p.title ? (
@@ -75,7 +76,7 @@ export function PageHeader(p: {
           </Text>
         ) : null}
         {p.description ? (
-          <Text style={{ marginTop: 8 }} variant="body-light">
+          <Text singleLine style={{ marginTop: 8 }} variant="body-light">
             {p.description}
           </Text>
         ) : null}

@@ -41,7 +41,7 @@ const FIELD_SIZES: {
     string: [
       {
         match: (field: BasedSchemaFieldString) => field.format === 'basedId',
-        width: 200, // will become a reference select modal probably...
+        width: 150, // will become a reference select modal probably...
         insertAtStart: true,
       },
       {
@@ -85,8 +85,7 @@ const FIELD_SIZES: {
       },
       {
         match: (field: BasedSchemaFieldString) => field.format === 'basedId',
-        width: 130,
-        insertAtStart: true,
+        width: 150,
       },
       {
         match: (field: BasedSchemaFieldString) => field.format === 'basedType',

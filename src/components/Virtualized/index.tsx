@@ -29,6 +29,7 @@ export type VirtualizedRenderer = (p: {
   start: number
   index: number
   end: number
+  width: number
   pageCount: number
   total: number
 }) => {}
@@ -65,10 +66,12 @@ export function Virtualized(p: VirtualizedProps) {
     itemHeightProp: ItemSize
     itemHeight: number
     itemWidth: number
+    width: number
     rows: number
   }>({
     start: 0,
     end: 0,
+    width: 0,
     pageCount: 0,
     currentIndex: 0,
     rows: 1,
@@ -123,9 +126,11 @@ export function Virtualized(p: VirtualizedProps) {
         ref.current.rows = calc.rows ?? 1
       }
     }
-    const { height } = size
+    const { height, width } = size
 
     const n = Math.ceil(height / ref.current.itemHeight)
+
+    ref.current.width = width
 
     if (n !== ref.current.pageCount) {
       ref.current.pageCount = n
@@ -215,6 +220,7 @@ export function Virtualized(p: VirtualizedProps) {
         >
           {ref.current.itemHeight
             ? p.children({
+                width: ref.current.width,
                 isLoading: p.isLoading,
                 loading: ref.current.loading,
                 values: ref.current.values,

@@ -46,7 +46,7 @@ export function List(p: ListProps) {
         pagination={p.pagination}
         values={values}
       >
-        {({ values, itemHeight }) => {
+        {({ values, itemHeight, width }) => {
           return (
             <Stack grid gap={0} direction="column">
               {values.map((raw, i) => {
@@ -78,6 +78,7 @@ export function List(p: ListProps) {
                     <Stack
                       style={{
                         height: '100%',
+
                         borderBottom: border(),
                       }}
                     >
@@ -88,84 +89,95 @@ export function List(p: ListProps) {
                         style={{
                           cursor: 'pointer',
                           padding: 12,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
                         }}
                       >
-                        {hasSrc ? (
-                          <Stack
-                            as="section"
-                            style={{
-                              background: color('background', 'primary'),
-                              borderRadius: borderRadius('tiny'),
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              flexShrink: 0,
-                              padding: 8,
-                              width: 64,
-                              height: 64,
-                            }}
-                          >
-                            <Media
-                              type={v.mimeType}
-                              variant="contain"
-                              src={v.src}
-                            />
-                          </Stack>
-                        ) : hasResult ? (
-                          <Stack
-                            as="section"
-                            direction="column"
-                            align="center"
-                            style={{
-                              background: color('background', 'primary'),
-                              borderRadius: borderRadius('tiny'),
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              flexShrink: 0,
-                              height: 'calc(100% - 64px)',
-                              width: '100%',
-                              padding: 32,
-                              color: color('interactive', 'primary'),
-                              overflow: 'hidden',
-                              '& p': {
+                        <styled.div style={{ flexGrow: 0 }}>
+                          {hasSrc ? (
+                            <Stack
+                              as="section"
+                              style={{
+                                background: color('background', 'primary'),
+                                borderRadius: borderRadius('tiny'),
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexShrink: 0,
+                                padding: 8,
+                                width: 64,
+                                height: 64,
+                              }}
+                            >
+                              <Media
+                                type={v.mimeType}
+                                variant="contain"
+                                src={v.src}
+                              />
+                            </Stack>
+                          ) : hasResult ? (
+                            <Stack
+                              as="section"
+                              direction="column"
+                              align="center"
+                              style={{
+                                background: color('background', 'primary'),
+                                borderRadius: borderRadius('tiny'),
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexShrink: 0,
+                                height: 'calc(100% - 64px)',
+                                width: '100%',
+                                padding: 32,
+                                color: color('interactive', 'primary'),
                                 overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                              },
-                            }}
-                          >
-                            <Text color="inherit" variant="body-light">
-                              {v.result.name}
-                            </Text>
-                            <Text singleLine variant="title-page">
-                              {v.result.value}
-                            </Text>
-                          </Stack>
-                        ) : null}
-                        <Stack align="start">
-                          <styled.div
+                              }}
+                            >
+                              <Text color="inherit" variant="body-light">
+                                {v.result.name}
+                              </Text>
+                              <Text singleLine variant="title-page">
+                                {v.result.value}
+                              </Text>
+                            </Stack>
+                          ) : null}
+                        </styled.div>
+                        <styled.div
+                          style={{
+                            flexGrow: 1,
+                            minWidth: 0,
+                            flexShrink: 1,
+                          }}
+                        >
+                          <Stack
+                            align="start"
+                            gap={2}
                             style={{
-                              overflow: 'hidden',
-                              '& p': {
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                              },
+                              flexGrow: 1,
+                              minWidth: 0,
+                              flexShrink: 1,
                             }}
                           >
-                            <Text variant="sub-title">
+                            <Text
+                              variant="sub-title"
+                              singleLine
+                              style={{ minWidth: 0, flexShrink: 1 }}
+                            >
                               {v.title ?? v.name ?? '-'}
                             </Text>
-                            {v.date ? (
-                              <Text variant="body-light">{v.date}</Text>
-                            ) : null}
-                          </styled.div>
-                        </Stack>
-                        {v.id ? (
-                          <Stack justify="end">
-                            <BadgeId id={v.id} />
+                            <styled.div style={{ flexShrink: 0 }}></styled.div>
                           </Stack>
+                          {v.date ? (
+                            <Text
+                              singleLine
+                              style={{ flexShrink: 0 }}
+                              variant="body-light"
+                            >
+                              {v.date}
+                            </Text>
+                          ) : null}
+                        </styled.div>
+                        {v.id ? (
+                          <BadgeId style={{ flexShrink: 0 }} id={v.id} />
                         ) : null}
                       </Stack>
                     </Stack>
