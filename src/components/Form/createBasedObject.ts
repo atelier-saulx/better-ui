@@ -38,6 +38,9 @@ export const createBasedObject = (
         }
         return ns
       } else if (Array.isArray(v) && field.type === 'array') {
+        if (field.items?.type === 'reference') {
+          return v.map(parseRef)
+        }
         let nV: any
         let j = 0
         for (let i = 0; i < v.length; i++) {

@@ -10,6 +10,7 @@ type SharedBasedFormProps = {
   fields?: FormProps['fields'] | FieldsFn
   variant?: FormProps['variant']
   queryEndpoint?: string
+  updateEndpoint?: string
   query?: (p: {
     id: string
     query: any

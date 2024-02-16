@@ -31,6 +31,7 @@ export function BasedForm({
   query,
   onChange,
   queryEndpoint = 'db',
+  updateEndpoint = 'db:set',
   fields,
   transformResults,
   onFileUpload,
@@ -103,7 +104,7 @@ export function BasedForm({
   } else {
     onFormChange = id
       ? async (_values, _changed, _checksum, based) => {
-          await client.call('db:set', {
+          await client.call(updateEndpoint, {
             $id: id,
             $language: language,
             ...based,
