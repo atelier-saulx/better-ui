@@ -39,6 +39,7 @@ export function BasedForm({
   query,
   onChange,
   queryEndpoint = 'db',
+  updateEndpoint = 'db:set',
   fields,
   transformResults,
   onFileUpload,
@@ -105,24 +106,34 @@ export function BasedForm({
     )
   }
 
-  if (!id && addItem) {
-    variant ??= 'no-confirm'
-  }
+  // if (!id && addItem) {
+  //   variant ??= 'no-confirm'
+  // }
 
   let onFormChange
   if (onChange) {
     onFormChange = (values, changed, checksum, based) =>
       onChange({ values, changed, checksum, based, language })
+  } else if (id) {
+    onFormChange = async (_values, _changed, _checksum, based) => {
+      await client.call(updateEndpoint, {
+        $id: id,
+        $language: language,
+        ...based,
+      })
+    }
+  } else if (addItem) {
+    onFormChange = (values, changed, checksum, based) => {
+      if (type) {
+        values.type = type
+        based.type = type
+      }
+
+      return addItem({ values, changed, checksum, based, language })
+    }
   } else {
-    onFormChange = id
-      ? async (_values, _changed, _checksum, based) => {
-          await client.call('db:set', {
-            $id: id,
-            $language: language,
-            ...based,
-          })
-        }
-      : (values) => setState({ ...values })
+    onFormChange = () =>
+      console.warn('No "id" and no "addItem" passed, ignore onChange')
   }
 
   const useHeader = header || addItem
@@ -219,7 +230,7 @@ export function BasedForm({
               <Button
                 shape="square"
                 variant="primary-transparent"
-                onClick={() => deleteItem({ id, type, ...state })}
+                // onClick={() => deleteItem({ id, type, ...state })}
               >
                 <IconCopy />
               </Button>
@@ -230,6 +241,7 @@ export function BasedForm({
               >
                 <IconDelete />
               </Button>
+
               <Stack gap={16} display={formRef.current.hasChanges}>
                 <Button
                   shape="square"

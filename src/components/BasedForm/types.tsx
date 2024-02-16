@@ -1,8 +1,17 @@
 import { BasedSchema } from '@based/schema'
 import { BasedExplorerProps, FormProps } from '../../index.js'
 import { FieldsFn } from './index.js'
+import { ReactNode } from 'react'
 
 type OnChangeParams = Parameters<FormProps['onChange']>
+
+type OnChange = (params: {
+  values: OnChangeParams[0]
+  changed: OnChangeParams[1]
+  checksum: OnChangeParams[2]
+  based: OnChangeParams[3]
+  language: string
+}) => void
 
 type SharedBasedFormProps = {
   includedFields?: string[]
@@ -10,6 +19,7 @@ type SharedBasedFormProps = {
   fields?: FormProps['fields'] | FieldsFn
   variant?: FormProps['variant']
   queryEndpoint?: string
+  updateEndpoint?: string
   query?: (p: {
     id: string
     query: any
@@ -17,23 +27,14 @@ type SharedBasedFormProps = {
     fields: FormProps['fields']
     schema: BasedSchema
   }) => any
-  onChange?: (params: {
-    values: OnChangeParams[0]
-    changed: OnChangeParams[1]
-    checksum: OnChangeParams[2]
-    based: OnChangeParams[3]
-    language: string
-  }) => void
+  onChange?: OnChange
   onFileUpload?: FormProps['onFileUpload']
   transformResults?: (any) => any
   header?:
     | boolean
     | React.ReactNode
     | ((values: FormProps['values']) => React.ReactNode)
-  addItem?: (p: {
-    values: Record<string, any>
-    language: string
-  }) => Promise<void>
+  addItem?: OnChange
   deleteItem?: (p: Record<string, any>) => Promise<void>
   onClickReference?: FormProps['onClickReference']
   selectReferenceExplorerProps?:
