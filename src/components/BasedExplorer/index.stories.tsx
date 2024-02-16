@@ -173,6 +173,9 @@ export const Page = () => {
         variant={['grid', 'table']}
         header="Based Explorer"
         info
+        onDrop={(f) => {
+          console.log(f)
+        }}
         filter
         select={[
           { value: 'article', label: 'Article' },

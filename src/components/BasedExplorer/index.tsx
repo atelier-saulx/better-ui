@@ -59,6 +59,7 @@ export type BasedExplorerProps = {
   info?: React.ReactNode | BasedExplorerHeaderComponent | true
   onItemClick?: (item: any) => void
   queryEndpoint?: string
+  onDrop?: (files: File[]) => void
   variant?: 'grid' | 'table' | ('grid' | 'table')[]
   select?: SelectInputProps['options']
   transformResults?: (data: any) => any
@@ -102,6 +103,7 @@ export function BasedExplorer({
   onItemClick,
   filter,
   fields: fieldsProp,
+  onDrop,
   transformResults,
   header,
   info,
@@ -134,11 +136,13 @@ export function BasedExplorer({
     start: number
     end: number
     filter?: string
+    dragOver?: boolean
     lastLoaded?: number
     query?: QueryFn
     sort?: { key: string; dir: 'asc' | 'desc' }
     selected?: any
   }>({
+    dragOver: false,
     block: { data: [] },
     activeSubs: new Map(),
     isLoading: true,
@@ -368,7 +372,7 @@ export function BasedExplorer({
       }
     : undefined
 
-  const viewer =
+  let viewer =
     selectedVariant === 'grid' ? (
       <Grid
         onClick={onItemClick}
@@ -407,6 +411,43 @@ export function BasedExplorer({
         pagination={pagination}
       />
     )
+
+  if (onDrop) {
+    viewer = (
+      <styled.div
+        onDragOver={(event) => {
+          event.stopPropagation()
+          event.preventDefault()
+          ref.current.dragOver = true
+          update()
+        }}
+        onDragLeave={(event) => {
+          event.stopPropagation()
+          event.preventDefault()
+          ref.current.dragOver = false
+          update()
+        }}
+        onDrop={(event) => {
+          event.stopPropagation()
+          event.preventDefault()
+          const dt = event.dataTransfer
+          const files = dt.files
+          onDrop(files)
+          ref.current.dragOver = false
+          update()
+        }}
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: ref.current.dragOver
+            ? color('background', 'primary')
+            : null,
+        }}
+      >
+        {viewer}
+      </styled.div>
+    )
+  }
 
   if (useHeader) {
     const headerProps = {
@@ -480,6 +521,7 @@ export function BasedExplorer({
 
                           return (
                             <Button
+                              key={v}
                               onClick={() => {
                                 setVariant(v)
                               }}
