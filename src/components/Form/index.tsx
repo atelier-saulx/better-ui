@@ -161,6 +161,10 @@ export const Form = (p: FormProps) => {
       valueRef.current.changes = {}
       setChecksum(hash)
       // Force update
+      if (p.formRef) {
+        p.formRef.current.hasChanges = false
+      }
+
       update()
     } catch (err) {
       throw err
@@ -176,6 +180,11 @@ export const Form = (p: FormProps) => {
       hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
     setChecksum(hash)
     // Force update
+
+    if (p.formRef) {
+      p.formRef.current.hasChanges = false
+    }
+
     update()
   }, [])
 
@@ -201,7 +210,6 @@ export const Form = (p: FormProps) => {
     )
   }
 
-  // May not be a good idea...
   useEffect(() => {
     const p = valueRef.current.props
     if (p.values) {
@@ -224,13 +232,15 @@ export const Form = (p: FormProps) => {
 
   return (
     <>
-      <FormConfirm
-        confirmLabel={p.confirmLabel}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-        hasChanges={valueRef.current.hasChanges}
-        variant={p.variant}
-      />
+      {p.formRef ? null : (
+        <FormConfirm
+          confirmLabel={p.confirmLabel}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          hasChanges={valueRef.current.hasChanges}
+          variant={p.variant}
+        />
+      )}
       <styled.div
         style={{
           width: '100%',

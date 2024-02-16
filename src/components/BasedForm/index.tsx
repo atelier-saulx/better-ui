@@ -1,21 +1,29 @@
 import { useClient, useQuery } from '@based/react'
-import { BasedSchema, convertOldToNew } from '@based/schema'
+import { BasedSchema, convertOldToNew, display } from '@based/schema'
 import * as React from 'react'
 import {
   Badge,
   Button,
   Container,
+  useUpdate,
   Form,
   FormProps,
   Modal,
   PageHeader,
   Spinner,
+  Text,
   Stack,
+  IconUndo,
+  IconDelete,
+  IconPlus,
+  IconCopy,
+  IconId,
 } from '../../index.js'
 import { useLanguage } from '../../hooks/useLanguage/index.js'
 import { SelectReferenceModal } from './SelectReferenceModal.js'
 import { useBasedFormProps } from './useGeneratedProps.js'
 import { BasedFormProps, BasedFormRef } from './types.js'
+import { readInfoField } from '../Form/utils.js'
 
 export type FieldsFn = (
   fields: FormProps['fields'],
@@ -40,7 +48,7 @@ export function BasedForm({
   deleteItem,
   onClickReference,
   selectReferenceExplorerProps,
-}: BasedFormProps): React.JSX.Element {
+}: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
   const [language] = useLanguage()
@@ -49,6 +57,8 @@ export function BasedForm({
     if (!rawSchema) return
     return convertOldToNew(rawSchema) as BasedSchema
   }, [checksum])
+
+  const update = useUpdate()
 
   const ref = React.useRef<BasedFormRef>({})
 
@@ -85,6 +95,9 @@ export function BasedForm({
 
   const [state, setState] = React.useState<{}>()
 
+  // @ts-ignore
+  const formRef = React.useRef<FormProps['formRef']['current']>({})
+
   if (!isReady) {
     return (
       <Container>
@@ -113,6 +126,8 @@ export function BasedForm({
       : (values) => setState({ ...values })
   }
 
+  const useHeader = header || addItem
+
   const props: FormProps & { key: any } = {
     key: id,
     variant,
@@ -122,6 +137,13 @@ export function BasedForm({
     onChange: onFormChange,
     onFileUpload,
     onClickReference,
+    // checksum,
+    onChangeAtomic: () => {
+      if (formRef.current.hasChanges) {
+        update()
+      }
+    },
+    formRef: useHeader ? formRef : null,
     onSelectReference: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
@@ -160,16 +182,90 @@ export function BasedForm({
     },
   }
 
-  if (header || addItem) {
+  if (useHeader) {
     return (
       <>
         <PageHeader
+          style={{ marginBottom: 48 }}
           title={
-            typeof header === 'function' ? header(props.values || {}) : header
+            typeof header === 'function'
+              ? header(props.values || {})
+              : header === true
+                ? readInfoField(props.values, {
+                    type: 'object',
+                    properties: props.fields,
+                  })
+                : header
+          }
+          description={
+            <Stack justify="start" gap={16}>
+              <Badge
+                copyValue={values?.id}
+                color="neutral-muted"
+                prefix={<IconId size={16} />}
+              >
+                {values?.id}
+              </Badge>
+              <Text variant="body-light">
+                Updated{' '}
+                {display(values?.updatedAt, {
+                  type: 'timestamp',
+                  display: 'human',
+                })}
+              </Text>
+            </Stack>
           }
           suffix={
-            <Stack>
-              {id
+            <Stack gap={8}>
+              <Button
+                shape="square"
+                variant="primary-transparent"
+                onClick={() => deleteItem({ id, type, ...state })}
+              >
+                <IconCopy />
+              </Button>
+              <Button
+                shape="square"
+                variant="primary-transparent"
+                onClick={() => deleteItem({ id, type, ...state })}
+              >
+                <IconDelete />
+              </Button>
+              <Stack gap={16} display={formRef.current.hasChanges}>
+                <Button
+                  shape="square"
+                  keyboardShortcut="Cmd+Z"
+                  variant="primary-transparent"
+                  onClick={() => {
+                    formRef.current.discard()
+                    update()
+                  }}
+                >
+                  <IconUndo />
+                </Button>
+                <Button
+                  displayKeyboardShortcut
+                  keyboardShortcut="Cmd+S"
+                  onClick={() => {
+                    return formRef.current.confirm()
+                  }}
+                >
+                  Publish
+                </Button>
+              </Stack>
+            </Stack>
+          }
+        />
+        {React.createElement(Form, props)}
+      </>
+    )
+  }
+
+  return React.createElement(Form, props)
+}
+
+/*
+{id
                 ? deleteItem && (
                     <Button onClick={() => deleteItem({ id, type, ...state })}>
                       Delete
@@ -185,13 +281,4 @@ export function BasedForm({
                       Save
                     </Button>
                   )}
-            </Stack>
-          }
-        />
-        {React.createElement(Form, props)}
-      </>
-    )
-  }
-
-  return React.createElement(Form, props)
-}
+*/

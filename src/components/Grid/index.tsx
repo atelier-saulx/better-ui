@@ -130,6 +130,7 @@ export function Grid(p: GridProps) {
 
                 return (
                   <Stack
+                    key={i}
                     direction="column"
                     justify="start"
                     align="start"

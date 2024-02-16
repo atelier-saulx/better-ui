@@ -8,7 +8,7 @@ export const textVariants = {
     defaultTag: 'h1',
     fontSize: 40,
     fontWeight: 700,
-    letterSpacing: '0.4px',
+    letterSpacing: '0.1px',
     lineHeight: '56px',
   },
   'title-page': {

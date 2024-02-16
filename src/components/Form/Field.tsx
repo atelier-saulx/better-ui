@@ -117,7 +117,13 @@ export const Field = ({
 
   if (field.type === 'references') {
     return (
-      <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
+      <FormField
+        noBorder
+        fieldKey={key}
+        key={key}
+        variant={ctx.variant}
+        field={field}
+      >
         <References path={path} ctx={ctx} />
       </FormField>
     )
