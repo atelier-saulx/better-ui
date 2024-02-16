@@ -60,7 +60,7 @@ export function PageHeader(p: {
         marginBottom: -4,
         ...p.style,
       }}
-      gap={4}
+      gap={16}
     >
       <styled.div style={{ flexShrink: 1, minWidth: 0 }}>
         {p.title ? (
@@ -77,7 +77,7 @@ export function PageHeader(p: {
           </Text>
         ) : null}
         {p.description ? (
-          <Text singleLine style={{ marginTop: 4 }} variant="body-light">
+          <Text singleLine variant="body-light">
             {p.description}
           </Text>
         ) : null}

@@ -24,6 +24,7 @@ import { SelectReferenceModal } from './SelectReferenceModal.js'
 import { useBasedFormProps } from './useGeneratedProps.js'
 import { BasedFormProps, BasedFormRef } from './types.js'
 import { readInfoField } from '../Form/utils.js'
+import { styled } from 'inlines'
 
 export type FieldsFn = (
   fields: FormProps['fields'],
@@ -91,7 +92,7 @@ export function BasedForm({
 
   const isReady = ref.current.currentFields && checksum
 
-  const { data: values } = useQuery(
+  const { data: values, loading } = useQuery(
     isReady ? queryEndpoint : null,
     ref.current.currentQuery,
   )
@@ -226,48 +227,47 @@ export function BasedForm({
             </Stack>
           }
           suffix={
-            <Stack gap={8}>
-              <Button
-                shape="square"
-                variant="neutral-transparent"
-                // onClick={() => deleteItem({ id, type, ...state })}
-              >
-                <IconCopy />
-              </Button>
-              <Button
-                shape="square"
-                variant="neutral-transparent"
-                onClick={() => deleteItem({ id, type })}
-              >
-                <IconDelete />
-              </Button>
-
-              <Stack
-                gap={16}
-                display={forcePublish || formRef.current.hasChanges}
-              >
+            !loading || type ? (
+              <Stack gap={8} style={{ marginTop: -4 }}>
                 <Button
                   shape="square"
-                  keyboardShortcut="Cmd+Z"
-                  variant="primary-transparent"
-                  onClick={() => {
-                    formRef.current.discard()
-                    update()
-                  }}
-                >
-                  <IconUndo />
-                </Button>
+                  variant="neutral-transparent"
+                  prefix={<IconCopy />}
+                  // onClick={() => deleteItem({ id, type, ...state })}
+                />
                 <Button
-                  displayKeyboardShortcut
-                  keyboardShortcut="Cmd+S"
-                  onClick={() => {
-                    return formRef.current.confirm()
-                  }}
+                  shape="square"
+                  variant="neutral-transparent"
+                  prefix={<IconDelete />}
+                  onClick={() => deleteItem({ id, type })}
+                />
+
+                <Stack
+                  gap={16}
+                  display={forcePublish || formRef.current.hasChanges}
                 >
-                  Publish
-                </Button>
+                  <Button
+                    prefix={<IconUndo />}
+                    shape="square"
+                    keyboardShortcut="Cmd+Z"
+                    variant="primary-transparent"
+                    onClick={() => {
+                      formRef.current.discard()
+                      update()
+                    }}
+                  />
+                  <Button
+                    displayKeyboardShortcut
+                    keyboardShortcut="Cmd+S"
+                    onClick={() => {
+                      return formRef.current.confirm()
+                    }}
+                  >
+                    Publish
+                  </Button>
+                </Stack>
               </Stack>
-            </Stack>
+            ) : null
           }
         />
         {children}
