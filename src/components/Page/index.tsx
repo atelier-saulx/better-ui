@@ -62,9 +62,10 @@ export function PageHeader(p: {
       }}
       gap={4}
     >
-      <styled.div>
+      <styled.div style={{ flexShrink: 1, minWidth: 0 }}>
         {p.title ? (
           <Text
+            singleLine
             style={{
               color: p.color
                 ? getColor('semantic-background', p.color)
@@ -76,7 +77,7 @@ export function PageHeader(p: {
           </Text>
         ) : null}
         {p.description ? (
-          <Text singleLine style={{ marginTop: 8 }} variant="body-light">
+          <Text singleLine style={{ marginTop: 4 }} variant="body-light">
             {p.description}
           </Text>
         ) : null}
