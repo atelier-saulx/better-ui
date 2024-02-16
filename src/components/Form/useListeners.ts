@@ -31,6 +31,11 @@ const createListeners = (
 
       if (!valueRef.current.hasChanges) {
         valueRef.current.hasChanges = true
+
+        if (valueRef.current.props.formRef) {
+          valueRef.current.props.formRef.current.hasChanges = true
+        }
+
         valueRef.current.values = deepCopy(valueRef.current.props.values)
       }
 

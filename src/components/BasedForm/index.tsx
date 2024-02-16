@@ -92,6 +92,7 @@ export function BasedForm({
 
   const [state, setState] = React.useState<{}>()
 
+  // @ts-ignore
   const formRef = React.useRef<FormProps['formRef']['current']>({})
 
   if (!isReady) {
@@ -133,7 +134,7 @@ export function BasedForm({
     onChange: onFormChange,
     onFileUpload,
     onClickReference,
-    checksum,
+    // checksum,
     onChangeAtomic: () => {
       if (formRef.current.hasChanges) {
         update()
