@@ -48,6 +48,7 @@ export function BasedForm({
   deleteItem,
   onClickReference,
   selectReferenceExplorerProps,
+  children,
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -208,7 +209,7 @@ export function BasedForm({
                 : header
           }
           description={
-            <Stack justify="start" gap={16} style={{ marginTop: 12 }}>
+            <Stack justify="start" gap={16}>
               <Badge
                 copyValue={values?.id}
                 color="neutral-muted"
@@ -229,14 +230,14 @@ export function BasedForm({
             <Stack gap={8}>
               <Button
                 shape="square"
-                variant="neutral-transparent"
+                variant="primary-transparent"
                 // onClick={() => deleteItem({ id, type, ...state })}
               >
                 <IconCopy />
               </Button>
               <Button
                 shape="square"
-                variant="neutral-transparent"
+                variant="primary-transparent"
                 onClick={() => deleteItem({ id, type, ...state })}
               >
                 <IconDelete />
@@ -246,7 +247,7 @@ export function BasedForm({
                 <Button
                   shape="square"
                   keyboardShortcut="Cmd+Z"
-                  variant="neutral-transparent"
+                  variant="primary-transparent"
                   onClick={() => {
                     formRef.current.discard()
                     update()
@@ -267,6 +268,7 @@ export function BasedForm({
             </Stack>
           }
         />
+        {children}
         {React.createElement(Form, props)}
       </>
     )
