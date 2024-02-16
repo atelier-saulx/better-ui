@@ -125,8 +125,11 @@ export function BasedForm({
     }
   } else if (addItem) {
     onFormChange = (values, changed, checksum, based) => {
-      values.type = type
-      based.type = type
+      if (type) {
+        values.type = type
+        based.type = type
+      }
+
       return addItem({ values, changed, checksum, based, language })
     }
   } else {
