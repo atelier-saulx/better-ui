@@ -148,7 +148,13 @@ export function List(p: ListProps) {
                             flexShrink: 1,
                           }}
                         >
-                          <Text variant="sub-title" singleLine>
+                          <Text
+                            style={{
+                              maxWidth: 600,
+                            }}
+                            variant="sub-title"
+                            singleLine
+                          >
                             {v.title ?? v.name ?? '-'}
                           </Text>
                           {v.date ? (
