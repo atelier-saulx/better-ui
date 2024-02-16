@@ -5,6 +5,14 @@ import { ReactNode } from 'react'
 
 type OnChangeParams = Parameters<FormProps['onChange']>
 
+type OnChange = (params: {
+  values: OnChangeParams[0]
+  changed: OnChangeParams[1]
+  checksum: OnChangeParams[2]
+  based: OnChangeParams[3]
+  language: string
+}) => void
+
 type SharedBasedFormProps = {
   includedFields?: string[]
   excludeCommonFields?: boolean
@@ -20,23 +28,14 @@ type SharedBasedFormProps = {
     fields: FormProps['fields']
     schema: BasedSchema
   }) => any
-  onChange?: (params: {
-    values: OnChangeParams[0]
-    changed: OnChangeParams[1]
-    checksum: OnChangeParams[2]
-    based: OnChangeParams[3]
-    language: string
-  }) => void
+  onChange?: OnChange
   onFileUpload?: FormProps['onFileUpload']
   transformResults?: (any) => any
   header?:
     | boolean
     | React.ReactNode
     | ((values: FormProps['values']) => React.ReactNode)
-  addItem?: (p: {
-    values: Record<string, any>
-    language: string
-  }) => Promise<void>
+  addItem?: OnChange
   deleteItem?: (p: Record<string, any>) => Promise<void>
   onClickReference?: FormProps['onClickReference']
   selectReferenceExplorerProps?:

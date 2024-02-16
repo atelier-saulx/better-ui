@@ -117,7 +117,6 @@ export function BasedForm({
       onChange({ values, changed, checksum, based, language })
   } else if (id) {
     onFormChange = async (_values, _changed, _checksum, based) => {
-      console.log('????????')
       await client.call(updateEndpoint, {
         $id: id,
         $language: language,
@@ -125,7 +124,8 @@ export function BasedForm({
       })
     }
   } else if (addItem) {
-    onFormChange = addItem
+    onFormChange = (values, changed, checksum, based) =>
+      addItem({ values, changed, checksum, based, language })
   } else {
     onFormChange = () =>
       console.warn('No "id" and no "addItem" passed, ignore onChange')
