@@ -1,6 +1,7 @@
 import { BasedSchema } from '@based/schema'
 import { BasedExplorerProps, FormProps } from '../../index.js'
 import { FieldsFn } from './index.js'
+import { ReactNode } from 'react'
 
 type OnChangeParams = Parameters<FormProps['onChange']>
 
@@ -9,6 +10,7 @@ type SharedBasedFormProps = {
   excludeCommonFields?: boolean
   fields?: FormProps['fields'] | FieldsFn
   variant?: FormProps['variant']
+  children?: ReactNode
   queryEndpoint?: string
   updateEndpoint?: string
   query?: (p: {

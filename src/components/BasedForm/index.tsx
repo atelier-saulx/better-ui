@@ -48,6 +48,7 @@ export function BasedForm({
   deleteItem,
   onClickReference,
   selectReferenceExplorerProps,
+  children,
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -106,24 +107,28 @@ export function BasedForm({
     )
   }
 
-  if (!id && addItem) {
-    variant ??= 'no-confirm'
-  }
+  // if (!id && addItem) {
+  //   variant ??= 'no-confirm'
+  // }
 
   let onFormChange
   if (onChange) {
     onFormChange = (values, changed, checksum, based) =>
       onChange({ values, changed, checksum, based, language })
+  } else if (id) {
+    onFormChange = async (_values, _changed, _checksum, based) => {
+      console.log('????????')
+      await client.call(updateEndpoint, {
+        $id: id,
+        $language: language,
+        ...based,
+      })
+    }
+  } else if (addItem) {
+    onFormChange = addItem
   } else {
-    onFormChange = id
-      ? async (_values, _changed, _checksum, based) => {
-          await client.call(updateEndpoint, {
-            $id: id,
-            $language: language,
-            ...based,
-          })
-        }
-      : (values) => setState({ ...values })
+    onFormChange = () =>
+      console.warn('No "id" and no "addItem" passed, ignore onChange')
   }
 
   const useHeader = header || addItem
@@ -220,7 +225,7 @@ export function BasedForm({
               <Button
                 shape="square"
                 variant="primary-transparent"
-                onClick={() => deleteItem({ id, type, ...state })}
+                // onClick={() => deleteItem({ id, type, ...state })}
               >
                 <IconCopy />
               </Button>
@@ -231,6 +236,7 @@ export function BasedForm({
               >
                 <IconDelete />
               </Button>
+
               <Stack gap={16} display={formRef.current.hasChanges}>
                 <Button
                   shape="square"
@@ -256,6 +262,7 @@ export function BasedForm({
             </Stack>
           }
         />
+        {children}
         {React.createElement(Form, props)}
       </>
     )
