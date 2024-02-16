@@ -144,7 +144,9 @@ export function Grid(p: GridProps) {
                         {v.title ?? v.name ?? v.id}
                       </Text>
                       {v.date ? (
-                        <Text variant="body-light">{v.date}</Text>
+                        <Text style={{ marginTop: -8 }} variant="body-light">
+                          {v.date}
+                        </Text>
                       ) : null}
                     </Stack>
                   </Stack>
