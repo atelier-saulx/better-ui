@@ -18,6 +18,8 @@ import {
   ButtonProps,
   IconSearch,
   IconClose,
+  borderRadius,
+  IconId,
 } from '../../index.js'
 import { Path, Reference, TableCtx } from './types.js'
 import { getIdentifierFieldValue, readPath } from './utils.js'
@@ -58,10 +60,8 @@ const Select = (p: {
   )
   if (p.badge) {
     return (
-      <Button variant="icon-only" onClick={p.onClick}>
-        <Badge color="primary-muted" prefix={icon}>
-          {body}
-        </Badge>
+      <Button prefix={icon} variant="primary-transparent" onClick={p.onClick}>
+        {body}
       </Button>
     )
   }
@@ -81,8 +81,8 @@ const Id = (p: { id: string; onClick: () => void }) => {
   return (
     <Button onClick={p.onClick} variant="icon-only">
       <Badge
-        color="primary-muted"
-        prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
+        color="neutral-muted"
+        prefix={<IconId style={{ width: 16, height: 16, marginRight: 4 }} />}
       >
         {p.id}
       </Badge>
@@ -161,6 +161,65 @@ export const getImg = (
   }
 }
 
+const Thumbnail = (p: {
+  isLarge: boolean
+  src: string
+  mimeType: BasedSchemaContentMediaType
+}) => {
+  if (p.isLarge) {
+    return (
+      <Stack
+        align="center"
+        justify="center"
+        style={{
+          width: '100%',
+          height: 300,
+          backgroundColor: color('background', 'primary'),
+          borderRadius: borderRadius('medium'),
+          paddingTop: 16,
+          paddingBottom: 16,
+        }}
+      >
+        <styled.div
+          style={{
+            width: '100%',
+            height: '100%',
+            overflow: 'hidden',
+          }}
+        >
+          <Media src={p.src} variant="contain" type={p.mimeType} />
+        </styled.div>
+      </Stack>
+    )
+  }
+
+  return (
+    <Stack
+      align={'center'}
+      direction={'row'}
+      justify="start"
+      fitContent
+      style={{
+        marginTop: -4,
+      }}
+    >
+      <styled.div
+        style={{
+          width: 32,
+          height: 32,
+          overflow: 'hidden',
+          backgroundColor: color('background', 'neutral'),
+          borderRadius: 4,
+          border: border(),
+          marginRight: 10,
+        }}
+      >
+        <Media src={p.src} variant="cover" type={p.mimeType} />
+      </styled.div>
+    </Stack>
+  )
+}
+
 export const Image = (p: {
   ctx: TableCtx
   value: Reference
@@ -170,11 +229,9 @@ export const Image = (p: {
   let hasFile = false
   let src: string
   let mimeType: BasedSchemaContentMediaType
-
   if (p.field.allowedTypes?.includes('file')) {
     hasFile = true
   }
-
   if (typeof p.value === 'object' && p.value.src) {
     src = p.value.src
     hasFile = true
@@ -182,7 +239,6 @@ export const Image = (p: {
       mimeType = p.value.mimeType
     }
   }
-
   if (
     typeof p.value === 'object' &&
     !src &&
@@ -195,33 +251,7 @@ export const Image = (p: {
     }
   }
   if (hasFile) {
-    const width = p.isLarge ? 248 : 32
-    return (
-      <Stack
-        align={p.isLarge ? 'start' : 'center'}
-        direction={p.isLarge ? 'column' : 'row'}
-        justify="start"
-        fitContent
-        style={{
-          marginTop: p.isLarge ? 0 : -4,
-        }}
-      >
-        <styled.div
-          style={{
-            width,
-            height: width,
-            overflow: 'hidden',
-            backgroundColor: color('background', 'neutral'),
-            borderRadius: 4,
-            border: border(),
-            marginBottom: p.isLarge ? 14 : 0,
-            marginRight: 10,
-          }}
-        >
-          <Media src={src} variant="cover" type={mimeType} />
-        </styled.div>
-      </Stack>
-    )
+    return <Thumbnail src={src} mimeType={mimeType} isLarge={p.isLarge} />
   }
   return null
 }
@@ -263,9 +293,9 @@ export function ReferenceEditable({
   if (id) {
     if (isLarge) {
       return (
-        <Stack justify="start" direction="column">
+        <Stack justify="start" direction="column" gap={16}>
           <Image ctx={ctx} isLarge field={field} value={value} />
-          <Stack justify="end" gap={8} fitContent>
+          <Stack gap={8}>
             <Info
               value={value}
               onClick={() => {
@@ -277,15 +307,17 @@ export function ReferenceEditable({
                 })
               }}
             />
-            <Select badge field={field} onClick={selectRef} />
-            <Button
-              onClick={() => {
-                ctx.listeners.onChangeHandler(ctx, path, null)
-              }}
-              variant="icon-only"
-            >
-              <IconClose />
-            </Button>
+            <Stack justify="end">
+              <Select badge field={field} onClick={selectRef} />
+              <Button
+                onClick={() => {
+                  ctx.listeners.onChangeHandler(ctx, path, null)
+                }}
+                variant="icon-only"
+              >
+                <IconClose />
+              </Button>
+            </Stack>
           </Stack>
         </Stack>
       )

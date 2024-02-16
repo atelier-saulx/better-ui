@@ -152,7 +152,7 @@ export function Grid(p: GridProps) {
                       direction="column"
                       justify="start"
                       align="start"
-                      gap={16}
+                      gap={8}
                       style={{
                         padding: 16,
                         width: '100%',
@@ -214,7 +214,11 @@ export function Grid(p: GridProps) {
                           </Text>
                         </Stack>
                       ) : null}
-                      <Stack>
+                      <Stack
+                        style={{
+                          paddingLeft: 6,
+                        }}
+                      >
                         <styled.div
                           style={{
                             overflow: 'hidden',
