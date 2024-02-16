@@ -48,7 +48,6 @@ export function BasedForm({
   deleteItem,
   onClickReference,
   selectReferenceExplorerProps,
-  children,
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -268,7 +267,6 @@ export function BasedForm({
             </Stack>
           }
         />
-        {children}
         {React.createElement(Form, props)}
       </>
     )

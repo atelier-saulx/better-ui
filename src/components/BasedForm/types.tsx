@@ -18,7 +18,6 @@ type SharedBasedFormProps = {
   excludeCommonFields?: boolean
   fields?: FormProps['fields'] | FieldsFn
   variant?: FormProps['variant']
-  children?: ReactNode
   queryEndpoint?: string
   updateEndpoint?: string
   query?: (p: {
