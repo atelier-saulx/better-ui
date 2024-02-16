@@ -208,7 +208,7 @@ export function BasedForm({
                 : header
           }
           description={
-            <Stack justify="start" gap={16}>
+            <Stack justify="start" gap={16} style={{ marginTop: 12 }}>
               <Badge
                 copyValue={values?.id}
                 color="neutral-muted"
@@ -229,14 +229,14 @@ export function BasedForm({
             <Stack gap={8}>
               <Button
                 shape="square"
-                variant="primary-transparent"
+                variant="neutral-transparent"
                 // onClick={() => deleteItem({ id, type, ...state })}
               >
                 <IconCopy />
               </Button>
               <Button
                 shape="square"
-                variant="primary-transparent"
+                variant="neutral-transparent"
                 onClick={() => deleteItem({ id, type, ...state })}
               >
                 <IconDelete />
@@ -246,7 +246,7 @@ export function BasedForm({
                 <Button
                   shape="square"
                   keyboardShortcut="Cmd+Z"
-                  variant="primary-transparent"
+                  variant="neutral-transparent"
                   onClick={() => {
                     formRef.current.discard()
                     update()
