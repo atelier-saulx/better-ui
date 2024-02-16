@@ -60,7 +60,7 @@ const Select = (p: {
   )
   if (p.badge) {
     return (
-      <Button prefix={icon} variant="primary-transparent" onClick={p.onClick}>
+      <Button prefix={icon} variant="neutral-transparent" onClick={p.onClick}>
         {body}
       </Button>
     )
