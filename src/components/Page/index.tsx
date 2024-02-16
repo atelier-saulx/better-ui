@@ -61,11 +61,7 @@ export function PageHeader(p: {
         ...p.style,
       }}
     >
-      <styled.div
-        style={{
-          marginTop: -4,
-        }}
-      >
+      <styled.div>
         {p.title ? (
           <Text
             style={{
@@ -73,7 +69,7 @@ export function PageHeader(p: {
                 ? getColor('semantic-background', p.color)
                 : undefined,
             }}
-            variant="title"
+            variant="title-page"
           >
             {p.title}
           </Text>

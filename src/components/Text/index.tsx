@@ -22,10 +22,10 @@ export const textVariants = {
   'title-page': {
     defaultColor: 'primary',
     defaultTag: 'h2',
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 700,
     letterSpacing: '0px',
-    lineHeight: '36px',
+    lineHeight: '26px',
   },
   'title-modal': {
     defaultColor: 'primary',
