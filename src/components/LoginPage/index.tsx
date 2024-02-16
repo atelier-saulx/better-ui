@@ -7,6 +7,7 @@ import {
   Text,
   color,
   boxShadow,
+  Spinner,
 } from '../../index.js'
 
 type LoginWithEmail = {
@@ -29,7 +30,7 @@ export function LoginPage({
   variant = 'email',
 }: LoginPageProps) {
   const code = React.useMemo(() => (~~(Math.random() * 1e6)).toString(16), [])
-  const [submitted, setSubmitted] = React.useState(false)
+  const [submitted, setSubmitted] = React.useState(null)
 
   return (
     <main
@@ -47,15 +48,16 @@ export function LoginPage({
           e.preventDefault()
 
           if (submitted) return
+          const value = e.target.input.value
 
-          setSubmitted(true)
+          setSubmitted(value)
 
           if (variant === 'email') {
             // @ts-ignore
-            onLogin({ email: e.target.input.value, code })
+            onLogin({ email: value, code })
           } else if (variant === 'token') {
             // @ts-ignore
-            onLogin({ token: e.target.input.value })
+            onLogin({ token: value })
           }
         }}
         style={{
@@ -64,7 +66,7 @@ export function LoginPage({
           height: 'fit-content',
           gap: 24,
           flexGrow: 0,
-          width: 500,
+          width: 380,
           maxWidth: '100%',
           padding: 32,
           border: border(),
@@ -74,34 +76,54 @@ export function LoginPage({
         }}
       >
         {logo}
-        <TextInput
-          required
-          disabled={submitted}
-          formName="input"
-          placeholder={variant[0].toUpperCase() + variant.substring(1)}
-        />
         {submitted && variant === 'email' ? (
-          <div>
-            <div
-              style={{
-                backgroundColor: color('interactive', 'primary-muted'),
-                color: color('content', 'primary'),
-                padding: 9,
-                borderRadius: 4,
-                textAlign: 'center',
-                fontSize: 16,
-                fontWeight: 600,
-                marginBottom: 8,
-              }}
-            >
-              <Text>Code: {code}</Text>
+          <>
+            <Text>
+              We've just sent a verification link to {submitted}. Please make
+              sure the email contains the following security code:
+            </Text>
+            <div>
+              <div
+                style={{
+                  border: border(),
+                  padding: 9,
+                  borderRadius: 4,
+                  textAlign: 'center',
+                  fontSize: 16,
+                  fontWeight: 600,
+                  marginBottom: 8,
+                  position: 'relative',
+                }}
+              >
+                <Text>{code}</Text>
+                <span
+                  style={{
+                    position: 'absolute',
+                    left: 8,
+                    top: 0,
+                    bottom: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Spinner size={24} color="secondary" />
+                </span>
+              </div>
             </div>
-            <Text>Please check your email for validation.</Text>
-          </div>
+          </>
         ) : (
-          <Button style={{ alignSelf: 'end' }} type="submit">
-            Login
-          </Button>
+          <>
+            <TextInput
+              placeholder={variant[0].toUpperCase() + variant.substring(1)}
+              required
+              disabled={submitted}
+              formName="input"
+            />
+            <Button style={{ height: 42 }} type="submit">
+              Login
+            </Button>
+          </>
         )}
       </form>
     </main>
