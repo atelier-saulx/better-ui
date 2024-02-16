@@ -277,7 +277,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <Text
               noSelect
               as="div"
-              singleLine
+              // singleLine
               color="inherit"
               variant={size === 'small' ? 'body' : 'body-bold'}
               style={{ display: 'flex' }}
