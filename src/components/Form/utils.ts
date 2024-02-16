@@ -27,12 +27,7 @@ export const readInfoField = (obj: any, field: BasedSchemaField): string => {
   }
 
   if (isSmallField(field)) {
-    console.log('D', field, obj)
     return obj
-  }
-
-  if (field.type === 'array') {
-    //
   }
 
   return field.title ?? humanizeString(field.type) ?? ''
