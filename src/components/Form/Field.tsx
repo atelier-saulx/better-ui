@@ -70,7 +70,7 @@ export const Field = ({
           copyValue={ctx.values[key]}
           prefix={<IconId size={16} style={{ marginRight: 4 }} />}
           style={{ minWidth: 100 }}
-          color="primary-muted"
+          color="neutral-muted"
         >
           {ctx.values[key] ?? '-'}
         </Badge>
@@ -327,7 +327,13 @@ export const Field = ({
 
   if (isTable(field)) {
     return (
-      <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
+      <FormField
+        fieldKey={key}
+        key={key}
+        noBorder
+        variant={ctx.variant}
+        field={field}
+      >
         <Table path={[key]} ctx={ctx} />
       </FormField>
     )

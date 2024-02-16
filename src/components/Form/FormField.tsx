@@ -8,6 +8,7 @@ type FormFieldProps = {
   children: React.ReactNode
   field: BasedSchemaField
   variant: Variant
+  noBorder?: boolean
   fieldKey: string
 }
 
@@ -15,6 +16,7 @@ export function FormField({
   children,
   field,
   fieldKey,
+  noBorder,
   variant,
 }: FormFieldProps) {
   const name = getTitle(fieldKey, field)
@@ -34,13 +36,12 @@ export function FormField({
                 },
               },
             }
-          : variant !== 'regular'
+          : variant !== 'regular' || noBorder
             ? null
             : {
-                // paddingLeft: 16,
-                // paddingBottom: 8,
-                // gridTemplateColumns: '1fr 1fr',
-                // borderLeft: border('muted', 2),
+                paddingLeft: 24,
+                paddingBottom: 8,
+                borderLeft: border('muted', 2),
               }
       }
     >
