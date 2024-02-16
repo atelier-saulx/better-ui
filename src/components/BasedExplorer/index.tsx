@@ -183,9 +183,10 @@ export function BasedExplorer({
   const isMultiVariant = isMultipleVariants(variant)
 
   const [selectedVariant, setVariant] = React.useState<Variant>(
-    // @ts-ignore
-    isMultipleVariants ? variant[0] : variant,
+    isMultiVariant ? variant[0] : variant,
   )
+
+  console.log(selectedVariant)
 
   const schema = React.useMemo(() => {
     if (!rawSchema) return

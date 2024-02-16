@@ -138,6 +138,7 @@ export const FieldsFromValues = () => {
   return (
     <div style={{ height: '50vh' }}>
       <BasedExplorer
+        variant={'grid'}
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
