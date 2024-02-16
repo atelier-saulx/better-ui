@@ -128,7 +128,7 @@ export const getImg = (
     }
   }
 
-  if (types) {
+  if (types && typeof value === 'object') {
     for (const type of types) {
       if (typeof type === 'string') {
         const t = schema?.types?.[type]
