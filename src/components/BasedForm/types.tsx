@@ -14,6 +14,8 @@ type OnChange = (params: {
 }) => void
 
 type SharedBasedFormProps = {
+  forcePublish?: boolean
+  formRef?: FormProps['formRef']
   includedFields?: string[]
   excludeCommonFields?: boolean
   fields?: FormProps['fields'] | FieldsFn

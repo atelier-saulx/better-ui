@@ -49,6 +49,8 @@ export function BasedForm({
   onClickReference,
   selectReferenceExplorerProps,
   children,
+  formRef,
+  forcePublish,
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -94,10 +96,8 @@ export function BasedForm({
     ref.current.currentQuery,
   )
 
-  const [state, setState] = React.useState<{}>()
-
   // @ts-ignore
-  const formRef = React.useRef<FormProps['formRef']['current']>({})
+  formRef ??= React.useRef<FormProps['formRef']['current']>({})
 
   if (!isReady) {
     return (
@@ -143,7 +143,7 @@ export function BasedForm({
     key: id,
     variant,
     schema,
-    values: (transformResults ? transformResults(values) : values) || state,
+    values: (transformResults ? transformResults(values) : values) || {},
     fields: ref.current.currentFields,
     onChange: onFormChange,
     onFileUpload,
@@ -237,12 +237,15 @@ export function BasedForm({
               <Button
                 shape="square"
                 variant="neutral-transparent"
-                onClick={() => deleteItem({ id, type, ...state })}
+                onClick={() => deleteItem({ id, type })}
               >
                 <IconDelete />
               </Button>
 
-              <Stack gap={16} display={formRef.current.hasChanges}>
+              <Stack
+                gap={16}
+                display={formRef.current.hasChanges || forcePublish}
+              >
                 <Button
                   shape="square"
                   keyboardShortcut="Cmd+Z"
