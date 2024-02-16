@@ -29,6 +29,14 @@ export default meta
 export const Default = () => {
   return (
     <div>
+      <BasedForm id="200a79915c" header />
+    </div>
+  )
+}
+
+export const WeirdSchema = () => {
+  return (
+    <div>
       <BasedForm id="10ff8f6f00" />
     </div>
   )

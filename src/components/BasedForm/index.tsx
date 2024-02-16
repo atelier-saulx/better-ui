@@ -1,5 +1,10 @@
 import { useClient, useQuery } from '@based/react'
-import { BasedSchema, convertOldToNew } from '@based/schema'
+import {
+  BasedSchema,
+  BasedSchemaField,
+  BasedSchemaFieldObject,
+  convertOldToNew,
+} from '@based/schema'
 import * as React from 'react'
 import {
   Badge,
@@ -16,6 +21,7 @@ import { useLanguage } from '../../hooks/useLanguage/index.js'
 import { SelectReferenceModal } from './SelectReferenceModal.js'
 import { useBasedFormProps } from './useGeneratedProps.js'
 import { BasedFormProps, BasedFormRef } from './types.js'
+import { readInfoField } from '../Form/utils.js'
 
 export type FieldsFn = (
   fields: FormProps['fields'],
@@ -164,7 +170,14 @@ export function BasedForm({
       <>
         <PageHeader
           title={
-            typeof header === 'function' ? header(props.values || {}) : header
+            typeof header === 'function'
+              ? header(props.values || {})
+              : header === true
+                ? readInfoField(props.values, {
+                    type: 'object',
+                    properties: props.fields,
+                  })
+                : header
           }
           suffix={
             <Stack>
