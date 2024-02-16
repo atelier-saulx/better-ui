@@ -141,8 +141,11 @@ export const getImg = (
               }
             } else if (f.type === 'reference') {
               if (value[key]) {
-                // @ts-ignore
-                const src = getImg(value[key], ctx, f)
+                const src = getImg(
+                  value[key],
+                  schema,
+                  f as BasedSchemaFieldReference,
+                )
                 if (src) {
                   return src
                 }
