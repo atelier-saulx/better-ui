@@ -294,7 +294,7 @@ export function BasedExplorer({
     ? totalData?.total ?? 0
     : ref.current.lastLoaded
 
-  const useHeader = info || header || addItem || filter
+  const useHeader = info || header || addItem || filter || select
 
   const pagination = React.useMemo<Pagination>(
     () => ({
@@ -459,7 +459,7 @@ export function BasedExplorer({
     return (
       <Stack direction="column" style={{ height: '100%' }}>
         <PageHeader
-          padding={32}
+          padding={24}
           suffix={
             <styled.div>
               <Stack gap={32}>
@@ -491,7 +491,7 @@ export function BasedExplorer({
                 <Stack
                   justify="end"
                   style={{
-                    marginTop: 8,
+                    marginTop: 16,
                   }}
                   gap={2}
                 >

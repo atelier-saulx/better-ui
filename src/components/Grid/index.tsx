@@ -5,10 +5,12 @@ import {
   Pagination,
   Virtualized,
   Text,
+  border,
   Media,
   Stack,
   FormProps,
   color,
+  IconMoreHorizontal,
 } from '../../index.js'
 import { BasedSchema, display } from '@based/schema'
 import humanizeString from 'humanize-string'
@@ -52,9 +54,9 @@ const getData = (
         delete newObj.mimeType
       }
     } else if (f.type === 'string') {
-      if (fi === 'description') {
-        newObj.description = v[fi]
-      }
+      // if (fi === 'description') {
+      //   newObj.description = v[fi]
+      // }
     } else if (f.type === 'timestamp') {
       newObj.date = display(
         v[fi],
@@ -69,18 +71,14 @@ const getData = (
         ),
       }
     } else if (f.type === 'reference') {
-      const img = getImg(v[fi], schema, f)
+      const img = v[fi] && getImg(v[fi], schema, f)
       if (img) {
         newObj.src = img
         newObj.mimeType = v.mimeType
+      } else {
+        newObj.src = ''
+        newObj.mimeType = v.mimeType
       }
-    }
-  }
-
-  if (!('description' in newObj)) {
-    if (newObj.date) {
-      newObj.description = newObj.date
-      delete newObj.date
     }
   }
 
@@ -96,13 +94,14 @@ const getData = (
 
 export function Grid(p: GridProps) {
   const values = p.values ?? []
-  const size = p.size ?? 250
+  const size = p.size ?? 275
 
   return (
     <styled.div
       style={{
         width: '100%',
         height: '100%',
+        padding: 12,
         ...p.style,
       }}
     >
@@ -134,7 +133,6 @@ export function Grid(p: GridProps) {
                     direction="column"
                     justify="start"
                     align="start"
-                    gap={16}
                     onClick={() => {
                       if (p.onClick) {
                         p.onClick(raw)
@@ -144,54 +142,54 @@ export function Grid(p: GridProps) {
                       width: itemWidth,
                       height: itemHeight,
                       cursor: 'pointer',
-                      padding: 8,
+                      padding: 12,
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
+                      '&:hover section': {
+                        background:
+                          color('background', 'primary2') + ' !important',
+                      },
                     }}
                   >
                     <Stack
                       direction="column"
                       justify="start"
                       align="start"
-                      gap={8}
+                      gap={12}
                       style={{
-                        padding: 16,
                         width: '100%',
                         height: '100%',
-                        border: '1px solid transparent',
-                        borderRadius: borderRadius('large'),
-                        '&:hover': {
-                          background: color('background', 'neutral'),
-                        },
                       }}
                     >
                       {hasSrc ? (
-                        <styled.div
+                        <Stack
+                          as="section"
                           style={{
                             background: color('background', 'primary'),
-                            borderRadius: borderRadius('medium'),
+                            borderRadius: borderRadius('tiny'),
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
                             flexShrink: 0,
                             height: 'calc(100% - 64px)',
                             width: '100%',
-                            padding: 32,
+                            padding: 16,
                           }}
                         >
                           <Media
                             type={v.mimeType}
-                            variant="cover"
+                            variant="contain"
                             src={v.src}
                           />
-                        </styled.div>
+                        </Stack>
                       ) : hasResult ? (
                         <Stack
+                          as="section"
                           direction="column"
                           align="center"
                           style={{
                             background: color('background', 'primary'),
-                            borderRadius: borderRadius('medium'),
+                            borderRadius: borderRadius('tiny'),
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
@@ -215,11 +213,7 @@ export function Grid(p: GridProps) {
                           </Text>
                         </Stack>
                       ) : null}
-                      <Stack
-                        style={{
-                          paddingLeft: 6,
-                        }}
-                      >
+                      <Stack align="start">
                         <styled.div
                           style={{
                             overflow: 'hidden',
@@ -229,16 +223,13 @@ export function Grid(p: GridProps) {
                             },
                           }}
                         >
-                          <Text variant="body-bold">
+                          <Text variant="sub-title">
                             {v.title ?? v.name ?? v.id}
                           </Text>
-                          {v.description ? (
-                            <Text variant="body-light">{v.description}</Text>
+                          {v.date ? (
+                            <Text variant="body-light">{v.date}</Text>
                           ) : null}
                         </styled.div>
-                        {v.date ? (
-                          <Text variant="body-light">{v.date}</Text>
-                        ) : null}
                       </Stack>
                     </Stack>
                   </Stack>
