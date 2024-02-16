@@ -48,23 +48,20 @@ export function PageHeader(p: {
   description?: React.ReactNode
   suffix?: React.ReactNode
   color?: SemanticColors
-  padding?: 32 | 64
+  padding?: 32 | 64 | 24
   style?: Style
 }) {
   return (
     <Stack
       align="start"
       style={{
+        marginTop: 4,
         padding: p.padding,
-        marginBottom: -8,
+        marginBottom: -4,
         ...p.style,
       }}
     >
-      <styled.div
-        style={{
-          marginTop: -4,
-        }}
-      >
+      <styled.div>
         {p.title ? (
           <Text
             style={{
@@ -72,13 +69,13 @@ export function PageHeader(p: {
                 ? getColor('semantic-background', p.color)
                 : undefined,
             }}
-            variant="title"
+            variant="title-page"
           >
             {p.title}
           </Text>
         ) : null}
         {p.description ? (
-          <Text style={{ marginTop: 4 }} variant="body" color="secondary">
+          <Text style={{ marginTop: 8 }} variant="body-light">
             {p.description}
           </Text>
         ) : null}

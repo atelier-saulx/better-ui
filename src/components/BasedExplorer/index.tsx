@@ -17,6 +17,7 @@ import {
   SelectInputProps,
   IconViewTable,
   IconViewLayoutGrid,
+  borderRadius,
 } from '../../index.js'
 import { styled } from 'inlines'
 import { useClient, useQuery } from '@based/react'
@@ -95,6 +96,65 @@ const isMultipleVariants = (
   return Array.isArray(variant)
 }
 
+export const ViewSwitcher = (p: {
+  variant: MutlipleVariants
+  selectedVariant: 'grid' | 'table'
+  onChange: (v: 'grid' | 'table') => void
+}) => {
+  return (
+    <Stack
+      gap={2}
+      fitContent
+      style={{
+        padding: 4,
+        borderRadius: borderRadius('medium'),
+        background: color('background', 'neutral'),
+      }}
+    >
+      {p.variant.map((v) => {
+        const Icon =
+          v === 'table'
+            ? IconViewTable
+            : v === 'grid'
+              ? IconViewLayoutGrid
+              : IconPlus
+
+        return (
+          <Button
+            key={v}
+            onClick={() => {
+              p.onChange(v)
+            }}
+            prefix={
+              <Stack
+                style={{
+                  paddingTop: 4,
+                  paddingBottom: 4,
+                  boxShadow:
+                    p.selectedVariant === v
+                      ? '0px 1px 2px rgba(0,0,0,0.1)'
+                      : 'none',
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  borderRadius: borderRadius('tiny'),
+                  background:
+                    p.selectedVariant === v
+                      ? color('background', 'screen')
+                      : '',
+                  // color: color('content', 'secondary'),
+                }}
+              >
+                <Icon />
+              </Stack>
+            }
+            variant="icon-only"
+          />
+        )
+      })}
+    </Stack>
+  )
+}
+
 export function BasedExplorer({
   query,
   queryEndpoint = 'db',
@@ -118,7 +178,8 @@ export function BasedExplorer({
 
   const isMultiVariant = isMultipleVariants(variant)
 
-  const [selectedVariant, setVariant] = React.useState(
+  const [selectedVariant, setVariant] = React.useState<'table' | 'grid'>(
+    // @ts-ignore
     isMultipleVariants ? variant[0] : variant,
   )
 
@@ -294,7 +355,7 @@ export function BasedExplorer({
     ? totalData?.total ?? 0
     : ref.current.lastLoaded
 
-  const useHeader = info || header || addItem || filter
+  const useHeader = info || header || addItem || filter || select
 
   const pagination = React.useMemo<Pagination>(
     () => ({
@@ -459,10 +520,35 @@ export function BasedExplorer({
     return (
       <Stack direction="column" style={{ height: '100%' }}>
         <PageHeader
-          padding={32}
+          padding={24}
           suffix={
             <styled.div>
-              <Stack gap={32}>
+              <Stack gap={24}>
+                {isMultiVariant ? (
+                  <ViewSwitcher
+                    variant={variant}
+                    selectedVariant={selectedVariant}
+                    onChange={setVariant}
+                  />
+                ) : null}
+                {select ? (
+                  <Stack fitContent justify="end" gap={2}>
+                    {select ? (
+                      <styled.div>
+                        <SelectInput
+                          variant="small"
+                          value={ref.current.selected}
+                          options={select}
+                          onChange={(value) => {
+                            ref.current.selected = value
+                            updateSubs()
+                          }}
+                        />
+                      </styled.div>
+                    ) : null}
+                    {}
+                  </Stack>
+                ) : null}
                 {filter ? (
                   <SearchInput
                     loading={ref.current.filter && totalLoading}
@@ -487,63 +573,6 @@ export function BasedExplorer({
                   </Button>
                 ) : null}
               </Stack>
-              {select || isMultipleVariants ? (
-                <Stack
-                  justify="end"
-                  style={{
-                    marginTop: 8,
-                  }}
-                  gap={2}
-                >
-                  {select ? (
-                    <styled.div>
-                      <SelectInput
-                        variant="small"
-                        value={ref.current.selected}
-                        options={select}
-                        onChange={(value) => {
-                          ref.current.selected = value
-                          updateSubs()
-                        }}
-                      />
-                    </styled.div>
-                  ) : null}
-                  {isMultiVariant ? (
-                    <styled.div>
-                      <Stack gap={12}>
-                        {variant.map((v) => {
-                          const Icon =
-                            v === 'table'
-                              ? IconViewTable
-                              : v === 'grid'
-                                ? IconViewLayoutGrid
-                                : IconPlus
-
-                          return (
-                            <Button
-                              key={v}
-                              onClick={() => {
-                                setVariant(v)
-                              }}
-                              prefix={
-                                <Icon
-                                  style={{
-                                    color:
-                                      v === selectedVariant
-                                        ? color('interactive', 'primary')
-                                        : color('content', 'secondary'),
-                                  }}
-                                />
-                              }
-                              variant="icon-only"
-                            />
-                          )
-                        })}
-                      </Stack>
-                    </styled.div>
-                  ) : null}
-                </Stack>
-              ) : null}
             </styled.div>
           }
           title={typeof header === 'function' ? header(headerProps) : header}
