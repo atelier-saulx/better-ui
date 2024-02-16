@@ -147,7 +147,6 @@ export function BasedForm({
     onChange: onFormChange,
     onFileUpload,
     onClickReference,
-    // checksum,
     onChangeAtomic: () => {
       if (formRef.current.hasChanges) {
         update()
