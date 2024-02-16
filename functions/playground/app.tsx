@@ -3,7 +3,6 @@ import * as f2709786937207 from "../../src/components/Badge/index.stories.js"
 import * as f12456265071631 from "../../src/components/BarGraph/index.stories.js"
 import * as f11157301100584 from "../../src/components/BasedExplorer/index.stories.js"
 import * as f14236239578965 from "../../src/components/BasedForm/index.stories.js"
-import * as f6134652204193 from "../../src/components/BasedList/index.stories.js"
 import * as f1403935485412 from "../../src/components/Button/index.stories.js"
 import * as f12539861850560 from "../../src/components/Calendar/index.stories.js"
 import * as f13557855690583 from "../../src/components/CheckboxInput/index.stories.js"
@@ -56,7 +55,7 @@ import * as f12909404527880 from "../../src/components/Form/stories/references.s
 import * as f11010240342713 from "../../src/components/Form/stories/referencesSchema.stories.js"
 import * as f14738857374909 from "../../src/components/Form/stories/richText.stories.js"
 import * as f7234131307474 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f2709786937207,f12456265071631,f11157301100584,f14236239578965,f6134652204193,f1403935485412,f12539861850560,f13557855690583,f14261403483167,f5470738912473,f6155456052992,f2676674344469,f15918582868135,f5347209449136,f12984134904489,f12162171475362,f11927335739210,f10261065846765,f6035430303946,f10173362420623,f1153425962678,f4437124256520,f1126609356048,f38223814818,f16765197606902,f936609549945,f5634334384066,f5909785848135,f16472063764097,f9460110149634,f12047187696222,f6285988781667,f16126198374920,f4517899091658,f15513603856812,f4412292282470,f10196973367128,f13597506036687,f17293536255708,f17512554344332,f16386070420783,f7144734297614,f5979046522585,f2542458627838,f10219561566831,f12164388818727,f14744076215203,f13201423313889,f8139019256634,f11284618058075,f12399833393765,f9013842098998,f8217294240285,f12909404527880,f11010240342713,f14738857374909,f7234131307474]
+export const stories = [f2709786937207,f12456265071631,f11157301100584,f14236239578965,f1403935485412,f12539861850560,f13557855690583,f14261403483167,f5470738912473,f6155456052992,f2676674344469,f15918582868135,f5347209449136,f12984134904489,f12162171475362,f11927335739210,f10261065846765,f6035430303946,f10173362420623,f1153425962678,f4437124256520,f1126609356048,f38223814818,f16765197606902,f936609549945,f5634334384066,f5909785848135,f16472063764097,f9460110149634,f12047187696222,f6285988781667,f16126198374920,f4517899091658,f15513603856812,f4412292282470,f10196973367128,f13597506036687,f17293536255708,f17512554344332,f16386070420783,f7144734297614,f5979046522585,f2542458627838,f10219561566831,f12164388818727,f14744076215203,f13201423313889,f8139019256634,f11284618058075,f12399833393765,f9013842098998,f8217294240285,f12909404527880,f11010240342713,f14738857374909,f7234131307474]
 export const parsedStories = [{ id: "f2709786937207", story: f2709786937207, path: "/Users/jimdebeer/saulx/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -511,89 +510,6 @@ export const BasedFormPage = () => {
     </div>
   )
 }
-`},{ id: "f6134652204193", story: f6134652204193, path: "/Users/jimdebeer/saulx/better-ui/src/components/BasedList/index.stories.tsx", file: `import * as React from 'react'
-import type { Meta } from '@storybook/react'
-import { BasedExplorer, BasedList } from '../../index.js'
-import based from '@based/client'
-import { Provider } from '@based/react'
-
-const client = based({
-  org: 'saulx',
-  project: 'based-ui',
-  env: 'production',
-})
-
-const meta: Meta<typeof BasedList> = {
-  title: 'Based/BasedList',
-  component: BasedList,
-  decorators: [
-    (Story) => (
-      <Provider client={client}>
-        <Story />
-      </Provider>
-    ),
-  ],
-}
-
-export default meta
-
-export const Default = () => {
-  return (
-    <div style={{ height: '50vh' }}>
-      {/* <BasedList
-        query={() => ({
-          $language: 'en',
-          data: {
-            $all: true,
-            $list: {
-              $find: {
-                $traverse: 'children',
-                $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
-              },
-            },
-          },
-        })}
-        // totalQuery={() => ({
-        //   total: {
-        //     $aggregate: {
-        //       $function: 'count',
-        //       $traverse: 'children',
-        //       $filter: [
-        //         {
-        //           $field: 'type',
-        //           $operator: '=',
-        //           $value: ['todo', 'file'],
-        //         },
-        //       ],
-        //     },
-        //   },
-        // })}
-      /> */}
-    </div>
-  )
-}
-
-// export const Custom = () => {
-//   return (
-//     <div style={{ height: '50vh' }}>
-//       <BasedList
-//         fields={{ title: 'id' }}
-//         query={() => ({
-//           $language: 'en',
-//           data: {
-//             $all: true,
-//             $list: {
-//               $find: {
-//                 $traverse: 'children',
-//                 $filter: [{ $operator: '=', $field: 'type', $value: 'todo' }],
-//               },
-//             },
-//           },
-//         })}
-//       />
-//     </div>
-//   )
-// }
 `},{ id: "f1403935485412", story: f1403935485412, path: "/Users/jimdebeer/saulx/better-ui/src/components/Button/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { IconCopy, IconMoreVertical, Button } from '../../index.js'
