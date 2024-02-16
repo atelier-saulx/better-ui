@@ -18,13 +18,13 @@ import {
   IconPlus,
   IconCopy,
   IconId,
+  BadgeId,
 } from '../../index.js'
 import { useLanguage } from '../../hooks/useLanguage/index.js'
 import { SelectReferenceModal } from './SelectReferenceModal.js'
 import { useBasedFormProps } from './useGeneratedProps.js'
 import { BasedFormProps, BasedFormRef } from './types.js'
 import { readInfoField } from '../Form/utils.js'
-import { styled } from 'inlines'
 
 export type FieldsFn = (
   fields: FormProps['fields'],
@@ -210,13 +210,7 @@ export function BasedForm({
           }
           description={
             <Stack justify="start" gap={16} style={{ marginTop: 16 }}>
-              <Badge
-                copyValue={values?.id}
-                color="neutral-muted"
-                prefix={<IconId size={16} />}
-              >
-                {values?.id}
-              </Badge>
+              <BadgeId id={values?.id} />
               <Text variant="body-light">
                 Updated{' '}
                 {display(values?.updatedAt, {
