@@ -244,7 +244,7 @@ export function BasedForm({
 
               <Stack
                 gap={16}
-                display={formRef.current.hasChanges || forcePublish}
+                display={forcePublish || formRef.current.hasChanges}
               >
                 <Button
                   shape="square"
