@@ -67,6 +67,7 @@ export function PageHeader(p: {
           <Text
             singleLine
             style={{
+              maxWidth: 1000,
               color: p.color
                 ? getColor('semantic-background', p.color)
                 : undefined,
