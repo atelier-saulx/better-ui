@@ -56,6 +56,7 @@ export * from './components/RichTextEditor/index.js'
 export * from './components/BasedExplorer/index.js'
 export * from './components/BasedForm/index.js'
 export * from './components/LoginPage/index.js'
+export * from './components/List/index.js'
 
 export { Modal } from './components/Modal/index.js'
 

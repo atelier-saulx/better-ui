@@ -170,7 +170,7 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        variant={['grid', 'table']}
+        variant={['list', 'grid', 'table']}
         header="Based Explorer"
         info
         onDrop={(f) => {
