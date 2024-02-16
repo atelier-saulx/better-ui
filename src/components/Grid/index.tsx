@@ -5,12 +5,10 @@ import {
   Pagination,
   Virtualized,
   Text,
-  border,
   Media,
   Stack,
   FormProps,
   color,
-  IconMoreHorizontal,
 } from '../../index.js'
 import { BasedSchema } from '@based/schema'
 import { getData } from './getData.js'

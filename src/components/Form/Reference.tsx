@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {
   AllowedTypes,
-  BasedSchema,
   BasedSchemaContentMediaType,
   BasedSchemaFieldReference,
   BasedSchemaPartial,
@@ -10,8 +9,6 @@ import {
   Stack,
   Button,
   border,
-  Badge,
-  IconLink,
   Media,
   Text,
   color,
@@ -19,7 +16,7 @@ import {
   IconSearch,
   IconClose,
   borderRadius,
-  IconId,
+  BadgeId,
 } from '../../index.js'
 import { Path, Reference, TableCtx } from './types.js'
 import { getIdentifierFieldValue, readPath } from './utils.js'
@@ -80,12 +77,7 @@ const Select = (p: {
 const Id = (p: { id: string; onClick: () => void }) => {
   return (
     <Button onClick={p.onClick} variant="icon-only">
-      <Badge
-        color="neutral-muted"
-        prefix={<IconId style={{ width: 16, height: 16, marginRight: 4 }} />}
-      >
-        {p.id}
-      </Badge>
+      <BadgeId id={p.id} />
     </Button>
   )
 }

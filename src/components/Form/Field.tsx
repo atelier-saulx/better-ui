@@ -12,8 +12,7 @@ import {
   ColorInput,
   CheckboxInput,
   RichTextEditor,
-  Badge,
-  IconId,
+  BadgeId,
 } from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
@@ -66,14 +65,7 @@ export const Field = ({
           marginBottom: 32,
         }}
       >
-        <Badge
-          copyValue={ctx.values[key]}
-          prefix={<IconId size={16} style={{ marginRight: 4 }} />}
-          style={{ minWidth: 100 }}
-          color="neutral-muted"
-        >
-          {ctx.values[key] ?? '-'}
-        </Badge>
+        <BadgeId id={ctx.values[key]} />
       </styled.div>
     )
   }

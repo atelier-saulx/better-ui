@@ -7,6 +7,7 @@ import {
   Text,
   Badge,
   color,
+  BadgeId,
   Media,
   border,
   Stack,
@@ -27,7 +28,7 @@ const Value = (p: ReadProps) => {
   }
 
   if (isId(p.field)) {
-    return <Badge color="primary-muted">{p.value}</Badge>
+    return <BadgeId id={p.value} />
   }
 
   if (isFile(p.field)) {

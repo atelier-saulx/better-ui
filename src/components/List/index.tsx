@@ -9,9 +9,8 @@ import {
   Stack,
   FormProps,
   color,
-  Badge,
+  BadgeId,
   border,
-  IconId,
 } from '../../index.js'
 import { BasedSchema } from '@based/schema'
 import { getData } from '../Grid/getData.js'
@@ -47,15 +46,13 @@ export function List(p: ListProps) {
         pagination={p.pagination}
         values={values}
       >
-        {({ values, itemHeight, itemWidth, pageCount, start, end }) => {
+        {({ values, itemHeight }) => {
           return (
             <Stack grid gap={0} direction="column">
               {values.map((raw, i) => {
                 const v = getData(raw, p.fields, p.schema)
-
                 const hasSrc = 'src' in v
                 const hasResult = v.result
-
                 return (
                   <Stack
                     key={i}
@@ -87,7 +84,6 @@ export function List(p: ListProps) {
                       <Stack
                         direction="row"
                         justify="start"
-                        // align={v.date ? 'start' : 'center'}
                         gap={16}
                         style={{
                           cursor: 'pointer',
@@ -168,20 +164,7 @@ export function List(p: ListProps) {
                         </Stack>
                         {v.id ? (
                           <Stack justify="end">
-                            <Badge
-                              copyValue={v.id}
-                              color="neutral-muted"
-                              prefix={
-                                <IconId
-                                  style={{
-                                    color: color('interactive', 'primary'),
-                                  }}
-                                  size={14}
-                                />
-                              }
-                            >
-                              {v.id}
-                            </Badge>
+                            <BadgeId id={v.id} />
                           </Stack>
                         ) : null}
                       </Stack>

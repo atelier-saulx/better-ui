@@ -1,13 +1,12 @@
 import * as React from 'react'
-import { hash } from '@saulx/hash'
 import { styled, Style } from 'inlines'
 import {
   IconCheckLarge,
-  SemanticBackgroundColors,
-  SEMANTIC_COLORS,
   SemanticColors,
   borderRadius,
   color as getColor,
+  color,
+  IconId,
   hashSemanticColor,
   hashNonSemanticColor,
 } from '../../index.js'
@@ -101,5 +100,26 @@ export function Badge({
       {children}
       {suffix && suffix}
     </styled.div>
+  )
+}
+
+export const BadgeId = (p: { id?: string; style?: Style }) => {
+  const id = p.id ?? '-'
+  return (
+    <Badge
+      style={p.style}
+      copyValue={p.id}
+      color="neutral-muted"
+      prefix={
+        <IconId
+          style={{
+            color: color('interactive', 'primary'),
+          }}
+          size={14}
+        />
+      }
+    >
+      {id}
+    </Badge>
   )
 }
