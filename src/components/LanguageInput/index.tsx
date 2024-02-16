@@ -4,12 +4,14 @@ import {
   Dropdown,
   IconChevronDown,
   IconChevronDownSmall,
+  IconGlobe,
   SelectInput,
   SelectInputProps,
   Stack,
   border,
   borderRadius,
   color,
+  Text,
   getFlagEmoji,
 } from '../../index.js'
 import { LanguageCtx } from '../../hooks/useLanguage/index.js'
@@ -41,26 +43,23 @@ export function LanguageInput({
   return (
     <Dropdown.Root>
       <Dropdown.Trigger>
-        <styled.div
+        <Stack
+          gap={8}
+          padding={8}
+          fitContent
+          justify="start"
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontSize: 24,
-            gap: 4,
             borderRadius: borderRadius('small'),
-            padding: '2px 8px',
             cursor: 'pointer',
             '&:hover': {
               background: color('background', 'neutral'),
             },
           }}
         >
-          <div>{getFlagEmoji(value === 'en' ? 'gb' : value)}</div>
-          <div>
-            <IconChevronDown />
-          </div>
-        </styled.div>
+          <IconGlobe />
+          <Text variant="caption">{value}</Text>
+          <IconChevronDown />
+        </Stack>
       </Dropdown.Trigger>
       <Dropdown.Items>
         {options.map((lang) => {
