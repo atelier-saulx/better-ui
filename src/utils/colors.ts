@@ -223,7 +223,7 @@ export const BORDER_COLORS = {
 
 export const INTERACTIVE_COLORS = {
   primary: 'rgb(44,60,234)',
-  'primary-hover': 'rgba(44,60,234,0.5)',
+  'primary-hover': 'rgba(18, 35, 222, 1)',
   'primary-muted': `rgba(44,60,234,0.2)`,
 
   secondary: '#04294421',
