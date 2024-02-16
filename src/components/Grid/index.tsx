@@ -76,8 +76,6 @@ export function Grid(p: GridProps) {
                       height: itemHeight,
                       cursor: 'pointer',
                       padding: 12,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
                       '&:hover section': {
                         background:
                           color('background', 'primary2') + ' !important',
@@ -132,10 +130,6 @@ export function Grid(p: GridProps) {
                             padding: 32,
                             color: color('interactive', 'primary'),
                             overflow: 'hidden',
-                            '& p': {
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                            },
                           }}
                         >
                           <Text color="inherit" variant="body-light">
@@ -146,24 +140,12 @@ export function Grid(p: GridProps) {
                           </Text>
                         </Stack>
                       ) : null}
-                      <Stack align="start">
-                        <styled.div
-                          style={{
-                            overflow: 'hidden',
-                            '& p': {
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                            },
-                          }}
-                        >
-                          <Text variant="sub-title">
-                            {v.title ?? v.name ?? v.id}
-                          </Text>
-                          {v.date ? (
-                            <Text variant="body-light">{v.date}</Text>
-                          ) : null}
-                        </styled.div>
-                      </Stack>
+                      <Text singleLine variant="sub-title">
+                        {v.title ?? v.name ?? v.id}
+                      </Text>
+                      {v.date ? (
+                        <Text variant="body-light">{v.date}</Text>
+                      ) : null}
                     </Stack>
                   </Stack>
                 )

@@ -148,24 +148,9 @@ export function List(p: ListProps) {
                             flexShrink: 1,
                           }}
                         >
-                          <Stack
-                            align="start"
-                            gap={2}
-                            style={{
-                              flexGrow: 1,
-                              minWidth: 0,
-                              flexShrink: 1,
-                            }}
-                          >
-                            <Text
-                              variant="sub-title"
-                              singleLine
-                              style={{ minWidth: 0, flexShrink: 1 }}
-                            >
-                              {v.title ?? v.name ?? '-'}
-                            </Text>
-                            <styled.div style={{ flexShrink: 0 }}></styled.div>
-                          </Stack>
+                          <Text variant="sub-title" singleLine>
+                            {v.title ?? v.name ?? '-'}
+                          </Text>
                           {v.date ? (
                             <Text
                               singleLine

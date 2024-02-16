@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color as getColor } from '../../index.js'
+import { color as getColor, Stack } from '../../index.js'
 
 export const textVariants = {
   title: {
@@ -118,27 +118,43 @@ const selectColor = (
   )
 }
 
-export const Text = React.forwardRef<HTMLElement, TextProps>(
-  (
-    {
-      as,
-      variant = 'body',
-      color,
-      style,
-      children,
-      singleLine,
-      weight,
-      noSelect,
-    },
-    ref,
-  ) => {
-    if (variant && !as) {
-      // @ts-ignore too dificult 🧠🎉
-      as = textVariants[variant].defaultTag
-    } else if (as && !variant) {
-      variant = selectFromTag[as]
-    }
+export const Text = React.forwardRef<HTMLElement, TextProps>((p, ref) => {
+  let {
+    as,
+    variant = 'body',
+    color,
+    style,
+    children,
+    singleLine,
+    weight,
+    noSelect,
+  } = p
 
+  if (variant && !as) {
+    // @ts-ignore too dificult 🧠🎉
+    as = textVariants[variant].defaultTag
+  } else if (as && !variant) {
+    variant = selectFromTag[as]
+  }
+
+  if (singleLine) {
+    const { singleLine, style, ...rest } = p
+    return (
+      <Stack style={style}>
+        <Text
+          {...rest}
+          style={{
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            minWidth: 0,
+            flexShrink: 1,
+            whiteSpace: 'nowrap',
+          }}
+        />
+        <styled.div style={{ flexShrink: 0 }} />
+      </Stack>
+    )
+  } else {
     return React.createElement(styled[as], {
       children,
       ref,
@@ -157,16 +173,8 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
               : weight === 'strong'
                 ? 600
                 : textVariants[variant].fontWeight,
-        ...(singleLine
-          ? {
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-              lineClamp: singleLine === true ? 1 : singleLine,
-            }
-          : {}),
         ...style,
       },
     })
-  },
-)
+  }
+})
