@@ -115,7 +115,7 @@ export const ViewSwitcher = (p: {
         background: color('background', 'neutral'),
       }}
     >
-      {p.variant.map((v) => {
+      {[...p.variant].sort().map((v) => {
         const Icon =
           v === 'table'
             ? IconViewTable
@@ -185,8 +185,6 @@ export function BasedExplorer({
   const [selectedVariant, setVariant] = React.useState<Variant>(
     isMultiVariant ? variant[0] : variant,
   )
-
-  console.log(selectedVariant)
 
   const schema = React.useMemo(() => {
     if (!rawSchema) return
