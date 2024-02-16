@@ -7,7 +7,6 @@ import {
   FormProps,
   Stack,
   Button,
-  borderRadius,
   color,
   PageHeader,
   Pagination,
@@ -27,8 +26,6 @@ import {
   generateFromType,
   getTypesFromFilter,
 } from './generator.js'
-import { SelectIconProps } from '@radix-ui/react-select'
-
 export { generateFieldsFromQuery, generateFromType, getTypesFromFilter }
 
 export type QueryFn = ({
@@ -365,20 +362,18 @@ export function BasedExplorer({
     [!totalQuery, parsedTotal, queryEndpoint],
   )
 
+  const style = useHeader
+    ? {
+        borderTop: border(),
+      }
+    : undefined
+
   const viewer =
     selectedVariant === 'grid' ? (
       <Grid
         onClick={onItemClick}
         schema={schema ?? undefined}
-        style={
-          useHeader
-            ? {
-                border: border(),
-                borderRadius: borderRadius('tiny'),
-                background: color('background', 'screen'),
-              }
-            : undefined
-        }
+        style={style}
         values={ref.current?.block.data}
         isBlock
         fields={fields}
@@ -387,15 +382,7 @@ export function BasedExplorer({
       />
     ) : (
       <Table
-        style={
-          useHeader
-            ? {
-                border: border(),
-                borderRadius: borderRadius('tiny'),
-                background: color('background', 'screen'),
-              }
-            : undefined
-        }
+        style={style}
         field={
           fields
             ? {
@@ -429,8 +416,9 @@ export function BasedExplorer({
       data: ref.current?.block.data,
     }
     return (
-      <Stack direction="column" padding={32} style={{ height: '100%' }}>
+      <Stack direction="column" style={{ height: '100%' }}>
         <PageHeader
+          padding={32}
           suffix={
             <styled.div>
               <Stack gap={32}>
@@ -448,6 +436,7 @@ export function BasedExplorer({
                 ) : null}
                 {addItem ? (
                   <Button
+                    // variant="primary-transparent"
                     onClick={() => {
                       return addItem(headerProps)
                     }}

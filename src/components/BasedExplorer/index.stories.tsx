@@ -1,6 +1,6 @@
 import * as React from 'react'
 import type { Meta } from '@storybook/react'
-import { BasedExplorer } from '../../index.js'
+import { BasedExplorer, border } from '../../index.js'
 import based from '@based/client'
 import { Provider } from '@based/react'
 
@@ -165,7 +165,7 @@ export const FieldsFromValues = () => {
 
 export const Page = () => {
   return (
-    <div style={{ height: 'calc(100vh - 200px)' }}>
+    <div style={{ height: 'calc(100vh - 200px)', border: border() }}>
       <BasedExplorer
         onItemClick={(item) => {
           alert('clicked item ' + item.id)

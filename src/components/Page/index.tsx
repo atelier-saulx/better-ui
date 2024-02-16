@@ -48,12 +48,16 @@ export function PageHeader(p: {
   description?: React.ReactNode
   suffix?: React.ReactNode
   color?: SemanticColors
+  padding?: 32 | 64
+  style?: Style
 }) {
   return (
     <Stack
       align="start"
       style={{
-        marginBottom: 32,
+        padding: p.padding,
+        marginBottom: -8,
+        ...p.style,
       }}
     >
       <styled.div
