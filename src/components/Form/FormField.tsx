@@ -36,7 +36,7 @@ export function FormField({
                 },
               },
             }
-          : variant !== 'regular' || noBorder
+          : noBorder
             ? null
             : {
                 paddingLeft: 24,
