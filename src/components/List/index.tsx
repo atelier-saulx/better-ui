@@ -150,7 +150,7 @@ export function List(p: ListProps) {
                         >
                           <Text
                             style={{
-                              maxWidth: 600,
+                              maxWidth: 750,
                             }}
                             variant="sub-title"
                             singleLine
