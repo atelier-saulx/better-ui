@@ -124,8 +124,11 @@ export function BasedForm({
       })
     }
   } else if (addItem) {
-    onFormChange = (values, changed, checksum, based) =>
-      addItem({ values, changed, checksum, based, language })
+    onFormChange = (values, changed, checksum, based) => {
+      values.type = type
+      based.type = type
+      return addItem({ values, changed, checksum, based, language })
+    }
   } else {
     onFormChange = () =>
       console.warn('No "id" and no "addItem" passed, ignore onChange')
