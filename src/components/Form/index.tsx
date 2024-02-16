@@ -74,12 +74,18 @@ export type FormProps = {
   }
 }
 
-const makeGroups = (
-  arr: [string, BasedSchemaField][],
-): [string, BasedSchemaField, boolean][][] => {
-  const groups: any[] = []
+type Group = {
+  items: {
+    key: string
+    field: BasedSchemaField
+  }[]
+  isLast: boolean
+  cols: boolean
+}
 
-  let lastGroup
+const makeGroups = (arr: [string, BasedSchemaField][]): Group[] => {
+  const groups: Group[] = []
+  let lastGroup: Group
   for (let i = 0; i < arr.length; i++) {
     const [key, field] = arr[i]
     if (
@@ -95,20 +101,22 @@ const makeGroups = (
         groups.push(lastGroup)
         lastGroup = null
       }
-
-      groups.push([[key, field, i === arr.length - 1]])
+      groups.push({
+        cols: false,
+        isLast: i === arr.length - 1,
+        items: [{ key, field }],
+      })
     } else {
       if (!lastGroup) {
-        lastGroup = []
+        lastGroup = { items: [], cols: true, isLast: false }
       }
-      lastGroup.push([key, field, i === arr.length - 1])
+      lastGroup.items.push({ key, field })
     }
   }
-
   if (lastGroup) {
+    lastGroup.isLast = true
     groups.push(lastGroup)
   }
-
   return groups
 }
 
@@ -242,17 +250,17 @@ export const Form = (p: FormProps) => {
               key={i}
               style={{
                 width: '100%',
-                columns: group.length === 1 ? 'none' : '2 500px',
+                columns: group.cols ? '2 500px' : 'none',
                 columnGap: '48px',
                 marginTop: i === 0 ? 0 : 32,
-                marginBottom: group.length === 1 && !group[0][2] ? 32 : 0,
+                marginBottom: !group.cols && !group.isLast ? 32 : 0,
               }}
             >
-              {group.map(([key, field, isLast], i) => (
+              {group.items.map(({ key, field }, i) => (
                 <styled.div
                   key={i}
                   style={{
-                    marginBottom: isLast ? 0 : 32,
+                    marginBottom: group.cols || !group.isLast ? 32 : 0,
                     pageBreakInside: 'avoid',
                   }}
                 >
