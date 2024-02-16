@@ -235,10 +235,9 @@ export function BasedForm({
                   prefix={<IconDelete />}
                   onClick={() => deleteItem({ id, type })}
                 />
-
                 <Stack
                   gap={16}
-                  display={forcePublish || formRef.current.hasChanges}
+                  display={Boolean(forcePublish || formRef.current.hasChanges)}
                 >
                   <Button
                     prefix={<IconUndo />}
