@@ -22,11 +22,11 @@ export function Cell({
       justify="start"
       align="stretch"
       style={{
-        minHeight: 60,
+        minHeight: 48,
         flexGrow: 1,
         maxWidth: flexible ? '100%' : width,
         minWidth: width,
-        // borderRight: border ? getBorder() : undefined,
+        borderRight: border ? getBorder() : undefined,
         paddingLeft: isKey ? 20 : 0,
         ...style,
       }}
@@ -34,7 +34,7 @@ export function Cell({
       <Stack
         justify="start"
         style={{
-          minHeight: 60,
+          minHeight: 48,
           ...textVariants['body-bold'],
         }}
       >

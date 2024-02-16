@@ -28,11 +28,11 @@ function Title({
     <Cell
       border
       isKey
-      width={getKeyWidth(parent) + (isNestedArray ? 60 : 0)}
+      width={getKeyWidth(parent) + (isNestedArray ? 48 : 0)}
       style={{
         background: color('background', 'muted'),
         borderBottom: border(),
-        paddingLeft: isNestedArray ? 60 : 20,
+        paddingLeft: isNestedArray ? 48 : 20,
       }}
     >
       <styled.div style={{ marginBottom: 8, marginTop: 8 }}>
