@@ -104,7 +104,10 @@ export function Badge({
 }
 
 export const BadgeId = (p: { id?: string; style?: Style }) => {
-  const id = p.id ?? '-'
+  if (!p.id) {
+    return null
+  }
+  const id = p.id
   return (
     <Badge
       style={p.style}

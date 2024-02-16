@@ -18,6 +18,7 @@ import {
   IconPlus,
   IconCopy,
   IconId,
+  BadgeId,
 } from '../../index.js'
 import { useLanguage } from '../../hooks/useLanguage/index.js'
 import { SelectReferenceModal } from './SelectReferenceModal.js'
@@ -91,7 +92,7 @@ export function BasedForm({
 
   const isReady = ref.current.currentFields && checksum
 
-  const { data: values } = useQuery(
+  const { data: values, loading } = useQuery(
     isReady ? queryEndpoint : null,
     ref.current.currentQuery,
   )
@@ -209,13 +210,7 @@ export function BasedForm({
           }
           description={
             <Stack justify="start" gap={16} style={{ marginTop: 16 }}>
-              <Badge
-                copyValue={values?.id}
-                color="neutral-muted"
-                prefix={<IconId size={16} />}
-              >
-                {values?.id}
-              </Badge>
+              <BadgeId id={values?.id} />
               <Text variant="body-light">
                 Updated{' '}
                 {display(values?.updatedAt, {
@@ -226,48 +221,46 @@ export function BasedForm({
             </Stack>
           }
           suffix={
-            <Stack gap={8}>
-              <Button
-                shape="square"
-                variant="neutral-transparent"
-                // onClick={() => deleteItem({ id, type, ...state })}
-              >
-                <IconCopy />
-              </Button>
-              <Button
-                shape="square"
-                variant="neutral-transparent"
-                onClick={() => deleteItem({ id, type })}
-              >
-                <IconDelete />
-              </Button>
-
-              <Stack
-                gap={16}
-                display={forcePublish || formRef.current.hasChanges}
-              >
+            !loading || type ? (
+              <Stack gap={8} style={{ marginTop: -4 }}>
                 <Button
                   shape="square"
-                  keyboardShortcut="Cmd+Z"
-                  variant="primary-transparent"
-                  onClick={() => {
-                    formRef.current.discard()
-                    update()
-                  }}
-                >
-                  <IconUndo />
-                </Button>
+                  variant="neutral-transparent"
+                  prefix={<IconCopy />}
+                  // onClick={() => deleteItem({ id, type, ...state })}
+                />
                 <Button
-                  displayKeyboardShortcut
-                  keyboardShortcut="Cmd+S"
-                  onClick={() => {
-                    return formRef.current.confirm()
-                  }}
+                  shape="square"
+                  variant="neutral-transparent"
+                  prefix={<IconDelete />}
+                  onClick={() => deleteItem({ id, type })}
+                />
+                <Stack
+                  gap={16}
+                  display={Boolean(forcePublish || formRef.current.hasChanges)}
                 >
-                  Publish
-                </Button>
+                  <Button
+                    prefix={<IconUndo />}
+                    shape="square"
+                    keyboardShortcut="Cmd+Z"
+                    variant="primary-transparent"
+                    onClick={() => {
+                      formRef.current.discard()
+                      update()
+                    }}
+                  />
+                  <Button
+                    displayKeyboardShortcut
+                    keyboardShortcut="Cmd+S"
+                    onClick={() => {
+                      return formRef.current.confirm()
+                    }}
+                  >
+                    Publish
+                  </Button>
+                </Stack>
               </Stack>
-            </Stack>
+            ) : null
           }
         />
         {children}

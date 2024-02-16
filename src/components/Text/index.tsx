@@ -25,7 +25,7 @@ export const textVariants = {
     fontSize: 26,
     fontWeight: 700,
     letterSpacing: '0px',
-    lineHeight: '26px',
+    lineHeight: '30px',
   },
   'title-modal': {
     defaultColor: 'primary',
