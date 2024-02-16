@@ -208,7 +208,7 @@ export function BasedForm({
                 : header
           }
           description={
-            <Stack justify="start" gap={16}>
+            <Stack justify="start" gap={16} style={{ marginTop: 16 }}>
               <Badge
                 copyValue={values?.id}
                 color="neutral-muted"
@@ -229,14 +229,14 @@ export function BasedForm({
             <Stack gap={8}>
               <Button
                 shape="square"
-                variant="primary-transparent"
+                variant="neutral-transparent"
                 // onClick={() => deleteItem({ id, type, ...state })}
               >
                 <IconCopy />
               </Button>
               <Button
                 shape="square"
-                variant="primary-transparent"
+                variant="neutral-transparent"
                 onClick={() => deleteItem({ id, type, ...state })}
               >
                 <IconDelete />
@@ -275,22 +275,3 @@ export function BasedForm({
 
   return React.createElement(Form, props)
 }
-
-/*
-{id
-                ? deleteItem && (
-                    <Button onClick={() => deleteItem({ id, type, ...state })}>
-                      Delete
-                    </Button>
-                  )
-                : addItem && (
-                    <Button
-                      disabled={!state}
-                      onClick={() =>
-                        addItem({ values: { type, ...state }, language })
-                      }
-                    >
-                      Save
-                    </Button>
-                  )}
-*/
