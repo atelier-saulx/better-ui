@@ -70,6 +70,7 @@ export function LanguageInput({
 
           return (
             <Dropdown.Item
+              key={lang}
               onClick={() => {
                 onChange(lang)
               }}
