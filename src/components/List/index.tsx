@@ -9,7 +9,9 @@ import {
   Stack,
   FormProps,
   color,
+  Badge,
   border,
+  IconId,
 } from '../../index.js'
 import { BasedSchema } from '@based/schema'
 import { getData } from '../Grid/getData.js'
@@ -33,13 +35,15 @@ export function List(p: ListProps) {
       style={{
         width: '100%',
         height: '100%',
+        paddingTop: 24,
+        paddingBottom: 24,
         ...p.style,
       }}
     >
       <Virtualized
         isBlock={p.isBlock}
         isLoading={p.isLoading}
-        itemSize={120}
+        itemSize={100}
         pagination={p.pagination}
         values={values}
       >
@@ -68,10 +72,15 @@ export function List(p: ListProps) {
                       cursor: 'pointer',
                       paddingLeft: 32,
                       paddingRight: 32,
+                      '&:hover': {
+                        background:
+                          color('background', 'muted') + ' !important',
+                      },
                     }}
                   >
                     <Stack
                       style={{
+                        height: '100%',
                         borderBottom: border(),
                       }}
                     >
@@ -85,10 +94,6 @@ export function List(p: ListProps) {
                           padding: 12,
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
-                          '&:hover': {
-                            background:
-                              color('background', 'muted') + ' !important',
-                          },
                         }}
                       >
                         {hasSrc ? (
@@ -154,13 +159,31 @@ export function List(p: ListProps) {
                             }}
                           >
                             <Text variant="sub-title">
-                              {v.title ?? v.name ?? v.id}
+                              {v.title ?? v.name ?? '-'}
                             </Text>
                             {v.date ? (
                               <Text variant="body-light">{v.date}</Text>
                             ) : null}
                           </styled.div>
                         </Stack>
+                        {v.id ? (
+                          <Stack justify="end">
+                            <Badge
+                              copyValue={v.id}
+                              color="neutral-muted"
+                              prefix={
+                                <IconId
+                                  style={{
+                                    color: color('interactive', 'primary'),
+                                  }}
+                                  size={14}
+                                />
+                              }
+                            >
+                              {v.id}
+                            </Badge>
+                          </Stack>
+                        ) : null}
                       </Stack>
                     </Stack>
                   </Stack>

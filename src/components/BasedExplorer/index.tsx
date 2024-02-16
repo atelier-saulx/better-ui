@@ -17,7 +17,9 @@ import {
   SelectInputProps,
   IconViewTable,
   IconViewLayoutGrid,
+  List,
   borderRadius,
+  IconListBullet,
 } from '../../index.js'
 import { styled } from 'inlines'
 import { useClient, useQuery } from '@based/react'
@@ -52,6 +54,8 @@ export type BasedExplorerHeaderComponent = (p: {
   data: any[]
 }) => React.ReactNode
 
+type Variant = 'table' | 'grid' | 'list'
+
 const DefaultInfo = ({ total, start, end }) =>
   `Showing ${start} - ${end} out of a ${total} items`
 
@@ -61,7 +65,7 @@ export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
   queryEndpoint?: string
   onDrop?: (files: File[]) => void
-  variant?: 'grid' | 'table' | ('grid' | 'table')[]
+  variant?: Variant | Variant[]
   select?: SelectInputProps['options']
   transformResults?: (data: any) => any
   sort?: { key: string; dir: 'asc' | 'desc' }
@@ -88,7 +92,7 @@ type ActiveSub = {
   data: { data: any[] }
 }
 
-type MutlipleVariants = ('grid' | 'table')[]
+type MutlipleVariants = Variant[]
 
 const isMultipleVariants = (
   variant: BasedExplorerProps['variant'],
@@ -98,8 +102,8 @@ const isMultipleVariants = (
 
 export const ViewSwitcher = (p: {
   variant: MutlipleVariants
-  selectedVariant: 'grid' | 'table'
-  onChange: (v: 'grid' | 'table') => void
+  selectedVariant: Variant
+  onChange: (v: Variant) => void
 }) => {
   return (
     <Stack
@@ -117,7 +121,7 @@ export const ViewSwitcher = (p: {
             ? IconViewTable
             : v === 'grid'
               ? IconViewLayoutGrid
-              : IconPlus
+              : IconListBullet
 
         return (
           <Button
@@ -178,7 +182,7 @@ export function BasedExplorer({
 
   const isMultiVariant = isMultipleVariants(variant)
 
-  const [selectedVariant, setVariant] = React.useState<'table' | 'grid'>(
+  const [selectedVariant, setVariant] = React.useState<Variant>(
     // @ts-ignore
     isMultipleVariants ? variant[0] : variant,
   )
@@ -434,7 +438,18 @@ export function BasedExplorer({
     : undefined
 
   let viewer =
-    selectedVariant === 'grid' ? (
+    selectedVariant === 'list' ? (
+      <List
+        onClick={onItemClick}
+        schema={schema ?? undefined}
+        style={style}
+        values={ref.current?.block.data}
+        isBlock
+        fields={fields}
+        isLoading={ref.current.isLoading}
+        pagination={pagination}
+      />
+    ) : selectedVariant === 'grid' ? (
       <Grid
         onClick={onItemClick}
         schema={schema ?? undefined}
