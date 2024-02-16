@@ -1,5 +1,5 @@
 import { useClient, useQuery } from '@based/react'
-import { BasedSchema, convertOldToNew } from '@based/schema'
+import { BasedSchema, convertOldToNew, display } from '@based/schema'
 import * as React from 'react'
 import {
   Badge,
@@ -11,11 +11,13 @@ import {
   Modal,
   PageHeader,
   Spinner,
+  Text,
   Stack,
   IconUndo,
   IconDelete,
   IconPlus,
   IconCopy,
+  IconId,
 } from '../../index.js'
 import { useLanguage } from '../../hooks/useLanguage/index.js'
 import { SelectReferenceModal } from './SelectReferenceModal.js'
@@ -193,6 +195,24 @@ export function BasedForm({
                     properties: props.fields,
                   })
                 : header
+          }
+          description={
+            <Stack justify="start" gap={16}>
+              <Badge
+                copyValue={values?.id}
+                color="neutral-muted"
+                prefix={<IconId size={16} />}
+              >
+                {values?.id}
+              </Badge>
+              <Text variant="body-light">
+                Updated{' '}
+                {display(values?.updatedAt, {
+                  type: 'timestamp',
+                  display: 'human',
+                })}
+              </Text>
+            </Stack>
           }
           suffix={
             <Stack gap={8}>
