@@ -8,8 +8,8 @@ import { getStringWidth, textVariants } from '../../index.js'
 import humanizeString from 'humanize-string'
 
 const IDENTIFIER_FIELDS = [
-  'name',
   'title',
+  'name',
   'firstName',
   'email',
   'phone',
