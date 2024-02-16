@@ -14,12 +14,12 @@ export type SelectReferenceModalProps = {
   onSelect: (reference: any) => void
   types: string[]
   selectReferenceExplorerProps?:
-    | (BasedExplorerProps & { itemQuery: any })
+    | (BasedExplorerProps & { itemQuery?: any })
     | ((p: {
         fields: any
         query: any
         types: string[]
-      }) => BasedExplorerProps & { itemQuery: any })
+      }) => BasedExplorerProps & { itemQuery?: any })
 }
 
 export function SelectReferenceModal({
