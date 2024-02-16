@@ -9,50 +9,48 @@ export const getData = (
   fields?: FormProps['fields'],
   schema?: BasedSchema,
 ): any => {
-  if (!fields) {
-    return v
-  }
-
   const newObj: any = {
     title: readInfoField(v, { type: 'object', properties: fields }),
   }
 
-  for (const fi in fields) {
-    const f = fields[fi]
+  if (fields) {
+    for (const fi in fields) {
+      const f = fields[fi]
 
-    if (f.type === 'string' && f.format === 'basedId') {
-      newObj.id = v[fi]
-    } else if (f.type === 'string' && f.contentMediaType) {
-      newObj.src = v[fi]
-      newObj.mimeType = v.mimeType ?? f.contentMediaType
-      if (newObj.mimeType === '*/*') {
-        delete newObj.mimeType
-      }
-    } else if (f.type === 'string') {
-      if (fi === 'description') {
-        newObj.description = v[fi]
-      }
-    } else if (f.type === 'timestamp') {
-      newObj.date = display(
-        v[fi],
-        f.display ? f : { type: 'timestamp', display: 'human' },
-      )
-    } else if (f.type === 'number') {
-      newObj.result = {
-        name: f.title ?? humanizeString(fi),
-        value: display(
+      if (f.type === 'string' && f.format === 'basedId') {
+        newObj.id = v[fi]
+      } else if (f.type === 'string' && f.contentMediaType) {
+        newObj.src = v[fi]
+        newObj.mimeType = v.mimeType ?? f.contentMediaType
+        if (newObj.mimeType === '*/*') {
+          delete newObj.mimeType
+        }
+      } else if (f.type === 'string') {
+        if (fi === 'description') {
+          newObj.description = v[fi]
+        }
+      } else if (f.type === 'timestamp') {
+        newObj.date = display(
           v[fi],
-          f.display ? f : { type: 'number', display: 'short' },
-        ),
-      }
-    } else if (f.type === 'reference') {
-      const img = v[fi] && getImg(v[fi], schema, f)
-      if (img) {
-        newObj.src = img
-        newObj.mimeType = v.mimeType
-      } else {
-        newObj.src = ''
-        newObj.mimeType = v.mimeType
+          f.display ? f : { type: 'timestamp', display: 'human' },
+        )
+      } else if (f.type === 'number') {
+        newObj.result = {
+          name: f.title ?? humanizeString(fi),
+          value: display(
+            v[fi],
+            f.display ? f : { type: 'number', display: 'short' },
+          ),
+        }
+      } else if (f.type === 'reference') {
+        const img = v[fi] && getImg(v[fi], schema, f)
+        if (img) {
+          newObj.src = img
+          newObj.mimeType = v.mimeType
+        } else {
+          newObj.src = ''
+          newObj.mimeType = v.mimeType
+        }
       }
     }
   }
@@ -60,6 +58,10 @@ export const getData = (
   if (v.src && !newObj.src) {
     newObj.src = v.src
     newObj.mimeType = v.mimeType
+  }
+
+  if (v.createdAt && !('date' in newObj)) {
+    newObj.date = display(v.createdAt, { type: 'timestamp', display: 'human' })
   }
 
   // for image need to do sizing from cf
