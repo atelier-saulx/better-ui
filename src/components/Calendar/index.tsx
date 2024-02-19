@@ -10,6 +10,9 @@ import {
   isSameDay,
   format,
   millisecondsToMinutes,
+  endOfDay,
+  startOfDay,
+  eachDayOfInterval,
 } from 'date-fns'
 import { ScrollArea, border, borderRadius, color } from '../../index.js'
 import { styled } from 'inlines'
@@ -25,6 +28,8 @@ export type CalendarProps = {
   labelField?: string
   view?: 'month' | 'week' | 'day'
   onClick?: () => void
+  startRange?: number
+  endRange?: number
 }
 
 export const Calendar = ({
@@ -34,6 +39,8 @@ export const Calendar = ({
   labelField = 'title',
   view: viewProp = 'month',
   onClick,
+  startRange,
+  endRange,
 }: CalendarProps) => {
   // display month is the date // could be better named in hindsight
   const [displayMonth, setDisplayMonth] = React.useState(new Date())
@@ -63,21 +70,69 @@ export const Calendar = ({
     return days
   }, [displayMonth, view])
 
-  console.log(displayMonth, 'display month')
-  console.log('🗡🔮', getDays())
-
-  // filter the monthly data
   let monthData = data?.filter((item) =>
     isSameMonth(displayMonth, item[timeStartField]),
   )
 
-  // React.useEffect(() => {
-  //   setRenderCounter(renderCounter + 1)
-  // }, [view])
-
   let currentTimeHours = Number(format(new Date(), 'H'))
   let currentTimeMinutes = Number(format(new Date(), 'm'))
   console.log(currentTimeHours, currentTimeMinutes)
+
+  // get data that overlaps days
+  console.log('⚱️🩸', data)
+  // split it up into multiple days
+  //// add new object duplicate , but with start date and endDate
+  React.useEffect(() => {
+    if (timeEndField) {
+      for (let i = 0; i < data.length; i++) {
+        // let endOfThisDay = endOfDay(data[i][timeStartField])
+        // console.log('end of this day??', endOfThisDay)
+
+        // if (data[i][timeEndField] > Number(format(endOfThisDay, 'T'))) {
+
+        let numberOfDays = eachDayOfInterval({
+          start: new Date(data[i][timeStartField]),
+          end: new Date(data[i][timeEndField]),
+        })
+
+        if (numberOfDays) {
+          console.log('number of Days', numberOfDays)
+
+          // add day
+          // next day does not has this object
+          for (let j = 0; j < numberOfDays?.length; j++) {
+            if (j !== 0 && j !== numberOfDays.length - 1) {
+              data.push({
+                ...data[i],
+                [timeStartField]: Number(format(numberOfDays[j], 'T')),
+                [timeEndField]: Number(format(endOfDay(numberOfDays[j]), 'T')),
+              })
+            } else if (j !== 0) {
+              data.push({
+                ...data[i],
+                [timeStartField]: Number(format(numberOfDays[j], 'T')),
+                // [timeEndField]: endOfDay(numberOfDays[j])
+              })
+            }
+          }
+        }
+        data = [...removeDuplicates(data)]
+      }
+
+      console.log('fire this son of a bitch')
+      console.log(removeDuplicates(data))
+    }
+  }, [])
+
+  const removeDuplicates = (data) =>
+    data.filter(
+      (obj, index) =>
+        data.findIndex(
+          (item) =>
+            item[timeStartField] === obj[timeStartField] &&
+            item[labelField] === obj[labelField],
+        ) === index,
+    )
 
   return (
     <styled.div

@@ -24,23 +24,32 @@ const meta: Meta<typeof Calendar> = {
 export default meta
 
 export const Default = () => {
-  const { data: fakedata, loading } = useQuery('fakedata', {
-    arraySize: 3,
-    id: '',
-    src: '',
-    status: '',
-    title: '',
-    number: '',
-    name: '',
-    price: '',
-    color: '',
-    createdAt: '',
-    updatedAt: '',
-  })
+  // const { data: fakedata, loading } = useQuery('fakedata', {
+  //   arraySize: 2,
+  //   id: '',
+  //   // src: '',
+  //   // status: '',
+  //   title: '',
+  //   // number: '',
+  //   // name: '',
+  //   // price: '',
+  //   // color: '',
+  //   createdAt: '',
+  //   updatedAt: '',
+  // })
 
-  if (loading) {
-    return null
-  }
+  let fakedata = []
+
+  // if (loading) {
+  //   return null
+  // }
+
+  fakedata.push({
+    id: 'XXXX',
+    title: 'Snurp the snurp',
+    createdAt: 1708364692974,
+    updatedAt: 1708515134327,
+  })
 
   console.log('fake data --> from function 🍝', fakedata)
 

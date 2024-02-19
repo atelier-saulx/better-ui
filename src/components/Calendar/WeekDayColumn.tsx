@@ -10,14 +10,6 @@ import {
 } from 'date-fns'
 import { Text, Stack } from '../../index.js'
 
-const StyledGridLine = styled('div', {
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  height: 1,
-  backgroundColor: color('border', 'default'),
-})
-
 export const WeekDayColumn = ({
   dayDates,
   day,
@@ -26,8 +18,8 @@ export const WeekDayColumn = ({
   timeEndField,
   onClick,
 }) => {
-  console.log('dayDates', dayDates)
-  console.log('DAY', day)
+  // console.log('dayDates', dayDates)
+  // console.log('DAY', day)
   // console.log('TOTAL MINUTES THIS DAY', format(1708416613118, 'm'))
   // console.log('Start of DAY ->', format(startOfDay(day), 'T'))
 
@@ -58,17 +50,26 @@ export const WeekDayColumn = ({
               gap: 2,
             }}
           >
-            {itemsInThisHour.map((item) => {
+            {itemsInThisHour.map((item, idx) => {
               let durationTimeInHours, durationTimeInMinutes
               // if endtime
               if (timeEndField) {
-                let durationTime = item[timeStartField] - item[timeEndField]
-                durationTimeInHours = format(durationTime, 'H')
+                let durationTime = item[timeEndField] - item[timeStartField]
+                durationTimeInHours = format(durationTime, 'k')
                 durationTimeInMinutes = format(durationTime, 'm')
+
+                console.log(
+                  'hours, minutes',
+                  durationTime,
+                  durationTimeInHours,
+                  durationTimeInMinutes,
+                  item,
+                )
               }
 
               return (
                 <styled.div
+                  key={idx}
                   style={{
                     marginTop: `${format(item[timeStartField], 'm')}px`,
                     display: 'flex',
@@ -108,7 +109,7 @@ export const WeekDayColumn = ({
                       color: color('background', 'screen'),
                       display: 'flex',
                       borderRadius: 2,
-                      padding: 2,
+                      padding: '2px 4px',
                       marginBottom: '-4px',
                     }}
                   >
