@@ -25,7 +25,7 @@ export default meta
 
 export const Default = () => {
   const { data: fakedata, loading } = useQuery('fakedata', {
-    arraySize: 20,
+    arraySize: 3,
     id: '',
     src: '',
     status: '',
@@ -48,7 +48,8 @@ export const Default = () => {
     <Calendar
       data={fakedata}
       labelField="title"
-      timeStartField="updatedAt"
+      timeStartField="createdAt"
+      timeEndField="updatedAt"
       view="week"
       onClick={() => console.log('hellow')}
     />

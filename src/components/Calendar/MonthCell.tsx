@@ -64,12 +64,14 @@ export const MonthCell = ({
             <Text
               singleLine
               style={{
-                fontSize: 13,
                 // marginBottom: view === 'month' ? 2 : 7,
                 marginBlockEnd: '0px',
                 marginBlockStart: '0px',
                 lineHeight: '17px',
                 cursor: 'pointer',
+                '& p': {
+                  fontSize: '13px !important',
+                },
                 '& :hover': {
                   color: `${color('content', 'secondary')} !important`,
                 },
