@@ -9,6 +9,7 @@ export const MoreButton = ({
   displayMonth,
   labelField,
   view,
+  onClick,
 }) => {
   return (
     <Dropdown.Root>
@@ -44,12 +45,7 @@ export const MoreButton = ({
           </Text>
         </styled.div>
         {dayDates.map((_: { title?: string }, i) => (
-          <Dropdown.Item
-            key={i}
-            onClick={() => {
-              console.log('Snurp clicked')
-            }}
-          >
+          <Dropdown.Item key={i} onClick={onClick}>
             {_[labelField]}
           </Dropdown.Item>
         ))}

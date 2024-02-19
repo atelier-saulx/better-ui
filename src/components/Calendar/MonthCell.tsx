@@ -11,6 +11,7 @@ export const MonthCell = ({
   dayDates,
   labelField,
   view,
+  onClick,
 }) => {
   return (
     <Stack
@@ -59,10 +60,7 @@ export const MonthCell = ({
 
       {dayDates.map((item: { title?: string }, idx) =>
         idx < 3 ? (
-          <styled.div
-            key={idx}
-            onClick={() => console.log('clicked ->', item[labelField])}
-          >
+          <styled.div key={idx} onClick={onClick}>
             <Text
               singleLine
               style={{
@@ -93,6 +91,7 @@ export const MonthCell = ({
           dayDates={dayDates}
           displayMonth={displayMonth}
           labelField={labelField}
+          onClick={onClick}
         />
       )}
     </Stack>

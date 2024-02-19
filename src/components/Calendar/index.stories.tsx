@@ -48,7 +48,7 @@ export const Default = () => {
     <Calendar
       data={fakedata}
       labelField="title"
-      timestampField="updatedAt"
+      timeStartField="updatedAt"
       view="week"
       onClick={() => console.log('hellow')}
     />
@@ -78,7 +78,7 @@ export const WeekView = () => {
     <Calendar
       data={fakedata}
       labelField="title"
-      timestampField="updatedAt"
+      timeStartField="updatedAt"
       view="month"
     />
   )
