@@ -30,6 +30,7 @@ export const Calendar = ({
 }: CalendarProps) => {
   const [displayMonth, setDisplayMonth] = React.useState(new Date())
   const [view, setView] = React.useState(viewProp)
+  const [renderCounter, setRenderCounter] = React.useState(1)
 
   const getDays = React.useCallback(() => {
     const days = []
@@ -53,7 +54,7 @@ export const Calendar = ({
     }
 
     return days
-  }, [displayMonth])
+  }, [displayMonth, view])
 
   console.log(displayMonth, 'display month')
 
@@ -61,6 +62,10 @@ export const Calendar = ({
   let monthData = data?.filter((item) =>
     isSameMonth(displayMonth, item[timestampField]),
   )
+
+  React.useEffect(() => {
+    setRenderCounter(renderCounter + 1)
+  }, [view])
 
   return (
     <styled.div
@@ -78,37 +83,39 @@ export const Calendar = ({
         setView={setView}
       />
 
-      <styled.div
-        style={{
-          display: 'grid',
-          width: '100%',
-          gridTemplateColumns: 'repeat(7, 1fr)',
-          gap: '0px',
-          border: border(),
-          borderRight: 'none',
-          borderRadius: 8,
-        }}
-      >
-        <SubHeader view={view} dayDates={getDays().map((day) => day)} />
+      {renderCounter && (
+        <styled.div
+          style={{
+            display: 'grid',
+            width: '100%',
+            gridTemplateColumns: 'repeat(7, 1fr)',
+            gap: '0px',
+            border: border(),
+            borderRight: 'none',
+            borderRadius: 8,
+          }}
+        >
+          <SubHeader view={view} dayDates={getDays().map((day) => day)} />
 
-        {getDays().map((day, idx) => {
-          const dayDates = monthData.filter((item) =>
-            isSameDay(day, item[timestampField]),
-          )
+          {getDays().map((day, idx) => {
+            const dayDates = monthData.filter((item) =>
+              isSameDay(day, item[timestampField]),
+            )
 
-          return (
-            <Cell
-              view={view}
-              key={idx}
-              day={day}
-              idx={idx}
-              displayMonth={displayMonth}
-              dayDates={dayDates}
-              labelField={labelField}
-            />
-          )
-        })}
-      </styled.div>
+            return (
+              <Cell
+                view={view}
+                key={idx}
+                day={day}
+                idx={idx}
+                displayMonth={displayMonth}
+                dayDates={dayDates}
+                labelField={labelField}
+              />
+            )
+          })}
+        </styled.div>
+      )}
     </styled.div>
   )
 }

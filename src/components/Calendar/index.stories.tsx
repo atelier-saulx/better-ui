@@ -11,7 +11,7 @@ const client = based({
 })
 
 const meta: Meta<typeof Calendar> = {
-  title: 'Atoms/Calendar',
+  title: 'Components/Calendar',
   decorators: [
     (Story) => (
       <Provider client={client}>
