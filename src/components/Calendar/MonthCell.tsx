@@ -4,7 +4,7 @@ import { styled } from 'inlines'
 import { MoreButton } from './MoreButton.js'
 import { isSameDay, isSameMonth, format } from 'date-fns'
 
-export const Cell = ({
+export const MonthCell = ({
   day,
   idx,
   displayMonth,
@@ -17,19 +17,19 @@ export const Cell = ({
       direction="column"
       key={day.toISOString()}
       style={{
-        height: view === 'month' ? 124 : 420,
-        aspectRatio: view === 'month' ? 1 : 0.33,
+        height: 124,
+        aspectRatio: 1,
         borderTop: border(),
         borderRight: border(),
         borderBottomRightRadius: idx === 34 ? 8 : 0,
         position: 'relative',
-        padding: view === 'month' ? '26px 8px 26px 8px' : '12px 8px',
+        padding: '26px 8px 26px 8px',
         display: 'block',
       }}
       gap={2}
       grid
     >
-      {isSameDay(day, Date.now()) && view === 'month' ? (
+      {isSameDay(day, Date.now()) ? (
         <Text
           color="inverted"
           style={{
@@ -49,14 +49,12 @@ export const Cell = ({
           {isSameMonth(day, displayMonth) && format(day, 'd')}
         </Text>
       ) : (
-        view === 'month' && (
-          <Text
-            color="secondary"
-            style={{ position: 'absolute', right: 8, top: 3 }}
-          >
-            {isSameMonth(day, displayMonth) && format(day, 'd')}
-          </Text>
-        )
+        <Text
+          color="secondary"
+          style={{ position: 'absolute', right: 8, top: 3 }}
+        >
+          {isSameMonth(day, displayMonth) && format(day, 'd')}
+        </Text>
       )}
 
       {dayDates.map((item: { title?: string }, idx) =>
@@ -66,11 +64,11 @@ export const Cell = ({
             onClick={() => console.log('clicked ->', item[labelField])}
           >
             <Text
-              singleLine={view === 'month'}
+              singleLine
               style={{
                 fontSize: 13,
                 // marginBottom: view === 'month' ? 2 : 7,
-                marginBlockEnd: view === 'month' ? '0px' : '4px',
+                marginBlockEnd: '0px',
                 marginBlockStart: '0px',
                 lineHeight: '17px',
                 cursor: 'pointer',

@@ -49,7 +49,7 @@ export const Default = () => {
       data={fakedata}
       labelField="title"
       timestampField="updatedAt"
-      view="month"
+      view="week"
     />
   )
 }
@@ -78,7 +78,7 @@ export const WeekView = () => {
       data={fakedata}
       labelField="title"
       timestampField="updatedAt"
-      view="week"
+      view="month"
     />
   )
 }

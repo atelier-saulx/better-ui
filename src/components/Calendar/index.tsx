@@ -13,7 +13,8 @@ import { border, borderRadius } from '../../index.js'
 import { styled } from 'inlines'
 import { Header } from './Header.js'
 import { SubHeader } from './SubHeader.js'
-import { Cell } from './Cell.js'
+import { MonthCell } from './MonthCell.js'
+import { WeekDayColumn } from './WeekDayColumn.js'
 
 export type CalendarProps = {
   data?: {}[]
@@ -98,23 +99,43 @@ export const Calendar = ({
         >
           <SubHeader view={view} dayDates={getDays().map((day) => day)} />
 
-          {getDays().map((day, idx) => {
-            const dayDates = monthData.filter((item) =>
-              isSameDay(day, item[timestampField]),
-            )
+          {view === 'month' &&
+            getDays().map((day, idx) => {
+              const dayDates = monthData.filter((item) =>
+                isSameDay(day, item[timestampField]),
+              )
+              return (
+                <MonthCell
+                  view={view}
+                  key={idx}
+                  day={day}
+                  idx={idx}
+                  displayMonth={displayMonth}
+                  dayDates={dayDates}
+                  labelField={labelField}
+                />
+              )
+            })}
 
-            return (
-              <Cell
-                view={view}
-                key={idx}
-                day={day}
-                idx={idx}
-                displayMonth={displayMonth}
-                dayDates={dayDates}
-                labelField={labelField}
-              />
-            )
-          })}
+          {view === 'week' &&
+            getDays().map((day, idx) => {
+              const dayDates = monthData.filter((item) =>
+                isSameDay(day, item[timestampField]),
+              )
+              return (
+                <WeekDayColumn
+                  // view={view}
+                  key={idx}
+                  day={day}
+                  // idx={idx}
+                  // displayMonth={displayMonth}
+
+                  dayDates={dayDates}
+                  labelField={labelField}
+                  timestampField={timestampField}
+                />
+              )
+            })}
         </styled.div>
       )}
     </styled.div>
