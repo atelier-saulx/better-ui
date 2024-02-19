@@ -23,6 +23,7 @@ export const WeekDayColumn = ({
   day,
   labelField,
   timestampField,
+  onClick,
 }) => {
   console.log('dayDates', dayDates)
   console.log('DAY', day)
@@ -34,6 +35,11 @@ export const WeekDayColumn = ({
 
   let startOfThisDayMs: number = Number(format(startOfDay(day), 'T'))
 
+  // let currentTime = Number(format(new Date(), 'T'))
+  // let currentTimeOnThisDayInMinutes = millisecondsToMinutes(
+  //   currentTime - startOfThisDayMs,
+  // )
+
   return (
     <styled.div
       style={{
@@ -41,6 +47,7 @@ export const WeekDayColumn = ({
         borderRight: border(),
         borderTop: border(),
         position: 'relative',
+        overflowX: 'hidden',
       }}
     >
       {/* {format(1708416613118, 'HH:mm')} */}
@@ -52,12 +59,25 @@ export const WeekDayColumn = ({
         return (
           <Stack
             gap={8}
-            style={{ position: 'absolute', top: `${totalMinutesOnThisDay}px` }}
+            style={{
+              position: 'absolute',
+              top: `${totalMinutesOnThisDay}px`,
+              padding: '0px 4px',
+              borderRadius: '4px',
+              margin: 2,
+              backgroundColor: color('non-semantic-color', 'blue-soft'),
+            }}
+            onClick={onClick}
           >
-            <Text variant="caption">
+            <Text
+              variant="caption"
+              style={{ color: color('non-semantic-color', 'blue') }}
+            >
               {format(item[timestampField], 'HH:mm')}
             </Text>
-            <Text singleLine>{item[labelField]}</Text>
+            <Text singleLine style={{ '& p': { fontSize: '12px !important' } }}>
+              {item[labelField]}
+            </Text>
           </Stack>
         )
       })}
@@ -66,6 +86,18 @@ export const WeekDayColumn = ({
       {[...Array(24).keys()].map((_, idx) => (
         <StyledGridLine style={{ top: `${60 * idx}px` }} />
       ))}
+
+      {/* current time line*/}
+      {/* <styled.div
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: `${currentTimeOnThisDayInMinutes}px`,
+          height: 1,
+          backgroundColor: color('border', 'error'),
+        }}
+      ></styled.div> */}
     </styled.div>
   )
 }

@@ -9,7 +9,7 @@ import {
   isSameMonth,
   isSameDay,
 } from 'date-fns'
-import { border, borderRadius } from '../../index.js'
+import { ScrollArea, border, borderRadius } from '../../index.js'
 import { styled } from 'inlines'
 import { Header } from './Header.js'
 import { SubHeader } from './SubHeader.js'
@@ -21,6 +21,7 @@ export type CalendarProps = {
   timestampField?: string
   labelField?: string
   view?: 'month' | 'week' | 'day'
+  onClick?: () => void
 }
 
 export const Calendar = ({
@@ -28,6 +29,7 @@ export const Calendar = ({
   timestampField = 'createdAt',
   labelField = 'title',
   view: viewProp = 'month',
+  onClick,
 }: CalendarProps) => {
   // display month is the date // could be better named in hindsight
   const [displayMonth, setDisplayMonth] = React.useState(new Date())
@@ -86,57 +88,59 @@ export const Calendar = ({
       />
 
       {renderCounter && (
-        <styled.div
-          style={{
-            display: 'grid',
-            width: '100%',
-            gridTemplateColumns: 'repeat(7, 1fr)',
-            gap: '0px',
-            border: border(),
-            borderRight: 'none',
-            borderRadius: 8,
-          }}
-        >
-          <SubHeader view={view} dayDates={getDays().map((day) => day)} />
+        <ScrollArea style={{ height: 800 }}>
+          <styled.div
+            style={{
+              display: 'grid',
+              width: '100%',
+              gridTemplateColumns: 'repeat(7, 1fr)',
+              gap: '0px',
+              border: border(),
+              borderRight: 'none',
+              borderRadius: 8,
+            }}
+          >
+            <SubHeader view={view} dayDates={getDays().map((day) => day)} />
 
-          {view === 'month' &&
-            getDays().map((day, idx) => {
-              const dayDates = monthData.filter((item) =>
-                isSameDay(day, item[timestampField]),
-              )
-              return (
-                <MonthCell
-                  view={view}
-                  key={idx}
-                  day={day}
-                  idx={idx}
-                  displayMonth={displayMonth}
-                  dayDates={dayDates}
-                  labelField={labelField}
-                />
-              )
-            })}
+            {view === 'month' &&
+              getDays().map((day, idx) => {
+                const dayDates = monthData.filter((item) =>
+                  isSameDay(day, item[timestampField]),
+                )
+                return (
+                  <MonthCell
+                    view={view}
+                    key={idx}
+                    day={day}
+                    idx={idx}
+                    displayMonth={displayMonth}
+                    dayDates={dayDates}
+                    labelField={labelField}
+                  />
+                )
+              })}
 
-          {view === 'week' &&
-            getDays().map((day, idx) => {
-              const dayDates = monthData.filter((item) =>
-                isSameDay(day, item[timestampField]),
-              )
-              return (
-                <WeekDayColumn
-                  // view={view}
-                  key={idx}
-                  day={day}
-                  // idx={idx}
-                  // displayMonth={displayMonth}
-
-                  dayDates={dayDates}
-                  labelField={labelField}
-                  timestampField={timestampField}
-                />
-              )
-            })}
-        </styled.div>
+            {view === 'week' &&
+              getDays().map((day, idx) => {
+                const dayDates = monthData.filter((item) =>
+                  isSameDay(day, item[timestampField]),
+                )
+                return (
+                  <WeekDayColumn
+                    // view={view}
+                    key={idx}
+                    day={day}
+                    // idx={idx}
+                    // displayMonth={displayMonth}
+                    onClick={onClick}
+                    dayDates={dayDates}
+                    labelField={labelField}
+                    timestampField={timestampField}
+                  />
+                )
+              })}
+          </styled.div>
+        </ScrollArea>
       )}
     </styled.div>
   )

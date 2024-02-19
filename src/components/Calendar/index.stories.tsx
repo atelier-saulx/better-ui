@@ -50,6 +50,7 @@ export const Default = () => {
       labelField="title"
       timestampField="updatedAt"
       view="week"
+      onClick={() => console.log('hellow')}
     />
   )
 }
