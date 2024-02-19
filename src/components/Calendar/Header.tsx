@@ -15,12 +15,20 @@ import { styled } from 'inlines'
 export const Header = ({ setDisplayMonth, displayMonth, view, setView }) => {
   return (
     <styled.div>
-      <Switch
-        data={['month', 'week']}
-        activeTab={view}
-        onChange={(v) => setView(v)}
-        style={{ marginBottom: 12 }}
-      />
+      <Stack style={{ marginBottom: 12 }}>
+        <Switch
+          data={['month', 'week']}
+          activeTab={view}
+          onChange={(v) => setView(v)}
+        />
+        <Button
+          variant="neutral"
+          size="small"
+          onClick={() => setDisplayMonth(new Date())}
+        >
+          Today
+        </Button>
+      </Stack>
       <Stack style={{ marginBottom: 16 }} justify="between">
         {view === 'week' && (
           <Stack justify="start" gap={0}>

@@ -3,8 +3,6 @@ import { Text, border, color, Stack } from '../../index.js'
 import { format, isSameDay } from 'date-fns'
 
 export const SubHeader = ({ view, dayDates }) => {
-  console.log(dayDates, 'adfaef')
-
   return (
     <>
       {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (

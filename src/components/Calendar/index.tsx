@@ -28,6 +28,7 @@ export const Calendar = ({
   labelField = 'title',
   view: viewProp = 'month',
 }: CalendarProps) => {
+  // display month is the date // could be better named in hindsight
   const [displayMonth, setDisplayMonth] = React.useState(new Date())
   const [view, setView] = React.useState(viewProp)
   const [renderCounter, setRenderCounter] = React.useState(1)

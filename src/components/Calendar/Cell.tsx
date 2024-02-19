@@ -60,7 +60,7 @@ export const Cell = ({
       )}
 
       {dayDates.map((item: { title?: string }, idx) =>
-        idx < 4 ? (
+        idx < 3 ? (
           <styled.div
             key={idx}
             onClick={() => console.log('clicked ->', item[labelField])}
@@ -74,6 +74,9 @@ export const Cell = ({
                 marginBlockStart: '0px',
                 lineHeight: '17px',
                 cursor: 'pointer',
+                '& :hover': {
+                  color: `${color('content', 'secondary')} !important`,
+                },
                 '&:hover': {
                   color: `${color('content', 'secondary')} !important`,
                 },
