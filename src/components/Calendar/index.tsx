@@ -11,13 +11,11 @@ import {
   isSameWeek,
   isSameDay,
   format,
-  millisecondsToMinutes,
   endOfDay,
-  startOfDay,
   addWeeks,
   eachDayOfInterval,
 } from 'date-fns'
-import { ScrollArea, border, borderRadius, color, Text } from '../../index.js'
+import { ScrollArea, border, borderRadius, color } from '../../index.js'
 import { styled } from 'inlines'
 import { Header } from './Header.js'
 import { SubHeader } from './SubHeader.js'
