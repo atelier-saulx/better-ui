@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { BasedSchemaField } from '@based/schema'
-import { Text, Stack, border } from '../../index.js'
+import { Text, Stack, border, Tooltip, IconGlobe } from '../../index.js'
 import { Variant } from './types.js'
 import { getTitle } from './utils.js'
 
@@ -47,7 +47,14 @@ export function FormField({
     >
       {variant !== 'bare' ? (
         <div>
-          <Text variant="body-bold">{name}</Text>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Text variant="body-bold">{name}</Text>
+            {field.type === 'text' && (
+              <Tooltip content="This field is translated into multiple languages">
+                <IconGlobe size={14} />
+              </Tooltip>
+            )}
+          </div>
           {field.description && (
             <Text style={{ marginTop: -2 }} color="secondary">
               {field.description}
