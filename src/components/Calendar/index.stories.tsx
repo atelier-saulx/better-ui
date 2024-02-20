@@ -24,25 +24,25 @@ const meta: Meta<typeof Calendar> = {
 export default meta
 
 export const Default = () => {
-  // const { data: fakedata, loading } = useQuery('fakedata', {
-  //   arraySize: 2,
-  //   id: '',
-  //   // src: '',
-  //   // status: '',
-  //   title: '',
-  //   // number: '',
-  //   // name: '',
-  //   // price: '',
-  //   // color: '',
-  //   createdAt: '',
-  //   updatedAt: '',
-  // })
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 2,
+    id: '',
+    // src: '',
+    // status: '',
+    title: '',
+    // number: '',
+    // name: '',
+    // price: '',
+    // color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
 
-  let fakedata = []
+  if (loading) {
+    return null
+  }
 
-  // if (loading) {
-  //   return null
-  // }
+  // let fakedata = []
 
   fakedata.push({
     id: 'XXXX',
@@ -65,31 +65,31 @@ export const Default = () => {
   )
 }
 
-export const WeekView = () => {
-  const { data: fakedata, loading } = useQuery('fakedata', {
-    arraySize: 20,
-    id: '',
-    src: '',
-    status: '',
-    title: '',
-    number: '',
-    name: '',
-    price: '',
-    color: '',
-    createdAt: '',
-    updatedAt: '',
-  })
+// export const WeekView = () => {
+//   const { data: fakedata, loading } = useQuery('fakedata', {
+//     arraySize: 20,
+//     id: '',
+//     src: '',
+//     status: '',
+//     title: '',
+//     number: '',
+//     name: '',
+//     price: '',
+//     color: '',
+//     createdAt: '',
+//     updatedAt: '',
+//   })
 
-  if (loading) {
-    return null
-  }
+//   if (loading) {
+//     return null
+//   }
 
-  return (
-    <Calendar
-      data={fakedata}
-      labelField="title"
-      timeStartField="updatedAt"
-      view="month"
-    />
-  )
-}
+//   return (
+//     <Calendar
+//       data={fakedata}
+//       labelField="title"
+//       timeStartField="updatedAt"
+//       view="month"
+//     />
+//   )
+// }

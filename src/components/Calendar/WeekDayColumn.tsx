@@ -47,6 +47,7 @@ export const WeekDayColumn = ({
               height: 60,
               width: '100%',
               display: 'flex',
+              position: 'relative',
               gap: 2,
             }}
           >
@@ -80,7 +81,7 @@ export const WeekDayColumn = ({
                     borderRadius: 4,
                     padding: '0px 3px',
                     height: timeEndField
-                      ? `${durationTimeInHours + durationTimeInMinutes}px`
+                      ? `${(Number(durationTimeInHours) - 1) * 60 + Number(durationTimeInMinutes)}px`
                       : itemsInThisHour.length > 1
                         ? '44px'
                         : '44px',
@@ -132,6 +133,12 @@ export const WeekDayColumn = ({
                 </styled.div>
               )
             })}
+            <Text
+              variant="caption"
+              style={{ position: 'absolute', left: 0, top: 10 }}
+            >
+              {idx}
+            </Text>
           </styled.div>
         )
       })}
