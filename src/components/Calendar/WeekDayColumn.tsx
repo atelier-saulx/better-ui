@@ -19,7 +19,7 @@ export const WeekDayColumn = ({
   onClick,
 }) => {
   // console.log('dayDates', dayDates)
-  // console.log('DAY', day)
+  console.log('DAY', format(day, 'EEEEE'))
   // console.log('TOTAL MINUTES THIS DAY', format(1708416613118, 'm'))
   // console.log('Start of DAY ->', format(startOfDay(day), 'T'))
 
@@ -133,12 +133,14 @@ export const WeekDayColumn = ({
                 </styled.div>
               )
             })}
-            <Text
-              variant="caption"
-              style={{ position: 'absolute', left: 0, top: 10 }}
-            >
-              {idx}
-            </Text>
+            {format(day, 'EEEEE') === 'M' && (
+              <Text
+                variant="caption"
+                style={{ position: 'absolute', left: 0, top: 0 }}
+              >
+                {idx}:00
+              </Text>
+            )}
           </styled.div>
         )
       })}

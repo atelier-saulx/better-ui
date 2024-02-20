@@ -70,10 +70,6 @@ export const Calendar = ({
     return days
   }, [displayMonth, view])
 
-  let monthData = data?.filter((item) =>
-    isSameMonth(displayMonth, item[timeStartField]),
-  )
-
   let currentTimeHours = Number(format(new Date(), 'H'))
   let currentTimeMinutes = Number(format(new Date(), 'm'))
   console.log(currentTimeHours, currentTimeMinutes)
@@ -83,27 +79,14 @@ export const Calendar = ({
   // split it up into multiple days
   //// add new object duplicate , but with start date and endDate
   // React.useEffect(() => {
-  if (timeEndField) {
+  if (timeEndField && view === 'week') {
     for (let i = 0; i < data.length; i++) {
-      // let endOfThisDay = endOfDay(data[i][timeStartField])
-      // console.log('end of this day??', endOfThisDay)
-
-      // if (data[i][timeEndField] > Number(format(endOfThisDay, 'T'))) {
-
-      // if (
-      //   format(data[i][timeEndField], 'T') >
-      //   format(data[i][timeStartField], 'T')
-      // ) {
       let numberOfDays = eachDayOfInterval({
         start: new Date(data[i][timeStartField]),
         end: new Date(data[i][timeEndField]),
       })
 
       if (numberOfDays) {
-        console.log('number of Days', numberOfDays)
-
-        // add day
-        // next day does not has this object
         for (let j = 0; j < numberOfDays?.length; j++) {
           if (j !== 0 && j !== numberOfDays.length - 1) {
             data.push({
@@ -115,20 +98,15 @@ export const Calendar = ({
             data.push({
               ...data[i],
               [timeStartField]: Number(format(numberOfDays[j], 'T')),
-              // [timeEndField]: endOfDay(numberOfDays[j])
             })
           }
         }
       }
-      // data = [...removeDuplicates(data)]
     }
-    data = [...removeDuplicates(data)]
   }
 
+  data = [...removeDuplicates(data)]
   console.log('remove this son of a bitch')
-  // console.log(removeDuplicates(data))
-  // }
-  // }, [])
 
   function removeDuplicates(data) {
     return data.filter(
@@ -140,6 +118,10 @@ export const Calendar = ({
         ) === index,
     )
   }
+
+  let monthData = data?.filter((item) =>
+    isSameMonth(displayMonth, item[timeStartField]),
+  )
 
   return (
     <styled.div
