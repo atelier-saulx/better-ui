@@ -65,7 +65,6 @@ export const MonthCell = ({
               color={isSameMonth(day, displayMonth) ? 'primary' : 'secondary'}
               singleLine
               style={{
-                // marginBottom: view === 'month' ? 2 : 7,
                 marginBlockEnd: '0px',
                 marginBlockStart: '0px',
                 lineHeight: '17px',
@@ -80,7 +79,6 @@ export const MonthCell = ({
                   color: `${color('content', 'secondary')} !important`,
                 },
               }}
-              // @ts-ignore
             >
               {item[labelField]}
             </Text>

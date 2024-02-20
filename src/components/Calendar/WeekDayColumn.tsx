@@ -1,14 +1,8 @@
 import React from 'react'
 import { styled } from 'inlines'
 import { border, color, hashNonSemanticColor } from '../../utils/colors.js'
-import {
-  isSameDay,
-  isSameMonth,
-  startOfDay,
-  format,
-  millisecondsToMinutes,
-} from 'date-fns'
-import { Text, Stack } from '../../index.js'
+import { format } from 'date-fns'
+import { Text } from '../../index.js'
 
 export const WeekDayColumn = ({
   dayDates,
@@ -18,11 +12,6 @@ export const WeekDayColumn = ({
   timeEndField,
   onClick,
 }) => {
-  // console.log('dayDates', dayDates)
-  console.log('DAY', format(day, 'EEEEE'))
-  // console.log('TOTAL MINUTES THIS DAY', format(1708416613118, 'm'))
-  // console.log('Start of DAY ->', format(startOfDay(day), 'T'))
-
   return (
     <styled.div
       style={{

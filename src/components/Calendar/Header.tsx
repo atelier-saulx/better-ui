@@ -20,9 +20,6 @@ export const Header = ({
   startRange,
   endRange,
 }) => {
-  console.log('START_RANge', startRange)
-  console.log('week -1??', Number(format(addWeeks(displayMonth, -1), 'T')))
-
   return (
     <styled.div>
       <Stack style={{ marginBottom: 12 }}>

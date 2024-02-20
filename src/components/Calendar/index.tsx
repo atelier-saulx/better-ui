@@ -79,8 +79,7 @@ export const Calendar = ({
   let currentTimeMinutes = Number(format(new Date(), 'm'))
   console.log(currentTimeHours, currentTimeMinutes)
 
-  // get data that overlaps days
-  console.log('⚱️🩸', data)
+  // console.log('⚱️🩸', data)
 
   if (timeEndField && view === 'week') {
     for (let i = 0; i < data.length; i++) {
@@ -109,7 +108,6 @@ export const Calendar = ({
   }
 
   data = [...removeDuplicates(data)]
-  console.log('remove this son of a bitch')
 
   function removeDuplicates(data) {
     return data.filter(
@@ -122,7 +120,7 @@ export const Calendar = ({
     )
   }
 
-  // TODO NOW check overlapping monthly data?
+  //check overlapping monthly data
   let monthData = data?.filter(
     (item) =>
       isSameMonth(displayMonth, item[timeStartField]) ||
@@ -132,7 +130,7 @@ export const Calendar = ({
       isSameMonth(addMonths(displayMonth, 1), item[timeEndField]),
   )
 
-  // get weekDATA???
+  // get weekdata
   let weekData = data?.filter(
     (item) =>
       isSameWeek(addWeeks(displayMonth, -1), item[timeStartField]) ||
@@ -144,12 +142,9 @@ export const Calendar = ({
       isSameWeek(addDays(addWeeks(displayMonth, -1), 7), item[timeEndField]),
   )
 
-  console.log(weekData, 'Week data')
-
   return (
     <styled.div
       style={{
-        // border: border(),
         borderRadius: borderRadius('medium'),
         padding: 24,
         width: '100%',
@@ -184,10 +179,8 @@ export const Calendar = ({
             borderRadius: 8,
             borderTopLeftRadius: 0,
             borderBottom: view === 'month' ? border() : 'none',
-            // overflow: 'visible',
           }}
         >
-          {/* <SubHeader view={view} dayDates={getDays().map((day) => day)} /> */}
           {view === 'month' &&
             getDays().map((day, idx) => {
               const dayDates = monthData.filter((item) =>
@@ -215,11 +208,8 @@ export const Calendar = ({
 
               return idx < 7 ? (
                 <WeekDayColumn
-                  // view={view}
                   key={idx}
                   day={day}
-                  // idx={idx}
-                  // displayMonth={displayMonth}
                   onClick={onClick}
                   dayDates={dayDates}
                   labelField={labelField}
