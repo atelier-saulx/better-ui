@@ -219,6 +219,7 @@ export const Calendar = ({
               ) : null
             })}
 
+          {/* // Red timeline */}
           {view === 'week' && (
             <styled.div
               style={{
@@ -229,8 +230,33 @@ export const Calendar = ({
                 height: 1,
                 backgroundColor: color('border', 'error'),
               }}
-            ></styled.div>
+            >
+              <styled.div
+                style={{
+                  backgroundColor: color('border', 'error'),
+                  width: 32,
+                  marginLeft: 'auto',
+                  marginTop: '-9px',
+                  height: 18,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '2px',
+                }}
+              >
+                <styled.div
+                  style={{
+                    fontSize: '10px',
+                    color: '#fff',
+                    fontWeight: 600,
+                    zIndex: 1,
+                  }}
+                >
+                  {currentTimeHours}:{currentTimeMinutes}
+                </styled.div>
+              </styled.div>
+            </styled.div>
           )}
+          {/* // Red timeline */}
         </styled.div>
       </ScrollArea>
     </styled.div>
