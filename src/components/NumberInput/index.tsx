@@ -121,11 +121,13 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             type="number"
             tabIndex={disabled ? '-1' : 'auto'}
             autoFocus={autoFocus}
-            value={value ?? ''}
+            value={valueProp ?? ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               e.stopPropagation()
               const numberValue = parseFloat(e.target.value)
+
               if (isNaN(numberValue)) {
+                e.target.value = ''
                 setValue(undefined)
                 return
               }

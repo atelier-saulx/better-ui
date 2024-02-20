@@ -97,6 +97,8 @@ export function BasedForm({
     ref.current.currentQuery,
   )
 
+  console.log(ref.current.currentQuery, values)
+
   // @ts-ignore
   formRef ??= React.useRef<FormProps['formRef']['current']>({})
 
@@ -111,18 +113,28 @@ export function BasedForm({
   // if (!id && addItem) {
   //   variant ??= 'no-confirm'
   // }
-
+  console.log('???????')
   let onFormChange
   if (onChange) {
     onFormChange = (values, changed, checksum, based) =>
       onChange({ values, changed, checksum, based, language })
   } else if (id) {
     onFormChange = async (_values, _changed, _checksum, based) => {
-      await client.call(updateEndpoint, {
+      console.log({
         $id: id,
         $language: language,
         ...based,
       })
+      try {
+        await client.call(updateEndpoint, {
+          $id: id,
+          $language: language,
+          ...based,
+        })
+      } catch (e) {
+        console.error(e)
+        throw e
+      }
     }
   } else if (addItem) {
     onFormChange = (values, changed, checksum, based) => {
