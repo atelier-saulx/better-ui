@@ -3,6 +3,7 @@ import { Calendar } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
+import { format } from 'date-fns'
 
 const client = based({
   org: 'saulx',
@@ -53,6 +54,9 @@ export const Default = () => {
 
   console.log('fake data --> from function 🍝', fakedata)
 
+  const startDate = Number(format(new Date('December 17, 2023 03:24:00'), 'T'))
+  const endDate = Number(format(new Date('March 17, 2024 03:24:00'), 'T'))
+
   return (
     <Calendar
       data={fakedata}
@@ -61,35 +65,37 @@ export const Default = () => {
       timeEndField="updatedAt"
       view="week"
       onClick={() => console.log('hellow')}
+      startRange={startDate}
+      endRange={endDate}
     />
   )
 }
 
-// export const WeekView = () => {
-//   const { data: fakedata, loading } = useQuery('fakedata', {
-//     arraySize: 20,
-//     id: '',
-//     src: '',
-//     status: '',
-//     title: '',
-//     number: '',
-//     name: '',
-//     price: '',
-//     color: '',
-//     createdAt: '',
-//     updatedAt: '',
-//   })
+export const WeekView = () => {
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 20,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
 
-//   if (loading) {
-//     return null
-//   }
+  if (loading) {
+    return null
+  }
 
-//   return (
-//     <Calendar
-//       data={fakedata}
-//       labelField="title"
-//       timeStartField="updatedAt"
-//       view="month"
-//     />
-//   )
-// }
+  return (
+    <Calendar
+      data={fakedata}
+      labelField="title"
+      timeStartField="updatedAt"
+      view="month"
+    />
+  )
+}

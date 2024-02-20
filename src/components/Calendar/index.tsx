@@ -12,6 +12,7 @@ import {
   millisecondsToMinutes,
   endOfDay,
   startOfDay,
+  addWeeks,
   eachDayOfInterval,
 } from 'date-fns'
 import { ScrollArea, border, borderRadius, color } from '../../index.js'
@@ -42,8 +43,10 @@ export const Calendar = ({
   startRange,
   endRange,
 }: CalendarProps) => {
-  // display month is the date // could be better named in hindsight
-  const [displayMonth, setDisplayMonth] = React.useState(new Date())
+  // display month is the date // could be better named in hindsight // for that start week offset
+  const [displayMonth, setDisplayMonth] = React.useState(
+    addWeeks(new Date(), 1),
+  )
   const [view, setView] = React.useState(viewProp)
 
   const getDays = React.useCallback(() => {
@@ -76,9 +79,7 @@ export const Calendar = ({
 
   // get data that overlaps days
   console.log('⚱️🩸', data)
-  // split it up into multiple days
-  //// add new object duplicate , but with start date and endDate
-  // React.useEffect(() => {
+
   if (timeEndField && view === 'week') {
     for (let i = 0; i < data.length; i++) {
       let numberOfDays = eachDayOfInterval({
@@ -119,6 +120,7 @@ export const Calendar = ({
     )
   }
 
+  // TODO check overlapping monthly data?
   let monthData = data?.filter((item) =>
     isSameMonth(displayMonth, item[timeStartField]),
   )
@@ -137,6 +139,8 @@ export const Calendar = ({
         setDisplayMonth={setDisplayMonth}
         view={view}
         setView={setView}
+        startRange={startRange}
+        endRange={endRange}
       />
 
       <ScrollArea style={{ height: 800 }}>

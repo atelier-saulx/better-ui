@@ -79,6 +79,7 @@ export const WeekDayColumn = ({
                       true,
                     ),
                     borderRadius: 4,
+                    zIndex: 1,
                     padding: '0px 3px',
                     height: timeEndField
                       ? `${(Number(durationTimeInHours) - 1) * 60 + Number(durationTimeInMinutes)}px`
@@ -136,7 +137,7 @@ export const WeekDayColumn = ({
             {format(day, 'EEEEE') === 'M' && (
               <Text
                 variant="caption"
-                style={{ position: 'absolute', left: 0, top: 0 }}
+                style={{ position: 'absolute', left: 2, top: '-10px' }}
               >
                 {idx}:00
               </Text>

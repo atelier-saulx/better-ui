@@ -12,7 +12,17 @@ import {
 import { addMonths, format, addYears, addWeeks } from 'date-fns'
 import { styled } from 'inlines'
 
-export const Header = ({ setDisplayMonth, displayMonth, view, setView }) => {
+export const Header = ({
+  setDisplayMonth,
+  displayMonth,
+  view,
+  setView,
+  startRange,
+  endRange,
+}) => {
+  console.log('START_RANge', startRange)
+  console.log('week -1??', Number(format(addWeeks(displayMonth, -1), 'T')))
+
   return (
     <styled.div>
       <Stack style={{ marginBottom: 12 }}>
@@ -24,7 +34,10 @@ export const Header = ({ setDisplayMonth, displayMonth, view, setView }) => {
         <Button
           variant="neutral"
           size="small"
-          onClick={() => setDisplayMonth(new Date())}
+          onClick={() => {
+            setDisplayMonth(addWeeks(new Date(), 1))
+            console.log('What week number', format(new Date(), 'w'))
+          }}
         >
           Today
         </Button>
@@ -33,6 +46,10 @@ export const Header = ({ setDisplayMonth, displayMonth, view, setView }) => {
         {view === 'week' && (
           <Stack justify="start" gap={0}>
             <Button
+              disabled={
+                startRange &&
+                startRange > Number(format(addWeeks(displayMonth, -1), 'T'))
+              }
               size="small"
               variant="neutral-transparent"
               shape="square"
@@ -43,6 +60,10 @@ export const Header = ({ setDisplayMonth, displayMonth, view, setView }) => {
               <IconChevronLeft />
             </Button>
             <Button
+              disabled={
+                endRange &&
+                endRange < Number(format(addWeeks(displayMonth, 1), 'T'))
+              }
               size="small"
               variant="neutral-transparent"
               shape="square"
@@ -60,6 +81,10 @@ export const Header = ({ setDisplayMonth, displayMonth, view, setView }) => {
 
         <Stack justify={view === 'week' ? 'center' : 'start'} gap={0}>
           <Button
+            disabled={
+              startRange &&
+              startRange > Number(format(addMonths(displayMonth, -1), 'T'))
+            }
             size="small"
             variant="neutral-transparent"
             shape="square"
@@ -70,6 +95,10 @@ export const Header = ({ setDisplayMonth, displayMonth, view, setView }) => {
             {view === 'week' ? <IconChevronTop /> : <IconChevronLeft />}
           </Button>
           <Button
+            disabled={
+              endRange &&
+              endRange < Number(format(addMonths(displayMonth, 0), 'T'))
+            }
             size="small"
             variant="neutral-transparent"
             shape="square"
@@ -89,6 +118,11 @@ export const Header = ({ setDisplayMonth, displayMonth, view, setView }) => {
             {format(displayMonth, 'yyyy')}
           </Text>
           <Button
+            disabled={
+              startRange &&
+              startRange > Number(format(addYears(displayMonth, -1), 'T')) &&
+              startRange > Number(format(addMonths(displayMonth, -1), 'T'))
+            }
             size="small"
             variant="neutral-transparent"
             shape="square"
@@ -99,6 +133,11 @@ export const Header = ({ setDisplayMonth, displayMonth, view, setView }) => {
             <IconChevronTop />
           </Button>
           <Button
+            disabled={
+              endRange &&
+              endRange < Number(format(addYears(displayMonth, 0), 'T')) &&
+              endRange < Number(format(addMonths(displayMonth, 0), 'T'))
+            }
             size="small"
             variant="neutral-transparent"
             shape="square"
