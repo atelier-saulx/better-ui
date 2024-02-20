@@ -113,18 +113,12 @@ export function BasedForm({
   // if (!id && addItem) {
   //   variant ??= 'no-confirm'
   // }
-  console.log('???????')
   let onFormChange
   if (onChange) {
     onFormChange = (values, changed, checksum, based) =>
       onChange({ values, changed, checksum, based, language })
   } else if (id) {
     onFormChange = async (_values, _changed, _checksum, based) => {
-      console.log({
-        $id: id,
-        $language: language,
-        ...based,
-      })
       try {
         await client.call(updateEndpoint, {
           $id: id,
