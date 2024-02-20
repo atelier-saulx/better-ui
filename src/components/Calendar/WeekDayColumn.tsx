@@ -30,8 +30,7 @@ export const WeekDayColumn = ({
         borderRight: border(),
         borderTop: border(),
         position: 'relative',
-        overflowX: 'hidden',
-        overflowY: 'hidden',
+        overflow: 'hidden',
       }}
     >
       {[...Array(24).keys()].map((_, idx) => {
@@ -95,10 +94,7 @@ export const WeekDayColumn = ({
                     alignItems: 'flex-start',
                     cursor: 'pointer',
                     '&:hover': {
-                      backgroundColor: color(
-                        'non-semantic-color',
-                        'aquamarine-soft',
-                      ),
+                      backgroundColor: color('interactive', 'primary-muted'),
                     },
                   }}
                   onClick={onClick}
@@ -134,10 +130,11 @@ export const WeekDayColumn = ({
                 </styled.div>
               )
             })}
+
             {format(day, 'EEEEE') === 'M' && (
               <Text
                 variant="caption"
-                style={{ position: 'absolute', left: 2, top: '-10px' }}
+                style={{ position: 'absolute', left: '2px', top: '-11px' }}
               >
                 {idx}:00
               </Text>

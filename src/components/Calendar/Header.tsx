@@ -79,11 +79,13 @@ export const Header = ({
           </Stack>
         )}
 
+        {/* // monthts */}
         <Stack justify={view === 'week' ? 'center' : 'start'} gap={0}>
           <Button
             disabled={
               startRange &&
-              startRange > Number(format(addMonths(displayMonth, -1), 'T'))
+              startRange > Number(format(addMonths(displayMonth, -1), 'T')) &&
+              startRange > Number(format(addYears(displayMonth, -1), 'T'))
             }
             size="small"
             variant="neutral-transparent"
@@ -97,7 +99,8 @@ export const Header = ({
           <Button
             disabled={
               endRange &&
-              endRange < Number(format(addMonths(displayMonth, 0), 'T'))
+              endRange < Number(format(addMonths(displayMonth, 0), 'T')) &&
+              endRange < Number(format(addYears(displayMonth, 0), 'T'))
             }
             size="small"
             variant="neutral-transparent"
@@ -113,6 +116,7 @@ export const Header = ({
           </Text>
         </Stack>
 
+        {/* // Years */}
         <Stack justify="end" gap={0}>
           <Text variant="title-modal" style={{ marginRight: 10 }}>
             {format(displayMonth, 'yyyy')}
@@ -120,8 +124,7 @@ export const Header = ({
           <Button
             disabled={
               startRange &&
-              startRange > Number(format(addYears(displayMonth, -1), 'T')) &&
-              startRange > Number(format(addMonths(displayMonth, -1), 'T'))
+              startRange > Number(format(addYears(displayMonth, -1), 'T'))
             }
             size="small"
             variant="neutral-transparent"
@@ -135,8 +138,7 @@ export const Header = ({
           <Button
             disabled={
               endRange &&
-              endRange < Number(format(addYears(displayMonth, 0), 'T')) &&
-              endRange < Number(format(addMonths(displayMonth, 0), 'T'))
+              endRange < Number(format(addYears(displayMonth, 1), 'T'))
             }
             size="small"
             variant="neutral-transparent"

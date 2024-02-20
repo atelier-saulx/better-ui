@@ -15,7 +15,7 @@ import {
   addWeeks,
   eachDayOfInterval,
 } from 'date-fns'
-import { ScrollArea, border, borderRadius, color } from '../../index.js'
+import { ScrollArea, border, borderRadius, color, Text } from '../../index.js'
 import { styled } from 'inlines'
 import { Header } from './Header.js'
 import { SubHeader } from './SubHeader.js'
@@ -120,7 +120,7 @@ export const Calendar = ({
     )
   }
 
-  // TODO check overlapping monthly data?
+  // TODO NOW check overlapping monthly data?
   let monthData = data?.filter((item) =>
     isSameMonth(displayMonth, item[timeStartField]),
   )
@@ -128,7 +128,7 @@ export const Calendar = ({
   return (
     <styled.div
       style={{
-        border: border(),
+        // border: border(),
         borderRadius: borderRadius('medium'),
         padding: 24,
         width: '100%',
@@ -142,20 +142,31 @@ export const Calendar = ({
         startRange={startRange}
         endRange={endRange}
       />
+      <SubHeader view={view} dayDates={getDays().map((day) => day)} />
 
-      <ScrollArea style={{ height: 800 }}>
+      <ScrollArea
+        style={{
+          height: 800,
+          borderBottom: border(),
+          borderBottomLeftRadius: 8,
+          borderBottomRightRadius: 8,
+        }}
+      >
         <styled.div
           style={{
             display: 'grid',
             width: '100%',
             gridTemplateColumns: 'repeat(7, 1fr)',
             gap: '0px',
-            border: border(),
+            borderLeft: border(),
             borderRight: 'none',
             borderRadius: 8,
+            borderTopLeftRadius: 0,
+            borderBottom: view === 'month' ? border() : 'none',
+            // overflow: 'visible',
           }}
         >
-          <SubHeader view={view} dayDates={getDays().map((day) => day)} />
+          {/* <SubHeader view={view} dayDates={getDays().map((day) => day)} /> */}
           {view === 'month' &&
             getDays().map((day, idx) => {
               const dayDates = monthData.filter((item) =>
