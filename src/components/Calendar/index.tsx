@@ -4,9 +4,11 @@ import {
   startOfMonth,
   endOfMonth,
   addDays,
+  addMonths,
   compareAsc,
   endOfWeek,
   isSameMonth,
+  isSameWeek,
   isSameDay,
   format,
   millisecondsToMinutes,
@@ -121,9 +123,28 @@ export const Calendar = ({
   }
 
   // TODO NOW check overlapping monthly data?
-  let monthData = data?.filter((item) =>
-    isSameMonth(displayMonth, item[timeStartField]),
+  let monthData = data?.filter(
+    (item) =>
+      isSameMonth(displayMonth, item[timeStartField]) ||
+      isSameMonth(addMonths(displayMonth, -1), item[timeStartField]) ||
+      isSameMonth(addMonths(displayMonth, 1), item[timeStartField]) ||
+      isSameMonth(addMonths(displayMonth, -1), item[timeEndField]) ||
+      isSameMonth(addMonths(displayMonth, 1), item[timeEndField]),
   )
+
+  // get weekDATA???
+  let weekData = data?.filter(
+    (item) =>
+      isSameWeek(addWeeks(displayMonth, -1), item[timeStartField]) ||
+      isSameWeek(addWeeks(displayMonth, -1), item[timeEndField]) ||
+      isSameWeek(
+        addDays(addWeeks(displayMonth, -1), 7),
+        item[timeStartField],
+      ) ||
+      isSameWeek(addDays(addWeeks(displayMonth, -1), 7), item[timeEndField]),
+  )
+
+  console.log(weekData, 'Week data')
 
   return (
     <styled.div
@@ -188,7 +209,7 @@ export const Calendar = ({
 
           {view === 'week' &&
             getDays().map((day, idx) => {
-              const dayDates = monthData.filter((item) =>
+              const dayDates = weekData.filter((item) =>
                 isSameDay(day, item[timeStartField]),
               )
 

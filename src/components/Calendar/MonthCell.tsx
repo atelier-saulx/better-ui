@@ -62,6 +62,7 @@ export const MonthCell = ({
         idx < 3 ? (
           <styled.div key={idx} onClick={onClick}>
             <Text
+              color={isSameMonth(day, displayMonth) ? 'primary' : 'secondary'}
               singleLine
               style={{
                 // marginBottom: view === 'month' ? 2 : 7,
