@@ -1,7 +1,14 @@
 import React from 'react'
 import { styled } from 'inlines'
 import { BasedSchemaField } from '@based/schema'
-import { Stack, border, color, Text } from '../../../index.js'
+import {
+  Stack,
+  border,
+  color,
+  Text,
+  Tooltip,
+  IconGlobe,
+} from '../../../index.js'
 import { TableProps } from '../types.js'
 import {
   readPath,
@@ -36,7 +43,16 @@ function Title({
       }}
     >
       <styled.div style={{ marginBottom: 8, marginTop: 8 }}>
-        {getTitle(path[path.length - 1], field)}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <Text variant="body-bold">
+            {getTitle(path[path.length - 1], field)}
+          </Text>
+          {field.type === 'text' && (
+            <Tooltip content="This field is translated into multiple languages">
+              <IconGlobe size={14} />
+            </Tooltip>
+          )}
+        </div>
         {field.description ? (
           <Text style={{ marginTop: -2 }} color="secondary">
             {field.description}
