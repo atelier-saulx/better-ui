@@ -231,16 +231,21 @@ export function BasedExplorer({
         language,
         selected: ref.current.selected,
       })
-      if (q.data?.$list?.$find?.$filter && q.data?.$list?.$find.$traverse) {
-        return {
+      if (q.data?.$list?.$find?.$filter && q.data.$list.$find.$traverse) {
+        const t: any = {
           total: {
             $aggregate: {
               $function: 'count',
-              $traverse: q.data?.$list?.$find.$traverse,
+              $traverse: q.data.$list.$find.$traverse,
               $filter: q.data.$list.$find.$filter,
             },
           },
         }
+
+        if (q.$id) {
+          t.$id = q.$id
+        }
+        return t
       }
       console.warn('connect construct totalQuery')
       return null

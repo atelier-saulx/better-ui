@@ -97,8 +97,6 @@ export function BasedForm({
     ref.current.currentQuery,
   )
 
-  console.log(ref.current.currentQuery, values)
-
   // @ts-ignore
   formRef ??= React.useRef<FormProps['formRef']['current']>({})
 
