@@ -487,8 +487,8 @@ export function BasedExplorer({
             ref.current.sort = { key, dir }
             updateSubs()
           },
-          ...(sort.exclude && { exclude: new Set(sort.exclude) }),
-          ...(sort.include && { include: new Set(sort.include) }),
+          ...(sort?.exclude && { exclude: new Set(sort.exclude) }),
+          ...(sort?.include && { include: new Set(sort.include) }),
         }}
         pagination={pagination}
       />
