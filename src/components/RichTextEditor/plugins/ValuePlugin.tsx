@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext.js'
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
 import {
+  $createParagraphNode,
   $getRoot,
   $setSelection,
   BLUR_COMMAND,
@@ -30,8 +31,11 @@ export function ValuePlugin({ value, onChange }: ValuePluginProps) {
       const nodes = $generateNodesFromDOM(editor, dom)
       const root = $getRoot()
       root.clear()
+
       if (value) {
         root.append(...nodes)
+      } else {
+        root.append($createParagraphNode())
       }
       $setSelection(null)
     })

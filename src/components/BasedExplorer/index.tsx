@@ -68,7 +68,12 @@ export type BasedExplorerProps = {
   variant?: Variant | Variant[]
   select?: SelectInputProps['options']
   transformResults?: (data: any) => any
-  sort?: { key: string; dir: 'asc' | 'desc' }
+  sort?: {
+    key: string
+    dir: 'asc' | 'desc'
+    exclude?: string[]
+    include?: string[]
+  }
   query: QueryFn
   total?: number
   totalQuery?: ((p: { filter?: string }) => any) | false
@@ -487,6 +492,8 @@ export function BasedExplorer({
             ref.current.sort = { key, dir }
             updateSubs()
           },
+          ...(sort?.exclude && { exclude: new Set(sort.exclude) }),
+          ...(sort?.include && { include: new Set(sort.include) }),
         }}
         pagination={pagination}
       />

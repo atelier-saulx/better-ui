@@ -9,7 +9,7 @@ export function useUploadFile() {
   const [progress, setProgress] = React.useState(0)
 
   function handleFileInputChange(
-    successHandler: (uploadedFile: { id: string; src: string } | null) => void
+    successHandler: (uploadedFile: { id: string; src: string } | null) => void,
   ) {
     return async function (file?: File) {
       try {
@@ -26,12 +26,13 @@ export function useUploadFile() {
           },
           (value) => {
             setProgress(value * 100)
-          }
+          },
         )
 
         setStatus('success')
         successHandler({ id, src })
-      } catch {
+      } catch (e) {
+        console.log('error while uploading file', e)
         setStatus('error')
       }
     }
