@@ -173,8 +173,9 @@ export function FileInput({
                   setInternalStatus('success')
                 }
               })
-            } catch {
+            } catch (e) {
               setInternalStatus('error')
+              console.log('file input upload error', e)
               setFile(null)
               setInternalProgress(0)
               if (inputRef.current) {
