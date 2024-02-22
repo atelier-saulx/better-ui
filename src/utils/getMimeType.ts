@@ -9,8 +9,10 @@ const extensionVideoRe = /\.(webm|mov|mp4|hls|dash|ts)$/
 const imgNames = /(avatar)|(picture)|(logo)|(photo)/
 
 export const getMimeType = (
-  src: string
+  src: string,
 ): BasedSchemaContentMediaType | 'directory' => {
+  src = src.replace(/\?.+$/, '')
+
   if (src.startsWith('data:')) {
     if (imageDataRe.test(src)) {
       return 'image/*'

@@ -1,10 +1,15 @@
-import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
+import {
+  BasedSchemaContentMediaType,
+  BasedSchemaField,
+  BasedSchemaFieldObject,
+} from '@based/schema'
 import { TableCtx, Path } from './types.js'
 import { getStringWidth, textVariants } from '../../index.js'
+import humanizeString from 'humanize-string'
 
 const IDENTIFIER_FIELDS = [
-  'name',
   'title',
+  'name',
   'firstName',
   'email',
   'phone',
@@ -13,27 +18,88 @@ const IDENTIFIER_FIELDS = [
   'type',
 ]
 
+export const readInfoField = (obj: any, field: BasedSchemaField): string => {
+  if (typeof obj === 'object') {
+    const str = getIdentifierFieldValue(obj)
+    if (str) {
+      return str
+    }
+  }
+
+  if (isSmallField(field)) {
+    return obj
+  }
+
+  return field.title ?? humanizeString(field.type) ?? ''
+}
+
+// TODO clean up
 export const readPath = <T extends BasedSchemaField = BasedSchemaField>(
   ctx: TableCtx,
   path: Path,
-): { field: T; value: any | void } => {
+): { field: T; value: any | void; readOnly?: boolean } => {
   let selectedValue: any = ctx.values
   let selectedField: any = ctx.fields
+
+  let readOnly = ctx.readOnly
+
+  const hasOverrides = ctx.fieldOverrides
+  const hasValueOverrides = ctx.valueOverrides
+
+  let sO = ''
+
   for (const k of path) {
-    selectedValue = selectedValue?.[k]
-    const type = selectedField.type
-    if (type) {
-      if (type === 'record' || type === 'array') {
-        selectedField = selectedField.values
+    let noFieldSelect = false
+    let noValueSelect = false
+    if (hasOverrides || hasValueOverrides) {
+      if (sO) {
+        sO += '.' + k
+      } else {
+        sO += k
       }
-      if (type === 'object') {
-        selectedField = selectedField.properties[k]
+      if (hasOverrides?.[sO]) {
+        selectedField = hasOverrides[sO]
+        noFieldSelect = true
+      }
+      if (hasValueOverrides?.[sO]) {
+        selectedValue = hasValueOverrides[sO]
+        noValueSelect = true
+      }
+    }
+
+    if (!noValueSelect) {
+      selectedValue = selectedValue?.[k]
+    }
+
+    const type = selectedField.type
+    if (!noFieldSelect) {
+      if (type) {
+        if (type === 'array' || type === 'references') {
+          selectedField = selectedField.items
+        } else if (type === 'record') {
+          selectedField = selectedField.values
+        } else if (type === 'object') {
+          selectedField = selectedField.properties[k]
+        }
+      } else {
+        selectedField = selectedField[k]
+      }
+
+      if (!selectedField) {
+        break
+      }
+
+      if (selectedField.readOnly) {
+        readOnly = true
       }
     } else {
-      selectedField = selectedField[k]
+      if (selectedField.readOnly) {
+        readOnly = true
+      }
     }
   }
-  return { field: selectedField, value: selectedValue }
+
+  return { field: selectedField, value: selectedValue, readOnly }
 }
 
 export const getKeyWidth = (field: BasedSchemaField): number => {
@@ -69,13 +135,8 @@ export const getKeyWidth = (field: BasedSchemaField): number => {
 }
 
 export const canUseColumns = (field: BasedSchemaFieldObject): boolean => {
-  let cnt = 0
   for (const key in field.properties) {
     if (field.properties[key].description) {
-      return false
-    }
-    cnt++
-    if (cnt > 5) {
       return false
     }
     if (!isSmallField(field.properties[key])) {
@@ -95,10 +156,7 @@ export const getIdentifierField = (
   }
 }
 
-export const getIdentifierFieldValue = (
-  value: any,
-  skipFields?: string[],
-): string | void => {
+export const getIdentifierFieldValue = (value: any, skipFields?: string[]) => {
   if (typeof value === 'object') {
     for (const str of IDENTIFIER_FIELDS) {
       if (str in value && !skipFields?.includes(str)) {
@@ -134,11 +192,15 @@ export const isSmallField = (field: BasedSchemaField): boolean => {
     return false
   }
 
-  if (type === 'string' && field.multiline) {
+  if ((type === 'string' || type === 'text') && field.format === 'html') {
     return false
   }
 
-  if (type === 'string' && isCode(field.format)) {
+  if ((type === 'string' || type === 'text') && field.multiline) {
+    return false
+  }
+
+  if ((type === 'string' || type === 'text') && isCode(field.format)) {
     return false
   }
 
@@ -182,14 +244,32 @@ export const getTitle = (
   }
 
   if (key === 'createdAt') {
-    return 'Created at'
+    return 'Created At'
   }
 
   if (key === 'updatedAt') {
-    return 'Updated at'
+    return 'Last Updated'
   }
 
-  return key
+  return humanizeString(key + '')
+}
+
+export const isType = (field: BasedSchemaField): boolean => {
+  return field.type === 'string' && field.format === 'basedType'
+}
+
+export const isId = (field: BasedSchemaField): boolean => {
+  return field.type === 'string' && field.format === 'basedId'
+}
+
+export const isFile = (field: BasedSchemaField): boolean => {
+  return !!(field.type === 'string' && field.contentMediaType)
+}
+
+export const getContentMediaType = (
+  field: BasedSchemaField,
+): BasedSchemaContentMediaType | undefined => {
+  return field.type === 'string' ? field.contentMediaType : undefined
 }
 
 export const isCode = (format: any): boolean => {

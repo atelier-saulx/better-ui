@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Style, styled } from 'inlines'
-import { color as getColor } from '../../index.js'
+import { color as getColor, Stack } from '../../index.js'
 
 export const textVariants = {
   title: {
@@ -8,23 +8,31 @@ export const textVariants = {
     defaultTag: 'h1',
     fontSize: 40,
     fontWeight: 700,
-    letterSpacing: '0.4px',
-    lineHeight: '56px',
+    letterSpacing: '-0.14px',
+    lineHeight: '40px',
+  },
+  'sub-title': {
+    defaultColor: 'primary',
+    defaultTag: 'h3',
+    fontSize: 16,
+    fontWeight: 600,
+    letterSpacing: '0px',
+    lineHeight: '20px',
   },
   'title-page': {
     defaultColor: 'primary',
     defaultTag: 'h2',
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 700,
-    letterSpacing: '-0.24px',
-    lineHeight: '36px',
+    letterSpacing: '0px',
+    lineHeight: '30px',
   },
   'title-modal': {
     defaultColor: 'primary',
     defaultTag: 'h3',
     fontSize: 18,
     fontWeight: 700,
-    letterSpacing: '-0.18px',
+    letterSpacing: '0px',
     lineHeight: '32px',
   },
   'body-light': {
@@ -81,13 +89,14 @@ for (const variant in textVariants) {
 }
 
 export type TextProps = {
+  noSelect?: boolean
   children: React.ReactNode
   as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
   weight?: 'normal' | 'bold' | 'strong'
   style?: Style
   color?: 'primary' | 'secondary' | 'inverted' | 'inverted-muted' | 'inherit'
   variant?: keyof typeof textVariants
-  singleLine?: boolean
+  singleLine?: boolean | number
 }
 
 const selectColor = (
@@ -109,22 +118,48 @@ const selectColor = (
   )
 }
 
-export const Text = React.forwardRef<HTMLElement, TextProps>(
-  (
-    { as, variant = 'body', color, style, children, singleLine, weight },
-    ref,
-  ) => {
-    if (variant && !as) {
-      // @ts-ignore too dificult 🧠🎉
-      as = textVariants[variant].defaultTag
-    } else if (as && !variant) {
-      variant = selectFromTag[as]
-    }
+export const Text = React.forwardRef<HTMLElement, TextProps>((p, ref) => {
+  let {
+    as,
+    variant = 'body',
+    color,
+    style,
+    children,
+    singleLine,
+    weight,
+    noSelect,
+  } = p
 
+  if (variant && !as) {
+    // @ts-ignore too dificult 🧠🎉
+    as = textVariants[variant].defaultTag
+  } else if (as && !variant) {
+    variant = selectFromTag[as]
+  }
+
+  if (singleLine) {
+    const { singleLine, style, ...rest } = p
+    return (
+      <Stack style={style}>
+        <Text
+          {...rest}
+          style={{
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            minWidth: 0,
+            flexShrink: 1,
+            whiteSpace: 'nowrap',
+          }}
+        />
+        <styled.div style={{ flexShrink: 0 }} />
+      </Stack>
+    )
+  } else {
     return React.createElement(styled[as], {
       children,
       ref,
       style: {
+        userSelect: noSelect ? 'none' : 'inherit',
         margin: 0,
         padding: 0,
         color: selectColor(variant, color),
@@ -138,15 +173,8 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
               : weight === 'strong'
                 ? 600
                 : textVariants[variant].fontWeight,
-        ...(singleLine
-          ? {
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-            }
-          : {}),
         ...style,
       },
     })
-  },
-)
+  }
+})

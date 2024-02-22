@@ -9,24 +9,30 @@ type UseControllableStateParams<T> = {
   defaultProp?: boolean
 }
 
-export function useControllableState<T>({
-  value,
-  onChange = () => {},
-  checksum,
-  defaultValue,
-}: UseControllableStateParams<T>) {
+export function useControllableState<T>(
+  {
+    value,
+    onChange = () => {},
+    checksum,
+    defaultValue,
+  }: UseControllableStateParams<T>,
+  debounce?: number,
+) {
   const ref = React.useRef<{
     value?: T
     onChange?: typeof onChange
     checksum?: number
     newValue?: T
+    debounceTimer?: ReturnType<typeof setTimeout>
   }>({
     value,
     checksum,
   })
   ref.current.onChange = onChange
 
-  const [newValue, setNewValue] = React.useState<T>(value ?? defaultValue)
+  const [newValue, setNewValue] = React.useState<T>(
+    value === undefined ? defaultValue : value,
+  )
 
   ref.current.newValue = newValue
 
@@ -36,32 +42,60 @@ export function useControllableState<T>({
       if (typeof v === 'function') {
         // @ts-ignore too hard to understand 🧠
         const n = v(ref.current.newValue)
-        ref.current.onChange?.(n)
+        if (debounce) {
+          clearTimeout(ref.current.debounceTimer)
+          ref.current.debounceTimer = setTimeout(() => {
+            ref.current.onChange?.(n)
+            ref.current.debounceTimer = null
+          }, debounce)
+        } else {
+          ref.current.onChange?.(n)
+        }
+        setNewValue(n)
         return n
       }
-      ref.current.onChange?.(v)
+      if (debounce) {
+        clearTimeout(ref.current.debounceTimer)
+        ref.current.debounceTimer = setTimeout(() => {
+          ref.current.onChange?.(v)
+          ref.current.debounceTimer = null
+        }, debounce)
+      } else {
+        ref.current.onChange?.(v)
+      }
       setNewValue(v)
       return v
     },
-    []
+    [debounce],
   )
 
   if (checksum !== undefined) {
     React.useEffect(() => {
-      if (checksum !== ref.current.checksum) {
-        setNewValue(value === undefined && defaultValue ? defaultValue : value)
-        ref.current.value = value
-        ref.current.checksum = checksum
+      if (!ref.current.debounceTimer) {
+        if (checksum !== ref.current.checksum) {
+          setNewValue(
+            value === undefined && defaultValue ? defaultValue : value,
+          )
+          ref.current.value = value
+          ref.current.checksum = checksum
+        }
       }
     }, [checksum, defaultValue])
   } else {
     React.useEffect(() => {
-      if (value !== ref.current.value) {
-        setNewValue(value === undefined && defaultValue ? defaultValue : value)
-        ref.current.value = value
+      if (!ref.current.debounceTimer) {
+        if (value !== ref.current.value) {
+          setNewValue(
+            value === undefined && defaultValue ? defaultValue : value,
+          )
+          ref.current.value = value
+        }
       }
     }, [value, defaultValue])
   }
 
-  return [newValue ?? ref.current.value, update] as const
+  return [
+    newValue === undefined ? ref.current.value : newValue,
+    update,
+  ] as const
 }

@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Cell } from '../Cell.js'
-import { Field } from '../Field.js'
+import { Field } from '../Field/index.js'
 import { RowProps } from './types.js'
 import { DragableRow } from '../DragableRow.js'
 

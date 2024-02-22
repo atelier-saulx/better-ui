@@ -1,6 +1,12 @@
 import * as React from 'react'
 import { createPortal } from 'react-dom'
-import { ScrollArea, border, borderRadius, color } from '../../index.js'
+import {
+  ScrollArea,
+  border,
+  borderRadius,
+  boxShadow,
+  color,
+} from '../../index.js'
 import { styled } from 'inlines'
 
 export const PopoverContext = React.createContext<{
@@ -165,7 +171,7 @@ function Items({ children }: ItemsProps) {
           background: color('background', 'screen'),
           borderRadius: borderRadius('small'),
           border: border(),
-          boxShadow: 'var(--shadow-elevation)',
+          boxShadow: boxShadow('elevation'),
           padding: 8,
           ...(position && { maxHeight: position?.availableHeight }),
         }}

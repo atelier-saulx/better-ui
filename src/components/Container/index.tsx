@@ -5,6 +5,8 @@ import {
   useControllableState,
   color,
   border,
+  Text,
+  textVariants,
 } from '../../index.js'
 
 export type ContainerProps = {
@@ -90,26 +92,11 @@ export function Container({
         {prefix && <div>{prefix}</div>}
         <div>
           {title && (
-            <styled.div
-              style={{
-                fontSize: 14,
-                fontWeight: 600,
-                color: color('content', 'primary'),
-              }}
-            >
+            <div style={{ marginBottom: -4, ...textVariants['body-strong'] }}>
               {title}
-            </styled.div>
+            </div>
           )}
-          {description && (
-            <styled.div
-              style={{
-                fontSize: 14,
-                color: color('content', 'secondary'),
-              }}
-            >
-              {description}
-            </styled.div>
-          )}
+          {description && <Text color="secondary">{description}</Text>}
         </div>
         {suffix && (
           <styled.div style={{ marginLeft: 'auto' }}>{suffix}</styled.div>

@@ -1,14 +1,12 @@
 import * as React from 'react'
-import { hash } from '@saulx/hash'
-import { Style } from 'inlines'
+import { Style, styled } from 'inlines'
 import {
-  MUTED_SEMANTIC_COLORS,
-  SEMANTIC_COLORS,
-  SemanticVariant,
   borderRadius,
   border,
   color as getColor,
   textVariants,
+  NonSemanticColor,
+  hashNonSemanticColor,
 } from '../../index.js'
 
 // TODO think about if we need text over image, if so how do we handle the colors of the text
@@ -16,7 +14,7 @@ import {
 export type ThumbnailProps = {
   src?: string
   text?: string
-  color?: SemanticVariant | 'auto' | 'auto-muted'
+  color?: NonSemanticColor | 'auto' | 'auto-muted'
   size?:
     | 'extra-extra-large'
     | 'extra-large'
@@ -37,51 +35,43 @@ export function Thumbnail({
   text,
   size = 'regular',
   shape = 'square',
-  color: colorProp = 'auto',
+  color = 'auto',
   icon,
   onClick,
   count,
   outline,
   style,
 }: ThumbnailProps) {
-  const color = React.useMemo(() => {
-    //  if (!text) return
-
-    if (colorProp === 'auto' || colorProp === 'auto-muted') {
-      const colors =
-        colorProp === 'auto' ? SEMANTIC_COLORS : MUTED_SEMANTIC_COLORS
-
-      const index =
-        Math.floor(
-          Math.abs(Math.sin(hash(text || icon?.toString() || 'xxx'))) *
-            (colors.length - 1)
-        ) + 1
-
-      return colors[index]
-    }
-
-    return colorProp
-  }, [colorProp, text])
-
-  let borderColor
-
-  if (color.includes('muted')) {
-    borderColor = color.substring(0, color.length - 6)
-  }
-
   return (
-    <div
+    <styled.div
       style={{
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         border:
-          color.includes('muted') && outline
-            ? `1px solid ${getColor('semantic-background', borderColor)}`
-            : `0px solid transparent`,
-        color: getColor('semantic-color', color),
-        background: getColor('semantic-background', color),
+          outline && color !== 'auto'
+            ? `1px solid ${getColor('non-semantic-color', color as NonSemanticColor)}`
+            : outline && color === 'auto'
+              ? `1px solid ${hashNonSemanticColor(text || src, true)}`
+              : `0px solid transparent`,
+        color: color.includes('soft')
+          ? getColor(
+              'non-semantic-color',
+              color.slice(0, -5) as NonSemanticColor,
+            )
+          : color === 'auto'
+            ? getColor('content', 'inverted')
+            : color === 'auto-muted'
+              ? hashNonSemanticColor(text || src)
+              : hashNonSemanticColor(text || src),
+
+        background:
+          color !== 'auto' && color !== 'auto-muted'
+            ? getColor('non-semantic-color', color)
+            : color === 'auto'
+              ? hashNonSemanticColor(text || src)
+              : hashNonSemanticColor(text || src, true),
         ...(shape === 'square' && {
           borderRadius: borderRadius('medium'),
         }),
@@ -184,6 +174,6 @@ export function Thumbnail({
           {count}
         </div>
       )}
-    </div>
+    </styled.div>
   )
 }

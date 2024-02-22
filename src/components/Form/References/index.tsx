@@ -17,7 +17,12 @@ export function References({
   variant?: 'large' | 'small'
 }) {
   const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
-  const valueRef = React.useRef<ValueRef>({ orderId: 0, value })
+
+  const valueRef = React.useRef<ValueRef>({
+    orderId: 0,
+    value,
+  })
+
   valueRef.current.value = value
 
   const addNew = React.useCallback(async () => {
@@ -71,7 +76,7 @@ export function References({
         ctx={ctx}
         path={path}
         onRemove={removeItem}
-        value={value}
+        valueRef={valueRef.current}
         onNew={addNew}
         changeIndex={changeIndex}
       />
@@ -79,14 +84,7 @@ export function References({
   }
 
   return (
-    <Stack
-      direction="column"
-      align="start"
-      style={{
-        width: '100%',
-        // overflow: 'hidden',
-      }}
-    >
+    <Stack direction="column" align="start">
       <Stack grid style={{ marginTop: 12 }} display={value.length}>
         {value.map((v: Reference, index: number) => {
           return (

@@ -6,8 +6,9 @@ import {
   Button,
   useIsMobile,
   useControllableState,
-  textVariants,
+  Stack,
   borderRadius,
+  Text,
   color,
   border,
   ScrollArea,
@@ -27,6 +28,7 @@ type SidebarItem = {
 }
 
 export type SidebarProps = {
+  size?: 'small' | 'regular'
   data?: SidebarItem[] | { [key: string]: SidebarItem[] }
   open?: boolean
   onOpenChange?: (value: boolean) => void
@@ -35,7 +37,8 @@ export type SidebarProps = {
   style?: Style
   collapsable?: boolean
   children?: React.ReactNode
-  header?: React.ReactNode
+  header?: React.ReactNode | React.FC<{ open: boolean }>
+  footer?: React.ReactNode | React.FC<{ open: boolean }>
 }
 
 export function Sidebar({
@@ -48,6 +51,8 @@ export function Sidebar({
   collapsable = false,
   children,
   header,
+  footer,
+  size,
 }: SidebarProps) {
   const isMobile = useIsMobile()
   let [open, setOpen] = useControllableState({
@@ -62,60 +67,109 @@ export function Sidebar({
   }, [isMobile])
 
   return (
-    <styled.aside
+    <Stack
+      as="aside"
+      direction="column"
       style={{
         flexShrink: 0,
-        position: 'relative',
         width: open ? 248 : 65,
+        maxHeight: '100%',
         height: '100%',
         borderRight: border(),
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
         ...style,
       }}
     >
-      {header && <div style={{ padding: '16px 12px' }}>{header}</div>}
-
       <SidebarContext.Provider value={{ open, value, onValueChange }}>
-        <div style={{ flex: '1', overflow: 'hidden' }}>
-          <ScrollArea
+        <ScrollArea
+          style={{
+            paddingLeft: open ? 8 : 12,
+            paddingRight: open ? 12 : 8,
+            paddingTop: 32,
+            paddingBottom: 24,
+          }}
+        >
+          <div
             style={{
-              padding: header ? '0 12px 64px' : '16px 12px 64px',
+              flexDirection: 'column',
+              display: 'flex',
+              height: '100%',
             }}
           >
-            {children
-              ? children
-              : Array.isArray(data)
-                ? data.map((e, i) => (
-                    <SidebarItem
-                      key={i}
-                      prefix={e.prefix}
-                      suffix={e.suffix}
-                      value={e.value}
-                    >
-                      {e.label}
-                    </SidebarItem>
-                  ))
-                : Object.entries(data).map(([title, items]) => (
-                    <SidebarGroup key={title} title={title}>
-                      {items.map((e, i) => (
-                        <SidebarItem
-                          key={i}
-                          prefix={e.prefix}
-                          suffix={e.suffix}
-                          value={e.value}
-                        >
-                          {e.label}
-                        </SidebarItem>
-                      ))}
-                    </SidebarGroup>
-                  ))}
-          </ScrollArea>
-        </div>
+            {header && (
+              <Stack
+                justify={open ? 'start' : 'center'}
+                style={{
+                  paddingLeft: open ? 8 : 0,
+                  width: '100%',
+                  paddingBottom: open ? 24 : 12,
+                }}
+              >
+                {typeof header === 'function'
+                  ? React.createElement(header, { open })
+                  : header}
+              </Stack>
+            )}
+            <Stack
+              justify="start"
+              direction="column"
+              gap={size === 'small' ? 4 : 8}
+            >
+              {children
+                ? children
+                : Array.isArray(data)
+                  ? data.map((e, i) => (
+                      <SidebarItem
+                        key={i}
+                        prefix={e.prefix}
+                        suffix={e.suffix}
+                        value={e.value}
+                        size={size}
+                      >
+                        {e.label}
+                      </SidebarItem>
+                    ))
+                  : Object.entries(data).map(([title, items], index) => (
+                      <SidebarGroup
+                        size={size}
+                        key={title}
+                        title={title}
+                        index={index}
+                      >
+                        {items.map((e, i) => (
+                          <SidebarItem
+                            key={i}
+                            prefix={e.prefix}
+                            suffix={e.suffix}
+                            value={e.value}
+                            size={size}
+                          >
+                            {e.label}
+                          </SidebarItem>
+                        ))}
+                      </SidebarGroup>
+                    ))}
+            </Stack>
+            {footer && (
+              <>
+                <div style={{ flexGrow: 1 }} />
+                <Stack
+                  justify={open ? 'start' : 'center'}
+                  style={{
+                    paddingLeft: open ? 8 : 0,
+                    width: '100%',
+                  }}
+                >
+                  {typeof footer === 'function'
+                    ? React.createElement(footer, { open })
+                    : footer}
+                </Stack>
+              </>
+            )}
+          </div>
+        </ScrollArea>
       </SidebarContext.Provider>
       {collapsable ? (
-        <div style={{ position: 'absolute', bottom: 16, right: 12 }}>
+        <styled.div style={{ position: 'absolute', bottom: 16, right: 12 }}>
           <Tooltip
             content={open ? 'Collapse sidebar' : 'Expand sidebar'}
             side={open ? 'top' : 'right'}
@@ -130,9 +184,9 @@ export function Sidebar({
               <IconViewLayoutLeft />
             </Button>
           </Tooltip>
-        </div>
+        </styled.div>
       ) : null}
-    </styled.aside>
+    </Stack>
   )
 }
 
@@ -141,6 +195,7 @@ export type SidebarItemProps = {
   suffix?: React.ReactNode
   children: string
   value: string
+  size?: 'small' | 'regular'
 }
 
 export function SidebarItem({
@@ -148,6 +203,7 @@ export function SidebarItem({
   prefix,
   suffix,
   value,
+  size,
 }: SidebarItemProps) {
   const {
     open,
@@ -157,20 +213,19 @@ export function SidebarItem({
 
   if (open) {
     return (
-      <styled.div
+      <Stack
+        gap={8}
         style={{
-          height: '40px',
-          display: 'flex',
-          alignItems: 'center',
-          padding: '0 10px',
-          borderRadius: borderRadius('small'),
-          cursor: 'pointer',
+          ...(size === 'small' && {
+            '& svg': {
+              height: 16,
+              width: 16,
+            },
+          }),
+          height: size === 'small' ? 32 : 40,
+          padding: '0 8px',
+          borderRadius: borderRadius(size === 'small' ? 'tiny' : 'small'),
           color: color('content', 'primary'),
-
-          '&:not(:first-of-type)': {
-            marginTop: '8px',
-          },
-          '& > * + *': { marginLeft: '10px' },
           ...(sidebarValue === value
             ? {
                 color: color('interactive', 'primary'),
@@ -186,24 +241,29 @@ export function SidebarItem({
           onValueChange(value)
         }}
       >
-        {prefix}
-        <span
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-          }}
+        {prefix ? (
+          <styled.div style={{ flexShrink: 0 }}>{prefix}</styled.div>
+        ) : null}
+        <Text
+          noSelect
+          variant={sidebarValue === value ? 'body-bold' : 'body'}
+          singleLine
+          color="inherit"
+          style={{ flexGrow: 1 }}
         >
           {children}
-        </span>
-        <span style={{ marginLeft: 'auto' }}>{suffix}</span>
-      </styled.div>
+        </Text>
+        <Stack fitContent justify="end">
+          {suffix}
+        </Stack>
+      </Stack>
     )
   }
 
   return (
-    <styled.div
+    <Stack
+      // gap
       style={{
-        display: 'flex',
         '&:not(:first-of-type)': {
           marginTop: '8px',
         },
@@ -240,43 +300,50 @@ export function SidebarItem({
                 }),
           }}
         >
-          {prefix ? prefix : children.substring(0, 2) + '...'}
+          {prefix !== undefined
+            ? prefix
+            : children.substring(0, 2).toUpperCase()}
         </styled.div>
       </Tooltip>
-    </styled.div>
+    </Stack>
   )
 }
 
 export type SidebarGroupProps = {
   children: React.ReactNode
   title: string
+  index: number
+  size: 'small' | 'regular'
 }
 
-export function SidebarGroup({ title, children }: SidebarGroupProps) {
+export function SidebarGroup({
+  title,
+  children,
+  index,
+  size,
+}: SidebarGroupProps) {
   const { open } = React.useContext(SidebarContext)
 
   return (
-    <styled.div
+    <Stack
+      gap={size === 'small' ? 4 : 8}
+      direction="column"
       style={{
-        '&:not(:first-child)': {
-          marginTop: '24px',
-        },
+        marginTop: index > 0 ? 32 : 0,
       }}
     >
-      <div
-        style={{
-          paddingLeft: '4px',
-          paddingRight: '4px',
-          ...textVariants['body-strong'],
-          color: color('content', 'secondary'),
-          textTransform: 'uppercase',
-          opacity: open ? 1 : 0,
-          height: 24,
-        }}
-      >
-        {title}
-      </div>
+      {open ? (
+        <Text
+          noSelect
+          style={{ marginLeft: 7, marginBottom: 4 }}
+          variant="caption"
+        >
+          {title}
+        </Text>
+      ) : (
+        <div style={{ marginTop: 8, border: border(), width: '100%' }} />
+      )}
       {children}
-    </styled.div>
+    </Stack>
   )
 }

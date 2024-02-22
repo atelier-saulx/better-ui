@@ -31,6 +31,11 @@ const createListeners = (
 
       if (!valueRef.current.hasChanges) {
         valueRef.current.hasChanges = true
+
+        if (valueRef.current.props.formRef) {
+          valueRef.current.props.formRef.current.hasChanges = true
+        }
+
         valueRef.current.values = deepCopy(valueRef.current.props.values)
       }
 
@@ -52,7 +57,11 @@ const createListeners = (
           valueRef.current.values,
           valueRef.current.changes,
           hash,
-          createBasedObject(ctx, valueRef.current.changes),
+          createBasedObject(
+            ctx,
+            valueRef.current.values,
+            valueRef.current.changes,
+          ),
         )
       }
 
@@ -90,7 +99,7 @@ const createListeners = (
 export const useListeners = (
   valueRef: MutableRefObject<ValueRef>,
   setChecksum: (checksum: number) => void,
-  update: () => void
+  update: () => void,
 ): Listeners => {
   return useMemo(() => {
     return createListeners(valueRef, setChecksum, update)

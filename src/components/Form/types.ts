@@ -1,11 +1,12 @@
 import {
-  BasedSchema,
   BasedSchemaField,
   BasedSchemaFieldReference,
   BasedSchemaFieldReferences,
   BasedSchemaFieldString,
+  BasedSchemaPartial,
 } from '@based/schema'
 import { ButtonProps } from '../Button/index.js'
+import { Infinite } from '../Table/index.stories.js'
 
 export type Reference = string | ({ [key: string]: any } & { id: string })
 
@@ -21,6 +22,7 @@ export type ColSizes = {
   width?: number
   key: string
   field: BasedSchemaField
+  flexible?: boolean
 }[]
 
 export type Listeners = {
@@ -69,8 +71,12 @@ export type TableCtx = {
   fields: { [key: string]: BasedSchemaField }
   values: { [key: string]: any }
   variant: Variant
-  schema?: BasedSchema
+  schema?: BasedSchemaPartial
   listeners: Listeners
+  fieldOverrides?: { [path: string]: BasedSchemaField }
+  valueOverrides?: { [path: string]: any }
+  readOnly?: boolean
+  editableReferences?: boolean
 }
 
 export type Path = (string | number)[]
@@ -78,3 +84,10 @@ export type Path = (string | number)[]
 export type TableProps = { ctx: TableCtx; path: Path }
 
 export type Variant = 'regular' | 'small' | 'bare' | 'no-confirm'
+
+export type TableSort = {
+  exclude?: Set<string>
+  include?: Set<string>
+  sorted?: { key: string; dir: 'asc' | 'desc' }
+  onSort: (key: string, dir: 'asc' | 'desc', sort: TableSort) => void
+}

@@ -11,6 +11,8 @@ import {
   SelectInput,
   ColorInput,
   CheckboxInput,
+  RichTextEditor,
+  BadgeId,
 } from '../../index.js'
 import { FormField } from './FormField.js'
 import { Table } from './Table/index.js'
@@ -39,10 +41,11 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <SelectInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             options={field.enum}
             value={ctx.values[key]}
@@ -55,15 +58,28 @@ export const Field = ({
     )
   }
 
+  if (field.type === 'string' && field.format === 'basedId' && field.readOnly) {
+    return (
+      <styled.div
+        style={{
+          marginBottom: 32,
+        }}
+      >
+        <BadgeId id={ctx.values[key]} />
+      </styled.div>
+    )
+  }
+
   if (field.type === 'boolean') {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <CheckboxInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             variant="toggle"
             value={ctx.values[key]}
@@ -81,10 +97,11 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
+            // maxWidth: 450,
           }}
         >
-          <Reference path={path} ctx={ctx} />
+          <Reference readOnly={field.readOnly} path={path} ctx={ctx} />
         </styled.div>
       </FormField>
     )
@@ -92,7 +109,13 @@ export const Field = ({
 
   if (field.type === 'references') {
     return (
-      <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
+      <FormField
+        noBorder
+        fieldKey={key}
+        key={key}
+        variant={ctx.variant}
+        field={field}
+      >
         <References path={path} ctx={ctx} />
       </FormField>
     )
@@ -103,8 +126,8 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            minWidth: 450,
-            maxWidth: 750,
+            width: '100%',
+            // maxWidth: 450,
           }}
         >
           <Code
@@ -120,16 +143,30 @@ export const Field = ({
     )
   }
 
-  if (type === 'string' && isCode(field.format)) {
+  if ((type === 'string' || type === 'text') && field.format === 'html') {
+    return (
+      <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
+        <RichTextEditor
+          value={ctx.values[key]}
+          onChange={(html) => {
+            ctx.listeners.onChangeHandler(ctx, path, html)
+          }}
+        />
+      </FormField>
+    )
+  }
+
+  if ((type === 'string' || type === 'text') && isCode(field.format)) {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            minWidth: 450,
-            maxWidth: 750,
+            // minWidth: 450,
+            width: '100%',
           }}
         >
           <Code
+            // TODO disabled={field.readOnly}
             copy
             color={
               field.format === 'json' || field.format === 'markdown'
@@ -153,10 +190,11 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <ColorInput
+            disabled={field.readOnly}
             value={ctx.values[key]}
             onChange={(value) => {
               ctx.listeners.onChangeHandler(ctx, path, value)
@@ -172,10 +210,11 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <FileInput
+            disabled={field.readOnly}
             mimeType={field.contentMediaType}
             value={ctx.values[key] ? { src: ctx.values[key] } : undefined}
             onChange={async (file, updateProgress) => {
@@ -201,10 +240,11 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <TextAreaInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             value={ctx.values[key] as string}
             onChange={(value) => {
@@ -221,10 +261,11 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <TextInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             value={ctx.values[key] as string}
             onChange={(value) => {
@@ -236,15 +277,16 @@ export const Field = ({
     )
   }
 
-  if (type === 'number') {
+  if (type === 'number' || type === 'integer') {
     return (
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <NumberInput
+            disabled={field.readOnly}
             autoFocus={autoFocus}
             value={ctx.values[key] as number}
             onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
@@ -259,10 +301,11 @@ export const Field = ({
       <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
         <styled.div
           style={{
-            width: 450,
+            width: '100%',
           }}
         >
           <DateInput
+            disabled={field.readOnly}
             time
             value={ctx.values[key] as number}
             onChange={(v) => ctx.listeners.onChangeHandler(ctx, path, v)}
@@ -282,7 +325,13 @@ export const Field = ({
 
   if (isTable(field)) {
     return (
-      <FormField fieldKey={key} key={key} variant={ctx.variant} field={field}>
+      <FormField
+        fieldKey={key}
+        key={key}
+        noBorder
+        variant={ctx.variant}
+        field={field}
+      >
         <Table path={[key]} ctx={ctx} />
       </FormField>
     )

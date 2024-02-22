@@ -41,7 +41,7 @@ export const CheckboxInput = React.forwardRef<
       disabled,
       style,
     },
-    ref
+    ref,
   ) => {
     const [value = false, setValue] = useControllableState({
       value: valueProp,
@@ -55,11 +55,11 @@ export const CheckboxInput = React.forwardRef<
       <Stack
         as="label"
         justify="start"
-        align="start"
+        align={description !== undefined ? 'start' : 'center'}
         gap={12}
         style={{
           opacity: disabled ? 0.6 : 1,
-          cursor: disabled ? 'not-allowed' : 'default',
+          cursor: disabled ? 'not-allowed' : 'pointer',
           ...style,
         }}
       >
@@ -97,7 +97,6 @@ export const CheckboxInput = React.forwardRef<
         />
         {variant === 'checkbox' ? (
           <styled.div
-            className="box"
             style={{
               height: 16,
               width: 16,
@@ -110,7 +109,6 @@ export const CheckboxInput = React.forwardRef<
                 ? color('interactive', 'primary')
                 : 'transparent',
               borderRadius: borderRadius('tiny'),
-              marginTop: 4,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -127,7 +125,7 @@ export const CheckboxInput = React.forwardRef<
               ...(focused && {
                 boxShadow: `0px 0px 0px 1px ${color(
                   'background',
-                  'screen'
+                  'screen',
                 )}, 0px 0px 0px 3px ${color('interactive', 'primary')}`,
               }),
             }}
@@ -139,7 +137,6 @@ export const CheckboxInput = React.forwardRef<
         ) : (
           <styled.div
             style={{
-              marginTop: 4,
               width: 36,
               height: 20,
               padding: 2,
@@ -155,12 +152,12 @@ export const CheckboxInput = React.forwardRef<
               ...(focused && {
                 boxShadow: `0px 0px 0px 1px ${color(
                   'background',
-                  'screen'
+                  'screen',
                 )}, 0px 0px 0px 3px ${color('interactive', 'primary')}`,
               }),
             }}
           >
-            <div
+            <styled.div
               style={{
                 width: 16,
                 height: 16,
@@ -174,7 +171,9 @@ export const CheckboxInput = React.forwardRef<
         )}
         <div>
           {label !== undefined ? (
-            <Text variant="body-bold">{label}</Text>
+            <Text noSelect variant="body-bold">
+              {label}
+            </Text>
           ) : null}
           {description !== undefined ? (
             <Text color="secondary" variant="body-bold">
@@ -184,5 +183,5 @@ export const CheckboxInput = React.forwardRef<
         </div>
       </Stack>
     )
-  }
+  },
 )

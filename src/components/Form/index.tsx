@@ -1,11 +1,12 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
-import { BasedSchemaField, BasedSchema } from '@based/schema'
+import { BasedSchemaField, BasedSchemaPartial } from '@based/schema'
 import { Stack, useUpdate } from '../../index.js'
 import { Variant, Listeners, Path, TableCtx } from './types.js'
 import { deepCopy, deepMergeArrays } from '@saulx/utils'
 import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
 import { Field } from './Field.js'
 import { FormConfirm } from './FormConfirm.js'
+import { styled } from 'inlines'
 import { useListeners } from './useListeners.js'
 import { createBasedObject } from './createBasedObject.js'
 
@@ -59,8 +60,9 @@ export type FormProps = {
   confirmLabel?: ReactNode
   fields: FormValues
   variant?: Variant
+  editableReferences?: boolean
   // for later check ref types (can check ids and check allowedTypes)
-  schema?: BasedSchema
+  schema?: BasedSchemaPartial
   formRef?: {
     current: {
       confirm: () => Promise<FormValues>
@@ -70,6 +72,52 @@ export type FormProps = {
       changes: { [key: string]: any }
     }
   }
+}
+
+type Group = {
+  items: {
+    key: string
+    field: BasedSchemaField
+  }[]
+  isLast: boolean
+  cols: boolean
+}
+
+const makeGroups = (arr: [string, BasedSchemaField][]): Group[] => {
+  const groups: Group[] = []
+  let lastGroup: Group
+  for (let i = 0; i < arr.length; i++) {
+    const [key, field] = arr[i]
+    if (
+      field.type === 'object' ||
+      field.type === 'array' ||
+      field.type === 'set' ||
+      field.type === 'references' ||
+      field.type === 'record' ||
+      ((field.type === 'text' || field.type === 'string') &&
+        field.format === 'html')
+    ) {
+      if (lastGroup) {
+        groups.push(lastGroup)
+        lastGroup = null
+      }
+      groups.push({
+        cols: false,
+        isLast: i === arr.length - 1,
+        items: [{ key, field }],
+      })
+    } else {
+      if (!lastGroup) {
+        lastGroup = { items: [], cols: true, isLast: false }
+      }
+      lastGroup.items.push({ key, field })
+    }
+  }
+  if (lastGroup) {
+    lastGroup.isLast = true
+    groups.push(lastGroup)
+  }
+  return groups
 }
 
 export const Form = (p: FormProps) => {
@@ -86,6 +134,15 @@ export const Form = (p: FormProps) => {
 
   const [currentChecksum, setChecksum] = React.useState(p.checksum)
 
+  const ctxRef = useRef<TableCtx>({
+    variant: p.variant,
+    fields: p.fields,
+    values: valueRef.current.values,
+    listeners: useListeners(valueRef, setChecksum, update),
+    schema: p.schema,
+    editableReferences: p.editableReferences,
+  })
+
   const onConfirm = React.useCallback(async () => {
     try {
       const hash = hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
@@ -93,13 +150,21 @@ export const Form = (p: FormProps) => {
         valueRef.current.values,
         valueRef.current.changes,
         hash,
-        createBasedObject(ctx, valueRef.current.changes),
+        createBasedObject(
+          ctxRef.current,
+          valueRef.current.values,
+          valueRef.current.changes,
+        ),
       )
       valueRef.current.hasChanges = false
       valueRef.current.values = valueRef.current.props.values ?? {}
       valueRef.current.changes = {}
       setChecksum(hash)
       // Force update
+      if (p.formRef) {
+        p.formRef.current.hasChanges = false
+      }
+
       update()
     } catch (err) {
       throw err
@@ -115,6 +180,11 @@ export const Form = (p: FormProps) => {
       hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
     setChecksum(hash)
     // Force update
+
+    if (p.formRef) {
+      p.formRef.current.hasChanges = false
+    }
+
     update()
   }, [])
 
@@ -140,7 +210,6 @@ export const Form = (p: FormProps) => {
     )
   }
 
-  // May not be a good idea...
   useEffect(() => {
     const p = valueRef.current.props
     if (p.values) {
@@ -155,47 +224,69 @@ export const Form = (p: FormProps) => {
     }
   }, [p.checksum, p.values])
 
-  // Memoize this
-  const listeners = useListeners(valueRef, setChecksum, update)
-
-  const ctx: TableCtx = {
-    variant: p.variant,
-    fields: p.fields,
-    values: valueRef.current.values,
-    listeners,
-  }
+  // so we can make a copy
+  ctxRef.current.variant = p.variant
+  ctxRef.current.values = valueRef.current.values
+  ctxRef.current.schema = p.schema
+  ctxRef.current.editableReferences = p.editableReferences
 
   return (
-    <Stack
-      gap={32}
-      direction="column"
-      align="start"
-      style={{
-        width: '100%',
-      }}
-    >
-      {Object.entries(p.fields)
-        .sort(([, a], [, b]) => {
-          return a.index > b.index ? -1 : a.index < b.index ? 1 : 0
-        })
-        .map(([key, field], i) => {
+    <>
+      {p.formRef ? null : (
+        <FormConfirm
+          confirmLabel={p.confirmLabel}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          hasChanges={valueRef.current.hasChanges}
+          variant={p.variant}
+        />
+      )}
+      <styled.div
+        style={{
+          width: '100%',
+          marginTop:
+            p.variant === 'bare' || p.variant === 'no-confirm' ? 0 : 32,
+        }}
+      >
+        {makeGroups(
+          Object.entries(p.fields).sort(([, a], [, b]) => {
+            const aIndex = a.index ?? 1e6
+            const bIndex = b.index ?? 1e6
+            return aIndex === bIndex ? 0 : aIndex > bIndex ? 1 : -1
+          }),
+        ).map((group, i) => {
           return (
-            <Field
-              ctx={ctx}
-              key={key}
-              field={field}
-              propKey={key}
-              autoFocus={p.autoFocus && i === 0}
-            />
+            <styled.div
+              key={i}
+              style={{
+                width: '100%',
+                columns: group.cols ? '2 500px' : 'none',
+                columnGap: '48px',
+                marginTop: i === 0 ? 0 : 32,
+                marginBottom: !group.cols && !group.isLast ? 32 : 0,
+              }}
+            >
+              {group.items.map(({ key, field }, i) => (
+                <styled.div
+                  key={i}
+                  style={{
+                    marginBottom: group.cols || !group.isLast ? 32 : 0,
+                    pageBreakInside: 'avoid',
+                  }}
+                >
+                  <Field
+                    ctx={ctxRef.current}
+                    key={key}
+                    field={field}
+                    propKey={key}
+                    autoFocus={p.autoFocus && i === 0}
+                  />
+                </styled.div>
+              ))}
+            </styled.div>
           )
         })}
-      <FormConfirm
-        confirmLabel={p.confirmLabel}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-        hasChanges={valueRef.current.hasChanges}
-        variant={p.variant}
-      />
-    </Stack>
+      </styled.div>
+    </>
   )
 }

@@ -93,12 +93,12 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
                 index === 0 ? [] : queue.current.slice(0, index)
               ).reduce((acc, curr) => acc + (curr?.height ?? 0), 0)
 
-              console.log(
-                index,
-                index > 0 && queue.current.some((e) => e.entering)
-                  ? '250ms'
-                  : 'none',
-              )
+              // console.log(
+              //   index,
+              //   index > 0 && queue.current.some((e) => e.entering)
+              //     ? '250ms'
+              //     : 'none',
+              // )
 
               return (
                 <div

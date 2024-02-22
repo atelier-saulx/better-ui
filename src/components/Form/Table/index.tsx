@@ -1,7 +1,14 @@
 import React from 'react'
 import { styled } from 'inlines'
 import { BasedSchemaField } from '@based/schema'
-import { Stack, border, color, Text } from '../../../index.js'
+import {
+  Stack,
+  border,
+  color,
+  Text,
+  Tooltip,
+  IconGlobe,
+} from '../../../index.js'
 import { TableProps } from '../types.js'
 import {
   readPath,
@@ -11,9 +18,9 @@ import {
   getTitle,
 } from '../utils.js'
 import { Cell } from './Cell.js'
-import { Field } from './Field.js'
+import { Field } from './Field/index.js'
 import { Record } from './Record.js'
-import { Object } from './Object.js'
+import { ObjectParser } from './Object.js'
 import { Arrays } from './Arrays/index.js'
 
 function Title({
@@ -28,15 +35,24 @@ function Title({
     <Cell
       border
       isKey
-      width={getKeyWidth(parent) + (isNestedArray ? 60 : 0)}
+      width={getKeyWidth(parent) + (isNestedArray ? 48 : 0)}
       style={{
         background: color('background', 'muted'),
         borderBottom: border(),
-        paddingLeft: isNestedArray ? 60 : 20,
+        paddingLeft: isNestedArray ? 48 : 20,
       }}
     >
       <styled.div style={{ marginBottom: 8, marginTop: 8 }}>
-        {getTitle(path[path.length - 1], field)}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <Text variant="body-bold">
+            {getTitle(path[path.length - 1], field)}
+          </Text>
+          {field.type === 'text' && (
+            <Tooltip content="This field is translated into multiple languages">
+              <IconGlobe size={14} />
+            </Tooltip>
+          )}
+        </div>
         {field.description ? (
           <Text style={{ marginTop: -2 }} color="secondary">
             {field.description}
@@ -56,7 +72,7 @@ function Body({ ctx, path }: TableProps) {
   }
 
   if (type === 'object') {
-    return <Object ctx={ctx} path={path} />
+    return <ObjectParser ctx={ctx} path={path} />
   }
 
   if (type === 'array') {

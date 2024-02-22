@@ -15,6 +15,13 @@ Use a better box model (opinionated).
   box-sizing: border-box;
 }
 
+.fill {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  border: 1px solid red;
+}
+
 *:focus {
   outline: none;
 }
@@ -27,8 +34,8 @@ html {
   -webkit-text-size-adjust: 100%; /* 2. Prevent adjustments of font size after orientation changes in iOS. */
   -moz-tab-size: 4; /* 3. Use a more readable tab size (opinionated). */
   tab-size: 4; /* 3 */
-  color: var(--content-primary);
-  background: var(--background-screen);
+  color: #1b242c;
+  background: #fff;
   -webkit-font-smoothing: antialiased;
 }
 

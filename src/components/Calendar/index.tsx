@@ -1,125 +1,262 @@
 import * as React from 'react'
-
 import {
-  addMonths,
   startOfWeek,
   startOfMonth,
   endOfMonth,
   addDays,
+  addMonths,
   compareAsc,
   endOfWeek,
-  format,
   isSameMonth,
+  isSameWeek,
+  isSameDay,
+  format,
+  endOfDay,
+  addWeeks,
+  eachDayOfInterval,
 } from 'date-fns'
-import {
-  Button,
-  IconChevronDown,
-  IconChevronTop,
-  border,
-  borderRadius,
-  textVariants,
-} from '../../index.js'
+import { ScrollArea, border, borderRadius, color } from '../../index.js'
+import { styled } from 'inlines'
+import { Header } from './Header.js'
+import { SubHeader } from './SubHeader.js'
+import { MonthCell } from './MonthCell.js'
+import { WeekDayColumn } from './WeekDayColumn.js'
 
-export type CalendarProps = {}
+export type CalendarProps = {
+  data?: {}[]
+  timeStartField?: string
+  timeEndField?: string
+  labelField?: string
+  view?: 'month' | 'week' | 'day'
+  onClick?: () => void
+  startRange?: number
+  endRange?: number
+}
 
-export function Calendar(_: CalendarProps) {
-  const [displayMonth, setDisplayMonth] = React.useState(new Date())
+export const Calendar = ({
+  data,
+  timeStartField = 'createdAt',
+  timeEndField,
+  labelField = 'title',
+  view: viewProp = 'month',
+  onClick,
+  startRange,
+  endRange,
+}: CalendarProps) => {
+  // display month is the date // could be better named in hindsight // for that start week offset
+  const [displayMonth, setDisplayMonth] = React.useState(
+    addWeeks(new Date(), 1),
+  )
+  const [view, setView] = React.useState(viewProp)
 
   const getDays = React.useCallback(() => {
     const days = []
-    let curr = startOfWeek(startOfMonth(displayMonth), { weekStartsOn: 1 })
-    const end = endOfWeek(endOfMonth(displayMonth), { weekStartsOn: 1 })
 
-    while (compareAsc(curr, end) < 1) {
-      days.push(curr)
-      curr = addDays(curr, 1)
+    if (view === 'month') {
+      let curr = startOfWeek(startOfMonth(displayMonth), { weekStartsOn: 1 })
+      const end = endOfWeek(endOfMonth(displayMonth), { weekStartsOn: 1 })
+
+      while (compareAsc(curr, end) < 1) {
+        days.push(curr)
+        curr = addDays(curr, 1)
+      }
+    } else if (view === 'week') {
+      let curr = startOfWeek(startOfWeek(displayMonth), { weekStartsOn: 1 })
+      const end = endOfWeek(endOfWeek(displayMonth), { weekStartsOn: 1 })
+
+      while (compareAsc(curr, end) < 1) {
+        days.push(curr)
+        curr = addDays(curr, 1)
+      }
     }
 
     return days
-  }, [displayMonth])
+  }, [displayMonth, view])
+
+  let currentTimeHours = Number(format(new Date(), 'H'))
+  let currentTimeMinutes = Number(format(new Date(), 'm'))
+  console.log(currentTimeHours, currentTimeMinutes)
+
+  // console.log('⚱️🩸', data)
+
+  if (timeEndField && view === 'week') {
+    for (let i = 0; i < data.length; i++) {
+      let numberOfDays = eachDayOfInterval({
+        start: new Date(data[i][timeStartField]),
+        end: new Date(data[i][timeEndField]),
+      })
+
+      if (numberOfDays) {
+        for (let j = 0; j < numberOfDays?.length; j++) {
+          if (j !== 0 && j !== numberOfDays.length - 1) {
+            data.push({
+              ...data[i],
+              [timeStartField]: Number(format(numberOfDays[j], 'T')),
+              [timeEndField]: Number(format(endOfDay(numberOfDays[j]), 'T')),
+            })
+          } else if (j !== 0) {
+            data.push({
+              ...data[i],
+              [timeStartField]: Number(format(numberOfDays[j], 'T')),
+            })
+          }
+        }
+      }
+    }
+  }
+
+  data = [...removeDuplicates(data)]
+
+  function removeDuplicates(data) {
+    return data.filter(
+      (obj, index) =>
+        data.findIndex(
+          (item) =>
+            item[timeStartField] === obj[timeStartField] &&
+            item[labelField] === obj[labelField],
+        ) === index,
+    )
+  }
+
+  //check overlapping monthly data
+  let monthData = data?.filter(
+    (item) =>
+      isSameMonth(displayMonth, item[timeStartField]) ||
+      isSameMonth(addMonths(displayMonth, -1), item[timeStartField]) ||
+      isSameMonth(addMonths(displayMonth, 1), item[timeStartField]) ||
+      isSameMonth(addMonths(displayMonth, -1), item[timeEndField]) ||
+      isSameMonth(addMonths(displayMonth, 1), item[timeEndField]),
+  )
+
+  // get weekdata
+  let weekData = data?.filter(
+    (item) =>
+      isSameWeek(addWeeks(displayMonth, -1), item[timeStartField]) ||
+      isSameWeek(addWeeks(displayMonth, -1), item[timeEndField]) ||
+      isSameWeek(
+        addDays(addWeeks(displayMonth, -1), 7),
+        item[timeStartField],
+      ) ||
+      isSameWeek(addDays(addWeeks(displayMonth, -1), 7), item[timeEndField]),
+  )
 
   return (
-    <div
+    <styled.div
       style={{
-        border: border(),
         borderRadius: borderRadius('medium'),
         padding: 24,
+        width: '100%',
       }}
     >
-      <div
+      <Header
+        displayMonth={displayMonth}
+        setDisplayMonth={setDisplayMonth}
+        view={view}
+        setView={setView}
+        startRange={startRange}
+        endRange={endRange}
+      />
+      <SubHeader view={view} dayDates={getDays().map((day) => day)} />
+
+      <ScrollArea
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingBottom: 24,
-          ...textVariants['body-strong'],
-          fontSize: 16,
+          height: 800,
+          borderBottom: border(),
+          borderBottomLeftRadius: 8,
+          borderBottomRightRadius: 8,
         }}
       >
-        <div>{format(displayMonth, 'MMMM yyyy')}</div>
-        <div>
-          <Button
-            size="small"
-            variant="neutral-transparent"
-            shape="square"
-            onClick={() => {
-              setDisplayMonth(addMonths(displayMonth, -1))
-            }}
-          >
-            <IconChevronDown />
-          </Button>
-          <Button
-            size="small"
-            variant="neutral-transparent"
-            shape="square"
-            onClick={() => {
-              setDisplayMonth(addMonths(displayMonth, 1))
-            }}
-          >
-            <IconChevronTop />
-          </Button>
-        </div>
-      </div>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(7, 1fr)',
-          gap: '24px',
-        }}
-      >
-        {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
-          <div
-            key={index}
-            style={{
-              height: 24,
-              width: 24,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              ...textVariants['body-bold'],
-              fontSize: 16,
-            }}
-          >
-            {day}
-          </div>
-        ))}
-        {getDays().map((day) => (
-          <div
-            key={day.toISOString()}
-            style={{
-              height: 24,
-              width: 24,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              ...textVariants.body,
-              fontSize: 16,
-            }}
-          >
-            {isSameMonth(day, displayMonth) && format(day, 'd')}
-          </div>
-        ))}
-      </div>
-    </div>
+        <styled.div
+          style={{
+            display: 'grid',
+            width: '100%',
+            gridTemplateColumns: 'repeat(7, 1fr)',
+            gap: '0px',
+            borderLeft: border(),
+            borderRight: 'none',
+            borderRadius: 8,
+            borderTopLeftRadius: 0,
+            borderBottom: view === 'month' ? border() : 'none',
+          }}
+        >
+          {view === 'month' &&
+            getDays().map((day, idx) => {
+              const dayDates = monthData.filter((item) =>
+                isSameDay(day, item[timeStartField]),
+              )
+              return (
+                <MonthCell
+                  view={view}
+                  key={idx}
+                  day={day}
+                  idx={idx}
+                  displayMonth={displayMonth}
+                  dayDates={dayDates}
+                  labelField={labelField}
+                  onClick={onClick}
+                />
+              )
+            })}
+
+          {view === 'week' &&
+            getDays().map((day, idx) => {
+              const dayDates = weekData.filter((item) =>
+                isSameDay(day, item[timeStartField]),
+              )
+
+              return idx < 7 ? (
+                <WeekDayColumn
+                  key={idx}
+                  day={day}
+                  onClick={onClick}
+                  dayDates={dayDates}
+                  labelField={labelField}
+                  timeStartField={timeStartField}
+                  timeEndField={timeEndField}
+                />
+              ) : null
+            })}
+
+          {/* // Red timeline */}
+          {view === 'week' && (
+            <styled.div
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: `${currentTimeHours * 60 + 48 + currentTimeMinutes}px`,
+                height: 1,
+                backgroundColor: color('border', 'error'),
+              }}
+            >
+              <styled.div
+                style={{
+                  backgroundColor: color('border', 'error'),
+                  width: 32,
+                  marginLeft: 'auto',
+                  marginTop: '-9px',
+                  height: 18,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '2px',
+                }}
+              >
+                <styled.div
+                  style={{
+                    fontSize: '10px',
+                    color: '#fff',
+                    fontWeight: 600,
+                    zIndex: 1,
+                  }}
+                >
+                  {currentTimeHours}:{currentTimeMinutes}
+                </styled.div>
+              </styled.div>
+            </styled.div>
+          )}
+          {/* // Red timeline */}
+        </styled.div>
+      </ScrollArea>
+    </styled.div>
   )
 }

@@ -1,25 +1,26 @@
 import * as React from 'react'
 import {
+  AllowedTypes,
   BasedSchemaContentMediaType,
   BasedSchemaFieldReference,
+  BasedSchemaPartial,
 } from '@based/schema'
 import {
   Stack,
   Button,
-  Badge,
-  IconLink,
+  border,
   Media,
   Text,
   color,
   ButtonProps,
   IconSearch,
   IconClose,
+  borderRadius,
+  BadgeId,
 } from '../../index.js'
 import { Path, Reference, TableCtx } from './types.js'
-import { readPath } from './utils.js'
+import { getIdentifierFieldValue, readPath } from './utils.js'
 import { styled } from 'inlines'
-
-// TODO: handle file
 
 const Select = (p: {
   field: BasedSchemaFieldReference
@@ -35,7 +36,6 @@ const Select = (p: {
       }}
     />
   )
-
   const body = (
     <Stack gap={2}>
       {p.field.allowedTypes ? (
@@ -55,17 +55,13 @@ const Select = (p: {
       )}
     </Stack>
   )
-
   if (p.badge) {
     return (
-      <Button variant="icon-only" onClick={p.onClick}>
-        <Badge color="informative-muted" prefix={icon}>
-          {body}
-        </Badge>
+      <Button prefix={icon} variant="neutral-transparent" onClick={p.onClick}>
+        {body}
       </Button>
     )
   }
-
   return (
     <Button
       size="small"
@@ -81,11 +77,7 @@ const Select = (p: {
 const Id = (p: { id: string; onClick: () => void }) => {
   return (
     <Button onClick={p.onClick} variant="icon-only">
-      <Badge
-        prefix={<IconLink style={{ width: 16, height: 16, marginRight: 4 }} />}
-      >
-        {p.id}
-      </Badge>
+      <BadgeId id={p.id} />
     </Button>
   )
 }
@@ -93,31 +85,145 @@ const Id = (p: { id: string; onClick: () => void }) => {
 const Info = (p: { value: Reference; onClick: () => void }) => {
   if (typeof p.value === 'object') {
     return (
-      <Stack justify="start" fitContent>
-        <Text singleLine style={{ marginRight: 12 }} variant="body-bold">
-          {p.value.name ?? p.value.title}
+      <>
+        <Text
+          singleLine
+          style={{
+            marginRight: 12,
+            flexGrow: 1,
+            width: '100%',
+          }}
+          variant="body-bold"
+        >
+          {getIdentifierFieldValue(p.value) ?? ''}
         </Text>
-        <Id id={p.value.id} onClick={p.onClick} />
-      </Stack>
+      </>
     )
   }
   return <Id id={p.value} onClick={p.onClick} />
+}
+
+export const getImg = (
+  value: any,
+  schema: BasedSchemaPartial,
+  field: BasedSchemaFieldReference,
+  types?: AllowedTypes,
+) => {
+  if (!types && field.allowedTypes) {
+    types = field.allowedTypes
+  }
+  if (value && typeof value === 'object' && (value.id || value.type)) {
+    const type =
+      value.type ?? schema.prefixToTypeMapping?.[value.id.slice(0, 2)]
+    if (type) {
+      types = [type]
+    }
+  }
+
+  if (types && typeof value === 'object') {
+    for (const type of types) {
+      if (typeof type === 'string') {
+        const t = schema?.types?.[type]
+        if (t) {
+          for (const key in t.fields) {
+            const f = t.fields[key]
+            if (f.type === 'string' && f.contentMediaType) {
+              if (value[key]) {
+                return value[key]
+              }
+            } else if (f.type === 'reference') {
+              if (value[key]) {
+                const src = getImg(
+                  value[key],
+                  schema,
+                  f as BasedSchemaFieldReference,
+                )
+                if (src) {
+                  return src
+                }
+              }
+            }
+          }
+          if ('src' in value) {
+            return value.src
+          }
+        }
+      }
+    }
+  }
+}
+
+const Thumbnail = (p: {
+  isLarge: boolean
+  src: string
+  mimeType: BasedSchemaContentMediaType
+}) => {
+  if (p.isLarge) {
+    return (
+      <Stack
+        align="center"
+        justify="center"
+        style={{
+          width: '100%',
+          height: 300,
+          backgroundColor: color('background', 'primary'),
+          borderRadius: borderRadius('medium'),
+          paddingTop: 16,
+          paddingBottom: 16,
+        }}
+      >
+        <styled.div
+          style={{
+            width: '100%',
+            height: '100%',
+            overflow: 'hidden',
+          }}
+        >
+          <Media src={p.src} variant="contain" type={p.mimeType} />
+        </styled.div>
+      </Stack>
+    )
+  }
+
+  return (
+    <Stack
+      align={'center'}
+      direction={'row'}
+      justify="start"
+      fitContent
+      style={{
+        marginTop: -4,
+      }}
+    >
+      <styled.div
+        style={{
+          width: 32,
+          height: 32,
+          overflow: 'hidden',
+          backgroundColor: color('background', 'neutral'),
+          borderRadius: 4,
+          border: border(),
+          marginRight: 10,
+        }}
+      >
+        <Media src={p.src} variant="cover" type={p.mimeType} />
+      </styled.div>
+    </Stack>
+  )
 }
 
 export const Image = (p: {
   ctx: TableCtx
   value: Reference
   field: BasedSchemaFieldReference
-  isLarge: boolean
+  isLarge?: boolean
 }) => {
   let hasFile = false
   let src: string
   let mimeType: BasedSchemaContentMediaType
-
   if (p.field.allowedTypes?.includes('file')) {
     hasFile = true
   }
-
   if (typeof p.value === 'object' && p.value.src) {
     src = p.value.src
     hasFile = true
@@ -125,40 +231,24 @@ export const Image = (p: {
       mimeType = p.value.mimeType
     }
   }
-
-  if (hasFile) {
-    const width = p.isLarge ? 248 : 32
-    return (
-      <Stack
-        align={p.isLarge ? 'start' : 'center'}
-        direction={p.isLarge ? 'column' : 'row'}
-        justify="start"
-        fitContent
-        style={{
-          marginTop: p.isLarge ? 0 : -4,
-        }}
-      >
-        <styled.div
-          style={{
-            width,
-            height: width,
-            overflow: 'hidden',
-            backgroundColor: color('background', 'neutral'),
-            borderRadius: 4,
-            marginBottom: p.isLarge ? 14 : 0,
-            marginRight: 10,
-          }}
-        >
-          <Media src={src} variant="cover" type={mimeType} />
-        </styled.div>
-      </Stack>
-    )
+  if (
+    typeof p.value === 'object' &&
+    !src &&
+    p.ctx.schema &&
+    p.field.allowedTypes
+  ) {
+    src = getImg(p.value, p.ctx.schema, p.field)
+    if (src) {
+      hasFile = true
+    }
   }
-
+  if (hasFile) {
+    return <Thumbnail src={src} mimeType={mimeType} isLarge={p.isLarge} />
+  }
   return null
 }
 
-export function Reference({
+export function ReferenceEditable({
   ctx,
   path,
   variant = 'large',
@@ -193,36 +283,110 @@ export function Reference({
   }, [id])
 
   if (id) {
-    return (
-      <Stack justify="start" direction={isLarge ? 'column' : 'row'}>
-        <Image ctx={ctx} isLarge={isLarge} field={field} value={value} />
-        <Stack gap={isLarge ? 12 : 0} justify={isLarge ? 'start' : 'between'}>
-          <Info
-            value={value}
-            onClick={() => {
-              ctx.listeners.onClickReference({
-                path,
-                value,
-                field,
-                ctx,
-              })
-            }}
-          />
-          <Stack justify="end" gap={8}>
-            <Select badge={isLarge} field={field} onClick={selectRef} />
-            <Button
+    if (isLarge) {
+      return (
+        <Stack justify="start" direction="column" gap={16}>
+          <Image ctx={ctx} isLarge field={field} value={value} />
+          <Stack gap={8}>
+            <Info
+              value={value}
               onClick={() => {
-                ctx.listeners.onChangeHandler(ctx, path, null)
+                ctx.listeners.onClickReference({
+                  path,
+                  value,
+                  field,
+                  ctx,
+                })
               }}
-              variant="icon-only"
-            >
-              <IconClose />
-            </Button>
+            />
+            <Stack justify="end">
+              <Select badge field={field} onClick={selectRef} />
+              <Button
+                onClick={() => {
+                  ctx.listeners.onChangeHandler(ctx, path, null)
+                }}
+                variant="icon-only"
+              >
+                <IconClose />
+              </Button>
+            </Stack>
           </Stack>
+        </Stack>
+      )
+    }
+
+    return (
+      <Stack justify="start">
+        <Image ctx={ctx} field={field} value={value} />
+        <Info
+          value={value}
+          onClick={() => {
+            ctx.listeners.onClickReference({
+              path,
+              value,
+              field,
+              ctx,
+            })
+          }}
+        />
+        <Stack justify="end" gap={8} style={{ flexGrow: 0 }}>
+          <Select field={field} onClick={selectRef} />
+          <Button
+            onClick={() => {
+              ctx.listeners.onChangeHandler(ctx, path, null)
+            }}
+            variant="icon-only"
+          >
+            <IconClose />
+          </Button>
         </Stack>
       </Stack>
     )
   }
 
   return <Select field={field} onClick={selectRef} />
+}
+
+export function ReferenceReadOnly(p: {
+  ctx: TableCtx
+  path: Path
+  variant?: 'large' | 'small'
+}) {
+  const { value, field } = readPath<BasedSchemaFieldReference>(p.ctx, p.path)
+  const isLarge = p.variant === 'large'
+  const id = value && typeof value === 'object' ? value.id : value
+  if (id) {
+    if (isLarge) {
+      return (
+        <Stack justify="start" direction="column">
+          <Image ctx={p.ctx} isLarge field={field} value={value} />
+          <Stack justify="end" gap={8} fitContent>
+            <Info value={value} onClick={() => {}} />
+          </Stack>
+        </Stack>
+      )
+    }
+    return (
+      <Stack justify="start">
+        <Image ctx={p.ctx} field={field} value={value} />
+        <Info onClick={() => {}} value={value} />
+      </Stack>
+    )
+  }
+  return <Text>-</Text>
+}
+
+export function Reference({
+  readOnly,
+  ...p
+}: {
+  ctx: TableCtx
+  path: Path
+  variant?: 'large' | 'small'
+  readOnly?: boolean
+}) {
+  if (readOnly) {
+    return <ReferenceReadOnly {...p} />
+  }
+  return <ReferenceEditable {...p} />
 }

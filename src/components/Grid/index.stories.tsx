@@ -8,7 +8,14 @@ import {
   IconMoreHorizontal,
 } from '../../index.js'
 import type { Meta } from '@storybook/react'
-import { faker } from '@faker-js/faker'
+import based from '@based/client'
+import { Provider, useQuery } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/Grid',
@@ -16,91 +23,36 @@ const meta: Meta<typeof Grid> = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
 
-const items = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  title: faker.system.commonFileName(),
-  description: faker.lorem.words({ min: 0, max: 10 }),
-  image: faker.image.url(),
-  renderAs: faker.helpers.arrayElement(['folder', 'file', 'image']) as
-    | 'folder'
-    | 'file'
-    | 'image',
-}))
+export const Virtualized = () => {
+  const { data: items, loading } = useQuery('fakedata', {
+    arraySize: 1000,
+    id: '',
+    title: '',
+    createdAt: '',
+    src: '',
+    color: '',
+  })
 
-export const Default = () => {
   return (
-    <div style={{ padding: 64 }}>
+    <div style={{ padding: 64, height: 'calc(100vh - 150px)' }}>
       <Grid
-        items={items}
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
-      />
-    </div>
-  )
-}
-
-export const Row = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <Grid
-        items={items}
-        variant="row"
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
-      />
-    </div>
-  )
-}
-
-export const SortableRow = () => {
-  return (
-    <div style={{ padding: 64 }}>
-      <Grid
-        items={items}
-        sortable
-        onChange={(items) => {
-          console.info(items)
+        size={400}
+        values={items}
+        pagination={{
+          type: 'scroll',
+          total: items?.length ?? 0,
         }}
-        variant="row"
-        itemAction={() => (
-          <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button variant="icon-only">
-                <IconMoreHorizontal />
-              </Button>
-            </Dropdown.Trigger>
-            <Dropdown.Items>
-              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
-              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown.Root>
-        )}
       />
     </div>
   )

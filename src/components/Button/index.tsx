@@ -8,12 +8,16 @@ import {
   color,
   textVariants,
   useKeyboardShortcut,
+  Stack,
+  Text,
+  Tooltip,
 } from '../../index.js'
 
 export type ButtonProps = {
   children?: React.ReactNode
   variant?:
     | 'primary'
+    | 'primary-muted'
     | 'primary-transparent'
     | 'primary-link'
     | 'neutral'
@@ -25,7 +29,7 @@ export type ButtonProps = {
   className?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
-  size?: 'large' | 'medium' | 'small'
+  size?: 'large' | 'regular' | 'small'
   type?: 'button' | 'submit'
   shape?: 'square' | 'rectangle'
   disabled?: boolean
@@ -46,7 +50,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       onClick,
       variant = 'primary',
-      size = 'medium',
+      size = 'regular',
       type = 'button',
       shape = 'rectangle',
       prefix,
@@ -115,26 +119,29 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(size === 'large' && {
             padding: shape === 'rectangle' ? '9px 16px' : '13px',
-            fontSize: 16,
-            lineHeight: '28px',
           }),
-          ...(size === 'medium' && {
+          ...(size === 'regular' && {
             padding: shape === 'rectangle' ? '5px 16px' : '9px',
-            fontSize: 16,
-            lineHeight: '28px',
           }),
           ...(size === 'small' && {
             padding: shape === 'rectangle' ? '3px 12px' : '5px',
-            fontSize: 14,
-            lineHeight: '24px',
+          }),
+          ...(variant === 'primary-muted' && {
+            color: color('interactive', 'primary'),
+            background: color('interactive', 'primary-muted'),
+            border: `1px solid transparent`,
+            '&:hover': {
+              background: color('interactive', 'primary-muted'),
+              border: `1px solid ${color('interactive', 'primary-hover')}`,
+            },
           }),
           ...(variant === 'primary' && {
             color: color('content', 'inverted'),
             background: color('interactive', 'primary'),
-            border: '1px solid var(--interactive-primary)',
+            border: `1px solid ${color('interactive', 'primary')}`,
             '&:hover': {
               background: color('interactive', 'primary-hover'),
-              border: '1px solid var(--interactive-primary-hover)',
+              border: `1px solid ${color('interactive', 'primary-hover')}`,
             },
           }),
           ...(variant === 'primary-transparent' && {
@@ -142,8 +149,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             background: 'transparent',
             border: 'transparent',
             '&:hover': {
-              background:
-                'color-mix(in srgb, var(--interactive-primary) 20%, transparent)',
+              background: `color-mix(in srgb, ${color('interactive', 'primary')} 20%, transparent)`,
               border: 'transparent',
             },
           }),
@@ -167,20 +173,20 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           ...(variant === 'error' && {
             color: color('content', 'inverted'),
-            background: 'var(--semantic-background-error)',
+            background: color('semantic-background', 'error'),
             border: border('error'),
             '&:hover': {
-              background: 'var(--semantic-background-error-hover)',
-              border: '1px solid var(--semantic-background-error-hover)',
+              background: color('semantic-background', 'error-hover'),
+              border: `1px solid ${color('semantic-background', 'error-hover')}`,
             },
           }),
           ...(variant === 'error-muted' && {
-            color: 'var(--semantic-color-error-muted)',
-            background: 'var(--semantic-background-error-muted)',
+            color: color('semantic-color', 'error-muted'),
+            background: color('semantic-background', 'error-muted'),
             border: 'transparent',
             '&:hover': {
               color: color('content', 'inverted'),
-              background: 'var(--semantic-background-error)',
+              background: color('semantic-background', 'error'),
             },
           }),
           ...(variant === 'primary-link' && {
@@ -211,6 +217,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             border: 'none',
             padding: 0,
           }),
+          ...(variant !== 'icon-only' && {
+            '& svg': {
+              height: size === 'small' ? 16 : 18,
+              width: size === 'small' ? 16 : 18,
+            },
+          }),
           ...style,
         }}
         onClick={handleClick}
@@ -225,15 +237,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
       >
         {loading && (
-          <div
+          <Stack
+            justify="center"
+            fitContent
             style={{
               position: 'absolute',
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
             }}
           >
             <svg
@@ -252,34 +263,33 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 strokeLinecap="round"
               />
             </svg>
-          </div>
+          </Stack>
         )}
-        <div
+        <Stack
+          gap={8}
+          justify="center"
           style={{
-            opacity: loading ? 0 : 100,
-            display: 'flex',
-            gap: 8,
-            justifyContent: 'center',
-            alignItems: 'center',
+            opacity: loading ? 0 : 1,
           }}
         >
           {prefix}
           {children && (
-            <span
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+            <Text
+              noSelect
+              as="div"
+              // singleLine
+              color="inherit"
+              variant={size === 'small' ? 'body' : 'body-bold'}
+              style={{ display: 'flex' }}
             >
               {children}
-            </span>
+            </Text>
           )}
           {displayKeyboardShortcut && keyboardShortcut && (
             <KeyboardShortcut shortcut={keyboardShortcut} />
           )}
           {suffix}
-        </div>
+        </Stack>
       </styled.button>
     )
   },

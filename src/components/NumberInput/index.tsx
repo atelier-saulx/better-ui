@@ -93,7 +93,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       disabled,
       style,
     },
-    ref
+    ref,
   ) => {
     const [value = '', setValue] = useControllableState<number>({
       value: valueProp,
@@ -121,11 +121,13 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             type="number"
             tabIndex={disabled ? '-1' : 'auto'}
             autoFocus={autoFocus}
-            value={value ?? ''}
+            value={valueProp ?? ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               e.stopPropagation()
               const numberValue = parseFloat(e.target.value)
+
               if (isNaN(numberValue)) {
+                e.target.value = ''
                 setValue(undefined)
                 return
               }
@@ -159,7 +161,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                     : border('hover'),
               },
               '&:focus, &:focus:hover': {
-                border: '1px solid var(--interactive-primary)',
+                border: `1px solid ${color('interactive', 'primary')} `,
                 boxShadow: boxShadow('focus'),
               },
               '&::-webkit-outer-spin-button': {
@@ -212,9 +214,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 }
               }}
             >
-              <IconSmallArrowheadTop
-                size={variant === 'regular' ? 16 : 12}
-              />
+              <IconSmallArrowheadTop size={variant === 'regular' ? 16 : 12} />
             </styled.div>
             <styled.div
               style={{
@@ -233,9 +233,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 }
               }}
             >
-              <IconSmallArrowheadDown
-                size={variant === 'regular' ? 16 : 12}
-              />
+              <IconSmallArrowheadDown size={variant === 'regular' ? 16 : 12} />
             </styled.div>
           </div>
         </div>
@@ -246,5 +244,5 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
         ) : null}
       </Wrapper>
     )
-  }
+  },
 )

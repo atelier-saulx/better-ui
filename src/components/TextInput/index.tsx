@@ -25,6 +25,7 @@ export type TextInputProps = {
   description?: string
   disabled?: boolean
   style?: Style
+  required?: boolean
 }
 
 const Wrapper = ({
@@ -52,7 +53,7 @@ const Wrapper = ({
               }
             : undefined
         }
-        onClick={(e) => (disabled ? e.preventDefault() : console.log(e))}
+        onClick={(e) => (disabled ? e.preventDefault() : undefined)}
       >
         {children}
       </styled.label>
@@ -67,7 +68,7 @@ const Wrapper = ({
         cursor: disabled ? 'not-allowed' : 'default',
         ...style,
       }}
-      onClick={(e) => (disabled ? e.preventDefault() : console.log(e))}
+      onClick={(e) => (disabled ? e.preventDefault() : undefined)}
     >
       {children}
     </styled.div>
@@ -92,8 +93,9 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       description,
       disabled,
       style,
+      required,
     },
-    ref
+    ref,
   ) => {
     const [state = '', setState] = useControllableState({
       value,
@@ -126,6 +128,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           }}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
+          required={required}
           ref={ref}
           name={formName}
           placeholder={placeholder}
@@ -149,7 +152,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                 variant === 'small' ? '1px solid transparent' : border('hover'),
             },
             '&:focus, &:focus:hover': {
-              border: '1px solid var(--interactive-primary)',
+              border: border('focus'),
               boxShadow: boxShadow('focus'),
             },
             ...(error && {
@@ -171,5 +174,5 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         ) : null}
       </Wrapper>
     )
-  }
+  },
 )

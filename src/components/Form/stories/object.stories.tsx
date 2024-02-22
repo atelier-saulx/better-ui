@@ -55,34 +55,63 @@ const fileUpload = async ({ value }, updateProgress) => {
 
 export const Object = () => {
   return (
-    <div style={{ padding: 64 }}>
-      <Form
-        onFileUpload={fileUpload}
-        variant="small"
-        values={{
-          ratings: {
-            powerful: 'rgb(78,56,188)',
-          },
-          object: {
-            location: {
-              snurp: { id: 'flap', src: 'https://i.imgur.com/t1bWmmC.jpeg' },
-              doink: 'th123212',
+    <Form
+      onFileUpload={fileUpload}
+      variant="small"
+      values={{
+        ratings: {
+          powerful: 'rgb(78,56,188)',
+        },
+        object: {
+          location: {
+            snurp: {
+              id: 'flap',
+              name: 'flap/bla/Screenshot_213123213213.png',
+              src: 'https://i.imgur.com/t1bWmmC.jpeg',
             },
+            doink: 'th123212',
           },
-          orderWithDescription: {
-            code: ts,
-            json: JSON.stringify(
-              { y: 1, x: 1, z: 1, someThing: 'great' },
-              null,
-              2,
-            ),
+        },
+        orderWithDescription: {
+          code: ts,
+          json: JSON.stringify(
+            { y: 1, x: 1, z: 1, someThing: 'great' },
+            null,
+            2,
+          ),
+        },
+      }}
+      fields={objectField}
+      onChange={(values) => {
+        console.log(values)
+      }}
+    />
+  )
+}
+
+export const ObjectReadOnly = () => {
+  return (
+    <Form
+      onFileUpload={fileUpload}
+      variant="small"
+      values={{
+        bla: {
+          id: '12345',
+          snurp: Date.now(),
+          bla: 'https://i.imgur.com/DRmh6S9.jpeg',
+        },
+      }}
+      fields={{
+        bla: {
+          readOnly: true,
+          type: 'object',
+          properties: {
+            bla: { type: 'string', contentMediaType: 'image/*' },
+            id: { title: 'Id', type: 'string', format: 'basedId' },
+            snurp: { type: 'timestamp', display: 'date-time-text' },
           },
-        }}
-        fields={objectField}
-        onChange={(values) => {
-          console.log(values)
-        }}
-      />
-    </div>
+        },
+      }}
+    />
   )
 }

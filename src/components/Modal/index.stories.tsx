@@ -25,7 +25,6 @@ export const Default = () => {
         {({ close }) => (
           <>
             <Modal.Title
-              //  style={{ background: 'lightgrey',  }}
               children="Add custom view"
               description="This is your organisation’s name within Based. For example, you can use the name of your company or department."
             />
@@ -75,7 +74,7 @@ export const Nested = ({ level = 0 }) => {
       <Modal.Overlay>
         {({ close }) => (
           <>
-            <Modal.Title children={`Modal #${level}`} />
+            <Modal.Title children={`Modal #${level}`} description="ss" />
             <Modal.Actions>
               <Nested level={level + 1} />
               <Button variant="neutral" onClick={close}>
@@ -135,7 +134,10 @@ export const Open = () => {
               message="just a silly warning"
               style={{ marginTop: 20 }}
             />
-          </Modal>
+            <Modal.Actions>
+              <Button>Snurp</Button>
+            </Modal.Actions>
+          </Modal>,
         )
       }}
     >

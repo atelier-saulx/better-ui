@@ -1,11 +1,10 @@
 import React, { ReactNode, useRef } from 'react'
 import { BasedSchemaFieldArray } from '@based/schema'
 import { styled } from 'inlines'
-import { Stack, border, color, Button, IconPlus } from '../../../../index.js'
+import { border, color, Button, IconPlus } from '../../../../index.js'
 import { ColSizes, TableProps } from '../../types.js'
 import {
   readPath,
-  canUseColumns,
   isSmallField,
   getTitle,
   createNewEmptyValue,
@@ -16,30 +15,21 @@ import { ObjectCollsRows } from './ObjectCollumnRows.js'
 import { NestedObjectRows } from './NestedObjectRows.js'
 import { PrimitiveRows } from './PrimitiveRows.js'
 import { RowProps, ValueRef } from './types.js'
-import { useSize } from '../../../../index.js'
-import { getColSizes } from '../../getColSizes.js'
+import { useColumns, SizedStack } from '../SizedStack.js'
 
 function Rows(p: RowProps & { isCols: boolean; colFields: ColSizes }) {
   if (p.isCols) {
-    return <ObjectCollsRows {...p} />
+    return <ObjectCollsRows draggable {...p} />
   }
-  if (isSmallField(p.field.values)) {
+  if (isSmallField(p.field.items)) {
     return <PrimitiveRows {...p} />
   }
   return <NestedObjectRows {...p} />
 }
 
 export function Arrays({ ctx, path }: TableProps) {
-  const { field, value } = readPath<BasedSchemaFieldArray>(ctx, path)
-  const valuesField = field.values
+  const { field, value, readOnly } = readPath<BasedSchemaFieldArray>(ctx, path)
   const cols: ReactNode[] = []
-  const isCols = valuesField.type === 'object' && canUseColumns(valuesField)
-
-  const [width, setWidth] = React.useState(0)
-
-  const sizeRef = useSize(({ width }) => {
-    setWidth(width - 64 * 2 - 28)
-  })
 
   const valueRef = useRef<ValueRef>({ orderId: 0, value: [] })
   valueRef.current.value = Array.isArray(value) ? value : []
@@ -47,7 +37,7 @@ export function Arrays({ ctx, path }: TableProps) {
   const addNew = React.useCallback(() => {
     ctx.listeners.onChangeHandler(ctx, path, [
       ...valueRef.current.value,
-      createNewEmptyValue(field.values),
+      createNewEmptyValue(field.items),
     ])
   }, [])
 
@@ -69,32 +59,35 @@ export function Arrays({ ctx, path }: TableProps) {
     ctx.listeners.onChangeHandler(ctx, path, nValue)
   }, [])
 
-  const colFields =
-    valuesField.type === 'object' ? getColSizes(valuesField, width, true) : []
+  const [colFields, setCols] = useColumns()
+  const isCols = colFields.length > 0
 
-  if (isCols) {
+  if (isCols && field.items.type === 'object') {
     cols.unshift(<div style={{ minWidth: 28 }} key="_dicon" />)
+    const fieldValue = field.items
     for (const col of colFields) {
       cols.push(
-        <Cell border isKey key={col.key} width={col.width}>
-          {getTitle(col.key, valuesField.properties[col.key])}
+        <Cell
+          border
+          isKey
+          key={col.key}
+          width={col.width}
+          flexible={col.flexible}
+        >
+          {getTitle(col.key, fieldValue.properties[col.key])}
         </Cell>,
       )
     }
   }
 
   return (
-    <Stack
-      ref={sizeRef}
-      justify="start"
-      align="start"
-      direction="column"
-      style={{
-        width: '100%',
-        borderBottom: path.length > 1 ? border() : null,
-      }}
+    <SizedStack
+      displayAllFields
+      setColumns={setCols}
+      field={field.items}
+      readOnly={readOnly}
     >
-      {cols.length ? (
+      {isCols ? (
         <ColStack
           header
           style={{
@@ -125,6 +118,6 @@ export function Arrays({ ctx, path }: TableProps) {
           Add
         </Button>
       </styled.div>
-    </Stack>
+    </SizedStack>
   )
 }

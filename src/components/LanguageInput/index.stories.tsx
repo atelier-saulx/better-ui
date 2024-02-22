@@ -19,3 +19,15 @@ export const Default = () => {
     />
   )
 }
+
+export const Small = () => {
+  const [lang, setLang] = React.useState('en')
+  return (
+    <LanguageInput
+      variant="small"
+      value={lang}
+      onChange={setLang}
+      options={['en', 'de', 'fr', 'lb']}
+    />
+  )
+}

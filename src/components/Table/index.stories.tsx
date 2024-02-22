@@ -1,17 +1,8 @@
 import * as React from 'react'
-import {
-  Modal,
-  Button,
-  Table,
-  useInfiniteQuery,
-  IconCopy,
-  IconDelete,
-  IconMoreVertical,
-  Dropdown,
-} from '../../index.js'
-import { faker } from '@faker-js/faker'
-import { Provider } from '@based/react'
+import { Button, Stack, Table, useUpdate } from '../../index.js'
 import based from '@based/client'
+import { wait } from '@saulx/utils'
+import { Provider, useQuery } from '@based/react'
 
 const client = based({
   org: 'saulx',
@@ -19,119 +10,293 @@ const client = based({
   env: 'production',
 })
 
+const DataStuff = ({ Story }) => {
+  const { data, loading } = useQuery('fakedata', {
+    arraySize: 100,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    delete data[i].arraySize
+    data[i].price = Number(data[i].price)
+  }
+
+  const dataSorted = [...data].sort(sortByPrice)
+
+  return <Story data={data ?? []} dataSorted={dataSorted} />
+}
+
 const meta = {
   title: 'Components/Table',
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <DataStuff Story={Story} />
+      </Provider>
+    ),
+  ],
 }
 export default meta
 
-const data = new Array(10).fill(null).map(() => ({
-  id: faker.string.uuid().slice(0, 8),
-  status: faker.lorem.words(1),
-  title: faker.lorem.sentence(3),
-  avatar: faker.image.avatar(),
-  number: faker.number.int(10),
-  name: faker.person.fullName(),
-}))
-
-export const Default = () => {
+export const Default = ({ data }) => {
   return (
-    <div style={{ height: '100svh' }}>
-      <Table data={data} />
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table values={data} pagination sort />
     </div>
   )
 }
 
-const InfiniteQueryContent = () => {
-  const [itemToDelete, setItemToDelete] = React.useState(null)
-  const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
-    accessFn: (data) => data.files,
-    queryFn: (offset) => ({
-      $id: 'root',
-      files: {
-        $all: true,
-        $list: {
-          $sort: { $field: 'updatedAt', $order: 'desc' },
-          $offset: offset,
-          $limit: 25,
-          $find: {
-            $traverse: 'children',
-            $filter: {
-              $operator: '=',
-              $field: 'type',
-              $value: 'todo',
-            },
+export const LoadMore = ({ data }) => {
+  const [dataFetch, setDataFetch] = React.useState({
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  const dataRef = React.useRef({
+    data: [...data],
+  })
+
+  const { data: more } = useQuery('fakedata', {
+    ...dataFetch,
+  })
+
+  const d = dataRef.current.data
+
+  const update = useUpdate()
+
+  return (
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table
+        values={d}
+        pagination={{
+          loadMore: async (p) => {
+            await wait(Math.random() * 1000)
+
+            setDataFetch({
+              arraySize: Math.floor(Math.random() * 15) + 10,
+              id: '',
+              src: '',
+              status: '',
+              title: '',
+              number: '',
+              name: '',
+              price: '',
+              color: '',
+              createdAt: '',
+            })
+
+            await dataRef.current.data.push(...more)
+            update()
           },
+          onPageChange: async (p) => {
+            dataRef.current.data[p.start + 1].name = '$$$$$ ' + 'snurp'
+            update()
+          },
+          total: d.length,
+          type: 'scroll',
+        }}
+        sort
+      />
+    </div>
+  )
+}
+
+export const Infinite = () => {
+  const { data: dataLots, loading } = useQuery('fakedata', {
+    arraySize: 1000,
+    // nr: index, // check if all are numbers
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  for (let i = 0; i < dataLots.length; i++) {
+    delete dataLots[i].arraySize
+    dataLots['nr'] = i
+  }
+
+  return (
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table values={dataLots} pagination sort />
+    </div>
+  )
+}
+
+const sortByPrice = (a, b) => {
+  return a.price * 1 > b.price * 1 ? -1 : a.price * 1 === b.price * 1 ? 0 : 1
+}
+
+export const CustomSort = ({ dataSorted }) => {
+  const update = useUpdate()
+
+  return (
+    <div
+      style={{
+        height: 500,
+      }}
+    >
+      <Table
+        values={dataSorted}
+        pagination
+        sort={{
+          sorted: { key: 'price', dir: 'desc' },
+          include: new Set(['price']),
+          onSort: (key, dir, sort) => {
+            sort.sorted = { key, dir }
+            dataSorted.sort((a, b) => {
+              return sortByPrice(a, b) * (dir === 'asc' ? -1 : 1)
+            })
+            update()
+          },
+        }}
+      />
+    </div>
+  )
+}
+
+export const EditableTable = () => {
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <Table
+      values={dataSmall}
+      // @ts-ignore
+      editable
+      sortable
+      field={{
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'basedId' },
+          color: { type: 'string', format: 'rgbColor' },
+          price: { type: 'number', display: 'euro' },
+          createdAt: { type: 'timestamp' },
         },
-      },
-    }),
+      }}
+    />
+  )
+}
+
+export const EditableRefTable = () => {
+  const editableRef = React.useRef({
+    onChange(changed) {
+      console.log('CHANGED:', changed)
+    },
   })
 
   return (
     <>
-      <div style={{ height: '100svh' }}>
-        <Table
-          data={data}
-          onScrollToBottom={fetchMore}
-          onVisibleElementsChange={setVisibleElements}
-          rowAction={(row) => (
-            <Dropdown.Root>
-              <Dropdown.Trigger>
-                <Button shape="square" variant="neutral-transparent">
-                  <IconMoreVertical />
-                </Button>
-              </Dropdown.Trigger>
-              <Dropdown.Items>
-                <Dropdown.Item icon={<IconCopy />}>Copy</Dropdown.Item>
-                <Dropdown.Item
-                  icon={<IconDelete />}
-                  onClick={() => {
-                    setItemToDelete(row.id)
-                  }}
-                >
-                  Delete
-                </Dropdown.Item>
-              </Dropdown.Items>
-            </Dropdown.Root>
-          )}
-        />
-      </div>
-      {itemToDelete && (
-        <Modal.Root
-          open
-          onOpenChange={() => {
-            setItemToDelete(null)
+      <Stack>
+        <Button
+          onClick={() => {
+            // @ts-ignore
+            editableRef.current.clear()
           }}
         >
-          <Modal.Overlay>
-            {({ close }) => (
-              <>
-                <Modal.Title description="Are you sure? This action cannot be undone.">
-                  Deleting item #{itemToDelete}
-                </Modal.Title>
-                <Modal.Actions>
-                  <Button onClick={close} variant="neutral">
-                    Cancel
-                  </Button>
-                  <Button onClick={close} variant="error">
-                    Delete
-                  </Button>
-                </Modal.Actions>
-              </>
-            )}
-          </Modal.Overlay>
-        </Modal.Root>
-      )}
+          Apply
+        </Button>
+        <Button
+          onClick={() => {
+            // @ts-ignore
+            editableRef.current.clear()
+          }}
+        >
+          Discard
+        </Button>
+      </Stack>
+      {/* @ts-ignore */}
+      <Table editableRef={editableRef.current} />
     </>
   )
 }
 
-export const InfiniteQuery = () => {
+export const SmallTable = () => {
+  const { data: dataSmall, loading } = useQuery('fakedata', {
+    arraySize: 10,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+  })
+
+  if (loading) {
+    return null
+  }
+
   return (
-    <Provider client={client}>
-      <InfiniteQueryContent />
-    </Provider>
+    <Table
+      values={dataSmall}
+      field={{
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'basedId' },
+          color: { type: 'string', format: 'rgbColor' },
+          price: { type: 'number', display: 'euro' },
+        },
+      }}
+    />
   )
 }
