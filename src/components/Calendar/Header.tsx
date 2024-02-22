@@ -21,13 +21,36 @@ export const Header = ({
   endRange,
 }) => {
   return (
-    <styled.div>
-      <Stack style={{ marginBottom: 12 }}>
+    <Stack style={{ marginBottom: 16 }} justify="between">
+      <Stack>
+        <Text singleLine variant="title-modal">
+          {format(displayMonth, 'yyyy MMMM')}
+        </Text>
+      </Stack>
+      <Stack>
         <Switch
-          data={['month', 'week']}
-          activeTab={view}
-          onChange={(v) => setView(v)}
+          data={['Month', 'Week']}
+          activeTab={view.slice(0, 1).toUpperCase() + view.slice(1)}
+          onChange={(v) => setView(v.toLowerCase())}
         />
+      </Stack>
+
+      <Stack justify="end" gap={0}>
+        <Button
+          disabled={
+            startRange &&
+            startRange > Number(format(addMonths(displayMonth, -1), 'T')) &&
+            startRange > Number(format(addYears(displayMonth, -1), 'T'))
+          }
+          size="small"
+          variant="neutral"
+          shape="square"
+          onClick={() => {
+            setDisplayMonth(addMonths(displayMonth, -1))
+          }}
+        >
+          <IconChevronLeft />
+        </Button>
         <Button
           variant="neutral"
           size="small"
@@ -38,116 +61,22 @@ export const Header = ({
         >
           Today
         </Button>
+        <Button
+          disabled={
+            endRange &&
+            endRange < Number(format(addMonths(displayMonth, 0), 'T')) &&
+            endRange < Number(format(addYears(displayMonth, 0), 'T'))
+          }
+          size="small"
+          variant="neutral"
+          shape="square"
+          onClick={() => {
+            setDisplayMonth(addMonths(displayMonth, 1))
+          }}
+        >
+          <IconChevronRight />
+        </Button>
       </Stack>
-      <Stack style={{ marginBottom: 16 }} justify="between">
-        {view === 'week' && (
-          <Stack justify="start" gap={0}>
-            <Button
-              disabled={
-                startRange &&
-                startRange > Number(format(addWeeks(displayMonth, -1), 'T'))
-              }
-              size="small"
-              variant="neutral-transparent"
-              shape="square"
-              onClick={() => {
-                setDisplayMonth(addWeeks(displayMonth, -1))
-              }}
-            >
-              <IconChevronLeft />
-            </Button>
-            <Button
-              disabled={
-                endRange &&
-                endRange < Number(format(addWeeks(displayMonth, 1), 'T'))
-              }
-              size="small"
-              variant="neutral-transparent"
-              shape="square"
-              onClick={() => {
-                setDisplayMonth(addWeeks(displayMonth, 1))
-              }}
-            >
-              <IconChevronRight />
-            </Button>
-            <Text style={{ marginLeft: 10 }} variant="title-modal">
-              Week {format(displayMonth, 'w')}
-            </Text>
-          </Stack>
-        )}
-
-        {/* // monthts */}
-        <Stack justify={view === 'week' ? 'center' : 'start'} gap={0}>
-          <Button
-            disabled={
-              startRange &&
-              startRange > Number(format(addMonths(displayMonth, -1), 'T')) &&
-              startRange > Number(format(addYears(displayMonth, -1), 'T'))
-            }
-            size="small"
-            variant="neutral-transparent"
-            shape="square"
-            onClick={() => {
-              setDisplayMonth(addMonths(displayMonth, -1))
-            }}
-          >
-            {view === 'week' ? <IconChevronTop /> : <IconChevronLeft />}
-          </Button>
-          <Button
-            disabled={
-              endRange &&
-              endRange < Number(format(addMonths(displayMonth, 0), 'T')) &&
-              endRange < Number(format(addYears(displayMonth, 0), 'T'))
-            }
-            size="small"
-            variant="neutral-transparent"
-            shape="square"
-            onClick={() => {
-              setDisplayMonth(addMonths(displayMonth, 1))
-            }}
-          >
-            {view === 'week' ? <IconChevronDown /> : <IconChevronRight />}
-          </Button>
-          <Text style={{ marginLeft: 10 }} variant="title-modal">
-            {format(displayMonth, 'MMMM')}
-          </Text>
-        </Stack>
-
-        {/* // Years */}
-        <Stack justify="end" gap={0}>
-          <Text variant="title-modal" style={{ marginRight: 10 }}>
-            {format(displayMonth, 'yyyy')}
-          </Text>
-          <Button
-            disabled={
-              startRange &&
-              startRange > Number(format(addYears(displayMonth, -1), 'T'))
-            }
-            size="small"
-            variant="neutral-transparent"
-            shape="square"
-            onClick={() => {
-              setDisplayMonth(addYears(displayMonth, -1))
-            }}
-          >
-            <IconChevronTop />
-          </Button>
-          <Button
-            disabled={
-              endRange &&
-              endRange < Number(format(addYears(displayMonth, 1), 'T'))
-            }
-            size="small"
-            variant="neutral-transparent"
-            shape="square"
-            onClick={() => {
-              setDisplayMonth(addYears(displayMonth, 1))
-            }}
-          >
-            <IconChevronDown />
-          </Button>
-        </Stack>
-      </Stack>
-    </styled.div>
+    </Stack>
   )
 }

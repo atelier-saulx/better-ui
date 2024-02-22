@@ -28,7 +28,7 @@ export type CalendarProps = {
   timeEndField?: string
   labelField?: string
   view?: 'month' | 'week' | 'day'
-  onClick?: () => void
+  onClick?: (item: any) => void
   startRange?: number
   endRange?: number
 }
@@ -75,12 +75,11 @@ export const Calendar = ({
 
   let currentTimeHours = Number(format(new Date(), 'H'))
   let currentTimeMinutes = Number(format(new Date(), 'm'))
-  console.log(currentTimeHours, currentTimeMinutes)
-
-  // console.log('⚱️🩸', data)
 
   if (timeEndField && view === 'week') {
     for (let i = 0; i < data.length; i++) {
+      if (!data[i][timeStartField] || !data[i][timeEndField]) continue
+
       let numberOfDays = eachDayOfInterval({
         start: new Date(data[i][timeStartField]),
         end: new Date(data[i][timeEndField]),
@@ -144,8 +143,8 @@ export const Calendar = ({
     <styled.div
       style={{
         borderRadius: borderRadius('medium'),
-        padding: 24,
         width: '100%',
+        height: '100%',
       }}
     >
       <Header
@@ -160,10 +159,8 @@ export const Calendar = ({
 
       <ScrollArea
         style={{
-          height: 800,
+          height: '100%',
           borderBottom: border(),
-          borderBottomLeftRadius: 8,
-          borderBottomRightRadius: 8,
         }}
       >
         <styled.div
@@ -174,7 +171,6 @@ export const Calendar = ({
             gap: '0px',
             borderLeft: border(),
             borderRight: 'none',
-            borderRadius: 8,
             borderTopLeftRadius: 0,
             borderBottom: view === 'month' ? border() : 'none',
           }}

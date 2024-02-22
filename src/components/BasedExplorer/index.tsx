@@ -20,6 +20,9 @@ import {
   List,
   borderRadius,
   IconListBullet,
+  IconViewBoxes,
+  Calendar,
+  IconCalendar,
 } from '../../index.js'
 import { styled } from 'inlines'
 import { useClient, useQuery } from '@based/react'
@@ -54,7 +57,7 @@ export type BasedExplorerHeaderComponent = (p: {
   data: any[]
 }) => React.ReactNode
 
-type Variant = 'table' | 'grid' | 'list'
+type Variant = 'table' | 'grid' | 'list' | 'calendar'
 
 const DefaultInfo = ({ total, start, end }) =>
   `Showing ${start} - ${end} out of a ${total} items`
@@ -87,6 +90,11 @@ export type BasedExplorerProps = {
     end: number
     data: any[]
   }) => Promise<void>
+  calendar?: {
+    timeStartField?: string
+    timeEndField?: string
+    labelField?: string
+  }
 }
 
 type ActiveSub = {
@@ -126,7 +134,9 @@ export const ViewSwitcher = (p: {
             ? IconViewTable
             : v === 'grid'
               ? IconViewLayoutGrid
-              : IconListBullet
+              : v === 'calendar'
+                ? IconCalendar
+                : IconListBullet
 
         return (
           <Button
@@ -179,6 +189,7 @@ export function BasedExplorer({
   variant = 'table',
   addItem,
   sort,
+  calendar,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
@@ -469,6 +480,23 @@ export function BasedExplorer({
         isLoading={ref.current.isLoading}
         pagination={pagination}
       />
+    ) : selectedVariant === 'calendar' ? (
+      <div
+        style={{
+          padding: 24,
+          overflow: 'auto',
+          width: '100%',
+          flex: 1,
+          borderTop: border(),
+        }}
+      >
+        <Calendar
+          data={ref.current?.block.data ?? []}
+          view="month"
+          onClick={onItemClick}
+          {...calendar}
+        />
+      </div>
     ) : (
       <Table
         style={style}

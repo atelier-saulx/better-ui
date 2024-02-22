@@ -60,7 +60,12 @@ export const MonthCell = ({
 
       {dayDates.map((item: { title?: string }, idx) =>
         idx < 3 ? (
-          <styled.div key={idx} onClick={onClick}>
+          <styled.div
+            key={idx}
+            onClick={() => {
+              onClick(item)
+            }}
+          >
             <Text
               color={isSameMonth(day, displayMonth) ? 'primary' : 'secondary'}
               singleLine

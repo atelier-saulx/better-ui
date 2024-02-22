@@ -86,7 +86,9 @@ export const WeekDayColumn = ({
                       backgroundColor: color('interactive', 'primary-muted'),
                     },
                   }}
-                  onClick={onClick}
+                  onClick={() => {
+                    onClick(item)
+                  }}
                 >
                   <styled.div
                     style={{
