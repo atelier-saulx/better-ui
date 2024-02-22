@@ -18,8 +18,9 @@ export const MonthCell = ({
       direction="column"
       key={day.toISOString()}
       style={{
-        aspectRatio: 1,
+        aspectRatio: '1',
         height: '100%',
+        width: '100%',
         borderTop: border(),
         borderRight: border(),
         borderBottomRightRadius: idx === 34 ? 8 : 0,

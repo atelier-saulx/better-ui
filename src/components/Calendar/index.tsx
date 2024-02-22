@@ -159,98 +159,98 @@ export const Calendar = ({
       />
       <SubHeader view={view} dayDates={getDays().map((day) => day)} />
 
-      <div style={{ height: '100%', overflow: 'auto' }}>
-        <styled.div
-          style={{
-            display: 'grid',
-            width: '100%',
-            gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
-            gridTemplateRows: 'auto',
-            gap: '0px',
-            borderLeft: border(),
-            borderRight: 'none',
-            borderTopLeftRadius: 0,
-            borderBottom: view === 'month' ? border() : 'none',
-          }}
-        >
-          {view === 'month' &&
-            getDays().map((day, idx) => {
-              const dayDates = monthData.filter((item) =>
-                isSameDay(day, item[timeStartField]),
-              )
-              return (
-                <MonthCell
-                  view={view}
-                  key={idx}
-                  day={day}
-                  idx={idx}
-                  displayMonth={displayMonth}
-                  dayDates={dayDates}
-                  labelField={labelField}
-                  onClick={onClick}
-                />
-              )
-            })}
+      <styled.div
+        style={{
+          display: 'grid',
+          overflow: 'auto',
+          height: '100%',
+          width: '100%',
+          gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
+          gridAutoRows: '1fr',
+          gap: '0px',
+          borderLeft: border(),
+          borderRight: 'none',
+          borderTopLeftRadius: 0,
+          borderBottom: view === 'month' ? border() : 'none',
+        }}
+      >
+        {view === 'month' &&
+          getDays().map((day, idx) => {
+            const dayDates = monthData.filter((item) =>
+              isSameDay(day, item[timeStartField]),
+            )
+            return (
+              <MonthCell
+                view={view}
+                key={idx}
+                day={day}
+                idx={idx}
+                displayMonth={displayMonth}
+                dayDates={dayDates}
+                labelField={labelField}
+                onClick={onClick}
+              />
+            )
+          })}
 
-          {view === 'week' &&
-            getDays().map((day, idx) => {
-              const dayDates = weekData.filter((item) =>
-                isSameDay(day, item[timeStartField]),
-              )
+        {view === 'week' &&
+          getDays().map((day, idx) => {
+            const dayDates = weekData.filter((item) =>
+              isSameDay(day, item[timeStartField]),
+            )
 
-              return idx < 7 ? (
-                <WeekDayColumn
-                  key={idx}
-                  day={day}
-                  onClick={onClick}
-                  dayDates={dayDates}
-                  labelField={labelField}
-                  timeStartField={timeStartField}
-                  timeEndField={timeEndField}
-                />
-              ) : null
-            })}
+            return idx < 7 ? (
+              <WeekDayColumn
+                key={idx}
+                day={day}
+                onClick={onClick}
+                dayDates={dayDates}
+                labelField={labelField}
+                timeStartField={timeStartField}
+                timeEndField={timeEndField}
+              />
+            ) : null
+          })}
 
-          {/* // Red timeline */}
-          {view === 'week' && (
+        {/* // Red timeline */}
+        {view === 'week' && (
+          <styled.div
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: `${currentTimeHours * 60 + 48 + currentTimeMinutes}px`,
+              height: 1,
+              backgroundColor: color('border', 'error'),
+            }}
+          >
             <styled.div
               style={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                top: `${currentTimeHours * 60 + 48 + currentTimeMinutes}px`,
-                height: 1,
                 backgroundColor: color('border', 'error'),
+                width: 32,
+                marginLeft: 'auto',
+                marginTop: '-9px',
+                height: 18,
+                display: 'flex',
+                alignItems: 'center',
+                padding: '2px',
               }}
             >
               <styled.div
                 style={{
-                  backgroundColor: color('border', 'error'),
-                  width: 32,
-                  marginLeft: 'auto',
-                  marginTop: '-9px',
-                  height: 18,
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '2px',
+                  fontSize: '10px',
+                  color: '#fff',
+                  fontWeight: 600,
+                  zIndex: 1,
                 }}
               >
-                <styled.div
-                  style={{
-                    fontSize: '10px',
-                    color: '#fff',
-                    fontWeight: 600,
-                    zIndex: 1,
-                  }}
-                >
-                  {currentTimeHours}:{currentTimeMinutes}
-                </styled.div>
+                {currentTimeHours}:{currentTimeMinutes}
               </styled.div>
             </styled.div>
-          )}
-          {/* // Red timeline */}
-        </styled.div>
-      </div>
+          </styled.div>
+        )}
+        {/* // Red timeline */}
+      </styled.div>
     </styled.div>
   )
 }
