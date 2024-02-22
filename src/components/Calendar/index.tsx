@@ -142,9 +142,11 @@ export const Calendar = ({
   return (
     <styled.div
       style={{
-        borderRadius: borderRadius('medium'),
         width: '100%',
         height: '100%',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <Header
@@ -157,17 +159,13 @@ export const Calendar = ({
       />
       <SubHeader view={view} dayDates={getDays().map((day) => day)} />
 
-      <ScrollArea
-        style={{
-          height: '100%',
-          borderBottom: border(),
-        }}
-      >
+      <div style={{ height: '100%', overflow: 'auto' }}>
         <styled.div
           style={{
             display: 'grid',
             width: '100%',
-            gridTemplateColumns: 'repeat(7, 1fr)',
+            gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
+            gridTemplateRows: 'auto',
             gap: '0px',
             borderLeft: border(),
             borderRight: 'none',
@@ -252,7 +250,7 @@ export const Calendar = ({
           )}
           {/* // Red timeline */}
         </styled.div>
-      </ScrollArea>
+      </div>
     </styled.div>
   )
 }

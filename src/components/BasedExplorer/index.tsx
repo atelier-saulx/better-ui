@@ -484,10 +484,10 @@ export function BasedExplorer({
       <div
         style={{
           padding: 24,
-          overflow: 'auto',
           width: '100%',
           flex: 1,
           borderTop: border(),
+          overflow: 'hidden',
         }}
       >
         <Calendar
