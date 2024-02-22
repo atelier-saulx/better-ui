@@ -1,12 +1,20 @@
 import React from 'react'
-import { Text, border, color, Stack } from '../../index.js'
+import { Text, border, color, Stack, boxShadow } from '../../index.js'
 import { format, isSameDay } from 'date-fns'
+import { styled } from 'inlines'
 
 export const SubHeader = ({ view, dayDates }) => {
-  console.log(dayDates, 'adfaef')
-
   return (
-    <>
+    <styled.div
+      style={{
+        display: 'flex',
+        border: border(),
+        // boxShadow: boxShadow('elevation'),
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        marginBottom: '-1px',
+      }}
+    >
       {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
         <Stack
           justify="center"
@@ -15,9 +23,7 @@ export const SubHeader = ({ view, dayDates }) => {
           style={{
             padding: '8px',
             height: 48,
-            borderRight: border(),
-            borderTopLeftRadius: index === 0 ? 8 : 0,
-            borderTopRightRadius: index === 6 ? 8 : 0,
+            borderRight: index < 6 ? border() : 'none',
             backgroundColor: color('background', 'muted'),
           }}
         >
@@ -37,6 +43,6 @@ export const SubHeader = ({ view, dayDates }) => {
           )}
         </Stack>
       ))}
-    </>
+    </styled.div>
   )
 }

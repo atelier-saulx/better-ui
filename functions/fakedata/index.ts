@@ -37,7 +37,7 @@ const fakedata: BasedQueryFunction = async (_based, payload = {}, update) => {
         } else if (key === 'color') {
           obj[key] = faker.color.rgb()
         } else if (key === 'createdAt') {
-          obj[key] = faker.date.soon().valueOf()
+          obj[key] = faker.date.recent().valueOf()
         } else if (key === 'updatedAt') {
           obj[key] = faker.date.soon().valueOf()
         } else if (key === 'lastUpdated') {
