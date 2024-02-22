@@ -483,7 +483,7 @@ export function BasedExplorer({
     ) : selectedVariant === 'calendar' ? (
       <div
         style={{
-          padding: 24,
+          padding: '24px 24px 0',
           width: '100%',
           flex: 1,
           borderTop: border(),
