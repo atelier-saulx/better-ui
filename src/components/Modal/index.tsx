@@ -471,13 +471,14 @@ export const Modal = Object.assign(
           }}
         >
           {({ close }) => (
-            <ScrollArea
-              style={{
-                height: '100%',
-                maxHeight: 'calc(100vh - 60px)',
-                borderRadius: 8,
-              }}
-            >
+            // <ScrollArea
+            //   style={{
+            //     height: '100%',
+            //     maxHeight: 'calc(100vh - 60px)',
+            //     borderRadius: 8,
+            //   }}
+            // >
+            <>
               {title || description ? (
                 <Modal.Title description={description}>{title}</Modal.Title>
               ) : null}
@@ -508,7 +509,8 @@ export const Modal = Object.assign(
                   </Modal.Actions>
                 </>
               )}
-            </ScrollArea>
+            </>
+            // </ScrollArea>
           )}
         </Modal.Overlay>
       </Modal.Root>
