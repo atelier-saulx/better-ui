@@ -163,7 +163,7 @@ export function BasedForm({
     onSelectReference: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
-          modalBody={renderReferenceModalBody(field, (reference) => {
+          modalBody={renderReferenceModalBody?.(field, (reference) => {
             close(reference)
           })}
           selectReferenceExplorerProps={selectReferenceExplorerProps}
@@ -184,7 +184,7 @@ export function BasedForm({
     onSelectReferences: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
-          modalBody={renderReferenceModalBody(field, (reference) => {
+          modalBody={renderReferenceModalBody?.(field, (reference) => {
             close(reference)
           })}
           selectReferenceExplorerProps={selectReferenceExplorerProps}
