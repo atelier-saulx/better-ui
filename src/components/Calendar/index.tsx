@@ -46,9 +46,7 @@ export const Calendar = ({
   endRange,
 }: CalendarProps) => {
   // display month is the date // could be better named in hindsight // for that start week offset
-  const [displayMonth, setDisplayMonth] = React.useState(
-    addWeeks(new Date(), 1),
-  )
+  const [displayMonth, setDisplayMonth] = React.useState(new Date())
   const [view, setView] = React.useState(viewProp)
 
   const getDays = React.useCallback(() => {
