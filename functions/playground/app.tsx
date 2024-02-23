@@ -416,7 +416,7 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        variant={['list', 'grid', 'table']}
+        variant={['list', 'grid', 'table', 'calendar']}
         header="Based Explorer"
         info
         onDrop={(f) => {
@@ -626,6 +626,7 @@ import { Calendar } from '../../index.js'
 import type { Meta } from '@storybook/react'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
+import { format } from 'date-fns'
 
 const client = based({
   org: 'saulx',
@@ -634,7 +635,7 @@ const client = based({
 })
 
 const meta: Meta<typeof Calendar> = {
-  title: 'Atoms/Calendar',
+  title: 'Components/Calendar',
   decorators: [
     (Story) => (
       <Provider client={client}>
@@ -647,32 +648,55 @@ const meta: Meta<typeof Calendar> = {
 export default meta
 
 export const Default = () => {
-  const { data: fakedata, loading } = useQuery('fakedata', {
-    arraySize: 20,
-    id: '',
-    src: '',
-    status: '',
-    title: '',
-    number: '',
-    name: '',
-    price: '',
-    color: '',
-    createdAt: '',
-    updatedAt: '',
+  // const { data: fakedata, loading } = useQuery('fakedata', {
+  //   arraySize: 2,
+  //   id: '',
+  //   // src: '',
+  //   // status: '',
+  //   title: '',
+  //   // number: '',
+  //   // name: '',
+  //   // price: '',
+  //   // color: '',
+  //   createdAt: '',
+  //   updatedAt: '',
+  // })
+
+  // if (loading) {
+  //   return null
+  // }
+
+  let fakedata = []
+
+  fakedata.push({
+    id: 'XXXX',
+    title: 'Snurp the snurp',
+    createdAt: 1708364692974,
+    updatedAt: 1708515134327,
   })
 
-  if (loading) {
-    return null
-  }
+  fakedata.push({
+    id: 'FFFFf',
+    title: 'Flapper de flaape',
+    createdAt: 1706664692974,
+    updatedAt: 1709915134327,
+  })
 
   console.log('fake data --> from function 🍝', fakedata)
+
+  const startDate = Number(format(new Date('December 17, 2022 03:24:00'), 'T'))
+  const endDate = Number(format(new Date('March 17, 2024 03:24:00'), 'T'))
 
   return (
     <Calendar
       data={fakedata}
       labelField="title"
-      timestampField="updatedAt"
-      view="month"
+      timeStartField="createdAt"
+      timeEndField="updatedAt"
+      view="week"
+      onClick={() => console.log('hellow')}
+      startRange={startDate}
+      endRange={endDate}
     />
   )
 }
@@ -700,8 +724,8 @@ export const WeekView = () => {
     <Calendar
       data={fakedata}
       labelField="title"
-      timestampField="updatedAt"
-      view="week"
+      timeStartField="updatedAt"
+      view="month"
     />
   )
 }
@@ -2354,10 +2378,24 @@ export const Default: StoryObj<typeof PieGraph> = {
 `},{ id: "f5376768019532", story: f5376768019532, path: "/Users/yvesbeer/dev/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import React from 'react'
 import type { Meta } from '@storybook/react'
 import { RichTextEditor } from '../../index.js'
+import { Provider } from '@based/react'
+import based from '@based/client'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof RichTextEditor> = {
   title: 'Inputs/RichTextEditor',
-  decorators: [(Story) => <Story />],
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta
@@ -2935,7 +2973,7 @@ export const GridFixedHeight: StoryObj<typeof Stack> = {
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Switch> = {
-  title: 'Atoms/Switch',
+  title: 'Inputs/Switch',
   component: Switch,
 }
 
@@ -2944,6 +2982,7 @@ export default meta
 export const Body: StoryObj<typeof Switch> = {
   args: {
     data: ['month', 'week', 'day'],
+    onChange: (v) => console.log(v),
   },
 }
 `},{ id: "f3747781814494", story: f3747781814494, path: "/Users/yvesbeer/dev/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'

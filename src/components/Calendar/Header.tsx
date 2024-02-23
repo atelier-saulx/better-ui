@@ -24,7 +24,13 @@ export const Header = ({
     <Stack style={{ marginBottom: 16 }} justify="between">
       <Stack>
         <Text singleLine variant="title-modal">
-          {format(displayMonth, 'yyyy MMMM')}
+          {view === 'month'
+            ? format(displayMonth, 'yyyy MMMM')
+            : format(displayMonth, 'yyyy') +
+              ' Week ' +
+              (format(displayMonth, 'w', { weekStartsOn: 0 }) === '1'
+                ? 52
+                : Number(format(displayMonth, 'w', { weekStartsOn: 0 })) - 1)}
         </Text>
       </Stack>
       <Stack>
@@ -46,7 +52,11 @@ export const Header = ({
           variant="neutral"
           shape="square"
           onClick={() => {
-            setDisplayMonth(addMonths(displayMonth, -1))
+            if (view === 'week') {
+              setDisplayMonth(addWeeks(displayMonth, -1))
+            } else {
+              setDisplayMonth(addMonths(displayMonth, -1))
+            }
           }}
         >
           <IconChevronLeft />
@@ -71,7 +81,11 @@ export const Header = ({
           variant="neutral"
           shape="square"
           onClick={() => {
-            setDisplayMonth(addMonths(displayMonth, 1))
+            if (view === 'week') {
+              setDisplayMonth(addWeeks(displayMonth, 1))
+            } else {
+              setDisplayMonth(addMonths(displayMonth, 1))
+            }
           }}
         >
           <IconChevronRight />
