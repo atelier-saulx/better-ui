@@ -268,8 +268,13 @@ export function DateInput({
         >
           <div>
             <Text variant="body-light" style={{ marginBottom: 10 }}>
-              Current timezone:{' '}
-              {Intl.DateTimeFormat().resolvedOptions().timeZone}
+              {Intl.DateTimeFormat().resolvedOptions().timeZone} (
+              {
+                new Date()
+                  .toLocaleTimeString('en-us', { timeZoneName: 'short' })
+                  .split(' ')[2]
+              }
+              )
             </Text>
             <div
               style={{
