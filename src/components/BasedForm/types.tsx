@@ -1,4 +1,8 @@
-import { BasedSchema } from '@based/schema'
+import {
+  BasedSchema,
+  BasedSchemaFieldReference,
+  BasedSchemaFieldReferences,
+} from '@based/schema'
 import { BasedExplorerProps, FormProps } from '../../index.js'
 import { FieldsFn } from './index.js'
 import { ReactNode } from 'react'
@@ -47,6 +51,10 @@ type SharedBasedFormProps = {
         query: any
         types: string[]
       }) => BasedExplorerProps & { itemQuery: any })
+  renderReferenceModalBody?: (
+    field: BasedSchemaFieldReferences | BasedSchemaFieldReference,
+    onSelect: (item: any) => void,
+  ) => ReactNode
 }
 
 type OptionalBasedFormProps =

@@ -52,6 +52,7 @@ export function BasedForm({
   children,
   formRef,
   forcePublish,
+  renderReferenceModalBody,
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -162,6 +163,9 @@ export function BasedForm({
     onSelectReference: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
+          modalBody={renderReferenceModalBody(field, (reference) => {
+            close(reference)
+          })}
           selectReferenceExplorerProps={selectReferenceExplorerProps}
           types={
             field.allowedTypes?.map((e) =>
@@ -180,6 +184,9 @@ export function BasedForm({
     onSelectReferences: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
+          modalBody={renderReferenceModalBody(field, (reference) => {
+            close(reference)
+          })}
           selectReferenceExplorerProps={selectReferenceExplorerProps}
           types={
             field.allowedTypes?.map((e) =>

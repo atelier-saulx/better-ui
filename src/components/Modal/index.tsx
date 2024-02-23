@@ -313,7 +313,7 @@ export const useModal = (): UseModalRes => {
         const close = (val) => {
           const filter = (m: typeof modal) => m !== modal
           ref.current.modals = ref.current.modals.filter(filter)
-          setModals(modals.filter(filter))
+          setModals((modals) => modals.filter(filter))
           update?.({})
           resolve(val)
         }
