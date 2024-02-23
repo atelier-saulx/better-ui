@@ -267,6 +267,10 @@ export function DateInput({
           }}
         >
           <div>
+            <Text variant="body-light" style={{ marginBottom: 10 }}>
+              Current timezone:{' '}
+              {Intl.DateTimeFormat().resolvedOptions().timeZone}
+            </Text>
             <div
               style={{
                 display: 'flex',
