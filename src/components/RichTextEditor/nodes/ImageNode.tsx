@@ -81,6 +81,27 @@ export class ImageNode extends DecoratorBlockNode {
     }
   }
 
+  static importDOM() {
+    return {
+      figure: (node: HTMLElement) => {
+        const img = node.querySelector('img')
+        const caption = node.querySelector('figcaption')
+
+        if (img) {
+          return {
+            conversion: () => {
+              const node = new ImageNode(img.src, caption?.innerText)
+
+              return { node }
+            },
+          }
+        }
+
+        return null
+      },
+    }
+  }
+
   override exportDOM(): DOMExportOutput {
     const figure = document.createElement('figure')
     const img = document.createElement('img')
