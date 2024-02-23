@@ -496,8 +496,8 @@ export const Modal = Object.assign(
                       displayKeyboardShortcut
                       onClick={
                         onConfirm
-                          ? () => {
-                              onConfirm({ close })
+                          ? async () => {
+                              await onConfirm({ close })
                             }
                           : close
                       }
