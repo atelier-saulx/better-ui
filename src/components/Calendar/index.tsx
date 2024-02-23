@@ -14,6 +14,8 @@ import {
   endOfDay,
   addWeeks,
   eachDayOfInterval,
+  areIntervalsOverlapping,
+  startOfDay,
 } from 'date-fns'
 import { ScrollArea, border, borderRadius, color } from '../../index.js'
 import { styled } from 'inlines'
@@ -117,16 +119,6 @@ export const Calendar = ({
     )
   }
 
-  //check overlapping monthly data
-  let monthData = data?.filter(
-    (item) =>
-      isSameMonth(displayMonth, item[timeStartField]) ||
-      isSameMonth(addMonths(displayMonth, -1), item[timeStartField]) ||
-      isSameMonth(addMonths(displayMonth, 1), item[timeStartField]) ||
-      isSameMonth(addMonths(displayMonth, -1), item[timeEndField]) ||
-      isSameMonth(addMonths(displayMonth, 1), item[timeEndField]),
-  )
-
   // get weekdata
   let weekData = data?.filter(
     (item) =>
@@ -176,9 +168,17 @@ export const Calendar = ({
       >
         {view === 'month' &&
           getDays().map((day, idx) => {
-            const dayDates = monthData.filter((item) =>
-              isSameDay(day, item[timeStartField]),
-            )
+            const dayDates = data.filter((item) => {
+              if (!item[timeStartField] || !item[timeEndField]) return false
+
+              return areIntervalsOverlapping(
+                { start: startOfDay(day), end: endOfDay(day) },
+                {
+                  start: new Date(item[timeStartField]),
+                  end: new Date(item[timeEndField]),
+                },
+              )
+            })
             return (
               <MonthCell
                 view={view}
@@ -193,11 +193,9 @@ export const Calendar = ({
             )
           })}
 
-        {view === 'week' &&
+        {/* {view === 'week' &&
           getDays().map((day, idx) => {
-            const dayDates = weekData.filter((item) =>
-              isSameDay(day, item[timeStartField]),
-            )
+            const dayDates = data
 
             return idx < 7 ? (
               <WeekDayColumn
@@ -210,7 +208,7 @@ export const Calendar = ({
                 timeEndField={timeEndField}
               />
             ) : null
-          })}
+          })} */}
 
         {/* // Red timeline */}
         {view === 'week' && (
