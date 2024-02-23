@@ -227,18 +227,20 @@ export function BasedForm({
           suffix={
             !loading || type ? (
               <Stack gap={8} style={{ marginTop: -4 }}>
-                <Button
+                {/* <Button
                   shape="square"
                   variant="neutral-transparent"
                   prefix={<IconCopy />}
                   // onClick={() => deleteItem({ id, type, ...state })}
-                />
-                <Button
-                  shape="square"
-                  variant="neutral-transparent"
-                  prefix={<IconDelete />}
-                  onClick={() => deleteItem({ id, type })}
-                />
+                /> */}
+                {id && deleteItem && (
+                  <Button
+                    shape="square"
+                    variant="neutral-transparent"
+                    prefix={<IconDelete />}
+                    onClick={() => deleteItem({ id, type })}
+                  />
+                )}
                 <Stack
                   gap={16}
                   display={Boolean(forcePublish || formRef.current.hasChanges)}

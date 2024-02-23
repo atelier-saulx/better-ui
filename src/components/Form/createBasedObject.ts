@@ -34,9 +34,9 @@ export const createBasedObject = (
         }
       }
       for (const key in v) {
-        if (!deepEqual(v[key], value[key])) {
-          ns[key] = v[key]
-        }
+        // if (!deepEqual(v[key], value[key])) {
+        ns[key] = v[key]
+        // }
       }
       return ns
     }

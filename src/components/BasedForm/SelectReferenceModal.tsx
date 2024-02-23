@@ -15,11 +15,14 @@ export type SelectReferenceModalProps = {
   types: string[]
   selectReferenceExplorerProps?:
     | (BasedExplorerProps & { itemQuery?: any })
-    | ((p: {
-        fields: any
-        query: any
-        types: string[]
-      }) => BasedExplorerProps & { itemQuery?: any })
+    | ((
+        p: {
+          fields: any
+          query: any
+          types: string[]
+        },
+        activeType: string,
+      ) => BasedExplorerProps & { itemQuery?: any })
 }
 
 export function SelectReferenceModal({
@@ -65,7 +68,10 @@ export function SelectReferenceModal({
   let { fields, query } = generateFromType(schema.types[activeSidebarItem])
   const props =
     typeof selectReferenceExplorerProps === 'function'
-      ? selectReferenceExplorerProps({ fields, query, types })
+      ? selectReferenceExplorerProps(
+          { fields, query, types },
+          activeSidebarItem,
+        )
       : selectReferenceExplorerProps
 
   if (props?.itemQuery) {
