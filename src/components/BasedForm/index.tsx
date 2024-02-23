@@ -94,7 +94,7 @@ export function BasedForm({
   const isReady = ref.current.currentFields && checksum
 
   const { data: values, loading } = useQuery(
-    isReady ? queryEndpoint : null,
+    isReady && ref.current.currentQuery?.$id ? queryEndpoint : null,
     ref.current.currentQuery,
   )
 
@@ -222,13 +222,15 @@ export function BasedForm({
           description={
             <Stack justify="start" gap={16} style={{ marginTop: 16 }}>
               <BadgeId id={values?.id} />
-              <Text variant="body-light">
-                Updated{' '}
-                {display(values?.updatedAt, {
-                  type: 'timestamp',
-                  display: 'human',
-                })}
-              </Text>
+              {values?.updatedAt ? (
+                <Text variant="body-light">
+                  Updated{' '}
+                  {display(values.updatedAt, {
+                    type: 'timestamp',
+                    display: 'human',
+                  })}
+                </Text>
+              ) : null}
             </Stack>
           }
           suffix={
