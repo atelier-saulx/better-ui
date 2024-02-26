@@ -1,14 +1,7 @@
 import React, { useEffect } from 'react'
 import { styled } from 'inlines'
 import { border, color, hashNonSemanticColor } from '../../utils/colors.js'
-import {
-  format,
-  isSameDay,
-  endOfDay,
-  startOfDay,
-  formatDuration,
-  intervalToDuration,
-} from 'date-fns'
+import { format, isSameDay, endOfDay, startOfDay } from 'date-fns'
 import { Text } from '../../index.js'
 
 export const WeekDayColumn = ({
@@ -18,91 +11,8 @@ export const WeekDayColumn = ({
   timeStartField,
   timeEndField,
   onClick,
-  displayMonth,
 }) => {
-  // item + next day is a thing set end time to end of day
-  // if(item[labelField] )
-
-  // check if the next dayDate has this field , then set end time to end
-
-  // console.log(dayDates, 'DayDatES')
-  // console.log(day)
-
-  // for (let i = 0; i < dayDates.length; i++) {
-  //   if (isSameDay(day, dayDates[i][timeEndField])) {
-  //     dayDates[i][timeStartField] = Number(format(startOfDay(day), 'T'))
-  //   }
-  //   if (isSameDay(day, dayDates[i][timeStartField])) {
-  //     dayDates[i][timeEndField] = Number(
-  //       format(endOfDay(dayDates[i][timeEndField]), 'T'),
-  //     )
-  //   } else if (!isSameDay(day, dayDates[i][timeStartField])) {
-  //     dayDates[i][timeStartField] = Number(format(startOfDay(day), 'T'))
-  //   }
-  //   // else if (isSameDay(day, dayDates[i][timeEndField])) {
-  //   //   dayDates[i][timeStartField] = Number(
-  //   //     format(startOfDay(dayDates[i][timeEndField]), 'T'),
-  //   //   )
-  //   // }
-  //   // else if (isSameDay(day, dayDates[i][timeEndField])) {
-  //   //   dayDates[i][timeEndField] = dayDates[i][timeEndField]
-  //   // }
-  // }
-
-  // let newDates = dayDates?.map((item) => {
-  //   // endField day
-  //   if (
-  //     // in between days?
-  //     !isSameDay(day, item[timeEndField]) &&
-  //     !isSameDay(day, item[timeStartField])
-  //   ) {
-  //     item[timeStartField] = Number(format(startOfDay(day), 'T'))
-  //     item[timeEndField] = Number(format(endOfDay(day), 'T'))
-  //     return item
-  //   } else if (
-  //     isSameDay(day, item[timeEndField]) &&
-  //     !isSameDay(day, item[timeStartField])
-  //   ) {
-  //     item[timeStartField] = Number(format(startOfDay(day), 'T'))
-
-  //     return item
-  //   }
-  //   // startDay
-  //   else if (
-  //     !isSameDay(day, item[timeEndField]) &&
-  //     isSameDay(day, item[timeStartField])
-  //   ) {
-  //     item[timeEndField] = Number(format(endOfDay(day), 'T'))
-  //     return item
-  //   }
-  //   // else {
-  //   //   return item
-  //   // }
-  // })
-
-  // console.log(dayDates, 'new DATES??')
-  console.log('--> ', dayDates)
-  console.log('dsaag ', day)
-
-  const [tempDayDates, setTempDayDates] = React.useState(dayDates)
-
-  // if (tempDayDates && displayMonth) {
-  //   for (let i = 0; i < tempDayDates.length; i++) {
-  //     if (
-  //       isSameDay(tempDayDates[i][timeStartField], day) &&
-  //       !isSameDay(tempDayDates[i][timeEndField], day)
-  //     ) {
-  //       console.log('START DAY 🧰', day)
-  //     } else if (
-  //       !isSameDay(tempDayDates[i][timeStartField], day) &&
-  //       isSameDay(tempDayDates[i][timeEndField], day)
-  //     ) {
-  //       console.log('END DAY 🔫', day)
-  //       tempDayDates[i][timeStartField] = startOfDay(day)
-  //     }
-  //   }
-  // }
-
+  // VERY neccary ARRay
   let arr = []
 
   for (let i = 0; i < dayDates.length; i++) {
@@ -110,21 +20,26 @@ export const WeekDayColumn = ({
       isSameDay(dayDates[i][timeStartField], day) &&
       !isSameDay(dayDates[i][timeEndField], day)
     ) {
-      console.log('START DAY 🧰', day)
-      arr.push({ ...dayDates[i] })
+      arr.push({ ...dayDates[i], [timeEndField]: endOfDay(day) })
     } else if (
       !isSameDay(dayDates[i][timeStartField], day) &&
       isSameDay(dayDates[i][timeEndField], day)
     ) {
-      console.log('END DAY 🔫', day)
       // dayDates[i][timeStartField] = startOfDay(day)
       arr.push({ ...dayDates[i], [timeStartField]: startOfDay(day) })
-    } else {
-      arr.push({ ...dayDates[i] })
+    } else if (
+      !isSameDay(dayDates[i][timeStartField], day) &&
+      !isSameDay(dayDates[i][timeEndField], day)
+    ) {
+      arr.push({
+        ...dayDates[i],
+        [timeStartField]: startOfDay(day),
+        [timeEndField]: endOfDay(day),
+      })
     }
   }
 
-  return displayMonth ? (
+  return (
     <styled.div
       style={{
         height: 1440,
@@ -166,14 +81,6 @@ export const WeekDayColumn = ({
                 //     durationTimeInMinutes,
                 //     item,
                 //   )
-
-                // console.log(
-                //   'interval to duration',
-                //   intervalToDuration({
-                //     start: item[timeEndField],
-                //     end: item[timeStartField],
-                //   }),
-                // )
               }
 
               return (
@@ -254,5 +161,5 @@ export const WeekDayColumn = ({
         )
       })}
     </styled.div>
-  ) : null
+  )
 }

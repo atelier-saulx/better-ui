@@ -48,14 +48,19 @@ export const MonthCell = ({
             fontSize: '13px',
           }}
         >
-          {isSameMonth(day, displayMonth) && format(day, 'd')}
+          {format(day, 'd')}
         </Text>
       ) : (
         <Text
           color="secondary"
-          style={{ position: 'absolute', right: 8, top: 3 }}
+          style={{
+            position: 'absolute',
+            right: 8,
+            top: 3,
+            opacity: isSameMonth(day, displayMonth) ? 1 : 0.5,
+          }}
         >
-          {isSameMonth(day, displayMonth) && format(day, 'd')}
+          {format(day, 'd')}
         </Text>
       )}
 

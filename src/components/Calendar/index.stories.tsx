@@ -45,19 +45,19 @@ export const Default = () => {
 
   let fakedata = []
 
-  // fakedata.push({
-  //   id: 'XXXX',
-  //   title: 'Snurp the snurp',
-  //   createdAt: 1708364692974,
-  //   updatedAt: 1708515134327,
-  // })
+  fakedata.push({
+    id: 'XXXX',
+    title: 'Snurp the snurp',
+    createdAt: 1708364692974,
+    updatedAt: 1708515134327,
+  })
 
-  // fakedata.push({
-  //   id: 'FFFFf',
-  //   title: 'Flapper de flaape',
-  //   createdAt: 1706664692974,
-  //   updatedAt: 1709915134327,
-  // })
+  fakedata.push({
+    id: 'FFFFf',
+    title: 'Flapper de flaape',
+    createdAt: 1706664692974,
+    updatedAt: 1709915134327,
+  })
 
   fakedata.push({
     id: 'AAAAA',
@@ -83,31 +83,31 @@ export const Default = () => {
   )
 }
 
-// export const WeekView = () => {
-//   const { data: fakedata, loading } = useQuery('fakedata', {
-//     arraySize: 20,
-//     id: '',
-//     src: '',
-//     status: '',
-//     title: '',
-//     number: '',
-//     name: '',
-//     price: '',
-//     color: '',
-//     createdAt: '',
-//     updatedAt: '',
-//   })
+export const WeekView = () => {
+  const { data: fakedata, loading } = useQuery('fakedata', {
+    arraySize: 20,
+    id: '',
+    src: '',
+    status: '',
+    title: '',
+    number: '',
+    name: '',
+    price: '',
+    color: '',
+    createdAt: '',
+    updatedAt: '',
+  })
 
-//   if (loading) {
-//     return null
-//   }
+  if (loading) {
+    return null
+  }
 
-//   return (
-//     <Calendar
-//       data={fakedata}
-//       labelField="title"
-//       timeStartField="updatedAt"
-//       view="month"
-//     />
-//   )
-// }
+  return (
+    <Calendar
+      data={fakedata}
+      labelField="title"
+      timeStartField="updatedAt"
+      view="month"
+    />
+  )
+}
