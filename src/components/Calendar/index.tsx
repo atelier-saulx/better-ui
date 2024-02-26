@@ -112,26 +112,26 @@ export const Calendar = ({
 
   // const TEST_DATA = [...removeDuplicates(data)]
 
-  function removeDuplicates(data) {
-    return data.filter(
-      (obj, index) =>
-        data.findIndex(
-          (item) =>
-            item[timeStartField] === obj[timeStartField] &&
-            item[labelField] === obj[labelField],
-        ) === index,
-    )
-  }
+  // function removeDuplicates(data) {
+  //   return data.filter(
+  //     (obj, index) =>
+  //       data.findIndex(
+  //         (item) =>
+  //           item[timeStartField] === obj[timeStartField] &&
+  //           item[labelField] === obj[labelField],
+  //       ) === index,
+  //   )
+  // }
 
-  //check overlapping monthly data
-  let monthData = data?.filter(
-    (item) =>
-      isSameMonth(displayMonth, item[timeStartField]) ||
-      isSameMonth(addMonths(displayMonth, -1), item[timeStartField]) ||
-      isSameMonth(addMonths(displayMonth, 1), item[timeStartField]) ||
-      isSameMonth(addMonths(displayMonth, -1), item[timeEndField]) ||
-      isSameMonth(addMonths(displayMonth, 1), item[timeEndField]),
-  )
+  // //check overlapping monthly data
+  // let monthData = data?.filter(
+  //   (item) =>
+  //     isSameMonth(displayMonth, item[timeStartField]) ||
+  //     isSameMonth(addMonths(displayMonth, -1), item[timeStartField]) ||
+  //     isSameMonth(addMonths(displayMonth, 1), item[timeStartField]) ||
+  //     isSameMonth(addMonths(displayMonth, -1), item[timeEndField]) ||
+  //     isSameMonth(addMonths(displayMonth, 1), item[timeEndField]),
+  // )
 
   // get weekdata
   let weekData = data?.filter(
@@ -220,7 +220,7 @@ export const Calendar = ({
             //   isSameDay(day, item[timeStartField]),
             // )
 
-            const dayDates = data.filter((item) => {
+            const dayDates = weekData.filter((item) => {
               if (item[timeStartField] && !item[timeEndField])
                 return isSameDay(day, item[timeStartField])
 
@@ -228,11 +228,17 @@ export const Calendar = ({
               return areIntervalsOverlapping(
                 { start: startOfDay(day), end: endOfDay(day) },
                 {
-                  start: new Date(item[timeStartField]),
+                  start: new Date(startOfDay(item[timeStartField])),
                   end: new Date(item[timeEndField]),
                 },
               )
             })
+
+            // manipulate the daydates to split up intervals in days
+            // eachDayOfInterval({
+            //         start: new Date(testData[i][timeStartField]),
+            //         end: new Date(testData[i][timeEndField]),
+            //       })
 
             return idx < 7 ? (
               <WeekDayColumn
@@ -243,6 +249,7 @@ export const Calendar = ({
                 labelField={labelField}
                 timeStartField={timeStartField}
                 timeEndField={timeEndField}
+                displayMonth={displayMonth}
               />
             ) : null
           })}
@@ -279,7 +286,10 @@ export const Calendar = ({
                   zIndex: 1,
                 }}
               >
-                {currentTimeHours}:{currentTimeMinutes}
+                {currentTimeHours}:
+                {currentTimeMinutes < 10
+                  ? '0' + currentTimeMinutes.toString()
+                  : currentTimeMinutes}
               </styled.div>
             </styled.div>
           </styled.div>
