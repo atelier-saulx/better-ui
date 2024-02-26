@@ -53,6 +53,7 @@ export function BasedForm({
   formRef,
   forcePublish,
   renderReferenceModalBody,
+  richTextEditorProps,
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -202,6 +203,7 @@ export function BasedForm({
         return [selectedReference]
       }
     },
+    richTextEditorProps,
   }
 
   if (useHeader) {

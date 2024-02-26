@@ -67,7 +67,7 @@ import { AddEmbedModal } from '../components/AddEmbedModal.js'
 
 const TOOLTIP_DELAY_MS = 1200
 
-export function ToolbarPlugin({ variant }) {
+export function ToolbarPlugin({ variant, onAddImage }) {
   const [editor] = useLexicalComposerContext()
   const [type, setType] = useState<
     'title' | 'heading' | 'subheading' | 'body' | 'bullet' | 'blockquote'
@@ -423,7 +423,19 @@ export function ToolbarPlugin({ variant }) {
             size="small"
             variant="neutral-transparent"
             prefix={<IconImage />}
-            onClick={() => {
+            onClick={async () => {
+              if (onAddImage) {
+                const image = await onAddImage()
+
+                editor.update(() => {
+                  editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                    src: image.src,
+                    caption: '',
+                  })
+                })
+
+                return
+              }
               setOpenModal('image')
             }}
           />
