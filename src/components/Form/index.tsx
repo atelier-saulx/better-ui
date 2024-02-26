@@ -61,6 +61,9 @@ export type FormProps = {
   fields: FormValues
   variant?: Variant
   editableReferences?: boolean
+  richTextEditorProps?: {
+    onAddImage?: () => void
+  }
   // for later check ref types (can check ids and check allowedTypes)
   schema?: BasedSchemaPartial
   formRef?: {
@@ -280,6 +283,7 @@ export const Form = (p: FormProps) => {
                     field={field}
                     propKey={key}
                     autoFocus={p.autoFocus && i === 0}
+                    richTextEditorProps={p.richTextEditorProps}
                   />
                 </styled.div>
               ))}

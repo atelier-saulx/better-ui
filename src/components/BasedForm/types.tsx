@@ -55,6 +55,9 @@ type SharedBasedFormProps = {
     field: BasedSchemaFieldReferences | BasedSchemaFieldReference,
     onSelect: (item: any) => void,
   ) => ReactNode
+  richTextEditorProps?: {
+    onAddImage?: () => void
+  }
 }
 
 type OptionalBasedFormProps =

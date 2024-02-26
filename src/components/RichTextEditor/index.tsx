@@ -29,6 +29,7 @@ export type RichTextEditorProps = {
   placeholder?: string
   height?: number
   variant?: 'small'
+  onAddImage?: () => void
 } & ValuePluginProps &
   AutoFocusPluginProps
 
@@ -81,6 +82,7 @@ export function RichTextEditor({
   height,
   value,
   variant,
+  onAddImage,
 }: RichTextEditorProps) {
   const editorContainerRef = React.useRef<HTMLDivElement | null>()
 
@@ -97,7 +99,7 @@ export function RichTextEditor({
       }}
     >
       <LexicalComposer initialConfig={CONFIG}>
-        <ToolbarPlugin variant={variant} />
+        <ToolbarPlugin variant={variant} onAddImage={onAddImage} />
         <styled.div
           ref={editorContainerRef}
           style={{
