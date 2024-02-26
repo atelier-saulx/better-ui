@@ -237,7 +237,12 @@ export function DateInput({
                       value.end,
                       time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy',
                     )}`
-                  : format(value, time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'))}
+                  : format(value, time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy')) +
+                  ` ${
+                    new Date()
+                      .toLocaleTimeString('en-us', { timeZoneName: 'short' })
+                      .split(' ')[2]
+                  }`}
             </Text>
           </styled.div>
           {description !== undefined ? (
