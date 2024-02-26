@@ -59,7 +59,12 @@ export const Default = () => {
     updatedAt: 1709915134327,
   })
 
-  console.log('fake data --> from function 🍝', fakedata)
+  fakedata.push({
+    id: 'AAAAA',
+    title: 'aaabbbbbb',
+    createdAt: 1708664692974,
+    updatedAt: 1709815134327,
+  })
 
   const startDate = Number(format(new Date('December 17, 2022 03:24:00'), 'T'))
   const endDate = Number(format(new Date('March 17, 2024 03:24:00'), 'T'))

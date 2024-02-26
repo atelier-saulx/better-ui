@@ -33,13 +33,13 @@ export const Header = ({
                 : Number(format(displayMonth, 'w', { weekStartsOn: 0 })) - 1)}
         </Text>
       </Stack>
-      {/* <Stack>
+      <Stack>
         <Switch
           data={['Month', 'Week']}
           activeTab={view.slice(0, 1).toUpperCase() + view.slice(1)}
           onChange={(v) => setView(v.toLowerCase())}
         />
-      </Stack> */}
+      </Stack>
 
       <Stack justify="end" gap={0}>
         <Button

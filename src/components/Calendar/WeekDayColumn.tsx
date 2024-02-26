@@ -12,6 +12,11 @@ export const WeekDayColumn = ({
   timeEndField,
   onClick,
 }) => {
+  // item + next day is a thing set end time to end of day
+  // if(item[labelField] )
+
+  // check if the next dayDate has this field , then set end time to end
+
   return (
     <styled.div
       style={{
@@ -47,13 +52,13 @@ export const WeekDayColumn = ({
                 durationTimeInHours = format(durationTime, 'k')
                 durationTimeInMinutes = format(durationTime, 'm')
 
-                console.log(
-                  'hours, minutes',
-                  durationTime,
-                  durationTimeInHours,
-                  durationTimeInMinutes,
-                  item,
-                )
+                // console.log(
+                //   'hours, minutes',
+                //   durationTime,
+                //   durationTimeInHours,
+                //   durationTimeInMinutes,
+                //   item,
+                // )
               }
 
               return (
