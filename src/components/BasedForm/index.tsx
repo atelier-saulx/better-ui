@@ -48,7 +48,6 @@ export function BasedForm({
   addItem,
   deleteItem,
   onClickReference,
-  selectReferenceExplorerProps,
   children,
   formRef,
   forcePublish,
@@ -167,7 +166,6 @@ export function BasedForm({
           modalBody={renderReferenceModalBody?.(field, (reference) => {
             close(reference)
           })}
-          selectReferenceExplorerProps={selectReferenceExplorerProps}
           types={
             field.allowedTypes?.map((e) =>
               typeof e === 'string' ? e : e.type,
@@ -188,7 +186,6 @@ export function BasedForm({
           modalBody={renderReferenceModalBody?.(field, (reference) => {
             close(reference)
           })}
-          selectReferenceExplorerProps={selectReferenceExplorerProps}
           types={
             field.allowedTypes?.map((e) =>
               typeof e === 'string' ? e : e.type,

@@ -44,13 +44,6 @@ type SharedBasedFormProps = {
   addItem?: OnChange
   deleteItem?: (p: Record<string, any>) => Promise<void>
   onClickReference?: FormProps['onClickReference']
-  selectReferenceExplorerProps?:
-    | (BasedExplorerProps & { itemQuery: any })
-    | ((p: {
-        fields: any
-        query: any
-        types: string[]
-      }) => BasedExplorerProps & { itemQuery: any })
   renderReferenceModalBody?: (
     field: BasedSchemaFieldReferences | BasedSchemaFieldReference,
     onSelect: (item: any) => void,
