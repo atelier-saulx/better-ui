@@ -1,234 +1,113 @@
 import * as React from 'react'
+import { Text, border, color } from '../../index.js'
 import {
   startOfWeek,
   startOfMonth,
   endOfMonth,
   addDays,
-  addMonths,
   compareAsc,
   endOfWeek,
-  isSameMonth,
-  isSameWeek,
-  isSameDay,
   format,
-  endOfDay,
-  addWeeks,
-  eachDayOfInterval,
-  areIntervalsOverlapping,
-  getOverlappingDaysInIntervals,
-  startOfDay,
+  isSameDay,
 } from 'date-fns'
-import { ScrollArea, border, borderRadius, color } from '../../index.js'
-import { styled } from 'inlines'
-import { Header } from './Header.js'
-import { SubHeader } from './SubHeader.js'
-import { MonthCell } from './MonthCell.js'
-import { WeekDayColumn } from './WeekDayColumn.js'
 
-export type CalendarProps = {
-  data?: {}[]
-  timeStartField?: string
-  timeEndField?: string
-  labelField?: string
-  view?: 'month' | 'week' | 'day'
-  onClick?: (item: any) => void
-  startRange?: number
-  endRange?: number
-}
+export type CalendarProps = {}
 
-export const Calendar = ({
-  data,
-  timeStartField = 'createdAt',
-  timeEndField,
-  labelField = 'title',
-  view: viewProp = 'month',
-  onClick,
-  startRange,
-  endRange,
-}: CalendarProps) => {
-  // display month is the date // could be better named in hindsight // for that start week offset
-  const [displayMonth, setDisplayMonth] = React.useState(new Date())
-  const [view, setView] = React.useState(viewProp)
-
-  const getDays = React.useCallback(() => {
+export function Calendar(props: CalendarProps) {
+  const [today] = React.useState(new Date())
+  const [currentDay, setCurrentDay] = React.useState(new Date())
+  const days = React.useMemo(() => {
     const days = []
 
-    if (view === 'month') {
-      let curr = startOfWeek(startOfMonth(displayMonth), { weekStartsOn: 1 })
-      const end = endOfWeek(endOfMonth(displayMonth), { weekStartsOn: 1 })
+    let curr = startOfWeek(startOfMonth(currentDay), { weekStartsOn: 1 })
+    const end = endOfWeek(endOfMonth(currentDay), { weekStartsOn: 1 })
 
-      while (compareAsc(curr, end) < 1) {
-        days.push(curr)
-        curr = addDays(curr, 1)
-      }
-    } else if (view === 'week') {
-      let curr = startOfWeek(startOfWeek(displayMonth), { weekStartsOn: 1 })
-      const end = endOfWeek(endOfWeek(displayMonth), { weekStartsOn: 1 })
-
-      while (compareAsc(curr, end) < 1) {
-        days.push(curr)
-        curr = addDays(curr, 1)
-      }
+    while (compareAsc(curr, end) < 1) {
+      days.push(curr)
+      curr = addDays(curr, 1)
     }
 
     return days
-  }, [displayMonth, view])
+  }, [currentDay])
 
-  let currentTimeHours = Number(format(new Date(), 'H'))
-  let currentTimeMinutes = Number(format(new Date(), 'm'))
-
-  // get weekdata
-  let weekData = data?.filter(
-    (item) =>
-      isSameWeek(addWeeks(displayMonth, -1), item[timeStartField]) ||
-      isSameWeek(addWeeks(displayMonth, -1), item[timeEndField]) ||
-      isSameWeek(
-        addDays(addWeeks(displayMonth, -1), 7),
-        item[timeStartField],
-      ) ||
-      isSameWeek(addDays(addWeeks(displayMonth, -1), 7), item[timeEndField]),
-  )
+  console.log(days)
 
   return (
-    <styled.div
+    <div
       style={{
-        width: '100%',
         height: '100%',
-        position: 'relative',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      <Header
-        displayMonth={displayMonth}
-        setDisplayMonth={setDisplayMonth}
-        view={view}
-        setView={setView}
-        startRange={startRange}
-        endRange={endRange}
-      />
-      <SubHeader view={view} dayDates={getDays().map((day) => day)} />
-
-      <styled.div
+      <div
         style={{
-          display: 'grid',
-          overflow: 'auto',
-          height: '100%',
           width: '100%',
+          display: 'grid',
           gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
-          gridAutoRows: '1fr',
-          gap: '0px',
-          borderLeft: border(),
-          borderRight: 'none',
-          borderTopLeftRadius: 0,
-          borderBottom: view === 'month' ? border() : 'none',
         }}
       >
-        {view === 'month' &&
-          getDays().map((day, idx) => {
-            const dayDates = data.filter((item) => {
-              if (item[timeStartField] && !item[timeEndField])
-                return isSameDay(day, item[timeStartField])
-
-              if (!item[timeStartField] || !item[timeEndField]) return false
-              return areIntervalsOverlapping(
-                { start: startOfDay(day), end: endOfDay(day) },
-                {
-                  start: new Date(item[timeStartField]),
-                  end: new Date(item[timeEndField]),
-                },
-              )
-            })
-
-            return (
-              <MonthCell
-                view={view}
-                key={idx}
-                day={day}
-                idx={idx}
-                displayMonth={displayMonth}
-                dayDates={dayDates}
-                labelField={labelField}
-                onClick={onClick}
-              />
-            )
-          })}
-
-        {view === 'week' &&
-          getDays().map((day, idx) => {
-            // const dayDates = weekData.filter((item) =>
-            //   isSameDay(day, item[timeStartField]),
-            // )
-
-            const dayDates = data.filter((item) => {
-              if (item[timeStartField] && !item[timeEndField])
-                return isSameDay(day, item[timeStartField])
-
-              if (!item[timeStartField] || !item[timeEndField]) return false
-              return areIntervalsOverlapping(
-                { start: startOfDay(day), end: endOfDay(day) },
-                {
-                  start: new Date(startOfDay(item[timeStartField])),
-                  end: new Date(item[timeEndField]),
-                },
-              )
-            })
-
-            return idx < 7 ? (
-              <WeekDayColumn
-                key={idx}
-                day={day}
-                onClick={onClick}
-                dayDates={dayDates}
-                labelField={labelField}
-                timeStartField={timeStartField}
-                timeEndField={timeEndField}
-              />
-            ) : null
-          })}
-
-        {/* // Red timeline */}
-        {view === 'week' && (
-          <styled.div
+        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => (
+          <div
             style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: `${currentTimeHours * 60 + 48 + currentTimeMinutes}px`,
-              height: 1,
-              backgroundColor: color('border', 'error'),
+              textAlign: 'right',
+              padding: 4,
             }}
           >
-            <styled.div
+            <Text>{day}</Text>
+          </div>
+        ))}
+      </div>
+      <div
+        style={{
+          flex: 1,
+          width: '100%',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
+          border: border(),
+        }}
+      >
+        {days.map((day, i) => (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: 4,
+              ...(i % 7 !== 0 && { borderLeft: border() }),
+              ...(i < days.length - 7 && { borderBottom: border() }),
+            }}
+          >
+            <div
               style={{
-                backgroundColor: color('border', 'error'),
-                width: 32,
-                marginLeft: 'auto',
-                marginTop: '-9px',
-                height: 18,
                 display: 'flex',
+                justifyContent: 'end',
                 alignItems: 'center',
-                padding: '2px',
+                gap: 3,
               }}
             >
-              <styled.div
+              {isSameDay(startOfMonth(day), day) && (
+                <Text>{format(day, 'MMM.')}</Text>
+              )}
+              <div
                 style={{
-                  fontSize: '10px',
-                  color: '#fff',
-                  fontWeight: 600,
-                  zIndex: 1,
+                  minWidth: 24,
+                  borderRadius: 9999,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  ...(isSameDay(day, today) && {
+                    background: color('interactive', 'primary'),
+                    color: color('content', 'inverted'),
+                  }),
                 }}
               >
-                {currentTimeHours}:
-                {currentTimeMinutes < 10
-                  ? '0' + currentTimeMinutes.toString()
-                  : currentTimeMinutes}
-              </styled.div>
-            </styled.div>
-          </styled.div>
-        )}
-        {/* // Red timeline */}
-      </styled.div>
-    </styled.div>
+                <Text color="inherit">{format(day, 'd')}</Text>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
