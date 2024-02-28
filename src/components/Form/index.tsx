@@ -9,6 +9,7 @@ import { FormConfirm } from './FormConfirm.js'
 import { styled } from 'inlines'
 import { useListeners } from './useListeners.js'
 import { createBasedObject } from './createBasedObject.js'
+import { getRequiredFieldPaths, objectContainsPath } from './utils.js'
 
 type FormSchemaField = BasedSchemaField & {
   action?: ReactNode
@@ -38,6 +39,7 @@ export type ValueRef = {
   values: { [key: string]: any }
   props: FormProps
   changes: { [key: string]: any }
+  errors: string[][]
 }
 
 export type FormProps = {
@@ -127,6 +129,7 @@ export const Form = (p: FormProps) => {
   const valueRef = useRef<ValueRef>({
     values: p.values ?? {},
     changes: {},
+    errors: [],
     props: p,
     hasChanges: false,
   })
@@ -148,6 +151,21 @@ export const Form = (p: FormProps) => {
 
   const onConfirm = React.useCallback(async () => {
     try {
+      const errors = []
+      const requiredFieldPaths = getRequiredFieldPaths(p.fields)
+
+      for (const path of requiredFieldPaths) {
+        if (!objectContainsPath(path, valueRef.current.values)) {
+          errors.push(path)
+        }
+      }
+
+      if (errors.length) {
+        console.log('onsubmit errors', errors)
+        valueRef.current.errors = errors
+        return
+      }
+
       const hash = hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
       await valueRef.current.props.onChange(
         valueRef.current.values,

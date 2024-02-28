@@ -302,3 +302,42 @@ export const createNewEmptyValue = ({ type }: BasedSchemaField): any => {
     return ''
   }
 }
+
+export function getRequiredFieldPaths(
+  fields: {
+    [key: string]: BasedSchemaField
+  },
+  nestedPath: string[] = [],
+) {
+  const requiredPaths = []
+
+  for (const key in fields) {
+    const field = fields[key]
+    // TODO skipping here is not correct as it means that for example a non-required object
+    // with required properties does not get picked up when it actually should
+    if (!field.isRequired) continue
+
+    requiredPaths.push([...nestedPath, key])
+
+    if (field.type === 'object') {
+      const p = getRequiredFieldPaths(field.properties, [...nestedPath, key])
+
+      if (p.length) {
+        requiredPaths.push(...p)
+      }
+    }
+  }
+
+  return requiredPaths
+}
+
+export function objectContainsPath(path: string[], object: any) {
+  if (path.length === 0) return true
+  const [key, ...remainingPath] = path
+
+  if (typeof object !== 'undefined' && typeof object[key] !== 'undefined') {
+    return objectContainsPath(remainingPath, object[key])
+  }
+
+  return false
+}
