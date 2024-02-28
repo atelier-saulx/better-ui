@@ -24,7 +24,7 @@ export const Switch = ({
         display: 'inline-flex',
         backgroundColor: color('background', 'muted'),
         borderRadius: borderRadius('small'),
-        padding: 4,
+        padding: 3,
         gap: 4,
         ...style,
       }}
@@ -48,7 +48,7 @@ export const Switch = ({
               activeTab === data[idx] ? boxShadow('elevation') : 'none',
           }}
         >
-          <Text>{item}</Text>
+          <Text style={{ lineHeight: '18px' }}>{item}</Text>
         </styled.div>
       ))}
     </styled.div>
