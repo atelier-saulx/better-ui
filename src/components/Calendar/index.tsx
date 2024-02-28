@@ -3,8 +3,6 @@ import {
   Button,
   IconChevronLeft,
   IconChevronRight,
-  SelectInput,
-  Switch,
   Text,
   border,
   borderRadius,
@@ -25,6 +23,9 @@ import {
   endOfDay,
   isWithinInterval,
   isSameMonth,
+  getHours,
+  getMinutes,
+  intervalToDuration,
 } from 'date-fns'
 import { styled } from 'inlines'
 
@@ -45,7 +46,7 @@ export function Calendar({
   labelField,
   onItemClick,
 }: CalendarProps) {
-  const [view, setView] = React.useState<'month' | 'week'>('month')
+  const [view, setView] = React.useState<'month' | 'week'>('week')
   const [currentPeriodStart, setCurrentPeriodStart] = React.useState(new Date())
   const days = React.useMemo(() => {
     const days = []
@@ -76,17 +77,7 @@ export function Calendar({
   }, [currentPeriodStart, view])
 
   const events = React.useMemo(() => {
-    return data
-      .filter((e) => e[startField] && e[endField])
-      .map((e) => ({
-        data: { ...e },
-        _start: new Date(e[startField]),
-        _end: new Date(e[endField]),
-        _day_interval: {
-          start: startOfDay(new Date(e[startField])),
-          end: endOfDay(new Date(e[endField])),
-        },
-      }))
+    return data.filter((e) => e[startField] && e[endField])
   }, [data, startField, endField])
 
   return (
@@ -109,7 +100,7 @@ export function Calendar({
         <Text variant="title-modal">
           {format(currentPeriodStart, 'yyyy. MMMM')}
         </Text>
-        {/* <div
+        <div
           style={{
             display: 'flex',
             gap: 2,
@@ -150,7 +141,7 @@ export function Calendar({
           >
             Week
           </Button>
-        </div> */}
+        </div>
         <div style={{ display: 'flex', gap: 2 }}>
           <Button
             variant="neutral"
@@ -235,41 +226,110 @@ export function Calendar({
             style={{
               flex: 1,
               width: '100%',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
-              gridAutoRows: 'minmax(0, 1fr)',
+              position: 'relative',
+              overflowY: 'auto',
               border: border(),
             }}
           >
-            {days.map((day, i) => (
+            <div
+              style={{ position: 'absolute', left: 0, right: 0, height: 1440 }}
+            >
               <div
-                key={`content-${day.toISOString()}`}
-                style={{ padding: 4, ...(i !== 0 && { borderLeft: border() }) }}
+                style={{ position: 'relative', width: '100%', height: '100%' }}
               >
-                {events
-                  .filter((e) => isWithinInterval(day, e._day_interval))
-                  .map((e) => (
-                    <styled.div
-                      key={`${day.toISOString()}-${e.data[labelField]}`}
-                      onClick={() => {
-                        onItemClick?.(e.data)
-                      }}
-                      style={{
-                        cursor: 'pointer',
-                        borderRadius: borderRadius('small'),
+                {Array.from({ length: 24 }).map((_, i) => (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: i * (1440 / 24),
+                      width: '100%',
+                      pointerEvents: 'none',
+                      ...(i !== 0 && {
+                        height: 1,
                         background: color('background', 'neutral'),
-                        padding: '0 4px',
-                        '&:hover': {
-                          background: color('interactive', 'primary'),
-                          color: color('content', 'inverted'),
-                        },
+                      }),
+                    }}
+                  >
+                    <div style={{ transform: 'translateY(-50%)' }}>
+                      <Text color="secondary">{`${i}`.padStart(2, '0')}</Text>
+                    </div>
+                  </div>
+                ))}
+                <div
+                  style={{
+                    height: '100%',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
+                    gridAutoRows: 'minmax(0, 1fr)',
+                  }}
+                >
+                  {days.map((day, i) => (
+                    <div
+                      key={`content-${day.toISOString()}`}
+                      style={{
+                        padding: 4,
+                        position: 'relative',
+                        height: '100%',
+                        width: '100%',
+                        ...(i !== 0 && { borderLeft: border() }),
                       }}
                     >
-                      <Text color="inherit">{e.data[labelField]}</Text>
-                    </styled.div>
+                      {events
+                        .filter((e) =>
+                          isWithinInterval(day, {
+                            start: startOfDay(new Date(e[startField])),
+                            end: endOfDay(new Date(e[endField])),
+                          }),
+                        )
+                        .map((e) => {
+                          const start = new Date(
+                            Math.max(
+                              new Date(e[startField]).getTime(),
+                              startOfDay(day).getTime(),
+                            ),
+                          )
+                          const end = new Date(
+                            Math.min(
+                              new Date(e[endField]).getTime(),
+                              endOfDay(day).getTime(),
+                            ),
+                          )
+
+                          const top = getHours(start) * 60 + getMinutes(start)
+                          const duration = intervalToDuration({ start, end })
+                          const height = duration.hours * 60 + duration.minutes
+
+                          return (
+                            <styled.div
+                              key={`${day.toISOString()}-${e[labelField]}`}
+                              onClick={() => {
+                                onItemClick?.(e)
+                              }}
+                              style={{
+                                top: top + 4,
+                                height: height - 8,
+                                position: 'absolute',
+                                left: 4,
+                                right: 4,
+                                cursor: 'pointer',
+                                borderRadius: borderRadius('small'),
+                                background: color('background', 'neutral'),
+                                padding: '0 4px',
+                                '&:hover': {
+                                  background: color('interactive', 'primary'),
+                                  color: color('content', 'inverted'),
+                                },
+                              }}
+                            >
+                              <Text color="inherit">{e[labelField]}</Text>
+                            </styled.div>
+                          )
+                        })}
+                    </div>
                   ))}
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </>
       )}
@@ -364,12 +424,17 @@ export function Calendar({
                     }}
                   >
                     {events
-                      .filter((e) => isWithinInterval(day, e._day_interval))
+                      .filter((e) =>
+                        isWithinInterval(day, {
+                          start: startOfDay(new Date(e[startField])),
+                          end: endOfDay(new Date(e[endField])),
+                        }),
+                      )
                       .map((e) => (
                         <styled.div
-                          key={`${day.toISOString()}-${e.data[labelField]}`}
+                          key={`${day.toISOString()}-${e[labelField]}`}
                           onClick={() => {
-                            onItemClick?.(e.data)
+                            onItemClick?.(e)
                           }}
                           style={{
                             cursor: 'pointer',
@@ -382,7 +447,7 @@ export function Calendar({
                             },
                           }}
                         >
-                          <Text color="inherit">{e.data[labelField]}</Text>
+                          <Text color="inherit">{e[labelField]}</Text>
                         </styled.div>
                       ))}
                   </div>
