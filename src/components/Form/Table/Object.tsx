@@ -64,7 +64,14 @@ export function ObjectParser({ ctx, path }: TableProps) {
   }
 
   const rows: ReactNode[] = []
-  for (const key in field.properties) {
+  const sortedProperties = Object.fromEntries(
+    Object.entries(field.properties).sort(([, a], [, b]) => {
+      const aIndex = a.index ?? 1e6
+      const bIndex = b.index ?? 1e6
+      return aIndex === bIndex ? 0 : aIndex > bIndex ? 1 : -1
+    }),
+  )
+  for (const key in sortedProperties) {
     rows.push(<Table key={key} ctx={ctx} path={[...path, key]} />)
   }
 
