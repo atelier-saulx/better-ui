@@ -14,22 +14,11 @@ export type SelectReferenceModalProps = {
   onSelect: (reference: any) => void
   types: string[]
   modalBody?: React.ReactNode
-  selectReferenceExplorerProps?:
-    | (BasedExplorerProps & { itemQuery?: any })
-    | ((
-        p: {
-          fields: any
-          query: any
-          types: string[]
-        },
-        activeType: string,
-      ) => BasedExplorerProps & { itemQuery?: any })
 }
 
 export function SelectReferenceModal({
   onSelect,
   types,
-  selectReferenceExplorerProps,
   modalBody,
 }: SelectReferenceModalProps) {
   const [activeSidebarItem, setActiveSidebarItem] = React.useState(null)
@@ -68,17 +57,6 @@ export function SelectReferenceModal({
   if (!schema) return
 
   let { fields, query } = generateFromType(schema.types[activeSidebarItem])
-  const props =
-    typeof selectReferenceExplorerProps === 'function'
-      ? selectReferenceExplorerProps(
-          { fields, query, types },
-          activeSidebarItem,
-        )
-      : selectReferenceExplorerProps
-
-  if (props?.itemQuery) {
-    query = props.itemQuery
-  }
 
   return (
     <Modal.Root
@@ -139,7 +117,6 @@ export function SelectReferenceModal({
                         },
                       },
                     })}
-                    {...props}
                   />
                 )}
               </div>

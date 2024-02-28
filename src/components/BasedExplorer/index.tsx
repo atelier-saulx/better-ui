@@ -91,9 +91,9 @@ export type BasedExplorerProps = {
     data: any[]
   }) => Promise<void>
   calendar?: {
-    timeStartField?: string
-    timeEndField?: string
-    labelField?: string
+    labelField: string
+    startField: string
+    endField: string
   }
 }
 
@@ -451,6 +451,17 @@ export function BasedExplorer({
     [!totalQuery, parsedTotal, queryEndpoint],
   )
 
+  React.useEffect(() => {
+    if (selectedVariant === 'calendar') {
+      pagination.onPageChange({
+        index: 0,
+        pageSize: parsedTotal,
+        start: 0,
+        end: parsedTotal,
+      })
+    }
+  }, [selectedVariant, parsedTotal])
+
   const style = useHeader
     ? {
         borderTop: border(),
@@ -483,7 +494,7 @@ export function BasedExplorer({
     ) : selectedVariant === 'calendar' ? (
       <div
         style={{
-          padding: '24px 24px 0',
+          padding: '24px',
           width: '100%',
           flex: 1,
           borderTop: border(),
@@ -492,8 +503,7 @@ export function BasedExplorer({
       >
         <Calendar
           data={ref.current?.block.data ?? []}
-          view="month"
-          onClick={onItemClick}
+          onItemClick={onItemClick}
           {...calendar}
         />
       </div>
