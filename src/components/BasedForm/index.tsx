@@ -91,7 +91,6 @@ export function BasedForm({
     includedFields,
     excludeCommonFields,
   )
-
   const isReady = ref.current.currentFields && checksum
 
   const { data: values, loading } = useQuery(
@@ -145,6 +144,8 @@ export function BasedForm({
   }
 
   const useHeader = header || addItem
+
+  console.log(values)
 
   const props: FormProps & { key: any } = {
     key: id,

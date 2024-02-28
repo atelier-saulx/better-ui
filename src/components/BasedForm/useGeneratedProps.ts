@@ -21,8 +21,10 @@ const createQuery = (
   schema: BasedSchema,
   language: string,
 ): any => {
-  const type = schema.prefixToTypeMapping[id.substring(0, 2)]
-  const fields = schema.types[type].fields
+  const fields =
+    id === 'root'
+      ? schema.root.fields
+      : schema.types[schema.prefixToTypeMapping[id.substring(0, 2)]].fields
   const query = {
     $id: id,
     $language: language,
@@ -63,7 +65,9 @@ const createFields = (
 ): FormProps['fields'] => {
   let fields: FormProps['fields']
 
-  if (schema.types[type]) {
+  if (type === 'root') {
+    fields = schema.root.fields
+  } else if (schema.types[type]) {
     fields = schema.types[type].fields
   }
 
@@ -115,7 +119,7 @@ export const useBasedFormProps = (
       return
     }
 
-    type ??= schema.prefixToTypeMapping[id.substring(0, 2)]
+    type ??= id === 'root' ? id : schema.prefixToTypeMapping[id.substring(0, 2)]
 
     let query
     let fields =
