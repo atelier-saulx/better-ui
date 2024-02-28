@@ -46,8 +46,9 @@ export function Calendar({
   labelField,
   onItemClick,
 }: CalendarProps) {
-  const [view, setView] = React.useState<'month' | 'week'>('week')
+  const [view, setView] = React.useState<'month' | 'week'>('month')
   const [currentPeriodStart, setCurrentPeriodStart] = React.useState(new Date())
+  const weekViewCurrentTimeIndicatorRef = React.useRef<HTMLDivElement>()
   const days = React.useMemo(() => {
     const days = []
 
@@ -79,6 +80,12 @@ export function Calendar({
   const events = React.useMemo(() => {
     return data.filter((e) => e[startField] && e[endField])
   }, [data, startField, endField])
+
+  React.useLayoutEffect(() => {
+    if (view === 'week' && weekViewCurrentTimeIndicatorRef.current) {
+      weekViewCurrentTimeIndicatorRef.current.scrollIntoView()
+    }
+  }, [view])
 
   return (
     <div
@@ -257,6 +264,18 @@ export function Calendar({
                 ))}
                 <div
                   style={{
+                    position: 'absolute',
+                    top: getHours(today) * 60 + getMinutes(today),
+                    width: '100%',
+                    pointerEvents: 'none',
+                    height: 1,
+                    background: color('interactive', 'primary'),
+                    scrollMargin: 128,
+                  }}
+                  ref={weekViewCurrentTimeIndicatorRef}
+                />
+                <div
+                  style={{
                     height: '100%',
                     display: 'grid',
                     gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
@@ -316,8 +335,11 @@ export function Calendar({
                                 background: color('background', 'neutral'),
                                 padding: '0 4px',
                                 '&:hover': {
-                                  background: color('interactive', 'primary'),
-                                  color: color('content', 'inverted'),
+                                  color: color('interactive', 'primary'),
+                                  background: color(
+                                    'interactive',
+                                    'primary-muted',
+                                  ),
                                 },
                               }}
                             >
@@ -442,8 +464,8 @@ export function Calendar({
                             background: color('background', 'neutral'),
                             padding: '0 4px',
                             '&:hover': {
-                              background: color('interactive', 'primary'),
-                              color: color('content', 'inverted'),
+                              color: color('interactive', 'primary'),
+                              background: color('interactive', 'primary-muted'),
                             },
                           }}
                         >
