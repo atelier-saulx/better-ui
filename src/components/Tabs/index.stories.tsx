@@ -10,13 +10,17 @@ const meta: Meta<typeof Tabs> = {
 export default meta
 
 export const Default = () => {
-  const [tab, setTab] = React.useState('Overview')
+  const [tab, setTab] = React.useState('overview')
 
   return (
     <Tabs
       value={tab}
       onValueChange={setTab}
-      data={['Overview', 'Integrations', 'Settings']}
+      data={[
+        { label: 'Overview', value: 'overview' },
+        { label: 'Integrations', value: 'integrations' },
+        { label: 'Settings', value: 'settings' },
+      ]}
     />
   )
 }
