@@ -233,13 +233,15 @@ export function Media({
       }}
       ref={containerRef}
     >
-      <MediaInner
-        variant={variant}
-        src={src}
-        type={type}
-        size={size}
-        thumbnail={thumbnail}
-      />
+      {src && (
+        <MediaInner
+          variant={variant}
+          src={src}
+          type={type}
+          size={size}
+          thumbnail={thumbnail}
+        />
+      )}
     </styled.div>
   )
 }

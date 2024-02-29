@@ -29,12 +29,14 @@ export type RichTextEditorProps = {
   placeholder?: string
   height?: number
   variant?: 'small'
+  onAddImage?: () => void
 } & ValuePluginProps &
   AutoFocusPluginProps
 
 const CONFIG = {
   editable: true,
-  editorState: null,
+  editorState:
+    '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}',
   namespace: '__based_rte',
   nodes: [
     HeadingNode,
@@ -80,6 +82,7 @@ export function RichTextEditor({
   height,
   value,
   variant,
+  onAddImage,
 }: RichTextEditorProps) {
   const editorContainerRef = React.useRef<HTMLDivElement | null>()
 
@@ -96,7 +99,7 @@ export function RichTextEditor({
       }}
     >
       <LexicalComposer initialConfig={CONFIG}>
-        <ToolbarPlugin variant={variant} />
+        <ToolbarPlugin variant={variant} onAddImage={onAddImage} />
         <styled.div
           ref={editorContainerRef}
           style={{

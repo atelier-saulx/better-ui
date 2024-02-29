@@ -48,10 +48,11 @@ export function BasedForm({
   addItem,
   deleteItem,
   onClickReference,
-  selectReferenceExplorerProps,
   children,
   formRef,
   forcePublish,
+  renderReferenceModalBody,
+  richTextEditorProps,
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -93,7 +94,7 @@ export function BasedForm({
   const isReady = ref.current.currentFields && checksum
 
   const { data: values, loading } = useQuery(
-    isReady ? queryEndpoint : null,
+    isReady && ref.current.currentQuery?.$id ? queryEndpoint : null,
     ref.current.currentQuery,
   )
 
@@ -111,18 +112,22 @@ export function BasedForm({
   // if (!id && addItem) {
   //   variant ??= 'no-confirm'
   // }
-
   let onFormChange
   if (onChange) {
     onFormChange = (values, changed, checksum, based) =>
       onChange({ values, changed, checksum, based, language })
   } else if (id) {
     onFormChange = async (_values, _changed, _checksum, based) => {
-      await client.call(updateEndpoint, {
-        $id: id,
-        $language: language,
-        ...based,
-      })
+      try {
+        await client.call(updateEndpoint, {
+          $id: id,
+          $language: language,
+          ...based,
+        })
+      } catch (e) {
+        console.error(e)
+        throw e
+      }
     }
   } else if (addItem) {
     onFormChange = (values, changed, checksum, based) => {
@@ -158,7 +163,9 @@ export function BasedForm({
     onSelectReference: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
-          selectReferenceExplorerProps={selectReferenceExplorerProps}
+          modalBody={renderReferenceModalBody?.(field, (reference) => {
+            close(reference)
+          })}
           types={
             field.allowedTypes?.map((e) =>
               typeof e === 'string' ? e : e.type,
@@ -176,7 +183,9 @@ export function BasedForm({
     onSelectReferences: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
-          selectReferenceExplorerProps={selectReferenceExplorerProps}
+          modalBody={renderReferenceModalBody?.(field, (reference) => {
+            close(reference)
+          })}
           types={
             field.allowedTypes?.map((e) =>
               typeof e === 'string' ? e : e.type,
@@ -191,6 +200,7 @@ export function BasedForm({
         return [selectedReference]
       }
     },
+    richTextEditorProps,
   }
 
   if (useHeader) {
@@ -211,30 +221,34 @@ export function BasedForm({
           description={
             <Stack justify="start" gap={16} style={{ marginTop: 16 }}>
               <BadgeId id={values?.id} />
-              <Text variant="body-light">
-                Updated{' '}
-                {display(values?.updatedAt, {
-                  type: 'timestamp',
-                  display: 'human',
-                })}
-              </Text>
+              {values?.updatedAt ? (
+                <Text variant="body-light">
+                  Updated{' '}
+                  {display(values.updatedAt, {
+                    type: 'timestamp',
+                    display: 'human',
+                  })}
+                </Text>
+              ) : null}
             </Stack>
           }
           suffix={
             !loading || type ? (
               <Stack gap={8} style={{ marginTop: -4 }}>
-                <Button
+                {/* <Button
                   shape="square"
                   variant="neutral-transparent"
                   prefix={<IconCopy />}
                   // onClick={() => deleteItem({ id, type, ...state })}
-                />
-                <Button
-                  shape="square"
-                  variant="neutral-transparent"
-                  prefix={<IconDelete />}
-                  onClick={() => deleteItem({ id, type })}
-                />
+                /> */}
+                {id && deleteItem && (
+                  <Button
+                    shape="square"
+                    variant="neutral-transparent"
+                    prefix={<IconDelete />}
+                    onClick={() => deleteItem({ id, type })}
+                  />
+                )}
                 <Stack
                   gap={16}
                   display={Boolean(forcePublish || formRef.current.hasChanges)}

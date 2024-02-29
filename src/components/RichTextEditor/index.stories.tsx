@@ -1,10 +1,24 @@
 import React from 'react'
 import type { Meta } from '@storybook/react'
 import { RichTextEditor } from '../../index.js'
+import { Provider } from '@based/react'
+import based from '@based/client'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'production',
+})
 
 const meta: Meta<typeof RichTextEditor> = {
   title: 'Inputs/RichTextEditor',
-  decorators: [(Story) => <Story />],
+  decorators: [
+    (Story) => (
+      <Provider client={client}>
+        <Story />
+      </Provider>
+    ),
+  ],
 }
 
 export default meta

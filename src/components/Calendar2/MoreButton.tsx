@@ -9,6 +9,7 @@ export const MoreButton = ({
   displayMonth,
   labelField,
   view,
+  onClick,
 }) => {
   return (
     <Dropdown.Root>
@@ -47,7 +48,7 @@ export const MoreButton = ({
           <Dropdown.Item
             key={i}
             onClick={() => {
-              console.log('Snurp clicked')
+              onClick(_)
             }}
           >
             {_[labelField]}

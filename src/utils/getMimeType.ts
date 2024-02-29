@@ -1,7 +1,7 @@
 import { BasedSchemaContentMediaType } from '@based/schema'
 
 const imageDataRe = /^data:image\/(png|jpg|jpeg|gif|dds|svg);base64/
-const extensionImageRe = /\.(png|jpg|jpeg|gif|dds|svg)$/
+const extensionImageRe = /\.(png|jpg|jpeg|gif|dds|svg|webp)$/
 
 const videoDataRe = /^data:video\/(webm|mov|mp4|hls|dash|ts);base64/
 const extensionVideoRe = /\.(webm|mov|mp4|hls|dash|ts)$/

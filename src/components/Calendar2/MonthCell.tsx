@@ -4,32 +4,34 @@ import { styled } from 'inlines'
 import { MoreButton } from './MoreButton.js'
 import { isSameDay, isSameMonth, format } from 'date-fns'
 
-export const Cell = ({
+export const MonthCell = ({
   day,
   idx,
   displayMonth,
   dayDates,
   labelField,
   view,
+  onClick,
 }) => {
   return (
     <Stack
       direction="column"
       key={day.toISOString()}
       style={{
-        height: view === 'month' ? 124 : 420,
-        aspectRatio: view === 'month' ? 1 : 0.33,
+        aspectRatio: '1',
+        height: '100%',
+        width: '100%',
         borderTop: border(),
         borderRight: border(),
         borderBottomRightRadius: idx === 34 ? 8 : 0,
         position: 'relative',
-        padding: view === 'month' ? '26px 8px 26px 8px' : '12px 8px',
+        padding: '26px 8px 26px 8px',
         display: 'block',
       }}
       gap={2}
       grid
     >
-      {isSameDay(day, Date.now()) && view === 'month' ? (
+      {isSameDay(day, Date.now()) ? (
         <Text
           color="inverted"
           style={{
@@ -46,39 +48,48 @@ export const Cell = ({
             fontSize: '13px',
           }}
         >
-          {isSameMonth(day, displayMonth) && format(day, 'd')}
+          {format(day, 'd')}
         </Text>
       ) : (
-        view === 'month' && (
-          <Text
-            color="secondary"
-            style={{ position: 'absolute', right: 8, top: 3 }}
-          >
-            {isSameMonth(day, displayMonth) && format(day, 'd')}
-          </Text>
-        )
+        <Text
+          color="secondary"
+          style={{
+            position: 'absolute',
+            right: 8,
+            top: 3,
+            opacity: isSameMonth(day, displayMonth) ? 1 : 0.5,
+          }}
+        >
+          {format(day, 'd')}
+        </Text>
       )}
 
       {dayDates.map((item: { title?: string }, idx) =>
-        idx < 4 ? (
+        idx < 3 ? (
           <styled.div
             key={idx}
-            onClick={() => console.log('clicked ->', item[labelField])}
+            onClick={() => {
+              onClick(item)
+            }}
           >
             <Text
-              singleLine={view === 'month'}
+              color={isSameMonth(day, displayMonth) ? 'primary' : 'secondary'}
+              singleLine
               style={{
-                fontSize: 13,
-                // marginBottom: view === 'month' ? 2 : 7,
-                marginBlockEnd: view === 'month' ? '0px' : '4px',
+                marginBlockEnd: '0px',
                 marginBlockStart: '0px',
                 lineHeight: '17px',
                 cursor: 'pointer',
+                '& p': {
+                  fontSize: '13px !important',
+                },
+                '& :hover': {
+                  color: `${color('content', 'secondary')} !important`,
+                },
                 '&:hover': {
                   color: `${color('content', 'secondary')} !important`,
                 },
               }}
-              // @ts-ignore
             >
               {item[labelField]}
             </Text>
@@ -92,6 +103,7 @@ export const Cell = ({
           dayDates={dayDates}
           displayMonth={displayMonth}
           labelField={labelField}
+          onClick={onClick}
         />
       )}
     </Stack>

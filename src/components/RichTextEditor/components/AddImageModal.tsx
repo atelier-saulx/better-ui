@@ -1,22 +1,31 @@
-import React, { ReactNode, useState } from 'react'
-import { Button, FileInput, TextAreaInput, Modal } from '../../../index.js'
+import React, { ReactNode, useEffect, useState } from 'react'
+import {
+  Button,
+  FileInput,
+  TextAreaInput,
+  Modal,
+  useUploadFile,
+} from '../../../index.js'
 
 export function AddImageModal({
   children,
   defaultCaption = '',
   onSave,
   mode = 'add',
+  onOpenChange,
 }: {
-  children: ReactNode
+  children?: ReactNode
   mode?: 'add' | 'edit'
   defaultCaption?: string
   onSave: (value: { file: { src: string }; caption: string }) => void
+  onOpenChange?: (open: boolean) => void
 }) {
   const [file, setFile] = useState<{ src: string } | null>(null)
   const [caption, setCaption] = useState(defaultCaption)
+  const { handleFileInputChange, status, progress } = useUploadFile()
 
   return (
-    <Modal.Root>
+    <Modal.Root open={!children} onOpenChange={onOpenChange}>
       <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Overlay>
         {({ close }) => (
@@ -27,14 +36,13 @@ export function AddImageModal({
             <Modal.Body>
               <FileInput
                 style={{ marginBottom: 12 }}
-                onChange={(file) => {
-                  // TODO actually upload file
-                  if (file) {
-                    const todoUrl = URL.createObjectURL(file)
-                    setFile({ src: todoUrl })
-                  }
-                }}
+                status={status}
+                progress={progress}
+                onChange={handleFileInputChange((file) => {
+                  setFile({ src: file.src })
+                })}
                 label="Image"
+                mimeType="image/*"
               />
               <TextAreaInput
                 value={caption}

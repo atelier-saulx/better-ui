@@ -20,6 +20,9 @@ import {
   List,
   borderRadius,
   IconListBullet,
+  IconViewBoxes,
+  Calendar,
+  IconCalendar,
 } from '../../index.js'
 import { styled } from 'inlines'
 import { useClient, useQuery } from '@based/react'
@@ -54,7 +57,7 @@ export type BasedExplorerHeaderComponent = (p: {
   data: any[]
 }) => React.ReactNode
 
-type Variant = 'table' | 'grid' | 'list'
+type Variant = 'table' | 'grid' | 'list' | 'calendar'
 
 const DefaultInfo = ({ total, start, end }) =>
   `Showing ${start} - ${end} out of a ${total} items`
@@ -68,7 +71,12 @@ export type BasedExplorerProps = {
   variant?: Variant | Variant[]
   select?: SelectInputProps['options']
   transformResults?: (data: any) => any
-  sort?: { key: string; dir: 'asc' | 'desc' }
+  sort?: {
+    key: string
+    dir: 'asc' | 'desc'
+    exclude?: string[]
+    include?: string[]
+  }
   query: QueryFn
   total?: number
   totalQuery?: ((p: { filter?: string }) => any) | false
@@ -82,6 +90,11 @@ export type BasedExplorerProps = {
     end: number
     data: any[]
   }) => Promise<void>
+  calendar?: {
+    labelField: string
+    startField: string
+    endField: string
+  }
 }
 
 type ActiveSub = {
@@ -121,7 +134,9 @@ export const ViewSwitcher = (p: {
             ? IconViewTable
             : v === 'grid'
               ? IconViewLayoutGrid
-              : IconListBullet
+              : v === 'calendar'
+                ? IconCalendar
+                : IconListBullet
 
         return (
           <Button
@@ -174,6 +189,7 @@ export function BasedExplorer({
   variant = 'table',
   addItem,
   sort,
+  calendar,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
@@ -231,16 +247,21 @@ export function BasedExplorer({
         language,
         selected: ref.current.selected,
       })
-      if (q.data?.$list?.$find?.$filter && q.data?.$list?.$find.$traverse) {
-        return {
+      if (q.data?.$list?.$find?.$filter && q.data.$list.$find.$traverse) {
+        const t: any = {
           total: {
             $aggregate: {
               $function: 'count',
-              $traverse: q.data?.$list?.$find.$traverse,
+              $traverse: q.data.$list.$find.$traverse,
               $filter: q.data.$list.$find.$filter,
             },
           },
         }
+
+        if (q.$id) {
+          t.$id = q.$id
+        }
+        return t
       }
       console.warn('connect construct totalQuery')
       return null
@@ -430,6 +451,17 @@ export function BasedExplorer({
     [!totalQuery, parsedTotal, queryEndpoint],
   )
 
+  React.useEffect(() => {
+    if (selectedVariant === 'calendar') {
+      pagination.onPageChange({
+        index: 0,
+        pageSize: parsedTotal,
+        start: 0,
+        end: parsedTotal,
+      })
+    }
+  }, [selectedVariant, parsedTotal])
+
   const style = useHeader
     ? {
         borderTop: border(),
@@ -459,6 +491,22 @@ export function BasedExplorer({
         isLoading={ref.current.isLoading}
         pagination={pagination}
       />
+    ) : selectedVariant === 'calendar' ? (
+      <div
+        style={{
+          padding: '24px',
+          width: '100%',
+          flex: 1,
+          borderTop: border(),
+          overflow: 'hidden',
+        }}
+      >
+        <Calendar
+          data={ref.current?.block.data ?? []}
+          onItemClick={onItemClick}
+          {...calendar}
+        />
+      </div>
     ) : (
       <Table
         style={style}
@@ -482,6 +530,8 @@ export function BasedExplorer({
             ref.current.sort = { key, dir }
             updateSubs()
           },
+          ...(sort?.exclude && { exclude: new Set(sort.exclude) }),
+          ...(sort?.include && { include: new Set(sort.include) }),
         }}
         pagination={pagination}
       />

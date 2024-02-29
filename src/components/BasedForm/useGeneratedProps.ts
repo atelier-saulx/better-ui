@@ -42,12 +42,6 @@ const createQuery = (
           $all: true,
         }
         walkFields(f.properties, query[field])
-      } else if (type === 'array' && isWalkable(f.items)) {
-        query[field] = {
-          $all: true,
-        }
-        // @ts-ignore
-        walkFields(f.values, query[field])
       } else if (type === 'record' && isWalkable(f.values)) {
         query[field] = {
           $all: true,

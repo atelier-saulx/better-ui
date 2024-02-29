@@ -313,7 +313,7 @@ export const useModal = (): UseModalRes => {
         const close = (val) => {
           const filter = (m: typeof modal) => m !== modal
           ref.current.modals = ref.current.modals.filter(filter)
-          setModals(modals.filter(filter))
+          setModals((modals) => modals.filter(filter))
           update?.({})
           resolve(val)
         }
@@ -471,13 +471,14 @@ export const Modal = Object.assign(
           }}
         >
           {({ close }) => (
-            <ScrollArea
-              style={{
-                height: '100%',
-                maxHeight: 'calc(100vh - 60px)',
-                borderRadius: 8,
-              }}
-            >
+            // <ScrollArea
+            //   style={{
+            //     height: '100%',
+            //     maxHeight: 'calc(100vh - 60px)',
+            //     borderRadius: 8,
+            //   }}
+            // >
+            <>
               {title || description ? (
                 <Modal.Title description={description}>{title}</Modal.Title>
               ) : null}
@@ -496,8 +497,8 @@ export const Modal = Object.assign(
                       displayKeyboardShortcut
                       onClick={
                         onConfirm
-                          ? () => {
-                              onConfirm({ close })
+                          ? async () => {
+                              await onConfirm({ close })
                             }
                           : close
                       }
@@ -508,7 +509,8 @@ export const Modal = Object.assign(
                   </Modal.Actions>
                 </>
               )}
-            </ScrollArea>
+            </>
+            // </ScrollArea>
           )}
         </Modal.Overlay>
       </Modal.Root>
