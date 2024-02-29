@@ -1,7 +1,12 @@
 import { BasedQueryFunction } from '@based/functions'
 import { faker } from '@faker-js/faker'
 
-const fakedata: BasedQueryFunction = async (_based, payload = {}, update) => {
+const fakedata: BasedQueryFunction<
+  {
+    [key: string]: any
+  },
+  any[]
+> = async (_based, payload = {}, update) => {
   // Update function updates the
   // client state.
 
