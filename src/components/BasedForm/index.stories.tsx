@@ -10,6 +10,8 @@ const client = based({
   env: 'production',
 })
 
+// client.query.db.schema
+
 const meta: Meta<typeof BasedForm> = {
   title: 'Based/BasedForm',
   component: BasedForm,
