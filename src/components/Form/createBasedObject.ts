@@ -17,30 +17,6 @@ export const createBasedObject = (
       return { $delete: true }
     }
 
-    if (field.type === 'record') {
-      if (!value) {
-        return v
-      }
-
-      const newLen = v ? Object.keys(v).length : 0
-      if (newLen === 0) {
-        return { $delete: true }
-      }
-
-      const ns: any = {}
-      for (const key in value) {
-        if (!(key in v)) {
-          ns[key] = { $delete: true }
-        }
-      }
-      for (const key in v) {
-        // if (!deepEqual(v[key], value[key])) {
-        ns[key] = v[key]
-        // }
-      }
-      return ns
-    }
-
     if (field.type === 'array' && Array.isArray(v)) {
       v = v.map((item, i) => {
         return walk(item, {}, [...path, i])
@@ -81,10 +57,16 @@ export const createBasedObject = (
     }
 
     if (typeof v === 'object' && v !== null) {
-      const nS: any = {}
-      for (const key in v) {
-        s[key] = walk(v[key], nS, [...path, key])
+      if (field.type === 'record') {
+        // This does not do anything
+        // Also we don't have access to the previous values, so we can't $delete
+        s.$merge = false
       }
+
+      for (const key in v) {
+        s[key] = walk(v[key], {}, [...path, key])
+      }
+
       return s
     }
 
