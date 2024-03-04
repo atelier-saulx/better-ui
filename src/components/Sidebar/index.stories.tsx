@@ -173,9 +173,9 @@ export const Collapsable = () => {
 
   return (
     <Sidebar
-      collapsable
       value={v}
       onValueChange={setV}
+      collapsable
       data={[
         {
           label: 'Overview',
