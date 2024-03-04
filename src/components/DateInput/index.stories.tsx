@@ -31,6 +31,50 @@ export const SingleDateAndTime = () => {
   )
 }
 
+export const Min = () => {
+  const [foo, setFoo] = React.useState<any>()
+
+  return (
+    <>
+      <DateInput label="Date one" onChange={setFoo} />
+      <DateInput label="Date two (min: date one)" min={foo} />
+    </>
+  )
+}
+
+export const Max = () => {
+  const [foo, setFoo] = React.useState<any>()
+
+  return (
+    <>
+      <DateInput label="Date one" onChange={setFoo} />
+      <DateInput label="Date two (max: date one)" max={foo} />
+    </>
+  )
+}
+
+export const MinTime = () => {
+  const [foo, setFoo] = React.useState<any>()
+
+  return (
+    <>
+      <DateInput time label="Date one" onChange={setFoo} />
+      <DateInput time label="Date two (min: date one)" min={foo} />
+    </>
+  )
+}
+
+export const MaxTime = () => {
+  const [foo, setFoo] = React.useState<any>()
+
+  return (
+    <>
+      <DateInput time label="Date one" onChange={setFoo} />
+      <DateInput time label="Date two (max: date one)" max={foo} />
+    </>
+  )
+}
+
 export const DateRange = () => {
   return (
     <DateInput
