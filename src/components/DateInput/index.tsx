@@ -177,14 +177,6 @@ export function DateInput({
         return
       }
     } else if (!isDateWithinRange(value, minProp, maxProp)) {
-      console.log(
-        isDateWithinRange(value, minProp, maxProp),
-        compareAsc(new Date(value), new Date(minProp)),
-        value,
-        minProp,
-        new Date(value),
-        new Date(minProp),
-      )
       return
     }
 
