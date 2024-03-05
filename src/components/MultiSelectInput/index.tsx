@@ -27,6 +27,7 @@ export type MultiSelectInputProps = {
   error?: boolean
   description?: string
   disabled?: boolean
+  stayOpenWhileSelecting?: boolean
 }
 
 export function MultiSelectInput({
@@ -42,6 +43,7 @@ export function MultiSelectInput({
   error,
   description,
   disabled,
+  stayOpenWhileSelecting = false,
 }: MultiSelectInputProps) {
   const [open, setOpen] = React.useState(false)
   const [state, setState] = useControllableState({
@@ -221,7 +223,9 @@ export function MultiSelectInput({
                     }
 
                     setState(newSet)
-                    setOpen(false)
+                    if (!stayOpenWhileSelecting) {
+                      setOpen(false)
+                    }
                   }}
                 >
                   {state?.has(value) && (
