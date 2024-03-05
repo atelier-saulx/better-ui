@@ -337,6 +337,7 @@ export function BasedExplorer({
       ref.current.activeSubs.set(id, newSub)
       newSub.close = client
         .query(
+          // @ts-ignore
           queryEndpoint,
           ref.current.query({
             limit: sub.limit,
@@ -376,7 +377,8 @@ export function BasedExplorer({
   }
 
   const parsedTotal = totalQuery
-    ? totalData?.total ?? 0
+    ? // @ts-ignore
+      totalData?.total ?? 0
     : ref.current.lastLoaded
 
   const useHeader = info || header || addItem || filter || select
@@ -428,6 +430,7 @@ export function BasedExplorer({
           ref.current.activeSubs.set(id, newSub)
           newSub.close = client
             .query(
+              // @ts-ignore
               queryEndpoint,
               ref.current.query({
                 limit: limit,

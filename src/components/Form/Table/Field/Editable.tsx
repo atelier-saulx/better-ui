@@ -210,6 +210,7 @@ export function EditableField({
     return (
       <Padder
         style={{
+          border: '5px solid blue',
           paddingTop: 10,
           paddingBottom: 10,
         }}

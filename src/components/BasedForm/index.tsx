@@ -92,7 +92,7 @@ export function BasedForm({
   )
   const isReady = ref.current.currentFields && checksum
 
-  const { data: values, loading } = useQuery(
+  const { data: values, loading } = useQuery<any>(
     isReady && ref.current.currentQuery?.$id ? queryEndpoint : null,
     ref.current.currentQuery,
   )
@@ -118,6 +118,7 @@ export function BasedForm({
   } else if (id) {
     onFormChange = async (_values, _changed, _checksum, based) => {
       try {
+        // @ts-ignore
         await client.call(updateEndpoint, {
           $id: id,
           $language: language,
