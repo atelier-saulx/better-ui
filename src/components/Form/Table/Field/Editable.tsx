@@ -33,6 +33,7 @@ const Padder = ({
         width: '100%',
         paddingLeft: 10,
         paddingRight: 10,
+        ...style,
       }}
     >
       {children}
@@ -210,7 +211,6 @@ export function EditableField({
     return (
       <Padder
         style={{
-          border: '5px solid blue',
           paddingTop: 10,
           paddingBottom: 10,
         }}
