@@ -90,12 +90,13 @@ export const ColStack = React.forwardRef(
                 },
 
             '&:hover': header
-              ? {}
+              ? style?.['&:hover'] ?? {}
               : {
                   backgroundColor: `${color('background', 'muted')} !important`,
                   '& >:nth-last-child(1)': {
                     opacity: 1,
                   },
+                  ...style?.['&:hover'],
                 },
           }}
           // justify="start"
@@ -118,8 +119,9 @@ export const ColStack = React.forwardRef(
           '&:hover': hover
             ? {
                 backgroundColor: `${color('background', 'muted')} !important`,
+                ...style?.['&:hover'],
               }
-            : null,
+            : style?.['&:hover'],
         }}
         justify="start"
         {...p}
