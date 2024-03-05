@@ -45,7 +45,12 @@ export const MoreButton = ({
           </Text>
         </styled.div>
         {dayDates.map((_: { title?: string }, i) => (
-          <Dropdown.Item key={i} onClick={onClick}>
+          <Dropdown.Item
+            key={i}
+            onClick={() => {
+              onClick(_)
+            }}
+          >
             {_[labelField]}
           </Dropdown.Item>
         ))}

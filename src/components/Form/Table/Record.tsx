@@ -198,7 +198,7 @@ export function Record({ ctx, path }: TableProps) {
                   style={{ opacity: 0 }}
                   variant="icon-only"
                   prefix={<IconClose />}
-                ></Button>
+                />
               ) : null}
               <KeyInput valueRef={valueRef} value={key} ctx={ctx} path={path} />
             </Cell>

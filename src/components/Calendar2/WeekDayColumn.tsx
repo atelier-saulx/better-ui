@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from 'inlines'
 import { border, color, hashNonSemanticColor } from '../../utils/colors.js'
-import { format } from 'date-fns'
+import { format, isSameDay, endOfDay, startOfDay } from 'date-fns'
 import { Text } from '../../index.js'
 
 export const WeekDayColumn = ({
@@ -12,6 +12,33 @@ export const WeekDayColumn = ({
   timeEndField,
   onClick,
 }) => {
+  // VERY neccary ARRay
+  let arr = []
+
+  for (let i = 0; i < dayDates.length; i++) {
+    if (
+      isSameDay(dayDates[i][timeStartField], day) &&
+      !isSameDay(dayDates[i][timeEndField], day)
+    ) {
+      arr.push({ ...dayDates[i], [timeEndField]: endOfDay(day) })
+    } else if (
+      !isSameDay(dayDates[i][timeStartField], day) &&
+      isSameDay(dayDates[i][timeEndField], day)
+    ) {
+      // dayDates[i][timeStartField] = startOfDay(day)
+      arr.push({ ...dayDates[i], [timeStartField]: startOfDay(day) })
+    } else if (
+      !isSameDay(dayDates[i][timeStartField], day) &&
+      !isSameDay(dayDates[i][timeEndField], day)
+    ) {
+      arr.push({
+        ...dayDates[i],
+        [timeStartField]: startOfDay(day),
+        [timeEndField]: endOfDay(day),
+      })
+    }
+  }
+
   return (
     <styled.div
       style={{
@@ -23,7 +50,7 @@ export const WeekDayColumn = ({
       }}
     >
       {[...Array(24).keys()].map((_, idx) => {
-        let itemsInThisHour = dayDates?.filter(
+        let itemsInThisHour = arr?.filter(
           (item) => Number(format(item[timeStartField], 'H')) === idx,
         )
 
@@ -47,13 +74,13 @@ export const WeekDayColumn = ({
                 durationTimeInHours = format(durationTime, 'k')
                 durationTimeInMinutes = format(durationTime, 'm')
 
-                console.log(
-                  'hours, minutes',
-                  durationTime,
-                  durationTimeInHours,
-                  durationTimeInMinutes,
-                  item,
-                )
+                //   console.log(
+                //     'hours, minutes',
+                //     durationTime,
+                //     durationTimeInHours,
+                //     durationTimeInMinutes,
+                //     item,
+                //   )
               }
 
               return (
@@ -86,7 +113,9 @@ export const WeekDayColumn = ({
                       backgroundColor: color('interactive', 'primary-muted'),
                     },
                   }}
-                  onClick={onClick}
+                  onClick={() => {
+                    onClick(item)
+                  }}
                 >
                   <styled.div
                     style={{

@@ -27,11 +27,15 @@ export const Field = ({
   field,
   ctx,
   autoFocus,
+  richTextEditorProps,
 }: {
   propKey: string
   field: BasedSchemaField
   ctx: TableCtx
   autoFocus?: boolean
+  richTextEditorProps?: {
+    onAddImage?: () => void
+  }
 }) => {
   const { type } = field
   const path = [key]
@@ -151,6 +155,7 @@ export const Field = ({
           onChange={(html) => {
             ctx.listeners.onChangeHandler(ctx, path, html)
           }}
+          {...richTextEditorProps}
         />
       </FormField>
     )

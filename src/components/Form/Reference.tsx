@@ -36,25 +36,42 @@ const Select = (p: {
       }}
     />
   )
-  const body = (
-    <Stack gap={2}>
-      {p.field.allowedTypes ? (
-        <>
-          Select{' '}
-          {p.field.allowedTypes.map((v, i) => {
-            const type = typeof v === 'object' ? v.type : v
-            return (
-              <Text key={i} variant="body-bold" color="inherit">
-                {type}
-              </Text>
-            )
-          })}
-        </>
-      ) : (
-        'Select item'
-      )}
-    </Stack>
-  )
+  // const body = (
+  //   <Stack gap={2}>
+
+  //     {p.field.allowedTypes ? (
+  //       <>
+  //         Select{' '}
+  //         {p.field.allowedTypes.map((v, i) => {
+  //           const type = typeof v === 'object' ? v.type : v
+  //           return (
+  //             <Text key={i} variant="body-bold" color="inherit">
+  //               {type}
+  //             </Text>
+  //           )
+  //         })}
+  //       </>
+  //     ) : (
+  //       'Select item'
+  //     )}
+  //   </Stack>
+  // )
+
+  const body = `Select ${
+    p.field.allowedTypes
+      ?.map((v, i) => {
+        const str = typeof v === 'object' ? v.type : v
+        if (i) {
+          if (i === p.field.allowedTypes.length - 1) {
+            return ` or ${str}`
+          }
+          return `, ${str}`
+        }
+        return str
+      })
+      .join('') || 'Item'
+  }`
+
   if (p.badge) {
     return (
       <Button prefix={icon} variant="neutral-transparent" onClick={p.onClick}>

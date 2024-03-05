@@ -13,19 +13,13 @@ import { OnOpenChangeContext } from '../Modal/index.js'
 export type SelectReferenceModalProps = {
   onSelect: (reference: any) => void
   types: string[]
-  selectReferenceExplorerProps?:
-    | (BasedExplorerProps & { itemQuery?: any })
-    | ((p: {
-        fields: any
-        query: any
-        types: string[]
-      }) => BasedExplorerProps & { itemQuery?: any })
+  modalBody?: React.ReactNode
 }
 
 export function SelectReferenceModal({
   onSelect,
   types,
-  selectReferenceExplorerProps,
+  modalBody,
 }: SelectReferenceModalProps) {
   const [activeSidebarItem, setActiveSidebarItem] = React.useState(null)
   const { data: rawSchema } = useQuery('db:schema')
@@ -63,14 +57,6 @@ export function SelectReferenceModal({
   if (!schema) return
 
   let { fields, query } = generateFromType(schema.types[activeSidebarItem])
-  const props =
-    typeof selectReferenceExplorerProps === 'function'
-      ? selectReferenceExplorerProps({ fields, query, types })
-      : selectReferenceExplorerProps
-
-  if (props?.itemQuery) {
-    query = props.itemQuery
-  }
 
   return (
     <Modal.Root
@@ -78,59 +64,64 @@ export function SelectReferenceModal({
       onOpenChange={React.useContext(OnOpenChangeContext)}
     >
       <Modal.Overlay style={{ width: '85%', height: '85%' }}>
-        <Modal.Title>Select {types[0] || 'reference'}</Modal.Title>
+        {modalBody ? null : (
+          <Modal.Title>Select {types[0] || 'reference'}</Modal.Title>
+        )}
         <Modal.Body style={{ padding: 0, display: 'flex' }}>
-          {sidebarItems.length > 1 && (
-            <Sidebar
-              data={sidebarItems}
-              value={activeSidebarItem}
-              onValueChange={setActiveSidebarItem}
-            />
-          )}
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              flex: 1,
-            }}
-          >
-            {activeSidebarItem && (
-              <BasedExplorer
-                fields={fields}
-                key={activeSidebarItem}
-                onItemClick={(item) => {
-                  onSelect(item)
+          {modalBody ?? (
+            <>
+              {sidebarItems.length > 1 && (
+                <Sidebar
+                  data={sidebarItems}
+                  value={activeSidebarItem}
+                  onValueChange={setActiveSidebarItem}
+                />
+              )}
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  flex: 1,
                 }}
-                query={({ limit, offset, sort, language }) => ({
-                  $language: language,
-                  data: {
-                    ...query,
-                    $list: {
-                      $limit: limit,
-                      $offset: offset,
-                      ...(sort && {
-                        $sort: {
-                          $field: sort.key,
-                          $order: sort.dir,
-                        },
-                      }),
-                      $find: {
-                        $traverse: 'descendants',
-                        $filter: [
-                          {
-                            $operator: '=',
-                            $field: 'type',
-                            $value: activeSidebarItem,
+              >
+                {activeSidebarItem && (
+                  <BasedExplorer
+                    fields={fields}
+                    key={activeSidebarItem}
+                    onItemClick={(item) => {
+                      onSelect(item)
+                    }}
+                    query={({ limit, offset, sort, language }) => ({
+                      $language: language,
+                      data: {
+                        ...query,
+                        $list: {
+                          $limit: limit,
+                          $offset: offset,
+                          ...(sort && {
+                            $sort: {
+                              $field: sort.key,
+                              $order: sort.dir,
+                            },
+                          }),
+                          $find: {
+                            $traverse: 'descendants',
+                            $filter: [
+                              {
+                                $operator: '=',
+                                $field: 'type',
+                                $value: activeSidebarItem,
+                              },
+                            ],
                           },
-                        ],
+                        },
                       },
-                    },
-                  },
-                })}
-                {...props}
-              />
-            )}
-          </div>
+                    })}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </Modal.Body>
       </Modal.Overlay>
     </Modal.Root>

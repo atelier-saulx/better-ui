@@ -43,6 +43,8 @@ export type DateInputProps = {
   time?: boolean
   value?: DateInputValue
   defaultValue?: DateInputValue
+  min?: number
+  max?: number
   checksum?: number
   onChange?: (value: DateInputValue) => void
   variant?: 'regular' | 'small'
@@ -83,6 +85,21 @@ const DateMonthButton = styled('button', {
   ...textVariants.body,
 })
 
+function isDateWithinRange(date: number, min: number, max: number) {
+  if (!min && !max) {
+    return true
+  } else if (min && max) {
+    return (
+      compareAsc(new Date(date), new Date(min)) !== -1 &&
+      compareAsc(new Date(date), new Date(max)) !== 1
+    )
+  } else if (min) {
+    return compareAsc(new Date(date), new Date(min)) !== -1
+  } else if (max) {
+    return compareAsc(new Date(date), new Date(max)) !== 1
+  }
+}
+
 export function DateInput({
   range = false,
   time = false,
@@ -96,6 +113,8 @@ export function DateInput({
   description,
   disabled,
   style,
+  min: minProp,
+  max: maxProp,
 }: DateInputProps) {
   const [value, setValue] = useControllableState({
     value: valueProp,
@@ -129,8 +148,12 @@ export function DateInput({
 
   const getDays = React.useCallback(() => {
     const days = []
-    let curr = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 1 })
-    const end = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 1 })
+    let curr = startOfWeek(startOfMonth(startOfDay(currentMonth)), {
+      weekStartsOn: 1,
+    })
+    const end = endOfWeek(endOfMonth(startOfDay(currentMonth)), {
+      weekStartsOn: 1,
+    })
 
     while (compareAsc(curr, end) < 1) {
       days.push(curr)
@@ -139,6 +162,41 @@ export function DateInput({
 
     return days
   }, [currentMonth])
+
+  function handleChange(value: DateInputValue | undefined) {
+    if (!value) {
+      setValue(undefined)
+      return
+    }
+
+    if (typeof value === 'object') {
+      if (
+        (value.start && !isDateWithinRange(value.start, minProp, maxProp)) ||
+        (value.end && !isDateWithinRange(value.end, minProp, maxProp))
+      ) {
+        return
+      }
+    } else if (!isDateWithinRange(value, minProp, maxProp)) {
+      return
+    }
+
+    setValue(value)
+  }
+
+  React.useEffect(() => {
+    if (value) {
+      if (typeof value === 'object') {
+        if (
+          (value.start && !isDateWithinRange(value.start, minProp, maxProp)) ||
+          (value.end && !isDateWithinRange(value.end, minProp, maxProp))
+        ) {
+          setValue(undefined)
+        }
+      } else if (!isDateWithinRange(value, minProp, maxProp)) {
+        setValue(undefined)
+      }
+    }
+  }, [value])
 
   const Wrapper = label ? styled.label : styled.div
 
@@ -237,7 +295,12 @@ export function DateInput({
                       value.end,
                       time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy',
                     )}`
-                  : format(value, time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'))}
+                  : format(value, time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy')) +
+                  ` ${
+                    new Date()
+                      .toLocaleTimeString('en-us', { timeZoneName: 'short' })
+                      .split(' ')[2]
+                  }`}
             </Text>
           </styled.div>
           {description !== undefined ? (
@@ -267,6 +330,15 @@ export function DateInput({
           }}
         >
           <div>
+            <Text variant="body-light" style={{ marginBottom: 10 }}>
+              {Intl.DateTimeFormat().resolvedOptions().timeZone} (
+              {
+                new Date()
+                  .toLocaleTimeString('en-us', { timeZoneName: 'short' })
+                  .split(' ')[2]
+              }
+              )
+            </Text>
             <div
               style={{
                 display: 'flex',
@@ -335,9 +407,11 @@ export function DateInput({
                         background: color('background', 'neutral'),
                       },
                     }),
-                    color: isSameMonth(currentMonth, day)
-                      ? color('content', 'primary')
-                      : color('content', 'secondary'),
+                    color:
+                      isSameMonth(currentMonth, day) &&
+                      isDateWithinRange(day, minProp, maxProp)
+                        ? color('content', 'primary')
+                        : color('content', 'secondary'),
                     ...(isToday(day) && {
                       border: `1px solid ${color('interactive', 'primary')}`,
                     }),
@@ -480,7 +554,7 @@ export function DateInput({
                   onClick={() => {
                     if (range) {
                       if (pendingRangePart) {
-                        setValue({
+                        handleChange({
                           start: min([pendingRangePart, day]).getTime(),
                           end: max([pendingRangePart, day]).getTime(),
                         })
@@ -491,7 +565,7 @@ export function DateInput({
                       return
                     }
 
-                    setValue(day.getTime())
+                    handleChange(day.getTime())
                   }}
                   onMouseEnter={() => {
                     if (!range) return
@@ -537,7 +611,7 @@ export function DateInput({
                         }
 
                         if (typeof value === 'object') {
-                          setValue({
+                          handleChange({
                             ...value,
                             start: setHours(
                               setMinutes(value.start, result.getMinutes()),
@@ -545,7 +619,7 @@ export function DateInput({
                             ).getTime(),
                           })
                         } else {
-                          setValue(
+                          handleChange(
                             setHours(
                               setMinutes(value, result.getMinutes()),
                               result.getHours(),
@@ -593,7 +667,7 @@ export function DateInput({
                             return
                           }
 
-                          setValue({
+                          handleChange({
                             ...value,
                             end: setHours(
                               setMinutes(value.end, result.getMinutes()),
@@ -625,14 +699,14 @@ export function DateInput({
               >
                 <DateTextButton
                   onClick={() => {
-                    setValue(Date.now())
+                    handleChange(Date.now())
                   }}
                 >
                   Now
                 </DateTextButton>
                 <DateTextButton
                   onClick={() => {
-                    setValue(startOfDay(new Date()).getTime())
+                    handleChange(startOfDay(new Date()).getTime())
                   }}
                 >
                   Today
@@ -640,12 +714,12 @@ export function DateInput({
                 <DateTextButton
                   onClick={() => {
                     if (!value) {
-                      setValue(addDays(new Date(), +1).getTime())
+                      handleChange(addDays(new Date(), +1).getTime())
                       return
                     }
 
                     if (value && !(typeof value === 'object')) {
-                      setValue(addDays(value, +1).getTime())
+                      handleChange(addDays(value, +1).getTime())
                     }
                   }}
                 >
@@ -655,12 +729,12 @@ export function DateInput({
                 <DateTextButton
                   onClick={() => {
                     if (!value) {
-                      setValue(addDays(new Date(), -1).getTime())
+                      handleChange(addDays(new Date(), -1).getTime())
                       return
                     }
 
                     if (value && !(typeof value === 'object')) {
-                      setValue(addDays(value, -1).getTime())
+                      handleChange(addDays(value, -1).getTime())
                     }
                   }}
                 >
@@ -681,7 +755,7 @@ export function DateInput({
               <DateTextButton
                 onClick={() => {
                   setCurrentMonth(new Date())
-                  setValue(undefined)
+                  handleChange(undefined)
                   setHoveredDate(null)
                   setPendingRangePart(null)
                 }}

@@ -33,6 +33,7 @@ const Padder = ({
         width: '100%',
         paddingLeft: 10,
         paddingRight: 10,
+        ...style,
       }}
     >
       {children}

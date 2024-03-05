@@ -20,6 +20,9 @@ import {
   List,
   borderRadius,
   IconListBullet,
+  IconViewBoxes,
+  Calendar,
+  IconCalendar,
 } from '../../index.js'
 import { styled } from 'inlines'
 import { useClient, useQuery } from '@based/react'
@@ -54,7 +57,7 @@ export type BasedExplorerHeaderComponent = (p: {
   data: any[]
 }) => React.ReactNode
 
-type Variant = 'table' | 'grid' | 'list'
+type Variant = 'table' | 'grid' | 'list' | 'calendar'
 
 const DefaultInfo = ({ total, start, end }) =>
   `Showing ${start} - ${end} out of a ${total} items`
@@ -87,6 +90,11 @@ export type BasedExplorerProps = {
     end: number
     data: any[]
   }) => Promise<void>
+  calendar?: {
+    labelField: string
+    startField: string
+    endField: string
+  }
 }
 
 type ActiveSub = {
@@ -126,7 +134,9 @@ export const ViewSwitcher = (p: {
             ? IconViewTable
             : v === 'grid'
               ? IconViewLayoutGrid
-              : IconListBullet
+              : v === 'calendar'
+                ? IconCalendar
+                : IconListBullet
 
         return (
           <Button
@@ -179,6 +189,7 @@ export function BasedExplorer({
   variant = 'table',
   addItem,
   sort,
+  calendar,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
@@ -326,6 +337,7 @@ export function BasedExplorer({
       ref.current.activeSubs.set(id, newSub)
       newSub.close = client
         .query(
+          // @ts-ignore
           queryEndpoint,
           ref.current.query({
             limit: sub.limit,
@@ -365,7 +377,8 @@ export function BasedExplorer({
   }
 
   const parsedTotal = totalQuery
-    ? totalData?.total ?? 0
+    ? // @ts-ignore
+      totalData?.total ?? 0
     : ref.current.lastLoaded
 
   const useHeader = info || header || addItem || filter || select
@@ -417,6 +430,7 @@ export function BasedExplorer({
           ref.current.activeSubs.set(id, newSub)
           newSub.close = client
             .query(
+              // @ts-ignore
               queryEndpoint,
               ref.current.query({
                 limit: limit,
@@ -439,6 +453,17 @@ export function BasedExplorer({
     }),
     [!totalQuery, parsedTotal, queryEndpoint],
   )
+
+  React.useEffect(() => {
+    if (selectedVariant === 'calendar') {
+      pagination.onPageChange({
+        index: 0,
+        pageSize: parsedTotal,
+        start: 0,
+        end: parsedTotal,
+      })
+    }
+  }, [selectedVariant, parsedTotal])
 
   const style = useHeader
     ? {
@@ -469,6 +494,22 @@ export function BasedExplorer({
         isLoading={ref.current.isLoading}
         pagination={pagination}
       />
+    ) : selectedVariant === 'calendar' ? (
+      <div
+        style={{
+          padding: '24px',
+          width: '100%',
+          flex: 1,
+          borderTop: border(),
+          overflow: 'hidden',
+        }}
+      >
+        <Calendar
+          data={ref.current?.block.data ?? []}
+          onItemClick={onItemClick}
+          {...calendar}
+        />
+      </div>
     ) : (
       <Table
         style={style}

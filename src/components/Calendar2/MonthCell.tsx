@@ -18,8 +18,9 @@ export const MonthCell = ({
       direction="column"
       key={day.toISOString()}
       style={{
-        height: 124,
-        aspectRatio: 1,
+        aspectRatio: '1',
+        height: '100%',
+        width: '100%',
         borderTop: border(),
         borderRight: border(),
         borderBottomRightRadius: idx === 34 ? 8 : 0,
@@ -47,20 +48,30 @@ export const MonthCell = ({
             fontSize: '13px',
           }}
         >
-          {isSameMonth(day, displayMonth) && format(day, 'd')}
+          {format(day, 'd')}
         </Text>
       ) : (
         <Text
           color="secondary"
-          style={{ position: 'absolute', right: 8, top: 3 }}
+          style={{
+            position: 'absolute',
+            right: 8,
+            top: 3,
+            opacity: isSameMonth(day, displayMonth) ? 1 : 0.5,
+          }}
         >
-          {isSameMonth(day, displayMonth) && format(day, 'd')}
+          {format(day, 'd')}
         </Text>
       )}
 
       {dayDates.map((item: { title?: string }, idx) =>
         idx < 3 ? (
-          <styled.div key={idx} onClick={onClick}>
+          <styled.div
+            key={idx}
+            onClick={() => {
+              onClick(item)
+            }}
+          >
             <Text
               color={isSameMonth(day, displayMonth) ? 'primary' : 'secondary'}
               singleLine

@@ -48,6 +48,7 @@ export function ColorInput({
     onChange,
     checksum,
   })
+
   const [hue, setHue] = React.useState(0)
   const [alpha, setAlpha] = React.useState(1)
   const [position, setPosition] = React.useState<{
@@ -99,7 +100,7 @@ export function ColorInput({
 
   React.useEffect(() => {
     if (value || (inputRef.current.value && !value)) {
-      inputRef.current.value = value
+      inputRef.current.value = value ?? ''
     }
   }, [value])
 
@@ -130,11 +131,11 @@ export function ColorInput({
         </Text>
       )}
 
-      <div style={{ position: 'relative' }}>
+      <styled.div style={{ position: 'relative' }}>
         <styled.input
           tabIndex={disabled ? '-1' : 'auto'}
           ref={inputRef}
-          defaultValue={value}
+          defaultValue={value ?? ''}
           onChange={(e) => {
             const newRawValue = e.target.value
 
@@ -377,7 +378,7 @@ export function ColorInput({
             {description}
           </Text>
         ) : null}
-      </div>
+      </styled.div>
     </styled.div>
   )
 }
