@@ -2,7 +2,6 @@ import { useClient, useQuery } from '@based/react'
 import { BasedSchema, convertOldToNew, display } from '@based/schema'
 import * as React from 'react'
 import {
-  Badge,
   Button,
   Container,
   useUpdate,
@@ -15,9 +14,6 @@ import {
   Stack,
   IconUndo,
   IconDelete,
-  IconPlus,
-  IconCopy,
-  IconId,
   BadgeId,
 } from '../../index.js'
 import { useLanguage } from '../../hooks/useLanguage/index.js'
@@ -93,7 +89,7 @@ export function BasedForm({
   const isReady = ref.current.currentFields && checksum
 
   const { data: values, loading } = useQuery<any>(
-    isReady && ref.current.currentQuery?.$id ? queryEndpoint : null,
+    isReady && id ? queryEndpoint : null,
     ref.current.currentQuery,
   )
 
