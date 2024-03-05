@@ -141,8 +141,6 @@ export function BasedForm({
 
   const useHeader = header || addItem
 
-  console.log(values)
-
   const props: FormProps & { key: any } = {
     key: id,
     variant,

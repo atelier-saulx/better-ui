@@ -1,6 +1,6 @@
 import { deepCopy, deepMergeArrays, deepEqual } from '@saulx/utils'
 import { TableCtx, Path } from './types.js'
-import { isIterable, readPath } from './utils.js'
+import { readPath } from './utils.js'
 
 const parseRef = (id) => (typeof id === 'string' ? id : id?.id)
 
@@ -11,7 +11,7 @@ export const createBasedObject = (
 ): { [key: string]: any } => {
   const bObject: any = {}
 
-  const walk = (v: any, s: any, path: Path): any => {
+  const walk = (v: any, path: Path, prevValue: any): any => {
     const { field, value } = readPath(ctx, path)
     if (v === null) {
       return { $delete: true }
@@ -19,11 +19,13 @@ export const createBasedObject = (
 
     if (field.type === 'array' && Array.isArray(v)) {
       v = v.map((item, i) => {
-        return walk(item, {}, [...path, i])
+        return walk(item, [...path, i], prevValue?.[i])
       })
+
       if (field.items?.type === 'reference') {
         return v
       }
+
       let nV: any
       let j = 0
       for (let i = 0; i < v.length; i++) {
@@ -57,14 +59,18 @@ export const createBasedObject = (
     }
 
     if (typeof v === 'object' && v !== null) {
-      // if (field.type === 'record') {
-      //   // This does not do anything
-      //   // Also we don't have access to the previous values, so we can't $delete
-      //   s.$merge = false
-      // }
+      const s = {}
 
       for (const key in v) {
-        s[key] = walk(v[key], {}, [...path, key])
+        s[key] = walk(v[key], [...path, key], prevValue?.[key])
+      }
+
+      if (field.type === 'record' && prevValue) {
+        for (const key in prevValue) {
+          if (!(key in value)) {
+            s[key] = { $delete: true }
+          }
+        }
       }
 
       return s
@@ -73,6 +79,5 @@ export const createBasedObject = (
     return v
   }
 
-  walk(changes, bObject, [])
-  return bObject
+  return walk(changes, [], prevValues)
 }
