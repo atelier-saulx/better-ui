@@ -25,6 +25,7 @@ import * as f4294516783426 from "../../src/components/List/index.stories.js"
 import * as f14687156354576 from "../../src/components/LoginPage/index.stories.js"
 import * as f409919741252 from "../../src/components/Media/index.stories.js"
 import * as f13867817006251 from "../../src/components/Modal/index.stories.js"
+import * as f5669589006999 from "../../src/components/MultiSelectInput/index.stories.js"
 import * as f2391256762992 from "../../src/components/Note/index.stories.js"
 import * as f10190487816981 from "../../src/components/NumberInput/index.stories.js"
 import * as f8544279227411 from "../../src/components/Page/index.stories.js"
@@ -58,7 +59,7 @@ import * as f16815800280314 from "../../src/components/Form/stories/references.s
 import * as f10025904474475 from "../../src/components/Form/stories/referencesSchema.stories.js"
 import * as f5930333060847 from "../../src/components/Form/stories/richText.stories.js"
 import * as f6183036884064 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f1130922799717,f12564555305565,f7416220464218,f3466414113223,f2084790011414,f16905658949426,f1681034936069,f13619739889741,f17306232299723,f4948859476466,f9344752088327,f3057415892789,f6239386911682,f10288907520891,f1361056666384,f14989200246520,f8646848099263,f1926324559992,f6622038122973,f6271760022916,f14974680308474,f10413842030050,f4294516783426,f14687156354576,f409919741252,f13867817006251,f2391256762992,f10190487816981,f8544279227411,f10692938591024,f974043384684,f13329917722609,f13087660182010,f12087345264248,f6536975305054,f10824936630228,f7822376808362,f2312747410077,f8523906341550,f1028680599250,f16457632158462,f6755915043556,f4403319537853,f4363912759740,f3910853229259,f8582702281036,f15599106587773,f14542094828981,f6004462968497,f7316974909235,f2872478104456,f4444441197193,f12741420372279,f16286765462020,f12122853271055,f16815800280314,f10025904474475,f5930333060847,f6183036884064]
+export const stories = [f1130922799717,f12564555305565,f7416220464218,f3466414113223,f2084790011414,f16905658949426,f1681034936069,f13619739889741,f17306232299723,f4948859476466,f9344752088327,f3057415892789,f6239386911682,f10288907520891,f1361056666384,f14989200246520,f8646848099263,f1926324559992,f6622038122973,f6271760022916,f14974680308474,f10413842030050,f4294516783426,f14687156354576,f409919741252,f13867817006251,f5669589006999,f2391256762992,f10190487816981,f8544279227411,f10692938591024,f974043384684,f13329917722609,f13087660182010,f12087345264248,f6536975305054,f10824936630228,f7822376808362,f2312747410077,f8523906341550,f1028680599250,f16457632158462,f6755915043556,f4403319537853,f4363912759740,f3910853229259,f8582702281036,f15599106587773,f14542094828981,f6004462968497,f7316974909235,f2872478104456,f4444441197193,f12741420372279,f16286765462020,f12122853271055,f16815800280314,f10025904474475,f5930333060847,f6183036884064]
 export const parsedStories = [{ id: "f1130922799717", story: f1130922799717, path: "/Users/vassbence/projects/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -485,6 +486,8 @@ const client = based({
   project: 'based-ui',
   env: 'production',
 })
+
+// client.query.db.schema
 
 const meta: Meta<typeof BasedForm> = {
   title: 'Based/BasedForm',
@@ -1057,6 +1060,50 @@ export const SingleDateAndTime = () => {
       }}
       defaultValue={new Date('1999/11/03 08:00').getTime()}
     />
+  )
+}
+
+export const Min = () => {
+  const [foo, setFoo] = React.useState<any>()
+
+  return (
+    <>
+      <DateInput label="Date one" onChange={setFoo} />
+      <DateInput label="Date two (min: date one)" min={foo} />
+    </>
+  )
+}
+
+export const Max = () => {
+  const [foo, setFoo] = React.useState<any>()
+
+  return (
+    <>
+      <DateInput label="Date one" onChange={setFoo} />
+      <DateInput label="Date two (max: date one)" max={foo} />
+    </>
+  )
+}
+
+export const MinTime = () => {
+  const [foo, setFoo] = React.useState<any>()
+
+  return (
+    <>
+      <DateInput time label="Date one" onChange={setFoo} />
+      <DateInput time label="Date two (min: date one)" min={foo} />
+    </>
+  )
+}
+
+export const MaxTime = () => {
+  const [foo, setFoo] = React.useState<any>()
+
+  return (
+    <>
+      <DateInput time label="Date one" onChange={setFoo} />
+      <DateInput time label="Date two (max: date one)" max={foo} />
+    </>
   )
 }
 
@@ -2180,6 +2227,41 @@ export const ModalConfirm = () => {
     </div>
   )
 }
+`},{ id: "f5669589006999", story: f5669589006999, path: "/Users/vassbence/projects/better-ui/src/components/MultiSelectInput/index.stories.tsx", file: `import { MultiSelectInput } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof MultiSelectInput> = {
+  title: 'Inputs/MultiSelectInput',
+  component: MultiSelectInput,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    description: 'What is your favourite?',
+    disabled: false,
+    options: [
+      {
+        label: 'Orange',
+        value: 'orange',
+        prefix: '🍊',
+      },
+      {
+        label: 'Banana',
+        value: 'banana',
+        prefix: '🍌',
+      },
+      ...Array.from({ length: 100 }).map((_, i) => ({
+        label: \`Apple \$i}\`,
+        value: \`apple-\$i}\`,
+        prefix: '🍎',
+      })),
+    ],
+  },
+}
 `},{ id: "f2391256762992", story: f2391256762992, path: "/Users/vassbence/projects/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -2782,9 +2864,9 @@ export const Collapsable = () => {
 
   return (
     <Sidebar
-      collapsable
       value={v}
       onValueChange={setV}
+      collapsable
       data={[
         {
           label: 'Overview',
@@ -3257,9 +3339,19 @@ const meta: Meta<typeof Tabs> = {
 export default meta
 
 export const Default = () => {
-  const [tab, setTab] = React.useState('Foo')
+  const [tab, setTab] = React.useState('overview')
 
-  return <Tabs value={tab} onValueChange={setTab} data={['Foo', 'Bar']} />
+  return (
+    <Tabs
+      value={tab}
+      onValueChange={setTab}
+      data={[
+        { label: 'Overview', value: 'overview' },
+        { label: 'Integrations', value: 'integrations' },
+        { label: 'Settings', value: 'settings' },
+      ]}
+    />
+  )
 }
 `},{ id: "f4403319537853", story: f4403319537853, path: "/Users/vassbence/projects/better-ui/src/components/Text/index.stories.tsx", file: `import { Text } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
