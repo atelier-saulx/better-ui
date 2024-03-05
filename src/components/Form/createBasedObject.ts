@@ -57,11 +57,11 @@ export const createBasedObject = (
     }
 
     if (typeof v === 'object' && v !== null) {
-      if (field.type === 'record') {
-        // This does not do anything
-        // Also we don't have access to the previous values, so we can't $delete
-        s.$merge = false
-      }
+      // if (field.type === 'record') {
+      //   // This does not do anything
+      //   // Also we don't have access to the previous values, so we can't $delete
+      //   s.$merge = false
+      // }
 
       for (const key in v) {
         s[key] = walk(v[key], {}, [...path, key])

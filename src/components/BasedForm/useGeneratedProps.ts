@@ -119,7 +119,10 @@ export const useBasedFormProps = (
       return
     }
 
-    type ??= id === 'root' ? id : schema.prefixToTypeMapping[id.substring(0, 2)]
+    if (id) {
+      type ??=
+        id === 'root' ? id : schema.prefixToTypeMapping[id.substring(0, 2)]
+    }
 
     let query
     let fields =

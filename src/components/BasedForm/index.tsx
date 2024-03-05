@@ -92,8 +92,10 @@ export function BasedForm({
   )
   const isReady = ref.current.currentFields && checksum
 
+  console.log({ id })
+
   const { data: values, loading } = useQuery(
-    isReady && ref.current.currentQuery?.$id ? queryEndpoint : null,
+    isReady && id ? queryEndpoint : null,
     ref.current.currentQuery,
   )
 
