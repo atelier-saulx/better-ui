@@ -30,6 +30,19 @@ export const Default: StoryObj<typeof MultiSelectInput> = {
   },
 }
 
+export const SimpleOptions: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    onChange: console.log,
+    options: [
+      'orange',
+      'banana',
+      ...Array.from({ length: 100 }).map((_, i) => `apple-${i}`),
+    ],
+  },
+}
+
 export const Small: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',

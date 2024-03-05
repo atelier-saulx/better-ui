@@ -129,7 +129,20 @@ export function MultiSelectInput({
                     e.stopPropagation()
                   }}
                 >
-                  <div>{e}</div>
+                  <div>
+                    {(() => {
+                      const option = options.find((option) =>
+                        typeof option === 'object'
+                          ? option.value === e
+                          : option === e,
+                      )
+
+                      const { value, label = null } =
+                        typeof option === 'string' ? { value: option } : option
+
+                      return label ?? value
+                    })()}
+                  </div>
                   <styled.div
                     style={{
                       display: 'flex',
