@@ -12,15 +12,30 @@ export const Default: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    // defaultValue: new Set([
-    //   'apple-0',
-    //   'apple-2',
-    //   'apple-4',
-    //   'apple-6',
-    //   'apple-8',
-    //   'apple-10',
-    // ]),
     onChange: console.log,
+    options: [
+      {
+        label: 'Orange',
+        value: 'orange',
+      },
+      {
+        label: 'Banana',
+        value: 'banana',
+      },
+      ...Array.from({ length: 100 }).map((_, i) => ({
+        label: `Apple ${i}`,
+        value: `apple-${i}`,
+      })),
+    ],
+  },
+}
+
+export const Small: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    onChange: console.log,
+    variant: 'small',
     options: [
       {
         label: 'Orange',

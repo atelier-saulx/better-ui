@@ -65,7 +65,7 @@ export function MultiSelectInput({
           {label}
         </div>
       )}
-      <Popover.Root open={open} onOpenChange={setOpen}>
+      <Popover.Root open={disabled ? false : open} onOpenChange={setOpen}>
         <Popover.Trigger asChild>
           <styled.div
             onClick={() => {
