@@ -26,6 +26,7 @@ export type ButtonProps = {
     | 'error'
     | 'error-muted'
     | 'icon-only'
+    | 'ghost'
   className?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
@@ -198,6 +199,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             textDecoration: 'underline',
             '&:hover': {
               textDecoration: 'none',
+            },
+          }),
+          ...(variant === 'ghost' && {
+            color: color('background', 'screen'),
+            background: 'transparent',
+            border: `1px solid ${color('background', 'screen')}`,
+            '&:hover': {
+              background: color('background', 'dimmer'),
             },
           }),
           ...(variant === 'neutral-link' && {
