@@ -204,7 +204,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ...(variant === 'ghost' && {
             color: color('background', 'screen'),
             background: 'transparent',
-            border: `1px solid ${color('background', 'screen')}`,
+            border: 'transparent',
             '&:hover': {
               background: color('background', 'dimmer'),
             },
