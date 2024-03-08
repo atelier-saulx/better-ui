@@ -20,7 +20,6 @@ import {
   List,
   borderRadius,
   IconListBullet,
-  IconViewBoxes,
   Calendar,
   IconCalendar,
 } from '../../index.js'
@@ -34,6 +33,25 @@ import {
 } from './generator.js'
 export { generateFieldsFromQuery, generateFromType, getTypesFromFilter }
 
+type ExplorerQueryProps = {
+  selected?: any
+  limit: number
+  offset: number
+  filter?: string
+  language: string
+  sort?: { key: string; dir: 'asc' | 'desc' }
+}
+
+type ExplorerProps = {
+  total: number
+  start: number
+  end: number
+  data: any[]
+  filter?: string
+  sort?: { key: string; dir: 'asc' | 'desc' }
+  selected?: any
+}
+
 export type QueryFn = ({
   limit,
   offset,
@@ -41,21 +59,9 @@ export type QueryFn = ({
   language,
   filter,
   selected,
-}: {
-  selected?: any
-  limit: number
-  offset: number
-  filter?: string
-  language: string
-  sort?: { key: string; dir: 'asc' | 'desc' }
-}) => any
+}: ExplorerQueryProps) => any
 
-export type BasedExplorerHeaderComponent = (p: {
-  total: number
-  start: number
-  end: number
-  data: any[]
-}) => React.ReactNode
+export type BasedExplorerHeaderComponent = (p: ExplorerProps) => React.ReactNode
 
 type Variant = 'table' | 'grid' | 'list' | 'calendar'
 
@@ -79,17 +85,12 @@ export type BasedExplorerProps = {
   }
   query: QueryFn
   total?: number
-  totalQuery?: ((p: { filter?: string }) => any) | false
+  totalQuery?: ((p: ExplorerQueryProps) => any) | false
   fields?:
     | FormProps['fields']
     | ((fields: FormProps['fields']) => FormProps['fields'])
   filter?: boolean
-  addItem?: (p: {
-    total: number
-    start: number
-    end: number
-    data: any[]
-  }) => Promise<void>
+  addItem?: (p: ExplorerProps) => Promise<void>
   calendar?: {
     labelField: string
     startField: string
@@ -269,7 +270,13 @@ export function BasedExplorer({
   }
 
   const totalQueryPayload = totalQuery
-    ? totalQuery({ filter: ref.current.filter })
+    ? totalQuery({
+        filter: ref.current.filter,
+        limit: ref.current.end - ref.current.start,
+        offset: ref.current.start,
+        language,
+        selected: ref.current.selected,
+      })
     : null
 
   const { data: totalData, loading: totalLoading } = useQuery(
@@ -578,11 +585,13 @@ export function BasedExplorer({
   }
 
   if (useHeader) {
-    const headerProps = {
+    const headerProps: ExplorerProps = {
       total: parsedTotal,
       start: ref.current.start,
       end: ref.current.end,
       data: ref.current?.block.data,
+      selected: ref.current.selected,
+      filter: ref.current.filter,
     }
     return (
       <Stack direction="column" style={{ height: '100%' }}>
