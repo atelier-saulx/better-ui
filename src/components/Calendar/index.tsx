@@ -37,8 +37,6 @@ export type CalendarProps = {
   onItemClick?: (item: { [key: string]: any }) => void
 }
 
-const today = new Date()
-
 export function Calendar({
   data,
   startField,
@@ -46,6 +44,7 @@ export function Calendar({
   labelField,
   onItemClick,
 }: CalendarProps) {
+  const [today] = React.useState(new Date())
   const [view, setView] = React.useState<'month' | 'week'>('month')
   const [currentPeriodStart, setCurrentPeriodStart] = React.useState(new Date())
   const weekViewCurrentTimeIndicatorRef = React.useRef<HTMLDivElement>()
