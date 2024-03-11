@@ -3551,24 +3551,21 @@ export const Disabled: StoryObj<typeof TextInput> = {
   },
 }
 `},{ id: "f11653358422545", story: f11653358422545, path: "/Users/vassbence/projects/better-ui/src/components/Theme/index.stories.tsx", file: `import * as React from 'react'
-import { ThemeProvider } from '../../index.js'
+import { ThemeProvider } from 'inlines'
 
 const meta = {
   title: 'Atoms/Theme',
-  component: ThemeProvider,
-  decorators: [
-    (Story) => (
-      <ThemeProvider>
-        <Story />
-      </ThemeProvider>
-    ),
-  ],
+  component: () => {},
 }
 
 export default meta
 
 export function Default() {
-  return <div>asd</div>
+  return (
+    <ThemeProvider theme={{}}>
+      <div>asd</div>
+    </ThemeProvider>
+  )
 }
 `},{ id: "f8582702281036", story: f8582702281036, path: "/Users/vassbence/projects/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'
