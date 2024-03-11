@@ -566,8 +566,7 @@ export function BasedExplorer({
           event.stopPropagation()
           event.preventDefault()
           const dt = event.dataTransfer
-          const files = dt.files
-          onDrop(files)
+          onDrop(Array.from(dt.files))
           ref.current.dragOver = false
           update()
         }}

@@ -45,7 +45,7 @@ type DragableRowProps = {
   onClick?: () => void
 }
 
-const dragHandler = (e: DragEvent, ref: DragRef) => {
+const dragHandler = (e, ref: DragRef) => {
   const elem = (ref.current.elem = document.createElement('div'))
   elem.id = 'drag-ghost'
   elem.style.position = 'absolute'

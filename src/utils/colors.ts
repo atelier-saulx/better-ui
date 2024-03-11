@@ -142,7 +142,7 @@ export const boxShadow = (
 export function hashNonSemanticColor(
   value: string | number = '',
   muted: boolean = false,
-) {
+): string {
   const mutedColors = Object.keys(NON_SEMANTIC_COLOR)
     .filter((key) => key.includes('soft'))
     .reduce((cur, key) => {
@@ -161,16 +161,18 @@ export function hashNonSemanticColor(
         (Object.keys(NON_SEMANTIC_COLOR).length / 2 - 1),
     ) + 1
 
-  return muted
-    ? Object.values(mutedColors)[index]
-    : Object.values(strongColors)[index]
+  return (
+    muted
+      ? Object.values(mutedColors)[index]
+      : Object.values(strongColors)[index]
+  ) as string
 }
 
 // hash semantic
 export function hashSemanticColor(
   value: string | number = '',
   muted: boolean = false,
-) {
+): string {
   const mutedColors = Object.keys(SEMANTIC_COLORS)
     .filter((key) => key.includes('muted'))
     .reduce((cur, key) => {
@@ -189,9 +191,11 @@ export function hashSemanticColor(
         (Object.keys(SEMANTIC_COLORS).length / 2 - 1),
     ) + 1
 
-  return muted
-    ? Object.values(mutedColors)[index]
-    : Object.values(strongColors)[index]
+  return (
+    muted
+      ? Object.values(mutedColors)[index]
+      : Object.values(strongColors)[index]
+  ) as string
 }
 
 /// ADD ALL COLORS IN JS instead of the CSS

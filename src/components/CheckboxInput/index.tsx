@@ -82,7 +82,8 @@ export const CheckboxInput = React.forwardRef<
           checked={value}
           onChange={(e) => {
             if (!disabled) {
-              setValue(e.target.checked)
+              const target = e.target as HTMLInputElement
+              setValue(target.checked)
             }
           }}
           autoFocus={autoFocus}

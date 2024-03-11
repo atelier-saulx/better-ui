@@ -118,7 +118,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           </styled.span>
         )}
         <styled.input
-          tabIndex={disabled ? '-1' : 'auto'}
+          tabIndex={disabled ? -1 : undefined}
           autoFocus={autoFocus}
           value={state}
           defaultValue={defaultValue}
@@ -133,7 +133,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           name={formName}
           placeholder={placeholder}
           style={{
-            pointerEvents: disabled ? 'none' : 'default',
+            pointerEvents: disabled ? 'none' : 'auto',
             background: 'none',
             fontSize: 14,
             lineHeight: '24px',

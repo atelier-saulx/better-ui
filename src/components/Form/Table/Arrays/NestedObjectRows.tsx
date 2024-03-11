@@ -44,14 +44,11 @@ export function NestedObjectRows(p: RowProps) {
           cursor: 'pointer',
           background: color('background', 'muted'),
           borderBottom: border(),
-          '&:hover button': {
-            opacity: '1 !important',
-          },
           '&:hover': {
             background: color('background', 'neutral'),
-            '.remove': {
-              opacity: '1 !important',
-            },
+          },
+          '&:hover button': {
+            opacity: '1 !important',
           },
         }}
         cells={[

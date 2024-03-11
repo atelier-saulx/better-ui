@@ -119,7 +119,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
         <div style={{ position: 'relative' }}>
           <styled.input
             type="number"
-            tabIndex={disabled ? '-1' : 'auto'}
+            tabIndex={disabled ? -1 : undefined}
             autoFocus={autoFocus}
             value={valueProp ?? ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,7 +139,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             placeholder={placeholder}
             step={step}
             style={{
-              pointerEvents: disabled ? 'none' : 'default',
+              pointerEvents: disabled ? 'none' : 'auto',
               background: 'none',
               fontSize: 14,
               lineHeight: '24px',
@@ -165,11 +165,11 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 boxShadow: boxShadow('focus'),
               },
               '&::-webkit-outer-spin-button': {
-                '-webkit-appearance': 'none',
+                WebkitAppearance: 'none',
                 margin: '0',
               },
               '&::-webkit-inner-spin-button': {
-                '-webkit-appearance': 'none',
+                WebkitAppearance: 'none',
                 margin: '0',
               },
               ...(error && {

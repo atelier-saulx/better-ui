@@ -32,7 +32,7 @@ export type VirtualizedRenderer = (p: {
   width: number
   pageCount: number
   total: number
-}) => {}
+}) => React.ReactNode
 
 export type ItemSize =
   | number

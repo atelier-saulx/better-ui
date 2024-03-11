@@ -157,7 +157,7 @@ export function FileInput({
           />
         }
         <styled.input
-          tabIndex={disabled ? '-1' : 0}
+          tabIndex={disabled ? -1 : 0}
           ref={inputRef}
           type="file"
           accept={mimeType}

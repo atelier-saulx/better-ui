@@ -75,7 +75,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     useKeyboardShortcut(keyboardShortcut, onClick)
 
     const handleClick = React.useCallback(
-      async (e: Event) => {
+      async (e) => {
         e.stopPropagation()
         if (!onClick || disabled) return
 

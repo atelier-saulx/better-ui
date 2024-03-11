@@ -72,7 +72,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
           }}
         />
         <styled.input
-          tabIndex={disabled ? '-1' : 'auto'}
+          tabIndex={disabled ? -1 : undefined}
           autoFocus={autoFocus}
           value={state}
           defaultValue={defaultValue}
@@ -87,7 +87,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
           name={formName}
           placeholder={placeholder}
           style={{
-            pointerEvents: disabled ? 'none' : 'default',
+            pointerEvents: disabled ? 'none' : 'auto',
             background: 'none',
             fontSize: 14,
             backgroundColor: color('background', 'primary'),

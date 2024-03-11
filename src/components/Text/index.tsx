@@ -74,7 +74,7 @@ export const textVariants = {
     fontSize: '12px',
     lineHeight: '20px',
     letterSpacing: '-0.12px',
-    textTransform: 'uppercase',
+    textTransform: 'uppercase' as const,
   },
 }
 

@@ -117,7 +117,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
             <SelectBase.Trigger asChild>
               <styled.div
                 autoFocus={autoFocus}
-                tabIndex={disabled ? '-1' : 0}
+                tabIndex={disabled ? -1 : 0}
                 ref={mergeRefs([wrapperRef, ref])}
                 style={{
                   position: 'relative',

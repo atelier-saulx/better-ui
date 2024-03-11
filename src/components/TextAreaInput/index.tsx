@@ -127,7 +127,7 @@ export const TextAreaInput = React.forwardRef<
         <styled.div
           data-value={state}
           style={{
-            pointerEvents: disabled ? 'none' : 'default',
+            pointerEvents: disabled ? 'none' : 'auto',
             position: 'relative',
             display: 'grid',
             width: '100%',
@@ -146,7 +146,7 @@ export const TextAreaInput = React.forwardRef<
           }}
         >
           <styled.textarea
-            tabIndex={disabled ? '-1' : 0}
+            tabIndex={disabled ? -1 : 0}
             value={value}
             defaultValue={defaultValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

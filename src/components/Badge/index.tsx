@@ -47,7 +47,7 @@ export function Badge({
     <styled.div
       onClick={
         copyValue
-          ? (e: Event) => {
+          ? (e) => {
               e.stopPropagation()
               navigator.clipboard.writeText(copyValue)
               setShowCheck(true)
