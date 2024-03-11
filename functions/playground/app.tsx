@@ -45,6 +45,7 @@ import * as f6755915043556 from "../../src/components/Tabs/index.stories.js"
 import * as f4403319537853 from "../../src/components/Text/index.stories.js"
 import * as f4363912759740 from "../../src/components/TextAreaInput/index.stories.js"
 import * as f3910853229259 from "../../src/components/TextInput/index.stories.js"
+import * as f11653358422545 from "../../src/components/Theme/index.stories.js"
 import * as f8582702281036 from "../../src/components/Thumbnail/index.stories.js"
 import * as f15599106587773 from "../../src/components/Toast/index.stories.js"
 import * as f14542094828981 from "../../src/components/Tooltip/index.stories.js"
@@ -59,7 +60,7 @@ import * as f16815800280314 from "../../src/components/Form/stories/references.s
 import * as f10025904474475 from "../../src/components/Form/stories/referencesSchema.stories.js"
 import * as f5930333060847 from "../../src/components/Form/stories/richText.stories.js"
 import * as f6183036884064 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f1130922799717,f12564555305565,f7416220464218,f3466414113223,f2084790011414,f16905658949426,f1681034936069,f13619739889741,f17306232299723,f4948859476466,f9344752088327,f3057415892789,f6239386911682,f10288907520891,f1361056666384,f14989200246520,f8646848099263,f1926324559992,f6622038122973,f6271760022916,f14974680308474,f10413842030050,f4294516783426,f14687156354576,f409919741252,f13867817006251,f5669589006999,f2391256762992,f10190487816981,f8544279227411,f10692938591024,f974043384684,f13329917722609,f13087660182010,f12087345264248,f6536975305054,f10824936630228,f7822376808362,f2312747410077,f8523906341550,f1028680599250,f16457632158462,f6755915043556,f4403319537853,f4363912759740,f3910853229259,f8582702281036,f15599106587773,f14542094828981,f6004462968497,f7316974909235,f2872478104456,f4444441197193,f12741420372279,f16286765462020,f12122853271055,f16815800280314,f10025904474475,f5930333060847,f6183036884064]
+export const stories = [f1130922799717,f12564555305565,f7416220464218,f3466414113223,f2084790011414,f16905658949426,f1681034936069,f13619739889741,f17306232299723,f4948859476466,f9344752088327,f3057415892789,f6239386911682,f10288907520891,f1361056666384,f14989200246520,f8646848099263,f1926324559992,f6622038122973,f6271760022916,f14974680308474,f10413842030050,f4294516783426,f14687156354576,f409919741252,f13867817006251,f5669589006999,f2391256762992,f10190487816981,f8544279227411,f10692938591024,f974043384684,f13329917722609,f13087660182010,f12087345264248,f6536975305054,f10824936630228,f7822376808362,f2312747410077,f8523906341550,f1028680599250,f16457632158462,f6755915043556,f4403319537853,f4363912759740,f3910853229259,f11653358422545,f8582702281036,f15599106587773,f14542094828981,f6004462968497,f7316974909235,f2872478104456,f4444441197193,f12741420372279,f16286765462020,f12122853271055,f16815800280314,f10025904474475,f5930333060847,f6183036884064]
 export const parsedStories = [{ id: "f1130922799717", story: f1130922799717, path: "/Users/vassbence/projects/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -2241,25 +2242,88 @@ export const Default: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    description: 'What is your favourite?',
-    disabled: false,
+    onChange: console.log,
     options: [
       {
         label: 'Orange',
         value: 'orange',
-        prefix: '🍊',
       },
       {
         label: 'Banana',
         value: 'banana',
-        prefix: '🍌',
       },
       ...Array.from({ length: 100 }).map((_, i) => ({
         label: \`Apple \$i}\`,
         value: \`apple-\$i}\`,
-        prefix: '🍎',
       })),
     ],
+  },
+}
+
+export const StayOpen: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    stayOpenWhileSelecting: true,
+    onChange: console.log,
+    options: [
+      {
+        label: 'Orange',
+        value: 'orange',
+      },
+      {
+        label: 'Banana',
+        value: 'banana',
+      },
+      ...Array.from({ length: 100 }).map((_, i) => ({
+        label: \`Apple \$i}\`,
+        value: \`apple-\$i}\`,
+      })),
+    ],
+  },
+}
+
+export const SimpleOptions: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    onChange: console.log,
+    options: [
+      'orange',
+      'banana',
+      ...Array.from({ length: 100 }).map((_, i) => \`apple-\$i}\`),
+    ],
+  },
+}
+
+export const Small: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    onChange: console.log,
+    variant: 'small',
+    options: [
+      {
+        label: 'Orange',
+        value: 'orange',
+      },
+      {
+        label: 'Banana',
+        value: 'banana',
+      },
+      ...Array.from({ length: 100 }).map((_, i) => ({
+        label: \`Apple \$i}\`,
+        value: \`apple-\$i}\`,
+      })),
+    ],
+  },
+}
+
+export const Disabled: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    options: [],
+    disabled: true,
   },
 }
 `},{ id: "f2391256762992", story: f2391256762992, path: "/Users/vassbence/projects/better-ui/src/components/Note/index.stories.tsx", file: `import { Note } from '../../index.js'
@@ -3485,6 +3549,26 @@ export const Disabled: StoryObj<typeof TextInput> = {
     label: 'Label',
     disabled: true,
   },
+}
+`},{ id: "f11653358422545", story: f11653358422545, path: "/Users/vassbence/projects/better-ui/src/components/Theme/index.stories.tsx", file: `import * as React from 'react'
+import { ThemeProvider } from '../../index.js'
+
+const meta = {
+  title: 'Atoms/Theme',
+  component: ThemeProvider,
+  decorators: [
+    (Story) => (
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
+    ),
+  ],
+}
+
+export default meta
+
+export function Default() {
+  return <div>asd</div>
 }
 `},{ id: "f8582702281036", story: f8582702281036, path: "/Users/vassbence/projects/better-ui/src/components/Thumbnail/index.stories.tsx", file: `import * as React from 'react'
 import { Thumbnail, IconBorderLeft, Stack } from '../../index.js'

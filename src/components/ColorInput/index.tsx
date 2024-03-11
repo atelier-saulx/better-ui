@@ -133,11 +133,11 @@ export function ColorInput({
 
       <styled.div style={{ position: 'relative' }}>
         <styled.input
-          tabIndex={disabled ? '-1' : 'auto'}
+          tabIndex={disabled ? -1 : undefined}
           ref={inputRef}
           defaultValue={value ?? ''}
           onChange={(e) => {
-            const newRawValue = e.target.value
+            const newRawValue = (e.target as HTMLInputElement).value
 
             if (rgbRegex.test(newRawValue)) {
               const newRGBA = rgbToRgba(newRawValue)
