@@ -8,6 +8,7 @@ import {
   border,
   borderRadius,
   color,
+  hashNonSemanticColor,
 } from '../../index.js'
 import {
   startOfWeek,
@@ -239,6 +240,7 @@ export function Calendar({
               width: '100%',
               position: 'relative',
               overflowY: 'auto',
+              overflowX: 'hidden',
               border: border(),
             }}
           >
@@ -292,6 +294,8 @@ export function Calendar({
                       style={{
                         padding: 4,
                         position: 'relative',
+
+                        display: 'flex',
                         height: '100%',
                         width: '100%',
                         ...(i !== 0 && { borderLeft: border() }),
@@ -334,43 +338,57 @@ export function Calendar({
 
                           return (
                             <styled.div
-                              key={`${day.toISOString()}-${e[labelField]}`}
-                              onClick={() => {
-                                onItemClick?.(e)
-                              }}
                               style={{
-                                top: top + 4,
-                                height: height - 8,
-                                position: 'absolute',
-                                left: 4,
-                                right: 4,
-                                cursor: 'pointer',
-                                borderRadius: borderRadius('small'),
-                                background: color('background', 'neutral'),
-                                padding: '0 4px',
-                                '&:hover': {
-                                  color: color('interactive', 'primary'),
-                                  background: color(
-                                    'interactive',
-                                    'primary-muted',
-                                  ),
-                                },
+                                display: 'block',
+
+                                width: '100%',
                               }}
                             >
-                              <Text
-                                color="inherit"
+                              <styled.div
+                                key={`${day.toISOString()}-${e[labelField]}`}
+                                onClick={() => {
+                                  onItemClick?.(e)
+                                }}
                                 style={{
-                                  position: 'absolute',
-                                  zIndex: idx === 0 ? 1 : 1 * idx + 1,
-                                  top: idx === 0 ? '0px' : top + 20 * idx,
+                                  top: top + 4,
+                                  height: height - 8,
+                                  position: 'relative',
+                                  left: 4,
+                                  right: 4,
+                                  cursor: 'pointer',
+                                  borderRadius: borderRadius('small'),
+                                  //     background: color('background', 'neutral'),
+                                  backgroundColor: hashNonSemanticColor(
+                                    e[labelField],
+                                    true,
+                                  ),
+                                  padding: '0 4px',
+                                  marginLeft: idx !== 0 ? 4 : 0,
                                   '&:hover': {
                                     color: color('interactive', 'primary'),
+                                    backgroundColor: color(
+                                      'interactive',
+                                      'primary-muted',
+                                    ),
                                   },
                                 }}
-                                singleLine
                               >
-                                {e[labelField]}
-                              </Text>
+                                <Text
+                                  color="inherit"
+                                  style={{
+                                    position: 'absolute',
+                                    // zIndex: idx === 0 ? 1 : 1 * idx + 1,
+                                    // top: idx === 0 ? '0px' : 20 * idx + top,
+                                    top: '0px',
+                                    '&:hover': {
+                                      color: color('interactive', 'primary'),
+                                    },
+                                  }}
+                                  singleLine
+                                >
+                                  {e[labelField]}
+                                </Text>
+                              </styled.div>
                             </styled.div>
                           )
                         })}
@@ -468,7 +486,6 @@ export function Calendar({
                       overflow: 'auto',
                       padding: '0 4px 4px',
                       display: 'flex',
-
                       flexDirection: 'column',
                       gap: 4,
                     }}
@@ -500,7 +517,11 @@ export function Calendar({
                             style={{
                               cursor: 'pointer',
                               borderRadius: borderRadius('small'),
-                              background: color('background', 'neutral'),
+                              //  background: color('background', 'neutral'),
+                              background: hashNonSemanticColor(
+                                e[labelField],
+                                true,
+                              ),
                               padding: '0 4px',
                               marginBottom: '4px',
                               '&:hover': {
