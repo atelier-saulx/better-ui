@@ -5,6 +5,7 @@ import './styles/keyframes.css'
 import './styles/syntax.css'
 import './styles/variables.css'
 
+export * from './components/Accordion/index.js'
 export * from './components/Badge/index.js'
 export * from './components/FileInput/index.js'
 export * from './components/Thumbnail/index.js'
