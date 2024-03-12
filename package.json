@@ -53,6 +53,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@based/storybook": "^1.0.2",
     "@based/cli": "^5.13.0",
     "@based/functions": "^2.2.2",
     "@faker-js/faker": "^8.3.1",

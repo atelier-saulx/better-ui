@@ -543,7 +543,14 @@ export default meta
 export const Default: StoryObj<typeof Button> = {
   args: {
     children: 'Click me',
-    variant: 'error-muted',
+  },
+  storyName: 'Default button',
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use buttons for clickable things.',
+      },
+    },
   },
 }
 
@@ -756,6 +763,10 @@ export function Svg({ style, width = 20, height = 20 }: IconProps) {
 }
 \`
 
+/**
+ * # Code
+ * This is the primary code (dirty code)
+ */
 export const Default: StoryObj<typeof Code> = {
   args: {
     value: ts,
@@ -772,13 +783,12 @@ export const Prettier: StoryObj<typeof Code> = {
     value: ts,
     language: 'typescript',
     color: 'inverted',
-    prettier: true
+    prettier: true,
   },
   argTypes: {
     color: { control: 'select' },
   },
 }
-
 
 export const CopyButton: StoryObj<typeof Code> = {
   args: {
