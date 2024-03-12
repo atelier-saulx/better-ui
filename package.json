@@ -4,7 +4,7 @@
   "version": "6.1.4-alpha",
   "scripts": {
     "dev": "npx @based/cli dev",
-    "ts-watch": "npx tsc -w",
+    "watch": "npx tsc -w",
     "deploy": "npx @based/cli deploy",
     "build": "rm -rf dist && npx tsc && cp -r ./src/styles ./dist/styles",
     "build:playground": "npx @based/storybook --target=src --destination=functions/playground"
