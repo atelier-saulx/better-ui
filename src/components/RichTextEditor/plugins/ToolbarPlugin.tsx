@@ -192,11 +192,11 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         style={{
           display: 'flex',
           alignItems: 'center',
-          height: variant === 'small' ? 32 : 48,
+          height: variant === 'small' ? 32 : 43,
           backgroundColor:
-            variant === 'small'
-              ? color('background', 'screen')
-              : color('background', 'muted'),
+            // variant === 'small'
+            color('background', 'screen'),
+          // : color('background', 'muted'),
           // '& > * + *': {
           //   marginLeft: '5px',
           // },
