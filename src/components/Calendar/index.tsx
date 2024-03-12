@@ -3,6 +3,7 @@ import {
   Button,
   IconChevronLeft,
   IconChevronRight,
+  ScrollArea,
   Text,
   border,
   borderRadius,
@@ -81,6 +82,8 @@ export function Calendar({
   const events = React.useMemo(() => {
     return data.filter((e) => e[startField] && e[endField])
   }, [data, startField, endField])
+
+  console.log('EVENTS??', events)
 
   React.useLayoutEffect(() => {
     if (view === 'week' && weekViewCurrentTimeIndicatorRef.current) {
@@ -311,7 +314,7 @@ export function Calendar({
                             end: endOfDay(new Date(e[endField])),
                           }),
                         )
-                        .map((e) => {
+                        .map((e, idx) => {
                           const start = new Date(
                             Math.max(
                               new Date(e[startField]).getTime(),
@@ -354,7 +357,20 @@ export function Calendar({
                                 },
                               }}
                             >
-                              <Text color="inherit">{e[labelField]}</Text>
+                              <Text
+                                color="inherit"
+                                style={{
+                                  position: 'absolute',
+                                  zIndex: idx === 0 ? 1 : 1 * idx + 1,
+                                  top: idx === 0 ? '0px' : top + 20 * idx,
+                                  '&:hover': {
+                                    color: color('interactive', 'primary'),
+                                  },
+                                }}
+                                singleLine
+                              >
+                                {e[labelField]}
+                              </Text>
                             </styled.div>
                           )
                         })}
@@ -452,47 +468,54 @@ export function Calendar({
                       overflow: 'auto',
                       padding: '0 4px 4px',
                       display: 'flex',
+
                       flexDirection: 'column',
                       gap: 4,
                     }}
                   >
-                    {events
-                      .filter(
-                        (e) =>
-                          isValid(new Date(e[startField])) &&
-                          isValid(new Date(e[endField])),
-                      )
-                      .filter(
-                        (e) =>
-                          format(new Date(e[startField]), 'T') <
-                          format(new Date(e[endField]), 'T'),
-                      )
-                      .filter((e) =>
-                        isWithinInterval(day, {
-                          start: startOfDay(new Date(e[startField])),
-                          end: endOfDay(new Date(e[endField])),
-                        }),
-                      )
-                      .map((e) => (
-                        <styled.div
-                          key={`${day.toISOString()}-${e[labelField]}`}
-                          onClick={() => {
-                            onItemClick?.(e)
-                          }}
-                          style={{
-                            cursor: 'pointer',
-                            borderRadius: borderRadius('small'),
-                            background: color('background', 'neutral'),
-                            padding: '0 4px',
-                            '&:hover': {
-                              color: color('interactive', 'primary'),
-                              background: color('interactive', 'primary-muted'),
-                            },
-                          }}
-                        >
-                          <Text color="inherit">{e[labelField]}</Text>
-                        </styled.div>
-                      ))}
+                    <ScrollArea>
+                      {events
+                        .filter(
+                          (e) =>
+                            isValid(new Date(e[startField])) &&
+                            isValid(new Date(e[endField])),
+                        )
+                        .filter(
+                          (e) =>
+                            format(new Date(e[startField]), 'T') <
+                            format(new Date(e[endField]), 'T'),
+                        )
+                        .filter((e) =>
+                          isWithinInterval(day, {
+                            start: startOfDay(new Date(e[startField])),
+                            end: endOfDay(new Date(e[endField])),
+                          }),
+                        )
+                        .map((e) => (
+                          <styled.div
+                            key={`${day.toISOString()}-${e[labelField]}`}
+                            onClick={() => {
+                              onItemClick?.(e)
+                            }}
+                            style={{
+                              cursor: 'pointer',
+                              borderRadius: borderRadius('small'),
+                              background: color('background', 'neutral'),
+                              padding: '0 4px',
+                              marginBottom: '4px',
+                              '&:hover': {
+                                color: color('interactive', 'primary'),
+                                background: color(
+                                  'interactive',
+                                  'primary-muted',
+                                ),
+                              },
+                            }}
+                          >
+                            <Text color="inherit">{e[labelField]}</Text>
+                          </styled.div>
+                        ))}
+                    </ScrollArea>
                   </div>
                 </div>
               </div>
