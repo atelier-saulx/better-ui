@@ -104,7 +104,14 @@ export function BasedForm({
     )
   }
 
-  const noConfirm = variant === 'no-confirm'
+  let noConfirm
+  if (variant === 'no-confirm') {
+    if (!id && addItem) {
+      variant = null
+    } else {
+      noConfirm = true
+    }
+  }
 
   // if (!id && addItem) {
   //   variant ??= 'no-confirm'
@@ -268,7 +275,7 @@ export function BasedForm({
                       return formRef.current.confirm()
                     }}
                   >
-                    Publish
+                    Save
                   </Button>
                 </Stack>
               </Stack>

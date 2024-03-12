@@ -26,6 +26,7 @@ import {
   getHours,
   getMinutes,
   intervalToDuration,
+  isValid,
 } from 'date-fns'
 import { styled } from 'inlines'
 
@@ -48,6 +49,7 @@ export function Calendar({
   const [view, setView] = React.useState<'month' | 'week'>('month')
   const [currentPeriodStart, setCurrentPeriodStart] = React.useState(new Date())
   const weekViewCurrentTimeIndicatorRef = React.useRef<HTMLDivElement>()
+
   const days = React.useMemo(() => {
     const days = []
 
@@ -293,6 +295,16 @@ export function Calendar({
                       }}
                     >
                       {events
+                        .filter(
+                          (e) =>
+                            isValid(new Date(e[startField])) &&
+                            isValid(new Date(e[endField])),
+                        )
+                        .filter(
+                          (e) =>
+                            format(new Date(e[startField]), 'T') <
+                            format(new Date(e[endField]), 'T'),
+                        )
                         .filter((e) =>
                           isWithinInterval(day, {
                             start: startOfDay(new Date(e[startField])),
@@ -445,6 +457,16 @@ export function Calendar({
                     }}
                   >
                     {events
+                      .filter(
+                        (e) =>
+                          isValid(new Date(e[startField])) &&
+                          isValid(new Date(e[endField])),
+                      )
+                      .filter(
+                        (e) =>
+                          format(new Date(e[startField]), 'T') <
+                          format(new Date(e[endField]), 'T'),
+                      )
                       .filter((e) =>
                         isWithinInterval(day, {
                           start: startOfDay(new Date(e[startField])),

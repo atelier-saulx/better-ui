@@ -15,7 +15,7 @@ import { borderRadius, color } from '../../utils/colors.js'
 import { styled, Style } from 'inlines'
 import {
   addMonths,
-  format,
+  format as rawFormat,
   startOfWeek,
   startOfMonth,
   endOfMonth,
@@ -35,6 +35,16 @@ import {
   setHours,
   setMinutes,
 } from 'date-fns'
+
+const format = (...args) => {
+  try {
+    // @ts-ignore
+    return rawFormat(...args)
+  } catch (e) {
+    console.error(e)
+    return ''
+  }
+}
 
 type DateInputValue = number | { start: number; end: number }
 
@@ -116,7 +126,7 @@ export function DateInput({
   min: minProp,
   max: maxProp,
 }: DateInputProps) {
-  const [value, setValue] = useControllableState({
+  let [value, setValue] = useControllableState({
     value: valueProp,
     defaultValue: defaultValueProp,
     onChange,
