@@ -13,7 +13,14 @@ export default meta
 export const Default: StoryObj<typeof Button> = {
   args: {
     children: 'Click me',
-    variant: 'error-muted',
+  },
+  storyName: 'Default button',
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use buttons for clickable things.',
+      },
+    },
   },
 }
 
