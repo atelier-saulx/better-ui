@@ -247,6 +247,7 @@ export function Calendar({
               >
                 {Array.from({ length: 24 }).map((_, i) => (
                   <div
+                    key={i}
                     style={{
                       position: 'absolute',
                       top: i * (1440 / 24),
@@ -328,6 +329,8 @@ export function Calendar({
                           const top = getHours(start) * 60 + getMinutes(start)
                           const duration = intervalToDuration({ start, end })
                           const height = duration.hours * 60 + duration.minutes
+
+                          console.log(e)
 
                           return (
                             <styled.div
