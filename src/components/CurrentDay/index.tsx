@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { format, isValid } from 'date-fns'
 import * as React from 'react'
 import { borderRadius, color } from '../../utils/colors.js'
 import { textVariants } from '../Text/index.js'
@@ -23,10 +23,10 @@ export function CurrentDay({ value }: CurrentDayProps) {
       }}
     >
       <div style={{ ...textVariants.body, fontSize: 16 }}>
-        {format(new Date(value), 'MMM')}
+        {isValid(value) && format(new Date(value), 'MMM')}
       </div>
       <div style={{ ...textVariants['body-strong'], fontSize: 20 }}>
-        {format(new Date(value), 'd')}
+        {isValid(value) && format(new Date(value), 'd')}
       </div>
     </div>
   )
