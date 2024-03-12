@@ -289,7 +289,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               singleLine
               color="inherit"
               variant={size === 'small' ? 'body' : 'body-bold'}
-              style={{ display: 'flex' }}
+              style={{
+                display: 'flex',
+                '& div': {
+                  lineHeight:
+                    shape === 'square'
+                      ? '0px !important'
+                      : 'inherit !important',
+                },
+              }}
             >
               {children}
             </Text>

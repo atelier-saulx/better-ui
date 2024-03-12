@@ -55,7 +55,7 @@ export const Link: StoryObj<typeof Button> = {
   args: {
     children: 'This is a link',
     variant: 'neutral-link',
-    shape: 'square',
+    // shape: 'square',
     onClick: () => {
       alert('hello')
     },
