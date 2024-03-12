@@ -1,12 +1,6 @@
 import React, { useState } from 'react'
 import { styled, Style } from 'inlines'
-import {
-  IconSmallChevronDown,
-  IconSmallChevronTop,
-  Stack,
-  Text,
-  border,
-} from '../../index.js'
+import { IconSmallChevronTop, Stack, Text, border } from '../../index.js'
 
 type AccordionDataProps = {
   title?: string
@@ -40,6 +34,10 @@ export const Accordion = ({
               paddingBottom: '24px',
               paddingTop: '20px',
               userSelect: 'none',
+              maxHeight: open.includes(idx) ? '1200px' : '80px',
+              height: open.includes(idx) ? 'auto' : 80,
+              transition: 'max-height 1s ease-in',
+              overflow: 'hidden',
             }}
           >
             <Stack
@@ -67,22 +65,30 @@ export const Accordion = ({
               >
                 {item.title}
               </Text>
-              {open.includes(idx) ? (
-                <IconSmallChevronDown />
-              ) : (
-                <IconSmallChevronTop />
-              )}
+              <IconSmallChevronTop
+                style={{
+                  transform: open.includes(idx)
+                    ? 'rotate(-180deg)'
+                    : 'rotate(0deg)',
+                  transition: 'transform 0.24s',
+                }}
+              />
             </Stack>
-            {open.includes(idx) && (
-              <styled.div style={{ paddingTop: '18px' }}>
-                {item.description && (
-                  <Text variant="body" style={{ fontWeight: 400 }}>
-                    {item.description}
-                  </Text>
-                )}
-                {item.children && item.children}
-              </styled.div>
-            )}
+
+            <styled.div
+              style={{
+                paddingTop: '18px',
+                opacity: open.includes(idx) ? 1 : 0,
+                transition: 'opacity 0.44s ease-in',
+              }}
+            >
+              {item.description && (
+                <Text variant="body" style={{ fontWeight: 400 }}>
+                  {item.description}
+                </Text>
+              )}
+              {item.children && item.children}
+            </styled.div>
           </styled.div>
         )
       })}
