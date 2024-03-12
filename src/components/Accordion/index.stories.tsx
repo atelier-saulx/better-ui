@@ -42,3 +42,11 @@ export const Default: StoryObj<typeof Accordion> = {
     data: data,
   },
 }
+
+export const MultiExpand: StoryObj<typeof Accordion> = {
+  args: {
+    data: data,
+    multiExpand: true,
+    startOpen: 2,
+  },
+}

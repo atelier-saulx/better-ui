@@ -16,11 +16,18 @@ type AccordionDataProps = {
 
 type AccordionProps = {
   data: AccordionDataProps[]
+  multiExpand?: boolean
+  startOpen?: number
   style?: Style
 }
 
-export const Accordion = ({ data, style }: AccordionProps) => {
-  const [open, setOpen] = useState([0])
+export const Accordion = ({
+  data,
+  multiExpand,
+  startOpen,
+  style,
+}: AccordionProps) => {
+  const [open, setOpen] = useState([startOpen])
 
   return (
     <styled.div style={{ ...style }}>
@@ -38,11 +45,19 @@ export const Accordion = ({ data, style }: AccordionProps) => {
             <Stack
               onClick={() => {
                 if (open.includes(idx)) {
-                  let arr = open.filter((x) => x !== idx)
-                  setOpen([...arr])
+                  if (multiExpand) {
+                    let arr = open.filter((x) => x !== idx)
+                    setOpen([...arr])
+                  } else {
+                    setOpen([])
+                  }
                 } else {
-                  let arr = [...open, idx]
-                  setOpen([...arr])
+                  if (multiExpand) {
+                    let arr = [...open, idx]
+                    setOpen([...arr])
+                  } else {
+                    setOpen([idx])
+                  }
                 }
               }}
             >
