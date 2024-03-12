@@ -1,4 +1,5 @@
 import { startPlayground } from '@based/storybook/playground'
+import * as f14151460882256 from "../../src/components/Accordion/index.stories.js"
 import * as f13852923402373 from "../../src/components/Badge/index.stories.js"
 import * as f15285278589437 from "../../src/components/BarGraph/index.stories.js"
 import * as f11824060859706 from "../../src/components/BasedExplorer/index.stories.js"
@@ -59,8 +60,60 @@ import * as f47303550426 from "../../src/components/Form/stories/references.stor
 import * as f11229660430731 from "../../src/components/Form/stories/referencesSchema.stories.js"
 import * as f4536220838927 from "../../src/components/Form/stories/richText.stories.js"
 import * as f7012957941312 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f13852923402373,f15285278589437,f11824060859706,f17092004167783,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f9839458721826,f1152820663024,f13659776204836,f16096448594379,f16040773058871,f5024396229712,f523702835381,f16494901165491,f13113167991056,f5376768019532,f3246165100817,f11708898986714,f4381831871064,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f198770517426,f3747781814494,f11921429078468,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f4483000576595,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f4536220838927,f7012957941312]
-export const parsedStories = [{ id: "f13852923402373", story: f13852923402373, path: "/Users/yvesbeer/dev/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
+export const stories = [f14151460882256,f13852923402373,f15285278589437,f11824060859706,f17092004167783,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f9839458721826,f1152820663024,f13659776204836,f16096448594379,f16040773058871,f5024396229712,f523702835381,f16494901165491,f13113167991056,f5376768019532,f3246165100817,f11708898986714,f4381831871064,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f198770517426,f3747781814494,f11921429078468,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f4483000576595,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f4536220838927,f7012957941312]
+export const parsedStories = [{ id: "f14151460882256", story: f14151460882256, path: "/Users/yvesbeer/dev/better-ui/src/components/Accordion/index.stories.tsx", file: `import * as React from 'react'
+import { Accordion } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Accordion> & { description: string } = {
+  title: 'Atoms/Accordion',
+  description: "L'Accordion pour toi",
+  component: Accordion,
+}
+
+export default meta
+
+const data = [
+  {
+    title: 'Accordion item 1',
+    description:
+      'Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.',
+  },
+  {
+    title: 'Accordion item 2',
+    description:
+      'Lorem ipsum is een opvultekst die drukkers, zetters, grafisch ontwerpers en dergelijken gebruiken om te kijken hoe een opmaak er grafisch uitziet.',
+  },
+  {
+    title: 'Accordion item 3',
+    description:
+      "It's all a game of angles. Son of a gun. You can do anything your heart can imagine. You can't make a mistake. Anything that happens you can learn to use - and make something beautiful out of it. We spend so much of our life looking - but never seeing.",
+  },
+  {
+    title: 'Accordion item 4',
+    children: (
+      <div style={{ background: 'yellow', width: 300, height: 100 }}>
+        {' '}
+        hallo 🐶
+      </div>
+    ),
+  },
+]
+
+export const Default: StoryObj<typeof Accordion> = {
+  args: {
+    data: data,
+  },
+}
+
+export const MultiExpand: StoryObj<typeof Accordion> = {
+  args: {
+    data: data,
+    multiExpand: true,
+    startOpen: 2,
+  },
+}
+`},{ id: "f13852923402373", story: f13852923402373, path: "/Users/yvesbeer/dev/better-ui/src/components/Badge/index.stories.tsx", file: `import * as React from 'react'
 import { Badge, IconSmallBolt } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -585,7 +638,7 @@ export const Link: StoryObj<typeof Button> = {
   args: {
     children: 'This is a link',
     variant: 'neutral-link',
-    shape: 'square',
+    // shape: 'square',
     onClick: () => {
       alert('hello')
     },
