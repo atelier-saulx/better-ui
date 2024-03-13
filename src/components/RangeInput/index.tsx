@@ -28,6 +28,7 @@ export const RangeInput = ({
         </styled.span>
       )}
       <styled.div style={{ width: '100%' }}>
+        {/* // slider */}
         <styled.div
           style={{
             width: '100%',
@@ -45,6 +46,7 @@ export const RangeInput = ({
               position: 'relative',
             }}
           >
+            {/* // thumb */}
             <styled.div
               style={{
                 width: 16,
