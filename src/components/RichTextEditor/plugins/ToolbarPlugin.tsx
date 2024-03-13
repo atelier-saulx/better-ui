@@ -52,6 +52,7 @@ import {
   IconChevronDown,
   IconAttachment,
   Tooltip,
+  Text,
 } from '../../../index.js'
 import {
   $setBlocksType,
@@ -222,7 +223,11 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                 variant="neutral-transparent"
                 prefix={
                   <>
-                    <IconText />
+                    <Text
+                      style={{ fontWeight: '400', textTransform: 'capitalize' }}
+                    >
+                      {type}
+                    </Text>
                     <IconChevronDown
                       style={{
                         position: 'absolute',
@@ -315,7 +320,12 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="Bold" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={isBold ? 'primary' : 'neutral-transparent'}
+            style={{
+              color: isBold
+                ? color('interactive', 'primary')
+                : color('content', 'primary'),
+            }}
+            variant={isBold ? 'primary-muted' : 'primary-transparent'}
             prefix={<IconFormatBold />}
             shape="square"
             onClick={() => {
@@ -332,7 +342,12 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="Italic" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={isItalic ? 'primary' : 'neutral-transparent'}
+            style={{
+              color: isItalic
+                ? color('interactive', 'primary')
+                : color('content', 'primary'),
+            }}
+            variant={isItalic ? 'primary-muted' : 'primary-transparent'}
             prefix={<IconFormatItalic />}
             shape="square"
             onClick={() => {
@@ -349,7 +364,12 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="Underline" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={isUnderline ? 'primary' : 'neutral-transparent'}
+            style={{
+              color: isUnderline
+                ? color('interactive', 'primary')
+                : color('content', 'primary'),
+            }}
+            variant={isUnderline ? 'primary-muted' : 'primary-transparent'}
             prefix={<IconFormatUnderline />}
             shape="square"
             onClick={() => {
@@ -365,7 +385,12 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="Strike-through" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={isStrikeThrough ? 'primary' : 'neutral-transparent'}
+            style={{
+              color: isStrikeThrough
+                ? color('interactive', 'primary')
+                : color('content', 'primary'),
+            }}
+            variant={isStrikeThrough ? 'primary-muted' : 'primary-transparent'}
             prefix={<IconFormatStrikethrough />}
             shape="square"
             onClick={() => {
@@ -393,7 +418,12 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           >
             <Button
               size="small"
-              variant={isLink ? 'primary' : 'neutral-transparent'}
+              style={{
+                color: isLink
+                  ? color('interactive', 'primary')
+                  : color('content', 'primary'),
+              }}
+              variant={isLink ? 'primary-muted' : 'primary-transparent'}
               prefix={<IconLink />}
               shape="square"
             />
@@ -402,7 +432,15 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="List" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={type === 'bullet' ? 'primary' : 'neutral-transparent'}
+            style={{
+              color:
+                type === 'bullet'
+                  ? color('interactive', 'primary')
+                  : color('content', 'primary'),
+            }}
+            variant={
+              type === 'bullet' ? 'primary-muted' : 'primary-transparent'
+            }
             prefix={<IconListBullet />}
             shape="square"
             onClick={() => {
@@ -421,8 +459,9 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           <Button
             shape="square"
             size="small"
-            variant="neutral-transparent"
+            variant="primary-transparent"
             prefix={<IconImage />}
+            style={{ color: color('content', 'primary') }}
             onClick={async () => {
               if (onAddImage) {
                 const image = await onAddImage()
@@ -440,57 +479,76 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             }}
           />
         </Tooltip>
-        <Tooltip content="Left align" delay={TOOLTIP_DELAY_MS}>
-          <Button
-            size="small"
-            variant={'neutral-transparent'}
-            prefix={<IconFormatAlignLeft />}
-            shape="square"
-            onClick={() => {
-              editor.update(() => {
-                const selection = $getSelection()
 
-                if ($isRangeSelection(selection)) {
-                  editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
-                }
-              })
-            }}
-          />
-        </Tooltip>
-        <Tooltip content="Center align" delay={TOOLTIP_DELAY_MS}>
-          <Button
-            size="small"
-            variant={'neutral-transparent'}
-            prefix={<IconFormatAlignCenter />}
-            shape="square"
-            onClick={() => {
-              editor.update(() => {
-                const selection = $getSelection()
+        {/* // ALIGN Dropdown */}
+        <Dropdown.Root>
+          <Dropdown.Trigger>
+            <Button
+              size="small"
+              shape="square"
+              variant="neutral-transparent"
+              prefix={
+                <>
+                  <IconFormatAlignLeft />
+                  <IconChevronDown
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      top: variant === 'small' ? 5 : 10,
+                      width: 10,
+                      height: 10,
+                    }}
+                  />
+                </>
+              }
+            />
+          </Dropdown.Trigger>
+          <Dropdown.Items>
+            <Dropdown.Item
+              icon={<IconFormatAlignLeft />}
+              onClick={() => {
+                editor.update(() => {
+                  const selection = $getSelection()
 
-                if ($isRangeSelection(selection)) {
-                  editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
-                }
-              })
-            }}
-          />
-        </Tooltip>
-        <Tooltip content="Right align" delay={TOOLTIP_DELAY_MS}>
-          <Button
-            size="small"
-            variant={'neutral-transparent'}
-            prefix={<IconFormatAlignRight />}
-            shape="square"
-            onClick={() => {
-              editor.update(() => {
-                const selection = $getSelection()
+                  if ($isRangeSelection(selection)) {
+                    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
+                  }
+                })
+              }}
+            >
+              {'  '}
+            </Dropdown.Item>
+            <Dropdown.Item
+              icon={<IconFormatAlignCenter />}
+              onClick={() => {
+                editor.update(() => {
+                  const selection = $getSelection()
 
-                if ($isRangeSelection(selection)) {
-                  editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
-                }
-              })
-            }}
-          />
-        </Tooltip>
+                  if ($isRangeSelection(selection)) {
+                    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
+                  }
+                })
+              }}
+            >
+              {'  '}
+            </Dropdown.Item>
+            <Dropdown.Item
+              icon={<IconFormatAlignRight />}
+              onClick={() => {
+                editor.update(() => {
+                  const selection = $getSelection()
+
+                  if ($isRangeSelection(selection)) {
+                    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
+                  }
+                })
+              }}
+            >
+              {'  '}
+            </Dropdown.Item>
+          </Dropdown.Items>
+        </Dropdown.Root>
+
         <Tooltip content="Quote" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
