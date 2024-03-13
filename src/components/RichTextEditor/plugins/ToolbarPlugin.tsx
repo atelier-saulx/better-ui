@@ -14,6 +14,8 @@ import {
   $isParagraphNode,
   $isRootOrShadowRoot,
   $isTextNode,
+  ElementFormatType,
+  $isElementNode,
 } from 'lexical'
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
 import { getSelectedNode } from '../utils/index.js'
@@ -22,6 +24,7 @@ import {
   $isListNode,
   ListNode,
   INSERT_UNORDERED_LIST_COMMAND,
+  INSERT_ORDERED_LIST_COMMAND,
   REMOVE_LIST_COMMAND,
 } from '@lexical/list'
 import {
@@ -36,22 +39,26 @@ import {
   Button,
   Dropdown,
   IconCheckLarge,
-  IconFormatAlignLeft,
-  IconFormatAlignCenter,
-  IconFormatAlignRight,
-  IconFormatBold,
-  IconFormatItalic,
-  IconFormatUnderline,
-  IconFormatStrikethrough,
-  IconImage,
-  IconLink,
-  IconListBullet,
+  IconIcTextAlignLeft,
+  IconIcTextAlignCenter,
+  IconIcTextAlignRight,
+  IconIcTextBold,
+  IconIcTextColor,
+  IconIcTextItalic,
+  IconIcTextUnderline,
+  IconIcTextStrikethrough,
+  IconIcImage,
+  IconIcLink,
+  IconIcListBulleted,
+  IconIcListNumbered,
   IconText,
-  IconRepeat,
-  IconQuote,
+  IconIcRedo,
+  IconIcQuotes,
   IconChevronDown,
   IconAttachment,
+  Stack,
   Tooltip,
+  Text,
 } from '../../../index.js'
 import {
   $setBlocksType,
@@ -70,13 +77,21 @@ const TOOLTIP_DELAY_MS = 1200
 export function ToolbarPlugin({ variant, onAddImage }) {
   const [editor] = useLexicalComposerContext()
   const [type, setType] = useState<
-    'title' | 'heading' | 'subheading' | 'body' | 'bullet' | 'blockquote'
+    | 'title'
+    | 'heading'
+    | 'subheading'
+    | 'body'
+    | 'bullet'
+    | 'order'
+    | 'blockquote'
   >('body')
   const [isBold, setIsBold] = useState(false)
   const [isItalic, setIsItalic] = useState(false)
   const [isUnderline, setIsUnderline] = useState(false)
   const [isStrikeThrough, setIsStrikeThrough] = useState(false)
   const [isLink, setIsLink] = useState(false)
+  const [elementFormat, setElementFormat] = useState<ElementFormatType>('left')
+
   const [openModal, setOpenModal] = useState<string>()
 
   const [canUndo, setCanUndo] = useState(false)
@@ -105,6 +120,8 @@ export function ToolbarPlugin({ variant, onAddImage }) {
       editorState.read(() => {
         const selection = $getSelection()
 
+        // console.log(selection, '🐹')
+
         if (!$isRangeSelection(selection)) return
 
         setIsBold(selection.hasFormat('bold'))
@@ -132,6 +149,8 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                 return parent !== null && $isRootOrShadowRoot(parent)
               })
 
+        setElementFormat(element.getFormatType())
+
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(
             anchorNode,
@@ -143,6 +162,8 @@ export function ToolbarPlugin({ variant, onAddImage }) {
 
           if (type === 'bullet') {
             setType('bullet')
+          } else {
+            setType('order')
           }
         } else if ($isHeadingNode(element)) {
           switch (element.getTag()) {
@@ -192,15 +213,15 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         style={{
           display: 'flex',
           alignItems: 'center',
-          height: variant === 'small' ? 32 : 48,
+          height: variant === 'small' ? 32 : 43,
           backgroundColor:
-            variant === 'small'
-              ? color('background', 'screen')
-              : color('background', 'muted'),
+            // variant === 'small'
+            color('background', 'screen'),
+          // : color('background', 'muted'),
           // '& > * + *': {
           //   marginLeft: '5px',
           // },
-          gap: 10,
+          gap: 6,
           paddingLeft: '10px',
           paddingRight: '10px',
           borderTopRightRadius: '8px',
@@ -219,20 +240,22 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               <Button
                 size="small"
                 shape="square"
-                variant="neutral-transparent"
+                variant="primary-transparent"
                 prefix={
-                  <>
-                    <IconText />
+                  <Stack gap={4}>
+                    <Text
+                      style={{ fontWeight: '400', textTransform: 'capitalize' }}
+                    >
+                      {type}
+                    </Text>
                     <IconChevronDown
                       style={{
-                        position: 'absolute',
-                        right: 0,
-                        top: variant === 'small' ? 5 : 10,
-                        width: 10,
-                        height: 10,
+                        color: color('content', 'primary'),
+                        width: 16,
+                        height: 16,
                       }}
                     />
-                  </>
+                  </Stack>
                 }
               />
             </Dropdown.Trigger>
@@ -315,8 +338,13 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="Bold" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={isBold ? 'primary' : 'neutral-transparent'}
-            prefix={<IconFormatBold />}
+            style={{
+              color: isBold
+                ? color('interactive', 'primary')
+                : color('content', 'primary'),
+            }}
+            variant={isBold ? 'primary-muted' : 'primary-transparent'}
+            prefix={<IconIcTextBold />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -332,8 +360,13 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="Italic" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={isItalic ? 'primary' : 'neutral-transparent'}
-            prefix={<IconFormatItalic />}
+            style={{
+              color: isItalic
+                ? color('interactive', 'primary')
+                : color('content', 'primary'),
+            }}
+            variant={isItalic ? 'primary-muted' : 'primary-transparent'}
+            prefix={<IconIcTextItalic />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -349,8 +382,13 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="Underline" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={isUnderline ? 'primary' : 'neutral-transparent'}
-            prefix={<IconFormatUnderline />}
+            style={{
+              color: isUnderline
+                ? color('interactive', 'primary')
+                : color('content', 'primary'),
+            }}
+            variant={isUnderline ? 'primary-muted' : 'primary-transparent'}
+            prefix={<IconIcTextUnderline />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -365,8 +403,13 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="Strike-through" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={isStrikeThrough ? 'primary' : 'neutral-transparent'}
-            prefix={<IconFormatStrikethrough />}
+            style={{
+              color: isStrikeThrough
+                ? color('interactive', 'primary')
+                : color('content', 'primary'),
+            }}
+            variant={isStrikeThrough ? 'primary-muted' : 'primary-transparent'}
+            prefix={<IconIcTextStrikethrough />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -393,17 +436,110 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           >
             <Button
               size="small"
-              variant={isLink ? 'primary' : 'neutral-transparent'}
-              prefix={<IconLink />}
+              style={{
+                color: isLink
+                  ? color('interactive', 'primary')
+                  : color('content', 'primary'),
+              }}
+              variant={isLink ? 'primary-muted' : 'primary-transparent'}
+              prefix={<IconIcLink />}
               shape="square"
             />
           </LinkModal>
         </Tooltip>
-        <Tooltip content="List" delay={TOOLTIP_DELAY_MS}>
+
+        {/* // ALIGN Dropdown */}
+        <Dropdown.Root>
+          <Dropdown.Trigger>
+            <Button
+              shape="square"
+              variant="primary-transparent"
+              prefix={
+                <Stack gap={4}>
+                  {elementFormat === 'center' ? (
+                    <IconIcTextAlignCenter
+                      style={{ width: 20, color: color('content', 'primary') }}
+                    />
+                  ) : elementFormat === 'right' ? (
+                    <IconIcTextAlignRight
+                      style={{ width: 20, color: color('content', 'primary') }}
+                    />
+                  ) : (
+                    <IconIcTextAlignLeft
+                      style={{ width: 20, color: color('content', 'primary') }}
+                    />
+                  )}
+
+                  <IconChevronDown
+                    style={{
+                      width: 16,
+                      height: 16,
+                      color: color('content', 'primary'),
+                    }}
+                  />
+                </Stack>
+              }
+            />
+          </Dropdown.Trigger>
+          <Dropdown.Items>
+            <Dropdown.Item
+              icon={<IconIcTextAlignLeft />}
+              onClick={() => {
+                editor.update(() => {
+                  const selection = $getSelection()
+                  console.log('SELECTION0', selection)
+                  if ($isRangeSelection(selection)) {
+                    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
+                  }
+                })
+              }}
+            >
+              {'  '}
+            </Dropdown.Item>
+            <Dropdown.Item
+              icon={<IconIcTextAlignCenter />}
+              onClick={() => {
+                editor.update(() => {
+                  const selection = $getSelection()
+                  console.log('SELECTION0', selection)
+                  if ($isRangeSelection(selection)) {
+                    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
+                  }
+                })
+              }}
+            >
+              {'  '}
+            </Dropdown.Item>
+            <Dropdown.Item
+              icon={<IconIcTextAlignRight />}
+              onClick={() => {
+                editor.update(() => {
+                  const selection = $getSelection()
+                  console.log('SELECTION0RIGHT', selection)
+                  if ($isRangeSelection(selection)) {
+                    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
+                  }
+                })
+              }}
+            >
+              {'  '}
+            </Dropdown.Item>
+          </Dropdown.Items>
+        </Dropdown.Root>
+
+        <Tooltip content="Unordered list" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={type === 'bullet' ? 'primary' : 'neutral-transparent'}
-            prefix={<IconListBullet />}
+            style={{
+              color:
+                type === 'bullet'
+                  ? color('interactive', 'primary')
+                  : color('content', 'primary'),
+            }}
+            variant={
+              type === 'bullet' ? 'primary-muted' : 'primary-transparent'
+            }
+            prefix={<IconIcListBulleted />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -417,12 +553,59 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             }}
           />
         </Tooltip>
+        <Tooltip content="Ordered List" delay={TOOLTIP_DELAY_MS}>
+          <Button
+            size="small"
+            style={{
+              color:
+                type === 'order'
+                  ? color('interactive', 'primary')
+                  : color('content', 'primary'),
+            }}
+            variant={type === 'order' ? 'primary-muted' : 'primary-transparent'}
+            prefix={<IconIcListNumbered />}
+            shape="square"
+            onClick={() => {
+              editor.update(() => {
+                editor.dispatchCommand(
+                  type === 'order'
+                    ? REMOVE_LIST_COMMAND
+                    : INSERT_ORDERED_LIST_COMMAND,
+                  undefined,
+                )
+              })
+            }}
+          />
+        </Tooltip>
+
+        <Tooltip content="Embed code" delay={TOOLTIP_DELAY_MS}>
+          <AddEmbedModal
+            onSave={async (v) => {
+              await v
+              editor.update(() => {
+                editor.dispatchCommand(INSERT_EMBED_COMMAND, {
+                  html: v,
+                })
+              })
+            }}
+          >
+            <Button
+              size="small"
+              style={{ color: color('content', 'primary') }}
+              variant="primary-transparent"
+              prefix={<IconAttachment style={{ width: 16 }} />}
+              shape="square"
+            />
+          </AddEmbedModal>
+        </Tooltip>
+
         <Tooltip content="Add Image" delay={TOOLTIP_DELAY_MS}>
           <Button
             shape="square"
             size="small"
-            variant="neutral-transparent"
-            prefix={<IconImage />}
+            variant="primary-transparent"
+            prefix={<IconIcImage />}
+            style={{ color: color('content', 'primary') }}
             onClick={async () => {
               if (onAddImage) {
                 const image = await onAddImage()
@@ -440,62 +623,20 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             }}
           />
         </Tooltip>
-        <Tooltip content="Left align" delay={TOOLTIP_DELAY_MS}>
-          <Button
-            size="small"
-            variant={'neutral-transparent'}
-            prefix={<IconFormatAlignLeft />}
-            shape="square"
-            onClick={() => {
-              editor.update(() => {
-                const selection = $getSelection()
 
-                if ($isRangeSelection(selection)) {
-                  editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
-                }
-              })
-            }}
-          />
-        </Tooltip>
-        <Tooltip content="Center align" delay={TOOLTIP_DELAY_MS}>
-          <Button
-            size="small"
-            variant={'neutral-transparent'}
-            prefix={<IconFormatAlignCenter />}
-            shape="square"
-            onClick={() => {
-              editor.update(() => {
-                const selection = $getSelection()
-
-                if ($isRangeSelection(selection)) {
-                  editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
-                }
-              })
-            }}
-          />
-        </Tooltip>
-        <Tooltip content="Right align" delay={TOOLTIP_DELAY_MS}>
-          <Button
-            size="small"
-            variant={'neutral-transparent'}
-            prefix={<IconFormatAlignRight />}
-            shape="square"
-            onClick={() => {
-              editor.update(() => {
-                const selection = $getSelection()
-
-                if ($isRangeSelection(selection)) {
-                  editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
-                }
-              })
-            }}
-          />
-        </Tooltip>
         <Tooltip content="Quote" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={'neutral-transparent'}
-            prefix={<IconQuote />}
+            style={{
+              color:
+                type === 'blockquote'
+                  ? color('interactive', 'primary')
+                  : color('content', 'primary'),
+            }}
+            variant={
+              type === 'blockquote' ? 'primary-muted' : 'primary-transparent'
+            }
+            prefix={<IconIcQuotes />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -524,13 +665,11 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           >
             <Button
               size="small"
-              variant={'neutral-transparent'}
+              variant={'primary-transparent'}
               prefix={
-                <IconText
+                <IconIcTextColor
                   style={{
-                    color: color('non-semantic-color', 'blue'),
-                    borderBottom: `4px solid ${color('non-semantic-color', 'blue')}`,
-                    paddingBottom: 3,
+                    color: color('content', 'primary'),
                   }}
                 />
               }
@@ -544,6 +683,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             />
           </FontColorModal>
         </Tooltip>
+
         {/* Background- Color this text */}
         <Tooltip content="Background Color" delay={TOOLTIP_DELAY_MS}>
           <FontColorModal
@@ -565,9 +705,11 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           >
             <Button
               size="small"
-              style={{ background: color('non-semantic-color', 'blue-soft') }}
-              variant={'neutral-transparent'}
-              prefix={<IconText />}
+              style={{ color: color('content', 'primary') }}
+              variant={'primary-transparent'}
+              prefix={
+                <IconText style={{ width: 20, border: border(), padding: 4 }} />
+              }
               shape="square"
               onClick={() => {
                 editor.update(() => {
@@ -578,33 +720,15 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             />
           </FontColorModal>
         </Tooltip>
-        <Tooltip content="Embed code" delay={TOOLTIP_DELAY_MS}>
-          <AddEmbedModal
-            onSave={async (v) => {
-              await v
-              editor.update(() => {
-                editor.dispatchCommand(INSERT_EMBED_COMMAND, {
-                  html: v,
-                })
-              })
-            }}
-          >
-            <Button
-              size="small"
-              variant="neutral-transparent"
-              prefix={<IconAttachment />}
-              shape="square"
-            />
-          </AddEmbedModal>
-        </Tooltip>
 
         <styled.div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
           <Tooltip content="Undo" delay={TOOLTIP_DELAY_MS}>
             <Button
               size="small"
               disabled={!canUndo}
-              variant={'neutral-transparent'}
-              prefix={<IconRepeat />}
+              style={{ color: color('content', 'primary') }}
+              variant={'primary-transparent'}
+              prefix={<IconIcRedo style={{ transform: 'scaleX(-1)' }} />}
               shape="square"
               onClick={() => {
                 editor.dispatchCommand(UNDO_COMMAND, null)
@@ -614,9 +738,10 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           <Tooltip content="Redo" delay={TOOLTIP_DELAY_MS}>
             <Button
               size="small"
+              style={{ color: color('content', 'primary') }}
               disabled={!canRedo}
-              variant={'neutral-transparent'}
-              prefix={<IconRepeat style={{ transform: 'scaleX(-1)' }} />}
+              variant={'primary-transparent'}
+              prefix={<IconIcRedo />}
               shape="square"
               onClick={() => {
                 editor.dispatchCommand(REDO_COMMAND, null)
