@@ -31,6 +31,7 @@ import * as f5024396229712 from "../../src/components/Note/index.stories.js"
 import * as f523702835381 from "../../src/components/NumberInput/index.stories.js"
 import * as f16494901165491 from "../../src/components/Page/index.stories.js"
 import * as f13113167991056 from "../../src/components/PieGraph/index.stories.js"
+import * as f13298830005481 from "../../src/components/RangeInput/index.stories.js"
 import * as f5376768019532 from "../../src/components/RichTextEditor/index.stories.js"
 import * as f3246165100817 from "../../src/components/Schema/index.stories.js"
 import * as f11708898986714 from "../../src/components/ScrollArea/index.stories.js"
@@ -60,7 +61,7 @@ import * as f47303550426 from "../../src/components/Form/stories/references.stor
 import * as f11229660430731 from "../../src/components/Form/stories/referencesSchema.stories.js"
 import * as f4536220838927 from "../../src/components/Form/stories/richText.stories.js"
 import * as f7012957941312 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f14151460882256,f13852923402373,f15285278589437,f11824060859706,f17092004167783,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f9839458721826,f1152820663024,f13659776204836,f16096448594379,f16040773058871,f5024396229712,f523702835381,f16494901165491,f13113167991056,f5376768019532,f3246165100817,f11708898986714,f4381831871064,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f198770517426,f3747781814494,f11921429078468,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f4483000576595,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f4536220838927,f7012957941312]
+export const stories = [f14151460882256,f13852923402373,f15285278589437,f11824060859706,f17092004167783,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f9839458721826,f1152820663024,f13659776204836,f16096448594379,f16040773058871,f5024396229712,f523702835381,f16494901165491,f13113167991056,f13298830005481,f5376768019532,f3246165100817,f11708898986714,f4381831871064,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f198770517426,f3747781814494,f11921429078468,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f4483000576595,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f4536220838927,f7012957941312]
 export const parsedStories = [{ id: "f14151460882256", story: f14151460882256, path: "/Users/yvesbeer/dev/better-ui/src/components/Accordion/index.stories.tsx", file: `import * as React from 'react'
 import { Accordion } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -706,14 +707,14 @@ export const Default = () => {
           // },
           {
             start: 'Sat Feb 24 2024 14:35:11 GMT+0000',
-            end: 'Sat Feb 25 2024 16:35:11 GMT+0000',
+            end: 'Sat Feb 27 2024 12:11 GMT+0000',
             label: 'event2',
           },
-          // {
-          //   start: 'Sat Feb 25 2024 14:35:11 GMT+0000',
-          //   end: 'Sat Feb 25 2024 16:35:11 GMT+0000',
-          //   label: 'event3',
-          // },
+          {
+            start: 'Sat Feb 23 2024 14:35:11 GMT+0000',
+            end: 'Sat Feb 27 2024 16:35:11 GMT+0000',
+            label: 'eventXXXXX XXEFAF AFEF',
+          },
           {
             end: 1710235719058,
             //  end: new Date(1710235719058),
@@ -2546,6 +2547,27 @@ export const Default: StoryObj<typeof PieGraph> = {
         value: 2566,
       },
     ],
+  },
+}
+`},{ id: "f13298830005481", story: f13298830005481, path: "/Users/yvesbeer/dev/better-ui/src/components/RangeInput/index.stories.tsx", file: `import { RangeInput } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof RangeInput> = {
+  title: 'Inputs/RangeInput',
+  component: RangeInput,
+}
+
+export default meta
+
+export const Default: StoryObj<typeof RangeInput> = {
+  args: {
+    label: 'Label',
+    description: "What's your number?",
+    // step: 4,
+    onChange: (value) => {
+      console.log(value)
+    },
+    disabled: false,
   },
 }
 `},{ id: "f5376768019532", story: f5376768019532, path: "/Users/yvesbeer/dev/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import React from 'react'
