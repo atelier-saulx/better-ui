@@ -16,6 +16,8 @@ export const Default: StoryObj<typeof RangeInput> = {
     max: 400,
     value: 40,
     // step: 4,
+    showMinMaxNumber: true,
+    alwaysShowLabel: true,
     onChange: (value) => {
       console.log(value)
     },

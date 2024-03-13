@@ -34,21 +34,29 @@ type RangeInputProps = {
   showMinMaxNumber?: boolean
 }
 
-const Cursor = styled('div', {
-  alignItems: 'flex-start',
-  right: 0,
-  top: -30,
-  display: 'inline-flex',
-  flexDirection: 'column',
+const CursorLine = styled('div', {
+  width: 2,
+  height: 16,
+  background: 'red',
   position: 'absolute',
-  left: -3,
+})
+
+const Cursor = styled('div', {
+  // alignItems: 'flex-start',
+  // right: 0,
+  top: -30,
+  width: 'fit-content',
+  display: 'block',
+  //  flexDirection: 'column',
+  // position: 'absolute',
+  // left: -3,
   marginBottom: 4,
 })
 
 const CursorLabel = styled('div', {
   padding: '5px 8px',
-  color: color('content', 'inverted'),
-  transform: 'translate3d(-50%,0px,0px)',
+  // color: color('content', 'inverted'),
+  // transform: 'translate3d(-50%,0px,0px)',
   borderRadius: '4px',
   backgroundColor: color('background', 'inverted'),
   border: border(),
@@ -65,12 +73,13 @@ const CursorArrow = styled('div', {
   width: 16,
   borderRadius: 3,
   height: 16,
-  left: -2,
-  right: 0,
   background: color('background', 'inverted'),
-  transform: 'rotateZ(-45deg) translateX(-50%)',
+  transform: 'rotateZ(-45deg)',
   position: 'absolute',
-  bottom: '-30px',
+  marginRight: 'auto',
+  marginLeft: 'auto',
+  top: 24,
+  zIndex: 0,
 })
 
 const RangeContainer = styled('div', {
@@ -85,7 +94,7 @@ const RangeContainer = styled('div', {
 
 const SliderContainer = styled('div', {
   width: '100%',
-  transform: 'translate3d(0px,0px,0px)',
+  //transform: 'translate3d(0px,0px,0px)',
   display: 'flex',
   alignItems: 'center',
   position: 'relative',
@@ -246,6 +255,8 @@ export const RangeInput = (
   const refCursor = useRef(null)
 
   const windowSize = useWindowResize()
+
+  console.log('🐯', refCursor.current?.childNodes[0].clientWidth)
 
   // change on window resize
   useEffect(() => {
@@ -414,34 +425,6 @@ export const RangeInput = (
         }}
       >
         {prefix && prefix}
-        <Cursor
-          ref={refCursor}
-          style={{
-            transform: `translate3d(${percentageX}%,0,0)`,
-            opacity: alwaysShowLabel || isUpdating ? 1 : 0,
-            transition: 'opacity 0.2s',
-          }}
-        >
-          <CursorArrowContainer
-            style={{ transform: `translate3d(-${percentageX}%,0,0)` }}
-          >
-            <CursorArrow />
-          </CursorArrowContainer>
-          <CursorLabel>
-            {items
-              ? // (
-                //   <Labels
-                //     index={index}
-                //     value={items ? items[index] : (percentageX * max) / 100}
-                //     max={max}
-                //     min={min}
-                //   />
-                // ) : items ?
-                items[index]?.title
-              : Math.floor((percentageX * max) / 100)}
-            {/* {Math.floor((percentageX * max) / 100)} */}
-          </CursorLabel>
-        </Cursor>
 
         <RangeContainer
           onMouseDown={onMouseDownHandler}
@@ -454,7 +437,7 @@ export const RangeInput = (
           <SliderContainer>
             <div
               style={{
-                backgroundColor: color('background', 'screen'),
+                backgroundColor: color('background', 'primary2'),
                 zIndex: -1,
                 width: '100%',
                 height: '6px',
@@ -469,17 +452,55 @@ export const RangeInput = (
                 backgroundColor: color('interactive', 'primary'),
               }}
             />
+
             <Thumb
               ref={refThumb}
-              style={{ borderColor: color('interactive', 'primary') }}
-            />
+              style={{
+                borderColor: color('interactive', 'primary'),
+                position: 'relative',
+              }}
+            >
+              <CursorLine style={{ right: 2, top: '-60px', display: 'flex' }}>
+                <styled.div
+                  style={{
+                    position: 'relative',
+                    display: 'block',
+                    transform: 'translateX(-50%)',
+                  }}
+                >
+                  {/* <Cursor ref={refCursor}> */}
+                  <CursorLabel
+                    style={{
+                      position: 'relative',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Text variant="body-bold" color="inverted">
+                      {items
+                        ? items[index]?.title
+                        : Math.floor((percentageX * max) / 100)}
+                    </Text>
+
+                    <CursorArrow style={{ marginBottom: '-20px' }} />
+                  </CursorLabel>
+
+                  {/* </Cursor> */}
+                </styled.div>
+              </CursorLine>
+            </Thumb>
           </SliderContainer>
         </RangeContainer>
 
         {items && showMinMaxNumber ? (
           <Labels>
-            <Text>{items[0]?.title}</Text>
-            <Text>{items[items.length - 1]?.title}</Text>
+            <Text variant="body-light">{items[0]?.title}</Text>
+            <Text variant="body-light">{items[items.length - 1]?.title}</Text>
+          </Labels>
+        ) : showMinMaxNumber ? (
+          <Labels>
+            <Text variant="body-light">{min}</Text>
+            <Text variant="body-light">{max}</Text>
           </Labels>
         ) : null}
       </styled.div>
