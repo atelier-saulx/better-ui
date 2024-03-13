@@ -12,16 +12,16 @@ export const Default: StoryObj<typeof RangeInput> = {
   args: {
     label: 'Label',
     description: "What's your number?",
-    min: 0,
     max: 400,
     value: 40,
-    // step: 4,
+    step: 40,
+    prefix: '🐸',
     showMinMaxNumber: true,
     alwaysShowLabel: true,
     onChange: (value) => {
       console.log(value)
     },
-    disabled: false,
+    // disabled: true,
   },
 }
 

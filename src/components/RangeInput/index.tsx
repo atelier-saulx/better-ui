@@ -113,56 +113,43 @@ const getClosestIndex = (
 }
 
 type RangeInputProps = {
-  placeholder?: string
-  value?: number
-  defaultValue?: number
-  onChange?: (value: number) => void
+  alwaysShowLabel?: boolean
   checksum?: number
-  formName?: string
-  label?: string
-  step?: number
-  min?: number
-  max?: number
-  variant?: 'regular' | 'small'
-  error?: boolean
-  autoFocus?: boolean
+  defaultValue?: number
   description?: string
   disabled?: boolean
-  style?: Style
-  prefix?: React.ReactNode
-  suffix?: React.ReactNode
-  onStartSliding?: () => void
-  onEndSliding?: () => void
   items?: Items
-  alwaysShowLabel?: boolean
+  label?: string
+  max?: number
+  min?: number
+  onChange?: (value: number) => void
+  onEndSliding?: () => void
+  onStartSliding?: () => void
+  prefix?: React.ReactNode
   showMinMaxNumber?: boolean
+  step?: number
+  style?: Style
+  value?: number
 }
 
 export const RangeInput = (
   {
-    placeholder,
-    value,
-    defaultValue: defaultValueProp,
-    onChange,
+    alwaysShowLabel,
     checksum,
-    formName,
-    label,
-    step = 1,
-    min = 0,
-    max,
-    variant = 'regular',
-    error,
-    autoFocus,
     description,
     disabled,
-    style,
-    prefix,
-    suffix,
     items,
-    alwaysShowLabel,
-    onStartSliding,
+    label,
+    max,
+    min = 0,
+    onChange,
     onEndSliding,
+    onStartSliding,
+    prefix,
     showMinMaxNumber,
+    step = 1,
+    style,
+    value,
   }: RangeInputProps,
   ref,
 ) => {
@@ -342,14 +329,20 @@ export const RangeInput = (
 
   return (
     <Wrapper label={label} disabled={disabled} style={style}>
-      {label && <Text style={{ marginBottom: 8 }}>{label}</Text>}
-
+      {label && (
+        <Text style={{ marginBottom: description ? 0 : 8 }}>{label}</Text>
+      )}
+      {description && (
+        <Text variant="body-light" style={{ marginBottom: 8 }}>
+          {description}
+        </Text>
+      )}
       {/* PUT RANGE SLIDER  */}
       <styled.div
         style={{
           width: '100%',
           position: 'relative',
-          marginTop: alwaysShowLabel ? 48 : 0,
+          marginTop: alwaysShowLabel ? 28 : 0,
         }}
       >
         {prefix && prefix}
@@ -456,6 +449,7 @@ const Wrapper = ({
                 width: '100%',
                 opacity: disabled ? 0.6 : 1,
                 cursor: disabled ? 'not-allowed' : 'default',
+                pointerEvents: disabled ? 'none' : 'auto',
               }
             : undefined
         }
