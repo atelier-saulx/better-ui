@@ -12,6 +12,9 @@ export const Default: StoryObj<typeof RangeInput> = {
   args: {
     label: 'Label',
     description: "What's your number?",
+    min: 0,
+    max: 400,
+    value: 40,
     // step: 4,
     onChange: (value) => {
       console.log(value)

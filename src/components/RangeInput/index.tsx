@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled, Style } from 'inlines'
 import { color } from '../../utils/colors.js'
+import { Text, Stack } from '../../index.js'
 
 export const RangeInput = ({
   label,
@@ -13,6 +14,11 @@ export const RangeInput = ({
   disabled,
   style,
 }) => {
+  // min max omzetten in percentages van 0 tot 100
+  let singlePercentage = (max - min) / 100
+  const [percentages, setPercentages] = useState(value / singlePercentage)
+  const [outputValue, setOutputValue] = useState(value)
+
   return (
     <Wrapper label={label} disabled={disabled} style={style}>
       {label && (
@@ -41,7 +47,7 @@ export const RangeInput = ({
             style={{
               height: 6,
               background: color('interactive', 'primary'),
-              width: '70%',
+              width: `${percentages}%`,
               borderRadius: 4,
               position: 'relative',
             }}
@@ -58,11 +64,19 @@ export const RangeInput = ({
                 borderRadius: '50%',
                 border: `5px solid ${color('interactive', 'primary')}`,
                 background: color('background', 'screen'),
+                cursor: 'grab',
               }}
+              // draggable
+              onDrag={(e) => console.log(e)}
             ></styled.div>
           </styled.div>
         </styled.div>
+        <Stack style={{ marginTop: 6 }}>
+          <Text variant="body-light">{min}</Text>
+          <Text variant="body-light">{max}</Text>
+        </Stack>
       </styled.div>
+      {percentages}% / {outputValue}
     </Wrapper>
   )
 }
