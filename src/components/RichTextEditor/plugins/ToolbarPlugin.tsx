@@ -24,6 +24,7 @@ import {
   $isListNode,
   ListNode,
   INSERT_UNORDERED_LIST_COMMAND,
+  INSERT_ORDERED_LIST_COMMAND,
   REMOVE_LIST_COMMAND,
 } from '@lexical/list'
 import {
@@ -74,7 +75,13 @@ const TOOLTIP_DELAY_MS = 1200
 export function ToolbarPlugin({ variant, onAddImage }) {
   const [editor] = useLexicalComposerContext()
   const [type, setType] = useState<
-    'title' | 'heading' | 'subheading' | 'body' | 'bullet' | 'blockquote'
+    | 'title'
+    | 'heading'
+    | 'subheading'
+    | 'body'
+    | 'bullet'
+    | 'order'
+    | 'blockquote'
   >('body')
   const [isBold, setIsBold] = useState(false)
   const [isItalic, setIsItalic] = useState(false)
@@ -153,6 +160,8 @@ export function ToolbarPlugin({ variant, onAddImage }) {
 
           if (type === 'bullet') {
             setType('bullet')
+          } else {
+            setType('order')
           }
         } else if ($isHeadingNode(element)) {
           switch (element.getTag()) {
@@ -436,56 +445,6 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             />
           </LinkModal>
         </Tooltip>
-        <Tooltip content="List" delay={TOOLTIP_DELAY_MS}>
-          <Button
-            size="small"
-            style={{
-              color:
-                type === 'bullet'
-                  ? color('interactive', 'primary')
-                  : color('content', 'primary'),
-            }}
-            variant={
-              type === 'bullet' ? 'primary-muted' : 'primary-transparent'
-            }
-            prefix={<IconListBullet />}
-            shape="square"
-            onClick={() => {
-              editor.update(() => {
-                editor.dispatchCommand(
-                  type === 'bullet'
-                    ? REMOVE_LIST_COMMAND
-                    : INSERT_UNORDERED_LIST_COMMAND,
-                  undefined,
-                )
-              })
-            }}
-          />
-        </Tooltip>
-        <Tooltip content="Add Image" delay={TOOLTIP_DELAY_MS}>
-          <Button
-            shape="square"
-            size="small"
-            variant="primary-transparent"
-            prefix={<IconImage />}
-            style={{ color: color('content', 'primary') }}
-            onClick={async () => {
-              if (onAddImage) {
-                const image = await onAddImage()
-
-                editor.update(() => {
-                  editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                    src: image.src,
-                    caption: '',
-                  })
-                })
-
-                return
-              }
-              setOpenModal('image')
-            }}
-          />
-        </Tooltip>
 
         {/* // ALIGN Dropdown */}
         <Dropdown.Root>
@@ -565,6 +524,103 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             </Dropdown.Item>
           </Dropdown.Items>
         </Dropdown.Root>
+
+        <Tooltip content="Unordered list" delay={TOOLTIP_DELAY_MS}>
+          <Button
+            size="small"
+            style={{
+              color:
+                type === 'bullet'
+                  ? color('interactive', 'primary')
+                  : color('content', 'primary'),
+            }}
+            variant={
+              type === 'bullet' ? 'primary-muted' : 'primary-transparent'
+            }
+            prefix={<IconListBullet />}
+            shape="square"
+            onClick={() => {
+              editor.update(() => {
+                editor.dispatchCommand(
+                  type === 'bullet'
+                    ? REMOVE_LIST_COMMAND
+                    : INSERT_UNORDERED_LIST_COMMAND,
+                  undefined,
+                )
+              })
+            }}
+          />
+        </Tooltip>
+        <Tooltip content="Ordered List" delay={TOOLTIP_DELAY_MS}>
+          <Button
+            size="small"
+            style={{
+              color:
+                type === 'order'
+                  ? color('interactive', 'primary')
+                  : color('content', 'primary'),
+            }}
+            variant={type === 'order' ? 'primary-muted' : 'primary-transparent'}
+            prefix={<IconListBullet />}
+            shape="square"
+            onClick={() => {
+              editor.update(() => {
+                editor.dispatchCommand(
+                  type === 'order'
+                    ? REMOVE_LIST_COMMAND
+                    : INSERT_ORDERED_LIST_COMMAND,
+                  undefined,
+                )
+              })
+            }}
+          />
+        </Tooltip>
+
+        <Tooltip content="Embed code" delay={TOOLTIP_DELAY_MS}>
+          <AddEmbedModal
+            onSave={async (v) => {
+              await v
+              editor.update(() => {
+                editor.dispatchCommand(INSERT_EMBED_COMMAND, {
+                  html: v,
+                })
+              })
+            }}
+          >
+            <Button
+              size="small"
+              style={{ color: color('content', 'primary') }}
+              variant="primary-transparent"
+              prefix={<IconAttachment />}
+              shape="square"
+            />
+          </AddEmbedModal>
+        </Tooltip>
+
+        <Tooltip content="Add Image" delay={TOOLTIP_DELAY_MS}>
+          <Button
+            shape="square"
+            size="small"
+            variant="primary-transparent"
+            prefix={<IconImage />}
+            style={{ color: color('content', 'primary') }}
+            onClick={async () => {
+              if (onAddImage) {
+                const image = await onAddImage()
+
+                editor.update(() => {
+                  editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                    src: image.src,
+                    caption: '',
+                  })
+                })
+
+                return
+              }
+              setOpenModal('image')
+            }}
+          />
+        </Tooltip>
 
         <Tooltip content="Quote" delay={TOOLTIP_DELAY_MS}>
           <Button
@@ -660,26 +716,6 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               }}
             />
           </FontColorModal>
-        </Tooltip>
-        <Tooltip content="Embed code" delay={TOOLTIP_DELAY_MS}>
-          <AddEmbedModal
-            onSave={async (v) => {
-              await v
-              editor.update(() => {
-                editor.dispatchCommand(INSERT_EMBED_COMMAND, {
-                  html: v,
-                })
-              })
-            }}
-          >
-            <Button
-              size="small"
-              style={{ color: color('content', 'primary') }}
-              variant="primary-transparent"
-              prefix={<IconAttachment />}
-              shape="square"
-            />
-          </AddEmbedModal>
         </Tooltip>
 
         <styled.div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
