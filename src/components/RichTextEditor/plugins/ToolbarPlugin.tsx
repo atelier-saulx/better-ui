@@ -39,19 +39,21 @@ import {
   Button,
   Dropdown,
   IconCheckLarge,
-  IconFormatAlignLeft,
-  IconFormatAlignCenter,
-  IconFormatAlignRight,
-  IconFormatBold,
-  IconFormatItalic,
-  IconFormatUnderline,
-  IconFormatStrikethrough,
-  IconImage,
-  IconLink,
-  IconListBullet,
+  IconIcTextAlignLeft,
+  IconIcTextAlignCenter,
+  IconIcTextAlignRight,
+  IconIcTextBold,
+  IconIcTextColor,
+  IconIcTextItalic,
+  IconIcTextUnderline,
+  IconIcTextStrikethrough,
+  IconIcImage,
+  IconIcLink,
+  IconIcListBulleted,
+  IconIcListNumbered,
   IconText,
-  IconRepeat,
-  IconQuote,
+  IconIcRedo,
+  IconIcQuotes,
   IconChevronDown,
   IconAttachment,
   Stack,
@@ -219,7 +221,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           // '& > * + *': {
           //   marginLeft: '5px',
           // },
-          gap: 10,
+          gap: 6,
           paddingLeft: '10px',
           paddingRight: '10px',
           borderTopRightRadius: '8px',
@@ -240,7 +242,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                 shape="square"
                 variant="primary-transparent"
                 prefix={
-                  <Stack gap={8}>
+                  <Stack gap={4}>
                     <Text
                       style={{ fontWeight: '400', textTransform: 'capitalize' }}
                     >
@@ -342,7 +344,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                 : color('content', 'primary'),
             }}
             variant={isBold ? 'primary-muted' : 'primary-transparent'}
-            prefix={<IconFormatBold />}
+            prefix={<IconIcTextBold />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -364,7 +366,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                 : color('content', 'primary'),
             }}
             variant={isItalic ? 'primary-muted' : 'primary-transparent'}
-            prefix={<IconFormatItalic />}
+            prefix={<IconIcTextItalic />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -386,7 +388,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                 : color('content', 'primary'),
             }}
             variant={isUnderline ? 'primary-muted' : 'primary-transparent'}
-            prefix={<IconFormatUnderline />}
+            prefix={<IconIcTextUnderline />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -407,7 +409,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                 : color('content', 'primary'),
             }}
             variant={isStrikeThrough ? 'primary-muted' : 'primary-transparent'}
-            prefix={<IconFormatStrikethrough />}
+            prefix={<IconIcTextStrikethrough />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -440,7 +442,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                   : color('content', 'primary'),
               }}
               variant={isLink ? 'primary-muted' : 'primary-transparent'}
-              prefix={<IconLink />}
+              prefix={<IconIcLink />}
               shape="square"
             />
           </LinkModal>
@@ -453,18 +455,18 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               shape="square"
               variant="primary-transparent"
               prefix={
-                <Stack gap={8}>
+                <Stack gap={4}>
                   {elementFormat === 'center' ? (
-                    <IconFormatAlignCenter
-                      style={{ width: 16, color: color('content', 'primary') }}
+                    <IconIcTextAlignCenter
+                      style={{ width: 20, color: color('content', 'primary') }}
                     />
                   ) : elementFormat === 'right' ? (
-                    <IconFormatAlignRight
-                      style={{ width: 16, color: color('content', 'primary') }}
+                    <IconIcTextAlignRight
+                      style={{ width: 20, color: color('content', 'primary') }}
                     />
                   ) : (
-                    <IconFormatAlignLeft
-                      style={{ width: 16, color: color('content', 'primary') }}
+                    <IconIcTextAlignLeft
+                      style={{ width: 20, color: color('content', 'primary') }}
                     />
                   )}
 
@@ -481,7 +483,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           </Dropdown.Trigger>
           <Dropdown.Items>
             <Dropdown.Item
-              icon={<IconFormatAlignLeft />}
+              icon={<IconIcTextAlignLeft />}
               onClick={() => {
                 editor.update(() => {
                   const selection = $getSelection()
@@ -495,7 +497,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               {'  '}
             </Dropdown.Item>
             <Dropdown.Item
-              icon={<IconFormatAlignCenter />}
+              icon={<IconIcTextAlignCenter />}
               onClick={() => {
                 editor.update(() => {
                   const selection = $getSelection()
@@ -509,7 +511,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               {'  '}
             </Dropdown.Item>
             <Dropdown.Item
-              icon={<IconFormatAlignRight />}
+              icon={<IconIcTextAlignRight />}
               onClick={() => {
                 editor.update(() => {
                   const selection = $getSelection()
@@ -537,7 +539,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             variant={
               type === 'bullet' ? 'primary-muted' : 'primary-transparent'
             }
-            prefix={<IconListBullet />}
+            prefix={<IconIcListBulleted />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -561,7 +563,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                   : color('content', 'primary'),
             }}
             variant={type === 'order' ? 'primary-muted' : 'primary-transparent'}
-            prefix={<IconListBullet />}
+            prefix={<IconIcListNumbered />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -591,7 +593,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               size="small"
               style={{ color: color('content', 'primary') }}
               variant="primary-transparent"
-              prefix={<IconAttachment />}
+              prefix={<IconAttachment style={{ width: 16 }} />}
               shape="square"
             />
           </AddEmbedModal>
@@ -602,7 +604,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             shape="square"
             size="small"
             variant="primary-transparent"
-            prefix={<IconImage />}
+            prefix={<IconIcImage />}
             style={{ color: color('content', 'primary') }}
             onClick={async () => {
               if (onAddImage) {
@@ -634,7 +636,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             variant={
               type === 'blockquote' ? 'primary-muted' : 'primary-transparent'
             }
-            prefix={<IconQuote />}
+            prefix={<IconIcQuotes />}
             shape="square"
             onClick={() => {
               editor.update(() => {
@@ -663,13 +665,11 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           >
             <Button
               size="small"
-              variant={'neutral-transparent'}
+              variant={'primary-transparent'}
               prefix={
-                <IconText
+                <IconIcTextColor
                   style={{
-                    color: color('non-semantic-color', 'blue'),
-                    borderBottom: `4px solid ${color('non-semantic-color', 'blue')}`,
-                    paddingBottom: 3,
+                    color: color('content', 'primary'),
                   }}
                 />
               }
@@ -683,6 +683,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             />
           </FontColorModal>
         </Tooltip>
+
         {/* Background- Color this text */}
         <Tooltip content="Background Color" delay={TOOLTIP_DELAY_MS}>
           <FontColorModal
@@ -704,9 +705,11 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           >
             <Button
               size="small"
-              style={{ background: color('non-semantic-color', 'blue-soft') }}
-              variant={'neutral-transparent'}
-              prefix={<IconText />}
+              style={{ color: color('content', 'primary') }}
+              variant={'primary-transparent'}
+              prefix={
+                <IconText style={{ width: 20, border: border(), padding: 4 }} />
+              }
               shape="square"
               onClick={() => {
                 editor.update(() => {
@@ -725,7 +728,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               disabled={!canUndo}
               style={{ color: color('content', 'primary') }}
               variant={'primary-transparent'}
-              prefix={<IconRepeat />}
+              prefix={<IconIcRedo style={{ transform: 'scaleX(-1)' }} />}
               shape="square"
               onClick={() => {
                 editor.dispatchCommand(UNDO_COMMAND, null)
@@ -738,7 +741,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               style={{ color: color('content', 'primary') }}
               disabled={!canRedo}
               variant={'primary-transparent'}
-              prefix={<IconRepeat style={{ transform: 'scaleX(-1)' }} />}
+              prefix={<IconIcRedo />}
               shape="square"
               onClick={() => {
                 editor.dispatchCommand(REDO_COMMAND, null)

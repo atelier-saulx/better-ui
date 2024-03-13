@@ -685,6 +685,64 @@ export const ButtonSmall: StoryObj<typeof Button> = {
     },
   },
 }
+
+export const PrimaryMuted: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'primary-muted',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const PrimaryTransparent: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'primary-transparent',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const Neutral: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'neutral',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const Ghost: StoryObj<typeof Button> = {
+  args: {
+    children: '👻',
+    variant: 'ghost',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('BOO!')
+    },
+  },
+}
+
+export const ErrorVariant: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'error',
+    prefix: <IconCopy />,
+    onClick: async () => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 800)
+      })
+      throw new Error('something went bad')
+    },
+  },
+}
 `},{ id: "f4500130912786", story: f4500130912786, path: "/Users/yvesbeer/dev/better-ui/src/components/Calendar/index.stories.tsx", file: `import * as React from 'react'
 import { Calendar } from '../../index.js'
 
@@ -706,14 +764,14 @@ export const Default = () => {
           // },
           {
             start: 'Sat Feb 24 2024 14:35:11 GMT+0000',
-            end: 'Sat Feb 25 2024 16:35:11 GMT+0000',
+            end: 'Sat Feb 27 2024 12:11 GMT+0000',
             label: 'event2',
           },
-          // {
-          //   start: 'Sat Feb 25 2024 14:35:11 GMT+0000',
-          //   end: 'Sat Feb 25 2024 16:35:11 GMT+0000',
-          //   label: 'event3',
-          // },
+          {
+            start: 'Sat Feb 23 2024 14:35:11 GMT+0000',
+            end: 'Sat Feb 27 2024 16:35:11 GMT+0000',
+            label: 'eventXXXXX XXEFAF AFEF',
+          },
           {
             end: 1710235719058,
             //  end: new Date(1710235719058),
