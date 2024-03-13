@@ -8,65 +8,18 @@ import {
   useWindowResize,
 } from '../../index.js'
 
-type RangeInputProps = {
-  placeholder?: string
-  value?: number
-  defaultValue?: number
-  onChange?: (value: number) => void
-  checksum?: number
-  formName?: string
-  label?: string
-  step?: number
-  min?: number
-  max?: number
-  variant?: 'regular' | 'small'
-  error?: boolean
-  autoFocus?: boolean
-  description?: string
-  disabled?: boolean
-  style?: Style
-  prefix?: React.ReactNode
-  suffix?: React.ReactNode
-  onStartSliding?: () => void
-  onEndSliding?: () => void
-  items?: Items
-  alwaysShowLabel?: boolean
-  showMinMaxNumber?: boolean
-}
-
 const CursorLine = styled('div', {
   width: 2,
   height: 16,
-  background: 'red',
+  background: 'transparent',
   position: 'absolute',
-})
-
-const Cursor = styled('div', {
-  // alignItems: 'flex-start',
-  // right: 0,
-  top: -30,
-  width: 'fit-content',
-  display: 'block',
-  //  flexDirection: 'column',
-  // position: 'absolute',
-  // left: -3,
-  marginBottom: 4,
 })
 
 const CursorLabel = styled('div', {
   padding: '5px 8px',
-  // color: color('content', 'inverted'),
-  // transform: 'translate3d(-50%,0px,0px)',
   borderRadius: '4px',
   backgroundColor: color('background', 'inverted'),
   border: border(),
-})
-
-const CursorArrowContainer = styled('div', {
-  paddingLeft: 2,
-  width: 12,
-  transform: 'translate3d(-50%,0px,0px)',
-  position: 'relative',
 })
 
 const CursorArrow = styled('div', {
@@ -94,7 +47,6 @@ const RangeContainer = styled('div', {
 
 const SliderContainer = styled('div', {
   width: '100%',
-  //transform: 'translate3d(0px,0px,0px)',
   display: 'flex',
   alignItems: 'center',
   position: 'relative',
@@ -160,51 +112,30 @@ const getClosestIndex = (
   return 0
 }
 
-const Wrapper = ({
-  label,
-  children,
-  disabled,
-  style,
-}: {
+type RangeInputProps = {
+  placeholder?: string
+  value?: number
+  defaultValue?: number
+  onChange?: (value: number) => void
+  checksum?: number
+  formName?: string
   label?: string
-  children: React.ReactNode
+  step?: number
+  min?: number
+  max?: number
+  variant?: 'regular' | 'small'
+  error?: boolean
+  autoFocus?: boolean
+  description?: string
   disabled?: boolean
   style?: Style
-}) => {
-  if (label) {
-    return (
-      <styled.label
-        style={
-          label
-            ? {
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-                opacity: disabled ? 0.6 : 1,
-                cursor: disabled ? 'not-allowed' : 'default',
-              }
-            : undefined
-        }
-        onClick={(e) => (disabled ? e.preventDefault() : null)}
-      >
-        {children}
-      </styled.label>
-    )
-  }
-
-  return (
-    <styled.div
-      style={{
-        width: '100%',
-        opacity: disabled ? 0.6 : 1,
-        cursor: disabled ? 'not-allowed' : 'default',
-        ...style,
-      }}
-      onClick={(e) => (disabled ? e.preventDefault() : null)}
-    >
-      {children}
-    </styled.div>
-  )
+  prefix?: React.ReactNode
+  suffix?: React.ReactNode
+  onStartSliding?: () => void
+  onEndSliding?: () => void
+  items?: Items
+  alwaysShowLabel?: boolean
+  showMinMaxNumber?: boolean
 }
 
 export const RangeInput = (
@@ -243,7 +174,6 @@ export const RangeInput = (
   // })
 
   const [containerWidth, setContainerWidth] = useState(0)
-  //  const [leftContainerSide, setLeftContainerSide] = useState(0)
   const [isUpdating, setIsUpdating] = useState(false)
   const [index, setIndex] = useState(value || 0)
   const [percentageX, setPercentageX] = useState(0)
@@ -255,8 +185,6 @@ export const RangeInput = (
   const refCursor = useRef(null)
 
   const windowSize = useWindowResize()
-
-  console.log('🐯', refCursor.current?.childNodes[0].clientWidth)
 
   // change on window resize
   useEffect(() => {
@@ -463,12 +391,12 @@ export const RangeInput = (
               <CursorLine style={{ right: 2, top: '-60px', display: 'flex' }}>
                 <styled.div
                   style={{
+                    opacity: alwaysShowLabel || isUpdating ? 1 : 0,
                     position: 'relative',
                     display: 'block',
                     transform: 'translateX(-50%)',
                   }}
                 >
-                  {/* <Cursor ref={refCursor}> */}
                   <CursorLabel
                     style={{
                       position: 'relative',
@@ -476,7 +404,7 @@ export const RangeInput = (
                       justifyContent: 'center',
                     }}
                   >
-                    <Text variant="body-bold" color="inverted">
+                    <Text singleLine variant="body-bold" color="inverted">
                       {items
                         ? items[index]?.title
                         : Math.floor((percentageX * max) / 100)}
@@ -484,8 +412,6 @@ export const RangeInput = (
 
                     <CursorArrow style={{ marginBottom: '-20px' }} />
                   </CursorLabel>
-
-                  {/* </Cursor> */}
                 </styled.div>
               </CursorLine>
             </Thumb>
@@ -505,5 +431,52 @@ export const RangeInput = (
         ) : null}
       </styled.div>
     </Wrapper>
+  )
+}
+
+const Wrapper = ({
+  label,
+  children,
+  disabled,
+  style,
+}: {
+  label?: string
+  children: React.ReactNode
+  disabled?: boolean
+  style?: Style
+}) => {
+  if (label) {
+    return (
+      <styled.label
+        style={
+          label
+            ? {
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                opacity: disabled ? 0.6 : 1,
+                cursor: disabled ? 'not-allowed' : 'default',
+              }
+            : undefined
+        }
+        onClick={(e) => (disabled ? e.preventDefault() : null)}
+      >
+        {children}
+      </styled.label>
+    )
+  }
+
+  return (
+    <styled.div
+      style={{
+        width: '100%',
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
+        ...style,
+      }}
+      onClick={(e) => (disabled ? e.preventDefault() : null)}
+    >
+      {children}
+    </styled.div>
   )
 }
