@@ -14,6 +14,8 @@ import {
   $isParagraphNode,
   $isRootOrShadowRoot,
   $isTextNode,
+  ElementFormatType,
+  $isElementNode,
 } from 'lexical'
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
 import { getSelectedNode } from '../utils/index.js'
@@ -51,6 +53,7 @@ import {
   IconQuote,
   IconChevronDown,
   IconAttachment,
+  Stack,
   Tooltip,
   Text,
 } from '../../../index.js'
@@ -78,6 +81,8 @@ export function ToolbarPlugin({ variant, onAddImage }) {
   const [isUnderline, setIsUnderline] = useState(false)
   const [isStrikeThrough, setIsStrikeThrough] = useState(false)
   const [isLink, setIsLink] = useState(false)
+  const [elementFormat, setElementFormat] = useState<ElementFormatType>('left')
+
   const [openModal, setOpenModal] = useState<string>()
 
   const [canUndo, setCanUndo] = useState(false)
@@ -106,6 +111,8 @@ export function ToolbarPlugin({ variant, onAddImage }) {
       editorState.read(() => {
         const selection = $getSelection()
 
+        // console.log(selection, '🐹')
+
         if (!$isRangeSelection(selection)) return
 
         setIsBold(selection.hasFormat('bold'))
@@ -132,6 +139,8 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                 const parent = e.getParent()
                 return parent !== null && $isRootOrShadowRoot(parent)
               })
+
+        setElementFormat(element.getFormatType())
 
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(
@@ -220,9 +229,9 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               <Button
                 size="small"
                 shape="square"
-                variant="neutral-transparent"
+                variant="primary-transparent"
                 prefix={
-                  <>
+                  <Stack gap={8}>
                     <Text
                       style={{ fontWeight: '400', textTransform: 'capitalize' }}
                     >
@@ -230,14 +239,12 @@ export function ToolbarPlugin({ variant, onAddImage }) {
                     </Text>
                     <IconChevronDown
                       style={{
-                        position: 'absolute',
-                        right: 0,
-                        top: variant === 'small' ? 5 : 10,
-                        width: 10,
-                        height: 10,
+                        color: color('content', 'primary'),
+                        width: 16,
+                        height: 16,
                       }}
                     />
-                  </>
+                  </Stack>
                 }
               />
             </Dropdown.Trigger>
@@ -484,22 +491,32 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Dropdown.Root>
           <Dropdown.Trigger>
             <Button
-              size="small"
               shape="square"
-              variant="neutral-transparent"
+              variant="primary-transparent"
               prefix={
-                <>
-                  <IconFormatAlignLeft />
+                <Stack gap={8}>
+                  {elementFormat === 'center' ? (
+                    <IconFormatAlignCenter
+                      style={{ width: 16, color: color('content', 'primary') }}
+                    />
+                  ) : elementFormat === 'right' ? (
+                    <IconFormatAlignRight
+                      style={{ width: 16, color: color('content', 'primary') }}
+                    />
+                  ) : (
+                    <IconFormatAlignLeft
+                      style={{ width: 16, color: color('content', 'primary') }}
+                    />
+                  )}
+
                   <IconChevronDown
                     style={{
-                      position: 'absolute',
-                      right: 0,
-                      top: variant === 'small' ? 5 : 10,
-                      width: 10,
-                      height: 10,
+                      width: 16,
+                      height: 16,
+                      color: color('content', 'primary'),
                     }}
                   />
-                </>
+                </Stack>
               }
             />
           </Dropdown.Trigger>
@@ -509,7 +526,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               onClick={() => {
                 editor.update(() => {
                   const selection = $getSelection()
-
+                  console.log('SELECTION0', selection)
                   if ($isRangeSelection(selection)) {
                     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
                   }
@@ -523,7 +540,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               onClick={() => {
                 editor.update(() => {
                   const selection = $getSelection()
-
+                  console.log('SELECTION0', selection)
                   if ($isRangeSelection(selection)) {
                     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
                   }
@@ -537,7 +554,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               onClick={() => {
                 editor.update(() => {
                   const selection = $getSelection()
-
+                  console.log('SELECTION0RIGHT', selection)
                   if ($isRangeSelection(selection)) {
                     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
                   }
@@ -552,7 +569,15 @@ export function ToolbarPlugin({ variant, onAddImage }) {
         <Tooltip content="Quote" delay={TOOLTIP_DELAY_MS}>
           <Button
             size="small"
-            variant={'neutral-transparent'}
+            style={{
+              color:
+                type === 'blockquote'
+                  ? color('interactive', 'primary')
+                  : color('content', 'primary'),
+            }}
+            variant={
+              type === 'blockquote' ? 'primary-muted' : 'primary-transparent'
+            }
             prefix={<IconQuote />}
             shape="square"
             onClick={() => {
@@ -649,7 +674,8 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           >
             <Button
               size="small"
-              variant="neutral-transparent"
+              style={{ color: color('content', 'primary') }}
+              variant="primary-transparent"
               prefix={<IconAttachment />}
               shape="square"
             />
@@ -661,7 +687,8 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             <Button
               size="small"
               disabled={!canUndo}
-              variant={'neutral-transparent'}
+              style={{ color: color('content', 'primary') }}
+              variant={'primary-transparent'}
               prefix={<IconRepeat />}
               shape="square"
               onClick={() => {
@@ -672,8 +699,9 @@ export function ToolbarPlugin({ variant, onAddImage }) {
           <Tooltip content="Redo" delay={TOOLTIP_DELAY_MS}>
             <Button
               size="small"
+              style={{ color: color('content', 'primary') }}
               disabled={!canRedo}
-              variant={'neutral-transparent'}
+              variant={'primary-transparent'}
               prefix={<IconRepeat style={{ transform: 'scaleX(-1)' }} />}
               shape="square"
               onClick={() => {
