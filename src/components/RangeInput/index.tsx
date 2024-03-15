@@ -150,15 +150,16 @@ export const RangeInput = (
     step = 1,
     style,
     value,
+    defaultValue,
   }: RangeInputProps,
   ref,
 ) => {
-  // const [value = '', setValue] = useControllableState<number>({
-  //   value: valueProp,
-  //   defaultValue: defaultValueProp,
-  //   onChange,
-  //   checksum,
-  // })
+  const [state = '', setState] = useControllableState({
+    value,
+    defaultValue,
+    onChange,
+    checksum,
+  })
 
   const [containerWidth, setContainerWidth] = useState(0)
   const [isUpdating, setIsUpdating] = useState(false)
