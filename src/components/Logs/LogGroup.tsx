@@ -16,7 +16,7 @@ import { SingleLog } from './SingleLog.js'
 export const LogGroup = ({ group }) => {
   const [expanded, setExpanded] = useState(false)
 
-  console.log(group)
+  //   console.log(group)
 
   const LVL_MAP = {
     info: {
@@ -29,13 +29,13 @@ export const LogGroup = ({ group }) => {
     },
   }
 
-  return (
+  return group.length > 0 ? (
     <styled.div style={{ paddingBottom: 16 }}>
       <styled.div onClick={() => setExpanded(!expanded)}>
         <Stack justify="start" gap={16} align="end">
           <Thumbnail
-            icon={LVL_MAP[group[0].lvl].icon}
-            color={LVL_MAP[group[0].lvl].color}
+            icon={LVL_MAP[group[0]?.lvl]?.icon}
+            color={LVL_MAP[group[0]?.lvl]?.color}
             shape="circle"
             size="extra-small"
             style={{ minWidth: '24px !important' }}
@@ -92,5 +92,5 @@ export const LogGroup = ({ group }) => {
         </styled.div>
       )}
     </styled.div>
-  )
+  ) : null
 }

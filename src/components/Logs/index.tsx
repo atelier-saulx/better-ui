@@ -66,7 +66,6 @@ const checkIfThereAreSameTypeAndWithinRange = (obj, obj2, groupTimeMs) => {
 export const Logs = ({ data, groupByTime }) => {
   const [srvcFilters, setSrvcFilters] = useState<string[]>([])
   const [msgFilter, setMsgFilter] = useState<string>('')
-
   const [counter, setCounter] = useState(null)
 
   const groupByTimeInMilliSeconds = groupByTime * 60000
@@ -115,15 +114,15 @@ export const Logs = ({ data, groupByTime }) => {
 
   const finalFinalOrderedArr = finalOrderBy(finalArr, ['ts'], ['desc'])
 
-  // {label:'fa', value:'xx'}
   const options = []
 
-  for (let i = 0; i < finalFinalOrderedArr.length; i++) {
-    if (!options.includes(finalFinalOrderedArr[i][0].srvc)) {
-      options.push(finalFinalOrderedArr[i][0].srvc)
+  for (let i = 0; i < data.length; i++) {
+    if (!options.includes(data[i].srvc)) {
+      options.push(data[i].srvc)
     }
   }
 
+  console.log('yo ordered time type 🐨', orderedByTypeAndTime)
   console.log('Final Order Arry', finalFinalOrderedArr)
 
   return (
@@ -137,11 +136,19 @@ export const Logs = ({ data, groupByTime }) => {
         setMsgFilter={setMsgFilter}
         options={options}
       />
+      {/* grouped logs */}
       {groupByTime ? (
         <styled.div>
-          {finalFinalOrderedArr.map((group, idx) => (
-            <LogGroup key={idx} group={group} />
-          ))}
+          {finalFinalOrderedArr.map((group, idx) => {
+            const filteredGroup = group
+              .filter((item) =>
+                srvcFilters.length > 0 ? srvcFilters.includes(item.srvc) : item,
+              )
+              .filter((item) =>
+                item.msg.toLowerCase().includes(msgFilter.toLowerCase()),
+              )
+            return <LogGroup key={idx} group={filteredGroup} />
+          })}
         </styled.div>
       ) : (
         <ScrollArea style={{ maxHeight: 676 }}>
@@ -155,8 +162,6 @@ export const Logs = ({ data, groupByTime }) => {
               item[0].msg.toLowerCase().includes(msgFilter.toLowerCase()),
             )
             .map((item, idx, arr) => {
-              console.log(arr.length)
-
               if (arr.length !== counter) {
                 setCounter(arr.length)
               }
