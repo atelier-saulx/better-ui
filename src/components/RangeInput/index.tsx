@@ -122,7 +122,7 @@ type RangeInputProps = {
   label?: string
   max?: number
   min?: number
-  onChange?: (value: number) => void
+  onChange?: (value: number | string) => void
   onEndSliding?: () => void
   onStartSliding?: () => void
   prefix?: React.ReactNode
@@ -235,7 +235,13 @@ export const RangeInput = (
       const index = getClosestIndex(xPosArray, newPercentage)
       setPercentageX(snap ? xPosArray[index] : newPercentage)
       if (value !== index) {
-        onChange(index)
+        if (items && step === 1) {
+          onChange(items[index].title)
+        } else if (items && step !== 1) {
+          onChange(+items[index].title)
+        } else {
+          onChange(index)
+        }
       }
     } else {
       setPercentageX(newPercentage)
