@@ -4,6 +4,7 @@ import { Color } from '../../utils/colors.js'
 import { SingleLog } from './SingleLog.js'
 import { ScrollArea } from '../ScrollArea/index.js'
 import { LogsHeader } from './LogsHeader.js'
+import { Badge } from '../../index.js'
 
 type NewLogsObject = {
   status?: string
@@ -65,6 +66,8 @@ export const Logs = ({ data, groupByTime }) => {
   const [srvcFilters, setSrvcFilters] = useState<string[]>([])
   const [msgFilter, setMsgFilter] = useState<string>('')
 
+  const [counter, setCounter] = useState(null)
+
   const groupByTimeInMilliSeconds = groupByTime * 60000
 
   const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['desc', 'desc'])
@@ -120,10 +123,15 @@ export const Logs = ({ data, groupByTime }) => {
     }
   }
 
+  let count
+
   console.log('Final Order Arry', finalFinalOrderedArr)
 
   return (
     <styled.div>
+      <Badge style={{ marginBottom: 8 }} color="informative-muted">
+        {counter}
+      </Badge>
       <LogsHeader
         setSrvcFilters={setSrvcFilters}
         msgFilter={msgFilter}
@@ -143,7 +151,13 @@ export const Logs = ({ data, groupByTime }) => {
             .filter((item) =>
               item[0].msg.toLowerCase().includes(msgFilter.toLowerCase()),
             )
-            .map((item, idx) => {
+            .map((item, idx, arr) => {
+              console.log(arr.length)
+
+              if (arr.length !== counter) {
+                setCounter(arr.length)
+              }
+
               return (
                 <SingleLog
                   key={idx}
