@@ -6,7 +6,6 @@ import { ScrollArea } from '../ScrollArea/index.js'
 import { LogsHeader } from './LogsHeader.js'
 import { Badge } from '../../index.js'
 import { LogGroup } from './LogGroup.js'
-import { isWithinInterval } from 'date-fns'
 
 type NewLogsObject = {
   status?: string
@@ -74,21 +73,32 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
 
   const pairs = []
 
-  const intervalGroups = []
-
   // make groups // so loop all objects wich are so many - milliseconds from first object
 
-  console.log('gropupe 🐨', groupByTimeInMilliSeconds)
+  const newGroups = [[]]
 
-  for (let i = 0; i < orderedByTime.length; i++) {
-    console.log(
-      'new ARR',
-      isWithinInterval(orderedByTime[i].ts, {
-        start: orderedByTime[0].ts,
-        end: orderedByTime[0].ts - groupByTimeInMilliSeconds,
-      }),
-    )
-  }
+  //   for (let i = 0; i < orderedByTime.length + 1; i++) {
+  //     let chunkIndex = 0
+  //     let itemIndex = 0
+
+  //     if (i === 0) {
+  //       newGroups[chunkIndex].push(orderedByTime[0])
+  //     } else if (
+  //       orderedByTime[i].ts - orderedByTime[i + 1].ts <
+  //       groupByTimeInMilliSeconds
+  //     ) {
+  //       newGroups[chunkIndex].push(orderedByTime[i])
+  //     } else {
+  //       chunkIndex++
+  //       itemIndex++
+  //       console.log(chunkIndex, itemIndex)
+  //       newGroups[chunkIndex] = []
+  //       newGroups[chunkIndex].push(orderedByTime[itemIndex])
+  //     }
+  //   }
+
+  //   console.log(newGroups, '🐝')
+  //   console.log('gropupe 🐨', groupByTimeInMilliSeconds)
 
   // then from overige objecten weer
 
@@ -163,7 +173,7 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
       {/* grouped logs */}
       {groupByTime ? (
         <styled.div>
-          {finalFinalOrderedArr.map((group, idx) => {
+          {newGroups.map((group, idx) => {
             const filteredGroup = group
               .filter((item) =>
                 srvcFilters.length > 0 ? srvcFilters.includes(item.srvc) : item,
