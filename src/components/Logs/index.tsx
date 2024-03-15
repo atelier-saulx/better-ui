@@ -6,6 +6,7 @@ import { ScrollArea } from '../ScrollArea/index.js'
 import { LogsHeader } from './LogsHeader.js'
 import { Badge } from '../../index.js'
 import { LogGroup } from './LogGroup.js'
+import { isWithinInterval } from 'date-fns'
 
 type NewLogsObject = {
   status?: string
@@ -15,11 +16,10 @@ type NewLogsObject = {
   subType?: ReactNode | string
   color?: Color
   icon?: ReactNode
-  // TODO: custom
-  // customComponent?: FC
+  srvc?: string
 }[]
 
-type LogGroupsProps = {
+type LogsProps = {
   data?: NewLogsObject
   groupByTime?: number
 }
@@ -63,56 +63,80 @@ const checkIfThereAreSameTypeAndWithinRange = (obj, obj2, groupTimeMs) => {
   }
 }
 
-export const Logs = ({ data, groupByTime }) => {
+export const Logs = ({ data, groupByTime }: LogsProps) => {
   const [srvcFilters, setSrvcFilters] = useState<string[]>([])
   const [msgFilter, setMsgFilter] = useState<string>('')
   const [counter, setCounter] = useState(null)
 
   const groupByTimeInMilliSeconds = groupByTime * 60000
 
-  const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['desc', 'desc'])
+  const orderedByTime = orderBy(data, ['ts'], ['desc', 'desc'])
 
   const pairs = []
 
-  for (let i = 0; i < orderedByTypeAndTime.length; i++) {
-    if (
-      checkIfThereAreSameTypeAndWithinRange(
-        orderedByTypeAndTime[i],
-        orderedByTypeAndTime[i + 1],
-        groupByTimeInMilliSeconds,
-      )
-    ) {
-      pairs.push([i, i + 1])
-    } else {
-      pairs.push([i, i])
-    }
+  const intervalGroups = []
+
+  // make groups // so loop all objects wich are so many - milliseconds from first object
+
+  console.log('gropupe 🐨', groupByTimeInMilliSeconds)
+
+  for (let i = 0; i < orderedByTime.length; i++) {
+    console.log(
+      'new ARR',
+      isWithinInterval(orderedByTime[i].ts, {
+        start: orderedByTime[0].ts,
+        end: orderedByTime[0].ts - groupByTimeInMilliSeconds,
+      }),
+    )
   }
 
-  const result = []
+  // then from overige objecten weer
 
-  let item
-  for (let i = 0; i < pairs.length; i++) {
-    const arr = pairs[i]
-    if (!item) {
-      item = arr
-      result.push(item)
-    }
-    const next = pairs[i + 1]
-    if (next && item[1] === next[0]) {
-      item[1] = next[1]
-    } else {
-      item = null
-    }
-  }
+  //   for (let i = 0; i < orderedByTypeAndTime.length; i++) {
+  //     if (
+  //       checkIfThereAreSameTypeAndWithinRange(
+  //         orderedByTypeAndTime[i],
+  //         orderedByTypeAndTime[i + 1],
+  //         groupByTimeInMilliSeconds,
+  //       )
+  //     ) {
+  //       pairs.push([i, i + 1])
+  //     } else {
+  //       pairs.push([i, i])
+  //     }
+  //   }
 
-  const finalArr = []
+  //   const result = []
 
-  for (let i = 0; i < result.length; i++) {
-    finalArr.splice(result[i][0], result[i][1] + 1)
-    finalArr.push(orderedByTypeAndTime.slice(result[i][0], result[i][1] + 1))
-  }
+  //   let item
+  //   for (let i = 0; i < pairs.length; i++) {
+  //     const arr = pairs[i]
+  //     if (!item) {
+  //       item = arr
+  //       result.push(item)
+  //     }
+  //     const next = pairs[i + 1]
+  //     if (next && item[1] === next[0]) {
+  //       item[1] = next[1]
+  //     } else {
+  //       item = null
+  //     }
+  //   }
 
-  const finalFinalOrderedArr = finalOrderBy(finalArr, ['ts'], ['desc'])
+  //   const finalArr = []
+
+  //   for (let i = 0; i < result.length; i++) {
+  //     finalArr.splice(result[i][0], result[i][1] + 1)
+  //     finalArr.push(orderedByTypeAndTime.slice(result[i][0], result[i][1] + 1))
+  //   }
+
+  //   const finalFinalOrderedArr = finalOrderBy(
+  //     orderedByTypeAndTime,
+  //     ['ts'],
+  //     ['desc'],
+  //   )
+
+  const finalFinalOrderedArr = [...orderedByTime]
 
   const options = []
 
@@ -122,7 +146,7 @@ export const Logs = ({ data, groupByTime }) => {
     }
   }
 
-  console.log('yo ordered time type 🐨', orderedByTypeAndTime)
+  console.log('yo ordered time type 🐨', orderedByTime)
   console.log('Final Order Arry', finalFinalOrderedArr)
 
   return (
@@ -152,14 +176,12 @@ export const Logs = ({ data, groupByTime }) => {
         </styled.div>
       ) : (
         <ScrollArea style={{ maxHeight: 676 }}>
-          {finalFinalOrderedArr
+          {orderedByTime
             .filter((item) =>
-              srvcFilters.length > 0
-                ? srvcFilters.includes(item[0].srvc)
-                : item,
+              srvcFilters.length > 0 ? srvcFilters.includes(item.srvc) : item,
             )
             .filter((item) =>
-              item[0].msg.toLowerCase().includes(msgFilter.toLowerCase()),
+              item.msg.toLowerCase().includes(msgFilter.toLowerCase()),
             )
             .map((item, idx, arr) => {
               if (arr.length !== counter) {
@@ -169,9 +191,9 @@ export const Logs = ({ data, groupByTime }) => {
               return (
                 <SingleLog
                   key={idx}
-                  msg={item[0].msg}
-                  srvc={item[0].srvc}
-                  ts={item[0].ts}
+                  msg={item.msg}
+                  srvc={item.srvc}
+                  ts={item.ts}
                 />
               )
             })}
