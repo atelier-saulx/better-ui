@@ -11,6 +11,7 @@ import {
   boxShadow,
   IconCheckSmall,
   IconChevronDownSmall,
+  ScrollArea,
 } from '../../index.js'
 import * as Popover from '@radix-ui/react-popover'
 
@@ -115,8 +116,9 @@ export function MultiSelectInput({
             }}
           >
             {state?.size ? (
-              [...state].map((e) => (
+              [...state].map((e, idx) => (
                 <div
+                  key={idx}
                   style={{
                     ...textVariants.body,
                     borderRadius: borderRadius('small'),
@@ -196,12 +198,13 @@ export function MultiSelectInput({
               overflow: 'auto',
             }}
           >
-            {options.map((option) => {
+            {options.map((option, idx) => {
               const { value, label = null } =
                 typeof option === 'string' ? { value: option } : option
 
               return (
                 <styled.div
+                  key={idx}
                   style={{
                     padding: '4px 12px 4px 42px',
                     borderRadius: borderRadius('small'),
@@ -238,7 +241,7 @@ export function MultiSelectInput({
                       }}
                     />
                   )}
-                  <div>{label ?? value}</div>
+                  <Text>{label ?? value}</Text>
                 </styled.div>
               )
             })}

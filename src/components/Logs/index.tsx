@@ -111,17 +111,24 @@ export const Logs = ({ data, groupByTime }) => {
 
   const finalFinalOrderedArr = finalOrderBy(finalArr, ['ts'], ['desc'])
 
-  console.log('the flipping data', orderedByTypeAndTime)
-  console.log('pairst', pairs)
+  // {label:'fa', value:'xx'}
+  const options = []
+
+  for (let i = 0; i < finalFinalOrderedArr.length; i++) {
+    if (!options.includes(finalFinalOrderedArr[i][0].srvc)) {
+      options.push(finalFinalOrderedArr[i][0].srvc)
+    }
+  }
+
   console.log('Final Order Arry', finalFinalOrderedArr)
 
   return (
     <styled.div>
       <LogsHeader
-        srvcFilters={srvcFilters}
         setSrvcFilters={setSrvcFilters}
         msgFilter={msgFilter}
         setMsgFilter={setMsgFilter}
+        options={options}
       />
       {groupByTime ? (
         <styled.div>Grouped logs</styled.div>
@@ -129,10 +136,14 @@ export const Logs = ({ data, groupByTime }) => {
         <ScrollArea style={{ maxHeight: 676 }}>
           {finalFinalOrderedArr
             .filter((item) =>
+              srvcFilters.length > 0
+                ? srvcFilters.includes(item[0].srvc)
+                : item,
+            )
+            .filter((item) =>
               item[0].msg.toLowerCase().includes(msgFilter.toLowerCase()),
             )
             .map((item, idx) => {
-              console.log(item[0])
               return (
                 <SingleLog
                   key={idx}
