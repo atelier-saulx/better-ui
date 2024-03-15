@@ -17,7 +17,6 @@ const test = [
     eid: 'enBBBFs9x0',
     msg: '/home/ec2-user/shared_modules/6c5adf95dcebbe650c257e54ede883a2bbc9d740/dist/index.js\n',
     lvl: 'info',
-
     ts: 1687803514771,
   },
   {
@@ -26,7 +25,7 @@ const test = [
     mid: 'ma2c3ce4ad',
     url: '3.127.35.134',
     eid: 'enBBBFs9x0',
-    msg: '    Based-server listening on port: 4006\n',
+    msg: 'Based-server listening on port: 4006\n',
     lvl: 'info',
     ts: 1687803514837,
   },
@@ -438,6 +437,6 @@ export default meta
 export const Default: StoryObj<typeof Logs> = {
   args: {
     data: test,
-    groupByTime: 15,
+    // groupByTime: 15,
   },
 }

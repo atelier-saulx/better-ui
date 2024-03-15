@@ -8,6 +8,7 @@ import {
   Thumbnail,
   IconSmallAlertFull,
   IconSmallInfo,
+  IconChevronDownSmall,
 } from '../../index.js'
 import { format } from 'date-fns'
 import { SingleLog } from './SingleLog.js'
@@ -38,7 +39,7 @@ export const LogGroup = ({ group }) => {
             shape="circle"
             size="extra-small"
             style={{ minWidth: '24px !important' }}
-            count={group.length}
+            //     count={group.length}
           />
           {/* first group item/ or last? */}
           <div style={{ width: '100%' }}>
@@ -68,7 +69,21 @@ export const LogGroup = ({ group }) => {
             </Stack>
           </div>
         </Stack>
+        {!expanded && (
+          <Stack gap={4} justify="start" style={{ paddingLeft: 40 }}>
+            <IconChevronDownSmall
+              style={{ color: color('interactive', 'primary') }}
+            />
+            <Text
+              variant="body-bold"
+              style={{ color: color('interactive', 'primary') }}
+            >
+              Show all {group.length} logs
+            </Text>
+          </Stack>
+        )}
       </styled.div>
+
       {expanded && (
         <styled.div style={{ paddingLeft: '40px', paddingTop: 8 }}>
           {group.map((item, idx) => (
