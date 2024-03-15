@@ -5,6 +5,7 @@ import { SingleLog } from './SingleLog.js'
 import { ScrollArea } from '../ScrollArea/index.js'
 import { LogsHeader } from './LogsHeader.js'
 import { Badge } from '../../index.js'
+import { LogGroup } from './LogGroup.js'
 
 type NewLogsObject = {
   status?: string
@@ -123,8 +124,6 @@ export const Logs = ({ data, groupByTime }) => {
     }
   }
 
-  let count
-
   console.log('Final Order Arry', finalFinalOrderedArr)
 
   return (
@@ -139,7 +138,11 @@ export const Logs = ({ data, groupByTime }) => {
         options={options}
       />
       {groupByTime ? (
-        <styled.div>Grouped logs</styled.div>
+        <styled.div>
+          {finalFinalOrderedArr.map((group, idx) => (
+            <LogGroup key={idx} group={group} />
+          ))}
+        </styled.div>
       ) : (
         <ScrollArea style={{ maxHeight: 676 }}>
           {finalFinalOrderedArr

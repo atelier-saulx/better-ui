@@ -428,7 +428,7 @@ const test = [
     url: '3.73.65.108',
     eid: 'enBBBFs9x0',
     msg: "{ name: 'demo', version: 3501681214638 }\n",
-    lvl: 'info',
+    lvl: 'error',
     ts: 1687864333486,
   },
 ]
@@ -438,6 +438,6 @@ export default meta
 export const Default: StoryObj<typeof Logs> = {
   args: {
     data: test,
-    //  groupByTime: 15,
+    groupByTime: 15,
   },
 }
