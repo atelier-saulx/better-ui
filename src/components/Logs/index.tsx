@@ -28,7 +28,8 @@ type NewLogsObject = {
 
 type LogsProps = {
   data?: NewLogsObject
-  groupByTime?: 1 | 3 | 5 | 10 | 15 | 30 | 60 | 1200
+  groupByTime?: 1 | 3 | 5 | 10 | 15 | 30 | 60 | 720 | 1440
+  onClear?: () => void
 }
 
 const orderBy = (arr, props, orders) =>
@@ -79,11 +80,11 @@ const createIntervalGroups = (arr, time, order) => {
   return order === 'asc' ? intervalGroups : intervalGroups.reverse()
 }
 
-export const Logs = ({ data, groupByTime }: LogsProps) => {
+export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
   const [srvcFilters, setSrvcFilters] = useState<string[]>([])
   const [msgFilter, setMsgFilter] = useState<string>('')
   const [counter, setCounter] = useState(null)
-  const [timeGroup, setTimeGroup] = useState(groupByTime * 60000)
+  const [timeGroup, setTimeGroup] = useState(groupByTime)
   const [order, setOrder] = useState<'asc' | 'desc'>('desc')
   const [scrollToBottom, setScrollToBottom] = useState(false)
 
@@ -124,6 +125,7 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
         totalCount={data?.length}
         order={order}
         setOrder={setOrder}
+        onClear={onClear}
       />
 
       {/* grouped logs */}
@@ -194,24 +196,24 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
             })}
         </ScrollArea>
       )}
-      <Button
-        variant="primary-transparent"
-        shape="square"
-        style={{ position: 'absolute', right: 0, bottom: 0 }}
-        onClick={() => {
-          if (order === 'desc') {
-            setScrollToBottom(false)
-            // @ts-ignore
-            singleLogScrollArea.current.childNodes[0].childNodes[1].firstElementChild.scrollIntoView()
-          } else {
-            console.log('HALLO>>')
-
-            setScrollToBottom(true)
-          }
-        }}
-      >
-        {order === 'desc' ? <IconChevronTop /> : <IconChevronDown />}
-      </Button>
+      {!timeGroup && (
+        <Button
+          variant="primary-transparent"
+          shape="square"
+          style={{ position: 'absolute', right: 0, bottom: 0 }}
+          onClick={() => {
+            if (order === 'desc') {
+              setScrollToBottom(false)
+              // @ts-ignore
+              singleLogScrollArea.current.childNodes[0].childNodes[1].firstElementChild.scrollIntoView()
+            } else {
+              setScrollToBottom(true)
+            }
+          }}
+        >
+          {order === 'desc' ? <IconChevronTop /> : <IconChevronDown />}
+        </Button>
+      )}
     </styled.div>
   )
 }

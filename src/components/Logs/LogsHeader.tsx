@@ -13,6 +13,8 @@ import {
   IconDelete,
   IconSortAsc,
   IconSortDesc,
+  IconMoreHorizontal,
+  Dropdown,
 } from '../../index.js'
 
 export const LogsHeader = ({
@@ -26,6 +28,7 @@ export const LogsHeader = ({
   totalCount,
   order,
   setOrder,
+  onClear,
 }) => {
   const [selectedTime, setSelectedTime] = useState(null)
 
@@ -100,9 +103,22 @@ export const LogsHeader = ({
           setMsgFilter(v)
         }}
       />
-      <Button variant="icon-only">
+      <Dropdown.Root>
+        <Dropdown.Trigger>
+          <Button shape="square" variant="icon-only">
+            <IconMoreHorizontal />
+          </Button>
+        </Dropdown.Trigger>
+        <Dropdown.Items>
+          <Dropdown.Item onClick={onClear} icon={<IconDelete />}>
+            Clear logs
+          </Dropdown.Item>
+        </Dropdown.Items>
+      </Dropdown.Root>
+
+      {/* <Button variant="icon-only">
         <IconDelete />
-      </Button>
+      </Button> */}
     </Stack>
   )
 }

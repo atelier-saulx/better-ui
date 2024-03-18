@@ -458,5 +458,11 @@ export const Default = () => {
     }, 1000)
   }, [data.length])
 
-  return <Logs data={data}></Logs>
+  return (
+    <Logs
+      data={data}
+      // groupByTime={1}
+      onClear={() => alert('clear logs')}
+    ></Logs>
+  )
 }
