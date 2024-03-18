@@ -29,6 +29,7 @@ import { SizedStack, useColumns } from '../Table/SizedStack.js'
 import { genObjectSchema } from './genObjectSchema.js'
 import { TableBody } from './TableBody.js'
 import { getTitle } from '../utils.js'
+import { Selected } from '../Table/Arrays/ObjectCollumnRows.js'
 
 const useTags = (fieldSchema: BasedSchemaFieldObject): boolean => {
   const size = Object.keys(fieldSchema.properties).length
@@ -60,7 +61,7 @@ export const ReferencesTable = ({
   isLoading,
 }: {
   style?: Style
-  onSelect?: (val: any) => void
+  onSelect?: (val: any, all?: boolean) => void
   selected?: Set<string>
   isLoading?: boolean
   pagination?: Pagination
@@ -104,7 +105,13 @@ export const ReferencesTable = ({
 
   if (onSelect) {
     cols.push(
-      <styled.div style={{ minWidth: 28, maxWidth: 28 }} key="_sicon" />,
+      <Selected
+        key="_select"
+        selected={selected?.has('*')}
+        onSelect={() => {
+          onSelect(undefined, true)
+        }}
+      />,
     )
   }
 

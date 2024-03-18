@@ -17,7 +17,7 @@ type TableBodyProps = {
   changeIndex: (fromIndex: number, toIndex: number) => void
   onRemove: (index: number) => void
   path: Path
-  onSelect?: (select: any) => void
+  onSelect?: (select: any, all: boolean) => void
   selected?: Set<string>
   colFields: ColSizes
   nField: BasedSchemaFieldArray

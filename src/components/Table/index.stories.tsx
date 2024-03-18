@@ -54,7 +54,7 @@ const meta = {
 export default meta
 
 export const Default = ({ data }) => {
-  const r = React.useRef<Set<string>>(new Set())
+  const r = React.useRef<Set<string>>(new Set(['*']))
   const update = useUpdate()
 
   return (
@@ -64,8 +64,18 @@ export const Default = ({ data }) => {
       }}
     >
       <Table
-        onSelect={(v) => {
-          console.log('lullz', v)
+        onSelect={(v, all) => {
+          if (all) {
+            if (r.current.has('*')) {
+              r.current.clear()
+            } else {
+              r.current.clear()
+              r.current.add('*')
+            }
+            update()
+            return
+          }
+
           if (r.current.has(v.id)) {
             r.current.delete(v.id)
           } else {

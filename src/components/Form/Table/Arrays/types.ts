@@ -5,7 +5,7 @@ export type RowProps = {
   value: ValueRef
   changeIndex: (fromIndex: number, toIndex: number) => void
   path: Path
-  onSelect?: (selected: any) => void
+  onSelect?: (selected: any, all?: boolean) => void
   ctx: TableCtx
   selected?: Set<string>
   draggable?: boolean

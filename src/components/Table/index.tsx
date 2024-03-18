@@ -25,7 +25,7 @@ export const Table = (p: {
   style?: Style
   isLoading?: boolean
   selected?: Set<string>
-  onSelect?: (select: any) => void
+  onSelect?: (select: any, all?: boolean) => void
   values?: any[]
   sortable?: boolean // maybe rename to orderable (everywhere)
   onClick?: (data: any, index: number | string) => void

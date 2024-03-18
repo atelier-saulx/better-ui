@@ -10,6 +10,46 @@ import { IconCheckSmall } from '../../../Icons/index.js'
 import { border, color } from '../../../../utils/colors.js'
 import { Stack } from '../../../Stack/index.js'
 
+export const Selected = (p: { selected?: boolean; onSelect: () => void }) => {
+  return (
+    <Stack
+      style={{
+        width: 28,
+        height: 28,
+        minWidth: 28,
+      }}
+    >
+      <div />
+      <Stack
+        onClick={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          p.onSelect()
+        }}
+        justify="center"
+        style={{
+          width: 20,
+          minHeight: 20,
+          height: 20,
+          borderRadius: 4,
+          minWidth: 20,
+          border: border(),
+          '&:hover': {
+            border: border('focus'),
+          },
+        }}
+      >
+        <IconCheckSmall
+          style={{
+            color: color('interactive', 'primary'),
+            opacity: p.selected ? 1 : 0,
+          }}
+        />
+      </Stack>
+    </Stack>
+  )
+}
+
 export const CollRow = (p: {
   field: BasedSchemaFieldObject
   ctx: TableCtx
@@ -17,7 +57,7 @@ export const CollRow = (p: {
   isLoading?: boolean
   index: number
   selected?: boolean
-  onSelect?: (val: any) => void
+  onSelect?: (selected: any, all?: boolean) => void
   onClickRow?: (val: any) => void
   colFields: ColSizes
   removeItem: (index: number) => void
@@ -29,42 +69,13 @@ export const CollRow = (p: {
 
   if (p.onSelect) {
     cells.push(
-      <Stack
+      <Selected
         key="_select"
-        style={{
-          width: 28,
-          height: 28,
-          minWidth: 28,
+        onSelect={() => {
+          p.onSelect(p.value)
         }}
-      >
-        <div />
-        <Stack
-          onClick={(e) => {
-            p.onSelect(p.value)
-            e.stopPropagation()
-            e.preventDefault()
-          }}
-          justify="center"
-          style={{
-            width: 20,
-            minHeight: 20,
-            height: 20,
-            borderRadius: 4,
-            minWidth: 20,
-            border: border(),
-            '&:hover': {
-              border: border('focus'),
-            },
-          }}
-        >
-          <IconCheckSmall
-            style={{
-              color: color('interactive', 'primary'),
-              opacity: p.selected ? 1 : 0,
-            }}
-          />
-        </Stack>
-      </Stack>,
+        selected={p.selected}
+      />,
     )
   }
 
@@ -108,16 +119,27 @@ export const CollRow = (p: {
   )
 }
 
+const isSelected = (select: Set<string>, value: any) => {
+  if (select.has('*')) {
+    if (!select.has(value?.id)) {
+      return true
+    }
+  } else {
+    if (select.has(value?.id)) {
+      return true
+    }
+  }
+}
+
 export const ObjectCollsRows = (
   p: RowProps & { colFields: ColSizes; isLoading?: boolean },
 ) => {
   const rows: ReactNode[] = []
-
   for (let i = 0; i < p.value.value.length; i++) {
     rows.push(
       <CollRow
         onSelect={p.onSelect}
-        selected={p.selected ? p.selected.has(p.value.value[i].id) : false}
+        selected={p.selected ? isSelected(p.selected, p.value.value[i]) : false}
         colFields={p.colFields}
         changeIndex={p.changeIndex}
         key={p.value.orderId + '_' + i}
