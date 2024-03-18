@@ -9,6 +9,10 @@ import {
   Switch,
   IconIcListBulleted,
   IconIcTextAlignJustify,
+  Button,
+  IconDelete,
+  IconSortAsc,
+  IconSortDesc,
 } from '../../index.js'
 
 export const LogsHeader = ({
@@ -20,6 +24,8 @@ export const LogsHeader = ({
   setTimeGroup,
   counter,
   totalCount,
+  order,
+  setOrder,
 }) => {
   const [selectedTime, setSelectedTime] = useState(null)
 
@@ -37,8 +43,8 @@ export const LogsHeader = ({
 
   return (
     <Stack
-      justify="start"
-      gap={24}
+      // justify="start"
+      gap={16}
       style={{ marginBottom: 24, borderBottom: border(), paddingBottom: 16 }}
     >
       <Text color="secondary" variant="body-light">
@@ -55,6 +61,12 @@ export const LogsHeader = ({
         }}
         selected={timeGroup ? 1 : 0}
       />
+      <Button
+        variant="icon-only"
+        onClick={() => setOrder(order === 'desc' ? 'asc' : 'desc')}
+      >
+        {order === 'desc' ? <IconSortDesc /> : <IconSortAsc />}
+      </Button>
       <MultiSelectInput
         placeholder="Log types"
         options={options}
@@ -84,6 +96,9 @@ export const LogsHeader = ({
           setMsgFilter(v)
         }}
       />
+      <Button variant="icon-only">
+        <IconDelete />
+      </Button>
     </Stack>
   )
 }

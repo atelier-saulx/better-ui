@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import { styled } from 'inlines'
 import { Color } from '../../utils/colors.js'
 import { SingleLog } from './SingleLog.js'
@@ -12,7 +12,8 @@ import {
   startOfMinute,
   format,
 } from 'date-fns'
-import { usePropState } from '../../hooks/usePropState/index.js'
+import { Button } from '../../index.js'
+import { IconChevronDown, IconChevronTop } from '../Icons/index.js'
 
 type NewLogsObject = {
   status?: string
@@ -44,7 +45,7 @@ const orderBy = (arr, props, orders) =>
     }, 0),
   )
 
-const createIntervalGroups = (arr, time) => {
+const createIntervalGroups = (arr, time, order) => {
   const timeIntervalInMs = time * 60000
   const intervalGroups = []
 
@@ -75,23 +76,17 @@ const createIntervalGroups = (arr, time) => {
     }
   }
   // return an array with arrays of groups !!!
-  return intervalGroups
+  return order === 'asc' ? intervalGroups : intervalGroups.reverse()
 }
 
 export const Logs = ({ data, groupByTime }: LogsProps) => {
-  const [incomingData, setIncomingData] = usePropState(data)
   const [srvcFilters, setSrvcFilters] = useState<string[]>([])
   const [msgFilter, setMsgFilter] = useState<string>('')
   const [counter, setCounter] = useState(null)
   const [timeGroup, setTimeGroup] = useState(groupByTime * 60000)
+  const [order, setOrder] = useState<'asc' | 'desc'>('desc')
 
-  useEffect(() => {
-    console.log('🧙🏼‍♀️, "flpapoieajf', data)
-  }, [incomingData.length])
-
-  const orderedByTime = orderBy(data, ['ts'], ['desc', 'desc'])
-
-  const finalFinalOrderedArr = [...orderedByTime]
+  const orderedByTime = orderBy(data, ['ts'], [order, order])
 
   const LogTypeOptions = []
 
@@ -101,13 +96,15 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
     }
   }
 
-  const newGroups = createIntervalGroups(finalFinalOrderedArr, timeGroup)
+  const newGroups = createIntervalGroups(orderedByTime, timeGroup, order)
+
+  const singleLogScrollArea = useRef()
 
   // TODO SOLVE THIS
   let count = 0
 
   return (
-    <styled.div>
+    <styled.div style={{ position: 'relative' }}>
       <LogsHeader
         setSrvcFilters={setSrvcFilters}
         msgFilter={msgFilter}
@@ -117,11 +114,18 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
         setTimeGroup={setTimeGroup}
         counter={counter}
         totalCount={data?.length}
+        order={order}
+        setOrder={setOrder}
       />
 
       {/* grouped logs */}
       {timeGroup ? (
-        <styled.div>
+        <styled.div
+          style={{
+            display: 'flex',
+            flexDirection: order === 'desc' ? 'column' : 'column-reverse',
+          }}
+        >
           {newGroups.map((group, idx) => {
             if (group) {
               const filteredGroup = group
@@ -141,7 +145,7 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
           })}
         </styled.div>
       ) : (
-        <ScrollArea style={{ maxHeight: 676 }}>
+        <ScrollArea style={{ maxHeight: 676 }} ref={singleLogScrollArea}>
           {orderedByTime
             .filter((item) =>
               srvcFilters.length > 0 ? srvcFilters.includes(item.srvc) : item,
@@ -165,6 +169,14 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
             })}
         </ScrollArea>
       )}
+      <Button
+        variant="primary-transparent"
+        shape="square"
+        style={{ position: 'absolute', right: 0, bottom: 0 }}
+        onClick={() => console.log('yo')}
+      >
+        {order === 'desc' ? <IconChevronTop /> : <IconChevronDown />}
+      </Button>
     </styled.div>
   )
 }
