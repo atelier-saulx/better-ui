@@ -99,11 +99,11 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
 
   const newGroups = createIntervalGroups(orderedByTime, timeGroup, order)
 
-  const singleLogScrollArea = useRef<HTMLDivElement>()
+  const singleLogScrollArea = useRef<HTMLElement>()
 
   useEffect(() => {
     if (scrollToBottom) {
-      console.log('halow??')
+      // @ts-ignore
       singleLogScrollArea.current.childNodes[0].childNodes[1].lastElementChild.scrollIntoView()
     }
   }, [data.length, scrollToBottom])
@@ -113,7 +113,6 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
 
   return (
     <styled.div style={{ position: 'relative' }}>
-      {order}
       <LogsHeader
         setSrvcFilters={setSrvcFilters}
         msgFilter={msgFilter}
@@ -160,8 +159,9 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
           onScroll={(e) => {
             console.log(e)
             if (
-              e.target.scrollTop ===
-              e.target.scrollHeight - e.target.offsetHeight
+              (e.target as HTMLElement).scrollTop ===
+              (e.target as HTMLElement).scrollHeight -
+                (e.target as HTMLElement).offsetHeight
             ) {
               console.log('BOTTOM')
               setScrollToBottom(true)
@@ -201,6 +201,7 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
         onClick={() => {
           if (order === 'desc') {
             setScrollToBottom(false)
+            // @ts-ignore
             singleLogScrollArea.current.childNodes[0].childNodes[1].firstElementChild.scrollIntoView()
           } else {
             console.log('HALLO>>')
