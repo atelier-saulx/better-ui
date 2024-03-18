@@ -46,7 +46,7 @@ const orderBy = (arr, props, orders) =>
     }, 0),
   )
 
-const createIntervalGroups = (arr, time, order) => {
+const createIntervalGroups = (arr, time) => {
   const timeIntervalInMs = time * 60000
   const intervalGroups = []
 
@@ -77,7 +77,7 @@ const createIntervalGroups = (arr, time, order) => {
     }
   }
   // return an array with arrays of groups !!!
-  return order === 'asc' ? intervalGroups : intervalGroups.reverse()
+  return intervalGroups
 }
 
 export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
@@ -87,6 +87,8 @@ export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
   const [timeGroup, setTimeGroup] = useState(groupByTime)
   const [order, setOrder] = useState<'asc' | 'desc'>('desc')
   const [scrollToBottom, setScrollToBottom] = useState(false)
+
+  const [filteredGroupCountArr, setFilteredGroupCountArr] = useState([])
 
   const orderedByTime = orderBy(data, ['ts'], [order, order])
 
@@ -98,19 +100,27 @@ export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
     }
   }
 
-  const newGroups = createIntervalGroups(orderedByTime, timeGroup, order)
+  const newGroups = createIntervalGroups(orderedByTime, timeGroup)
 
   const singleLogScrollArea = useRef<HTMLElement>()
+  const groupLogRef = useRef<HTMLDivElement>()
 
   useEffect(() => {
     if (scrollToBottom) {
       // @ts-ignore
-      singleLogScrollArea.current.childNodes[0].childNodes[1].lastElementChild.scrollIntoView()
+      singleLogScrollArea.current?.childNodes[0]?.childNodes[1].lastElementChild.scrollIntoView()
     }
   }, [data.length, scrollToBottom])
 
-  // TODO SOLVE THIS
-  let count = 0
+  // this here to count the logs in group view
+  useEffect(() => {
+    let sum = filteredGroupCountArr.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue
+    }, 0)
+
+    setCounter(sum)
+    setFilteredGroupCountArr([])
+  }, [filteredGroupCountArr.length])
 
   return (
     <styled.div style={{ position: 'relative' }}>
@@ -129,12 +139,13 @@ export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
       />
 
       {/* grouped logs */}
-      {timeGroup ? (
+      {timeGroup && order ? (
         <styled.div
           style={{
             display: 'flex',
-            flexDirection: order === 'desc' ? 'column' : 'column-reverse',
+            flexDirection: 'column-reverse',
           }}
+          ref={groupLogRef}
         >
           {newGroups.map((group, idx) => {
             if (group) {
@@ -147,8 +158,8 @@ export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
                 .filter((item) =>
                   item.msg.toLowerCase().includes(msgFilter.toLowerCase()),
                 )
-              count += filteredGroup.length
-              console.log(count, '🧛🏻')
+
+              filteredGroupCountArr.push(filteredGroup.length)
 
               return <LogGroup key={idx} group={filteredGroup} />
             }
@@ -205,7 +216,7 @@ export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
             if (order === 'desc') {
               setScrollToBottom(false)
               // @ts-ignore
-              singleLogScrollArea.current.childNodes[0].childNodes[1].firstElementChild.scrollIntoView()
+              singleLogScrollArea.current?.childNodes[0]?.childNodes[1].firstElementChild.scrollIntoView()
             } else {
               setScrollToBottom(true)
             }

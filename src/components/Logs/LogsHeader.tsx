@@ -46,7 +46,6 @@ export const LogsHeader = ({
 
   return (
     <Stack
-      // justify="start"
       gap={16}
       style={{ marginBottom: 24, borderBottom: border(), paddingBottom: 16 }}
     >
