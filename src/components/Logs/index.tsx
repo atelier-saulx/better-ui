@@ -85,6 +85,7 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
   const [counter, setCounter] = useState(null)
   const [timeGroup, setTimeGroup] = useState(groupByTime * 60000)
   const [order, setOrder] = useState<'asc' | 'desc'>('desc')
+  const [scrollToBottom, setScrollToBottom] = useState(false)
 
   const orderedByTime = orderBy(data, ['ts'], [order, order])
 
@@ -98,13 +99,31 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
 
   const newGroups = createIntervalGroups(orderedByTime, timeGroup, order)
 
-  const singleLogScrollArea = useRef()
+  const singleLogScrollArea = useRef<HTMLDivElement>()
+
+  let thisDiv = singleLogScrollArea?.current?.childNodes[0].childNodes[1]
+
+  // if (
+  //   order === 'asc' &&
+  //   thisDiv?.scrollTop === thisDiv?.scrollHeight - thisDiv?.offsetHeight
+  // ) {
+  //   console.log('ATH ROCK BOTTOM')
+  //   singleLogScrollArea.current.childNodes[0].childNodes[1].firstElementChild.scrollIntoView()
+  // }
+
+  useEffect(() => {
+    if (scrollToBottom) {
+      console.log('halow??')
+      singleLogScrollArea.current.childNodes[0].childNodes[1].lastElementChild.scrollIntoView()
+    }
+  }, [data.length, scrollToBottom])
 
   // TODO SOLVE THIS
   let count = 0
 
   return (
     <styled.div style={{ position: 'relative' }}>
+      {order}
       <LogsHeader
         setSrvcFilters={setSrvcFilters}
         msgFilter={msgFilter}
@@ -145,7 +164,21 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
           })}
         </styled.div>
       ) : (
-        <ScrollArea style={{ maxHeight: 676 }} ref={singleLogScrollArea}>
+        <ScrollArea
+          style={{ maxHeight: 676 }}
+          ref={singleLogScrollArea}
+          onScroll={(e) => {
+            if (
+              e.target.scrollTop ===
+              e.target.scrollHeight - e.target.offsetHeight
+            ) {
+              console.log('BOTTOM')
+
+              setScrollToBottom(true)
+            }
+            console.log(e)
+          }}
+        >
           {orderedByTime
             .filter((item) =>
               srvcFilters.length > 0 ? srvcFilters.includes(item.srvc) : item,
@@ -174,9 +207,14 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
         shape="square"
         style={{ position: 'absolute', right: 0, bottom: 0 }}
         onClick={() => {
-          order === 'asc'
-            ? singleLogScrollArea.current.childNodes[0].childNodes[1].lastElementChild.scrollIntoView()
-            : singleLogScrollArea.current.childNodes[0].childNodes[1].firstElementChild.scrollIntoView() // singleLogScrollArea.current.childNodes[0].childNodes[1].scrollToBottom()
+          if (order === 'desc') {
+            setScrollToBottom(false)
+            singleLogScrollArea.current.childNodes[0].childNodes[1].firstElementChild.scrollIntoView()
+          } else {
+            console.log('HALLO>>')
+
+            setScrollToBottom(true)
+          }
         }}
       >
         {order === 'desc' ? <IconChevronTop /> : <IconChevronDown />}
