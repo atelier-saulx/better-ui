@@ -437,6 +437,6 @@ export default meta
 export const Default: StoryObj<typeof Logs> = {
   args: {
     data: test,
-    groupByTime: 90000,
+    // groupByTime: 90000,
   },
 }

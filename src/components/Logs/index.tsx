@@ -4,7 +4,7 @@ import { Color } from '../../utils/colors.js'
 import { SingleLog } from './SingleLog.js'
 import { ScrollArea } from '../ScrollArea/index.js'
 import { LogsHeader } from './LogsHeader.js'
-import { Badge } from '../../index.js'
+import { Badge, Text } from '../../index.js'
 import { LogGroup } from './LogGroup.js'
 
 type NewLogsObject = {
@@ -20,7 +20,7 @@ type NewLogsObject = {
 
 type LogsProps = {
   data?: NewLogsObject
-  groupByTime?: number
+  groupByTime?: 1 | 3 | 5 | 10 | 15 | 30 | 60 | 1200
 }
 
 const orderBy = (arr, props, orders) =>
@@ -66,12 +66,15 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
   const [srvcFilters, setSrvcFilters] = useState<string[]>([])
   const [msgFilter, setMsgFilter] = useState<string>('')
   const [counter, setCounter] = useState(null)
+  const [timeGroup, setTimeGroup] = useState(groupByTime * 60000)
 
   const groupByTimeInMilliSeconds = groupByTime * 60000
 
   const orderedByTime = orderBy(data, ['ts'], ['desc', 'desc'])
 
-  const pairs = []
+  // const pairs = []
+
+  console.log(data)
 
   // make groups // so loop all objects wich are so many - milliseconds from first object
 
@@ -161,15 +164,17 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
 
   return (
     <styled.div>
-      <Badge style={{ marginBottom: 8 }} color="informative-muted">
-        {counter}
-      </Badge>
       <LogsHeader
         setSrvcFilters={setSrvcFilters}
         msgFilter={msgFilter}
         setMsgFilter={setMsgFilter}
         options={options}
+        timeGroup={timeGroup}
+        setTimeGroup={setTimeGroup}
+        counter={counter}
+        totalCount={data?.length}
       />
+
       {/* grouped logs */}
       {groupByTime ? (
         <styled.div>
