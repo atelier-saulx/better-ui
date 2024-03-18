@@ -101,16 +101,6 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
 
   const singleLogScrollArea = useRef<HTMLDivElement>()
 
-  let thisDiv = singleLogScrollArea?.current?.childNodes[0].childNodes[1]
-
-  // if (
-  //   order === 'asc' &&
-  //   thisDiv?.scrollTop === thisDiv?.scrollHeight - thisDiv?.offsetHeight
-  // ) {
-  //   console.log('ATH ROCK BOTTOM')
-  //   singleLogScrollArea.current.childNodes[0].childNodes[1].firstElementChild.scrollIntoView()
-  // }
-
   useEffect(() => {
     if (scrollToBottom) {
       console.log('halow??')
@@ -168,13 +158,15 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
           style={{ maxHeight: 676 }}
           ref={singleLogScrollArea}
           onScroll={(e) => {
+            console.log(e)
             if (
               e.target.scrollTop ===
               e.target.scrollHeight - e.target.offsetHeight
             ) {
               console.log('BOTTOM')
-
               setScrollToBottom(true)
+            } else {
+              setScrollToBottom(false)
             }
             console.log(e)
           }}
