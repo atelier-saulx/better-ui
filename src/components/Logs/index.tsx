@@ -82,7 +82,10 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
   const [msgFilter, setMsgFilter] = useState<string>('')
   const [counter, setCounter] = useState(null)
   const [timeGroup, setTimeGroup] = useState(groupByTime * 60000)
-  const [groupFilterCounter, setGroupFilterCounter] = useState(null)
+
+  useEffect(() => {
+    console.log('🧙🏼‍♀️, "flpapoieajf', data)
+  }, [data])
 
   const orderedByTime = orderBy(data, ['ts'], ['desc', 'desc'])
 
