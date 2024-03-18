@@ -26,13 +26,15 @@ export const LogsHeader = ({
     { value: 15, label: '15 minutes' },
     { value: 30, label: '30 minutes' },
     { value: 60, label: '1 hour' },
-    { value: 1200, label: '12 hours' },
-    { value: 2400, label: 'per day' },
+    { value: 720, label: '12 hours' },
+    { value: 1440, label: 'per day' },
   ]
 
   return (
     <Stack
-      style={{ marginBottom: 24, borderBottom: border(), paddingBottom: 24 }}
+      justify="start"
+      gap={24}
+      style={{ marginBottom: 24, borderBottom: border(), paddingBottom: 16 }}
     >
       <Text color="secondary" variant="body-light">
         Showing {counter} out of {totalCount}
@@ -55,6 +57,7 @@ export const LogsHeader = ({
         variant="small"
       />
       <SearchInput
+        style={{ marginLeft: 'auto' }}
         placeholder="Search logs"
         value={msgFilter}
         onChange={(v) => {
