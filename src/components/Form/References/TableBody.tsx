@@ -17,6 +17,8 @@ type TableBodyProps = {
   changeIndex: (fromIndex: number, toIndex: number) => void
   onRemove: (index: number) => void
   path: Path
+  onSelect?: (select: any) => void
+  selected?: Set<string>
   colFields: ColSizes
   nField: BasedSchemaFieldArray
   isBlock?: boolean
@@ -51,6 +53,8 @@ export const TableVirtualized = (p: TableBodyProps) => {
         return (
           <>
             <ObjectCollsRows
+              selected={p.selected}
+              onSelect={p.onSelect}
               onClickRow={(v: any) => p.onClickReference(v)}
               draggable={p.field.sortable}
               value={{
@@ -90,6 +94,8 @@ export const TableBody = (p: TableBodyProps) => {
 
   return (
     <ObjectCollsRows
+      onSelect={p.onSelect}
+      selected={p.selected}
       onClickRow={(v: any) => p.onClickReference(v)}
       draggable={p.field.sortable}
       value={p.valueRef}

@@ -24,6 +24,8 @@ export const Table = (p: {
   field?: BasedSchemaFieldObject
   style?: Style
   isLoading?: boolean
+  selected?: Set<string>
+  onSelect?: (select: any) => void
   values?: any[]
   sortable?: boolean // maybe rename to orderable (everywhere)
   onClick?: (data: any, index: number | string) => void
@@ -34,10 +36,6 @@ export const Table = (p: {
     changes: Changes
   }
 }) => {
-  // discard, apply, onChange
-  // onChange
-  // { added: [], changed: [], removed: [] }
-
   if (p.editableRef) {
     p.editableRef.clear ??= () => {}
   }
@@ -156,6 +154,8 @@ export const Table = (p: {
       onClickReference={clickRef}
       ctx={ctx}
       path={path}
+      selected={p.selected}
+      onSelect={p.onSelect}
       valueRef={valueRef.current}
       changeIndex={changeIndex}
       isLoading={p.isLoading}

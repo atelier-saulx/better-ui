@@ -6,6 +6,9 @@ import { Field } from '../Field/index.js'
 import { RowProps } from './types.js'
 import { styled } from 'inlines'
 import { DragableRow } from '../DragableRow.js'
+import { IconCheckSmall } from '../../../Icons/index.js'
+import { border, color } from '../../../../utils/colors.js'
+import { Stack } from '../../../Stack/index.js'
 
 export const CollRow = (p: {
   field: BasedSchemaFieldObject
@@ -13,6 +16,8 @@ export const CollRow = (p: {
   path: Path
   isLoading?: boolean
   index: number
+  selected?: boolean
+  onSelect?: (val: any) => void
   onClickRow?: (val: any) => void
   colFields: ColSizes
   removeItem: (index: number) => void
@@ -21,6 +26,48 @@ export const CollRow = (p: {
   draggable?: boolean
 }) => {
   const cells: ReactNode[] = []
+
+  if (p.onSelect) {
+    cells.push(
+      <Stack
+        key="_select"
+        style={{
+          width: 28,
+          height: 28,
+          minWidth: 28,
+        }}
+      >
+        <div />
+        <Stack
+          onClick={(e) => {
+            p.onSelect(p.value)
+            e.stopPropagation()
+            e.preventDefault()
+          }}
+          justify="center"
+          style={{
+            width: 20,
+            minHeight: 20,
+            height: 20,
+            borderRadius: 4,
+            minWidth: 20,
+            border: border(),
+            '&:hover': {
+              border: border('focus'),
+            },
+          }}
+        >
+          <IconCheckSmall
+            style={{
+              color: color('interactive', 'primary'),
+              opacity: p.selected ? 1 : 0,
+            }}
+          />
+        </Stack>
+      </Stack>,
+    )
+  }
+
   for (const field of p.colFields) {
     if (p.isLoading) {
       cells.push(
@@ -65,9 +112,12 @@ export const ObjectCollsRows = (
   p: RowProps & { colFields: ColSizes; isLoading?: boolean },
 ) => {
   const rows: ReactNode[] = []
+
   for (let i = 0; i < p.value.value.length; i++) {
     rows.push(
       <CollRow
+        onSelect={p.onSelect}
+        selected={p.selected ? p.selected.has(p.value.value[i].id) : false}
         colFields={p.colFields}
         changeIndex={p.changeIndex}
         key={p.value.orderId + '_' + i}

@@ -1,12 +1,13 @@
 import { BasedSchemaFieldArray } from '@based/schema'
 import { Path, TableCtx } from '../../types.js'
-import { Style } from 'inlines'
 
 export type RowProps = {
   value: ValueRef
   changeIndex: (fromIndex: number, toIndex: number) => void
   path: Path
+  onSelect?: (selected: any) => void
   ctx: TableCtx
+  selected?: Set<string>
   draggable?: boolean
   field: BasedSchemaFieldArray
   removeItem: (index: number) => void
