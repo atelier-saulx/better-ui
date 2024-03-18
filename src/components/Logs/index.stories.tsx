@@ -432,6 +432,19 @@ const test = [
   },
 ]
 
+setInterval(() => {
+  test.push({
+    srvc: 'env-hub',
+    i: '0',
+    mid: 'ma7398cf92',
+    url: '3.73.65.108',
+    eid: 'enBBBFs9x0',
+    msg: "{ name: 'demo', version: 3501681214638 }\n",
+    lvl: 'error',
+    ts: new Date().getTime(),
+  })
+}, 1000)
+
 export default meta
 
 export const Default: StoryObj<typeof Logs> = {

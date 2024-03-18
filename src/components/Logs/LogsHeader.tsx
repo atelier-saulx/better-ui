@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   MultiSelectInput,
   SelectInput,
@@ -7,7 +7,8 @@ import {
   border,
   Text,
   Switch,
-  IconViewSchedule,
+  IconIcListBulleted,
+  IconIcTextAlignJustify,
 } from '../../index.js'
 
 export const LogsHeader = ({
@@ -20,6 +21,8 @@ export const LogsHeader = ({
   counter,
   totalCount,
 }) => {
+  const [selectedTime, setSelectedTime] = useState(null)
+
   const timeOptions = [
     { value: 1, label: '1 minute' },
     { value: 3, label: '3 minutes' },
@@ -42,8 +45,15 @@ export const LogsHeader = ({
         Showing {counter} out of {totalCount}
       </Text>
       <Switch
-        data={[<div>fa</div>, <IconViewSchedule />]}
-        onChange={(v) => console.log(v)}
+        data={[<IconIcTextAlignJustify />, <IconIcListBulleted />]}
+        onChange={(v) => {
+          if (v === 0) {
+            setTimeGroup(null)
+          } else if (v === 1) {
+            setTimeGroup(selectedTime || 1)
+          }
+        }}
+        selected={timeGroup ? 1 : 0}
       />
       <MultiSelectInput
         placeholder="Log types"
@@ -55,8 +65,12 @@ export const LogsHeader = ({
       />
       <SelectInput
         placeholder="Group by time"
+        value={timeGroup}
         options={timeOptions}
-        onChange={(v) => setTimeGroup(v)}
+        onChange={(v) => {
+          setTimeGroup(v)
+          setSelectedTime(v)
+        }}
         style={{
           maxWidth: 142,
         }}

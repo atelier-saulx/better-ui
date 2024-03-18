@@ -1,10 +1,9 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { styled } from 'inlines'
 import { Color } from '../../utils/colors.js'
 import { SingleLog } from './SingleLog.js'
 import { ScrollArea } from '../ScrollArea/index.js'
 import { LogsHeader } from './LogsHeader.js'
-import { Badge, Text } from '../../index.js'
 import { LogGroup } from './LogGroup.js'
 import {
   isWithinInterval,
@@ -83,10 +82,9 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
   const [msgFilter, setMsgFilter] = useState<string>('')
   const [counter, setCounter] = useState(null)
   const [timeGroup, setTimeGroup] = useState(groupByTime * 60000)
+  const [groupFilterCounter, setGroupFilterCounter] = useState(null)
 
   const orderedByTime = orderBy(data, ['ts'], ['desc', 'desc'])
-
-  console.log(timeGroup, 'timeGroup')
 
   const finalFinalOrderedArr = [...orderedByTime]
 
@@ -99,6 +97,9 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
   }
 
   const newGroups = createIntervalGroups(finalFinalOrderedArr, timeGroup)
+
+  // TODO SOLVE THIS
+  let count = 0
 
   return (
     <styled.div>
@@ -127,6 +128,9 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
                 .filter((item) =>
                   item.msg.toLowerCase().includes(msgFilter.toLowerCase()),
                 )
+              count += filteredGroup.length
+              console.log(count, '🧛🏻')
+
               return <LogGroup key={idx} group={filteredGroup} />
             }
           })}
