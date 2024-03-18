@@ -173,7 +173,11 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
         variant="primary-transparent"
         shape="square"
         style={{ position: 'absolute', right: 0, bottom: 0 }}
-        onClick={() => console.log('yo')}
+        onClick={() => {
+          order === 'asc'
+            ? singleLogScrollArea.current.childNodes[0].childNodes[1].lastElementChild.scrollIntoView()
+            : singleLogScrollArea.current.childNodes[0].childNodes[1].firstElementChild.scrollIntoView() // singleLogScrollArea.current.childNodes[0].childNodes[1].scrollToBottom()
+        }}
       >
         {order === 'desc' ? <IconChevronTop /> : <IconChevronDown />}
       </Button>

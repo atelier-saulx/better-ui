@@ -47,7 +47,12 @@ export const LogsHeader = ({
       gap={16}
       style={{ marginBottom: 24, borderBottom: border(), paddingBottom: 16 }}
     >
-      <Text color="secondary" variant="body-light">
+      <Text
+        color="secondary"
+        variant="body-light"
+        style={{ width: 164 }}
+        singleLine
+      >
         Showing {counter} out of {totalCount}
       </Text>
       <Switch
@@ -89,7 +94,6 @@ export const LogsHeader = ({
         variant="small"
       />
       <SearchInput
-        style={{ marginLeft: 'auto' }}
         placeholder="Search logs"
         value={msgFilter}
         onChange={(v) => {
