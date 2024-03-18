@@ -6,6 +6,8 @@ import {
   Stack,
   border,
   Text,
+  Switch,
+  IconViewSchedule,
 } from '../../index.js'
 
 export const LogsHeader = ({
@@ -39,6 +41,10 @@ export const LogsHeader = ({
       <Text color="secondary" variant="body-light">
         Showing {counter} out of {totalCount}
       </Text>
+      <Switch
+        data={[<div>fa</div>, <IconViewSchedule />]}
+        onChange={(v) => console.log(v)}
+      />
       <MultiSelectInput
         placeholder="Log types"
         options={options}

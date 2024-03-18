@@ -63,9 +63,6 @@ export const LogGroup = ({ group }) => {
             </Stack>
             <Stack>
               <Text variant="body-bold">{group[0].msg.substring(0, 74)}</Text>
-              <Badge color="neutral-muted" style={{ fontSize: 12 }}>
-                {group[0].srvc}
-              </Badge>
             </Stack>
           </div>
         </Stack>

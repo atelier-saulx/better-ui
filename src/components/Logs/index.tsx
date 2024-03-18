@@ -45,32 +45,23 @@ const orderBy = (arr, props, orders) =>
   )
 
 const createIntervalGroups = (arr, time) => {
-  const lastItem = arr[arr.length - 1]
   const timeIntervalInMs = time * 60000
   const intervalGroups = []
 
   let counter = 0
+  let startInterval
 
-  console.log
-
-  // minutes intervals
   if (time) {
     while (counter < arr.length) {
-      let startInterval
       if (time < 60) {
         startInterval = startOfMinute(arr[arr.length - 1 - counter].ts)
       } else if (time < 1440) {
-        console.log('HOUR 🐣')
         startInterval = startOfHour(arr[arr.length - 1 - counter].ts)
       } else {
         startInterval = startOfDay(arr[arr.length - 1 - counter].ts)
       }
 
-      //   const startingMinute = startOfMinute(arr[arr.length - 1 - counter].ts)
       const endTimeInterval = +format(startInterval, 'T') + timeIntervalInMs
-
-      console.log('starting minute', startInterval)
-      console.log('ending minute', endTimeInterval)
 
       let interval = arr.filter((item) =>
         isWithinInterval(item.ts, {
@@ -82,28 +73,8 @@ const createIntervalGroups = (arr, time) => {
       counter += interval.length
       intervalGroups.push(interval)
     }
-
-    // let firstInterval = arr.filter(
-    //   (item) =>
-    //     isWithinInterval(item.ts, {
-    //       start: startingMinute,
-    //       end: endTimeInterval,
-    //     })
-    // )
-
-    // na deze eerste loop als er nog items zijn. pak eerstvolgende overige item
-    // en doe nog een keer interval
-
-    console.log(counter, '🐤')
-    // console.log('NANI??🐸', [firstInterval])
-    // intervalGroups.push(firstInterval)
-    //return [firstInterval]
-
-    // hour intervals
-    // day intervals
   }
   // return an array with arrays of groups !!!
-  console.log('last itempje', lastItem)
   return intervalGroups
 }
 
