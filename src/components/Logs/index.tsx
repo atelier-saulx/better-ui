@@ -12,6 +12,7 @@ import {
   startOfMinute,
   format,
 } from 'date-fns'
+import { usePropState } from '../../hooks/usePropState/index.js'
 
 type NewLogsObject = {
   status?: string
@@ -78,6 +79,7 @@ const createIntervalGroups = (arr, time) => {
 }
 
 export const Logs = ({ data, groupByTime }: LogsProps) => {
+  const [incomingData, setIncomingData] = usePropState(data)
   const [srvcFilters, setSrvcFilters] = useState<string[]>([])
   const [msgFilter, setMsgFilter] = useState<string>('')
   const [counter, setCounter] = useState(null)
@@ -85,7 +87,7 @@ export const Logs = ({ data, groupByTime }: LogsProps) => {
 
   useEffect(() => {
     console.log('🧙🏼‍♀️, "flpapoieajf', data)
-  }, [data])
+  }, [incomingData.length])
 
   const orderedByTime = orderBy(data, ['ts'], ['desc', 'desc'])
 
