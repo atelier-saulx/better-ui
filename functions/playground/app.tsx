@@ -2621,14 +2621,34 @@ export const Default: StoryObj<typeof RangeInput> = {
   args: {
     label: 'Label',
     description: "What's your number?",
-    min: 0,
     max: 400,
     value: 40,
-    // step: 4,
+    step: 40,
+    prefix: '🐸',
+    showMinMaxNumber: true,
+    alwaysShowLabel: true,
+    onChange: (value) => {
+      console.log(value)
+    },
+    // disabled: true,
+  },
+}
+
+export const Example: StoryObj<typeof RangeInput> = {
+  args: {
+    label: 'Label',
+    description: "What's your number?",
+    alwaysShowLabel: true,
+    showMinMaxNumber: true,
     onChange: (value) => {
       console.log(value)
     },
     disabled: false,
+    items: [
+      { id: 'x', title: 'Doctor X', index: 0 },
+      { id: 'doom', title: 'Dr. Doom', index: 1 },
+      { id: 'mario', title: 'Super Mario World', index: 2 },
+    ],
   },
 }
 `},{ id: "f5376768019532", story: f5376768019532, path: "/Users/yvesbeer/dev/better-ui/src/components/RichTextEditor/index.stories.tsx", file: `import React from 'react'
@@ -3297,13 +3317,40 @@ const meta = {
 export default meta
 
 export const Default = ({ data }) => {
+  const r = React.useRef<Set<string>>(new Set(['*']))
+  const update = useUpdate()
+
   return (
     <div
       style={{
         height: 500,
       }}
     >
-      <Table values={data} pagination sort />
+      <Table
+        onSelect={(v, all) => {
+          if (all) {
+            if (r.current.has('*')) {
+              r.current.clear()
+            } else {
+              r.current.clear()
+              r.current.add('*')
+            }
+            update()
+            return
+          }
+
+          if (r.current.has(v.id)) {
+            r.current.delete(v.id)
+          } else {
+            r.current.add(v.id)
+          }
+          update()
+        }}
+        selected={r.current}
+        values={data}
+        pagination
+        sort
+      />
     </div>
   )
 }
@@ -3646,6 +3693,8 @@ export const Default: StoryObj<typeof TextAreaInput> = {
     label: 'Label',
     description: 'Enter some text if you wish',
     disabled: false,
+    defaultValue: 'halow',
+    value: 'wtf',
   },
 }
 
@@ -5024,7 +5073,6 @@ export const References = () => {
           title: 'People',
           type: 'references',
         },
-
         refs: {
           title: 'Multi references',
           type: 'references',
