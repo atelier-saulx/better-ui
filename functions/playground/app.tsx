@@ -686,6 +686,64 @@ export const ButtonSmall: StoryObj<typeof Button> = {
     },
   },
 }
+
+export const PrimaryMuted: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'primary-muted',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const PrimaryTransparent: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'primary-transparent',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const Neutral: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'neutral',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const Ghost: StoryObj<typeof Button> = {
+  args: {
+    children: '👻',
+    variant: 'ghost',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('BOO!')
+    },
+  },
+}
+
+export const ErrorVariant: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'error',
+    prefix: <IconCopy />,
+    onClick: async () => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 800)
+      })
+      throw new Error('something went bad')
+    },
+  },
+}
 `},{ id: "f4500130912786", story: f4500130912786, path: "/Users/yvesbeer/dev/better-ui/src/components/Calendar/index.stories.tsx", file: `import * as React from 'react'
 import { Calendar } from '../../index.js'
 

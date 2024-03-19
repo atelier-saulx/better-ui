@@ -85,7 +85,6 @@ const dragHandler = (e: DragEvent, ref: DragRef) => {
     elem,
   )
 
-  console.log(ref)
   // overlay
 
   document.body.appendChild(elem)
