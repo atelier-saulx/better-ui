@@ -4,13 +4,6 @@ import {
   Button,
   Text,
   IconPlus,
-  IconArrowDown,
-  IconArrowUp,
-  IconSortAsc,
-  IconSortDesc,
-  IconChevronDown,
-  IconSmallChevronTop,
-  IconChevronDownSmall,
   IconArrowheadDown,
   IconArrowheadUp,
   Pagination,
@@ -181,7 +174,7 @@ export const ReferencesTable = ({
       field={fieldSchema}
       readOnly={readOnly}
       setColumns={setColumns}
-      correction={(field.sortable ? 28 : 0) + (onSelect ? 28 : 0)}
+      correction={(field.sortable ? 28 : 0) + (onSelect ? 48 : 0)}
       alwaysUseCols
       style={{
         // auto height
