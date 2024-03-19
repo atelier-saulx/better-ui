@@ -33,6 +33,22 @@ import {
 } from './generator.js'
 export { generateFieldsFromQuery, generateFromType, getTypesFromFilter }
 
+type ExplorerRef = {
+  activeSubs: Map<string, ActiveSub>
+  block: { data: any[] }
+  isLoading: boolean
+  loadTimer?: ReturnType<typeof setTimeout>
+  start: number
+  end: number
+  filter?: string
+  dragOver?: boolean
+  lastLoaded?: number
+  query?: QueryFn
+  sort?: { key: string; dir: 'asc' | 'desc' }
+  selected?: any
+  selectedItems?: Set<string>
+}
+
 type ExplorerQueryProps = {
   selected?: any
   limit: number
@@ -68,6 +84,8 @@ type Variant = 'table' | 'grid' | 'list' | 'calendar'
 const DefaultInfo = ({ total, start, end }) =>
   `Showing ${start} - ${end} out of a ${total} items`
 
+export type SelectedItems = { type: 'exclude' | 'include'; items: Set<string> }
+
 export type BasedExplorerProps = {
   header?: React.ReactNode | BasedExplorerHeaderComponent
   info?: React.ReactNode | BasedExplorerHeaderComponent | true
@@ -77,6 +95,18 @@ export type BasedExplorerProps = {
   variant?: Variant | Variant[]
   select?: SelectInputProps['options']
   transformResults?: (data: any) => any
+  onSelectItem?: (
+    selectedItems: SelectedItems,
+    clearSelectedItems: () => void,
+  ) => boolean
+  SelectItemsActionsComponent?: React.FC<any>
+  selectItemsAction?: {
+    label: React.ReactNode
+    action: (
+      selectedItems: SelectedItems,
+      clearSelectedItems: () => void,
+    ) => Promise<void> | void
+  }
   sort?: {
     key: string
     dir: 'asc' | 'desc'
@@ -175,15 +205,32 @@ export const ViewSwitcher = (p: {
   )
 }
 
+const selectedItemsLabel = (ref: ExplorerRef, total: number) => {
+  const selectedItems = ref.selectedItems
+  if (!selectedItems) {
+    return ''
+  }
+  if (selectedItems.has('*')) {
+    if (total) {
+      return total + 1 - selectedItems.size
+    }
+    return '*'
+  }
+  return selectedItems.size
+}
+
 export function BasedExplorer({
   query,
   queryEndpoint = 'db',
   totalQuery,
   select,
+  onSelectItem,
   onItemClick,
   filter,
   fields: fieldsProp,
   onDrop,
+  selectItemsAction,
+  SelectItemsActionsComponent,
   transformResults,
   header,
   info,
@@ -209,20 +256,7 @@ export function BasedExplorer({
     return newSchema
   }, [checksum])
 
-  const ref = React.useRef<{
-    activeSubs: Map<string, ActiveSub>
-    block: { data: any[] }
-    isLoading: boolean
-    loadTimer?: ReturnType<typeof setTimeout>
-    start: number
-    end: number
-    filter?: string
-    dragOver?: boolean
-    lastLoaded?: number
-    query?: QueryFn
-    sort?: { key: string; dir: 'asc' | 'desc' }
-    selected?: any
-  }>({
+  const ref = React.useRef<ExplorerRef>({
     dragOver: false,
     block: { data: [] },
     activeSubs: new Map(),
@@ -232,6 +266,7 @@ export function BasedExplorer({
     end: 0,
     sort,
     query,
+    selectedItems: onSelectItem ? new Set() : null,
     selected: select
       ? typeof select[0] === 'string'
         ? select[0]
@@ -519,6 +554,55 @@ export function BasedExplorer({
       </div>
     ) : (
       <Table
+        onSelect={
+          onSelectItem
+            ? (v, all) => {
+                const selectedItems = ref.current.selectedItems
+                if (all) {
+                  if (selectedItems.has('*')) {
+                    selectedItems.clear()
+                  } else {
+                    selectedItems.clear()
+                    selectedItems.add('*')
+                  }
+                } else {
+                  if (selectedItems.has(v.id)) {
+                    selectedItems.delete(v.id)
+                  } else {
+                    selectedItems.add(v.id)
+                  }
+                }
+
+                if (selectedItems.has('*')) {
+                  onSelectItem(
+                    {
+                      type: 'exclude',
+                      items: new Set(
+                        [...selectedItems].filter((v) => v !== '*'),
+                      ),
+                    },
+                    () => {
+                      selectedItems.clear()
+                      update()
+                    },
+                  )
+                } else {
+                  onSelectItem(
+                    {
+                      type: 'include',
+                      items: selectedItems,
+                    },
+                    () => {
+                      selectedItems.clear()
+                      update()
+                    },
+                  )
+                }
+                update()
+              }
+            : null
+        }
+        selected={ref.current.selectedItems}
         style={style}
         field={
           fields
@@ -637,9 +721,17 @@ export function BasedExplorer({
                     style={{ width: 300 }}
                   />
                 ) : null}
+                {selectItemsAction || SelectItemsActionsComponent ? (
+                  <SelectItemAction
+                    update={update}
+                    SelectItemsActionComponent={SelectItemsActionsComponent}
+                    selectItemsAction={selectItemsAction}
+                    expRef={ref}
+                    totalData={totalData}
+                  />
+                ) : null}
                 {addItem ? (
                   <Button
-                    // variant="primary-transparent"
                     onClick={() => {
                       return addItem(headerProps)
                     }}
@@ -665,4 +757,63 @@ export function BasedExplorer({
     )
   }
   return viewer
+}
+
+const SelectItemAction = (p: {
+  selectItemsAction: {
+    label: React.ReactNode
+    action: (
+      selectedItems: SelectedItems,
+      clearSelectedItems: () => void,
+    ) => Promise<void> | void
+  }
+  SelectItemsActionComponent: React.FC<any>
+  update: () => void
+  expRef: React.MutableRefObject<ExplorerRef>
+  totalData: any
+}): React.ReactNode => {
+  const selectedLabel = selectedItemsLabel(p.expRef.current, p.totalData?.total)
+
+  if (!selectedLabel) {
+    return null
+  }
+
+  if (p.SelectItemsActionComponent) {
+    return (
+      <p.SelectItemsActionComponent
+        selectedItems={p.expRef.current.selectedItems}
+        totalData={p.totalData}
+        selectItemsAction={p.selectItemsAction}
+        update={p.update}
+        selectedAmount={selectedLabel}
+      />
+    )
+  }
+
+  return (
+    <Button
+      variant="primary-muted"
+      onClick={() => {
+        const selectedItems = p.expRef.current.selectedItems
+        return p.selectItemsAction.action(
+          selectedItems.has('*')
+            ? {
+                type: 'exclude',
+                items: new Set([...selectedItems].filter((v) => v !== '*')),
+              }
+            : {
+                type: 'include',
+                items: selectedItems,
+              },
+          () => {
+            selectedItems.clear()
+            p.update()
+          },
+        )
+      }}
+    >
+      {p.selectItemsAction.label}
+      {` (${selectedLabel})`}
+    </Button>
+  )
 }

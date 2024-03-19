@@ -109,6 +109,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           display: 'inline-flex',
           justifyItems: 'center',
           alignItems: 'center',
+          minHeight: size === 'small' ? 24 : 32,
           '&:active': {
             transform: 'scale(0.98)',
           },
