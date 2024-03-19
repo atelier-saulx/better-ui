@@ -29,6 +29,7 @@ import { SizedStack, useColumns } from '../Table/SizedStack.js'
 import { genObjectSchema } from './genObjectSchema.js'
 import { TableBody } from './TableBody.js'
 import { getTitle } from '../utils.js'
+import { Selected } from '../Table/Arrays/ObjectCollumnRows.js'
 
 const useTags = (fieldSchema: BasedSchemaFieldObject): boolean => {
   const size = Object.keys(fieldSchema.properties).length
@@ -49,6 +50,8 @@ export const ReferencesTable = ({
   onRemove,
   field,
   onClickReference,
+  onSelect,
+  selected,
   changeIndex,
   alwaysUseCols,
   sortByFields,
@@ -58,6 +61,8 @@ export const ReferencesTable = ({
   isLoading,
 }: {
   style?: Style
+  onSelect?: (val: any, all?: boolean) => void
+  selected?: Set<string>
   isLoading?: boolean
   pagination?: Pagination
   sortByFields?: TableSort
@@ -98,9 +103,20 @@ export const ReferencesTable = ({
     )
   }
 
+  if (onSelect) {
+    cols.push(
+      <Selected
+        key="_select"
+        selected={selected?.has('*')}
+        onSelect={() => {
+          onSelect(undefined, true)
+        }}
+      />,
+    )
+  }
+
   for (const f of colFields) {
     const title = getTitle(f.key, f.field)
-
     if (
       sortByFields &&
       (sortByFields.include
@@ -158,11 +174,14 @@ export const ReferencesTable = ({
     },
   }
 
+  // onSelect
+
   return (
     <SizedStack
       field={fieldSchema}
       readOnly={readOnly}
       setColumns={setColumns}
+      correction={(field.sortable ? 28 : 0) + (onSelect ? 28 : 0)}
       alwaysUseCols
       style={{
         // auto height
@@ -174,6 +193,8 @@ export const ReferencesTable = ({
         {cols}
       </ColStack>
       <TableBody
+        onSelect={onSelect}
+        selected={selected}
         isLoading={isLoading}
         pagination={pagination}
         onClickReference={onClickReference}

@@ -54,13 +54,40 @@ const meta = {
 export default meta
 
 export const Default = ({ data }) => {
+  const r = React.useRef<Set<string>>(new Set(['*']))
+  const update = useUpdate()
+
   return (
     <div
       style={{
         height: 500,
       }}
     >
-      <Table values={data} pagination sort />
+      <Table
+        onSelect={(v, all) => {
+          if (all) {
+            if (r.current.has('*')) {
+              r.current.clear()
+            } else {
+              r.current.clear()
+              r.current.add('*')
+            }
+            update()
+            return
+          }
+
+          if (r.current.has(v.id)) {
+            r.current.delete(v.id)
+          } else {
+            r.current.add(v.id)
+          }
+          update()
+        }}
+        selected={r.current}
+        values={data}
+        pagination
+        sort
+      />
     </div>
   )
 }
