@@ -52,7 +52,7 @@ export const LogsHeader = ({
       <Text
         color="secondary"
         variant="body-light"
-        style={{ width: 164 }}
+        style={{ minWidth: 164, width: 164 }}
         singleLine
       >
         Showing {counter} out of {totalCount}

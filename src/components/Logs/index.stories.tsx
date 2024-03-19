@@ -2,9 +2,11 @@ import * as React from 'react'
 import { Logs, border, useUpdate } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof Logs> = {
+const meta: Meta<typeof Logs> & { description: string } = {
   title: 'Components/Logs',
   component: Logs,
+  description:
+    "The Captain's logs 👨🏻‍🚀: View single logs or grouped by time interval in descending or ascending order. Filter by log types and/or message string. Scrolling locks at the bottom and the top. Pass a prop for groupByTime to start with a grouped view. onClear prop to determine what happens on clear. order prop for starting order.",
   parameters: {
     layout: 'fullscreen',
   },
@@ -462,6 +464,7 @@ export const Default = () => {
     <Logs
       data={data}
       // groupByTime={1}
+      //  order="asc"
       onClear={() => alert('clear logs')}
     ></Logs>
   )

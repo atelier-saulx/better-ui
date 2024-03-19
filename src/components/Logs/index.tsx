@@ -30,6 +30,7 @@ type LogsProps = {
   data?: NewLogsObject
   groupByTime?: 1 | 3 | 5 | 10 | 15 | 30 | 60 | 720 | 1440
   onClear?: () => void
+  order?: 'asc' | 'desc'
 }
 
 const orderBy = (arr, props, orders) =>
@@ -80,12 +81,17 @@ const createIntervalGroups = (arr, time) => {
   return intervalGroups
 }
 
-export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
+export const Logs = ({
+  data,
+  groupByTime,
+  onClear,
+  order: orderProp = 'desc',
+}: LogsProps) => {
   const [srvcFilters, setSrvcFilters] = useState<string[]>([])
   const [msgFilter, setMsgFilter] = useState<string>('')
   const [counter, setCounter] = useState(null)
   const [timeGroup, setTimeGroup] = useState(groupByTime)
-  const [order, setOrder] = useState<'asc' | 'desc'>('desc')
+  const [order, setOrder] = useState<'asc' | 'desc'>(orderProp)
   const [scrollToBottom, setScrollToBottom] = useState(false)
 
   const [filteredGroupCountArr, setFilteredGroupCountArr] = useState([])
@@ -100,7 +106,7 @@ export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
     }
   }
 
-  const newGroups = createIntervalGroups(orderedByTime, timeGroup)
+  // const newGroups = createIntervalGroups(orderedByTime, timeGroup)
 
   const singleLogScrollArea = useRef<HTMLElement>()
   const groupLogRef = useRef<HTMLDivElement>()
@@ -143,11 +149,14 @@ export const Logs = ({ data, groupByTime, onClear }: LogsProps) => {
         <styled.div
           style={{
             display: 'flex',
-            flexDirection: 'column-reverse',
+            flexDirection: order === 'desc' ? 'column-reverse' : 'column',
           }}
           ref={groupLogRef}
         >
-          {newGroups.map((group, idx) => {
+          {createIntervalGroups(
+            orderBy(data, ['ts'], ['desc', 'desc']),
+            timeGroup,
+          ).map((group, idx) => {
             if (group) {
               const filteredGroup = group
                 .filter((item) =>
