@@ -104,6 +104,15 @@ export function BasedForm({
     )
   }
 
+  let noConfirm
+  if (variant === 'no-confirm') {
+    if (!id && addItem) {
+      variant = null
+    } else {
+      noConfirm = true
+    }
+  }
+
   // if (!id && addItem) {
   //   variant ??= 'no-confirm'
   // }
@@ -229,7 +238,7 @@ export function BasedForm({
             </Stack>
           }
           suffix={
-            !loading || type ? (
+            !noConfirm && (!loading || type) ? (
               <Stack gap={8} style={{ marginTop: -4 }}>
                 {/* <Button
                   shape="square"
@@ -266,7 +275,7 @@ export function BasedForm({
                       return formRef.current.confirm()
                     }}
                   >
-                    Publish
+                    Save
                   </Button>
                 </Stack>
               </Stack>

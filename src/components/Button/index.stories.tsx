@@ -13,7 +13,14 @@ export default meta
 export const Default: StoryObj<typeof Button> = {
   args: {
     children: 'Click me',
-    variant: 'error-muted',
+  },
+  storyName: 'Default button',
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use buttons for clickable things.',
+      },
+    },
   },
 }
 
@@ -48,7 +55,7 @@ export const Link: StoryObj<typeof Button> = {
   args: {
     children: 'This is a link',
     variant: 'neutral-link',
-    shape: 'square',
+    // shape: 'square',
     onClick: () => {
       alert('hello')
     },
@@ -86,6 +93,64 @@ export const ButtonSmall: StoryObj<typeof Button> = {
     children: 'Click',
     variant: 'primary',
     size: 'small',
+    prefix: <IconCopy />,
+    onClick: async () => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 800)
+      })
+      throw new Error('something went bad')
+    },
+  },
+}
+
+export const PrimaryMuted: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'primary-muted',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const PrimaryTransparent: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'primary-transparent',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const Neutral: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'neutral',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('hello')
+    },
+  },
+}
+
+export const Ghost: StoryObj<typeof Button> = {
+  args: {
+    children: '👻',
+    variant: 'ghost',
+    prefix: <IconCopy />,
+    onClick: () => {
+      alert('BOO!')
+    },
+  },
+}
+
+export const ErrorVariant: StoryObj<typeof Button> = {
+  args: {
+    children: 'Click',
+    variant: 'error',
     prefix: <IconCopy />,
     onClick: async () => {
       await new Promise((resolve) => {

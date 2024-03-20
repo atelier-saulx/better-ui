@@ -27,6 +27,7 @@ export type MultiSelectInputProps = {
   error?: boolean
   description?: string
   disabled?: boolean
+  stayOpenWhileSelecting?: boolean
 }
 
 export function MultiSelectInput({
@@ -42,6 +43,7 @@ export function MultiSelectInput({
   error,
   description,
   disabled,
+  stayOpenWhileSelecting = false,
 }: MultiSelectInputProps) {
   const [open, setOpen] = React.useState(false)
   const [state, setState] = useControllableState({
@@ -129,7 +131,20 @@ export function MultiSelectInput({
                     e.stopPropagation()
                   }}
                 >
-                  <div>{e}</div>
+                  <div>
+                    {(() => {
+                      const option = options.find((option) =>
+                        typeof option === 'object'
+                          ? option.value === e
+                          : option === e,
+                      )
+
+                      const { value, label = null } =
+                        typeof option === 'string' ? { value: option } : option
+
+                      return label ?? value
+                    })()}
+                  </div>
                   <styled.div
                     style={{
                       display: 'flex',
@@ -208,7 +223,9 @@ export function MultiSelectInput({
                     }
 
                     setState(newSet)
-                    setOpen(false)
+                    if (!stayOpenWhileSelecting) {
+                      setOpen(false)
+                    }
                   }}
                 >
                   {state?.has(value) && (

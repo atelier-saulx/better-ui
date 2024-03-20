@@ -155,7 +155,6 @@ export const References = () => {
           title: 'People',
           type: 'references',
         },
-
         refs: {
           title: 'Multi references',
           type: 'references',

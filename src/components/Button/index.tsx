@@ -26,6 +26,7 @@ export type ButtonProps = {
     | 'error'
     | 'error-muted'
     | 'icon-only'
+    | 'ghost'
   className?: string
   prefix?: React.ReactNode
   suffix?: React.ReactNode
@@ -108,6 +109,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           display: 'inline-flex',
           justifyItems: 'center',
           alignItems: 'center',
+          minHeight: size === 'small' ? 24 : 32,
           '&:active': {
             transform: 'scale(0.98)',
           },
@@ -200,6 +202,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               textDecoration: 'none',
             },
           }),
+          ...(variant === 'ghost' && {
+            color: color('background', 'screen'),
+            background: 'transparent',
+            border: 'none',
+            '&:hover': {
+              background: color('background', 'dimmer'),
+            },
+          }),
           ...(variant === 'neutral-link' && {
             color: 'inherit',
             background: 'transparent',
@@ -280,7 +290,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               singleLine
               color="inherit"
               variant={size === 'small' ? 'body' : 'body-bold'}
-              style={{ display: 'flex' }}
+              style={{
+                display: 'flex',
+                '& div': {
+                  lineHeight:
+                    shape === 'square'
+                      ? '0px !important'
+                      : 'inherit !important',
+                },
+              }}
             >
               {children}
             </Text>

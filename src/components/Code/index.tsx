@@ -79,7 +79,7 @@ export const Code = ({
   const contentColor =
     color === 'inverted'
       ? getColor('content', 'inverted-muted')
-      : getColor('content', 'secondary')
+      : 'rgba(44,60,234, 0.75)'
   return (
     <styled.div
       style={{

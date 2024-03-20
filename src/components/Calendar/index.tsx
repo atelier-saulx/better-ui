@@ -3,10 +3,12 @@ import {
   Button,
   IconChevronLeft,
   IconChevronRight,
+  ScrollArea,
   Text,
   border,
   borderRadius,
   color,
+  hashNonSemanticColor,
 } from '../../index.js'
 import {
   startOfWeek,
@@ -26,6 +28,7 @@ import {
   getHours,
   getMinutes,
   intervalToDuration,
+  isValid,
 } from 'date-fns'
 import { styled } from 'inlines'
 
@@ -37,8 +40,6 @@ export type CalendarProps = {
   onItemClick?: (item: { [key: string]: any }) => void
 }
 
-const today = new Date()
-
 export function Calendar({
   data,
   startField,
@@ -46,9 +47,11 @@ export function Calendar({
   labelField,
   onItemClick,
 }: CalendarProps) {
+  const [today] = React.useState(new Date())
   const [view, setView] = React.useState<'month' | 'week'>('month')
   const [currentPeriodStart, setCurrentPeriodStart] = React.useState(new Date())
   const weekViewCurrentTimeIndicatorRef = React.useRef<HTMLDivElement>()
+
   const days = React.useMemo(() => {
     const days = []
 
@@ -80,6 +83,8 @@ export function Calendar({
   const events = React.useMemo(() => {
     return data.filter((e) => e[startField] && e[endField])
   }, [data, startField, endField])
+
+  console.log('EVENTS??', events)
 
   React.useLayoutEffect(() => {
     if (view === 'week' && weekViewCurrentTimeIndicatorRef.current) {
@@ -235,6 +240,7 @@ export function Calendar({
               width: '100%',
               position: 'relative',
               overflowY: 'auto',
+              overflowX: 'hidden',
               border: border(),
             }}
           >
@@ -288,19 +294,31 @@ export function Calendar({
                       style={{
                         padding: 4,
                         position: 'relative',
+
+                        display: 'flex',
                         height: '100%',
                         width: '100%',
                         ...(i !== 0 && { borderLeft: border() }),
                       }}
                     >
                       {events
+                        .filter(
+                          (e) =>
+                            isValid(new Date(e[startField])) &&
+                            isValid(new Date(e[endField])),
+                        )
+                        .filter(
+                          (e) =>
+                            format(new Date(e[startField]), 'T') <
+                            format(new Date(e[endField]), 'T'),
+                        )
                         .filter((e) =>
                           isWithinInterval(day, {
                             start: startOfDay(new Date(e[startField])),
                             end: endOfDay(new Date(e[endField])),
                           }),
                         )
-                        .map((e) => {
+                        .map((e, idx) => {
                           const start = new Date(
                             Math.max(
                               new Date(e[startField]).getTime(),
@@ -320,30 +338,57 @@ export function Calendar({
 
                           return (
                             <styled.div
-                              key={`${day.toISOString()}-${e[labelField]}`}
-                              onClick={() => {
-                                onItemClick?.(e)
-                              }}
                               style={{
-                                top: top + 4,
-                                height: height - 8,
-                                position: 'absolute',
-                                left: 4,
-                                right: 4,
-                                cursor: 'pointer',
-                                borderRadius: borderRadius('small'),
-                                background: color('background', 'neutral'),
-                                padding: '0 4px',
-                                '&:hover': {
-                                  color: color('interactive', 'primary'),
-                                  background: color(
-                                    'interactive',
-                                    'primary-muted',
-                                  ),
-                                },
+                                display: 'block',
+
+                                width: '100%',
                               }}
                             >
-                              <Text color="inherit">{e[labelField]}</Text>
+                              <styled.div
+                                key={`${day.toISOString()}-${e[labelField]}`}
+                                onClick={() => {
+                                  onItemClick?.(e)
+                                }}
+                                style={{
+                                  top: top + 4,
+                                  height: height - 8,
+                                  position: 'relative',
+                                  left: 4,
+                                  right: 4,
+                                  cursor: 'pointer',
+                                  borderRadius: borderRadius('small'),
+                                  //     background: color('background', 'neutral'),
+                                  backgroundColor: hashNonSemanticColor(
+                                    e[labelField],
+                                    true,
+                                  ),
+                                  padding: '0 4px',
+                                  marginLeft: idx !== 0 ? 4 : 0,
+                                  '&:hover': {
+                                    color: color('interactive', 'primary'),
+                                    backgroundColor: color(
+                                      'interactive',
+                                      'primary-muted',
+                                    ),
+                                  },
+                                }}
+                              >
+                                <Text
+                                  color="inherit"
+                                  style={{
+                                    position: 'absolute',
+                                    // zIndex: idx === 0 ? 1 : 1 * idx + 1,
+                                    // top: idx === 0 ? '0px' : 20 * idx + top,
+                                    top: '0px',
+                                    '&:hover': {
+                                      color: color('interactive', 'primary'),
+                                    },
+                                  }}
+                                  singleLine
+                                >
+                                  {e[labelField]}
+                                </Text>
+                              </styled.div>
                             </styled.div>
                           )
                         })}
@@ -445,33 +490,53 @@ export function Calendar({
                       gap: 4,
                     }}
                   >
-                    {events
-                      .filter((e) =>
-                        isWithinInterval(day, {
-                          start: startOfDay(new Date(e[startField])),
-                          end: endOfDay(new Date(e[endField])),
-                        }),
-                      )
-                      .map((e) => (
-                        <styled.div
-                          key={`${day.toISOString()}-${e[labelField]}`}
-                          onClick={() => {
-                            onItemClick?.(e)
-                          }}
-                          style={{
-                            cursor: 'pointer',
-                            borderRadius: borderRadius('small'),
-                            background: color('background', 'neutral'),
-                            padding: '0 4px',
-                            '&:hover': {
-                              color: color('interactive', 'primary'),
-                              background: color('interactive', 'primary-muted'),
-                            },
-                          }}
-                        >
-                          <Text color="inherit">{e[labelField]}</Text>
-                        </styled.div>
-                      ))}
+                    <ScrollArea>
+                      {events
+                        .filter(
+                          (e) =>
+                            isValid(new Date(e[startField])) &&
+                            isValid(new Date(e[endField])),
+                        )
+                        .filter(
+                          (e) =>
+                            format(new Date(e[startField]), 'T') <
+                            format(new Date(e[endField]), 'T'),
+                        )
+                        .filter((e) =>
+                          isWithinInterval(day, {
+                            start: startOfDay(new Date(e[startField])),
+                            end: endOfDay(new Date(e[endField])),
+                          }),
+                        )
+                        .map((e) => (
+                          <styled.div
+                            key={`${day.toISOString()}-${e[labelField]}`}
+                            onClick={() => {
+                              onItemClick?.(e)
+                            }}
+                            style={{
+                              cursor: 'pointer',
+                              borderRadius: borderRadius('small'),
+                              //  background: color('background', 'neutral'),
+                              background: hashNonSemanticColor(
+                                e[labelField],
+                                true,
+                              ),
+                              padding: '0 4px',
+                              marginBottom: '4px',
+                              '&:hover': {
+                                color: color('interactive', 'primary'),
+                                background: color(
+                                  'interactive',
+                                  'primary-muted',
+                                ),
+                              },
+                            }}
+                          >
+                            <Text color="inherit">{e[labelField]}</Text>
+                          </styled.div>
+                        ))}
+                    </ScrollArea>
                   </div>
                 </div>
               </div>
