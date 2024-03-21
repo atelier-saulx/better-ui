@@ -270,7 +270,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               )}
               {/* Clear selection */}
 
-              {options?.map((option) => {
+              {options?.map((option, index) => {
                 const {
                   value,
                   label = null,
@@ -278,7 +278,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 } = typeof option === 'string' ? { value: option } : option
 
                 return (
-                  <SelectBase.Item key={value} value={value} asChild>
+                  <SelectBase.Item key={value || index} value={value} asChild>
                     <styled.div
                       style={{
                         padding: '4px 12px 4px 42px',
