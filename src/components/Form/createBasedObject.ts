@@ -65,7 +65,7 @@ export const createBasedObject = (
         s[key] = walk(v[key], [...path, key], prevValue?.[key])
       }
 
-      if (field.type === 'record' && prevValue) {
+      if (field.type === 'record' && prevValue && value) {
         for (const key in prevValue) {
           if (!(key in value)) {
             s[key] = { $delete: true }
