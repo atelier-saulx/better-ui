@@ -21,6 +21,7 @@ import { SelectReferenceModal } from './SelectReferenceModal.js'
 import { useBasedFormProps } from './useGeneratedProps.js'
 import { BasedFormProps, BasedFormRef } from './types.js'
 import { readInfoField } from '../Form/utils.js'
+import { deepCopy } from '@saulx/utils'
 
 export type FieldsFn = (
   fields: FormProps['fields'],
@@ -156,7 +157,10 @@ export function BasedForm({
     key: id,
     variant,
     schema,
-    values: (transformResults ? transformResults(values) : values) || {},
+    values:
+      (transformResults
+        ? transformResults(deepCopy(values))
+        : deepCopy(values)) || {},
     fields: ref.current.currentFields,
     onChange: onFormChange,
     onFileUpload,
