@@ -170,7 +170,7 @@ export function BasedForm({
         update()
       }
     },
-    formRef: useHeader ? formRef : null,
+    formRef,
     onSelectReference: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
