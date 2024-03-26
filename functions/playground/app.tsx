@@ -2409,6 +2409,32 @@ export const Default: StoryObj<typeof MultiSelectInput> = {
   },
 }
 
+export const SingleLine: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    onChange: console.log,
+    options: [
+      {
+        label: 'Orange',
+        value: 'orange',
+      },
+      {
+        label: 'Banana',
+        value: 'banana',
+      },
+      ...Array.from({ length: 100 }).map((_, i) => ({
+        label: \`Apple \$i}\`,
+        value: \`apple-\$i}\`,
+      })),
+    ],
+    style: {
+      maxWidth: 274,
+    },
+    singleLine: true,
+  },
+}
+
 export const StayOpen: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',

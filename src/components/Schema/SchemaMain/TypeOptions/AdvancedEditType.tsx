@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Text, Code, Stack, Modal } from '../../../../index.js'
+import { Text, Code, Stack, Modal, Button } from '../../../../index.js'
 import { useClient, useQuery } from '@based/react'
 
 export const AdvancedEditType = ({ onConfirm, typeTitle }) => {
@@ -17,26 +17,12 @@ export const AdvancedEditType = ({ onConfirm, typeTitle }) => {
 
   return (
     <Modal
-      confirmLabel="Confirm"
+      noActions
       style={{
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
         width: '100%',
         maxWidth: 767,
-      }}
-      onConfirm={async () => {
-        await client.call('db:set-schema', {
-          mutate: true,
-          schema: {
-            types: {
-              [typeTitle]: {
-                fields: JSON.parse(schemaCode),
-              },
-            },
-          },
-        })
-
-        onConfirm('close')
       }}
     >
       <Stack gap={12} grid>
@@ -47,6 +33,30 @@ export const AdvancedEditType = ({ onConfirm, typeTitle }) => {
           value={schemaCode}
         />
       </Stack>
+
+      <Modal.Actions>
+        <Button variant="neutral" onClick={() => onConfirm('close')}>
+          Cancel
+        </Button>
+        <Button
+          onClick={async () => {
+            await client.call('db:set-schema', {
+              mutate: true,
+              schema: {
+                types: {
+                  [typeTitle]: {
+                    fields: JSON.parse(schemaCode),
+                  },
+                },
+              },
+            })
+
+            onConfirm('close')
+          }}
+        >
+          Save
+        </Button>
+      </Modal.Actions>
     </Modal>
   )
 }
