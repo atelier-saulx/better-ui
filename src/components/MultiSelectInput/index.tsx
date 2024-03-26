@@ -36,7 +36,7 @@ export function MultiSelectInput({
   value,
   onChange,
   defaultValue,
-  options,
+  options = [],
   label,
   placeholder,
   checksum,
