@@ -11,6 +11,7 @@ import {
   boxShadow,
   IconCheckSmall,
   IconChevronDownSmall,
+  ScrollArea,
 } from '../../index.js'
 import * as Popover from '@radix-ui/react-popover'
 
@@ -28,6 +29,7 @@ export type MultiSelectInputProps = {
   description?: string
   disabled?: boolean
   stayOpenWhileSelecting?: boolean
+  singleLine?: boolean
 }
 
 export function MultiSelectInput({
@@ -43,6 +45,7 @@ export function MultiSelectInput({
   error,
   description,
   disabled,
+  singleLine,
   stayOpenWhileSelecting = false,
 }: MultiSelectInputProps) {
   const [open, setOpen] = React.useState(false)
@@ -91,7 +94,8 @@ export function MultiSelectInput({
               color: color('content', 'primary'),
               display: 'flex',
               alignItems: 'center',
-              flexWrap: 'wrap',
+              flexWrap: singleLine ? 'no-wrap' : 'wrap',
+              overflow: 'hidden',
               gap: 4,
               '&:hover': {
                 border:
@@ -116,7 +120,7 @@ export function MultiSelectInput({
           >
             {state?.size ? (
               [...state].map((e) => (
-                <div
+                <styled.div
                   style={{
                     ...textVariants.body,
                     borderRadius: borderRadius('small'),
@@ -131,7 +135,7 @@ export function MultiSelectInput({
                     e.stopPropagation()
                   }}
                 >
-                  <div>
+                  <div style={{ whiteSpace: 'nowrap' }}>
                     {(() => {
                       const option = options.find((option) =>
                         typeof option === 'object'
@@ -149,6 +153,7 @@ export function MultiSelectInput({
                     style={{
                       display: 'flex',
                       borderRadius: borderRadius('small'),
+
                       '&:hover': {
                         background: color('background', 'neutral'),
                       },
@@ -161,7 +166,7 @@ export function MultiSelectInput({
                   >
                     <IconClose />
                   </styled.div>
-                </div>
+                </styled.div>
               ))
             ) : (
               <Text variant="body" color="secondary" noSelect>
