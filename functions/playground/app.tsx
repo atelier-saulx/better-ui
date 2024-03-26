@@ -471,11 +471,33 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        variant={['list', 'grid', 'table', 'calendar']}
+        variant={['table', 'grid', 'list', 'calendar']}
         header="Based Explorer"
         info
         onDrop={(f) => {
           console.log(f)
+        }}
+        onSelectItem={(selected, clearSelection) => {
+          console.log(selected)
+          return false
+        }}
+        selectItemsAction={{
+          label: 'Change description',
+          action: async (selected, clear) => {
+            if (selected.type === 'include') {
+              const randomEmoji = ['🍕', '🍔', '🍟', '🍦', '🍩', '🍪']
+              selected.items.forEach((id) => {
+                client.call('db:set', {
+                  $language: 'en',
+                  $id: id,
+                  body:
+                    'New description! ' +
+                    randomEmoji[Math.floor(Math.random() * randomEmoji.length)],
+                })
+              })
+              clear()
+            }
+          },
         }}
         filter
         select={[
@@ -3272,13 +3294,40 @@ const meta = {
 export default meta
 
 export const Default = ({ data }) => {
+  const r = React.useRef<Set<string>>(new Set(['*']))
+  const update = useUpdate()
+
   return (
     <div
       style={{
         height: 500,
       }}
     >
-      <Table values={data} pagination sort />
+      <Table
+        onSelect={(v, all) => {
+          if (all) {
+            if (r.current.has('*')) {
+              r.current.clear()
+            } else {
+              r.current.clear()
+              r.current.add('*')
+            }
+            update()
+            return
+          }
+
+          if (r.current.has(v.id)) {
+            r.current.delete(v.id)
+          } else {
+            r.current.add(v.id)
+          }
+          update()
+        }}
+        selected={r.current}
+        values={data}
+        pagination
+        sort
+      />
     </div>
   )
 }
@@ -4999,7 +5048,6 @@ export const References = () => {
           title: 'People',
           type: 'references',
         },
-
         refs: {
           title: 'Multi references',
           type: 'references',
