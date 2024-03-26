@@ -102,6 +102,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       checksum,
     })
 
+
     return (
       <Wrapper label={label} disabled={disabled} style={style}>
         {label && (
@@ -127,8 +128,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               const numberValue = parseFloat(e.target.value)
 
               if (isNaN(numberValue)) {
-                e.target.value = ''
-                setValue(undefined)
+                setValue(null)
                 return
               }
 
