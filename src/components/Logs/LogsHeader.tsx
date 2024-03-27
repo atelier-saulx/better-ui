@@ -49,75 +49,79 @@ export const LogsHeader = ({
       gap={16}
       style={{ marginBottom: 24, borderBottom: border(), paddingBottom: 16 }}
     >
-      <Text
-        color="secondary"
-        variant="body-light"
-        style={{ minWidth: 164, width: 164 }}
-        singleLine
-      >
-        Showing {counter} out of {totalCount}
-      </Text>
-      <Switch
-        data={[<IconIcTextAlignJustify />, <IconIcListBulleted />]}
-        onChange={(v) => {
-          if (v === 0) {
-            setTimeGroup(null)
-          } else if (v === 1) {
-            setTimeGroup(selectedTime || 1)
-          }
-        }}
-        selected={timeGroup ? 1 : 0}
-      />
-      <Button
-        variant="icon-only"
-        onClick={() => setOrder(order === 'desc' ? 'asc' : 'desc')}
-      >
-        {order === 'desc' ? <IconSortDesc /> : <IconSortAsc />}
-      </Button>
-      <MultiSelectInput
-        placeholder="Log types"
-        options={options}
-        onChange={(v) => setSrvcFilters(Array.from(v))}
-        style={{
-          minWidth: 174,
-        }}
-      />
-      <SelectInput
-        placeholder="Group by time"
-        value={timeGroup}
-        options={timeOptions}
-        onChange={(v) => {
-          setTimeGroup(v)
-          setSelectedTime(v)
-        }}
-        style={{
-          maxWidth: 142,
-        }}
-        variant="small"
-      />
-      <SearchInput
-        placeholder="Search logs"
-        value={msgFilter}
-        onChange={(v) => {
-          setMsgFilter(v)
-        }}
-      />
-      <Dropdown.Root>
-        <Dropdown.Trigger>
-          <Button shape="square" variant="icon-only">
-            <IconMoreHorizontal />
-          </Button>
-        </Dropdown.Trigger>
-        <Dropdown.Items>
-          <Dropdown.Item onClick={onClear} icon={<IconDelete />}>
-            Clear logs
-          </Dropdown.Item>
-        </Dropdown.Items>
-      </Dropdown.Root>
+      <Stack justify="start" gap={16}>
+        <Text
+          color="secondary"
+          variant="body-light"
+          style={{ minWidth: 164, width: 164 }}
+          singleLine
+        >
+          Showing {counter} out of {totalCount}
+        </Text>
+        <Switch
+          data={[<IconIcTextAlignJustify />, <IconIcListBulleted />]}
+          onChange={(v) => {
+            if (v === 0) {
+              setTimeGroup(null)
+            } else if (v === 1) {
+              setTimeGroup(selectedTime || 1)
+            }
+          }}
+          selected={timeGroup ? 1 : 0}
+        />
+        <Button
+          variant="neutral"
+          shape="square"
+          // variant="icon-only"
+          onClick={() => setOrder(order === 'desc' ? 'asc' : 'desc')}
+        >
+          {order === 'desc' ? <IconSortDesc /> : <IconSortAsc />}
+        </Button>
+        <MultiSelectInput
+          singleLine
+          placeholder="Log types"
+          options={options}
+          onChange={(v) => setSrvcFilters(Array.from(v))}
+          style={{
+            minWidth: 186,
+          }}
+        />
+        <SelectInput
+          placeholder="Group by time"
+          value={timeGroup}
+          options={timeOptions}
+          onChange={(v) => {
+            setTimeGroup(v)
+            setSelectedTime(v)
+          }}
+          style={{
+            minWidth: 142,
+          }}
+          variant="small"
+        />
+      </Stack>
 
-      {/* <Button variant="icon-only">
-        <IconDelete />
-      </Button> */}
+      <Stack justify="end" gap={16}>
+        <SearchInput
+          placeholder="Search logs"
+          value={msgFilter}
+          onChange={(v) => {
+            setMsgFilter(v)
+          }}
+        />
+        <Dropdown.Root>
+          <Dropdown.Trigger>
+            <Button shape="square" variant="icon-only">
+              <IconMoreHorizontal />
+            </Button>
+          </Dropdown.Trigger>
+          <Dropdown.Items>
+            <Dropdown.Item onClick={onClear} icon={<IconDelete />}>
+              Clear logs
+            </Dropdown.Item>
+          </Dropdown.Items>
+        </Dropdown.Root>
+      </Stack>
     </Stack>
   )
 }

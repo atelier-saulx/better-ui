@@ -218,9 +218,10 @@ export const Logs = ({
       )}
       {!timeGroup && (
         <Button
-          variant="primary-transparent"
+          variant="neutral"
+          size="small"
           shape="square"
-          style={{ position: 'absolute', right: 0, bottom: 0 }}
+          style={{ position: 'absolute', right: 12, bottom: 0 }}
           onClick={() => {
             if (order === 'desc') {
               setScrollToBottom(false)
