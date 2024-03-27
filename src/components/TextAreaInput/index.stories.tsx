@@ -14,6 +14,8 @@ export const Default: StoryObj<typeof TextAreaInput> = {
     label: 'Label',
     description: 'Enter some text if you wish',
     disabled: false,
+    defaultValue: 'halow',
+    value: 'wtf',
   },
 }
 

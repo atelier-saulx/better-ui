@@ -23,7 +23,7 @@ export type SelectInputProps = {
   onChange?: (value: string) => void
   label?: string
   options?: (
-    | { value: string; label?: string; prefix?: React.ReactNode }
+    | { value: string | number; label?: string; prefix?: React.ReactNode }
     | string
   )[]
   variant?: 'regular' | 'small'
@@ -278,7 +278,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
                 } = typeof option === 'string' ? { value: option } : option
 
                 return (
-                  <SelectBase.Item key={value || index} value={value} asChild>
+                  <SelectBase.Item key={value} value={value as string} asChild>
                     <styled.div
                       style={{
                         padding: '4px 12px 4px 42px',
