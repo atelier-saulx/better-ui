@@ -472,11 +472,33 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        variant={['list', 'grid', 'table', 'calendar']}
+        variant={['table', 'grid', 'list', 'calendar']}
         header="Based Explorer"
         info
         onDrop={(f) => {
           console.log(f)
+        }}
+        onSelectItem={(selected, clearSelection) => {
+          console.log(selected)
+          return false
+        }}
+        selectItemsAction={{
+          label: 'Change description',
+          action: async (selected, clear) => {
+            if (selected.type === 'include') {
+              const randomEmoji = ['🍕', '🍔', '🍟', '🍦', '🍩', '🍪']
+              selected.items.forEach((id) => {
+                client.call('db:set', {
+                  $language: 'en',
+                  $id: id,
+                  body:
+                    'New description! ' +
+                    randomEmoji[Math.floor(Math.random() * randomEmoji.length)],
+                })
+              })
+              clear()
+            }
+          },
         }}
         filter
         select={[
@@ -2859,6 +2881,32 @@ export const Default: StoryObj<typeof MultiSelectInput> = {
   },
 }
 
+export const SingleLine: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    onChange: console.log,
+    options: [
+      {
+        label: 'Orange',
+        value: 'orange',
+      },
+      {
+        label: 'Banana',
+        value: 'banana',
+      },
+      ...Array.from({ length: 100 }).map((_, i) => ({
+        label: \`Apple \$i}\`,
+        value: \`apple-\$i}\`,
+      })),
+    ],
+    style: {
+      maxWidth: 274,
+    },
+    singleLine: true,
+  },
+}
+
 export const StayOpen: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
@@ -3137,8 +3185,8 @@ import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 
 const client = based({
-  org: 'demo',
-  project: 'demo',
+  org: 'saulx',
+  project: 'based-ui',
   env: 'production',
 })
 

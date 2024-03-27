@@ -59,7 +59,7 @@ const createListeners = (
           hash,
           createBasedObject(
             ctx,
-            valueRef.current.values,
+            valueRef.current.props.values || {},
             valueRef.current.changes,
           ),
         )

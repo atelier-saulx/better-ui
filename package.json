@@ -1,7 +1,7 @@
 {
   "name": "@based/ui",
   "type": "module",
-  "version": "6.1.7-alpha",
+  "version": "6.2.0-alpha",
   "scripts": {
     "dev": "npx @based/cli dev",
     "watch": "npx tsc -w",
@@ -17,7 +17,7 @@
     "package.json"
   ],
   "dependencies": {
-    "@based/client": "^5.3.1",
+    "@based/client": "^6.0.1",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.1.2",
     "@based/react": "^5.0.3",

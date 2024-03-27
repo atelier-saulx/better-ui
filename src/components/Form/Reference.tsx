@@ -56,7 +56,6 @@ const Select = (p: {
   //     )}
   //   </Stack>
   // )
-
   const body = `Select ${
     p.field.allowedTypes
       ?.map((v, i) => {

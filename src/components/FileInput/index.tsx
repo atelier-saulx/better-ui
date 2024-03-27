@@ -71,7 +71,7 @@ export function FileInput({
   // can be a bit nicer
   React.useEffect(() => {
     if (value?.src) {
-      fetch(value?.src)
+      fetch(value.src)
         .then((r) => r.blob())
         .then((blob) => {
           const end = value.src?.split('/') ?? []
@@ -91,6 +91,9 @@ export function FileInput({
           })
 
           setFile(file)
+        })
+        .catch((e) => {
+          console.error(value, value.src, e)
         })
     }
   }, [value?.src])

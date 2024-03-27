@@ -270,7 +270,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, SelectInputProps>(
               )}
               {/* Clear selection */}
 
-              {options?.map((option) => {
+              {options?.map((option, index) => {
                 const {
                   value,
                   label = null,

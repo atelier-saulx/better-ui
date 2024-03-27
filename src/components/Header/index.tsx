@@ -12,6 +12,7 @@ import {
 } from '../../index.js'
 
 export type HeaderProps = {
+  style?: React.CSSProperties
   logo?: React.ReactNode
   title?: string
   navigation?: React.ReactNode
@@ -25,11 +26,13 @@ export type HeaderProps = {
 }
 
 export function Header({
+  style,
   logo,
   navigation,
   mobileNavigation,
   title,
   onBack,
+  children,
 }: HeaderProps) {
   const isMobile = useIsMobile()
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
@@ -46,6 +49,7 @@ export function Header({
           padding: '0 24px',
           flexShrink: 0,
           width: '100%',
+          ...style,
         }}
       >
         <div
@@ -73,6 +77,7 @@ export function Header({
             </Text>
           )}
         </div>
+        {children}
         {mobileNavigation && isMobile ? (
           <styled.div
             style={{
