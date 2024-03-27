@@ -84,6 +84,8 @@ export const LogsHeader = ({
           onChange={(v) => setSrvcFilters(Array.from(v))}
           style={{
             minWidth: 186,
+            maxWidth: 186,
+            width: '100%',
           }}
         />
         <SelectInput
