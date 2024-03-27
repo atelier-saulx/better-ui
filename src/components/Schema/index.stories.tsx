@@ -5,8 +5,8 @@ import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 
 const client = based({
-  org: 'demo',
-  project: 'demo',
+  org: 'saulx',
+  project: 'based-ui',
   env: 'production',
 })
 

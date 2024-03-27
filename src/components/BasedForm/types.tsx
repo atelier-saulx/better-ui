@@ -27,6 +27,7 @@ type SharedBasedFormProps = {
   children?: ReactNode
   queryEndpoint?: string
   updateEndpoint?: string
+  schema?: (schema: FormProps['schema']) => FormProps['schema']
   query?: (p: {
     id: string
     query: any

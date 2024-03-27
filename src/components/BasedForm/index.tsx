@@ -21,6 +21,7 @@ import { SelectReferenceModal } from './SelectReferenceModal.js'
 import { useBasedFormProps } from './useGeneratedProps.js'
 import { BasedFormProps, BasedFormRef } from './types.js'
 import { readInfoField } from '../Form/utils.js'
+import { deepCopy } from '@saulx/utils'
 
 export type FieldsFn = (
   fields: FormProps['fields'],
@@ -34,6 +35,7 @@ export function BasedForm({
   includedFields,
   excludeCommonFields = true,
   query,
+  schema: schemaFn,
   onChange,
   queryEndpoint = 'db',
   updateEndpoint = 'db:set',
@@ -56,7 +58,8 @@ export function BasedForm({
   const { data: rawSchema, checksum } = useQuery('db:schema')
   const schema = React.useMemo(() => {
     if (!rawSchema) return
-    return convertOldToNew(rawSchema) as BasedSchema
+    const res = convertOldToNew(rawSchema)
+    return (schemaFn ? schemaFn(res) : res) as BasedSchema
   }, [checksum])
 
   const update = useUpdate()
@@ -154,7 +157,10 @@ export function BasedForm({
     key: id,
     variant,
     schema,
-    values: (transformResults ? transformResults(values) : values) || {},
+    values:
+      (transformResults
+        ? transformResults(deepCopy(values))
+        : deepCopy(values)) || {},
     fields: ref.current.currentFields,
     onChange: onFormChange,
     onFileUpload,
@@ -164,7 +170,7 @@ export function BasedForm({
         update()
       }
     },
-    formRef: useHeader ? formRef : null,
+    formRef,
     onSelectReference: async ({ field }) => {
       const selectedReference = await open(({ close }) => (
         <SelectReferenceModal
