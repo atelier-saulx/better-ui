@@ -36,7 +36,9 @@ export const Header = ({
       <Stack>
         <Switch
           data={['Month', 'Week']}
+          // @ts-ignore
           activeTab={view.slice(0, 1).toUpperCase() + view.slice(1)}
+          // @ts-ignore
           onChange={(v) => setView(v.toLowerCase())}
         />
       </Stack>

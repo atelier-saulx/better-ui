@@ -148,7 +148,7 @@ export const Form = (p: FormProps) => {
 
   const onConfirm = React.useCallback(async () => {
     try {
-      const hash = hashObjectIgnoreKeyOrder(valueRef.current.props.values ?? {})
+      const hash = hashObjectIgnoreKeyOrder(valueRef.current.values ?? {})
       await valueRef.current.props.onChange(
         valueRef.current.values,
         valueRef.current.changes,

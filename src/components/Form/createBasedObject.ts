@@ -9,8 +9,6 @@ export const createBasedObject = (
   prevValues: { [key: string]: any },
   changes: { [key: string]: any },
 ): { [key: string]: any } => {
-  const bObject: any = {}
-
   const walk = (v: any, path: Path, prevValue: any): any => {
     const { field, value } = readPath(ctx, path)
     if (v === null) {
@@ -65,9 +63,9 @@ export const createBasedObject = (
         s[key] = walk(v[key], [...path, key], prevValue?.[key])
       }
 
-      if (field.type === 'record' && prevValue && value) {
+      if (field.type === 'record' && prevValue && v) {
         for (const key in prevValue) {
-          if (!(key in value)) {
+          if (!(key in v)) {
             s[key] = { $delete: true }
           }
         }
