@@ -14,23 +14,23 @@ export const Selected = (p: { selected?: boolean; onSelect: () => void }) => {
   return (
     <Stack
       style={{
-        width: 28,
+        width: 48,
         height: 28,
-        minWidth: 28,
+        minWidth: 48,
       }}
+      justify="center"
     >
-      <div />
-      <Stack
+      <styled.div
         onClick={(e) => {
           e.stopPropagation()
           e.preventDefault()
           p.onSelect()
         }}
-        justify="center"
         style={{
           width: 20,
           minHeight: 20,
           height: 20,
+          marginLeft: 10,
           borderRadius: 4,
           minWidth: 20,
           border: border(),
@@ -45,7 +45,7 @@ export const Selected = (p: { selected?: boolean; onSelect: () => void }) => {
             opacity: p.selected ? 1 : 0,
           }}
         />
-      </Stack>
+      </styled.div>
     </Stack>
   )
 }

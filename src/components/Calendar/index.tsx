@@ -84,8 +84,6 @@ export function Calendar({
     return data.filter((e) => e[startField] && e[endField])
   }, [data, startField, endField])
 
-  console.log('EVENTS??', events)
-
   React.useLayoutEffect(() => {
     if (view === 'week' && weekViewCurrentTimeIndicatorRef.current) {
       weekViewCurrentTimeIndicatorRef.current.scrollIntoView()

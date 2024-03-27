@@ -8,6 +8,7 @@ import {
   useControllableState,
   Spinner,
   IconSearch,
+  IconClose,
 } from '../../index.js'
 
 export type SearchInputProps = {
@@ -71,6 +72,14 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
             color: color('content', 'secondary'),
           }}
         />
+        {state && (
+          <styled.div
+            onClick={() => setState('')}
+            style={{ position: 'absolute', right: 12, top: 9 }}
+          >
+            <IconClose size={18} />
+          </styled.div>
+        )}
         <styled.input
           tabIndex={disabled ? '-1' : 'auto'}
           autoFocus={autoFocus}
@@ -93,9 +102,8 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
             backgroundColor: color('background', 'primary'),
             lineHeight: '24px',
             width: '100%',
-
             padding: '5px 40px',
-            borderRadius: borderRadius('large'),
+            borderRadius: borderRadius('small'),
             border: '1px solid transparent',
             color: color('content', 'primary'),
             outline: 'none',
@@ -106,6 +114,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
             '&:focus, &:focus:hover': {
               border: border('focus'),
               boxShadow: boxShadow('focus'),
+              backgroundColor: color('background', 'screen'),
             },
             ...(error && {
               border: border('error'),
@@ -117,6 +126,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
                 boxShadow: boxShadow('error'),
               },
             }),
+            ...style,
           }}
         />
       </styled.div>

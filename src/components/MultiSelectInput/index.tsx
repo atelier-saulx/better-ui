@@ -11,7 +11,6 @@ import {
   boxShadow,
   IconCheckSmall,
   IconChevronDownSmall,
-  ScrollArea,
 } from '../../index.js'
 import * as Popover from '@radix-ui/react-popover'
 
@@ -29,13 +28,14 @@ export type MultiSelectInputProps = {
   description?: string
   disabled?: boolean
   stayOpenWhileSelecting?: boolean
+  singleLine?: boolean
 }
 
 export function MultiSelectInput({
   value,
   onChange,
   defaultValue,
-  options,
+  options = [],
   label,
   placeholder,
   checksum,
@@ -44,6 +44,7 @@ export function MultiSelectInput({
   error,
   description,
   disabled,
+  singleLine,
   stayOpenWhileSelecting = false,
 }: MultiSelectInputProps) {
   const [open, setOpen] = React.useState(false)
@@ -92,7 +93,8 @@ export function MultiSelectInput({
               color: color('content', 'primary'),
               display: 'flex',
               alignItems: 'center',
-              flexWrap: 'wrap',
+              flexWrap: singleLine ? 'no-wrap' : 'wrap',
+              overflow: 'hidden',
               gap: 4,
               '&:hover': {
                 border:
@@ -117,7 +119,7 @@ export function MultiSelectInput({
           >
             {state?.size ? (
               [...state].map((e, idx) => (
-                <div
+                <styled.div
                   key={idx}
                   style={{
                     ...textVariants.body,
@@ -133,7 +135,7 @@ export function MultiSelectInput({
                     e.stopPropagation()
                   }}
                 >
-                  <div>
+                  <styled.div style={{ whiteSpace: 'nowrap' }}>
                     {(() => {
                       const option = options.find((option) =>
                         typeof option === 'object'
@@ -146,11 +148,12 @@ export function MultiSelectInput({
 
                       return label ?? value
                     })()}
-                  </div>
+                  </styled.div>
                   <styled.div
                     style={{
                       display: 'flex',
                       borderRadius: borderRadius('small'),
+
                       '&:hover': {
                         background: color('background', 'neutral'),
                       },
@@ -163,7 +166,7 @@ export function MultiSelectInput({
                   >
                     <IconClose />
                   </styled.div>
-                </div>
+                </styled.div>
               ))
             ) : (
               <Text variant="body" color="secondary" noSelect>
