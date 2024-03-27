@@ -38,6 +38,7 @@ export type CalendarProps = {
   startField: string
   endField: string
   onItemClick?: (item: { [key: string]: any }) => void
+  height?: number
 }
 
 export function Calendar({
@@ -46,6 +47,7 @@ export function Calendar({
   endField,
   labelField,
   onItemClick,
+  height,
 }: CalendarProps) {
   const [today] = React.useState(new Date())
   const [view, setView] = React.useState<'month' | 'week'>('month')
@@ -91,7 +93,7 @@ export function Calendar({
   }, [view])
 
   return (
-    <div
+    <styled.div
       style={{
         height: '100%',
         width: '100%',
@@ -99,7 +101,7 @@ export function Calendar({
         flexDirection: 'column',
       }}
     >
-      <div
+      <styled.div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -110,7 +112,7 @@ export function Calendar({
         <Text variant="title-modal">
           {format(currentPeriodStart, 'yyyy. MMMM')}
         </Text>
-        <div
+        <styled.div
           style={{
             display: 'flex',
             gap: 2,
@@ -151,8 +153,8 @@ export function Calendar({
           >
             Week
           </Button>
-        </div>
-        <div style={{ display: 'flex', gap: 2 }}>
+        </styled.div>
+        <styled.div style={{ display: 'flex', gap: 2 }}>
           <Button
             variant="neutral"
             shape="square"
@@ -190,31 +192,37 @@ export function Calendar({
           >
             <IconChevronRight />
           </Button>
-        </div>
-      </div>
+        </styled.div>
+      </styled.div>
 
       {view === 'week' && (
         <>
-          <div
+          {/* /// Days header start */}
+          <styled.div
             style={{
               width: '100%',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderBottom: border(),
             }}
           >
             {days.map((day) => (
-              <div
+              <styled.div
                 key={day.toISOString()}
                 style={{
+                  flex: 1,
                   padding: 4,
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  textAlign: 'center',
                   gap: 4,
                 }}
               >
                 <Text>{format(day, 'MMM')}</Text>
-                <div
+                <styled.div
                   style={{
                     minWidth: 24,
                     borderRadius: 9999,
@@ -228,180 +236,200 @@ export function Calendar({
                   }}
                 >
                   <Text color="inherit">{format(day, 'd')}</Text>
-                </div>
-              </div>
+                </styled.div>
+              </styled.div>
             ))}
-          </div>
-          <div
+          </styled.div>
+          {/* /// Days header end */}
+
+          <ScrollArea
             style={{
-              flex: 1,
-              width: '100%',
-              position: 'relative',
-              overflowY: 'auto',
-              overflowX: 'hidden',
-              border: border(),
+              // border: '5px solid red',
+              // overflowY: 'scroll',
+              height: height,
             }}
           >
-            <div
-              style={{ position: 'absolute', left: 0, right: 0, height: 1440 }}
+            <styled.div
+              style={{
+                flex: 1,
+                width: '100%',
+                position: 'relative',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                border: border(),
+                borderTop: '0px solid transparent',
+              }}
             >
-              <div
-                style={{ position: 'relative', width: '100%', height: '100%' }}
+              <styled.div
+                style={{
+                  position: 'relative',
+                  left: 0,
+                  right: 0,
+                  height: 1440,
+                }}
               >
-                {Array.from({ length: 24 }).map((_, i) => (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: i * (1440 / 24),
-                      width: '100%',
-                      pointerEvents: 'none',
-                      ...(i !== 0 && {
-                        height: 1,
-                        background: color('background', 'neutral'),
-                      }),
-                    }}
-                  >
-                    <div style={{ transform: 'translateY(-50%)' }}>
-                      <Text color="secondary">{`${i}`.padStart(2, '0')}</Text>
-                    </div>
-                  </div>
-                ))}
-                <div
+                <styled.div
                   style={{
-                    position: 'absolute',
-                    top: getHours(today) * 60 + getMinutes(today),
+                    position: 'relative',
                     width: '100%',
-                    pointerEvents: 'none',
-                    height: 1,
-                    background: color('interactive', 'primary'),
-                    scrollMargin: 128,
-                  }}
-                  ref={weekViewCurrentTimeIndicatorRef}
-                />
-                <div
-                  style={{
                     height: '100%',
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
-                    gridAutoRows: 'minmax(0, 1fr)',
                   }}
                 >
-                  {days.map((day, i) => (
-                    <div
-                      key={`content-${day.toISOString()}`}
+                  {Array.from({ length: 24 }).map((_, i) => (
+                    <styled.div
                       style={{
-                        padding: 4,
-                        position: 'relative',
-
-                        display: 'flex',
-                        height: '100%',
+                        position: 'absolute',
+                        top: i * (1440 / 24),
                         width: '100%',
-                        ...(i !== 0 && { borderLeft: border() }),
+                        pointerEvents: 'none',
+                        ...(i !== 0 && {
+                          height: 1,
+                          background: color('background', 'neutral'),
+                        }),
                       }}
                     >
-                      {events
-                        .filter(
-                          (e) =>
-                            isValid(new Date(e[startField])) &&
-                            isValid(new Date(e[endField])),
-                        )
-                        .filter(
-                          (e) =>
-                            format(new Date(e[startField]), 'T') <
-                            format(new Date(e[endField]), 'T'),
-                        )
-                        .filter((e) =>
-                          isWithinInterval(day, {
-                            start: startOfDay(new Date(e[startField])),
-                            end: endOfDay(new Date(e[endField])),
-                          }),
-                        )
-                        .map((e, idx) => {
-                          const start = new Date(
-                            Math.max(
-                              new Date(e[startField]).getTime(),
-                              startOfDay(day).getTime(),
-                            ),
+                      <styled.div style={{ transform: 'translateY(-50%)' }}>
+                        <Text color="secondary">{`${i}`.padStart(2, '0')}</Text>
+                      </styled.div>
+                    </styled.div>
+                  ))}
+                  <styled.div
+                    style={{
+                      position: 'absolute',
+                      top: getHours(today) * 60 + getMinutes(today),
+                      width: '100%',
+                      pointerEvents: 'none',
+                      height: 1,
+                      background: color('interactive', 'primary'),
+                      scrollMargin: 128,
+                    }}
+                    ref={weekViewCurrentTimeIndicatorRef}
+                  />
+                  <styled.div
+                    style={{
+                      height: '100%',
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
+                      gridAutoRows: 'minmax(0, 1fr)',
+                    }}
+                  >
+                    {days.map((day, i) => (
+                      <styled.div
+                        key={`content-${day.toISOString()}`}
+                        style={{
+                          padding: 4,
+                          position: 'relative',
+
+                          display: 'flex',
+                          height: '100%',
+                          width: '100%',
+                          ...(i !== 0 && { borderLeft: border() }),
+                        }}
+                      >
+                        {events
+                          .filter(
+                            (e) =>
+                              isValid(new Date(e[startField])) &&
+                              isValid(new Date(e[endField])),
                           )
-                          const end = new Date(
-                            Math.min(
-                              new Date(e[endField]).getTime(),
-                              endOfDay(day).getTime(),
-                            ),
+                          .filter(
+                            (e) =>
+                              format(new Date(e[startField]), 'T') <
+                              format(new Date(e[endField]), 'T'),
                           )
+                          .filter((e) =>
+                            isWithinInterval(day, {
+                              start: startOfDay(new Date(e[startField])),
+                              end: endOfDay(new Date(e[endField])),
+                            }),
+                          )
+                          .map((e, idx) => {
+                            const start = new Date(
+                              Math.max(
+                                new Date(e[startField]).getTime(),
+                                startOfDay(day).getTime(),
+                              ),
+                            )
+                            const end = new Date(
+                              Math.min(
+                                new Date(e[endField]).getTime(),
+                                endOfDay(day).getTime(),
+                              ),
+                            )
 
-                          const top = getHours(start) * 60 + getMinutes(start)
-                          const duration = intervalToDuration({ start, end })
-                          const height = duration.hours * 60 + duration.minutes
+                            const top = getHours(start) * 60 + getMinutes(start)
+                            const duration = intervalToDuration({ start, end })
+                            const height =
+                              duration.hours * 60 + duration.minutes
 
-                          return (
-                            <styled.div
-                              style={{
-                                display: 'block',
-
-                                width: '100%',
-                              }}
-                            >
+                            return (
                               <styled.div
-                                key={`${day.toISOString()}-${e[labelField]}`}
-                                onClick={() => {
-                                  onItemClick?.(e)
-                                }}
                                 style={{
-                                  top: top + 4,
-                                  height: height - 8,
-                                  position: 'relative',
-                                  left: 4,
-                                  right: 4,
-                                  cursor: 'pointer',
-                                  borderRadius: borderRadius('small'),
-                                  //     background: color('background', 'neutral'),
-                                  backgroundColor: hashNonSemanticColor(
-                                    e[labelField],
-                                    true,
-                                  ),
-                                  padding: '0 4px',
-                                  marginLeft: idx !== 0 ? 4 : 0,
-                                  '&:hover': {
-                                    color: color('interactive', 'primary'),
-                                    backgroundColor: color(
-                                      'interactive',
-                                      'primary-muted',
-                                    ),
-                                  },
+                                  display: 'block',
+                                  width: '100%',
                                 }}
                               >
-                                <Text
-                                  color="inherit"
+                                <styled.div
+                                  key={`${day.toISOString()}-${e[labelField]}`}
+                                  onClick={() => {
+                                    onItemClick?.(e)
+                                  }}
                                   style={{
-                                    position: 'absolute',
-                                    // zIndex: idx === 0 ? 1 : 1 * idx + 1,
-                                    // top: idx === 0 ? '0px' : 20 * idx + top,
-                                    top: '0px',
+                                    top: top + 4,
+                                    height: height - 8,
+                                    position: 'relative',
+                                    left: 4,
+                                    right: 4,
+                                    cursor: 'pointer',
+                                    borderRadius: borderRadius('small'),
+                                    //     background: color('background', 'neutral'),
+                                    backgroundColor: hashNonSemanticColor(
+                                      e[labelField],
+                                      true,
+                                    ),
+                                    padding: '0 4px',
+                                    marginLeft: idx !== 0 ? 4 : 0,
                                     '&:hover': {
                                       color: color('interactive', 'primary'),
+                                      backgroundColor: color(
+                                        'interactive',
+                                        'primary-muted',
+                                      ),
                                     },
                                   }}
-                                  singleLine
                                 >
-                                  {e[labelField]}
-                                </Text>
+                                  <Text
+                                    color="inherit"
+                                    style={{
+                                      position: 'absolute',
+                                      // zIndex: idx === 0 ? 1 : 1 * idx + 1,
+                                      // top: idx === 0 ? '0px' : 20 * idx + top,
+                                      top: '0px',
+                                      '&:hover': {
+                                        color: color('interactive', 'primary'),
+                                      },
+                                    }}
+                                    singleLine
+                                  >
+                                    {e[labelField]}
+                                  </Text>
+                                </styled.div>
                               </styled.div>
-                            </styled.div>
-                          )
-                        })}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+                            )
+                          })}
+                      </styled.div>
+                    ))}
+                  </styled.div>
+                </styled.div>
+              </styled.div>
+            </styled.div>
+          </ScrollArea>
         </>
       )}
 
       {view === 'month' && (
         <>
-          <div
+          <styled.div
             style={{
               width: '100%',
               display: 'grid',
@@ -409,7 +437,7 @@ export function Calendar({
             }}
           >
             {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-              <div
+              <styled.div
                 key={day}
                 style={{
                   textAlign: 'right',
@@ -417,21 +445,21 @@ export function Calendar({
                 }}
               >
                 <Text>{day}</Text>
-              </div>
+              </styled.div>
             ))}
-          </div>
-          <div
+          </styled.div>
+          <styled.div
             style={{
               flex: 1,
               width: '100%',
               display: 'grid',
-              gridTemplateColumns: 'repeat(7, minmax(0,1fr))',
-              gridAutoRows: 'minmax(0, 1fr)',
+              gridTemplateColumns: `repeat(7, minmax(0px,1fr))`,
+              gridAutoRows: `minmax(${height ? height / 5 : 0}px, 1fr)`,
               border: border(),
             }}
           >
             {days.map((day, i) => (
-              <div
+              <styled.div
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -440,7 +468,7 @@ export function Calendar({
                 }}
                 key={day.toISOString()}
               >
-                <div
+                <styled.div
                   style={{
                     display: 'flex',
                     justifyContent: 'end',
@@ -455,7 +483,7 @@ export function Calendar({
                   {isSameDay(startOfMonth(day), day) && (
                     <Text color="inherit">{format(day, 'MMM.')}</Text>
                   )}
-                  <div
+                  <styled.div
                     style={{
                       minWidth: 24,
                       borderRadius: 9999,
@@ -469,15 +497,15 @@ export function Calendar({
                     }}
                   >
                     <Text color="inherit">{format(day, 'd')}</Text>
-                  </div>
-                </div>
-                <div
+                  </styled.div>
+                </styled.div>
+                <styled.div
                   style={{
                     flex: 1,
                     position: 'relative',
                   }}
                 >
-                  <div
+                  <styled.div
                     style={{
                       position: 'absolute',
                       inset: 0,
@@ -535,13 +563,13 @@ export function Calendar({
                           </styled.div>
                         ))}
                     </ScrollArea>
-                  </div>
-                </div>
-              </div>
+                  </styled.div>
+                </styled.div>
+              </styled.div>
             ))}
-          </div>
+          </styled.div>
         </>
       )}
-    </div>
+    </styled.div>
   )
 }
