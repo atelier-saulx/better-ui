@@ -240,24 +240,31 @@ export type ModalActionsProps = { children: React.ReactNode; style?: Style }
 
 export function Actions({ children, style }: ModalActionsProps) {
   return (
-    <styled.div
-      style={{
-        padding: '24px 32px',
-        display: 'flex',
-        justifyContent: 'end',
-        alignItems: 'center',
-        '& > * + *': {
-          marginLeft: '24px',
-        },
-        background: color('background', 'screen'),
-        borderBottomLeftRadius: 8,
-        borderBottomRightRadius: 8,
-        borderTop: border(),
-        ...style,
-      }}
-    >
-      {children}
-    </styled.div>
+    <>
+      <div style={{ height: 88 }}></div>
+      <styled.div
+        style={{
+          padding: '24px 32px',
+          display: 'flex',
+          justifyContent: 'end',
+          alignItems: 'center',
+          '& > * + *': {
+            marginLeft: '24px',
+          },
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: color('background', 'screen'),
+          borderBottomLeftRadius: 8,
+          borderBottomRightRadius: 8,
+          borderTop: border(),
+          ...style,
+        }}
+      >
+        {children}
+      </styled.div>
+    </>
   )
 }
 
@@ -464,6 +471,13 @@ export const Modal = Object.assign(
           }}
         >
           {({ close }) => (
+            // <ScrollArea
+            //   style={{
+            //     height: '100%',
+            //     maxHeight: 'calc(100vh - 60px)',
+            //     borderRadius: 8,
+            //   }}
+            // >
             <>
               {title || description ? (
                 <Modal.Title description={description}>{title}</Modal.Title>
@@ -471,29 +485,32 @@ export const Modal = Object.assign(
               {children ? <Modal.Body>{children}</Modal.Body> : null}
 
               {noActions ? null : (
-                <Modal.Actions>
-                  {onConfirm && (
-                    <Button variant="neutral" onClick={close}>
-                      Cancel
+                <>
+                  <Modal.Actions>
+                    {onConfirm && (
+                      <Button variant="neutral" onClick={close}>
+                        Cancel
+                      </Button>
+                    )}
+                    <Button
+                      keyboardShortcut="Enter"
+                      displayKeyboardShortcut
+                      onClick={
+                        onConfirm
+                          ? async () => {
+                              await onConfirm({ close })
+                            }
+                          : close
+                      }
+                      {...confirmProps}
+                    >
+                      {confirmLabel}
                     </Button>
-                  )}
-                  <Button
-                    keyboardShortcut="Enter"
-                    displayKeyboardShortcut
-                    onClick={
-                      onConfirm
-                        ? async () => {
-                            await onConfirm({ close })
-                          }
-                        : close
-                    }
-                    {...confirmProps}
-                  >
-                    {confirmLabel}
-                  </Button>
-                </Modal.Actions>
+                  </Modal.Actions>
+                </>
               )}
             </>
+            // </ScrollArea>
           )}
         </Modal.Overlay>
       </Modal.Root>
