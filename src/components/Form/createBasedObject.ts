@@ -20,32 +20,7 @@ export const createBasedObject = (
         return walk(item, [...path, i], prevValue?.[i])
       })
 
-      if (field.items?.type === 'reference') {
-        return v
-      }
-
-      let nV: any
-      let j = 0
-      for (let i = 0; i < v.length; i++) {
-        if (v[i] !== undefined) {
-          nV = {
-            $assign: {
-              $idx: i,
-              $value: v[i],
-            },
-          }
-          j++
-        }
-        if (j > 1 || (value && v.length < value.length)) {
-          // console.info('have to do other stuff... prob copy the array')
-          // check if we have
-          // - a push
-          // - a single remove
-          // other wise copy the whole array
-          return deepMergeArrays(deepCopy(value), v)
-        }
-      }
-      return nV
+      return v
     }
 
     if (field.type === 'references' || field.type === 'set') {
