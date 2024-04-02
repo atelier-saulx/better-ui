@@ -1,4 +1,3 @@
-import { deepCopy, deepMergeArrays, deepEqual } from '@saulx/utils'
 import { TableCtx, Path } from './types.js'
 import { readPath } from './utils.js'
 
