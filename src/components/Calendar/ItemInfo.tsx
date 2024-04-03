@@ -20,11 +20,11 @@ export const ItemInfo = ({ data }) => {
         left: x,
         background: color('background', 'screen'),
         border: border(),
-        padding: '8px 8px 16px 8px',
+        padding: '8px 8px 16px 16px',
         borderRadius: 4,
       }}
     >
-      <styled.div style={{ textAlign: 'right' }}>
+      <styled.div style={{ textAlign: 'right', marginBottom: 8 }}>
         <Button
           variant="neutral-transparent"
           shape="square"
