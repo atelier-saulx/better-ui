@@ -3,6 +3,7 @@ import { Calendar } from '../../index.js'
 
 const meta = {
   title: 'Components/Calendar',
+  decorators: [(Story) => <Story />],
 }
 
 export default meta
