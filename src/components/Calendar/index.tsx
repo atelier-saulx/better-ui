@@ -31,7 +31,7 @@ import {
   isValid,
 } from 'date-fns'
 import { styled } from 'inlines'
-import { ItemInfo } from './ItemInfo.js'
+import { ItemTooltip } from './ItemTooltip.js'
 
 export type CalendarProps = {
   data: { [key: string]: any }[]
@@ -39,7 +39,7 @@ export type CalendarProps = {
   startField: string
   endField: string
   onItemClick?: (item: { [key: string]: any }) => void
-  showItemInfoClick?: boolean
+  showTooltip?: boolean
   height?: number
 }
 
@@ -49,7 +49,7 @@ export function Calendar({
   endField,
   labelField,
   onItemClick,
-  showItemInfoClick,
+  showTooltip,
   height,
 }: CalendarProps) {
   const [today] = React.useState(new Date())
@@ -58,15 +58,6 @@ export function Calendar({
   const weekViewCurrentTimeIndicatorRef = React.useRef<HTMLDivElement>()
 
   const calendarDivRef = useRef<HTMLDivElement>()
-
-  const [showInfo, setShowInfo] = useState(false)
-  const [showInfoData, setShowInfoData] = useState({
-    x: 0,
-    y: 0,
-    startField: undefined,
-    endField: undefined,
-    labelField: undefined,
-  })
 
   const days = React.useMemo(() => {
     const days = []
@@ -134,7 +125,6 @@ export function Calendar({
           position: 'relative',
         }}
       >
-        {showInfo && <ItemInfo data={showInfoData} />}
         <styled.div
           style={{
             display: 'flex',
@@ -578,50 +568,39 @@ export function Calendar({
                             }),
                           )
                           .map((e) => (
-                            <styled.div
+                            <ItemTooltip
                               key={`${day.toISOString()}-${e[labelField]}`}
-                              onClick={(evt) => {
-                                console.log(evt)
-
-                                console.log('📆', calendarDivRef)
-
-                                setShowInfo(true)
-                                setShowInfoData({
-                                  x:
-                                    evt.pageX -
-                                    calendarDivRef.current.offsetLeft -
-                                    200,
-                                  y:
-                                    evt.pageY -
-                                    calendarDivRef.current.offsetTop,
-                                  startField: e[startField],
-                                  endField: e[endField],
-                                  labelField: e[labelField],
-                                })
-
-                                onItemClick?.(e)
-                              }}
-                              style={{
-                                cursor: 'pointer',
-                                borderRadius: borderRadius('small'),
-                                //  background: color('background', 'neutral'),
-                                background: hashNonSemanticColor(
-                                  e[labelField],
-                                  true,
-                                ),
-                                padding: '0 4px',
-                                marginBottom: '4px',
-                                '&:hover': {
-                                  color: color('interactive', 'primary'),
-                                  background: color(
-                                    'interactive',
-                                    'primary-muted',
-                                  ),
-                                },
-                              }}
+                              labelField={e[labelField]}
+                              startField={e[startField]}
+                              endField={e[endField]}
+                              show={showTooltip}
                             >
-                              <Text color="inherit">{e[labelField]}</Text>
-                            </styled.div>
+                              <styled.div
+                                onClick={() => {
+                                  onItemClick?.(e)
+                                }}
+                                style={{
+                                  cursor: 'pointer',
+                                  borderRadius: borderRadius('small'),
+                                  //  background: color('background', 'neutral'),
+                                  background: hashNonSemanticColor(
+                                    e[labelField],
+                                    true,
+                                  ),
+                                  padding: '0 4px',
+                                  marginBottom: '4px',
+                                  '&:hover': {
+                                    color: color('interactive', 'primary'),
+                                    background: color(
+                                      'interactive',
+                                      'primary-muted',
+                                    ),
+                                  },
+                                }}
+                              >
+                                <Text color="inherit">{e[labelField]}</Text>
+                              </styled.div>
+                            </ItemTooltip>
                           ))}
                       </ScrollArea>
                     </styled.div>

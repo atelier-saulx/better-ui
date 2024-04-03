@@ -556,6 +556,7 @@ export function BasedExplorer({
           startField="createdAt"
           labelField="name"
           endField="updatedAt"
+          showTooltip
           {...calendar}
         />
       </div>

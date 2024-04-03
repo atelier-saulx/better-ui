@@ -66,6 +66,7 @@ export const Default = () => {
         onItemClick={(item) => {
           console.log('clicked item', item)
         }}
+        showTooltip
       />
     </div>
   )

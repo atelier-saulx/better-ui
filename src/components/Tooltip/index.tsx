@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as TooltipBase from '@radix-ui/react-tooltip'
 import { borderRadius, color } from '../../index.js'
+import { styled } from 'inlines'
 
 export type TooltipProps = {
   children: React.ReactNode
@@ -14,7 +15,7 @@ export function Tooltip({ delay = 0, children, content, side }: TooltipProps) {
     <TooltipBase.Provider delayDuration={delay} skipDelayDuration={0}>
       <TooltipBase.Root>
         <TooltipBase.Trigger asChild>
-          <div style={{ display: 'inline-flex' }}>{children}</div>
+          <styled.div style={{ display: 'inline-flex' }}>{children}</styled.div>
         </TooltipBase.Trigger>
         <TooltipBase.Portal>
           <TooltipBase.Content
@@ -23,7 +24,7 @@ export function Tooltip({ delay = 0, children, content, side }: TooltipProps) {
             sideOffset={4}
             collisionPadding={8}
           >
-            <div
+            <styled.div
               style={{
                 padding: '4px 8px',
                 borderRadius: borderRadius('tiny'),
@@ -31,7 +32,7 @@ export function Tooltip({ delay = 0, children, content, side }: TooltipProps) {
                 userSelect: 'none',
               }}
             >
-              <span
+              <styled.span
                 style={{
                   fontSize: 12,
                   fontWeight: 600,
@@ -40,11 +41,11 @@ export function Tooltip({ delay = 0, children, content, side }: TooltipProps) {
                 }}
               >
                 {content}
-              </span>
+              </styled.span>
               <TooltipBase.Arrow
                 style={{ fill: color('content', 'primary') }}
               />
-            </div>
+            </styled.div>
           </TooltipBase.Content>
         </TooltipBase.Portal>
       </TooltipBase.Root>
