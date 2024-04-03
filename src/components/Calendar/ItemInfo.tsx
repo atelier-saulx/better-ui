@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, border, color } from '../../index.js'
+import { Text, border, color, Button, IconClose } from '../../index.js'
 import { styled } from 'inlines'
 import { prettyDate } from '@based/pretty-date'
 import { format } from 'date-fns'
@@ -13,23 +13,37 @@ export const ItemInfo = ({ data }) => {
     <styled.div
       style={{
         width: 260,
-        height: 100,
+        minHeight: 100,
         position: 'absolute',
         zIndex: 111,
         top: y,
         left: x,
         background: color('background', 'screen'),
         border: border(),
-        padding: '8px 16px',
+        padding: '8px 8px 16px 8px',
         borderRadius: 4,
       }}
     >
-      <Text variant="sub-title">{labelField}</Text>
+      <styled.div style={{ textAlign: 'right' }}>
+        <Button
+          variant="neutral-transparent"
+          shape="square"
+          style={{
+            backgroundColor: color('background', 'muted'),
+            borderRadius: '50%',
+          }}
+        >
+          <IconClose />
+        </Button>
+      </styled.div>
+      <Text variant="sub-title" style={{ marginBottom: 8 }}>
+        {labelField}
+      </Text>
       <Text variant="body-light" color="secondary">
         {prettyDate(+format(new Date(startField), 'T'), 'date-time-text')} -
       </Text>
       <Text variant="body-light" color="secondary">
-        {endField}
+        {prettyDate(+format(new Date(endField), 'T'), 'date-time-text')}
       </Text>
     </styled.div>
   )
