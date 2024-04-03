@@ -83,8 +83,24 @@ export function Calendar({
   }, [currentPeriodStart, view])
 
   const events = React.useMemo(() => {
-    return data.filter((e) => e[startField] && e[endField])
+    // if no endfield make endfield same as start field
+
+    return data
+      .map((e) => {
+        if (e[startField] && !e[endField]) {
+          console.log('🐱', e)
+          e[endField] = e[startField]
+          return e
+        } else {
+          return e
+        }
+      })
+      .filter((e) => e[startField] && e[endField])
+
+    // return data.filter((e) => e[startField] && e[endField])
   }, [data, startField, endField])
+
+  console.log('events??,', events)
 
   React.useLayoutEffect(() => {
     if (view === 'week' && weekViewCurrentTimeIndicatorRef.current) {
@@ -334,7 +350,7 @@ export function Calendar({
                           )
                           .filter(
                             (e) =>
-                              format(new Date(e[startField]), 'T') <
+                              format(new Date(e[startField]), 'T') <=
                               format(new Date(e[endField]), 'T'),
                           )
                           .filter((e) =>
@@ -380,6 +396,7 @@ export function Calendar({
                                     position: 'relative',
                                     left: 4,
                                     right: 4,
+                                    minHeight: 24,
                                     cursor: 'pointer',
                                     borderRadius: borderRadius('small'),
                                     //     background: color('background', 'neutral'),
@@ -525,7 +542,7 @@ export function Calendar({
                         )
                         .filter(
                           (e) =>
-                            format(new Date(e[startField]), 'T') <
+                            format(new Date(e[startField]), 'T') <=
                             format(new Date(e[endField]), 'T'),
                         )
                         .filter((e) =>

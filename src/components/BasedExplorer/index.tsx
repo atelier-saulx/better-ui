@@ -552,7 +552,7 @@ export function BasedExplorer({
         <Calendar
           data={ref.current?.block.data ?? []}
           onItemClick={onItemClick}
-          height={500}
+          height={600}
           startField="createdAt"
           labelField="name"
           endField="updatedAt"
