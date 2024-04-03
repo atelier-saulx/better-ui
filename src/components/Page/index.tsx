@@ -17,7 +17,7 @@ export type PageProps = {
 
 export const Page = ({ children, padding = 32, style }: PageProps) => {
   return (
-    <ScrollArea
+    <div
       style={{
         padding,
         flexGrow: 1,
@@ -25,13 +25,13 @@ export const Page = ({ children, padding = 32, style }: PageProps) => {
       }}
     >
       {children}
-    </ScrollArea>
+    </div>
   )
 }
 
 export function ContentPage(p: { children?: React.ReactNode; style?: Style }) {
   return (
-    <Page padding={0}>
+    <Page padding={0} style={{ height: '100%', overflow: 'auto' }}>
       <Stack
         direction="column"
         padding={64}

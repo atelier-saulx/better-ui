@@ -177,6 +177,7 @@ export function BasedForm({
           modalBody={renderReferenceModalBody?.(field, (reference) => {
             close(reference)
           })}
+          // selectReferenceExplorerProps={selectReferenceExplorerProps}
           types={
             field.allowedTypes?.map((e) =>
               typeof e === 'string' ? e : e.type,
@@ -187,6 +188,7 @@ export function BasedForm({
           }}
         />
       ))
+
       if (selectedReference) {
         return selectedReference
       }
@@ -207,6 +209,7 @@ export function BasedForm({
           }}
         />
       ))
+
       if (selectedReference) {
         return [selectedReference]
       }
