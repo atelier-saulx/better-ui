@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as TooltipBase from '@radix-ui/react-tooltip'
 import { borderRadius, color, Text, border } from '../../index.js'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { format } from 'date-fns'
 import { prettyDate } from '@based/pretty-date'
 
@@ -13,6 +13,7 @@ export type ItemTooltipProps = {
   side?: TooltipBase.TooltipContentProps['side']
   delay?: number
   show?: boolean
+  style?: Style
 }
 
 export function ItemTooltip({
@@ -23,12 +24,15 @@ export function ItemTooltip({
   endField,
   side,
   show,
+  style,
 }: ItemTooltipProps) {
   return (
     <TooltipBase.Provider delayDuration={delay} skipDelayDuration={0}>
       <TooltipBase.Root>
         <TooltipBase.Trigger asChild>
-          <styled.div style={{ display: 'inline-flex' }}>{children}</styled.div>
+          <styled.div style={{ display: 'inline-flex', ...style }}>
+            {children}
+          </styled.div>
         </TooltipBase.Trigger>
         {show && (
           <TooltipBase.Portal>
@@ -45,9 +49,12 @@ export function ItemTooltip({
                   background: color('background', 'screen'),
                   border: border(),
                   userSelect: 'none',
+                  maxWidth: 478,
                 }}
               >
-                <Text variant="sub-title">{labelField}</Text>
+                <Text variant="sub-title" style={{ marginBottom: 4 }}>
+                  {labelField}
+                </Text>
                 <Text variant="body-light" color="secondary">
                   {prettyDate(
                     +format(new Date(startField), 'T'),

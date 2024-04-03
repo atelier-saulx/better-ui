@@ -392,62 +392,77 @@ export function Calendar({
                                 duration.hours * 60 + duration.minutes
 
                               return (
-                                <styled.div
+                                <ItemTooltip
+                                  show={showTooltip}
+                                  labelField={e[labelField]}
+                                  startField={e[startField]}
+                                  endField={e[endField]}
+                                  side="left"
                                   style={{
                                     display: 'block',
                                     width: '100%',
                                   }}
                                 >
                                   <styled.div
-                                    key={`${day.toISOString()}-${e[labelField]}`}
-                                    onClick={() => {
-                                      onItemClick?.(e)
-                                    }}
                                     style={{
-                                      top: top + 4,
-                                      height: height - 8,
-                                      position: 'relative',
-                                      left: 4,
-                                      right: 4,
-                                      minHeight: 24,
-                                      cursor: 'pointer',
-                                      borderRadius: borderRadius('small'),
-                                      //     background: color('background', 'neutral'),
-                                      backgroundColor: hashNonSemanticColor(
-                                        e[labelField],
-                                        true,
-                                      ),
-                                      padding: '0 4px',
-                                      marginLeft: idx !== 0 ? 4 : 0,
-                                      '&:hover': {
-                                        color: color('interactive', 'primary'),
-                                        backgroundColor: color(
-                                          'interactive',
-                                          'primary-muted',
-                                        ),
-                                      },
+                                      display: 'block',
+                                      width: '100%',
                                     }}
                                   >
-                                    <Text
-                                      color="inherit"
+                                    <styled.div
+                                      key={`${day.toISOString()}-${e[labelField]}`}
+                                      onClick={() => {
+                                        onItemClick?.(e)
+                                      }}
                                       style={{
-                                        position: 'absolute',
-                                        // zIndex: idx === 0 ? 1 : 1 * idx + 1,
-                                        // top: idx === 0 ? '0px' : 20 * idx + top,
-                                        top: '0px',
+                                        top: top + 4,
+                                        height: height - 8,
+                                        position: 'relative',
+                                        left: 4,
+                                        right: 4,
+                                        minHeight: 24,
+                                        cursor: 'pointer',
+                                        borderRadius: borderRadius('small'),
+                                        //     background: color('background', 'neutral'),
+                                        backgroundColor: hashNonSemanticColor(
+                                          e[labelField],
+                                          true,
+                                        ),
+                                        padding: '0 4px',
+                                        marginLeft: idx !== 0 ? 4 : 0,
                                         '&:hover': {
                                           color: color(
                                             'interactive',
                                             'primary',
                                           ),
+                                          backgroundColor: color(
+                                            'interactive',
+                                            'primary-muted',
+                                          ),
                                         },
                                       }}
-                                      singleLine
                                     >
-                                      {e[labelField]}
-                                    </Text>
+                                      <Text
+                                        color="inherit"
+                                        style={{
+                                          position: 'absolute',
+                                          // zIndex: idx === 0 ? 1 : 1 * idx + 1,
+                                          // top: idx === 0 ? '0px' : 20 * idx + top,
+                                          top: '0px',
+                                          '&:hover': {
+                                            color: color(
+                                              'interactive',
+                                              'primary',
+                                            ),
+                                          },
+                                        }}
+                                        singleLine
+                                      >
+                                        {e[labelField]}
+                                      </Text>
+                                    </styled.div>
                                   </styled.div>
-                                </styled.div>
+                                </ItemTooltip>
                               )
                             })}
                         </styled.div>
