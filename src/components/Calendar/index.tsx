@@ -587,7 +587,10 @@ export function Calendar({
 
                                 setShowInfo(true)
                                 setShowInfoData({
-                                  x: calendarDivRef.current.offsetLeft,
+                                  x:
+                                    evt.pageX -
+                                    calendarDivRef.current.offsetLeft -
+                                    200,
                                   y:
                                     evt.pageY -
                                     calendarDivRef.current.offsetTop,
