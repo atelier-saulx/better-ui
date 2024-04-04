@@ -91,6 +91,7 @@ export type BasedExplorerProps = {
   info?: React.ReactNode | BasedExplorerHeaderComponent | true
   onItemClick?: (item: any) => void
   queryEndpoint?: string
+  totalQueryEndpoint?: string
   onDrop?: (files: File[]) => void
   variant?: Variant | Variant[]
   select?: SelectInputProps['options']
@@ -223,6 +224,7 @@ export function BasedExplorer({
   query,
   queryEndpoint = 'db',
   totalQuery,
+  totalQueryEndpoint,
   select,
   onSelectItem,
   onItemClick,
@@ -315,7 +317,9 @@ export function BasedExplorer({
     : null
 
   const { data: totalData, loading: totalLoading } = useQuery(
-    totalQuery && totalQueryPayload ? queryEndpoint : null,
+    totalQuery && totalQueryPayload
+      ? totalQueryEndpoint ?? queryEndpoint
+      : null,
     totalQueryPayload,
   )
 
