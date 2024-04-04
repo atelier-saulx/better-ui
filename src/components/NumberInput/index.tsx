@@ -102,7 +102,6 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       checksum,
     })
 
-
     return (
       <Wrapper label={label} disabled={disabled} style={style}>
         {label && (
@@ -138,6 +137,9 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             name={formName}
             placeholder={placeholder}
             step={step}
+            onWheel={(e) => {
+              e.target.blur()
+            }}
             style={{
               pointerEvents: disabled ? 'none' : 'default',
               background: 'none',
