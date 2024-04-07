@@ -159,8 +159,8 @@ export function Thumbnail({
         <div
           style={{
             position: 'absolute',
-            top: 0,
-            right: 0,
+            top: size === 'extra-small' ? -4 : 0,
+            right: size === 'extra-small' ? -4 : 0,
             background: getColor('background', 'screen'),
             color: getColor('content', 'primary'),
             border: border(),

@@ -75,6 +75,7 @@ export function Record({ ctx, path }: TableProps) {
       ...valueRef.current,
     }
     delete nValue[key]
+    console.log('==========', nValue)
     ctx.listeners.onChangeHandler(ctx, path, nValue)
   }
 

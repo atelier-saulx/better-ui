@@ -97,7 +97,7 @@ export function Sidebar({
                 padding: 8,
                 width: '100%',
                 flexShrink: 0,
-                borderBottom: border(),
+                // borderBottom: border(),
               }}
             >
               {typeof header === 'function'
@@ -163,7 +163,7 @@ export function Sidebar({
                   padding: 8,
                   width: '100%',
                   flexShrink: 0,
-                  borderTop: border(),
+                  // borderTop: border(),
                 }}
               >
                 {footer &&

@@ -24,6 +24,7 @@ import * as f13987867859930 from "../../src/components/Layout/index.stories.js"
 import * as f16563245806786 from "../../src/components/LineGraph/index.stories.js"
 import * as f9839458721826 from "../../src/components/List/index.stories.js"
 import * as f1152820663024 from "../../src/components/LoginPage/index.stories.js"
+import * as f5704794770103 from "../../src/components/Logs/index.stories.js"
 import * as f13659776204836 from "../../src/components/Media/index.stories.js"
 import * as f16096448594379 from "../../src/components/Modal/index.stories.js"
 import * as f16040773058871 from "../../src/components/MultiSelectInput/index.stories.js"
@@ -60,7 +61,7 @@ import * as f47303550426 from "../../src/components/Form/stories/references.stor
 import * as f11229660430731 from "../../src/components/Form/stories/referencesSchema.stories.js"
 import * as f4536220838927 from "../../src/components/Form/stories/richText.stories.js"
 import * as f7012957941312 from "../../src/components/Form/stories/set.stories.js"
-export const stories = [f14151460882256,f13852923402373,f15285278589437,f11824060859706,f17092004167783,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f9839458721826,f1152820663024,f13659776204836,f16096448594379,f16040773058871,f5024396229712,f523702835381,f16494901165491,f13113167991056,f5376768019532,f3246165100817,f11708898986714,f4381831871064,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f198770517426,f3747781814494,f11921429078468,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f4483000576595,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f4536220838927,f7012957941312]
+export const stories = [f14151460882256,f13852923402373,f15285278589437,f11824060859706,f17092004167783,f3593820932342,f4500130912786,f4580959827109,f8528690964461,f34361547883,f12016318073042,f9180076508071,f13725674986069,f1710171245218,f5605024078747,f13761243736048,f10957906438872,f8608274230751,f7041630938200,f10987838370173,f5364602761060,f13987867859930,f16563245806786,f9839458721826,f1152820663024,f5704794770103,f13659776204836,f16096448594379,f16040773058871,f5024396229712,f523702835381,f16494901165491,f13113167991056,f5376768019532,f3246165100817,f11708898986714,f4381831871064,f1222778416958,f11970208694964,f11126463513738,f11214281122365,f10867194610830,f198770517426,f3747781814494,f11921429078468,f6083193986525,f5240949225116,f8950821975659,f7395640043052,f7794489085085,f16087346434261,f4645473211601,f4483000576595,f17312796633704,f9053450046761,f2784224696663,f17137229366244,f7145042216623,f47303550426,f11229660430731,f4536220838927,f7012957941312]
 export const parsedStories = [{ id: "f14151460882256", story: f14151460882256, path: "/Users/yvesbeer/dev/better-ui/src/components/Accordion/index.stories.tsx", file: `import * as React from 'react'
 import { Accordion } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -471,11 +472,33 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        variant={['list', 'grid', 'table', 'calendar']}
+        variant={['table', 'grid', 'list', 'calendar']}
         header="Based Explorer"
         info
         onDrop={(f) => {
           console.log(f)
+        }}
+        onSelectItem={(selected, clearSelection) => {
+          console.log(selected)
+          return false
+        }}
+        selectItemsAction={{
+          label: 'Change description',
+          action: async (selected, clear) => {
+            if (selected.type === 'include') {
+              const randomEmoji = ['🍕', '🍔', '🍟', '🍦', '🍩', '🍪']
+              selected.items.forEach((id) => {
+                client.call('db:set', {
+                  $language: 'en',
+                  $id: id,
+                  body:
+                    'New description! ' +
+                    randomEmoji[Math.floor(Math.random() * randomEmoji.length)],
+                })
+              })
+              clear()
+            }
+          },
         }}
         filter
         select={[
@@ -1960,6 +1983,477 @@ export const Default: StoryObj<typeof LoginPage> = {
     logo: <BasedLogoWithText />,
   },
 }
+`},{ id: "f5704794770103", story: f5704794770103, path: "/Users/yvesbeer/dev/better-ui/src/components/Logs/index.stories.tsx", file: `import * as React from 'react'
+import { Logs, border, useUpdate } from '../../index.js'
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Logs> & { description: string } = {
+  title: 'Components/Logs',
+  component: Logs,
+  description:
+    "The Captain's logs 👨🏻‍🚀: View single logs or grouped by time interval in descending or ascending order. Filter by log types and/or message string. Scrolling locks at the bottom and the top. Pass a prop for groupByTime to start with a grouped view. onClear prop to determine what happens on clear. order prop for starting order.",
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [(Story) => <Story />],
+}
+
+const test = [
+  {
+    srvc: 'env-hub-poller',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: '/home/ec2-user/shared_modules/6c5adf95dcebbe650c257e54ede883a2bbc9d740/dist/index.js\n',
+    lvl: 'info',
+    ts: 1687803514771,
+  },
+  {
+    srvc: 'env-hub-poller',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Based-server listening on port: 4006\n',
+    lvl: 'info',
+    ts: 1687803514837,
+  },
+  {
+    srvc: 'env-hub-discovery',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: '    Based-server listening on port: 80\n',
+    lvl: 'info',
+    ts: 1687803515243,
+  },
+  {
+    srvc: 'env-events-hub',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: '    Based-server listening on port: 4007\n',
+    lvl: 'info',
+    ts: 1687803515573,
+  },
+  {
+    srvc: 'env-admin-hub',
+    i: '0',
+    mid: 'ma2fd399f1',
+    url: '18.159.141.108',
+    eid: 'enBBBFs9x0',
+    msg: 'More then 30 retries to connect to server hard-disconnect 172.33.32.107:4002 registry registry\n',
+    lvl: 'error',
+    ts: 1687803519831,
+  },
+  {
+    srvc: 'env-hub',
+    i: '0',
+    mid: 'ma7398cf92',
+    url: '3.73.65.108',
+    eid: 'enBBBFs9x0',
+    msg: 'More then 30 retries to connect to server hard-disconnect 172.33.32.107:4002 registry registry\n',
+    lvl: 'error',
+    ts: 1687803519885,
+  },
+  {
+    srvc: 'env-jobs',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'More then 30 retries to connect to server hard-disconnect 172.33.32.107:4002 registry registry\n',
+    lvl: 'error',
+    ts: 1687803522397,
+  },
+  {
+    srvc: 'env-events-hub',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'More then 30 retries to connect to server hard-disconnect 172.33.32.107:4002 registry registry\n',
+    lvl: 'error',
+    ts: 1687803526112,
+  },
+  {
+    srvc: 'env-db-sub-manager',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: '(node:1704) NOTE: We are formalizing our plans to enter AWS SDK for JavaScript (v2) into maintenance mode in 2023.\n\nPlease migrate your code to use AWS SDK for JavaScript (v3).\nFor more information, check the migration guide at https://a.co/7PzMCcy\n(Use \`node --trace-warnings ...\` to show where the warning was created)\n',
+    lvl: 'error',
+    ts: 1687803528155,
+  },
+  {
+    srvc: 'env-db-sub-manager',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "{\n  port: 4003,\n  host: '172.33.32.107',\n  registry: [AsyncFunction (anonymous)],\n  dir: '/home/ec2-user/services/env-db-sub-manager/tmp',\n  modules: [ 'selva' ],\n  name: 'subscriptionManager'\n}\n",
+    lvl: 'info',
+    ts: 1687803528175,
+  },
+  {
+    srvc: 'env-db-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: '(node:1711) NOTE: We are formalizing our plans to enter AWS SDK for JavaScript (v2) into maintenance mode in 2023.\n\nPlease migrate your code to use AWS SDK for JavaScript (v3).\nFor more information, check the migration guide at https://a.co/7PzMCcy\n(Use \`node --trace-warnings ...\` to show where the warning was created)\n',
+    lvl: 'error',
+    ts: 1687803528193,
+  },
+  {
+    srvc: 'env-db-sub-manager',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Hierarchy initialized and lua scripts loaded\n',
+    lvl: 'info',
+    ts: 1687803528263,
+  },
+  {
+    srvc: 'env-db-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "{\n  port: 4002,\n  host: '172.33.32.107',\n  dir: '/home/ec2-user/services/env-db-registry/tmp',\n  modules: [ 'selva' ],\n  name: 'registry'\n}\n",
+    lvl: 'info',
+    ts: 1687803528292,
+  },
+  {
+    srvc: 'env-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: '(node:1714) NOTE: We are formalizing our plans to enter AWS SDK for JavaScript (v2) into maintenance mode in 2023.\n\nPlease migrate your code to use AWS SDK for JavaScript (v3).\nFor more information, check the migration guide at https://a.co/7PzMCcy\n(Use \`node --trace-warnings ...\` to show where the warning was created)\n',
+    lvl: 'error',
+    ts: 1687803528345,
+  },
+  {
+    srvc: 'env-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "{\n  port: 4005,\n  default: true,\n  host: '172.33.32.107',\n  save: true,\n  name: 'default',\n  dir: '/home/ec2-user/data/env-db',\n  registry: [AsyncFunction (anonymous)],\n  selvaOptions: [\n    'FIND_INDICES_MAX',\n    '100',\n    'FIND_INDEXING_INTERVAL',\n    '1000',\n    'FIND_INDEXING_ICB_UPDATE_INTERVAL',\n    '500',\n    'FIND_INDEXING_POPULARITY_AVE_PERIOD',\n    '3'\n  ],\n  modules: [ 'selva' ]\n}\n",
+    lvl: 'info',
+    ts: 1687803528385,
+  },
+  {
+    srvc: 'env-db-sub-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: '(node:1725) NOTE: We are formalizing our plans to enter AWS SDK for JavaScript (v2) into maintenance mode in 2023.\n\nPlease migrate your code to use AWS SDK for JavaScript (v3).\nFor more information, check the migration guide at https://a.co/7PzMCcy\n(Use \`node --trace-warnings ...\` to show where the warning was created)\n',
+    lvl: 'error',
+    ts: 1687803528415,
+  },
+  {
+    srvc: 'env-config-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: '(node:1705) NOTE: We are formalizing our plans to enter AWS SDK for JavaScript (v2) into maintenance mode in 2023.\n\nPlease migrate your code to use AWS SDK for JavaScript (v3).\nFor more information, check the migration guide at https://a.co/7PzMCcy\n(Use \`node --trace-warnings ...\` to show where the warning was created)\n',
+    lvl: 'error',
+    ts: 1687803528419,
+  },
+  {
+    srvc: 'env-db-sub-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "{\n  port: 4001,\n  host: '172.33.32.107',\n  registry: [AsyncFunction (anonymous)],\n  dir: '/home/ec2-user/services/env-db-sub-registry/tmp',\n  modules: [ 'selva' ],\n  name: 'subscriptionRegistry'\n}\n",
+    lvl: 'info',
+    ts: 1687803528440,
+  },
+  {
+    srvc: 'env-config-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "{\n  port: 4004,\n  default: false,\n  host: '172.33.32.107',\n  save: true,\n  name: 'config',\n  dir: '/home/ec2-user/data/env-config-db',\n  registry: [AsyncFunction (anonymous)],\n  selvaOptions: [\n    'FIND_INDICES_MAX',\n    '100',\n    'FIND_INDEXING_INTERVAL',\n    '1000',\n    'FIND_INDEXING_ICB_UPDATE_INTERVAL',\n    '500',\n    'FIND_INDEXING_POPULARITY_AVE_PERIOD',\n    '3'\n  ],\n  modules: [ 'selva' ]\n}\n",
+    lvl: 'info',
+    ts: 1687803528460,
+  },
+  {
+    srvc: 'env-db-sub-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'ADDING SIGNAL HANDLERS\n',
+    lvl: 'info',
+    ts: 1687803528487,
+  },
+  {
+    srvc: 'env-db-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'ADDING SIGNAL HANDLERS\n',
+    lvl: 'info',
+    ts: 1687803528522,
+  },
+  {
+    srvc: 'env-db-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Hierarchy initialized and lua scripts loaded\n',
+    lvl: 'info',
+    ts: 1687803528525,
+  },
+  {
+    srvc: 'env-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "Trying to initialize empty hierarchy { name: 'default', type: 'origin', port: 4005, host: '172.33.32.107' }\n",
+    lvl: 'info',
+    ts: 1687803528569,
+  },
+  {
+    srvc: 'env-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'ADDING SIGNAL HANDLERS\n',
+    lvl: 'info',
+    ts: 1687803528571,
+  },
+  {
+    srvc: 'env-db-sub-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Hierarchy initialized and lua scripts loaded\n',
+    lvl: 'info',
+    ts: 1687803528602,
+  },
+  {
+    srvc: 'env-config-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "Trying to initialize empty hierarchy { name: 'config', type: 'origin', port: 4004, host: '172.33.32.107' }\n",
+    lvl: 'info',
+    ts: 1687803528629,
+  },
+  {
+    srvc: 'env-config-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'ADDING SIGNAL HANDLERS\n',
+    lvl: 'info',
+    ts: 1687803528648,
+  },
+  {
+    srvc: 'env-db-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Server is added to registry subscriptionManager subscriptionManager 172.33.32.107 4003\n',
+    lvl: 'info',
+    ts: 1687803529105,
+  },
+  {
+    srvc: 'env-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    subType: 'bla',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "Empty hierarchy initialized [ 'root', 'UPDATED' ]\n",
+    lvl: 'info',
+    ts: 1687803529141,
+  },
+  {
+    srvc: 'env-db-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Server is added to registry subscriptionRegistry subscriptionRegistry 172.33.32.107 4001\n',
+    lvl: 'info',
+    ts: 1687803529174,
+  },
+  {
+    srvc: 'env-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Hierarchy initialized and lua scripts loaded\n',
+    lvl: 'info',
+    ts: 1687803529226,
+  },
+  {
+    srvc: 'env-db-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Server is added to registry registry registry 172.33.32.107 4002\n',
+    lvl: 'info',
+    ts: 1687803529247,
+  },
+  {
+    srvc: 'env-config-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "Empty hierarchy initialized [ 'root', 'UPDATED' ]\n",
+    lvl: 'info',
+    ts: 1687803529253,
+  },
+  {
+    srvc: 'env-config-db',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Hierarchy initialized and lua scripts loaded\n',
+    lvl: 'info',
+    ts: 1687803529294,
+  },
+  {
+    srvc: 'env-db-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Server is added to registry default origin 172.33.32.107 4005\n',
+    lvl: 'info',
+    ts: 1687803529312,
+  },
+  {
+    srvc: 'env-db-registry',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Server is added to registry config origin 172.33.32.107 4004\n',
+    lvl: 'info',
+    ts: 1687803529368,
+  },
+  {
+    srvc: 'env-db-sub-manager',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'ADDING SIGNAL HANDLERS\n',
+    lvl: 'info',
+    ts: 1687803529778,
+  },
+  {
+    srvc: 'env-jobs',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'jobs: []\n',
+    lvl: 'info',
+    ts: 1687803529852,
+  },
+  {
+    srvc: 'env-db-sub-manager',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'Time out (took longer then 15s)35c0b313be9b346e481428ba386d1817e3c07dc3d9b2587020c871287cce85c0\n',
+    lvl: 'error',
+    ts: 1687803545949,
+  },
+  {
+    srvc: 'env-db-sub-manager',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: "{\n  '$db': 'metrics',\n  '$id': 'root',\n  trackUniqueOrigins: true,\n  '$includeMeta': true,\n  '$subscription': '35c0b313be9b346e481428ba386d1817e3c07dc3d9b2587020c871287cce85c0',\n  '$originDescriptors': {},\n  '$firstEval': true\n}\n",
+    lvl: 'info',
+    ts: 1687803545954,
+  },
+  {
+    srvc: 'env-jobs',
+    i: '0',
+    mid: 'ma2c3ce4ad',
+    url: '3.127.35.134',
+    eid: 'enBBBFs9x0',
+    msg: 'jobs: []\n',
+    lvl: 'info',
+    ts: 1687864333460,
+  },
+  {
+    srvc: 'env-hub',
+    i: '0',
+    mid: 'ma7398cf92',
+    url: '3.73.65.108',
+    eid: 'enBBBFs9x0',
+    msg: "{ name: 'demo', version: 3501681214638 }\n",
+    lvl: 'error',
+    ts: 1687864333486,
+  },
+]
+
+export default meta
+
+export const Default = () => {
+  const [data, setData] = React.useState(test)
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setData([
+        ...data,
+        {
+          srvc: 'env-hub',
+          i: '0',
+          mid: 'ma7398cf92',
+          url: '3.73.65.108',
+          eid: 'enBBBFs9x0',
+          msg: "{ name: 'demo', version: 3501681214638 }\n",
+          lvl: 'error',
+          ts: new Date().getTime(),
+        },
+      ])
+    }, 1000)
+  }, [data.length])
+
+  return (
+    <Logs
+      data={data}
+      // groupByTime={1}
+      //  order="asc"
+      onClear={() => alert('clear logs')}
+    ></Logs>
+  )
+}
 `},{ id: "f13659776204836", story: f13659776204836, path: "/Users/yvesbeer/dev/better-ui/src/components/Media/index.stories.tsx", file: `import * as React from 'react'
 import type { Meta } from '@storybook/react'
 import { color, Media, Stack } from '../../index.js'
@@ -2387,6 +2881,32 @@ export const Default: StoryObj<typeof MultiSelectInput> = {
   },
 }
 
+export const SingleLine: StoryObj<typeof MultiSelectInput> = {
+  args: {
+    placeholder: 'Select something',
+    label: 'Favourite fruit',
+    onChange: console.log,
+    options: [
+      {
+        label: 'Orange',
+        value: 'orange',
+      },
+      {
+        label: 'Banana',
+        value: 'banana',
+      },
+      ...Array.from({ length: 100 }).map((_, i) => ({
+        label: \`Apple \$i}\`,
+        value: \`apple-\$i}\`,
+      })),
+    ],
+    style: {
+      maxWidth: 274,
+    },
+    singleLine: true,
+  },
+}
+
 export const StayOpen: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
@@ -2665,8 +3185,8 @@ import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 
 const client = based({
-  org: 'demo',
-  project: 'demo',
+  org: 'saulx',
+  project: 'based-ui',
   env: 'production',
 })
 
@@ -3200,7 +3720,13 @@ export const GridFixedHeight: StoryObj<typeof Stack> = {
     children: manyChildren,
   },
 }
-`},{ id: "f198770517426", story: f198770517426, path: "/Users/yvesbeer/dev/better-ui/src/components/Switch/index.stories.tsx", file: `import { Switch } from '../../index.js'
+`},{ id: "f198770517426", story: f198770517426, path: "/Users/yvesbeer/dev/better-ui/src/components/Switch/index.stories.tsx", file: `import React from 'react'
+import {
+  IconAlarmClock,
+  IconAlertFill,
+  IconAnchor,
+  Switch,
+} from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Switch> = {
@@ -3212,7 +3738,15 @@ export default meta
 
 export const Body: StoryObj<typeof Switch> = {
   args: {
-    data: ['month', 'week', 'day'],
+    // data: ['month', 'week', 'day'],
+    selected: 0,
+    data: [
+      'howdy',
+      <IconAlarmClock />,
+      <IconAlertFill />,
+      <IconAnchor />,
+      'Hallo',
+    ],
     onChange: (v) => console.log(v),
   },
 }
@@ -3272,13 +3806,40 @@ const meta = {
 export default meta
 
 export const Default = ({ data }) => {
+  const r = React.useRef<Set<string>>(new Set(['*']))
+  const update = useUpdate()
+
   return (
     <div
       style={{
         height: 500,
       }}
     >
-      <Table values={data} pagination sort />
+      <Table
+        onSelect={(v, all) => {
+          if (all) {
+            if (r.current.has('*')) {
+              r.current.clear()
+            } else {
+              r.current.clear()
+              r.current.add('*')
+            }
+            update()
+            return
+          }
+
+          if (r.current.has(v.id)) {
+            r.current.delete(v.id)
+          } else {
+            r.current.add(v.id)
+          }
+          update()
+        }}
+        selected={r.current}
+        values={data}
+        pagination
+        sort
+      />
     </div>
   )
 }
@@ -4999,7 +5560,6 @@ export const References = () => {
           title: 'People',
           type: 'references',
         },
-
         refs: {
           title: 'Multi references',
           type: 'references',

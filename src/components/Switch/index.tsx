@@ -1,56 +1,66 @@
-import React, { useState } from 'react'
-import { styled, Style } from 'inlines'
-import { borderRadius, boxShadow, color } from '../../utils/colors.js'
-import { Text } from '../../index.js'
+import React, { ReactNode, useEffect, useState } from 'react'
+import { Style } from 'inlines'
+import { borderRadius, color } from '../../utils/colors.js'
+import { Stack, Button } from '../../index.js'
 
 type SwitchProps = {
-  data?: Array<string>
-  onChange?: (value: string) => void
+  data?: Array<string | ReactNode>
+  onChange?: (value: number) => void
   style?: Style
-  activeTab?: string
+  selected?: number
 }
 
-export const Switch = ({
-  data,
-  onChange,
-  activeTab: activeTabProp,
-  style,
-}: SwitchProps) => {
-  const [activeTab, setActiveTab] = useState(activeTabProp || data[0])
+export const Switch = ({ data, style, selected, onChange }: SwitchProps) => {
+  const [selectedTab, setSelectedTab] = useState(selected)
+
+  useEffect(() => {
+    setSelectedTab(selected)
+  }, [selected])
 
   return (
-    <styled.div
+    <Stack
+      gap={2}
+      fitContent
+      justify="start"
       style={{
-        display: 'inline-flex',
-        backgroundColor: color('background', 'muted'),
-        borderRadius: borderRadius('small'),
-        padding: 3,
-        gap: 4,
+        padding: 4,
+        borderRadius: borderRadius('medium'),
+        background: color('background', 'neutral'),
+        width: 'fit-content',
         ...style,
       }}
     >
-      {data?.map((item, idx) => (
-        <styled.div
-          key={idx}
-          onClick={() => {
-            setActiveTab(data[idx])
-            onChange(data[idx])
-          }}
-          style={{
-            padding: '4px 12px',
-            borderRadius: borderRadius('tiny'),
-            userSelect: 'none',
-            backgroundColor:
-              activeTab === data[idx]
-                ? color('background', 'screen')
-                : 'inherit',
-            boxShadow:
-              activeTab === data[idx] ? boxShadow('elevation') : 'none',
-          }}
-        >
-          <Text style={{ lineHeight: '18px' }}>{item}</Text>
-        </styled.div>
-      ))}
-    </styled.div>
+      {[...data].map((v, idx) => {
+        return (
+          <Button
+            key={idx}
+            onClick={(v) => {
+              onChange(idx)
+              setSelectedTab(idx)
+            }}
+            prefix={
+              <Stack
+                style={{
+                  paddingTop: 4,
+                  paddingBottom: 4,
+                  boxShadow:
+                    selectedTab === idx
+                      ? '0px 1px 2px rgba(0,0,0,0.1)'
+                      : 'none',
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  borderRadius: borderRadius('tiny'),
+                  background:
+                    selectedTab === idx ? color('background', 'screen') : '',
+                }}
+              >
+                {v}
+              </Stack>
+            }
+            variant="icon-only"
+          />
+        )
+      })}
+    </Stack>
   )
 }

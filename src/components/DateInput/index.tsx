@@ -34,6 +34,8 @@ import {
   parse,
   setHours,
   setMinutes,
+  hoursToMilliseconds,
+  minutesToMilliseconds,
 } from 'date-fns'
 
 const format = (...args) => {
@@ -300,7 +302,7 @@ export function DateInput({
                 (typeof value === 'object'
                   ? `${format(
                       value.start,
-                      time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy',
+                      time ? `dd/MM/yyyy HH:mm` : 'dd/MM/yyyy',
                     )} - ${format(
                       value.end,
                       time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy',
@@ -562,11 +564,23 @@ export function DateInput({
                       }),
                   }}
                   onClick={() => {
+                    // make sure time keeps consistent if you change date
+                    const timeInMs =
+                      hoursToMilliseconds(+pendingStartTime.slice(0, 2)) +
+                      minutesToMilliseconds(+pendingStartTime.slice(-2))
+
                     if (range) {
+                      const endingTimeInMs =
+                        hoursToMilliseconds(+pendingEndTime.slice(0, 2)) +
+                        minutesToMilliseconds(+pendingEndTime.slice(-2))
+
                       if (pendingRangePart) {
                         handleChange({
-                          start: min([pendingRangePart, day]).getTime(),
-                          end: max([pendingRangePart, day]).getTime(),
+                          start:
+                            min([pendingRangePart, day]).getTime() + timeInMs,
+                          end:
+                            max([pendingRangePart, day]).getTime() +
+                            endingTimeInMs,
                         })
                         setPendingRangePart(null)
                         return
@@ -575,7 +589,7 @@ export function DateInput({
                       return
                     }
 
-                    handleChange(day.getTime())
+                    handleChange(day.getTime() + timeInMs)
                   }}
                   onMouseEnter={() => {
                     if (!range) return

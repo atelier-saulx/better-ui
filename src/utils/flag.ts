@@ -1,4 +1,7 @@
 export const getFlagEmoji = (countryCode = '') => {
+  if (countryCode.length !== 2) {
+    return '🌐'
+  }
   const codePoints = countryCode
     .toUpperCase()
     .split('')

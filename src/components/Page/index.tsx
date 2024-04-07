@@ -17,15 +17,17 @@ export type PageProps = {
 
 export const Page = ({ children, padding = 32, style }: PageProps) => {
   return (
-    <ScrollArea
+    <div
       style={{
         padding,
         flexGrow: 1,
+        overflow: 'auto',
+        height: '100%',
         ...style,
       }}
     >
       {children}
-    </ScrollArea>
+    </div>
   )
 }
 

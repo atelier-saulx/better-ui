@@ -28,13 +28,14 @@ export type MultiSelectInputProps = {
   description?: string
   disabled?: boolean
   stayOpenWhileSelecting?: boolean
+  singleLine?: boolean
 }
 
 export function MultiSelectInput({
   value,
   onChange,
   defaultValue,
-  options,
+  options = [],
   label,
   placeholder,
   checksum,
@@ -43,6 +44,7 @@ export function MultiSelectInput({
   error,
   description,
   disabled,
+  singleLine,
   stayOpenWhileSelecting = false,
 }: MultiSelectInputProps) {
   const [open, setOpen] = React.useState(false)
@@ -91,7 +93,8 @@ export function MultiSelectInput({
               color: color('content', 'primary'),
               display: 'flex',
               alignItems: 'center',
-              flexWrap: 'wrap',
+              flexWrap: singleLine ? 'no-wrap' : 'wrap',
+              overflow: 'hidden',
               gap: 4,
               '&:hover': {
                 border:
@@ -115,8 +118,9 @@ export function MultiSelectInput({
             }}
           >
             {state?.size ? (
-              [...state].map((e) => (
-                <div
+              [...state].map((e, idx) => (
+                <styled.div
+                  key={idx}
                   style={{
                     ...textVariants.body,
                     borderRadius: borderRadius('small'),
@@ -131,7 +135,7 @@ export function MultiSelectInput({
                     e.stopPropagation()
                   }}
                 >
-                  <div>
+                  <styled.div style={{ whiteSpace: 'nowrap' }}>
                     {(() => {
                       const option = options.find((option) =>
                         typeof option === 'object'
@@ -144,11 +148,12 @@ export function MultiSelectInput({
 
                       return label ?? value
                     })()}
-                  </div>
+                  </styled.div>
                   <styled.div
                     style={{
                       display: 'flex',
                       borderRadius: borderRadius('small'),
+
                       '&:hover': {
                         background: color('background', 'neutral'),
                       },
@@ -161,7 +166,7 @@ export function MultiSelectInput({
                   >
                     <IconClose />
                   </styled.div>
-                </div>
+                </styled.div>
               ))
             ) : (
               <Text variant="body" color="secondary" noSelect>
@@ -196,12 +201,13 @@ export function MultiSelectInput({
               overflow: 'auto',
             }}
           >
-            {options.map((option) => {
+            {options.map((option, idx) => {
               const { value, label = null } =
                 typeof option === 'string' ? { value: option } : option
 
               return (
                 <styled.div
+                  key={idx}
                   style={{
                     padding: '4px 12px 4px 42px',
                     borderRadius: borderRadius('small'),
@@ -238,7 +244,7 @@ export function MultiSelectInput({
                       }}
                     />
                   )}
-                  <div>{label ?? value}</div>
+                  <Text>{label ?? value}</Text>
                 </styled.div>
               )
             })}

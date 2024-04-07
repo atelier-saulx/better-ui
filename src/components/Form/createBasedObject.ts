@@ -1,4 +1,3 @@
-import { deepCopy, deepMergeArrays, deepEqual } from '@saulx/utils'
 import { TableCtx, Path } from './types.js'
 import { readPath } from './utils.js'
 
@@ -9,8 +8,6 @@ export const createBasedObject = (
   prevValues: { [key: string]: any },
   changes: { [key: string]: any },
 ): { [key: string]: any } => {
-  const bObject: any = {}
-
   const walk = (v: any, path: Path, prevValue: any): any => {
     const { field, value } = readPath(ctx, path)
     if (v === null) {
@@ -22,32 +19,7 @@ export const createBasedObject = (
         return walk(item, [...path, i], prevValue?.[i])
       })
 
-      if (field.items?.type === 'reference') {
-        return v
-      }
-
-      let nV: any
-      let j = 0
-      for (let i = 0; i < v.length; i++) {
-        if (v[i] !== undefined) {
-          nV = {
-            $assign: {
-              $idx: i,
-              $value: v[i],
-            },
-          }
-          j++
-        }
-        if (j > 1 || (value && v.length < value.length)) {
-          // console.info('have to do other stuff... prob copy the array')
-          // check if we have
-          // - a push
-          // - a single remove
-          // other wise copy the whole array
-          return deepMergeArrays(deepCopy(value), v)
-        }
-      }
-      return nV
+      return v
     }
 
     if (field.type === 'references' || field.type === 'set') {
@@ -65,7 +37,7 @@ export const createBasedObject = (
         s[key] = walk(v[key], [...path, key], prevValue?.[key])
       }
 
-      if (field.type === 'record' && prevValue) {
+      if (field.type === 'record' && prevValue && value) {
         for (const key in prevValue) {
           if (!(key in value)) {
             s[key] = { $delete: true }

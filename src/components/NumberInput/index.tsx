@@ -127,8 +127,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               const numberValue = parseFloat(e.target.value)
 
               if (isNaN(numberValue)) {
-                e.target.value = ''
-                setValue(undefined)
+                setValue(null)
                 return
               }
 
@@ -138,6 +137,9 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             name={formName}
             placeholder={placeholder}
             step={step}
+            onWheel={(e) => {
+              e.target.blur()
+            }}
             style={{
               pointerEvents: disabled ? 'none' : 'default',
               background: 'none',

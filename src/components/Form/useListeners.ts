@@ -53,15 +53,13 @@ const createListeners = (
         (valueRef.current.props.variant === 'bare' ||
           valueRef.current.props.variant === 'no-confirm')
       ) {
+        const { values, changes } = valueRef.current
+        ctx.values = values
         valueRef.current.props.onChange(
-          valueRef.current.values,
-          valueRef.current.changes,
+          values,
+          changes,
           hash,
-          createBasedObject(
-            ctx,
-            valueRef.current.values,
-            valueRef.current.changes,
-          ),
+          createBasedObject(ctx, valueRef.current.props.values || {}, changes),
         )
       }
 
