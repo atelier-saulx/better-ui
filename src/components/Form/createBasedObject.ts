@@ -10,16 +10,15 @@ export const createBasedObject = (
 ): { [key: string]: any } => {
   const walk = (v: any, path: Path, prevValue: any): any => {
     const { field, value } = readPath(ctx, path)
+
     if (v === null) {
       return { $delete: true }
     }
 
-    if (field.type === 'array' && Array.isArray(v)) {
-      v = v.map((item, i) => {
+    if (field.type === 'array' && Array.isArray(value)) {
+      return value.filter(Boolean).map((item, i) => {
         return walk(item, [...path, i], prevValue?.[i])
       })
-
-      return v
     }
 
     if (field.type === 'references' || field.type === 'set') {
