@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { TableCtx, Path } from '../../types.js'
 import { BasedSchemaField, display } from '@based/schema'
 import { styled } from 'inlines'
@@ -15,14 +15,28 @@ import {
 } from '../../../../index.js'
 import { Reference } from '../../Reference.js'
 
+export type FieldRenderFunction = ({
+  path,
+  field,
+  value,
+}: {
+  path: Path
+  field: { render?: FieldRenderFunction } & BasedSchemaField
+  value: any
+}) => React.ReactNode
+
 type ReadProps = {
   ctx: TableCtx
   path: Path
-  field: BasedSchemaField
+  field: { render?: FieldRenderFunction } & BasedSchemaField
   value: any
 }
 
 const Value = (p: ReadProps) => {
+  if (typeof p.field.render === 'function') {
+    const { path, field, value } = p
+    return p.field.render({ path, field, value })
+  }
   if (isType(p.field)) {
     return <Badge color="auto-muted">{p.value}</Badge>
   }
