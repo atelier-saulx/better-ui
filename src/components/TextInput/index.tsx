@@ -97,7 +97,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     },
     ref,
   ) => {
-    const [state = '', setState] = useControllableState({
+    const [state, setState] = useControllableState({
       value,
       onChange,
       checksum,
@@ -120,8 +120,8 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         <styled.input
           tabIndex={disabled ? '-1' : 'auto'}
           autoFocus={autoFocus}
-          value={state}
-          defaultValue={defaultValue}
+          value={typeof state === 'undefined' ? defaultValue || '' : state}
+          // defaultValue={defaultValue} // does not work here
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             e.stopPropagation()
             setState(e.target.value)
