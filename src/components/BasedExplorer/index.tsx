@@ -93,6 +93,9 @@ export type BasedExplorerProps = {
   onItemClick?: (item: any) => void
   queryEndpoint?: string
   totalQueryEndpoint?: string
+  totalQueryEndpointPayload?:
+    | { [key: string]: any }
+    | ((p: ExplorerQueryProps) => { [key: string]: any })
   onDrop?: (files: File[]) => void
   variant?: Variant | Variant[]
   select?: SelectInputProps['options']
@@ -230,6 +233,7 @@ export function BasedExplorer({
   queryEndpoint = 'db',
   totalQuery,
   totalQueryEndpoint,
+  totalQueryEndpointPayload,
   select,
   onSelectItem,
   onItemClick,
@@ -251,6 +255,10 @@ export function BasedExplorer({
   const update = useUpdate()
   const [language] = useLanguage()
   const { data: rawSchema, checksum } = useQuery('db:schema')
+
+  if (queryEndpoint && query) {
+    throw new Error("Don't use queryEndpoint and query at the same time")
+  }
 
   const isMultiVariant = isMultipleVariants(variant)
 
@@ -282,7 +290,7 @@ export function BasedExplorer({
       : null,
   })
 
-  if (totalQuery === undefined) {
+  if (query && totalQuery === undefined && !totalQueryEndpoint) {
     totalQuery = (p) => {
       const q = query({
         filter: p.filter,
@@ -312,22 +320,39 @@ export function BasedExplorer({
     }
   }
 
-  const totalQueryPayload = totalQuery
-    ? totalQuery({
-        filter: ref.current.filter,
-        limit: ref.current.end - ref.current.start,
-        offset: ref.current.start,
-        language,
-        selected: ref.current.selected,
-      })
-    : null
+  const totalQueryPayload =
+    typeof totalQuery === 'function'
+      ? null
+      : typeof totalQueryEndpointPayload === 'function'
+        ? totalQueryEndpointPayload({
+            filter: ref.current.filter,
+            limit: ref.current.end - ref.current.start,
+            offset: ref.current.start,
+            language,
+            selected: ref.current.selected,
+          })
+        : totalQueryEndpointPayload || {
+            filter: ref.current.filter,
+            limit: ref.current.end - ref.current.start,
+            offset: ref.current.start,
+            language,
+            selected: ref.current.selected,
+          }
 
   const { data: totalData, loading: totalLoading } = useQuery(
-    totalQuery && totalQueryPayload
-      ? totalQueryEndpoint ?? queryEndpoint
-      : null,
+    typeof totalQuery === 'function'
+      ? totalQuery({
+          filter: ref.current.filter,
+          limit: ref.current.end - ref.current.start,
+          offset: ref.current.start,
+          language,
+          selected: ref.current.selected,
+          sort: ref.current.sort,
+        })
+      : totalQueryEndpoint || queryEndpoint || null,
     totalQueryPayload,
   )
+  console.log({ totalData, totalLoading })
 
   const updateBlocks = React.useCallback(() => {
     ref.current.isLoading = false
@@ -389,16 +414,26 @@ export function BasedExplorer({
       ref.current.activeSubs.set(id, newSub)
       newSub.close = client
         .query(
-          // @ts-ignore
-          queryEndpoint,
-          ref.current.query({
-            limit: sub.limit,
-            offset: sub.offset,
-            sort: ref.current.sort,
-            language,
-            filter: ref.current.filter,
-            selected: ref.current.selected,
-          }),
+          typeof ref.current.query === 'function'
+            ? ref.current.query({
+                limit: sub.limit,
+                offset: sub.offset,
+                sort: ref.current.sort,
+                language,
+                filter: ref.current.filter,
+                selected: ref.current.selected,
+              })
+            : queryEndpoint || null,
+          queryEndpoint
+            ? {
+                limit: sub.limit,
+                offset: sub.offset,
+                sort: ref.current.sort,
+                language,
+                filter: ref.current.filter,
+                selected: ref.current.selected,
+              }
+            : null,
         )
         .subscribe((d) => {
           newSub.loaded = true
@@ -428,10 +463,11 @@ export function BasedExplorer({
     )
   }
 
-  const parsedTotal = totalQuery
-    ? // @ts-ignore
-      totalData?.total ?? 0
-    : ref.current.lastLoaded
+  const parsedTotal =
+    totalQuery || totalQueryEndpoint || queryEndpoint
+      ? // @ts-ignore
+        totalData?.total ?? 0
+      : ref.current.lastLoaded
 
   const useHeader = info || header || addItem || filter || select
 
@@ -439,13 +475,20 @@ export function BasedExplorer({
     () => ({
       type: 'scroll',
       total: parsedTotal,
-      loadMore: totalQuery
-        ? undefined
-        : async (x) => {
-            ref.current.lastLoaded += x.pageSize
-          },
+      loadMore:
+        totalQuery || totalQueryEndpoint || queryEndpoint
+          ? undefined
+          : async (x) => {
+              ref.current.lastLoaded += x.pageSize
+            },
       onPageChange: async (p) => {
-        if (p.end === 0 && !totalQuery) {
+        console.log('p----paginate', { totalQuery })
+        if (
+          p.end === 0 &&
+          !totalQuery &&
+          !totalQueryEndpoint &&
+          !queryEndpoint
+        ) {
           p.end = p.pageSize * 2
         }
         if (ref.current.lastLoaded < p.end) {
@@ -482,16 +525,26 @@ export function BasedExplorer({
           ref.current.activeSubs.set(id, newSub)
           newSub.close = client
             .query(
-              // @ts-ignore
-              queryEndpoint,
-              ref.current.query({
-                limit: limit,
-                offset: offset,
-                sort: ref.current.sort,
-                language,
-                filter: ref.current.filter,
-                selected: ref.current.selected,
-              }),
+              typeof ref.current.query === 'function'
+                ? ref.current.query({
+                    limit: limit,
+                    offset: offset,
+                    sort: ref.current.sort,
+                    language,
+                    filter: ref.current.filter,
+                    selected: ref.current.selected,
+                  })
+                : queryEndpoint || null,
+              queryEndpoint
+                ? {
+                    limit: limit,
+                    offset: offset,
+                    sort: ref.current.sort,
+                    language,
+                    filter: ref.current.filter,
+                    selected: ref.current.selected,
+                  }
+                : null,
             )
             .subscribe((d) => {
               newSub.loaded = true
@@ -503,7 +556,7 @@ export function BasedExplorer({
         }
       },
     }),
-    [!totalQuery, parsedTotal, queryEndpoint],
+    [!totalQuery, parsedTotal, queryEndpoint, totalQueryEndpoint],
   )
 
   React.useEffect(() => {
