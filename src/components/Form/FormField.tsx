@@ -4,6 +4,16 @@ import { Text, Stack, border, Tooltip, IconGlobe } from '../../index.js'
 import { Variant } from './types.js'
 import { getTitle } from './utils.js'
 
+const markdownLinkParser = (v: string) => {
+  const regexp = /\[(.*?)\]\((.*?)\)/gm
+  const m = regexp.exec(v)
+  console.log(m)
+  if (m) {
+    console.log('-----', v.split(regexp))
+  }
+  return v
+}
+
 type FormFieldProps = {
   children: React.ReactNode
   field: BasedSchemaField
@@ -57,7 +67,7 @@ export function FormField({
           </div>
           {field.description && (
             <Text style={{ marginTop: -2 }} color="secondary">
-              {field.description}
+              {markdownLinkParser(field.description)}
             </Text>
           )}
         </div>
