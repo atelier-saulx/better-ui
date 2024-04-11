@@ -251,9 +251,7 @@ export function BasedExplorer({
   const update = useUpdate()
   const [language] = useLanguage()
   const { data: rawSchema, checksum } = useQuery('db:schema')
-
   const isMultiVariant = isMultipleVariants(variant)
-
   const [selectedVariant, setVariant] = React.useState<Variant>(
     isMultiVariant ? variant[0] : variant,
   )
@@ -314,10 +312,11 @@ export function BasedExplorer({
 
   const totalQueryPayload = totalQuery
     ? totalQuery({
-        filter: ref.current.filter,
         limit: ref.current.end - ref.current.start,
         offset: ref.current.start,
+        sort: ref.current.sort,
         language,
+        filter: ref.current.filter,
         selected: ref.current.selected,
       })
     : null
