@@ -38,7 +38,6 @@ const createListeners = (
 
         valueRef.current.values = deepCopy(valueRef.current.props.values)
       }
-
       setByPath(valueRef.current.values, path, newValue)
       setByPath(valueRef.current.changes, path, newValue)
 
@@ -61,9 +60,9 @@ const createListeners = (
           hash,
           createBasedObject(ctx, valueRef.current.props.values || {}, changes),
         )
+      } else {
+        setChecksum(hash)
       }
-
-      setChecksum(hash)
 
       if (forceUpdate) {
         update()

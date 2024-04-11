@@ -192,36 +192,39 @@ export function Media({
     type = getMimeType(src)
   }
 
-  const observer = React.useMemo(() => {
-    return new ResizeObserver((entries) => {
-      const { width, height } = entries[0].target.getBoundingClientRect()
+  let containerRef
+  if (typeof window !== 'undefined') {
+    const observer = React.useMemo(() => {
+      return new ResizeObserver((entries) => {
+        const { width, height } = entries[0].target.getBoundingClientRect()
 
-      if (width < 100 || height < 100) {
-        setSize('small')
-        return
-      }
+        if (width < 100 || height < 100) {
+          setSize('small')
+          return
+        }
 
-      if (width < 400 || height < 400) {
-        setSize('regular')
-        return
-      }
+        if (width < 400 || height < 400) {
+          setSize('regular')
+          return
+        }
 
-      setSize('large')
-    })
-  }, [])
+        setSize('large')
+      })
+    }, [])
 
-  const containerRef = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      if (containerElem.current === null) {
-        containerElem.current = node
-        observer.observe(node)
-      } else {
-        observer.unobserve(containerElem.current)
-        containerElem.current = null
-      }
-    },
-    [observer],
-  )
+    containerRef = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        if (containerElem.current === null) {
+          containerElem.current = node
+          observer.observe(node)
+        } else {
+          observer.unobserve(containerElem.current)
+          containerElem.current = null
+        }
+      },
+      [observer],
+    )
+  }
 
   return (
     <styled.div

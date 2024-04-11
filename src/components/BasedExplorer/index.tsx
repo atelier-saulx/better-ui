@@ -31,6 +31,7 @@ import {
   generateFromType,
   getTypesFromFilter,
 } from './generator.js'
+import { FieldRenderFunction } from '../Form/Table/Field/ReadOnly.js'
 export { generateFieldsFromQuery, generateFromType, getTypesFromFilter }
 
 type ExplorerRef = {
@@ -117,9 +118,12 @@ export type BasedExplorerProps = {
   query: QueryFn
   total?: number
   totalQuery?: ((p: ExplorerQueryProps) => any) | false
-  fields?:
+  fields?: {
+    [key: string]: { render?: FieldRenderFunction }
+  } & (
     | FormProps['fields']
     | ((fields: FormProps['fields']) => FormProps['fields'])
+  )
   filter?: boolean
   addItem?: (p: ExplorerProps) => Promise<void>
   calendar?: {
@@ -127,6 +131,7 @@ export type BasedExplorerProps = {
     startField: string
     endField: string
   }
+  suffix?: (v: any) => React.ReactNode
 }
 
 type ActiveSub = {
@@ -240,14 +245,13 @@ export function BasedExplorer({
   addItem,
   sort,
   calendar,
+  suffix,
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
   const [language] = useLanguage()
   const { data: rawSchema, checksum } = useQuery('db:schema')
-
   const isMultiVariant = isMultipleVariants(variant)
-
   const [selectedVariant, setVariant] = React.useState<Variant>(
     isMultiVariant ? variant[0] : variant,
   )
@@ -308,10 +312,11 @@ export function BasedExplorer({
 
   const totalQueryPayload = totalQuery
     ? totalQuery({
-        filter: ref.current.filter,
         limit: ref.current.end - ref.current.start,
         offset: ref.current.start,
+        sort: ref.current.sort,
         language,
+        filter: ref.current.filter,
         selected: ref.current.selected,
       })
     : null
@@ -528,6 +533,7 @@ export function BasedExplorer({
         fields={fields}
         isLoading={ref.current.isLoading}
         pagination={pagination}
+        suffix={suffix}
       />
     ) : selectedVariant === 'grid' ? (
       <Grid
