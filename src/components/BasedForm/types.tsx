@@ -5,7 +5,7 @@ import {
 } from '@based/schema'
 import { BasedExplorerProps, FormProps } from '../../index.js'
 import { FieldsFn } from './index.js'
-import { ReactNode } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 
 type OnChangeParams = Parameters<FormProps['onChange']>
 
@@ -49,6 +49,7 @@ type SharedBasedFormProps = {
     field: BasedSchemaFieldReferences | BasedSchemaFieldReference,
     onSelect: (item: any) => void,
   ) => ReactNode
+  headerStyle?: CSSProperties
   richTextEditorProps?: {
     onAddImage?: () => void
   }

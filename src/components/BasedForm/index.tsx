@@ -51,6 +51,7 @@ export function BasedForm({
   forcePublish,
   renderReferenceModalBody,
   richTextEditorProps,
+  headerStyle,
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
@@ -221,7 +222,7 @@ export function BasedForm({
     return (
       <>
         <PageHeader
-          style={{ marginBottom: 48 }}
+          style={{ marginBottom: 48, ...headerStyle }}
           title={
             typeof header === 'function'
               ? header(props.values || {})
