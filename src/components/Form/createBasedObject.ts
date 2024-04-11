@@ -47,6 +47,10 @@ export const createBasedObject = (
       return s
     }
 
+    if (field.type === 'timestamp' && prevValue && !value) {
+      return { $delete: true }
+    }
+
     return v
   }
 
