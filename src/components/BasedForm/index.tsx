@@ -178,7 +178,6 @@ export function BasedForm({
           modalBody={renderReferenceModalBody?.(field, (reference) => {
             close(reference)
           })}
-          // selectReferenceExplorerProps={selectReferenceExplorerProps}
           types={
             field.allowedTypes?.map((e) =>
               typeof e === 'string' ? e : e.type,
@@ -250,12 +249,6 @@ export function BasedForm({
           suffix={
             !noConfirm && (!loading || type) ? (
               <Stack gap={8} style={{ marginTop: -4 }}>
-                {/* <Button
-                  shape="square"
-                  variant="neutral-transparent"
-                  prefix={<IconCopy />}
-                  // onClick={() => deleteItem({ id, type, ...state })}
-                /> */}
                 {id && deleteItem && (
                   <Button
                     shape="square"
