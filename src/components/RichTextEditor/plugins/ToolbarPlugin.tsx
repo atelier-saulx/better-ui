@@ -607,6 +607,7 @@ export function ToolbarPlugin({ variant, onAddImage }) {
             prefix={<IconIcImage />}
             style={{ color: color('content', 'primary') }}
             onClick={async () => {
+              console.log({ onAddImage })
               if (onAddImage) {
                 const image = await onAddImage()
 

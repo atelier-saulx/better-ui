@@ -115,6 +115,7 @@ export function FileInput({
             : null,
         // cursor: disabled ? 'not-allowed' : 'default',
         pointerEvents: disabled ? 'none' : 'auto',
+        overflow: 'hidden',
         ...style,
       }}
       {...listeners}
