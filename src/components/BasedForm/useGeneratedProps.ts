@@ -38,7 +38,7 @@ const createQuery = (
         // get proper stuff from schema
         query[field] = { $all: true }
       } else if (type === 'references') {
-        query[field] = { $all: true, $list: true }
+        query[field] = { $all: true, $list: { $limit: 100 } }
       } else if (type === 'object') {
         query[field] = {
           $all: true,
