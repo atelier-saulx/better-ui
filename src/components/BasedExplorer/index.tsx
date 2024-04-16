@@ -109,6 +109,7 @@ export type BasedExplorerProps = {
       clearSelectedItems: () => void,
     ) => Promise<void> | void
   }
+  db?: string
   sort?: {
     key: string
     dir: 'asc' | 'desc'
@@ -246,11 +247,12 @@ export function BasedExplorer({
   sort,
   calendar,
   suffix,
+  db = 'default',
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
   const [language] = useLanguage()
-  const { data: rawSchema, checksum } = useQuery('db:schema')
+  const { data: rawSchema, checksum } = useQuery('db:schema', { db })
   const isMultiVariant = isMultipleVariants(variant)
   const [selectedVariant, setVariant] = React.useState<Variant>(
     isMultiVariant ? variant[0] : variant,
@@ -300,9 +302,14 @@ export function BasedExplorer({
           },
         }
 
+        if (q.$db) {
+          t.$db = q.$db
+        }
+
         if (q.$id) {
           t.$id = q.$id
         }
+
         return t
       }
       console.warn('connect construct totalQuery')

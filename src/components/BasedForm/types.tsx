@@ -53,6 +53,7 @@ type SharedBasedFormProps = {
   richTextEditorProps?: {
     onAddImage?: () => void
   }
+  db?: string
 }
 
 type OptionalBasedFormProps =

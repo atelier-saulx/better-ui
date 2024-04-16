@@ -52,11 +52,12 @@ export function BasedForm({
   renderReferenceModalBody,
   richTextEditorProps,
   headerStyle,
+  db = 'default',
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
   const [language] = useLanguage()
-  const { data: rawSchema, checksum } = useQuery('db:schema')
+  const { data: rawSchema, checksum } = useQuery('db:schema', { db })
   const schema = React.useMemo(() => {
     if (!rawSchema) return
     const res = convertOldToNew(rawSchema)
@@ -89,6 +90,7 @@ export function BasedForm({
     checksum,
     includedFields,
     excludeCommonFields,
+    db,
   )
   const isReady = ref.current.currentFields && checksum
 

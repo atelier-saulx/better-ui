@@ -20,6 +20,7 @@ const createQuery = (
   id: string,
   schema: BasedSchema,
   language: string,
+  db = 'default',
 ): any => {
   const fields =
     id === 'root'
@@ -27,6 +28,7 @@ const createQuery = (
       : schema.types[schema.prefixToTypeMapping[id.substring(0, 2)]].fields
   const query = {
     $id: id,
+    $db: db,
     $language: language,
     $all: true,
   }
@@ -109,6 +111,7 @@ export const useBasedFormProps = (
   schemaChecksum: number,
   includedFields: BasedFormProps['includedFields'],
   excludeCommonFields: BasedFormProps['excludeCommonFields'],
+  db?: string,
 ) => {
   const [, update] = React.useState(0)
 
@@ -136,7 +139,7 @@ export const useBasedFormProps = (
     ref.current.currentFields = fields
 
     if (id) {
-      query = createQuery(id, schema, language)
+      query = createQuery(id, schema, language, db)
       if (ref.current.queryFn) {
         query = ref.current.queryFn({ id, query, language, fields, schema })
       }
