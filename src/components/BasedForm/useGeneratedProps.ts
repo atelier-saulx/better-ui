@@ -1,15 +1,15 @@
-import { BasedSchema, BasedSchemaField, BasedSchemaType } from '@based/schema'
-import React from 'react'
-import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
-import { BasedFormProps, BasedFormRef } from './types.js'
-import { FormProps } from '../../index.js'
+import { BasedSchema, BasedSchemaField, BasedSchemaType } from "@based/schema"
+import React from "react"
+import { hashObjectIgnoreKeyOrder } from "@saulx/hash"
+import { BasedFormProps, BasedFormRef } from "./types.js"
+import { FormProps } from "../../index.js"
 
 export const isWalkable = ({ type }: BasedSchemaField): boolean => {
   if (
-    type === 'array' ||
-    type === 'record' ||
-    type === 'references' ||
-    type === 'object'
+    type === "array" ||
+    type === "record" ||
+    type === "references" ||
+    type === "object"
   ) {
     return true
   }
@@ -20,10 +20,10 @@ const createQuery = (
   id: string,
   schema: BasedSchema,
   language: string,
-  db = 'default',
+  db = "default"
 ): any => {
   const fields =
-    id === 'root'
+    id === "root"
       ? schema.root.fields
       : schema.types[schema.prefixToTypeMapping[id.substring(0, 2)]].fields
   const query = {
@@ -32,21 +32,21 @@ const createQuery = (
     $language: language,
     $all: true,
   }
-  function walkFields(fields: BasedSchemaType['fields'], query: any) {
+  function walkFields(fields: BasedSchemaType["fields"], query: any) {
     for (const field in fields) {
       const f = fields[field]
       const type = f.type
-      if (type === 'reference') {
+      if (type === "reference") {
         // get proper stuff from schema
         query[field] = { $all: true }
-      } else if (type === 'references') {
-        query[field] = { $all: true, $list: true }
-      } else if (type === 'object') {
+      } else if (type === "references") {
+        query[field] = { $all: true, $list: { $limit: 100 } }
+      } else if (type === "object") {
         query[field] = {
           $all: true,
         }
         walkFields(f.properties, query[field])
-      } else if (type === 'record' && isWalkable(f.values)) {
+      } else if (type === "record" && isWalkable(f.values)) {
         query[field] = {
           $all: true,
         }
@@ -62,12 +62,12 @@ const createQuery = (
 const createFields = (
   type: string,
   schema: BasedSchema,
-  includedFields: BasedFormProps['includedFields'],
-  excludeCommonFields: BasedFormProps['excludeCommonFields'],
-): FormProps['fields'] => {
-  let fields: FormProps['fields']
+  includedFields: BasedFormProps["includedFields"],
+  excludeCommonFields: BasedFormProps["excludeCommonFields"]
+): FormProps["fields"] => {
+  let fields: FormProps["fields"]
 
-  if (type === 'root') {
+  if (type === "root") {
     fields = schema.root.fields
   } else if (schema.types[type]) {
     fields = schema.types[type].fields
@@ -84,15 +84,15 @@ const createFields = (
     for (const key in fields) {
       if (
         [
-          'id',
-          'parents',
-          'descendants',
-          'aliases',
-          'ancestors',
-          'children',
-          'type',
-          'updatedAt',
-          'createdAt',
+          "id",
+          "parents",
+          "descendants",
+          "aliases",
+          "ancestors",
+          "children",
+          "type",
+          "updatedAt",
+          "createdAt",
         ].includes(key)
       ) {
         delete fields[key]
@@ -109,9 +109,9 @@ export const useBasedFormProps = (
   type: string,
   language: string,
   schemaChecksum: number,
-  includedFields: BasedFormProps['includedFields'],
-  excludeCommonFields: BasedFormProps['excludeCommonFields'],
-  db?: string,
+  includedFields: BasedFormProps["includedFields"],
+  excludeCommonFields: BasedFormProps["excludeCommonFields"],
+  db?: string
 ) => {
   const [, update] = React.useState(0)
 
@@ -124,7 +124,7 @@ export const useBasedFormProps = (
 
     if (id) {
       type ??=
-        id === 'root' ? id : schema.prefixToTypeMapping[id.substring(0, 2)]
+        id === "root" ? id : schema.prefixToTypeMapping[id.substring(0, 2)]
     }
 
     let query
