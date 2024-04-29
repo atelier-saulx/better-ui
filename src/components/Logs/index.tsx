@@ -179,18 +179,15 @@ export const Logs = ({
           style={{ maxHeight: 676 }}
           ref={singleLogScrollArea}
           onScroll={(e) => {
-            console.log(e)
             if (
               (e.target as HTMLElement).scrollTop ===
               (e.target as HTMLElement).scrollHeight -
                 (e.target as HTMLElement).offsetHeight
             ) {
-              console.log('BOTTOM')
               setScrollToBottom(true)
             } else {
               setScrollToBottom(false)
             }
-            console.log(e)
           }}
         >
           {orderedByTime

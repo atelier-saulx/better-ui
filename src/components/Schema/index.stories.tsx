@@ -35,10 +35,7 @@ const meta: Meta<typeof Schema> = {
 export default meta
 
 export const Default = () => {
-  // get a schema
   const { data, loading } = useQuery('db:schema')
-
-  console.log('Schema -->', data, 'loading =', loading)
 
   if (loading) {
     return null

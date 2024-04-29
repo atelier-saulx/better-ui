@@ -8,7 +8,6 @@ export function Field({ ctx, path }: { ctx: TableCtx; path: Path }) {
   const { value, field, readOnly } = readPath(ctx, path)
 
   if (!field) {
-    console.error('GET PATH NO FIELD', path, field)
     return 'no field...'
   }
 

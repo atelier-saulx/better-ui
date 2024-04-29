@@ -24,8 +24,6 @@ export const AddNew = ({
   const [newValue, setNewValue] = React.useState<string | number>()
   const { open } = useDropdown()
 
-  console.log('STATE', state)
-
   if (addNew) {
     return (
       <Stack>
@@ -76,23 +74,6 @@ export const AddNew = ({
       </Dropdown.Items>
     </Dropdown.Root>
   ) : (
-    // <Button
-    //   size="small"
-    //   onClick={async (e) => {
-    //     const returnedValue = await open(TypeSelectDropdown, {
-    //       options: options,
-    //     })
-    //     console.log('returnedVALUE??', returnedValue)
-    //     if (!state.includes(returnedValue as string | number)) {
-    //       const nValue = state ? [...state, returnedValue] : [returnedValue]
-    //       setState(nValue)
-    //     }
-    //   }}
-    //   variant="icon-only"
-    //   prefix={<IconPlus />}
-    // >
-    //   Add
-    // </Button>
     <Button
       size="small"
       onClick={() => {

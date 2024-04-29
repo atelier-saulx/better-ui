@@ -264,9 +264,7 @@ export const EditableTable = () => {
 
 export const EditableRefTable = () => {
   const editableRef = React.useRef({
-    onChange(changed) {
-      console.log('CHANGED:', changed)
-    },
+    onChange(changed) {},
   })
 
   return (

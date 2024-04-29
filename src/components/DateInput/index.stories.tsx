@@ -11,9 +11,7 @@ export const SingleDate = () => {
     <DateInput
       label="Single date"
       description="Select a date"
-      onChange={(value) => {
-        console.log(value)
-      }}
+      onChange={(value) => {}}
     />
   )
 }
@@ -23,9 +21,7 @@ export const SingleDateAndTime = () => {
     <DateInput
       time
       label="Single date and time"
-      onChange={(value) => {
-        console.log(value)
-      }}
+      onChange={(value) => {}}
       defaultValue={new Date('1999/11/03 08:00').getTime()}
     />
   )
@@ -76,48 +72,19 @@ export const MaxTime = () => {
 }
 
 export const DateRange = () => {
-  return (
-    <DateInput
-      range
-      label="Range"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+  return <DateInput range label="Range" onChange={(value) => {}} />
 }
 
 export const DateRangeAndTime = () => {
   return (
-    <DateInput
-      range
-      time
-      label="Range and time"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
+    <DateInput range time label="Range and time" onChange={(value) => {}} />
   )
 }
 
 export const Error = () => {
-  return (
-    <DateInput
-      error
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+  return <DateInput error onChange={(value) => {}} />
 }
 
 export const Small = () => {
-  return (
-    <DateInput
-      variant="small"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+  return <DateInput variant="small" onChange={(value) => {}} />
 }

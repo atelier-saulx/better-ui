@@ -25,7 +25,6 @@ export const getTypesFromFilter = (query: any): string[] => {
   }
   return types
 }
-// TODO make a schema helper pkg
 
 export const generateFromType = (type: BasedSchemaType): { query; fields } => {
   const newQuery = {}
@@ -35,11 +34,6 @@ export const generateFromType = (type: BasedSchemaType): { query; fields } => {
 
   const fields: FormProps['fields'] = {}
 
-  // const idField = getIdentifierField({
-  //   type: 'object',
-  //   properties: type.fields,
-  // })
-  // console.log(idField)
   for (const field in type.fields) {
     const f = type.fields[field]
     if (!isSmallField(f)) {
@@ -54,12 +48,6 @@ export const generateFromType = (type: BasedSchemaType): { query; fields } => {
 
     fields[field] = { ...f }
 
-    // if (field === idField) {
-    //   fields[field].index = 1
-    // }
-    // if (field === 'id') {
-    //   fields[field].index = -1
-    // }
     if (f.type === 'timestamp' && !f.display) {
       // @ts-ignore
       fields[field].display = 'human'
@@ -110,7 +98,7 @@ export const generateFieldsFromQuery = (
         index: 0,
         readOnly: true,
         format: 'basedType',
-      } // format based type
+      }
     }
   }
   return fields

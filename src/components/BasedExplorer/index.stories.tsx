@@ -174,11 +174,8 @@ export const Page = () => {
         variant={['table', 'grid', 'list', 'calendar']}
         header="Based Explorer"
         info
-        onDrop={(f) => {
-          console.log(f)
-        }}
+        onDrop={(f) => {}}
         onSelectItem={(selected, clearSelection) => {
-          console.log(selected)
           return false
         }}
         selectItemsAction={{

@@ -312,7 +312,6 @@ export function BasedExplorer({
 
         return t
       }
-      console.warn('connect construct totalQuery')
       return null
     }
   }

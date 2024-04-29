@@ -82,9 +82,7 @@ export const Object = () => {
         },
       }}
       fields={objectField}
-      onChange={(values) => {
-        console.log(values)
-      }}
+      onChange={(values) => {}}
     />
   )
 }

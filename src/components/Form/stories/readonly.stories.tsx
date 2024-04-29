@@ -32,9 +32,7 @@ export const ReadOnly = () => {
         name: { type: 'string', readOnly: true },
         password: { type: 'string', readOnly: true, format: 'strongPassword' },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }

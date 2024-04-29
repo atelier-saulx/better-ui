@@ -26,8 +26,6 @@ export const EditType = ({ onConfirm, typeTitle }) => {
     <Modal
       confirmLabel="Edit"
       onConfirm={async () => {
-        console.log(description)
-
         await client.call('db:set-schema', {
           mutate: true,
           schema: {
