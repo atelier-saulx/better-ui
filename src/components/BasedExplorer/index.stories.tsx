@@ -171,7 +171,7 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        variant={['table', 'grid', 'list', 'calendar']}
+        variant={['table', 'list', 'calendar']}
         header="Based Explorer"
         info
         onDrop={(f) => {
@@ -181,25 +181,25 @@ export const Page = () => {
           console.log(selected)
           return false
         }}
-        selectItemsAction={{
-          label: 'Change description',
-          action: async (selected, clear) => {
-            if (selected.type === 'include') {
-              const randomEmoji = ['🍕', '🍔', '🍟', '🍦', '🍩', '🍪']
-              selected.items.forEach((id) => {
-                client.call('db:set', {
-                  $language: 'en',
-                  $id: id,
-                  body:
-                    'New description! ' +
-                    randomEmoji[Math.floor(Math.random() * randomEmoji.length)],
-                })
-              })
-              clear()
-            }
-          },
-        }}
-        filter
+        // selectItemsAction={{
+        //   label: 'Change description',
+        //   action: async (selected, clear) => {
+        //     if (selected.type === 'include') {
+        //       const randomEmoji = ['🍕', '🍔', '🍟', '🍦', '🍩', '🍪']
+        //       selected.items.forEach((id) => {
+        //         client.call('db:set', {
+        //           $language: 'en',
+        //           $id: id,
+        //           body:
+        //             'New description! ' +
+        //             randomEmoji[Math.floor(Math.random() * randomEmoji.length)],
+        //         })
+        //       })
+        //       clear()
+        //     }
+        //   },
+        // }}
+        // filter
         select={[
           { value: 'article', label: 'Article' },
           { value: 'todo', label: 'Todo' },
