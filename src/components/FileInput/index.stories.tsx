@@ -17,25 +17,15 @@ export default meta
 export const Default = () => {
   return (
     <FileInput
-      onChange={(file) => {
-        console.log('file', file)
-      }}
+      onChange={(file) => {}}
       label="upload some file"
       description="drop a file in here"
-      // disabled
     />
   )
 }
 
 export const Small = () => {
-  return (
-    <FileInput
-      variant="small"
-      onChange={(file) => {
-        console.log('file', file)
-      }}
-    />
-  )
+  return <FileInput variant="small" onChange={(file) => {}} />
 }
 
 export const Error = () => {
@@ -50,9 +40,7 @@ const RealUploadContent = () => {
       label="Avatar"
       status={status}
       progress={progress}
-      onChange={handleFileInputChange((file) => {
-        console.log('uploaded file', file)
-      })}
+      onChange={handleFileInputChange((file) => {})}
     />
   )
 }

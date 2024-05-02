@@ -32,7 +32,6 @@ export function useUploadFile() {
         setStatus('success')
         successHandler({ id, src })
       } catch (e) {
-        console.log('error while uploading file', e)
         setStatus('error')
       }
     }

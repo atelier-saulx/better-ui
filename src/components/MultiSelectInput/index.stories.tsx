@@ -12,7 +12,7 @@ export const Default: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    onChange: console.log,
+    onChange: () => {},
     options: [
       {
         label: 'Orange',
@@ -34,7 +34,7 @@ export const SingleLine: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    onChange: console.log,
+    onChange: () => {},
     options: [
       {
         label: 'Orange',
@@ -61,7 +61,7 @@ export const StayOpen: StoryObj<typeof MultiSelectInput> = {
     placeholder: 'Select something',
     label: 'Favourite fruit',
     stayOpenWhileSelecting: true,
-    onChange: console.log,
+    onChange: () => {},
     options: [
       {
         label: 'Orange',
@@ -83,7 +83,7 @@ export const SimpleOptions: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    onChange: console.log,
+    onChange: () => {},
     options: [
       'orange',
       'banana',
@@ -96,7 +96,7 @@ export const Small: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    onChange: console.log,
+    onChange: () => {},
     variant: 'small',
     options: [
       {

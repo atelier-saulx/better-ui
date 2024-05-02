@@ -291,7 +291,6 @@ export const useModal = (): UseModalRes => {
   const ctx = React.useContext(ModalProviderContext)
 
   if (!ctx) {
-    console.warn('No ModalProvider context found')
     return {
       modals: [],
       async open() {},
@@ -308,7 +307,6 @@ export const useModal = (): UseModalRes => {
   if (!ref.current) {
     let update
     const open: UseModalRes['open'] = (el: any) => {
-      console.log('open triggered')
       return new Promise((resolve) => {
         const close = (val) => {
           const filter = (m: typeof modal) => m !== modal

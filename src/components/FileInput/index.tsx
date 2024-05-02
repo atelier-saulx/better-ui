@@ -92,9 +92,7 @@ export function FileInput({
 
           setFile(file)
         })
-        .catch((e) => {
-          console.error(value, value.src, e)
-        })
+        .catch((e) => {})
     }
   }, [value?.src])
 
@@ -179,7 +177,6 @@ export function FileInput({
               })
             } catch (e) {
               setInternalStatus('error')
-              console.log('file input upload error', e)
               setFile(null)
               setInternalProgress(0)
               if (inputRef.current) {

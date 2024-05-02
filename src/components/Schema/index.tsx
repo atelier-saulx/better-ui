@@ -29,9 +29,6 @@ export const Schema = ({
   const [somethingChanged, setSomethingChanged] = React.useState(false)
   const [renderCounter, setRenderCounter] = React.useState(1)
 
-  console.log('OG', OgSchema)
-  console.log('SCHEMA INPUT', schemaInput)
-
   useEffect(() => {
     // fixes the type options
     setSchema(deepCopy(schemaInput))

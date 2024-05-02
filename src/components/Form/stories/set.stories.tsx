@@ -71,9 +71,7 @@ export const Set = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum) => {
-        console.log({ values, changed, checksum })
-      }}
+      onChange={(values, changed, checksum) => {}}
     />
   )
 }

@@ -261,8 +261,6 @@ export const ModalConfirm = () => {
               xxx
             </Modal>
           ))
-
-          console.log({ result })
         }}
       >
         Open modal
@@ -278,8 +276,6 @@ export const ModalConfirm = () => {
               cool stuff
             </Button>
           ))
-
-          console.log({ result })
         }}
       >
         Open modal 2

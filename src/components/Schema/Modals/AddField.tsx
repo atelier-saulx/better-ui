@@ -47,42 +47,25 @@ export const AddField = ({
   const [meta, setMeta] = React.useReducer(metaReducer, editItem || {})
   const [fieldName, setFieldName] = React.useState(itemName)
   const [tabIndex, setTabIndex] = React.useState(1)
-  // for arrays
   const [items, setItems] = React.useState(
     editItem ? { [itemName]: { ...editItem } } : { type: 'string' },
   )
-
-  // console.log('🚙', fieldType, typeTitle, editItem, path, itemName)
-
-  // const { data } = useQuery('db:schema')
-  // const { types, rootType } = data
-
-  React.useEffect(() => {
-    console.log('did something changed in the meta:', meta)
-  }, [meta])
 
   return (
     <Modal
       confirmLabel={editItem ? 'Edit' : 'Add Field'}
       confirmProps={{ disabled: !fieldName || fieldName.length < 3 }}
       onConfirm={async () => {
-        // options // type // children // path = path
         let type = typeTitle
         let field = fieldName
         fieldType = fieldType.toLowerCase()
 
         const currentFields = schema.types[type].fields
 
-        /// 3 OPTIONS ,
-        //// 1. SETTING A FIELD,
-        //// 2. SETTING A NESTED FIELD
-        //// 3. EDITING A NESTED FIELD
-
         const fields = {}
         let from = currentFields
         let dest = fields
         let i = 0
-        //// 3. EDITING A NESTED FIELD
         const l = editItem && path.length > 1 ? path.length - 1 : path?.length
 
         while (i < l) {
@@ -94,9 +77,6 @@ export const AddField = ({
         }
 
         if (path?.length > 1) {
-          // 2. SETTING NESTED FIELDS
-          console.log(fields, '🆚 NESTED ??')
-
           let lastFieldNameKey =
             fieldName.split('.')[fieldName.split('.').length - 1]
 
@@ -129,8 +109,6 @@ export const AddField = ({
             }
           }
         } else {
-          // 1 SETTING A FIELDS
-          // first add all meta options
           if (fieldType === 'rich text') {
             fields[field] = { type: 'json', format: 'rich-text', ...meta }
           } else {
@@ -146,9 +124,6 @@ export const AddField = ({
           }
         }
 
-        // console.log(fields, 'NEW FIELDS?? 🦞', schema)
-
-        // update schema 🐠
         schema.types[type].fields = {
           ...schema.types[type].fields,
           ...fields,

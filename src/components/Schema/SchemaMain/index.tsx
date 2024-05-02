@@ -36,7 +36,6 @@ export const SchemaMain = ({
   const { fields } = typeDef
 
   if (!fields) {
-    console.error('[InvalidSchema] No fields on type', type)
     return null
   }
 
@@ -85,9 +84,6 @@ export const SchemaMain = ({
             }
             Object.assign(dest, val)
 
-            console.log(update, 'update?? ')
-
-            // update schema 🐠
             schema.types[type].fields = update
             setSomethingChanged(true)
           }}

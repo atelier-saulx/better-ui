@@ -136,7 +136,6 @@ export function BasedForm({
           ...based,
         })
       } catch (e) {
-        console.error(e)
         throw e
       }
     }
@@ -150,8 +149,7 @@ export function BasedForm({
       return addItem({ values, changed, checksum, based, language })
     }
   } else {
-    onFormChange = () =>
-      console.warn('No "id" and no "addItem" passed, ignore onChange')
+    onFormChange = () => {}
   }
 
   const useHeader = header || addItem

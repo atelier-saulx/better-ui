@@ -59,9 +59,6 @@ export const Table = (p: {
         return t
       },
       onChangeHandler: (ctx, path, newValue, forceUpdate) => {
-        console.log('change', path, newValue)
-        // new version etc
-
         return false
       },
       onFileUpload: async (props, updateHandler) => {},

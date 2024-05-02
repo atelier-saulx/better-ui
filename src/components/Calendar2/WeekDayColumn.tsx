@@ -68,19 +68,10 @@ export const WeekDayColumn = ({
           >
             {itemsInThisHour.map((item, idx) => {
               let durationTimeInHours, durationTimeInMinutes
-              // if endtime
               if (timeEndField) {
                 let durationTime = item[timeEndField] - item[timeStartField]
                 durationTimeInHours = format(durationTime, 'k')
                 durationTimeInMinutes = format(durationTime, 'm')
-
-                //   console.log(
-                //     'hours, minutes',
-                //     durationTime,
-                //     durationTimeInHours,
-                //     durationTimeInMinutes,
-                //     item,
-                //   )
               }
 
               return (
