@@ -332,7 +332,7 @@ const s: any = {
   properties: {
     id: {
       type: 'string',
-      format: 'basedId',
+      format: 'basedType',
       width: 125,
       index: -1,
       sticky: true,
