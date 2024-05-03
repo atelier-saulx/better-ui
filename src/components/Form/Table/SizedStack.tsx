@@ -84,6 +84,22 @@ export function SizedStack({
     let w = width
 
     if (field.type === 'object' && w) {
+      if (showAllCols) {
+        const f = getCols(
+          alwaysUseCols,
+          field,
+          readOnly,
+          width - correction,
+          displayAllFields,
+          showAllCols,
+        )
+        let nW = f.reduce((acc, f) => acc + f.width, 0)
+        if (nW !== w) {
+          w = nW
+          setWidth(nW)
+        }
+      }
+
       setColumns(
         getCols(
           alwaysUseCols,
