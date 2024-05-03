@@ -10,7 +10,7 @@ import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
 import { useUpdate, Pagination, ScrollArea } from '../../index.js'
-import { Style, styled } from 'inlines'
+import { Style } from 'inlines'
 
 type Changes = {
   updated: any[] // rows that changed
@@ -89,22 +89,6 @@ export const Table = (p: {
 
   const valueRef = React.useRef<ValueRef>({ orderId: 0, value })
   valueRef.current.value = value
-
-  const addNew = React.useCallback(async () => {
-    const result = await ctx.listeners.onSelectReferences({
-      path,
-      value: valueRef.current.value,
-      field,
-      ctx,
-    })
-
-    if (Array.isArray(result)) {
-      ctx.listeners.onChangeHandler(ctx, path, [
-        ...valueRef.current.value,
-        ...result,
-      ])
-    }
-  }, [])
 
   const changeIndex = React.useCallback(
     (fromIndex: number, toIndex: number) => {

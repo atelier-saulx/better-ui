@@ -62,25 +62,26 @@ export function SizedStack({
 
   const sizeRef = useSize(({ width }, elem) => {
     if (field.type === 'object') {
-      setColumns(
-        getCols(
-          alwaysUseCols,
-          field,
-          readOnly,
-          width - correction,
-          displayAllFields,
-          showAllCols,
-        ),
+      const f = getCols(
+        alwaysUseCols,
+        field,
+        readOnly,
+        width - correction,
+        displayAllFields,
+        showAllCols,
       )
+      setColumns(f)
+      if (showAllCols) {
+        setWidth(f.reduce((acc, f) => acc + f.width, 0))
+      }
     }
-    setWidth(width)
+    if (!showAllCols) {
+      setWidth(width)
+    }
   })
 
   useEffect(() => {
     let w = width
-    if (showAllCols) {
-      w = 1e3
-    }
 
     if (field.type === 'object' && w) {
       setColumns(
@@ -97,24 +98,6 @@ export function SizedStack({
   }, [hashObjectIgnoreKeyOrder(field)])
 
   if (field.type === 'object') {
-    if (showAllCols) {
-      return (
-        <styled.div style={{ width: '100%', height: '100%' }}>
-          <Stack
-            justify={justify}
-            align={align}
-            direction="column"
-            style={{
-              ...style,
-              height: '100%',
-            }}
-          >
-            {children}
-          </Stack>
-        </styled.div>
-      )
-    }
-
     return (
       <styled.div style={{ width: '100%', height: '100%' }}>
         <styled.div ref={sizeRef} style={{ width: '100%' }} />
