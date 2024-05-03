@@ -52,6 +52,7 @@ export const Selected = (p: { selected?: boolean; onSelect: () => void }) => {
 
 export const CollRow = (p: {
   field: BasedSchemaFieldObject
+  sticky?: boolean
   ctx: TableCtx
   path: Path
   isLoading?: boolean
@@ -80,10 +81,16 @@ export const CollRow = (p: {
   }
 
   for (const field of p.colFields) {
+    // @ts-ignore
+    const isSticky = field.field.sticky
+
+    console.info(field)
+
     if (p.isLoading) {
       cells.push(
         <Cell
           border
+          sticky={isSticky}
           key={field.key}
           width={field.width}
           flexible={field.flexible}
@@ -96,6 +103,7 @@ export const CollRow = (p: {
         <Cell
           border
           key={field.key}
+          sticky={isSticky}
           width={field.width}
           flexible={field.flexible}
         >

@@ -24,7 +24,10 @@ export const Table = (p: {
   schema?: BasedSchemaPartial
   field?: BasedSchemaFieldObject & {
     properties: {
-      [name: string]: BasedSchemaField & { width?: number | string }
+      [name: string]: BasedSchemaField & {
+        width?: number | string
+        sticky?: boolean
+      }
     }
   }
   style?: Style

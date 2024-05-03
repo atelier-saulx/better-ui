@@ -330,7 +330,13 @@ export const SmallTable = () => {
 const s: any = {
   type: 'object',
   properties: {
-    id: { type: 'string', format: 'basedId', width: 125, index: -1 },
+    id: {
+      type: 'string',
+      format: 'basedId',
+      width: 125,
+      index: -1,
+      sticky: true,
+    },
   },
 }
 
@@ -359,7 +365,7 @@ export const AdvancedTable = () => {
           width: 125 * 201,
         }}
       >
-        <Table sort values={data} field={s} />
+        <Table values={data} field={s} />
       </div>
     </div>
   )

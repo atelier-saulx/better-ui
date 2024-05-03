@@ -137,6 +137,9 @@ export const ReferencesTable = ({
           }
           isKey
           key={f.key}
+          header
+          // @ts-ignore
+          sticky={f.field.sticky}
           width={f.width}
           flexible={f.flexible}
         >
@@ -159,6 +162,8 @@ export const ReferencesTable = ({
       cols.push(
         <Cell
           border
+          // @ts-ignore
+          sticky={f.field.sticky}
           justify={
             f.field.type === 'number' && f.field.display === 'number'
               ? 'end'
@@ -166,6 +171,7 @@ export const ReferencesTable = ({
           }
           isKey
           key={f.key}
+          header
           width={f.width}
           flexible={f.flexible}
         >
