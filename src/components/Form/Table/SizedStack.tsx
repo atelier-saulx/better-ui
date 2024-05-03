@@ -18,11 +18,12 @@ const getCols = (
   readOnly: boolean,
   width: number,
   displayAllFields: boolean,
+  showAllCols?: boolean,
 ) => {
   const cols = alwaysUseCols || canUseColumns(field)
 
   if (cols) {
-    const colFields = getColSizes(field, width, readOnly)
+    const colFields = getColSizes(field, width, readOnly, showAllCols)
     if (
       !displayAllFields ||
       colFields.length === Object.keys(field.properties).length
@@ -37,6 +38,7 @@ const getCols = (
 export function SizedStack({
   field,
   readOnly,
+  showAllCols,
   children,
   displayAllFields,
   setColumns,
@@ -51,6 +53,7 @@ export function SizedStack({
   children: ReactNode
   displayAllFields?: boolean
   setColumns: SetColumns
+  showAllCols?: boolean
   correction?: number
   style?: Style
   alwaysUseCols?: boolean
@@ -66,6 +69,7 @@ export function SizedStack({
           readOnly,
           width - correction,
           displayAllFields,
+          showAllCols,
         ),
       )
     }
@@ -73,20 +77,44 @@ export function SizedStack({
   })
 
   useEffect(() => {
-    if (field.type === 'object' && width) {
+    let w = width
+    if (showAllCols) {
+      w = 1e3
+    }
+
+    if (field.type === 'object' && w) {
       setColumns(
         getCols(
           alwaysUseCols,
           field,
           readOnly,
-          width - correction,
+          w - correction,
           displayAllFields,
+          showAllCols,
         ),
       )
     }
   }, [hashObjectIgnoreKeyOrder(field)])
 
   if (field.type === 'object') {
+    if (showAllCols) {
+      return (
+        <styled.div style={{ width: '100%', height: '100%' }}>
+          <Stack
+            justify={justify}
+            align={align}
+            direction="column"
+            style={{
+              ...style,
+              height: '100%',
+            }}
+          >
+            {children}
+          </Stack>
+        </styled.div>
+      )
+    }
+
     return (
       <styled.div style={{ width: '100%', height: '100%' }}>
         <styled.div ref={sizeRef} style={{ width: '100%' }} />
@@ -95,7 +123,11 @@ export function SizedStack({
             justify={justify}
             align={align}
             direction="column"
-            style={{ width, ...style, height: '100%' }}
+            style={{
+              width: width,
+              ...style,
+              height: '100%',
+            }}
           >
             {children}
           </Stack>

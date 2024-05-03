@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Stack, Table, useUpdate } from '../../index.js'
+import { Button, ScrollArea, Stack, Table, useUpdate } from '../../index.js'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
 import { Provider, useQuery } from '@based/react'
@@ -354,19 +354,5 @@ export const AdvancedTable = () => {
   }
 
   // add this bit as an extra component maybe?
-  return (
-    <div
-      style={{
-        overflowX: 'scroll',
-      }}
-    >
-      <div
-        style={{
-          width: 125 * 201,
-        }}
-      >
-        <Table values={data} field={s} />
-      </div>
-    </div>
-  )
+  return <Table showAllCols values={data} field={s} />
 }

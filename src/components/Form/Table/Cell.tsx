@@ -43,11 +43,7 @@ export function Cell({
         minWidth: width,
         borderRight: border ? getBorder() : undefined,
         paddingLeft: isKey ? 20 : 0,
-        background: sticky
-          ? header
-            ? 'rgb(251,252,253)'
-            : 'rgb(255,255,255)'
-          : null,
+        background: header ? 'rgb(251,252,253)' : 'rgb(255,255,255)',
         ...style,
       }}
     >

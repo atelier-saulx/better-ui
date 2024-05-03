@@ -162,6 +162,7 @@ export const getColSizes = (
   fieldSchema: BasedSchemaFieldObject,
   width: number,
   readOnly?: boolean,
+  showAllCols?: boolean,
 ): ColSizes => {
   let total = width
   let totalFlexFields = 0
@@ -195,7 +196,7 @@ export const getColSizes = (
     if (field.width) {
       // @ts-ignore
       const width: number = field.width
-      if (total < width) {
+      if (total < width && !showAllCols) {
         break
       }
       // @ts-ignore
@@ -220,7 +221,7 @@ export const getColSizes = (
 
     const { width, flexible, insertAtStart } = match
 
-    if (total < match.width) {
+    if (total < match.width && !showAllCols) {
       break
     }
 
@@ -244,15 +245,17 @@ export const getColSizes = (
     }
   }
 
-  if (!hasFlexible) {
-    totalFlexFields = fields.length
-    for (const f of fields) {
-      f.width = Math.floor(width / totalFlexFields)
-    }
-  } else {
-    for (const f of fields) {
-      if (!f.width) {
-        f.width = Math.floor((total + spread) / totalFlexFields)
+  if (!showAllCols) {
+    if (!hasFlexible) {
+      totalFlexFields = fields.length
+      for (const f of fields) {
+        f.width = Math.floor(width / totalFlexFields)
+      }
+    } else {
+      for (const f of fields) {
+        if (!f.width) {
+          f.width = Math.floor((total + spread) / totalFlexFields)
+        }
       }
     }
   }

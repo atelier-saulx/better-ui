@@ -9,8 +9,8 @@ import { TableCtx, TableSort } from '../Form/types.js'
 import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
-import { useUpdate, Pagination } from '../../index.js'
-import { Style } from 'inlines'
+import { useUpdate, Pagination, ScrollArea } from '../../index.js'
+import { Style, styled } from 'inlines'
 
 type Changes = {
   updated: any[] // rows that changed
@@ -30,6 +30,7 @@ export const Table = (p: {
       }
     }
   }
+  showAllCols?: boolean
   style?: Style
   isLoading?: boolean
   selected?: Set<string>
@@ -150,7 +151,7 @@ export const Table = (p: {
       : p.sort,
   )
 
-  return (
+  const table = (
     <ReferencesTable
       style={p.style}
       sortByFields={sortRef.current}
@@ -164,6 +165,7 @@ export const Table = (p: {
       valueRef={valueRef.current}
       changeIndex={changeIndex}
       isLoading={p.isLoading}
+      showAllCols={p.showAllCols}
       alwaysUseCols
       isBlock={p.isBlock}
       // @ts-ignore
@@ -178,4 +180,10 @@ export const Table = (p: {
       }
     />
   )
+
+  if (p.showAllCols) {
+    return <ScrollArea>{table}</ScrollArea>
+  }
+
+  return table
 }

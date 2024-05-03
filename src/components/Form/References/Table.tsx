@@ -46,6 +46,7 @@ export const ReferencesTable = ({
   onSelect,
   selected,
   changeIndex,
+  showAllCols,
   alwaysUseCols,
   sortByFields,
   fieldSchema,
@@ -57,6 +58,7 @@ export const ReferencesTable = ({
   onSelect?: (val: any, all?: boolean) => void
   selected?: Set<string>
   isLoading?: boolean
+  showAllCols?: boolean
   pagination?: Pagination
   sortByFields?: TableSort
   field: BasedSchemaFieldReferences
@@ -200,6 +202,7 @@ export const ReferencesTable = ({
   return (
     <SizedStack
       field={fieldSchema}
+      showAllCols={showAllCols}
       readOnly={readOnly}
       setColumns={setColumns}
       correction={(field.sortable ? 28 : 0) + (onSelect ? 48 : 0)}
