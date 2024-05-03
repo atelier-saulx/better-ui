@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useRef } from 'react'
 import { TableCtx, Path } from '../../types.js'
 import { BasedSchemaField, display } from '@based/schema'
-import { styled } from 'inlines'
+import { styled, keyframes } from 'inlines'
 import { isId, isFile, isType, getContentMediaType } from '../../utils.js'
 import {
   Text,
@@ -14,6 +14,18 @@ import {
   borderRadius,
 } from '../../../../index.js'
 import { Reference } from '../../Reference.js'
+
+const animation = keyframes({
+  '0%': {
+    backgroundColor: 'rgba(0,0,0,0)',
+  },
+  '30%': {
+    backgroundColor: color('background', 'primary2'),
+  },
+  '100%': {
+    backgroundColor: color('background', 'primary2'),
+  },
+})
 
 export type FieldRenderFunction = ({
   path,
@@ -32,11 +44,68 @@ type ReadProps = {
   value: any
 }
 
+function formatNumberWithCommas(num: number): string {
+  const numString: string = num.toString()
+  const parts: string[] = []
+
+  for (let i = numString.length - 1, j = 0; i >= 0; i--, j++) {
+    if (j > 0 && j % 3 === 0) {
+      parts.unshift(',')
+    }
+    parts.unshift(numString[i])
+  }
+
+  return parts.join('')
+}
+
+function NumberDisplay({ p }: { p: ReadProps }) {
+  const ref = useRef()
+  const x = p.value ?? 0
+
+  let nval = p.value !== ref.current && ref.current
+  // @ts-ignore
+  let isLarger = ref.current < p.value
+  ref.current = p.value
+
+  return (
+    <Text
+      color="inherit"
+      style={{
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'end',
+        position: 'relative',
+        alignItems: 'center',
+        color: 'black',
+        fontFamily: 'Monaco',
+
+        animationTimingFunction: 'linear',
+        animationIterationCount: 1,
+        animationDuration: '1s',
+        animationName: nval ? animation : null,
+      }}
+      singleLine
+    >
+      {formatNumberWithCommas(x)}
+    </Text>
+  )
+}
+
 const Value = (p: ReadProps) => {
   if (typeof p.field.render === 'function') {
     const { path, field, value } = p
     return p.field.render({ path, field, value })
   }
+
+  if (p.field.type === 'number') {
+    // @ts-ignore
+    if (p.field.display === 'number') {
+      return <NumberDisplay p={p} />
+    }
+
+    return <Text singleLine>{display(p.value, p.field) ?? ''}</Text>
+  }
+
   if (isType(p.field)) {
     return <Badge color="auto-muted">{p.value}</Badge>
   }

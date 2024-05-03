@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+  BasedSchemaField,
   BasedSchemaFieldObject,
   BasedSchemaFieldReferences,
   BasedSchemaPartial,
@@ -21,7 +22,11 @@ export const Table = (p: {
   pagination?: Pagination | true
   sort?: TableSort | true
   schema?: BasedSchemaPartial
-  field?: BasedSchemaFieldObject
+  field?: BasedSchemaFieldObject & {
+    properties: {
+      [name: string]: BasedSchemaField & { width?: number | string }
+    }
+  }
   style?: Style
   isLoading?: boolean
   selected?: Set<string>

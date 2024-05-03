@@ -51,6 +51,7 @@ const meta = {
     ),
   ],
 }
+
 export default meta
 
 export const Default = ({ data }) => {
@@ -323,5 +324,43 @@ export const SmallTable = () => {
         },
       }}
     />
+  )
+}
+
+const s: any = {
+  type: 'object',
+  properties: {
+    id: { type: 'string', format: 'basedId', width: 125, index: -1 },
+  },
+}
+
+const q: any = { update: 1000, arraySize: 20, id: { type: 'id' } }
+for (let i = 0; i < 200; i++) {
+  q[i] = { type: 'number', value: { min: 5000, max: 5e6 } }
+  s.properties[i] = { type: 'number', display: 'number', width: 125 }
+}
+
+export const AdvancedTable = () => {
+  const { data, loading } = useQuery('fakedata', q)
+
+  if (loading) {
+    return null
+  }
+
+  // add this bit as an extra component maybe?
+  return (
+    <div
+      style={{
+        overflowX: 'scroll',
+      }}
+    >
+      <div
+        style={{
+          width: 125 * 201,
+        }}
+      >
+        <Table sort values={data} field={s} />
+      </div>
+    </div>
   )
 }

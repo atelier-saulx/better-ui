@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import { Stack, StackProps, useSize } from '../../../index.js'
 import { BasedSchemaField, BasedSchemaFieldObject } from '@based/schema'
 import { canUseColumns } from '../utils.js'

@@ -1,5 +1,10 @@
 import React, { ReactNode } from 'react'
-import { textVariants, border as getBorder, Stack } from '../../../index.js'
+import {
+  textVariants,
+  border as getBorder,
+  Stack,
+  StackProps,
+} from '../../../index.js'
 import { Style } from 'inlines'
 
 export function Cell({
@@ -9,6 +14,7 @@ export function Cell({
   style,
   width,
   flexible,
+  justify = 'start',
 }: {
   border?: boolean
   children: ReactNode
@@ -16,10 +22,11 @@ export function Cell({
   style?: Style
   flexible?: boolean
   width?: number
+  justify?: StackProps['justify']
 }) {
   return (
     <Stack
-      justify="start"
+      justify={justify}
       align="stretch"
       style={{
         minHeight: 48,
@@ -32,8 +39,10 @@ export function Cell({
       }}
     >
       <Stack
-        justify="start"
+        fitContent={justify === 'end'}
+        justify={justify}
         style={{
+          paddingRight: justify === 'end' ? 15 : 0,
           minHeight: 48,
           ...textVariants['body-bold'],
         }}

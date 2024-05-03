@@ -191,6 +191,19 @@ export const getColSizes = (
   })
 
   for (const { key, field } of tempFields) {
+    // @ts-ignore
+    if (field.width) {
+      // @ts-ignore
+      const width: number = field.width
+      if (total < width) {
+        break
+      }
+      // @ts-ignore
+      fields.push({ key, width, field, fixed: true })
+      total -= width
+      continue
+    }
+
     const sizedType = SIZES[field.type] ?? SIZES.default
     let match: SizeMatcher
 

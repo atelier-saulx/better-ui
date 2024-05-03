@@ -128,7 +128,18 @@ export const ReferencesTable = ({
           )
       }
       cols.push(
-        <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
+        <Cell
+          border
+          justify={
+            f.field.type === 'number' && f.field.display === 'number'
+              ? 'end'
+              : 'start'
+          }
+          isKey
+          key={f.key}
+          width={f.width}
+          flexible={f.flexible}
+        >
           <Button
             variant="icon-only"
             prefix={prefix}
@@ -146,7 +157,18 @@ export const ReferencesTable = ({
       )
     } else {
       cols.push(
-        <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
+        <Cell
+          border
+          justify={
+            f.field.type === 'number' && f.field.display === 'number'
+              ? 'end'
+              : 'start'
+          }
+          isKey
+          key={f.key}
+          width={f.width}
+          flexible={f.flexible}
+        >
           <Text singleLine>{title}</Text>
         </Cell>,
       )

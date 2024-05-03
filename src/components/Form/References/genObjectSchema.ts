@@ -4,7 +4,6 @@ import {
   BasedSchemaFieldReferences,
   BasedSchemaPartial,
 } from '@based/schema'
-import { TableCtx } from '../types.js'
 import { isSmallField } from '../utils.js'
 
 export const genObjectSchemaFromSchema = (
@@ -12,7 +11,6 @@ export const genObjectSchemaFromSchema = (
   field: BasedSchemaFieldReferences,
   schema: BasedSchemaPartial,
 ): BasedSchemaFieldObject => {
-  // Generate schema if none can be found
   const objectSchema: BasedSchemaFieldObject = {
     type: 'object',
     properties: {},
@@ -34,10 +32,8 @@ export const genObjectSchemaFromSchema = (
       if (typeof type === 'object') {
         type = type.type
       }
-
       if (typeof type === 'string') {
         const t = schema.types?.[type]?.fields
-
         if (t) {
           // // prob want to make this a bit nicer
           for (const key in t) {
@@ -48,11 +44,8 @@ export const genObjectSchemaFromSchema = (
               objectSchema.properties[key] = f
             }
           }
-
-          // Object.assign(objectSchema.properties, t)
         }
       } else {
-        // later...
         return genObjectSchemaFromValues(value).field
       }
     }

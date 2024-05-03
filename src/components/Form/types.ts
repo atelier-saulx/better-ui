@@ -22,6 +22,7 @@ export type ColSizes = {
   width?: number
   key: string
   field: BasedSchemaField
+  fixed?: boolean
   flexible?: boolean
 }[]
 
