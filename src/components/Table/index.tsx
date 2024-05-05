@@ -10,7 +10,7 @@ import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
 import { useUpdate, Pagination, ScrollArea } from '../../index.js'
-import { Style } from 'inlines'
+import { Style, styled } from 'inlines'
 
 type Changes = {
   updated: any[] // rows that changed
@@ -30,6 +30,7 @@ export const Table = (p: {
       }
     }
   }
+  footer?: boolean
   showAllCols?: boolean
   style?: Style
   isLoading?: boolean
@@ -87,8 +88,15 @@ export const Table = (p: {
 
   const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
 
-  const valueRef = React.useRef<ValueRef>({ orderId: 0, value })
+  const valueRef = React.useRef<ValueRef>({
+    orderId: 0,
+    value,
+  })
   valueRef.current.value = value
+
+  if (p.footer) {
+    valueRef.current.footer = {}
+  }
 
   const changeIndex = React.useCallback(
     (fromIndex: number, toIndex: number) => {

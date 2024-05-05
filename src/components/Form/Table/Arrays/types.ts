@@ -17,4 +17,5 @@ export type RowProps = {
 export type ValueRef = {
   value: any[]
   orderId: number
+  footer?: { [key: string]: number }
 }

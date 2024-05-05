@@ -344,7 +344,7 @@ const s: any = {
 
 const q: any = { update: 1000, arraySize: 20, id: { type: 'id' } }
 for (let i = 0; i < 200; i++) {
-  q[i] = { type: 'number', value: { min: 5000, max: 900e6 } }
+  q[i] = { type: 'number', value: { min: 5000, max: 10e6 } }
   s.properties[i] = { type: 'number', display: 'number', width: 125 }
 }
 
@@ -359,5 +359,5 @@ export const AdvancedTable = () => {
   }
 
   // add this bit as an extra component maybe?
-  return <Table showAllCols values={data} field={s} />
+  return <Table showAllCols values={data} footer field={s} />
 }

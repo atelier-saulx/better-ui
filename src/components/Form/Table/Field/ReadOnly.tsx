@@ -64,12 +64,13 @@ function NumberDisplay({ p }: { p: ReadProps }) {
 
   let nval = p.value !== ref.current && ref.current
   // @ts-ignore
-  let isLarger = ref.current < p.value
   ref.current = p.value
 
   return (
     <Text
+      variant="caption"
       color="inherit"
+      weight="normal"
       style={{
         display: 'flex',
         width: '100%',
@@ -78,7 +79,6 @@ function NumberDisplay({ p }: { p: ReadProps }) {
         alignItems: 'center',
         color: 'black',
         fontFamily: 'Monaco',
-
         animationTimingFunction: 'linear',
         animationIterationCount: 1,
         animationDuration: '1s',
