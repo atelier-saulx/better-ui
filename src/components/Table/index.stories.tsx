@@ -344,8 +344,8 @@ const s: any = {
 
 const q: any = { update: 1000, arraySize: 20, id: { type: 'id' } }
 for (let i = 0; i < 200; i++) {
-  q[i] = { type: 'number', value: { min: 5000, max: 5e6 } }
-  // s.properties[i] = { type: 'number', display: 'number', width: 125 }
+  q[i] = { type: 'number', value: { min: 5000, max: 900e6 } }
+  s.properties[i] = { type: 'number', display: 'number', width: 125 }
 }
 
 let x = 0
@@ -353,15 +353,6 @@ let x = 0
 export const AdvancedTable = () => {
   const { data, loading } = useQuery('fakedata', q)
   s.properties = { ...def }
-
-  if (x < 250) {
-    x++
-  }
-
-  for (let i = 0; i < x; i++) {
-    // q[i] = { type: 'number', value: { min: 5000, max: 5e6 } }
-    s.properties[i] = { type: 'number', display: 'number', width: 125 }
-  }
 
   if (loading) {
     return null
