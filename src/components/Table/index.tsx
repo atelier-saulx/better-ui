@@ -9,8 +9,8 @@ import { TableCtx, TableSort } from '../Form/types.js'
 import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
-import { useUpdate, Pagination, ScrollArea } from '../../index.js'
-import { Style, styled } from 'inlines'
+import { useUpdate, Pagination, ScrollArea, useSize } from '../../index.js'
+import { Style } from 'inlines'
 
 type Changes = {
   updated: any[] // rows that changed
@@ -51,6 +51,10 @@ export const Table = (p: {
   }
 
   const update = useUpdate()
+  useSize(() => {
+    update()
+  })
+
   const path = ['field']
   const ctx: TableCtx = {
     fields: {
