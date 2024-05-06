@@ -9,7 +9,12 @@ import { TableCtx, TableSort } from '../Form/types.js'
 import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
-import { useUpdate, Pagination, ScrollArea, useSize } from '../../index.js'
+import {
+  useUpdate,
+  Pagination,
+  ScrollArea,
+  useWindowResize,
+} from '../../index.js'
 import { Style } from 'inlines'
 
 type Changes = {
@@ -51,7 +56,7 @@ export const Table = (p: {
   }
 
   const update = useUpdate()
-  useSize(() => {
+  useWindowResize(() => {
     update()
   })
 

@@ -73,7 +73,7 @@ export * from './utils/isMac.js'
 export * from './utils/isPhone.js'
 export * from './utils/isSafari.js'
 export * from './utils/isTouchDevice.js'
-
+export * from './hooks/useWindowResize/index.js'
 export * from './hooks/useCallbackRef/index.js'
 export * from './hooks/useControllableState/index.js'
 export * from './hooks/useCopyToClipboard/index.js'
