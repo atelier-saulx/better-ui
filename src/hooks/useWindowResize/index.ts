@@ -5,11 +5,16 @@ export const useWindowResize =
     ? () => null
     : (update: () => void) => {
         return React.useEffect(() => {
+          let t
           const list = () => {
-            update()
+            clearTimeout(t)
+            t = setTimeout(() => {
+              update()
+            }, 100)
           }
           window.addEventListener('resize', list)
           return () => {
+            clearTimeout(t)
             window.removeEventListener('resize', list)
           }
         }, [])

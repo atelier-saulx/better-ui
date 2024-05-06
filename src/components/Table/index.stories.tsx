@@ -342,7 +342,7 @@ const s: any = {
   properties: def,
 }
 
-const q: any = { update: 1000, arraySize: 20, id: { type: 'id' } }
+const q: any = { update: 5000, arraySize: 20, id: { type: 'id' } }
 for (let i = 0; i < 200; i++) {
   q[i] = { type: 'number', value: { min: 5000, max: 10e6 } }
   s.properties[i] = { type: 'number', display: 'number', width: 125 }
