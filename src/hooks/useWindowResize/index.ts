@@ -5,10 +5,12 @@ export const useWindowResize =
     ? () => null
     : (update: () => void) => {
         return React.useEffect(() => {
-          const list = () => {}
-          global.addEventListener('resize', list)
+          const list = () => {
+            update()
+          }
+          window.addEventListener('resize', list)
           return () => {
-            global.removeEventListener('resize', list)
+            window.removeEventListener('resize', list)
           }
         }, [])
       }
