@@ -48,7 +48,7 @@ const KeyInput = (p: {
         }
       }, [])}
       onChange={useCallback((v) => {
-        changeRef.current = v
+        changeRef.current = v.replace(/\./gm, '').trim()
       }, [])}
     />
   )
