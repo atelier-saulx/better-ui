@@ -35,6 +35,7 @@ export const Default = () => {
           id: { type: 'string', format: 'basedId' },
           name: { title: 'Power name', type: 'string', display: 'capitalize' },
           updatedAt: { type: 'timestamp', display: 'time-precise' },
+          completed: { type: 'boolean' },
         }}
         query={({ limit, offset, sort, language }) => ({
           $language: language,

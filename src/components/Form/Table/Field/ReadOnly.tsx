@@ -12,6 +12,7 @@ import {
   border,
   Stack,
   borderRadius,
+  CheckboxInput,
 } from '../../../../index.js'
 import { Reference } from '../../Reference.js'
 
@@ -162,6 +163,10 @@ const Value = (p: ReadProps) => {
 
   if (typeof p.value === 'object') {
     return '-'
+  }
+
+  if (typeof p.value === 'boolean') {
+    return <CheckboxInput defaultValue={p.value} disabled={true} />
   }
 
   return <Text singleLine>{display(p.value, p.field) ?? ''}</Text>

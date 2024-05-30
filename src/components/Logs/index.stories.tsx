@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Logs, border, useUpdate } from '../../index.js'
+import { Layout, Logs, Sidebar, border, useUpdate } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Logs> & { description: string } = {
