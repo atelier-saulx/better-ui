@@ -18,3 +18,14 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes click-ring {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(100);
+    opacity: 0;
+  }
+}

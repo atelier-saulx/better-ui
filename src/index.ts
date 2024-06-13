@@ -62,6 +62,8 @@ export * from './components/Toast/index.js'
 export * from './components/Tooltip/index.js'
 export * from './components/Video/index.js'
 export * from './components/Virtualized/index.js'
+export * from './components/BasedSharedCursors/index.js'
+export * from './components/BasedFakeLogin/index.js'
 
 export { Modal } from './components/Modal/index.js'
 
@@ -88,5 +90,7 @@ export * from './hooks/useSize/index.js'
 export * from './hooks/useTheme/index.js'
 export * from './hooks/useUpdate/index.js'
 export * from './hooks/useUploadFile/index.js'
+export * from './hooks/useTrackMouse/index.js'
+export * from './hooks/useEffectByFPS/index.js'
 
 export * from './components/Code/prettier.js'
