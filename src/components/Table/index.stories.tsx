@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Stack, Table, useUpdate } from '../../index.js'
+import { Button, ScrollArea, Stack, Table, useUpdate } from '../../index.js'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
 import { Provider, useQuery } from '@based/react'
@@ -51,6 +51,7 @@ const meta = {
     ),
   ],
 }
+
 export default meta
 
 export const Default = ({ data }) => {
@@ -264,9 +265,7 @@ export const EditableTable = () => {
 
 export const EditableRefTable = () => {
   const editableRef = React.useRef({
-    onChange(changed) {
-      console.log('CHANGED:', changed)
-    },
+    onChange(changed) {},
   })
 
   return (
@@ -326,4 +325,39 @@ export const SmallTable = () => {
       }}
     />
   )
+}
+
+const def = {
+  id: {
+    type: 'string',
+    format: 'basedType',
+    width: 125,
+    index: -1,
+    sticky: true,
+  },
+}
+
+const s: any = {
+  type: 'object',
+  properties: def,
+}
+
+const q: any = { update: 5000, arraySize: 20, id: { type: 'id' } }
+for (let i = 0; i < 200; i++) {
+  q[i] = { type: 'number', value: { min: 5000, max: 10e6 } }
+  s.properties[i] = { type: 'number', display: 'number', width: 125 }
+}
+
+let x = 0
+
+export const AdvancedTable = () => {
+  const { data, loading } = useQuery('fakedata', q)
+  s.properties = { ...def }
+
+  if (loading) {
+    return null
+  }
+
+  // add this bit as an extra component maybe?
+  return <Table showAllCols values={data} footer field={s} />
 }
