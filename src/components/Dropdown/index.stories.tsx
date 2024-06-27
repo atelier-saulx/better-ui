@@ -45,20 +45,32 @@ export const Default = () => {
   )
 }
 
-function SimpleDropdown({ close, numberOfItems }) {
+const SimpleDropdown = ({ close, numberOfItems }) => {
   return (
-    <Dropdown.Items>
-      {Array.from({ length: numberOfItems }).map((_, i) => (
-        <Dropdown.Item
-          key={i}
-          onClick={() => {
-            close(`delete ${i}`)
-          }}
-        >
-          Delete {i}
-        </Dropdown.Item>
-      ))}
-    </Dropdown.Items>
+    <div
+      style={{
+        width: 200,
+        height: 200,
+        background: 'yellow',
+        position: 'fixed',
+        zIndex: 11111,
+        left: 0,
+        top: 0,
+      }}
+    >
+      <Dropdown.Items>
+        {Array.from({ length: numberOfItems }).map((_, i) => (
+          <Dropdown.Item
+            key={i}
+            onClick={() => {
+              close(`delete ${i}`)
+            }}
+          >
+            Delete {i}
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Items>
+    </div>
   )
 }
 

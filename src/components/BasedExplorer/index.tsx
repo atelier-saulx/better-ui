@@ -131,6 +131,7 @@ export type BasedExplorerProps = {
     labelField: string
     startField: string
     endField: string
+    height?: number
   }
   suffix?: (v: any) => React.ReactNode
 }
@@ -511,6 +512,8 @@ export function BasedExplorer({
     [!totalQuery, parsedTotal, queryEndpoint],
   )
 
+  console.log('flap', ref.current?.block.data)
+
   React.useEffect(() => {
     if (selectedVariant === 'calendar') {
       pagination.onPageChange({
@@ -565,6 +568,11 @@ export function BasedExplorer({
         <Calendar
           data={ref.current?.block.data ?? []}
           onItemClick={onItemClick}
+          height={600}
+          startField="createdAt"
+          labelField="name"
+          endField="updatedAt"
+          showTooltip
           {...calendar}
         />
       </div>

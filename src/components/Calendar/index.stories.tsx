@@ -3,6 +3,7 @@ import { Calendar } from '../../index.js'
 
 const meta = {
   title: 'Components/Calendar',
+  decorators: [(Story) => <Story />],
 }
 
 export default meta
@@ -31,6 +32,10 @@ export const Default = () => {
         startField="start"
         endField="end"
         labelField="label"
+        onItemClick={(item) => {
+          console.log('clicked item', item)
+        }}
+        showTooltip
         onItemClick={(item) => {}}
       />
     </div>
