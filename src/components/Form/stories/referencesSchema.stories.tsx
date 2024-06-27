@@ -99,9 +99,7 @@ export const ReferencesFullSchema = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -171,9 +169,7 @@ export const ReferencesFullSchemaEditable = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -231,9 +227,7 @@ export const NoFlexibleWidth = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -325,9 +319,7 @@ export const IncorrectReferences = () => {
       fields={example.fields}
       // @ts-ignore
       schema={example.schema}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }

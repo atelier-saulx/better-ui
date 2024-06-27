@@ -92,7 +92,6 @@ export const useFieldsEvents = (
           .reduce((fields, key) => fields[key], fields)
 
         if (activeKey in overFields) {
-          console.error('Already has field!', activeKey, overFields)
         } else {
           overFields[activeKey] = { ...activeField }
           activeField.$delete = true

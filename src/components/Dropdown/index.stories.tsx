@@ -83,7 +83,6 @@ export const Hook = () => {
       variant="neutral"
       onClick={async () => {
         const value = await open(SimpleDropdown, { numberOfItems: 5 })
-        console.log('dropdown return value:', value)
       }}
     >
       <IconMoreVertical />

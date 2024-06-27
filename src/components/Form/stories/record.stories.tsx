@@ -108,14 +108,7 @@ export const Record = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.log({
-          values,
-          changed,
-          checksum,
-          based,
-        })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }

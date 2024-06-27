@@ -31,6 +31,7 @@ import {
   generateFromType,
   getTypesFromFilter,
 } from './generator.js'
+import { FieldRenderFunction } from '../Form/Table/Field/ReadOnly.js'
 export { generateFieldsFromQuery, generateFromType, getTypesFromFilter }
 
 type ExplorerRef = {
@@ -91,6 +92,7 @@ export type BasedExplorerProps = {
   info?: React.ReactNode | BasedExplorerHeaderComponent | true
   onItemClick?: (item: any) => void
   queryEndpoint?: string
+  totalQueryEndpoint?: string
   onDrop?: (files: File[]) => void
   variant?: Variant | Variant[]
   select?: SelectInputProps['options']
@@ -107,6 +109,7 @@ export type BasedExplorerProps = {
       clearSelectedItems: () => void,
     ) => Promise<void> | void
   }
+  db?: string
   sort?: {
     key: string
     dir: 'asc' | 'desc'
@@ -116,9 +119,12 @@ export type BasedExplorerProps = {
   query: QueryFn
   total?: number
   totalQuery?: ((p: ExplorerQueryProps) => any) | false
-  fields?:
+  fields?: {
+    [key: string]: { render?: FieldRenderFunction }
+  } & (
     | FormProps['fields']
     | ((fields: FormProps['fields']) => FormProps['fields'])
+  )
   filter?: boolean
   addItem?: (p: ExplorerProps) => Promise<void>
   calendar?: {
@@ -127,6 +133,7 @@ export type BasedExplorerProps = {
     endField: string
     height?: number
   }
+  suffix?: (v: any) => React.ReactNode
 }
 
 type ActiveSub = {
@@ -224,6 +231,7 @@ export function BasedExplorer({
   query,
   queryEndpoint = 'db',
   totalQuery,
+  totalQueryEndpoint,
   select,
   onSelectItem,
   onItemClick,
@@ -239,14 +247,14 @@ export function BasedExplorer({
   addItem,
   sort,
   calendar,
+  suffix,
+  db = 'default',
 }: BasedExplorerProps) {
   const client = useClient()
   const update = useUpdate()
   const [language] = useLanguage()
-  const { data: rawSchema, checksum } = useQuery('db:schema')
-
+  const { data: rawSchema, checksum } = useQuery('db:schema', { db })
   const isMultiVariant = isMultipleVariants(variant)
-
   const [selectedVariant, setVariant] = React.useState<Variant>(
     isMultiVariant ? variant[0] : variant,
   )
@@ -295,28 +303,35 @@ export function BasedExplorer({
           },
         }
 
+        if (q.$db) {
+          t.$db = q.$db
+        }
+
         if (q.$id) {
           t.$id = q.$id
         }
+
         return t
       }
-      console.warn('connect construct totalQuery')
       return null
     }
   }
 
   const totalQueryPayload = totalQuery
     ? totalQuery({
-        filter: ref.current.filter,
         limit: ref.current.end - ref.current.start,
         offset: ref.current.start,
+        sort: ref.current.sort,
         language,
+        filter: ref.current.filter,
         selected: ref.current.selected,
       })
     : null
 
   const { data: totalData, loading: totalLoading } = useQuery(
-    totalQuery && totalQueryPayload ? queryEndpoint : null,
+    totalQuery && totalQueryPayload
+      ? totalQueryEndpoint ?? queryEndpoint
+      : null,
     totalQueryPayload,
   )
 
@@ -527,6 +542,7 @@ export function BasedExplorer({
         fields={fields}
         isLoading={ref.current.isLoading}
         pagination={pagination}
+        suffix={suffix}
       />
     ) : selectedVariant === 'grid' ? (
       <Grid

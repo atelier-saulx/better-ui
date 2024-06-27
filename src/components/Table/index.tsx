@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+  BasedSchemaField,
   BasedSchemaFieldObject,
   BasedSchemaFieldReferences,
   BasedSchemaPartial,
@@ -8,7 +9,12 @@ import { TableCtx, TableSort } from '../Form/types.js'
 import { readPath } from '../Form/utils.js'
 import { ReferencesTable } from '../Form/References/Table.js'
 import { ValueRef } from '../Form/Table/Arrays/types.js'
-import { useUpdate, Pagination } from '../../index.js'
+import {
+  useUpdate,
+  Pagination,
+  ScrollArea,
+  useWindowResize,
+} from '../../index.js'
 import { Style } from 'inlines'
 
 type Changes = {
@@ -21,7 +27,16 @@ export const Table = (p: {
   pagination?: Pagination | true
   sort?: TableSort | true
   schema?: BasedSchemaPartial
-  field?: BasedSchemaFieldObject
+  field?: BasedSchemaFieldObject & {
+    properties: {
+      [name: string]: BasedSchemaField & {
+        width?: number | string
+        sticky?: boolean
+      }
+    }
+  }
+  footer?: boolean
+  showAllCols?: boolean
   style?: Style
   isLoading?: boolean
   selected?: Set<string>
@@ -41,6 +56,10 @@ export const Table = (p: {
   }
 
   const update = useUpdate()
+  useWindowResize(() => {
+    update()
+  })
+
   const path = ['field']
   const ctx: TableCtx = {
     fields: {
@@ -59,9 +78,6 @@ export const Table = (p: {
         return t
       },
       onChangeHandler: (ctx, path, newValue, forceUpdate) => {
-        console.log('change', path, newValue)
-        // new version etc
-
         return false
       },
       onFileUpload: async (props, updateHandler) => {},
@@ -81,24 +97,15 @@ export const Table = (p: {
 
   const { value = [], field } = readPath<BasedSchemaFieldReferences>(ctx, path)
 
-  const valueRef = React.useRef<ValueRef>({ orderId: 0, value })
+  const valueRef = React.useRef<ValueRef>({
+    orderId: 0,
+    value,
+  })
   valueRef.current.value = value
 
-  const addNew = React.useCallback(async () => {
-    const result = await ctx.listeners.onSelectReferences({
-      path,
-      value: valueRef.current.value,
-      field,
-      ctx,
-    })
-
-    if (Array.isArray(result)) {
-      ctx.listeners.onChangeHandler(ctx, path, [
-        ...valueRef.current.value,
-        ...result,
-      ])
-    }
-  }, [])
+  if (p.footer) {
+    valueRef.current.footer = {}
+  }
 
   const changeIndex = React.useCallback(
     (fromIndex: number, toIndex: number) => {
@@ -145,7 +152,7 @@ export const Table = (p: {
       : p.sort,
   )
 
-  return (
+  const table = (
     <ReferencesTable
       style={p.style}
       sortByFields={sortRef.current}
@@ -159,6 +166,7 @@ export const Table = (p: {
       valueRef={valueRef.current}
       changeIndex={changeIndex}
       isLoading={p.isLoading}
+      showAllCols={p.showAllCols}
       alwaysUseCols
       isBlock={p.isBlock}
       // @ts-ignore
@@ -173,4 +181,10 @@ export const Table = (p: {
       }
     />
   )
+
+  if (p.showAllCols) {
+    return <ScrollArea>{table}</ScrollArea>
+  }
+
+  return table
 }

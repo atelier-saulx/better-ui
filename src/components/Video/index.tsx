@@ -6,9 +6,10 @@ import { styled } from 'inlines'
 export type VideoProps = {
   thumbnail?: string
   src: string
+  muted?: boolean
 }
 
-export function Video({ src, thumbnail }: VideoProps) {
+export function Video({ src, thumbnail, muted = true }: VideoProps) {
   const [playing, setPlaying] = React.useState(false)
   const [duration, setDuration] = React.useState(0)
   const [percentage, setPercentage] = React.useState(0)
@@ -76,6 +77,7 @@ export function Video({ src, thumbnail }: VideoProps) {
       }}
     >
       <video
+        muted={muted}
         style={{
           display: 'block',
           verticalAlign: 'middle',

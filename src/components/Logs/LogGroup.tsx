@@ -16,8 +16,6 @@ import { SingleLog } from './SingleLog.js'
 export const LogGroup = ({ group }) => {
   const [expanded, setExpanded] = useState(false)
 
-  //   console.log(group)
-
   const LVL_MAP = {
     info: {
       color: 'blue-soft',

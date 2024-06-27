@@ -51,11 +51,13 @@ export function BasedForm({
   forcePublish,
   renderReferenceModalBody,
   richTextEditorProps,
+  headerStyle,
+  db = 'default',
 }: BasedFormProps): React.ReactNode {
   const client = useClient()
   const { open } = Modal.useModal()
   const [language] = useLanguage()
-  const { data: rawSchema, checksum } = useQuery('db:schema')
+  const { data: rawSchema, checksum } = useQuery('db:schema', { db })
   const schema = React.useMemo(() => {
     if (!rawSchema) return
     const res = convertOldToNew(rawSchema)
@@ -88,6 +90,7 @@ export function BasedForm({
     checksum,
     includedFields,
     excludeCommonFields,
+    db,
   )
   const isReady = ref.current.currentFields && checksum
 
@@ -133,7 +136,6 @@ export function BasedForm({
           ...based,
         })
       } catch (e) {
-        console.error(e)
         throw e
       }
     }
@@ -147,8 +149,7 @@ export function BasedForm({
       return addItem({ values, changed, checksum, based, language })
     }
   } else {
-    onFormChange = () =>
-      console.warn('No "id" and no "addItem" passed, ignore onChange')
+    onFormChange = () => {}
   }
 
   const useHeader = header || addItem
@@ -177,7 +178,6 @@ export function BasedForm({
           modalBody={renderReferenceModalBody?.(field, (reference) => {
             close(reference)
           })}
-          // selectReferenceExplorerProps={selectReferenceExplorerProps}
           types={
             field.allowedTypes?.map((e) =>
               typeof e === 'string' ? e : e.type,
@@ -221,7 +221,7 @@ export function BasedForm({
     return (
       <>
         <PageHeader
-          style={{ marginBottom: 48 }}
+          style={{ marginBottom: 48, ...headerStyle }}
           title={
             typeof header === 'function'
               ? header(props.values || {})
@@ -249,12 +249,6 @@ export function BasedForm({
           suffix={
             !noConfirm && (!loading || type) ? (
               <Stack gap={8} style={{ marginTop: -4 }}>
-                {/* <Button
-                  shape="square"
-                  variant="neutral-transparent"
-                  prefix={<IconCopy />}
-                  // onClick={() => deleteItem({ id, type, ...state })}
-                /> */}
                 {id && deleteItem && (
                   <Button
                     shape="square"

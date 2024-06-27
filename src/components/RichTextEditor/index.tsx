@@ -47,9 +47,7 @@ const CONFIG = {
     QuoteNode,
     EmbedNode,
   ],
-  onError: (error) => {
-    console.error('rte error:', error)
-  },
+  onError: (error) => {},
   theme: {
     heading: {
       h1: 'rte-h1',

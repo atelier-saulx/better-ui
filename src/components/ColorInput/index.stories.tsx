@@ -10,9 +10,7 @@ export const Default = () => {
   return (
     <ColorInput
       label="Background color"
-      onChange={(value) => {
-        console.log('onchange', value)
-      }}
+      onChange={(value) => {}}
       description="put color on"
     />
   )

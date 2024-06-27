@@ -16,7 +16,6 @@ export default meta
 
 export const Body: StoryObj<typeof Switch> = {
   args: {
-    // data: ['month', 'week', 'day'],
     selected: 0,
     data: [
       'howdy',
@@ -25,6 +24,6 @@ export const Body: StoryObj<typeof Switch> = {
       <IconAnchor />,
       'Hallo',
     ],
-    onChange: (v) => console.log(v),
+    onChange: (v) => {},
   },
 }

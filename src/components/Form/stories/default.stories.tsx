@@ -199,9 +199,7 @@ export const Default = () => {
           description: 'A src',
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.log(values, changed, checksum, based)
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -268,9 +266,7 @@ export const SmallForm = () => {
           enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
         },
       }}
-      onChange={(values, changed, checksum) => {
-        console.log(values, changed, checksum)
-      }}
+      onChange={(values, changed, checksum) => {}}
     />
   )
 }
@@ -324,9 +320,7 @@ export const Bare = () => {
             },
           },
         }}
-        onChange={(values) => {
-          console.log(values)
-        }}
+        onChange={(values) => {}}
       />
     </div>
   )

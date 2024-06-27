@@ -472,14 +472,11 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        variant={['table', 'grid', 'list', 'calendar']}
+        variant={['table', 'list', 'calendar']}
         header="Based Explorer"
         info
-        onDrop={(f) => {
-          console.log(f)
-        }}
+        onDrop={(f) => {}}
         onSelectItem={(selected, clearSelection) => {
-          console.log(selected)
           return false
         }}
         selectItemsAction={{
@@ -500,7 +497,7 @@ export const Page = () => {
             }
           },
         }}
-        filter
+        // filter
         select={[
           { value: 'article', label: 'Article' },
           { value: 'todo', label: 'Todo' },
@@ -780,11 +777,6 @@ export const Default = () => {
     <div style={{ height: '80vh' }}>
       <Calendar
         data={[
-          // {
-          //   start: 'Sat Feb 24 2024 14:35:11 GMT+0000',
-          //   end: 'Sat Feb 26 2024 14:35:11 GMT+0000',
-          //   label: 'event1',
-          // },
           {
             start: 'Sat Feb 24 2024 14:35:11 GMT+0000',
             end: 'Sat Feb 27 2024 12:11 GMT+0000',
@@ -797,42 +789,14 @@ export const Default = () => {
           },
           {
             end: 1710235719058,
-            //  end: new Date(1710235719058),
             start: 'Sat Feb 25 2024 16:35:11 GMT+0000',
             label: 'event3',
           },
-          // {
-          //   start: 'Sat Feb 25 2024 14:35:11 GMT+0000',
-          //   end: 'Sat Feb 25 2024 16:35:11 GMT+0000',
-          //   label: 'event4',
-          // },
-          // {
-          //   start: 'Sat Feb 25 2024 14:35:11 GMT+0000',
-          //   end: 'Sat Feb 25 2024 16:35:11 GMT+0000',
-          //   label: 'event5',
-          // },
-          // {
-          //   start: 'Sat Feb 25 2024 14:35:11 GMT+0000',
-          //   end: 'Sat Feb 25 2024 16:35:11 GMT+0000',
-          //   label: 'event6',
-          // },
-          // {
-          //   start: 'Sat Feb 25 2024 14:35:11 GMT+0000',
-          //   end: 'Sat Feb 25 2024 16:35:11 GMT+0000',
-          //   label: 'event7',
-          // },
-          // {
-          //   start: 'Sat Feb 25 2024 14:35:11 GMT+0000',
-          //   end: 'Sat Feb 25 2024 16:35:11 GMT+0000',
-          //   label: 'event8',
-          // },
         ]}
         startField="start"
         endField="end"
         labelField="label"
-        onItemClick={(item) => {
-          console.log('clicked item', item)
-        }}
+        onItemClick={(item) => {}}
       />
     </div>
   )
@@ -960,9 +924,7 @@ export const Default = () => {
   return (
     <ColorInput
       label="Background color"
-      onChange={(value) => {
-        console.log('onchange', value)
-      }}
+      onChange={(value) => {}}
       description="put color on"
     />
   )
@@ -1194,9 +1156,7 @@ export const SingleDate = () => {
     <DateInput
       label="Single date"
       description="Select a date"
-      onChange={(value) => {
-        console.log(value)
-      }}
+      onChange={(value) => {}}
     />
   )
 }
@@ -1206,9 +1166,7 @@ export const SingleDateAndTime = () => {
     <DateInput
       time
       label="Single date and time"
-      onChange={(value) => {
-        console.log(value)
-      }}
+      onChange={(value) => {}}
       defaultValue={new Date('1999/11/03 08:00').getTime()}
     />
   )
@@ -1259,50 +1217,21 @@ export const MaxTime = () => {
 }
 
 export const DateRange = () => {
-  return (
-    <DateInput
-      range
-      label="Range"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+  return <DateInput range label="Range" onChange={(value) => {}} />
 }
 
 export const DateRangeAndTime = () => {
   return (
-    <DateInput
-      range
-      time
-      label="Range and time"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
+    <DateInput range time label="Range and time" onChange={(value) => {}} />
   )
 }
 
 export const Error = () => {
-  return (
-    <DateInput
-      error
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+  return <DateInput error onChange={(value) => {}} />
 }
 
 export const Small = () => {
-  return (
-    <DateInput
-      variant="small"
-      onChange={(value) => {
-        console.log(value)
-      }}
-    />
-  )
+  return <DateInput variant="small" onChange={(value) => {}} />
 }
 `},{ id: "f5605024078747", story: f5605024078747, path: "/Users/yvesbeer/dev/better-ui/src/components/Dropdown/index.stories.tsx", file: `import * as React from 'react'
 import {
@@ -1377,7 +1306,6 @@ export const Hook = () => {
       variant="neutral"
       onClick={async () => {
         const value = await open(SimpleDropdown, { numberOfItems: 5 })
-        console.log('dropdown return value:', value)
       }}
     >
       <IconMoreVertical />
@@ -1403,25 +1331,15 @@ export default meta
 export const Default = () => {
   return (
     <FileInput
-      onChange={(file) => {
-        console.log('file', file)
-      }}
+      onChange={(file) => {}}
       label="upload some file"
       description="drop a file in here"
-      // disabled
     />
   )
 }
 
 export const Small = () => {
-  return (
-    <FileInput
-      variant="small"
-      onChange={(file) => {
-        console.log('file', file)
-      }}
-    />
-  )
+  return <FileInput variant="small" onChange={(file) => {}} />
 }
 
 export const Error = () => {
@@ -1436,9 +1354,7 @@ const RealUploadContent = () => {
       label="Avatar"
       status={status}
       progress={progress}
-      onChange={handleFileInputChange((file) => {
-        console.log('uploaded file', file)
-      })}
+      onChange={handleFileInputChange((file) => {})}
     />
   )
 }
@@ -1984,7 +1900,7 @@ export const Default: StoryObj<typeof LoginPage> = {
   },
 }
 `},{ id: "f5704794770103", story: f5704794770103, path: "/Users/yvesbeer/dev/better-ui/src/components/Logs/index.stories.tsx", file: `import * as React from 'react'
-import { Logs, border, useUpdate } from '../../index.js'
+import { Layout, Logs, Sidebar, border, useUpdate } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof Logs> & { description: string } = {
@@ -2823,8 +2739,6 @@ export const ModalConfirm = () => {
               xxx
             </Modal>
           ))
-
-          console.log({ result })
         }}
       >
         Open modal
@@ -2840,8 +2754,6 @@ export const ModalConfirm = () => {
               cool stuff
             </Button>
           ))
-
-          console.log({ result })
         }}
       >
         Open modal 2
@@ -2863,7 +2775,7 @@ export const Default: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    onChange: console.log,
+    onChange: () => {},
     options: [
       {
         label: 'Orange',
@@ -2885,7 +2797,7 @@ export const SingleLine: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    onChange: console.log,
+    onChange: () => {},
     options: [
       {
         label: 'Orange',
@@ -2912,7 +2824,7 @@ export const StayOpen: StoryObj<typeof MultiSelectInput> = {
     placeholder: 'Select something',
     label: 'Favourite fruit',
     stayOpenWhileSelecting: true,
-    onChange: console.log,
+    onChange: () => {},
     options: [
       {
         label: 'Orange',
@@ -2934,7 +2846,7 @@ export const SimpleOptions: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    onChange: console.log,
+    onChange: () => {},
     options: [
       'orange',
       'banana',
@@ -2947,7 +2859,7 @@ export const Small: StoryObj<typeof MultiSelectInput> = {
   args: {
     placeholder: 'Select something',
     label: 'Favourite fruit',
-    onChange: console.log,
+    onChange: () => {},
     variant: 'small',
     options: [
       {
@@ -3019,6 +2931,7 @@ export const Neutral: StoryObj<typeof Note> = {
 }
 `},{ id: "f523702835381", story: f523702835381, path: "/Users/yvesbeer/dev/better-ui/src/components/NumberInput/index.stories.tsx", file: `import { NumberInput } from '../../index.js'
 import type { Meta, StoryObj } from '@storybook/react'
+import * as React from 'react'
 
 const meta: Meta<typeof NumberInput> = {
   title: 'Inputs/NumberInput',
@@ -3027,17 +2940,18 @@ const meta: Meta<typeof NumberInput> = {
 
 export default meta
 
-export const Default: StoryObj<typeof NumberInput> = {
-  args: {
-    placeholder: 'Placeholder text',
-    label: 'Label',
-    description: "What's your number?",
-    step: 4,
-    onChange: (value) => {
-      console.log(value)
-    },
-    disabled: false,
-  },
+export const Default = () => {
+  const [value, setValue] = React.useState(10)
+
+  return (
+    <NumberInput
+      placeholder="Placeholder"
+      label="Label"
+      description="Description"
+      value={value}
+      onChange={setValue}
+    />
+  )
 }
 
 export const Small: StoryObj<typeof NumberInput> = {
@@ -3215,10 +3129,7 @@ const meta: Meta<typeof Schema> = {
 export default meta
 
 export const Default = () => {
-  // get a schema
   const { data, loading } = useQuery('db:schema')
-
-  console.log('Schema -->', data, 'loading =', loading)
 
   if (loading) {
     return null
@@ -3388,7 +3299,7 @@ export const Strings: StoryObj<typeof SetInput> = {
     label: 'Set of strings',
     description: 'A set with strings',
     value: ['flurp', 'snurp', 'derp'],
-    onChange: (v) => console.log('onchange log: ', v),
+    onChange: (v) => {},
   },
 }
 
@@ -3397,7 +3308,7 @@ export const Options: StoryObj<typeof SetInput> = {
     label: 'Options',
     description: 'Set with predefined options',
     options: ['cars', 'drinks', 'animals', 'shoes', 'bags'],
-    onChange: (v) => console.log('onchange log: ', v),
+    onChange: (v) => {},
   },
 }
 `},{ id: "f11126463513738", story: f11126463513738, path: "/Users/yvesbeer/dev/better-ui/src/components/Sidebar/index.stories.tsx", file: `import * as React from 'react'
@@ -3738,7 +3649,6 @@ export default meta
 
 export const Body: StoryObj<typeof Switch> = {
   args: {
-    // data: ['month', 'week', 'day'],
     selected: 0,
     data: [
       'howdy',
@@ -3747,11 +3657,11 @@ export const Body: StoryObj<typeof Switch> = {
       <IconAnchor />,
       'Hallo',
     ],
-    onChange: (v) => console.log(v),
+    onChange: (v) => {},
   },
 }
 `},{ id: "f3747781814494", story: f3747781814494, path: "/Users/yvesbeer/dev/better-ui/src/components/Table/index.stories.tsx", file: `import * as React from 'react'
-import { Button, Stack, Table, useUpdate } from '../../index.js'
+import { Button, ScrollArea, Stack, Table, useUpdate } from '../../index.js'
 import based from '@based/client'
 import { wait } from '@saulx/utils'
 import { Provider, useQuery } from '@based/react'
@@ -3803,6 +3713,7 @@ const meta = {
     ),
   ],
 }
+
 export default meta
 
 export const Default = ({ data }) => {
@@ -4016,9 +3927,7 @@ export const EditableTable = () => {
 
 export const EditableRefTable = () => {
   const editableRef = React.useRef({
-    onChange(changed) {
-      console.log('CHANGED:', changed)
-    },
+    onChange(changed) {},
   })
 
   return (
@@ -4078,6 +3987,41 @@ export const SmallTable = () => {
       }}
     />
   )
+}
+
+const def = {
+  id: {
+    type: 'string',
+    format: 'basedType',
+    width: 125,
+    index: -1,
+    sticky: true,
+  },
+}
+
+const s: any = {
+  type: 'object',
+  properties: def,
+}
+
+const q: any = { update: 5000, arraySize: 20, id: { type: 'id' } }
+for (let i = 0; i < 200; i++) {
+  q[i] = { type: 'number', value: { min: 5000, max: 10e6 } }
+  s.properties[i] = { type: 'number', display: 'number', width: 125 }
+}
+
+let x = 0
+
+export const AdvancedTable = () => {
+  const { data, loading } = useQuery('fakedata', q)
+  s.properties = { ...def }
+
+  if (loading) {
+    return null
+  }
+
+  // add this bit as an extra component maybe?
+  return <Table showAllCols values={data} footer field={s} />
 }
 `},{ id: "f11921429078468", story: f11921429078468, path: "/Users/yvesbeer/dev/better-ui/src/components/Tabs/index.stories.tsx", file: `import * as React from 'react'
 import { Tabs } from '../../index.js'
@@ -4786,9 +4730,7 @@ export const Arrays = () => {
           items: objectField.object,
         },
       }}
-      onChange={(values, changes, checksum, based) => {
-        console.log({ values, changes, checksum, based })
-      }}
+      onChange={(values, changes, checksum, based) => {}}
     />
   )
 }
@@ -4993,9 +4935,7 @@ export const Default = () => {
           description: 'A src',
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.log(values, changed, checksum, based)
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -5062,9 +5002,7 @@ export const SmallForm = () => {
           enum: ['Snurp', 'Merp', 'Dakkie', 'Lurp'],
         },
       }}
-      onChange={(values, changed, checksum) => {
-        console.log(values, changed, checksum)
-      }}
+      onChange={(values, changed, checksum) => {}}
     />
   )
 }
@@ -5118,9 +5056,7 @@ export const Bare = () => {
             },
           },
         }}
-        onChange={(values) => {
-          console.log(values)
-        }}
+        onChange={(values) => {}}
       />
     </div>
   )
@@ -5209,9 +5145,7 @@ export const Object = () => {
         },
       }}
       fields={objectField}
-      onChange={(values) => {
-        console.log(values)
-      }}
+      onChange={(values) => {}}
     />
   )
 }
@@ -5276,9 +5210,7 @@ export const ReadOnly = () => {
         name: { type: 'string', readOnly: true },
         password: { type: 'string', readOnly: true, format: 'strongPassword' },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -5392,14 +5324,7 @@ export const Record = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.log({
-          values,
-          changed,
-          checksum,
-          based,
-        })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -5584,9 +5509,7 @@ export const References = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -5691,9 +5614,7 @@ export const ReferencesFullSchema = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -5763,9 +5684,7 @@ export const ReferencesFullSchemaEditable = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -5823,9 +5742,7 @@ export const NoFlexibleWidth = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -5917,9 +5834,7 @@ export const IncorrectReferences = () => {
       fields={example.fields}
       // @ts-ignore
       schema={example.schema}
-      onChange={(values, changed, checksum, based) => {
-        console.info({ values, changed, checksum, based })
-      }}
+      onChange={(values, changed, checksum, based) => {}}
     />
   )
 }
@@ -6049,9 +5964,7 @@ export const Set = () => {
           },
         },
       }}
-      onChange={(values, changed, checksum) => {
-        console.log({ values, changed, checksum })
-      }}
+      onChange={(values, changed, checksum) => {}}
     />
   )
 }

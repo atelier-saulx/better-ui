@@ -13,6 +13,7 @@ import {
   border,
   ScrollArea,
 } from '../../index.js'
+import { display } from '@based/schema'
 
 const SidebarContext = React.createContext({
   open: true,
@@ -67,133 +68,132 @@ export function Sidebar({
   }, [isMobile])
 
   return (
-    <Stack
-      as="aside"
-      direction="column"
+    <aside
       style={{
         flexShrink: 0,
         width: open ? 248 : 65,
         height: '100%',
         borderRight: border(),
-        display: 'flex',
         ...style,
       }}
     >
       <SidebarContext.Provider value={{ open, value, onValueChange }}>
-        <ScrollArea
-          style={{
-            // background: 'yellow',
-            // width: '100%',
-            paddingLeft: open ? 8 : size === 'small' ? 4 : 12,
-            paddingRight: open ? 12 : size === 'small' ? 8 : 12,
-            paddingTop: 32,
-            paddingBottom: 24,
-          }}
-        >
-          {header && (
-            <Stack
-              justify={open ? 'start' : 'center'}
-              style={{
-                padding: 8,
-                width: '100%',
-                flexShrink: 0,
-                // borderBottom: border(),
-              }}
-            >
-              {typeof header === 'function'
-                ? React.createElement(header, { open })
-                : header}
-            </Stack>
-          )}
+        <ScrollArea>
           <div
             style={{
-              flex: 1,
-              width: '100%',
-              overflow: 'auto',
-              padding: '12px 8px',
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: '100%',
+              paddingTop: 32,
             }}
           >
-            <Stack
-              justify="start"
-              direction="column"
-              gap={size === 'small' ? 4 : 8}
-            >
-              {children
-                ? children
-                : Array.isArray(data)
-                  ? data.map((e, i) => (
-                      <SidebarItem
-                        key={i}
-                        prefix={e.prefix}
-                        suffix={e.suffix}
-                        value={e.value}
-                        size={size}
-                      >
-                        {e.label}
-                      </SidebarItem>
-                    ))
-                  : Object.entries(data).map(([title, items], index) => (
-                      <SidebarGroup
-                        size={size}
-                        key={title}
-                        title={title}
-                        index={index}
-                      >
-                        {items.map((e, i) => (
-                          <SidebarItem
-                            key={i}
-                            prefix={e.prefix}
-                            suffix={e.suffix}
-                            value={e.value}
-                            size={size}
-                          >
-                            {e.label}
-                          </SidebarItem>
-                        ))}
-                      </SidebarGroup>
-                    ))}
-            </Stack>
-          </div>
-          {(footer || collapsable) && (
-            <>
+            {header && (
               <Stack
                 justify={open ? 'start' : 'center'}
-                gap={8}
                 style={{
                   padding: 8,
                   width: '100%',
                   flexShrink: 0,
-                  // borderTop: border(),
+                  // borderBottom: border(),
                 }}
               >
-                {footer &&
-                  (typeof footer === 'function'
-                    ? React.createElement(footer, { open })
-                    : footer)}
-                {collapsable && (
-                  <Stack justify="end" style={{ width: '100%' }}>
-                    <Tooltip
-                      content={open ? 'Collapse sidebar' : 'Expand sidebar'}
-                      side={open ? 'top' : 'right'}
-                    >
-                      <Button
-                        variant="neutral"
-                        shape="square"
-                        onClick={() => {
-                          setOpen(!open)
-                        }}
-                      >
-                        <IconViewLayoutLeft />
-                      </Button>
-                    </Tooltip>
-                  </Stack>
-                )}
+                {typeof header === 'function'
+                  ? React.createElement(header, { open })
+                  : header}
               </Stack>
-            </>
-          )}
+            )}
+            <div style={{ padding: '12px 8px', width: '100%' }}>
+              <Stack
+                justify="start"
+                direction="column"
+                gap={size === 'small' ? 4 : 8}
+                style={{
+                  flex: 1,
+                  width: '100%',
+                  overflow: 'auto',
+                  paddingLeft: open ? 8 : size === 'small' ? 4 : 12,
+                  paddingRight: open ? 12 : size === 'small' ? 8 : 12,
+                  paddingBottom: 24,
+                }}
+              >
+                {children
+                  ? children
+                  : Array.isArray(data)
+                    ? data.map((e, i) => (
+                        <SidebarItem
+                          key={i}
+                          prefix={e.prefix}
+                          suffix={e.suffix}
+                          value={e.value}
+                          size={size}
+                        >
+                          {e.label}
+                        </SidebarItem>
+                      ))
+                    : Object.entries(data).map(([title, items], index) => (
+                        <SidebarGroup
+                          size={size}
+                          key={title}
+                          title={title}
+                          index={index}
+                        >
+                          {items.map((e, i) => (
+                            <SidebarItem
+                              key={i}
+                              prefix={e.prefix}
+                              suffix={e.suffix}
+                              value={e.value}
+                              size={size}
+                            >
+                              {e.label}
+                            </SidebarItem>
+                          ))}
+                        </SidebarGroup>
+                      ))}
+              </Stack>
+            </div>
+            {(footer || collapsable) && (
+              <>
+                <Stack
+                  justify={open ? 'start' : 'center'}
+                  gap={8}
+                  style={{
+                    width: '100%',
+                    flexShrink: 0,
+                    flexGrow: 1,
+                    // border: '1px solid red',
+                    // borderTop: border(),
+                  }}
+                >
+                  {footer &&
+                    (typeof footer === 'function'
+                      ? React.createElement(footer, { open })
+                      : footer)}
+                  {collapsable && (
+                    <Stack justify="end" style={{ width: '100%' }}>
+                      <Tooltip
+                        content={open ? 'Collapse sidebar' : 'Expand sidebar'}
+                        side={open ? 'top' : 'right'}
+                      >
+                        <Button
+                          variant="neutral"
+                          shape="square"
+                          onClick={() => {
+                            setOpen(!open)
+                          }}
+                        >
+                          <IconViewLayoutLeft />
+                        </Button>
+                      </Tooltip>
+                    </Stack>
+                  )}
+                </Stack>
+              </>
+            )}
+          </div>
         </ScrollArea>
       </SidebarContext.Provider>
-    </Stack>
+    </aside>
   )
 }
 

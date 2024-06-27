@@ -3,7 +3,7 @@ import { BasedSchemaFieldObject } from '@based/schema'
 import { ColSizes, Path, TableCtx } from '../../types.js'
 import { Cell } from '../Cell.js'
 import { Field } from '../Field/index.js'
-import { RowProps } from './types.js'
+import { RowProps, ValueRef } from './types.js'
 import { styled } from 'inlines'
 import { DragableRow } from '../DragableRow.js'
 import { IconCheckSmall } from '../../../Icons/index.js'
@@ -52,10 +52,13 @@ export const Selected = (p: { selected?: boolean; onSelect: () => void }) => {
 
 export const CollRow = (p: {
   field: BasedSchemaFieldObject
+  sticky?: boolean
   ctx: TableCtx
   path: Path
   isLoading?: boolean
+  isFooter?: boolean
   index: number
+  valueRef?: ValueRef
   selected?: boolean
   onSelect?: (selected: any, all?: boolean) => void
   onClickRow?: (val: any) => void
@@ -80,10 +83,14 @@ export const CollRow = (p: {
   }
 
   for (const field of p.colFields) {
+    // @ts-ignore
+    const isSticky = field.field.sticky
+
     if (p.isLoading) {
       cells.push(
         <Cell
           border
+          sticky={isSticky}
           key={field.key}
           width={field.width}
           flexible={field.flexible}
@@ -95,11 +102,24 @@ export const CollRow = (p: {
       cells.push(
         <Cell
           border
+          style={
+            p.isFooter
+              ? {
+                  background: 'rgb(251,252,253)',
+                }
+              : null
+          }
           key={field.key}
+          sticky={isSticky}
           width={field.width}
           flexible={field.flexible}
         >
-          <Field ctx={p.ctx} path={[...p.path, p.index, field.key]} />
+          <Field
+            isFooter={p.isFooter}
+            valueRef={p.valueRef}
+            ctx={p.ctx}
+            path={[...p.path, p.index, field.key]}
+          />
         </Cell>,
       )
     }
@@ -135,9 +155,11 @@ export const ObjectCollsRows = (
   p: RowProps & { colFields: ColSizes; isLoading?: boolean },
 ) => {
   const rows: ReactNode[] = []
+
   for (let i = 0; i < p.value.value.length; i++) {
     rows.push(
       <CollRow
+        valueRef={p.value}
         onSelect={p.onSelect}
         selected={p.selected ? isSelected(p.selected, p.value.value[i]) : false}
         colFields={p.colFields}
@@ -151,6 +173,25 @@ export const ObjectCollsRows = (
         ctx={p.ctx}
         path={p.path}
         draggable={p.draggable}
+        removeItem={p.removeItem}
+      />,
+    )
+  }
+  if (p.value.footer) {
+    rows.push(
+      <CollRow
+        valueRef={p.value}
+        onSelect={p.onSelect}
+        colFields={p.colFields}
+        changeIndex={p.changeIndex}
+        key="footer"
+        isFooter
+        value={0}
+        field={p.field.items as BasedSchemaFieldObject}
+        index={rows.length}
+        isLoading={p.isLoading}
+        ctx={p.ctx}
+        path={p.path}
         removeItem={p.removeItem}
       />,
     )

@@ -43,7 +43,6 @@ const format = (...args) => {
     // @ts-ignore
     return rawFormat(...args)
   } catch (e) {
-    console.error(e)
     return ''
   }
 }

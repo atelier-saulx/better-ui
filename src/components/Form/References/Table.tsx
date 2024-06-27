@@ -46,6 +46,7 @@ export const ReferencesTable = ({
   onSelect,
   selected,
   changeIndex,
+  showAllCols,
   alwaysUseCols,
   sortByFields,
   fieldSchema,
@@ -57,6 +58,7 @@ export const ReferencesTable = ({
   onSelect?: (val: any, all?: boolean) => void
   selected?: Set<string>
   isLoading?: boolean
+  showAllCols?: boolean
   pagination?: Pagination
   sortByFields?: TableSort
   field: BasedSchemaFieldReferences
@@ -128,7 +130,21 @@ export const ReferencesTable = ({
           )
       }
       cols.push(
-        <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
+        <Cell
+          border
+          justify={
+            f.field.type === 'number' && f.field.display === 'number'
+              ? 'end'
+              : 'start'
+          }
+          isKey
+          key={f.key}
+          header
+          // @ts-ignore
+          sticky={f.field.sticky}
+          width={f.width}
+          flexible={f.flexible}
+        >
           <Button
             variant="icon-only"
             prefix={prefix}
@@ -146,7 +162,21 @@ export const ReferencesTable = ({
       )
     } else {
       cols.push(
-        <Cell border isKey key={f.key} width={f.width} flexible={f.flexible}>
+        <Cell
+          border
+          // @ts-ignore
+          sticky={f.field.sticky}
+          justify={
+            f.field.type === 'number' && f.field.display === 'number'
+              ? 'end'
+              : 'start'
+          }
+          isKey
+          key={f.key}
+          header
+          width={f.width}
+          flexible={f.flexible}
+        >
           <Text singleLine>{title}</Text>
         </Cell>,
       )
@@ -172,6 +202,7 @@ export const ReferencesTable = ({
   return (
     <SizedStack
       field={fieldSchema}
+      showAllCols={showAllCols}
       readOnly={readOnly}
       setColumns={setColumns}
       correction={(field.sortable ? 28 : 0) + (onSelect ? 48 : 0)}

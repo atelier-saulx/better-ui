@@ -24,6 +24,7 @@ export type ListProps = {
   style?: Style
   schema?: BasedSchema
   fields?: FormProps['fields']
+  suffix?: (v: any) => React.ReactNode
 }
 
 export function List(p: ListProps) {
@@ -167,7 +168,9 @@ export function List(p: ListProps) {
                             </Text>
                           ) : null}
                         </styled.div>
-                        {v.id ? (
+                        {typeof p.suffix === 'function' ? (
+                          p.suffix(raw)
+                        ) : v.id ? (
                           <BadgeId style={{ flexShrink: 0 }} id={v.id} />
                         ) : null}
                       </Stack>

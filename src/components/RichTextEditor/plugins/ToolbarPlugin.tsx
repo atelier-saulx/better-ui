@@ -120,8 +120,6 @@ export function ToolbarPlugin({ variant, onAddImage }) {
       editorState.read(() => {
         const selection = $getSelection()
 
-        // console.log(selection, '🐹')
-
         if (!$isRangeSelection(selection)) return
 
         setIsBold(selection.hasFormat('bold'))
@@ -487,7 +485,6 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               onClick={() => {
                 editor.update(() => {
                   const selection = $getSelection()
-                  console.log('SELECTION0', selection)
                   if ($isRangeSelection(selection)) {
                     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
                   }
@@ -501,7 +498,6 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               onClick={() => {
                 editor.update(() => {
                   const selection = $getSelection()
-                  console.log('SELECTION0', selection)
                   if ($isRangeSelection(selection)) {
                     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
                   }
@@ -515,7 +511,6 @@ export function ToolbarPlugin({ variant, onAddImage }) {
               onClick={() => {
                 editor.update(() => {
                   const selection = $getSelection()
-                  console.log('SELECTION0RIGHT', selection)
                   if ($isRangeSelection(selection)) {
                     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
                   }

@@ -38,8 +38,6 @@ export const Field = ({
     title: title,
   } = fieldSchema
 
-  // console.log('FIELDSCHEMA-->', fieldSchema)
-
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
 
@@ -52,9 +50,6 @@ export const Field = ({
     : path
 
   const [, setPath] = useContextState('field', [])
-
-  // console.log('props --> type,', type, 'field', field)
-  // console.log('fieldSchema', fieldSchema)
 
   return (
     <styled.div>

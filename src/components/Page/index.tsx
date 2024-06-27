@@ -21,6 +21,8 @@ export const Page = ({ children, padding = 32, style }: PageProps) => {
       style={{
         padding,
         flexGrow: 1,
+        overflow: 'auto',
+        height: '100%',
         ...style,
       }}
     >
@@ -31,7 +33,7 @@ export const Page = ({ children, padding = 32, style }: PageProps) => {
 
 export function ContentPage(p: { children?: React.ReactNode; style?: Style }) {
   return (
-    <Page padding={0} style={{ height: '100%', overflow: 'auto' }}>
+    <Page padding={0}>
       <Stack
         direction="column"
         padding={64}

@@ -25,8 +25,6 @@ setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }))
     size16: [],
   }
 
-  console.log(json, '🏰')
-
   for (const frame of json.document.children.find((v) => v.name === 'Icons')
     .children) {
     const key = frame.id === '14:10432' ? 'size20' : 'size16'
@@ -62,7 +60,6 @@ setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }))
           size: key === 'size16' ? 16 : 20,
         })
       } else {
-        console.error('Illigal icon', icon.name)
       }
     }
 
@@ -106,10 +103,8 @@ setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }))
     const q = []
     for (const key in icons) {
       for await (const icon of icons[key]) {
-        console.log('fetching', icon.name)
         const data = await readFileFromS3(icon)
         q.push(data)
-        console.log('fetched', icon.name)
       }
     }
 

@@ -56,6 +56,24 @@ export class EmbedNode extends DecoratorBlockNode {
     return $createEmbedNode(serializedNode)
   }
 
+  static importDOM() {
+    return {
+      div: (div: HTMLDivElement) => {
+        if (div.dataset.isEmbedNode) {
+          return {
+            conversion: () => {
+              const embedNode = new EmbedNode(div.innerHTML)
+
+              return { node: embedNode }
+            },
+          }
+        }
+
+        return null
+      },
+    }
+  }
+
   override exportJSON(): SerializedEmbedNode {
     return {
       ...super.exportJSON(),
@@ -67,6 +85,7 @@ export class EmbedNode extends DecoratorBlockNode {
 
   override exportDOM(): DOMExportOutput {
     const div = document.createElement('div')
+    div.setAttribute('data-is-embed-node', 'true')
     const html = this.__html
 
     div.innerHTML = html

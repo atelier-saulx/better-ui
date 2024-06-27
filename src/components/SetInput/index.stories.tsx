@@ -23,7 +23,7 @@ export const Strings: StoryObj<typeof SetInput> = {
     label: 'Set of strings',
     description: 'A set with strings',
     value: ['flurp', 'snurp', 'derp'],
-    onChange: (v) => console.log('onchange log: ', v),
+    onChange: (v) => {},
   },
 }
 
@@ -32,6 +32,6 @@ export const Options: StoryObj<typeof SetInput> = {
     label: 'Options',
     description: 'Set with predefined options',
     options: ['cars', 'drinks', 'animals', 'shoes', 'bags'],
-    onChange: (v) => console.log('onchange log: ', v),
+    onChange: (v) => {},
   },
 }

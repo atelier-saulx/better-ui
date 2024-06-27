@@ -167,9 +167,7 @@ export const Arrays = () => {
           items: objectField.object,
         },
       }}
-      onChange={(values, changes, checksum, based) => {
-        console.log({ values, changes, checksum, based })
-      }}
+      onChange={(values, changes, checksum, based) => {}}
     />
   )
 }

@@ -68,7 +68,6 @@ export const Header = ({
           size="small"
           onClick={() => {
             setDisplayMonth(addWeeks(new Date(), 1))
-            console.log('What week number', format(new Date(), 'w'))
           }}
         >
           Today

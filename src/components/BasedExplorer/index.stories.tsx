@@ -35,6 +35,7 @@ export const Default = () => {
           id: { type: 'string', format: 'basedId' },
           name: { title: 'Power name', type: 'string', display: 'capitalize' },
           updatedAt: { type: 'timestamp', display: 'time-precise' },
+          completed: { type: 'boolean' },
         }}
         query={({ limit, offset, sort, language }) => ({
           $language: language,
@@ -171,14 +172,11 @@ export const Page = () => {
         onItemClick={(item) => {
           alert('clicked item ' + item.id)
         }}
-        variant={['table', 'grid', 'list', 'calendar']}
+        variant={['table', 'list', 'calendar']}
         header="Based Explorer"
         info
-        onDrop={(f) => {
-          console.log(f)
-        }}
+        onDrop={(f) => {}}
         onSelectItem={(selected, clearSelection) => {
-          console.log(selected)
           return false
         }}
         selectItemsAction={{
@@ -199,7 +197,7 @@ export const Page = () => {
             }
           },
         }}
-        filter
+        // filter
         select={[
           { value: 'article', label: 'Article' },
           { value: 'todo', label: 'Todo' },
